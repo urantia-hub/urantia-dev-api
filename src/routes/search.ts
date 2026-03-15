@@ -117,11 +117,10 @@ searchRoute.openapi(searchParagraphsRoute, async (c) => {
 			sectionTitle: paragraphs.sectionTitle,
 			paragraphId: paragraphs.paragraphId,
 			text: paragraphs.text,
-			htmlText: paragraphs.htmlText,
+			htmlText: sql<string>`ts_headline('english', ${paragraphs.htmlText}, ${sql.raw(tsQuery)}, ${sql.raw("'StartSel=\"<span class=urantia-dev-highlighted>\", StopSel=\"</span>\", MaxFragments=0, HighlightAll=true'")})`,
 			labels: paragraphs.labels,
 			audio: paragraphs.audio,
 			rank: sql<number>`ts_rank(search_vector, ${sql.raw(tsQuery)})`,
-			highlightedHtmlText: sql<string>`ts_headline('english', ${paragraphs.text}, ${sql.raw(tsQuery)}, 'StartSel=<mark class="ub-search-highlight">, StopSel=</mark>, MaxFragments=0')`,
 		})
 		.from(paragraphs)
 		.where(whereClause)
