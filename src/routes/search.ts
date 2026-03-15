@@ -100,7 +100,7 @@ searchRoute.openapi(searchParagraphsRoute, async (c) => {
 
 	const total = Number(countResult[0]?.count ?? 0);
 
-	// Fetch results with rank
+	// Fetch results with rank and highlighted text
 	const results = await db
 		.select({
 			id: paragraphs.id,
@@ -121,6 +121,7 @@ searchRoute.openapi(searchParagraphsRoute, async (c) => {
 			labels: paragraphs.labels,
 			audio: paragraphs.audio,
 			rank: sql<number>`ts_rank(search_vector, ${sql.raw(tsQuery)})`,
+			highlightedHtmlText: sql<string>`ts_headline('english', ${paragraphs.text}, ${sql.raw(tsQuery)}, 'StartSel=<mark class="ub-search-highlight">, StopSel=</mark>, MaxFragments=0')`,
 		})
 		.from(paragraphs)
 		.where(whereClause)

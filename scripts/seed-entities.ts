@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { drizzle } from "drizzle-orm/postgres-js";
-import { inArray, like } from "drizzle-orm";
+import { inArray, like, sql } from "drizzle-orm";
 import postgres from "postgres";
 import { entities, paragraphEntities, paragraphs } from "../src/db/schema.ts";
 
@@ -47,8 +47,16 @@ async function seed() {
 			seeAlso: e.seeAlso.length > 0 ? e.seeAlso : null,
 			citationCount: e.citations.length,
 		}));
-		await db.insert(entities).values(values).onConflictDoNothing();
-		console.log(`  Inserted entities ${i + 1}–${Math.min(i + 500, rawData.length)}`);
+		await db
+			.insert(entities)
+			.values(values)
+			.onConflictDoUpdate({
+				target: entities.id,
+				set: {
+					description: sql`excluded.description`,
+				},
+			});
+		console.log(`  Upserted entities ${i + 1}–${Math.min(i + 500, rawData.length)}`);
 	}
 
 	// --- 2. Build junction table rows ---

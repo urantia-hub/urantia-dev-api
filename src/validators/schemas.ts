@@ -156,6 +156,7 @@ export const SearchRequest = z.object({
 
 export const SearchResultSchema = ParagraphSchema.extend({
 	rank: z.number(),
+	highlightedHtmlText: z.string(),
 });
 
 export const SearchResponse = z.object({
