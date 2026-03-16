@@ -1,4 +1,4 @@
-import { customType, index, integer, pgTable, text } from "drizzle-orm/pg-core";
+import { customType, index, integer, pgTable, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
 
 const tsvector = customType<{ data: string }>({
 	dataType() {
@@ -126,6 +126,35 @@ export const entities = pgTable(
 		citationCount: integer("citation_count").notNull(),
 	},
 	(t) => [index("entities_type_idx").on(t.type)],
+);
+
+// --- entity_translations ---
+export const entityTranslations = pgTable(
+	"entity_translations",
+	{
+		id: text("id").primaryKey(), // "{entityId}:{lang}:{source}:v{version}"
+		entityId: text("entity_id")
+			.notNull()
+			.references(() => entities.id),
+		language: text("language").notNull(), // ISO 639-1: "nl", "es", "fr"
+		source: text("source").notNull(), // "foundation" | "urantia.dev"
+		version: integer("version").notNull().default(1),
+		name: text("name").notNull(),
+		aliases: text("aliases").array(),
+		description: text("description"),
+		confidence: text("confidence"), // "high" | "medium" | "needs_manual"
+		createdAt: timestamp("created_at").notNull().defaultNow(),
+	},
+	(t) => [
+		index("et_entity_lang_idx").on(t.entityId, t.language),
+		index("et_lang_source_idx").on(t.language, t.source),
+		uniqueIndex("et_entity_lang_source_version_idx").on(
+			t.entityId,
+			t.language,
+			t.source,
+			t.version,
+		),
+	],
 );
 
 // --- paragraph_entities (junction) ---
