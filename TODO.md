@@ -16,7 +16,7 @@
 
 - [ ] **Entity enrichment Part C** — Typed relation inference + graph traversal. Character-level spans for UI highlighting. Theme/concept classification tags. Endpoints: `/entities/{id}/relations`, `/themes`, `/themes/{id}/paragraphs`. See `ENTITY_ENRICHMENT_GAMEPLAN.md`.
 
-- [ ] **Semantic search timing logs** — Add per-step timing to `POST /search/semantic` (OpenAI embedding call, count query, vector search query, entity enrichment) to diagnose the 10-15s response times. Log breakdown to BetterStack.
+- [x] **Semantic search timing logs** — Per-step timing on `POST /search/semantic` (embedding, DB queries, entity enrichment). Count + vector search parallelized via `Promise.all`. Logs to BetterStack.
 
 ## Knowledge System & Cross-References (Build #2)
 
@@ -62,7 +62,7 @@ Turn urantia.dev from an API into a platform that enables third-party builders.
 
 ## Infrastructure
 
-- [ ] **Hyperdrive** — Cloudflare's edge connection pooler. Would replace per-request DB connections with pooled ones. Requires Workers Paid plan ($5/mo). Not needed yet but worth it at scale.
+- [x] **Hyperdrive** — Cloudflare Hyperdrive connection pooler enabled. Workers Paid plan ($5/mo). Eliminates cold DB connection spikes (6-9s → consistent ~400ms). Binding: `HYPERDRIVE` in `wrangler.toml`, `getDb(c.env?.HYPERDRIVE)` in all REST routes.
 
 - [ ] **Staging environment** — Add `[env.staging]` to `wrangler.toml` with a separate `DATABASE_URL` when ready.
 
