@@ -40,7 +40,7 @@ const listEntitiesRoute = createRoute({
 });
 
 entitiesRoute.openapi(listEntitiesRoute, async (c) => {
-	const { db } = getDb();
+	const { db } = getDb(c.env?.HYPERDRIVE);
 	const { page, limit, type, q } = c.req.valid("query");
 	const offset = page * limit;
 
@@ -125,7 +125,7 @@ const getEntityRoute = createRoute({
 });
 
 entitiesRoute.openapi(getEntityRoute, async (c) => {
-	const { db } = getDb();
+	const { db } = getDb(c.env?.HYPERDRIVE);
 	const { id } = c.req.valid("param");
 
 	const result = await db
@@ -181,7 +181,7 @@ const getEntityParagraphsRoute = createRoute({
 });
 
 entitiesRoute.openapi(getEntityParagraphsRoute, async (c) => {
-	const { db } = getDb();
+	const { db } = getDb(c.env?.HYPERDRIVE);
 	const { id } = c.req.valid("param");
 	const { page, limit } = c.req.valid("query");
 	const offset = page * limit;

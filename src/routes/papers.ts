@@ -35,7 +35,7 @@ const listPapersRoute = createRoute({
 });
 
 papersRoute.openapi(listPapersRoute, async (c) => {
-	const { db } = getDb();
+	const { db } = getDb(c.env?.HYPERDRIVE);
 	const allPapers = await db
 		.select({
 			id: papers.id,
@@ -81,7 +81,7 @@ const getPaperRoute = createRoute({
 });
 
 papersRoute.openapi(getPaperRoute, async (c) => {
-	const { db } = getDb();
+	const { db } = getDb(c.env?.HYPERDRIVE);
 	const { id } = c.req.valid("param");
 	const { include } = c.req.valid("query");
 
@@ -170,7 +170,7 @@ const getPaperSectionsRoute = createRoute({
 });
 
 papersRoute.openapi(getPaperSectionsRoute, async (c) => {
-	const { db } = getDb();
+	const { db } = getDb(c.env?.HYPERDRIVE);
 	const { id } = c.req.valid("param");
 
 	const paper = await db.select().from(papers).where(eq(papers.id, id)).limit(1);

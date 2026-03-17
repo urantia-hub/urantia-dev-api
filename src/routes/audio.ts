@@ -35,7 +35,7 @@ const getAudioRoute = createRoute({
 });
 
 audioRoute.openapi(getAudioRoute, async (c) => {
-	const { db } = getDb();
+	const { db } = getDb(c.env?.HYPERDRIVE);
 	const { paragraphId } = c.req.valid("param");
 	const format = detectRefFormat(paragraphId);
 

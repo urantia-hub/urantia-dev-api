@@ -7,3 +7,7 @@ workers_dev = false
 routes = [
   { pattern = "api.urantia.dev", custom_domain = true }
 ]
+
+[[hyperdrive]]
+binding = "HYPERDRIVE"
+id = "9a44af1aa9224a4f8bfc4585087440dc"

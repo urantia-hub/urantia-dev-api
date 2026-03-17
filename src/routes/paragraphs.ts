@@ -89,7 +89,7 @@ const getRandomRoute = createRoute({
 });
 
 paragraphsRoute.openapi(getRandomRoute, async (c) => {
-	const { db } = getDb();
+	const { db } = getDb(c.env?.HYPERDRIVE);
 	const { include } = c.req.valid("query");
 	const result = await db.select(paragraphFields).from(paragraphs).orderBy(sql`RANDOM()`).limit(1);
 
@@ -144,7 +144,7 @@ The format is auto-detected from the reference string.\n\nUse \`?include=entitie
 });
 
 paragraphsRoute.openapi(getParagraphRoute, async (c) => {
-	const { db } = getDb();
+	const { db } = getDb(c.env?.HYPERDRIVE);
 	const { ref } = c.req.valid("param");
 	const { include } = c.req.valid("query");
 	const format = detectRefFormat(ref);
@@ -211,7 +211,7 @@ The \`window\` query parameter controls how many paragraphs before/after to incl
 });
 
 paragraphsRoute.openapi(getParagraphContextRoute, async (c) => {
-	const { db } = getDb();
+	const { db } = getDb(c.env?.HYPERDRIVE);
 	const { ref } = c.req.valid("param");
 	const { window: windowSize, include } = c.req.valid("query");
 	const format = detectRefFormat(ref);

@@ -3,6 +3,7 @@ import { OpenAPIHono } from "@hono/zod-openapi";
 import { sql } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 import { getDb } from "./db/client.ts";
+import type { Env } from "./types/env.ts";
 import { cacheControl } from "./middleware/cache.ts";
 import { corsMiddleware } from "./middleware/cors.ts";
 import { loggerMiddleware } from "./middleware/logger.ts";
@@ -16,7 +17,7 @@ import { paragraphsRoute } from "./routes/paragraphs.ts";
 import { searchRoute } from "./routes/search.ts";
 import { tocRoute } from "./routes/toc.ts";
 
-const app = new OpenAPIHono();
+const app = new OpenAPIHono<Env>();
 
 // Global error handler
 app.onError((err, c) => {
@@ -67,7 +68,7 @@ app.get("/", (c) =>
 app.get("/health", async (c) => {
 	const timestamp = new Date().toISOString();
 	try {
-		const { db } = getDb();
+		const { db } = getDb(c.env?.HYPERDRIVE);
 		await db.execute(sql`SELECT 1`);
 		c.header("Cache-Control", "no-store");
 		return c.json({ status: "healthy", db: "connected", timestamp });

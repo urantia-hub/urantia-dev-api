@@ -66,7 +66,7 @@ Results are ranked by relevance. Optional filters: paperId, partId.`,
 });
 
 searchRoute.openapi(searchParagraphsRoute, async (c) => {
-	const { db } = getDb();
+	const { db } = getDb(c.env?.HYPERDRIVE);
 	const body = c.req.valid("json");
 	const { q, page, limit, paperId, partId, type, include } = body;
 
@@ -194,7 +194,7 @@ Optional filters: paperId, partId.`,
 searchRoute.openapi(semanticSearchRoute, async (c) => {
 	const startTotal = performance.now();
 
-	const { db } = getDb();
+	const { db } = getDb(c.env?.HYPERDRIVE);
 	const { q, page, limit, paperId, partId, include } = c.req.valid("json");
 	const offset = page * limit;
 

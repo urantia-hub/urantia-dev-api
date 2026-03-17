@@ -27,7 +27,7 @@ const getTocRoute = createRoute({
 });
 
 tocRoute.openapi(getTocRoute, async (c) => {
-	const { db } = getDb();
+	const { db } = getDb(c.env?.HYPERDRIVE);
 
 	const allParts = await db
 		.select()
