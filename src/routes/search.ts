@@ -192,15 +192,20 @@ Optional filters: paperId, partId.`,
 });
 
 searchRoute.openapi(semanticSearchRoute, async (c) => {
+	const startTotal = performance.now();
+
 	const { db } = getDb();
 	const { q, page, limit, paperId, partId, include } = c.req.valid("json");
 	const offset = page * limit;
 
+	const startEmbedding = performance.now();
 	const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 	const embeddingResponse = await openai.embeddings.create({
 		model: "text-embedding-3-small",
 		input: q,
 	});
+	const embeddingMs = Math.round(performance.now() - startEmbedding);
+
 	const queryVector = embeddingResponse.data[0]?.embedding;
 	if (!queryVector) {
 		return c.json({ error: "Failed to generate embedding" }, 500);
@@ -217,41 +222,55 @@ searchRoute.openapi(semanticSearchRoute, async (c) => {
 	}
 	const whereClause = and(...conditions);
 
-	// Count total matching paragraphs
-	const countResult = await db
-		.select({ count: sql<number>`count(*)` })
-		.from(paragraphs)
-		.where(whereClause);
+	// Run count and vector search in parallel to save a round-trip
+	const startQueries = performance.now();
+	const [countResult, results] = await Promise.all([
+		db
+			.select({ count: sql<number>`count(*)` })
+			.from(paragraphs)
+			.where(whereClause),
+		db
+			.select({
+				id: paragraphs.id,
+				standardReferenceId: paragraphs.standardReferenceId,
+				sortId: paragraphs.sortId,
+				paperId: paragraphs.paperId,
+				sectionId: sql<
+					string | null
+				>`CASE WHEN ${paragraphs.sectionId} IS NOT NULL THEN split_part(${paragraphs.sectionId}, '.', 2) ELSE NULL END`.as(
+					"sectionId",
+				),
+				partId: paragraphs.partId,
+				paperTitle: paragraphs.paperTitle,
+				sectionTitle: paragraphs.sectionTitle,
+				paragraphId: paragraphs.paragraphId,
+				text: paragraphs.text,
+				htmlText: paragraphs.htmlText,
+				labels: paragraphs.labels,
+				audio: paragraphs.audio,
+				similarity: sql<number>`1 - (embedding <=> ${vectorStr}::vector)`,
+			})
+			.from(paragraphs)
+			.where(whereClause)
+			.orderBy(sql`embedding <=> ${vectorStr}::vector`)
+			.limit(limit)
+			.offset(offset),
+	]);
+	const queriesMs = Math.round(performance.now() - startQueries);
 
 	const total = Number(countResult[0]?.count ?? 0);
 
-	// Fetch results ordered by cosine similarity
-	const results = await db
-		.select({
-			id: paragraphs.id,
-			standardReferenceId: paragraphs.standardReferenceId,
-			sortId: paragraphs.sortId,
-			paperId: paragraphs.paperId,
-			sectionId: sql<
-				string | null
-			>`CASE WHEN ${paragraphs.sectionId} IS NOT NULL THEN split_part(${paragraphs.sectionId}, '.', 2) ELSE NULL END`.as(
-				"sectionId",
-			),
-			partId: paragraphs.partId,
-			paperTitle: paragraphs.paperTitle,
-			sectionTitle: paragraphs.sectionTitle,
-			paragraphId: paragraphs.paragraphId,
-			text: paragraphs.text,
-			htmlText: paragraphs.htmlText,
-			labels: paragraphs.labels,
-			audio: paragraphs.audio,
-			similarity: sql<number>`1 - (embedding <=> ${vectorStr}::vector)`,
-		})
-		.from(paragraphs)
-		.where(whereClause)
-		.orderBy(sql`embedding <=> ${vectorStr}::vector`)
-		.limit(limit)
-		.offset(offset);
+	let enrichMs = 0;
+	const enrichedResults = wantsEntities(include)
+		? await (async () => {
+				const startEnrich = performance.now();
+				const enriched = await enrichWithEntities(db, results);
+				enrichMs = Math.round(performance.now() - startEnrich);
+				return enriched;
+			})()
+		: results;
+
+	const totalMs = Math.round(performance.now() - startTotal);
 
 	const logger = c.get("logger");
 	if (logger) {
@@ -260,14 +279,14 @@ searchRoute.openapi(semanticSearchRoute, async (c) => {
 			paper_id: paperId ?? undefined,
 			part_id: partId ?? undefined,
 			result_count: total,
+			timing: {
+				embedding_ms: embeddingMs,
+				db_queries_ms: queriesMs,
+				entity_enrichment_ms: enrichMs,
+				total_ms: totalMs,
+			},
 		});
 	}
-
-	const enrichedResults = wantsEntities(include)
-		? await enrichWithEntities(db, results)
-		: results;
-
-
 
 	return c.json(
 		{
