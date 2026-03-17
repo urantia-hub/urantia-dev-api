@@ -8,12 +8,15 @@
 
 - [x] **Semantic search** — `POST /search/semantic` endpoint with pgvector cosine similarity. Embeddings generated via `text-embedding-3-small`, stored in DB + `data/embeddings.json`. HNSW index for fast vector search.
 
+## Completed
+
+- [x] **Entity enrichment (Parts A & B)** — 4,456 entities (being, place, order, race, religion, concept) seeded from Urantiapedia with AI-refined descriptions via Claude Sonnet. DB schema: `entities`, `entityTranslations`, `paragraphEntities` tables. Live endpoints: `GET /entities`, `GET /entities/{id}`, `GET /entities/{id}/paragraphs`. Paragraph-entity junction table maps ~4,700 citations.
+
 ## Next up
 
-- [ ] **Entity enrichment** — Typed entity mentions (being, place, order, race, concept) with character-level spans on every paragraph, plus theme tags for discovery. ~5,000 entities seeded from Urantiapedia + LLM extraction pass. New endpoints: `/entities`, `/entities/{id}`, `/entities/{id}/paragraphs`, `/themes`, `/themes/{id}/paragraphs`. Estimated cost: ~$15 in LLM API fees. See `ENTITY_ENRICHMENT_GAMEPLAN.md` for full plan and `EXTERNAL_SOURCES.md` for data source research.
-  - [ ] Part A: Build enriched data (parse Urantiapedia, LLM entity extraction, theme classification, alias resolution, validation)
-  - [ ] Part B: DB schema + API endpoints (entities/themes tables, JSONB columns on paragraphs, new routes)
-  - [ ] Part C: Typed relation inference + graph traversal (deferred)
+- [ ] **Entity enrichment Part C** — Typed relation inference + graph traversal. Character-level spans for UI highlighting. Theme/concept classification tags. Endpoints: `/entities/{id}/relations`, `/themes`, `/themes/{id}/paragraphs`. See `ENTITY_ENRICHMENT_GAMEPLAN.md`.
+
+- [ ] **Semantic search timing logs** — Add per-step timing to `POST /search/semantic` (OpenAI embedding call, count query, vector search query, entity enrichment) to diagnose the 10-15s response times. Log breakdown to BetterStack.
 
 ## Knowledge System & Cross-References (Build #2)
 
