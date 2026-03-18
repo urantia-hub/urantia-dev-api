@@ -32,7 +32,7 @@ Infrastructure layer: turn the Urantia Papers from a book into a queryable knowl
 
 ## API Polish (High Priority)
 
-- [x] **RFC 9457 error responses** — All errors now return `application/problem+json` with `type`, `title`, `status`, `detail` fields per RFC 9457. Helper at `src/lib/errors.ts`. Updated across all routes, middleware, and global error handler.
+- [x] **RFC 9457 error responses** — All errors now return `application/problem+json` with `type`, `title`, `status`, `detail` fields per RFC 9457. Helper at `src/lib/errors.ts`. Shared `createApp()` factory in `src/lib/app.ts` with `defaultHook` ensures Zod validation errors also return RFC 9457 shape. Updated across all routes, middleware, and global error handler.
 
 - [x] **Rate limit headers** — `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset` on every response. Rate limit bumped to 200/min.
 

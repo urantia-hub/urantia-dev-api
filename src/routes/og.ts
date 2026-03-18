@@ -27,9 +27,39 @@ const THEME_COLORS: Record<
   minimal: { glow: "transparent", accent: "#6b7280" },
 };
 
-function truncateText(text: string, maxLength = 280): string {
-  if (text.length <= maxLength) return text;
-  return `${text.slice(0, maxLength).trimEnd()}…`;
+/**
+ * Adaptive text sizing for OG images.
+ * Returns { text, fontSize, lineHeight } tuned to fill the 1080×340px text area.
+ */
+function fitText(raw: string): {
+  text: string;
+  fontSize: number;
+  lineHeight: number;
+} {
+  const len = raw.length;
+
+  // Thresholds tuned for 1080px-wide text area, 340px max height
+  if (len <= 120) return { text: raw, fontSize: 36, lineHeight: 1.5 };
+  if (len <= 220) return { text: raw, fontSize: 30, lineHeight: 1.5 };
+  if (len <= 380)
+    return { text: truncate(raw, 380), fontSize: 26, lineHeight: 1.45 };
+  if (len <= 550)
+    return { text: truncate(raw, 550), fontSize: 22, lineHeight: 1.4 };
+  return { text: truncate(raw, 700), fontSize: 19, lineHeight: 1.4 };
+}
+
+function truncate(text: string, max: number): string {
+  if (text.length <= max) return text;
+  // Cut at last sentence boundary within limit, fallback to word boundary
+  const slice = text.slice(0, max);
+  const sentenceEnd = Math.max(
+    slice.lastIndexOf(". "),
+    slice.lastIndexOf("? "),
+    slice.lastIndexOf("! "),
+  );
+  if (sentenceEnd > max * 0.6) return `${slice.slice(0, sentenceEnd + 1)}`;
+  const wordEnd = slice.lastIndexOf(" ");
+  return `${slice.slice(0, wordEnd > 0 ? wordEnd : max).trimEnd()}…`;
 }
 
 const getOgRoute = createRoute({
@@ -91,7 +121,7 @@ ogRoute.openapi(getOgRoute, async (c) => {
 
   const row = result[0]!;
   const colors = THEME_COLORS[theme];
-  const displayText = truncateText(row.text);
+  const { text: displayText, fontSize, lineHeight } = fitText(row.text);
 
   const html = `<div style="display:flex;flex-direction:column;width:1200px;height:630px;background:#0a0b0f;padding:60px;font-family:system-ui,sans-serif;position:relative;overflow:hidden">
 		<div style="display:flex;position:absolute;top:0;left:0;width:600px;height:630px;background:radial-gradient(circle at 0% 50%,${colors.glow},transparent 70%)"></div>
@@ -101,7 +131,7 @@ ogRoute.openapi(getOgRoute, async (c) => {
 				<div style="display:flex;color:#9ca3af;font-size:18px">${row.paperTitle}</div>
 			</div>
 			<div style="display:flex;flex:1;align-items:center">
-				<div style="display:flex;color:white;font-size:28px;line-height:1.5;max-height:340px;overflow:hidden">${displayText}</div>
+				<div style="display:flex;color:white;font-size:${fontSize}px;line-height:${lineHeight};max-height:380px;overflow:hidden">${displayText}</div>
 			</div>
 		</div>
 		<div style="display:flex;justify-content:flex-end;z-index:1">

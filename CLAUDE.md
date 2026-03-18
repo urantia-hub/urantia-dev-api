@@ -33,6 +33,11 @@ AI/developer-first API for the Urantia Papers.
 - `scripts/seed.ts` — Database seeder from urantia-papers-json
 - `scripts/setup-fts.sql` — Full-text search setup SQL
 
+## Documentation
+
+- `FEATURES.md` — Consumer-facing feature list sent to prospective API users. Keep this file up to date whenever endpoints, capabilities, or infrastructure details change.
+- `TODO.md` — Running list of planned work and improvements. Update when tasks are added, completed, or reprioritized.
+
 ## Observability
 
 - **Logging**: BetterStack via `@logtail/edge`. Structured JSON logs with request metadata.
