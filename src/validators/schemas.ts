@@ -10,7 +10,10 @@ export const PaginationMeta = z.object({
 });
 
 export const ErrorResponse = z.object({
-	error: z.string(),
+	type: z.string(),
+	title: z.string(),
+	status: z.number().int(),
+	detail: z.string(),
 });
 
 // --- Part ---
@@ -132,6 +135,30 @@ export const ParagraphResponse = z.object({
 	data: ParagraphSchema,
 });
 
+// --- RAG format ---
+
+export const RagResponseSchema = z.object({
+	data: z.object({
+		ref: z.string(),
+		text: z.string(),
+		citation: z.string(),
+		metadata: z.object({
+			paperId: z.string(),
+			paperTitle: z.string(),
+			sectionId: z.string().nullable(),
+			sectionTitle: z.string().nullable(),
+			partId: z.string(),
+			paragraphId: z.string(),
+		}),
+		navigation: z.object({
+			prev: z.string().nullable(),
+			next: z.string().nullable(),
+		}),
+		tokenCount: z.number().int(),
+		entities: z.array(z.string()),
+	}),
+});
+
 // --- Paragraph context ---
 
 export const ParagraphContextResponse = z.object({
@@ -206,13 +233,17 @@ export const AudioParam = z.object({
 	paragraphId: z.string(),
 });
 
+export const FormatEnum = z.enum(["default", "rag"]).default("default");
+
 export const ContextQuery = z.object({
 	window: z.coerce.number().int().min(1).max(10).default(2),
 	include: z.string().optional(),
+	format: FormatEnum.optional(),
 });
 
 export const IncludeQuery = z.object({
 	include: z.string().optional(),
+	format: FormatEnum.optional(),
 });
 
 // --- Entity ---

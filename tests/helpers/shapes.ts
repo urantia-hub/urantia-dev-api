@@ -68,3 +68,13 @@ export function assertEntityShape(e: Record<string, unknown>) {
 export function assertMetaShape(m: Record<string, unknown>) {
 	expect(Object.keys(m).sort()).toEqual(META_KEYS);
 }
+
+const PROBLEM_KEYS = ["detail", "status", "title", "type"];
+
+export function assertProblemShape(p: Record<string, unknown>) {
+	expect(Object.keys(p).sort()).toEqual(PROBLEM_KEYS);
+	expect(typeof p.type).toBe("string");
+	expect(typeof p.title).toBe("string");
+	expect(typeof p.status).toBe("number");
+	expect(typeof p.detail).toBe("string");
+}

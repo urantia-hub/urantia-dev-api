@@ -46,7 +46,7 @@ describe("Scanner blocking middleware", () => {
 		const res = await get("/.well-known/openid-configuration");
 		expect(res.status).toBe(404);
 		const body = await res.json();
-		expect(body.error).toContain("no authentication");
+		expect(body.detail).toContain("no authentication");
 	});
 
 	it("allows legitimate API paths", async () => {

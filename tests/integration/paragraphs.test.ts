@@ -52,11 +52,14 @@ describe("GET /paragraphs/:ref (paperSectionParagraphId format)", () => {
 });
 
 describe("GET /paragraphs/:ref (error cases)", () => {
-	it("returns 400 for invalid format", async () => {
+	it("returns 400 for invalid format (RFC 9457)", async () => {
 		const res = await get("/paragraphs/not-a-ref");
 		expect(res.status).toBe(400);
 		const json = await res.json();
-		expect(json.error).toContain("Invalid reference format");
+		expect(json.detail).toContain("Invalid reference format");
+		expect(json.type).toBe("https://urantia.dev/errors/invalid-reference-format");
+		expect(json.title).toBe("Bad Request");
+		expect(json.status).toBe(400);
 	});
 
 	it("returns 404 for valid format but non-existent ref", async () => {

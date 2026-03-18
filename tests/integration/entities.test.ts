@@ -66,7 +66,7 @@ describe("GET /entities/:id", () => {
 		const res = await get("/entities/nonexistent-entity-xyz");
 		expect(res.status).toBe(404);
 		const json = await res.json();
-		expect(json.error).toContain("not found");
+		expect(json.detail).toContain("not found");
 	});
 });
 
@@ -101,6 +101,6 @@ describe("GET /entities/:id/paragraphs", () => {
 		const res = await get("/entities/nonexistent-entity-xyz/paragraphs");
 		expect(res.status).toBe(404);
 		const json = await res.json();
-		expect(json.error).toContain("not found");
+		expect(json.detail).toContain("not found");
 	});
 });

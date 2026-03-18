@@ -1,8 +1,10 @@
-import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
+import { createRoute } from "@hono/zod-openapi";
 import { eq, sql } from "drizzle-orm";
 import { getDb } from "../db/client.ts";
 import { papers, paragraphs, sections } from "../db/schema.ts";
+import { createApp } from "../lib/app.ts";
 import { enrichWithEntities, wantsEntities } from "../lib/entities.ts";
+import { problemJson } from "../lib/errors.ts";
 import {
 	ErrorResponse,
 	IncludeQuery,
@@ -12,7 +14,7 @@ import {
 	SectionsResponse,
 } from "../validators/schemas.ts";
 
-export const papersRoute = new OpenAPIHono();
+export const papersRoute = createApp();
 
 // GET /papers — list all papers
 const listPapersRoute = createRoute({
@@ -99,7 +101,7 @@ papersRoute.openapi(getPaperRoute, async (c) => {
 
 	if (paper.length === 0) {
 	
-		return c.json({ error: `Paper ${id} not found` }, 404);
+		return problemJson(c, 404, `Paper ${id} not found`);
 	}
 
 	const paperParagraphs = await db
@@ -177,7 +179,7 @@ papersRoute.openapi(getPaperSectionsRoute, async (c) => {
 
 	if (paper.length === 0) {
 	
-		return c.json({ error: `Paper ${id} not found` }, 404);
+		return problemJson(c, 404, `Paper ${id} not found`);
 	}
 
 	const paperSections = await db

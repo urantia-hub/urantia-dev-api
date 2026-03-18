@@ -1,8 +1,9 @@
 import { swaggerUI } from "@hono/swagger-ui";
-import { OpenAPIHono } from "@hono/zod-openapi";
 import { sql } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 import { getDb } from "./db/client.ts";
+import { createApp } from "./lib/app.ts";
+import { problemJson } from "./lib/errors.ts";
 import type { Env } from "./types/env.ts";
 import { cacheControl } from "./middleware/cache.ts";
 import { corsMiddleware } from "./middleware/cors.ts";
@@ -10,14 +11,17 @@ import { loggerMiddleware } from "./middleware/logger.ts";
 import { rateLimiter } from "./middleware/rate-limit.ts";
 import { scannerBlock } from "./middleware/security.ts";
 import { audioRoute } from "./routes/audio.ts";
+import { citeRoute } from "./routes/cite.ts";
+import { embeddingsRoute } from "./routes/embeddings.ts";
 import { entitiesRoute } from "./routes/entities.ts";
 import { mcpRoute } from "./routes/mcp.ts";
+import { ogRoute } from "./routes/og.ts";
 import { papersRoute } from "./routes/papers.ts";
 import { paragraphsRoute } from "./routes/paragraphs.ts";
 import { searchRoute } from "./routes/search.ts";
 import { tocRoute } from "./routes/toc.ts";
 
-const app = new OpenAPIHono<Env>();
+const app = createApp<Env>();
 
 // Global error handler
 app.onError((err, c) => {
@@ -44,14 +48,14 @@ app.onError((err, c) => {
 		console.error(`[ERROR] ${c.req.method} ${c.req.path}:`, err.message);
 	}
 
-	return c.json({ error: "Internal server error" }, 500);
+	return problemJson(c, 500, "Internal server error");
 });
 
 // Global middleware
 app.use("*", scannerBlock);
 app.use("*", corsMiddleware);
 app.use("*", loggerMiddleware);
-app.use("*", rateLimiter({ windowMs: 60_000, max: 100 }));
+app.use("*", rateLimiter({ windowMs: 60_000, max: 200 }));
 app.use("*", cacheControl());
 
 // Health check
@@ -74,15 +78,7 @@ app.get("/health", async (c) => {
 		return c.json({ status: "healthy", db: "connected", timestamp });
 	} catch (err) {
 		c.header("Cache-Control", "no-store");
-		return c.json(
-			{
-				status: "unhealthy",
-				db: "error",
-				error: err instanceof Error ? err.message : "Unknown error",
-				timestamp,
-			},
-			503,
-		);
+		return problemJson(c, 503, err instanceof Error ? err.message : "Database connection failed");
 	}
 });
 
@@ -122,7 +118,7 @@ app.get("/sitemap.xml", (c) => {
 // OAuth/OIDC metadata discovery — return JSON 404 so MCP clients (Claude Code) know no auth is needed
 // Covers all discovery paths: root, path-aware (RFC 8414), MCP-scoped, and protected resource (RFC 9728)
 app.get("/.well-known/*", (c) =>
-	c.json({ error: "This server requires no authentication." }, 404),
+	problemJson(c, 404, "This server requires no authentication."),
 );
 
 // MCP server (mounted before OpenAPI doc generation so it doesn't pollute the REST spec)
@@ -135,6 +131,9 @@ app.route("/paragraphs", paragraphsRoute);
 app.route("/search", searchRoute);
 app.route("/entities", entitiesRoute);
 app.route("/audio", audioRoute);
+app.route("/cite", citeRoute);
+app.route("/og", ogRoute);
+app.route("/embeddings", embeddingsRoute);
 
 // OpenAPI spec
 app.doc("/openapi.json", {

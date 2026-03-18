@@ -1,9 +1,11 @@
-import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
+import { createRoute } from "@hono/zod-openapi";
 import { and, eq, sql } from "drizzle-orm";
 import OpenAI from "openai";
 import { getDb } from "../db/client.ts";
 import { paragraphs } from "../db/schema.ts";
+import { createApp } from "../lib/app.ts";
 import { enrichWithEntities, wantsEntities } from "../lib/entities.ts";
+import { problemJson } from "../lib/errors.ts";
 import {
 	ErrorResponse,
 	SearchRequest,
@@ -12,7 +14,7 @@ import {
 	SemanticSearchResponse,
 } from "../validators/schemas.ts";
 
-export const searchRoute = new OpenAPIHono();
+export const searchRoute = createApp();
 
 /**
  * Build a tsquery string from the search input based on the search type.
@@ -74,7 +76,7 @@ searchRoute.openapi(searchParagraphsRoute, async (c) => {
 
 	if (!sanitized) {
 	
-		return c.json({ error: "Search query cannot be empty" }, 400);
+		return problemJson(c, 400, "Search query cannot be empty");
 	}
 
 	const tsQuery = buildTsQuery(sanitized, type);
@@ -208,7 +210,7 @@ searchRoute.openapi(semanticSearchRoute, async (c) => {
 
 	const queryVector = embeddingResponse.data[0]?.embedding;
 	if (!queryVector) {
-		return c.json({ error: "Failed to generate embedding" }, 500);
+		return problemJson(c, 500, "Failed to generate embedding");
 	}
 	const vectorStr = `[${queryVector.join(",")}]`;
 

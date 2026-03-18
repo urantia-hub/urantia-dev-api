@@ -1,10 +1,10 @@
-import { OpenAPIHono, createRoute } from "@hono/zod-openapi";
-import { eq } from "drizzle-orm";
+import { createRoute } from "@hono/zod-openapi";
 import { getDb } from "../db/client.ts";
 import { papers, parts } from "../db/schema.ts";
+import { createApp } from "../lib/app.ts";
 import { ErrorResponse, TocResponse } from "../validators/schemas.ts";
 
-export const tocRoute = new OpenAPIHono();
+export const tocRoute = createApp();
 
 const getTocRoute = createRoute({
 	operationId: "getToc",

@@ -1,4 +1,5 @@
 import type { MiddlewareHandler } from "hono";
+import { problemJson } from "../lib/errors.ts";
 
 interface RateLimitEntry {
 	count: number;
@@ -42,10 +43,7 @@ export function rateLimiter(opts: {
 		c.header("X-RateLimit-Reset", String(Math.ceil(entry.resetAt / 1000)));
 
 		if (entry.count > max) {
-			return c.json(
-				{ error: "Too many requests, please try again later" },
-				429,
-			);
+			return problemJson(c, 429, "Too many requests, please try again later");
 		}
 
 		await next();

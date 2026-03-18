@@ -4,7 +4,7 @@
 
 - [x] **Structured logging** — BetterStack via `@logtail/edge`. Structured JSON logs with request metadata, search query metrics, and error tracking with stack traces. Health check at `GET /health`.
 
-- [x] **Tests** — 70 integration + unit tests across all endpoints, middleware, and `detectRefFormat`. Run with `bun test`. Semantic search tests conditional on `OPENAI_API_KEY`.
+- [x] **Tests** — 118 integration + unit tests across all endpoints, middleware, and `detectRefFormat`. Run with `bun test`. Semantic search tests conditional on `OPENAI_API_KEY`.
 
 - [x] **Semantic search** — `POST /search/semantic` endpoint with pgvector cosine similarity. Embeddings generated via `text-embedding-3-small`, stored in DB + `data/embeddings.json`. HNSW index for fast vector search.
 
@@ -28,15 +28,31 @@ Infrastructure layer: turn the Urantia Papers from a book into a queryable knowl
 
 - [ ] **Knowledge graph traversal** — Extend entity enrichment (Part C) with typed relations between entities, enabling graph queries like "all beings mentioned in relation to Salvington" or "concept lineage of The Supreme." `GET /entities/{id}/relations`, `GET /graph/traverse?from=&depth=`.
 
-## Reading Plans API (Build #1)
+- [ ] **Hybrid search (RRF)** — (low priority) Combine vector + full-text search via Reciprocal Rank Fusion for ~62% → ~84% retrieval precision. Parallel pgvector + tsvector queries fused with k=60. Semantic weight 0.6-0.7 since users often ask about concepts.
 
-Backend for guided reading plans — the fastest path to new reader retention.
+## API Polish (High Priority)
 
-- [ ] **Reading plan schema & endpoints** — Plans table (title, description, duration_days, difficulty, theme), plan_days table (day number, paragraph refs, commentary). Endpoints: `GET /plans`, `GET /plans/{id}`, `GET /plans/{id}/days/{day}`. Support for 3-7 day topical plans and 21-30 day thematic journeys.
+- [x] **RFC 9457 error responses** — All errors now return `application/problem+json` with `type`, `title`, `status`, `detail` fields per RFC 9457. Helper at `src/lib/errors.ts`. Updated across all routes, middleware, and global error handler.
 
-- [ ] **"Where Should I Start?" quiz endpoint** — `POST /plans/recommend` accepting reader background/interests, returning ranked plan suggestions. Simple rule-based initially, LLM-powered later.
+- [x] **Rate limit headers** — `X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset` on every response. Rate limit bumped to 200/min.
 
-- [ ] **Passage of the Day endpoint** — `GET /daily-passage` returning a curated or algorithmically-selected passage with shareable metadata (image card dimensions, social text). Supports the daily engagement loop.
+- [x] **Citation formatter** — `GET /cite?ref=196:2.1&style=apa` returns formatted citations in APA, MLA, Chicago, BibTeX. Accepts all three ref formats.
+
+- [x] **Dynamic OG images** — `GET /og/{ref}` renders 1200×630 social cards via `workers-og` with theme variants (default/warm/purple/minimal). Cached permanently via `Cache-Control: immutable`.
+
+- [x] **RAG-optimized format** — `?format=rag` on `/paragraphs/:ref` and `/paragraphs/random` returns plaintext + citation + metadata + prev/next navigation + token count + entity names. Helper at `src/lib/rag.ts`.
+
+- [x] **Embeddings export** — `GET /embeddings/{ref}` for single 1536-dim vector, `GET /embeddings/export?format=jsonl&paperId=` for bulk download with paperId/partId filters.
+
+## API Polish (Medium Priority)
+
+- [ ] **Navigation metadata** — Add `prev`/`next` paragraph refs to `GET /paragraphs/{ref}` responses. Enables reading flow UIs without extra API calls.
+
+- [ ] **Function calling schemas** — `GET /tools/openai` and `GET /tools/anthropic` returning ready-to-use tool definitions. Lets devs add Urantia Book access to any AI agent in minutes.
+
+- [ ] **MCP server enhancements** — Add Resources (`urantia://paper/{id}`, `urantia://entity/{id}`) and Prompts (study assistant, comparative theology) primitives beyond current Tools.
+
+- [ ] **API directory listings** — Submit to public-api-lists (GitHub), Postman public workspace, RapidAPI, faith.tools, APIs.guru. Free distribution to millions of developers.
 
 ## Study Group Toolkit API (Build #3)
 

@@ -90,7 +90,8 @@ describe("GET /papers/:id (invalid)", () => {
 		const res = await get("/papers/999");
 		expect(res.status).toBe(404);
 		const json = await res.json();
-		expect(json.error).toBeString();
+		expect(json.detail).toBeString();
+		expect(json.status).toBe(404);
 	});
 });
 

@@ -20,7 +20,7 @@ describe("CORS middleware", () => {
 describe("Rate limit headers", () => {
 	it("responses include rate limit headers", async () => {
 		const res = await get("/");
-		expect(res.headers.get("x-ratelimit-limit")).toBe("100");
+		expect(res.headers.get("x-ratelimit-limit")).toBe("200");
 		expect(res.headers.get("x-ratelimit-remaining")).toBeString();
 		expect(res.headers.get("x-ratelimit-reset")).toBeString();
 	});

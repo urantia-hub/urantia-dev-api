@@ -1,8 +1,11 @@
-import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
+import { createRoute } from "@hono/zod-openapi";
 import { and, eq, gt, lt, sql } from "drizzle-orm";
 import { getDb } from "../db/client.ts";
 import { paragraphs } from "../db/schema.ts";
+import { createApp } from "../lib/app.ts";
 import { enrichWithEntities, wantsEntities } from "../lib/entities.ts";
+import { problemJson } from "../lib/errors.ts";
+import { toRagFormat } from "../lib/rag.ts";
 import { detectRefFormat } from "../types/node.ts";
 import {
 	ContextQuery,
@@ -11,9 +14,10 @@ import {
 	ParagraphContextResponse,
 	ParagraphRefParam,
 	ParagraphResponse,
+	RagResponseSchema,
 } from "../validators/schemas.ts";
 
-export const paragraphsRoute = new OpenAPIHono();
+export const paragraphsRoute = createApp();
 
 // Helper to select paragraph fields (excludes searchVector and embedding)
 export const paragraphFields = {
@@ -90,18 +94,21 @@ const getRandomRoute = createRoute({
 
 paragraphsRoute.openapi(getRandomRoute, async (c) => {
 	const { db } = getDb(c.env?.HYPERDRIVE);
-	const { include } = c.req.valid("query");
+	const { include, format } = c.req.valid("query");
 	const result = await db.select(paragraphFields).from(paragraphs).orderBy(sql`RANDOM()`).limit(1);
 
 	if (result.length === 0) {
-	
-		return c.json({ error: "No paragraphs found" }, 500);
+		return problemJson(c, 500, "No paragraphs found");
 	}
 
 	const data = wantsEntities(include)
 		? (await enrichWithEntities(db, result))[0]!
 		: result[0]!;
 
+	if (format === "rag") {
+		const ragData = await toRagFormat(db, data as Parameters<typeof toRagFormat>[1]);
+		return c.json({ data: ragData }, 200);
+	}
 
 	return c.json({ data }, 200);
 });
@@ -146,30 +153,27 @@ The format is auto-detected from the reference string.\n\nUse \`?include=entitie
 paragraphsRoute.openapi(getParagraphRoute, async (c) => {
 	const { db } = getDb(c.env?.HYPERDRIVE);
 	const { ref } = c.req.valid("param");
-	const { include } = c.req.valid("query");
-	const format = detectRefFormat(ref);
+	const { include, format: outputFormat } = c.req.valid("query");
+	const refFormat = detectRefFormat(ref);
 
-	if (format === "unknown") {
-	
-		return c.json(
-			{
-				error: `Invalid reference format: "${ref}". Expected globalId (1:2.0.1), standardReferenceId (2:0.1), or paperSectionParagraphId (2.0.1)`,
-			},
-			400,
-		);
+	if (refFormat === "unknown") {
+		return problemJson(c, 400, `Invalid reference format: "${ref}". Expected globalId (1:2.0.1), standardReferenceId (2:0.1), or paperSectionParagraphId (2.0.1)`, "invalid-reference-format");
 	}
 
 	const result = await findParagraphByRef(db, ref);
 
 	if (result.length === 0) {
-	
-		return c.json({ error: `Paragraph "${ref}" not found` }, 404);
+		return problemJson(c, 404, `Paragraph "${ref}" not found`);
 	}
 
 	const data = wantsEntities(include)
 		? (await enrichWithEntities(db, result))[0]!
 		: result[0]!;
 
+	if (outputFormat === "rag") {
+		const ragData = await toRagFormat(db, data as Parameters<typeof toRagFormat>[1]);
+		return c.json({ data: ragData }, 200);
+	}
 
 	return c.json({ data }, 200);
 });
@@ -217,20 +221,15 @@ paragraphsRoute.openapi(getParagraphContextRoute, async (c) => {
 	const format = detectRefFormat(ref);
 
 	if (format === "unknown") {
-	
-		return c.json(
-			{
-				error: `Invalid reference format: "${ref}". Expected globalId (1:2.0.1), standardReferenceId (2:0.1), or paperSectionParagraphId (2.0.1)`,
-			},
-			400,
-		);
+
+		return problemJson(c, 400, `Invalid reference format: "${ref}". Expected globalId (1:2.0.1), standardReferenceId (2:0.1), or paperSectionParagraphId (2.0.1)`, "invalid-reference-format");
 	}
 
 	const target = await findParagraphByRef(db, ref);
 
 	if (target.length === 0) {
-	
-		return c.json({ error: `Paragraph "${ref}" not found` }, 404);
+
+		return problemJson(c, 404, `Paragraph "${ref}" not found`);
 	}
 
 	const targetParagraph = target[0]!;

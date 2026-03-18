@@ -1,7 +1,9 @@
-import { createRoute, OpenAPIHono } from "@hono/zod-openapi";
+import { createRoute } from "@hono/zod-openapi";
 import { and, eq, ilike, sql } from "drizzle-orm";
 import { getDb } from "../db/client.ts";
 import { entities, paragraphEntities, paragraphs } from "../db/schema.ts";
+import { createApp } from "../lib/app.ts";
+import { problemJson } from "../lib/errors.ts";
 import { paragraphFields } from "./paragraphs.ts";
 import {
 	EntitiesListQuery,
@@ -13,7 +15,7 @@ import {
 	ErrorResponse,
 } from "../validators/schemas.ts";
 
-export const entitiesRoute = new OpenAPIHono();
+export const entitiesRoute = createApp();
 
 // GET /entities — list/browse entities
 const listEntitiesRoute = createRoute({
@@ -145,7 +147,7 @@ entitiesRoute.openapi(getEntityRoute, async (c) => {
 
 
 	if (result.length === 0) {
-		return c.json({ error: `Entity "${id}" not found` }, 404);
+		return problemJson(c, 404, `Entity "${id}" not found`);
 	}
 
 	return c.json({ data: result[0]! }, 200);
@@ -195,7 +197,7 @@ entitiesRoute.openapi(getEntityParagraphsRoute, async (c) => {
 
 	if (entity.length === 0) {
 	
-		return c.json({ error: `Entity "${id}" not found` }, 404);
+		return problemJson(c, 404, `Entity "${id}" not found`);
 	}
 
 	// Count total paragraphs for this entity
