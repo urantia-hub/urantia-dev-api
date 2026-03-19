@@ -31,9 +31,9 @@ describe("POST /me/bookmarks — requires auth", () => {
 	});
 });
 
-describe("DELETE /me/bookmarks/:id — requires auth", () => {
+describe("DELETE /me/bookmarks/:ref — requires auth", () => {
 	it("returns 401 without auth", async () => {
-		const res = await del("/me/bookmarks/00000000-0000-0000-0000-000000000000");
+		const res = await del("/me/bookmarks/2:0.1");
 		expect(res.status).toBe(401);
 	});
 });
@@ -88,9 +88,9 @@ describe("POST /me/reading-progress — requires auth", () => {
 	});
 });
 
-describe("DELETE /me/reading-progress/:id — requires auth", () => {
+describe("DELETE /me/reading-progress/:ref — requires auth", () => {
 	it("returns 401 without auth", async () => {
-		const res = await del("/me/reading-progress/00000000-0000-0000-0000-000000000000");
+		const res = await del("/me/reading-progress/2:0.1");
 		expect(res.status).toBe(401);
 	});
 });

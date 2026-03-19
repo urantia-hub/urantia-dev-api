@@ -193,20 +193,20 @@ meRoute.openapi(createBookmarkRoute, async (c) => {
 	const resolved = await resolveParagraphRef(db, ref);
 	if (!resolved) return problemJson(c, 404, `Paragraph "${ref}" not found.`);
 
-	const categoryValue = category ?? "";
-
-	// Idempotent: if bookmark already exists for this user+paragraph+category, return it
+	// Idempotent: if bookmark exists, update category (if provided) and return it
 	const [existing] = await db
 		.select()
 		.from(bookmarks)
-		.where(and(
-			eq(bookmarks.userId, user.id),
-			eq(bookmarks.paragraphId, resolved.globalId),
-			eq(bookmarks.category, categoryValue),
-		))
+		.where(and(eq(bookmarks.userId, user.id), eq(bookmarks.paragraphId, resolved.globalId)))
 		.limit(1);
 
 	if (existing) {
+		// Update category if a new one was provided
+		if (category !== undefined && category !== existing.category) {
+			await db.update(bookmarks).set({ category, updatedAt: new Date() }).where(eq(bookmarks.id, existing.id));
+			existing.category = category;
+			existing.updatedAt = new Date();
+		}
 		return c.json({
 			data: {
 				id: existing.id,
@@ -226,7 +226,7 @@ meRoute.openapi(createBookmarkRoute, async (c) => {
 			paperId: resolved.paperId,
 			paperSectionId: resolved.paperSectionId,
 			paperSectionParagraphId: resolved.paperSectionParagraphId,
-			category: categoryValue,
+			category: category ?? null,
 		})
 		.returning();
 
@@ -244,12 +244,14 @@ meRoute.openapi(createBookmarkRoute, async (c) => {
 const deleteBookmarkRoute = createRoute({
 	operationId: "deleteBookmark",
 	method: "delete",
-	path: "/bookmarks/{id}",
+	path: "/bookmarks/{ref}",
 	tags: ["Bookmarks"],
-	summary: "Delete a bookmark",
-	request: { params: z.object({ id: z.string().uuid() }) },
+	summary: "Delete a bookmark by paragraph reference",
+	request: {
+		params: z.object({ ref: z.string().describe("Paragraph reference in any format") }),
+	},
 	responses: {
-		204: { description: "Bookmark deleted" },
+		204: { description: "Bookmark(s) deleted" },
 		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
 		404: { description: "Bookmark not found", content: { "application/json": { schema: ErrorResponse } } },
 	},
@@ -257,9 +259,16 @@ const deleteBookmarkRoute = createRoute({
 
 meRoute.openapi(deleteBookmarkRoute, async (c) => {
 	const user = getUser(c);
-	const { id } = c.req.valid("param");
+	const { ref } = c.req.valid("param");
 	const { db } = getDb(c.env?.HYPERDRIVE);
-	const deleted = await db.delete(bookmarks).where(and(eq(bookmarks.id, id), eq(bookmarks.userId, user.id))).returning();
+
+	const resolved = await resolveParagraphRef(db, ref);
+	if (!resolved) return problemJson(c, 404, `Paragraph "${ref}" not found.`);
+
+	const deleted = await db
+		.delete(bookmarks)
+		.where(and(eq(bookmarks.userId, user.id), eq(bookmarks.paragraphId, resolved.globalId)))
+		.returning();
 	if (deleted.length === 0) return problemJson(c, 404, "Bookmark not found.");
 	return c.body(null, 204);
 });
@@ -405,12 +414,13 @@ meRoute.openapi(updateNoteRoute, async (c) => {
 	}, 200);
 });
 
-const deleteNoteRoute = createRoute({
-	operationId: "deleteNote",
+const deleteNoteByIdRoute = createRoute({
+	operationId: "deleteNoteById",
 	method: "delete",
 	path: "/notes/{id}",
 	tags: ["Notes"],
-	summary: "Delete a note",
+	summary: "Delete a note by ID",
+	description: "Delete a specific note by its UUID. Use this when a user has multiple notes on the same paragraph.",
 	request: { params: z.object({ id: z.string().uuid() }) },
 	responses: {
 		204: { description: "Note deleted" },
@@ -419,7 +429,7 @@ const deleteNoteRoute = createRoute({
 	},
 });
 
-meRoute.openapi(deleteNoteRoute, async (c) => {
+meRoute.openapi(deleteNoteByIdRoute, async (c) => {
 	const user = getUser(c);
 	const { id } = c.req.valid("param");
 	const { db } = getDb(c.env?.HYPERDRIVE);
@@ -499,10 +509,10 @@ meRoute.openapi(markReadRoute, async (c) => {
 const deleteReadingProgressRoute = createRoute({
 	operationId: "deleteReadingProgress",
 	method: "delete",
-	path: "/reading-progress/{id}",
+	path: "/reading-progress/{ref}",
 	tags: ["Reading Progress"],
 	summary: "Unmark a paragraph as read",
-	request: { params: z.object({ id: z.string().uuid() }) },
+	request: { params: z.object({ ref: z.string().describe("Paragraph reference in any format") }) },
 	responses: {
 		204: { description: "Reading progress deleted" },
 		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
@@ -512,9 +522,16 @@ const deleteReadingProgressRoute = createRoute({
 
 meRoute.openapi(deleteReadingProgressRoute, async (c) => {
 	const user = getUser(c);
-	const { id } = c.req.valid("param");
+	const { ref } = c.req.valid("param");
 	const { db } = getDb(c.env?.HYPERDRIVE);
-	const deleted = await db.delete(readingProgress).where(and(eq(readingProgress.id, id), eq(readingProgress.userId, user.id))).returning();
+
+	const resolved = await resolveParagraphRef(db, ref);
+	if (!resolved) return problemJson(c, 404, `Paragraph "${ref}" not found.`);
+
+	const deleted = await db
+		.delete(readingProgress)
+		.where(and(eq(readingProgress.userId, user.id), eq(readingProgress.paragraphId, resolved.globalId)))
+		.returning();
 	if (deleted.length === 0) return problemJson(c, 404, "Reading progress entry not found.");
 	return c.body(null, 204);
 });

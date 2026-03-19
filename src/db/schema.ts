@@ -198,7 +198,7 @@ export const users = pgTable("users", {
 	updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
-// --- bookmarks (paragraph-level, unique per user + paragraph + category) ---
+// --- bookmarks (paragraph-level, one per user + paragraph) ---
 export const bookmarks = pgTable(
 	"bookmarks",
 	{
@@ -210,12 +210,12 @@ export const bookmarks = pgTable(
 		paperId: text("paper_id").notNull(), // denormalized
 		paperSectionId: text("paper_section_id").notNull(), // denormalized
 		paperSectionParagraphId: text("paper_section_paragraph_id").notNull(), // denormalized
-		category: text("category").notNull().default(""), // user-defined, empty string = uncategorized
+		category: text("category"), // user-defined label, nullable
 		createdAt: timestamp("created_at").notNull().defaultNow(),
 		updatedAt: timestamp("updated_at").notNull().defaultNow(),
 	},
 	(t) => [
-		uniqueIndex("bookmarks_user_paragraph_category_idx").on(t.userId, t.paragraphId, t.category),
+		uniqueIndex("bookmarks_user_paragraph_idx").on(t.userId, t.paragraphId),
 		index("bookmarks_user_id_idx").on(t.userId),
 		index("bookmarks_user_paper_idx").on(t.userId, t.paperId),
 	],
