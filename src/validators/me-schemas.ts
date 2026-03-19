@@ -1,21 +1,11 @@
 import { z } from "zod";
+import { ParagraphSchema } from "./schemas.ts";
 
 // --- Shared ---
 
 export const PaginationQuery = z.object({
 	page: z.coerce.number().int().min(0).default(0).optional(),
 	limit: z.coerce.number().int().min(1).max(100).default(20).optional(),
-});
-
-export const ParagraphSummarySchema = z.object({
-	paragraphId: z.string(),
-	standardReferenceId: z.string(),
-	paperId: z.string(),
-	paperSectionId: z.string(),
-	paperSectionParagraphId: z.string(),
-	paperTitle: z.string(),
-	sectionTitle: z.string().nullable(),
-	text: z.string(),
 });
 
 // --- User Profile ---
@@ -44,7 +34,7 @@ export const BookmarkResponse = z.object({
 	category: z.string().nullable(),
 	createdAt: z.string(),
 	updatedAt: z.string(),
-	paragraph: ParagraphSummarySchema,
+	paragraph: ParagraphSchema,
 });
 
 // --- Notes ---
@@ -66,7 +56,7 @@ export const NoteResponse = z.object({
 	format: z.string(),
 	createdAt: z.string(),
 	updatedAt: z.string(),
-	paragraph: ParagraphSummarySchema,
+	paragraph: ParagraphSchema,
 });
 
 // --- Reading Progress ---

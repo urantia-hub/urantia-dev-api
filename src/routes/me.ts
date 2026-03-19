@@ -132,21 +132,19 @@ meRoute.openapi(listBookmarksRoute, async (c) => {
 		db.select({ value: count() }).from(bookmarks).where(where),
 	]);
 
-	// Enrich with paragraph data
+	// Enrich with full paragraph entities
 	const globalIds = rows.map((r) => r.paragraphId);
 	const paragraphMap = await lookupParagraphs(db, globalIds);
 
-	const data = rows.map((r) => ({
-		id: r.id,
-		category: r.category,
-		createdAt: r.createdAt.toISOString(),
-		updatedAt: r.updatedAt.toISOString(),
-		paragraph: paragraphMap.get(r.paragraphId) ?? {
-			paragraphId: r.paragraphId, standardReferenceId: "", paperId: r.paperId,
-			paperSectionId: r.paperSectionId, paperSectionParagraphId: r.paperSectionParagraphId,
-			paperTitle: "", sectionTitle: null, text: "",
-		},
-	}));
+	const data = rows
+		.filter((r) => paragraphMap.has(r.paragraphId))
+		.map((r) => ({
+			id: r.id,
+			category: r.category,
+			createdAt: r.createdAt.toISOString(),
+			updatedAt: r.updatedAt.toISOString(),
+			paragraph: paragraphMap.get(r.paragraphId)!,
+		}));
 
 	return c.json({ data, pagination: { page, limit, total } }, 200);
 });
@@ -198,7 +196,7 @@ meRoute.openapi(createBookmarkRoute, async (c) => {
 	const existing = await db
 		.select()
 		.from(bookmarks)
-		.where(and(eq(bookmarks.userId, user.id), eq(bookmarks.paragraphId, resolved.paragraphId)))
+		.where(and(eq(bookmarks.userId, user.id), eq(bookmarks.paragraphId, resolved.globalId)))
 		.limit(1);
 	if (existing.length > 0) return problemJson(c, 400, "Bookmark already exists for this paragraph.");
 
@@ -206,7 +204,7 @@ meRoute.openapi(createBookmarkRoute, async (c) => {
 		.insert(bookmarks)
 		.values({
 			userId: user.id,
-			paragraphId: resolved.paragraphId,
+			paragraphId: resolved.globalId,
 			paperId: resolved.paperId,
 			paperSectionId: resolved.paperSectionId,
 			paperSectionParagraphId: resolved.paperSectionParagraphId,
@@ -220,7 +218,7 @@ meRoute.openapi(createBookmarkRoute, async (c) => {
 			category: created.category,
 			createdAt: created.createdAt.toISOString(),
 			updatedAt: created.updatedAt.toISOString(),
-			paragraph: resolved,
+			paragraph: resolved.paragraph,
 		},
 	}, 201);
 });
@@ -286,18 +284,16 @@ meRoute.openapi(listNotesRoute, async (c) => {
 	const globalIds = rows.map((r) => r.paragraphId);
 	const paragraphMap = await lookupParagraphs(db, globalIds);
 
-	const data = rows.map((r) => ({
-		id: r.id,
-		text: r.text,
-		format: r.format,
-		createdAt: r.createdAt.toISOString(),
-		updatedAt: r.updatedAt.toISOString(),
-		paragraph: paragraphMap.get(r.paragraphId) ?? {
-			paragraphId: r.paragraphId, standardReferenceId: "", paperId: r.paperId,
-			paperSectionId: r.paperSectionId, paperSectionParagraphId: r.paperSectionParagraphId,
-			paperTitle: "", sectionTitle: null, text: "",
-		},
-	}));
+	const data = rows
+		.filter((r) => paragraphMap.has(r.paragraphId))
+		.map((r) => ({
+			id: r.id,
+			text: r.text,
+			format: r.format,
+			createdAt: r.createdAt.toISOString(),
+			updatedAt: r.updatedAt.toISOString(),
+			paragraph: paragraphMap.get(r.paragraphId)!,
+		}));
 
 	return c.json({ data, pagination: { page, limit, total } }, 200);
 });
@@ -329,7 +325,7 @@ meRoute.openapi(createNoteRoute, async (c) => {
 		.insert(notes)
 		.values({
 			userId: user.id,
-			paragraphId: resolved.paragraphId,
+			paragraphId: resolved.globalId,
 			paperId: resolved.paperId,
 			paperSectionId: resolved.paperSectionId,
 			paperSectionParagraphId: resolved.paperSectionParagraphId,
@@ -345,7 +341,7 @@ meRoute.openapi(createNoteRoute, async (c) => {
 			format: created.format,
 			createdAt: created.createdAt.toISOString(),
 			updatedAt: created.updatedAt.toISOString(),
-			paragraph: resolved,
+			paragraph: resolved.paragraph,
 		},
 	}, 201);
 });
@@ -378,6 +374,7 @@ meRoute.openapi(updateNoteRoute, async (c) => {
 	if (!updated) return problemJson(c, 404, "Note not found.");
 
 	const paragraphMap = await lookupParagraphs(db, [updated.paragraphId]);
+	const paragraph = paragraphMap.get(updated.paragraphId);
 	return c.json({
 		data: {
 			id: updated.id,
@@ -385,11 +382,7 @@ meRoute.openapi(updateNoteRoute, async (c) => {
 			format: updated.format,
 			createdAt: updated.createdAt.toISOString(),
 			updatedAt: updated.updatedAt.toISOString(),
-			paragraph: paragraphMap.get(updated.paragraphId) ?? {
-				paragraphId: updated.paragraphId, standardReferenceId: "", paperId: updated.paperId,
-				paperSectionId: updated.paperSectionId, paperSectionParagraphId: updated.paperSectionParagraphId,
-				paperTitle: "", sectionTitle: null, text: "",
-			},
+			...(paragraph ? { paragraph } : {}),
 		},
 	}, 200);
 });
@@ -470,7 +463,7 @@ meRoute.openapi(markReadRoute, async (c) => {
 
 	const values = valid.map((item) => ({
 		userId: user.id,
-		paragraphId: item.paragraphId,
+		paragraphId: item.globalId,
 		paperId: item.paperId,
 		paperSectionId: item.paperSectionId,
 		paperSectionParagraphId: item.paperSectionParagraphId,
