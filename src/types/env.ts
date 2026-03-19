@@ -4,5 +4,7 @@ export type Env = {
 		DATABASE_URL?: string;
 		OPENAI_API_KEY?: string;
 		LOGTAIL_TOKEN?: string;
+		SUPABASE_URL?: string;
+		ADMIN_USER_IDS?: string;
 	};
 };

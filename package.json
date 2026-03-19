@@ -40,6 +40,7 @@
     "@modelcontextprotocol/sdk": "^1.27.1",
     "drizzle-orm": "^0.45.1",
     "hono": "^4.12.8",
+    "jose": "^6.2.1",
     "openai": "^6.29.0",
     "postgres": "^3.4.8",
     "workers-og": "^0.0.27",

@@ -10,6 +10,9 @@ import { corsMiddleware } from "./middleware/cors.ts";
 import { loggerMiddleware } from "./middleware/logger.ts";
 import { rateLimiter } from "./middleware/rate-limit.ts";
 import { scannerBlock } from "./middleware/security.ts";
+import { authMiddleware } from "./middleware/auth.ts";
+import { authRoute } from "./routes/auth.ts";
+import { meRoute } from "./routes/me.ts";
 import { audioRoute } from "./routes/audio.ts";
 import { citeRoute } from "./routes/cite.ts";
 import { embeddingsRoute } from "./routes/embeddings.ts";
@@ -56,6 +59,7 @@ app.use("*", scannerBlock);
 app.use("*", corsMiddleware);
 app.use("*", loggerMiddleware);
 app.use("*", rateLimiter({ windowMs: 60_000, max: 200 }));
+app.use("*", authMiddleware);
 app.use("*", cacheControl());
 
 // Health check
@@ -124,7 +128,11 @@ app.get("/.well-known/*", (c) =>
 // MCP server (mounted before OpenAPI doc generation so it doesn't pollute the REST spec)
 app.route("/mcp", mcpRoute);
 
-// Routes
+// Authenticated routes
+app.route("/me", meRoute);
+app.route("/auth", authRoute);
+
+// Public routes
 app.route("/toc", tocRoute);
 app.route("/papers", papersRoute);
 app.route("/paragraphs", paragraphsRoute);

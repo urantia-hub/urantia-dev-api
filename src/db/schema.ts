@@ -1,4 +1,14 @@
-import { customType, index, integer, pgTable, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
+import {
+	customType,
+	index,
+	integer,
+	jsonb as pgJsonb,
+	pgTable,
+	text,
+	timestamp,
+	uniqueIndex,
+	uuid,
+} from "drizzle-orm/pg-core";
 
 const tsvector = customType<{ data: string }>({
 	dataType() {
@@ -173,3 +183,141 @@ export const paragraphEntities = pgTable(
 		index("pe_entity_id_idx").on(t.entityId),
 	],
 );
+
+// ============================================================
+// Auth layer tables (unified auth for the Urantia ecosystem)
+// ============================================================
+
+// --- users (synced lazily from Supabase Auth) ---
+export const users = pgTable("users", {
+	id: uuid("id").primaryKey(), // matches Supabase Auth user ID
+	email: text("email").unique(),
+	name: text("name"),
+	avatarUrl: text("avatar_url"),
+	createdAt: timestamp("created_at").notNull().defaultNow(),
+	updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+// --- bookmarks (paragraph-level, one per user-paragraph pair) ---
+export const bookmarks = pgTable(
+	"bookmarks",
+	{
+		id: uuid("id").primaryKey().defaultRandom(),
+		userId: uuid("user_id")
+			.notNull()
+			.references(() => users.id, { onDelete: "cascade" }),
+		paragraphId: text("paragraph_id").notNull(), // globalId e.g. "0:1.1"
+		paperId: text("paper_id").notNull(), // denormalized
+		paperSectionId: text("paper_section_id").notNull(), // denormalized
+		paperSectionParagraphId: text("paper_section_paragraph_id").notNull(), // denormalized
+		category: text("category"), // user-defined free text
+		createdAt: timestamp("created_at").notNull().defaultNow(),
+		updatedAt: timestamp("updated_at").notNull().defaultNow(),
+	},
+	(t) => [
+		uniqueIndex("bookmarks_user_paragraph_idx").on(t.userId, t.paragraphId),
+		index("bookmarks_user_id_idx").on(t.userId),
+		index("bookmarks_user_paper_idx").on(t.userId, t.paperId),
+	],
+);
+
+// --- notes (paragraph-level, multiple per paragraph allowed) ---
+export const notes = pgTable(
+	"notes",
+	{
+		id: uuid("id").primaryKey().defaultRandom(),
+		userId: uuid("user_id")
+			.notNull()
+			.references(() => users.id, { onDelete: "cascade" }),
+		paragraphId: text("paragraph_id").notNull(),
+		paperId: text("paper_id").notNull(),
+		paperSectionId: text("paper_section_id").notNull(),
+		paperSectionParagraphId: text("paper_section_paragraph_id").notNull(),
+		text: text("text").notNull(),
+		format: text("format").notNull().default("plain"), // 'plain' or 'markdown'
+		createdAt: timestamp("created_at").notNull().defaultNow(),
+		updatedAt: timestamp("updated_at").notNull().defaultNow(),
+	},
+	(t) => [
+		index("notes_user_id_idx").on(t.userId),
+		index("notes_user_paper_idx").on(t.userId, t.paperId),
+		index("notes_user_paragraph_idx").on(t.userId, t.paragraphId),
+	],
+);
+
+// --- reading_progress (paragraph-level, one per user-paragraph pair) ---
+export const readingProgress = pgTable(
+	"reading_progress",
+	{
+		id: uuid("id").primaryKey().defaultRandom(),
+		userId: uuid("user_id")
+			.notNull()
+			.references(() => users.id, { onDelete: "cascade" }),
+		paragraphId: text("paragraph_id").notNull(),
+		paperId: text("paper_id").notNull(),
+		paperSectionId: text("paper_section_id").notNull(),
+		paperSectionParagraphId: text("paper_section_paragraph_id").notNull(),
+		readAt: timestamp("read_at").notNull().defaultNow(),
+	},
+	(t) => [
+		uniqueIndex("reading_progress_user_paragraph_idx").on(t.userId, t.paragraphId),
+		index("reading_progress_user_id_idx").on(t.userId),
+		index("reading_progress_user_paper_idx").on(t.userId, t.paperId),
+	],
+);
+
+// --- user_preferences (flexible JSONB per user) ---
+export const userPreferences = pgTable("user_preferences", {
+	userId: uuid("user_id")
+		.primaryKey()
+		.references(() => users.id, { onDelete: "cascade" }),
+	preferences: pgJsonb("preferences").default({}).notNull(),
+	updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
+// --- apps (OAuth client registry) ---
+export const apps = pgTable("apps", {
+	id: text("id").primaryKey(), // human-readable slug e.g. "urantiahub"
+	name: text("name").notNull(),
+	secretHash: text("secret_hash").notNull(),
+	redirectUris: text("redirect_uris").array().notNull(),
+	scopes: text("scopes").array().notNull(),
+	createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+// --- app_user_data (sandboxed key-value per app per user) ---
+export const appUserData = pgTable(
+	"app_user_data",
+	{
+		id: uuid("id").primaryKey().defaultRandom(),
+		appId: text("app_id")
+			.notNull()
+			.references(() => apps.id, { onDelete: "cascade" }),
+		userId: uuid("user_id")
+			.notNull()
+			.references(() => users.id, { onDelete: "cascade" }),
+		key: text("key").notNull(),
+		value: pgJsonb("value").notNull(),
+		createdAt: timestamp("created_at").notNull().defaultNow(),
+		updatedAt: timestamp("updated_at").notNull().defaultNow(),
+	},
+	(t) => [
+		uniqueIndex("app_user_data_app_user_key_idx").on(t.appId, t.userId, t.key),
+		index("app_user_data_app_user_idx").on(t.appId, t.userId),
+	],
+);
+
+// --- auth_codes (short-lived OAuth authorization codes) ---
+export const authCodes = pgTable("auth_codes", {
+	code: text("code").primaryKey(),
+	appId: text("app_id")
+		.notNull()
+		.references(() => apps.id, { onDelete: "cascade" }),
+	userId: uuid("user_id")
+		.notNull()
+		.references(() => users.id, { onDelete: "cascade" }),
+	scopes: text("scopes").array().notNull(),
+	codeChallenge: text("code_challenge"), // PKCE
+	redirectUri: text("redirect_uri").notNull(),
+	expiresAt: timestamp("expires_at").notNull(),
+});
