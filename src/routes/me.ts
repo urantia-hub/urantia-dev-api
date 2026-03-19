@@ -5,7 +5,7 @@ import { getDb } from "../db/client.ts";
 import { bookmarks, notes, readingProgress, userPreferences, users } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
 import { problemJson } from "../lib/errors.ts";
-import { resolveParagraphRef } from "../lib/paragraph-lookup.ts";
+import { lookupParagraphs, resolveParagraphRef } from "../lib/paragraph-lookup.ts";
 import type { AuthUser } from "../middleware/auth.ts";
 import { ErrorResponse } from "../validators/schemas.ts";
 import {
@@ -107,7 +107,7 @@ const listBookmarksRoute = createRoute({
 	path: "/bookmarks",
 	tags: ["Bookmarks"],
 	summary: "List bookmarks",
-	request: { query: PaginationQuery.extend({ paper_id: z.string().optional(), category: z.string().optional() }) },
+	request: { query: PaginationQuery.extend({ paperId: z.string().optional(), category: z.string().optional() }) },
 	responses: {
 		200: {
 			description: "Bookmark list",
@@ -119,11 +119,11 @@ const listBookmarksRoute = createRoute({
 
 meRoute.openapi(listBookmarksRoute, async (c) => {
 	const user = getUser(c);
-	const { page = 0, limit = 20, paper_id, category } = c.req.valid("query");
+	const { page = 0, limit = 20, paperId, category } = c.req.valid("query");
 	const { db } = getDb(c.env?.HYPERDRIVE);
 
 	const conditions = [eq(bookmarks.userId, user.id)];
-	if (paper_id) conditions.push(eq(bookmarks.paperId, paper_id));
+	if (paperId) conditions.push(eq(bookmarks.paperId, paperId));
 	if (category) conditions.push(eq(bookmarks.category, category));
 	const where = and(...conditions);
 
@@ -132,10 +132,23 @@ meRoute.openapi(listBookmarksRoute, async (c) => {
 		db.select({ value: count() }).from(bookmarks).where(where),
 	]);
 
-	return c.json({
-		data: rows.map((r) => ({ ...r, createdAt: r.createdAt.toISOString(), updatedAt: r.updatedAt.toISOString() })),
-		pagination: { page, limit, total },
-	}, 200);
+	// Enrich with paragraph data
+	const globalIds = rows.map((r) => r.paragraphId);
+	const paragraphMap = await lookupParagraphs(db, globalIds);
+
+	const data = rows.map((r) => ({
+		id: r.id,
+		category: r.category,
+		createdAt: r.createdAt.toISOString(),
+		updatedAt: r.updatedAt.toISOString(),
+		paragraph: paragraphMap.get(r.paragraphId) ?? {
+			paragraphId: r.paragraphId, standardReferenceId: "", paperId: r.paperId,
+			paperSectionId: r.paperSectionId, paperSectionParagraphId: r.paperSectionParagraphId,
+			paperTitle: "", sectionTitle: null, text: "",
+		},
+	}));
+
+	return c.json({ data, pagination: { page, limit, total } }, 200);
 });
 
 const listBookmarkCategoriesRoute = createRoute({
@@ -164,11 +177,11 @@ const createBookmarkRoute = createRoute({
 	path: "/bookmarks",
 	tags: ["Bookmarks"],
 	summary: "Create a bookmark",
-	description: "Pass any paragraph reference format: globalId (1:2.0.1), standardReferenceId (2:0.1), or paperSectionParagraphId (2.0.1). The API resolves it automatically.",
+	description: "Pass any paragraph reference format. The API resolves it and returns the enriched paragraph data.",
 	request: { body: { content: { "application/json": { schema: BookmarkCreate } } } },
 	responses: {
 		201: { description: "Bookmark created", content: { "application/json": { schema: z.object({ data: BookmarkResponse }) } } },
-		400: { description: "Invalid reference or duplicate", content: { "application/json": { schema: ErrorResponse } } },
+		400: { description: "Duplicate bookmark", content: { "application/json": { schema: ErrorResponse } } },
 		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
 		404: { description: "Paragraph not found", content: { "application/json": { schema: ErrorResponse } } },
 	},
@@ -180,27 +193,36 @@ meRoute.openapi(createBookmarkRoute, async (c) => {
 	const { db } = getDb(c.env?.HYPERDRIVE);
 
 	const resolved = await resolveParagraphRef(db, ref);
-	if (!resolved) {
-		return problemJson(c, 404, `Paragraph "${ref}" not found.`);
-	}
+	if (!resolved) return problemJson(c, 404, `Paragraph "${ref}" not found.`);
 
-	// Check for duplicate
 	const existing = await db
 		.select()
 		.from(bookmarks)
 		.where(and(eq(bookmarks.userId, user.id), eq(bookmarks.paragraphId, resolved.paragraphId)))
 		.limit(1);
-
-	if (existing.length > 0) {
-		return problemJson(c, 400, "Bookmark already exists for this paragraph.");
-	}
+	if (existing.length > 0) return problemJson(c, 400, "Bookmark already exists for this paragraph.");
 
 	const [created] = await db
 		.insert(bookmarks)
-		.values({ userId: user.id, ...resolved, category: category ?? null })
+		.values({
+			userId: user.id,
+			paragraphId: resolved.paragraphId,
+			paperId: resolved.paperId,
+			paperSectionId: resolved.paperSectionId,
+			paperSectionParagraphId: resolved.paperSectionParagraphId,
+			category: category ?? null,
+		})
 		.returning();
 
-	return c.json({ data: { ...created, createdAt: created.createdAt.toISOString(), updatedAt: created.updatedAt.toISOString() } }, 201);
+	return c.json({
+		data: {
+			id: created.id,
+			category: created.category,
+			createdAt: created.createdAt.toISOString(),
+			updatedAt: created.updatedAt.toISOString(),
+			paragraph: resolved,
+		},
+	}, 201);
 });
 
 const deleteBookmarkRoute = createRoute({
@@ -236,7 +258,7 @@ const listNotesRoute = createRoute({
 	path: "/notes",
 	tags: ["Notes"],
 	summary: "List notes",
-	request: { query: PaginationQuery.extend({ paper_id: z.string().optional(), paragraph_id: z.string().optional() }) },
+	request: { query: PaginationQuery.extend({ paperId: z.string().optional(), paragraphId: z.string().optional() }) },
 	responses: {
 		200: {
 			description: "Note list",
@@ -248,12 +270,12 @@ const listNotesRoute = createRoute({
 
 meRoute.openapi(listNotesRoute, async (c) => {
 	const user = getUser(c);
-	const { page = 0, limit = 20, paper_id, paragraph_id } = c.req.valid("query");
+	const { page = 0, limit = 20, paperId, paragraphId } = c.req.valid("query");
 	const { db } = getDb(c.env?.HYPERDRIVE);
 
 	const conditions = [eq(notes.userId, user.id)];
-	if (paper_id) conditions.push(eq(notes.paperId, paper_id));
-	if (paragraph_id) conditions.push(eq(notes.paragraphId, paragraph_id));
+	if (paperId) conditions.push(eq(notes.paperId, paperId));
+	if (paragraphId) conditions.push(eq(notes.paragraphId, paragraphId));
 	const where = and(...conditions);
 
 	const [rows, [{ value: total }]] = await Promise.all([
@@ -261,10 +283,23 @@ meRoute.openapi(listNotesRoute, async (c) => {
 		db.select({ value: count() }).from(notes).where(where),
 	]);
 
-	return c.json({
-		data: rows.map((r) => ({ ...r, createdAt: r.createdAt.toISOString(), updatedAt: r.updatedAt.toISOString() })),
-		pagination: { page, limit, total },
-	}, 200);
+	const globalIds = rows.map((r) => r.paragraphId);
+	const paragraphMap = await lookupParagraphs(db, globalIds);
+
+	const data = rows.map((r) => ({
+		id: r.id,
+		text: r.text,
+		format: r.format,
+		createdAt: r.createdAt.toISOString(),
+		updatedAt: r.updatedAt.toISOString(),
+		paragraph: paragraphMap.get(r.paragraphId) ?? {
+			paragraphId: r.paragraphId, standardReferenceId: "", paperId: r.paperId,
+			paperSectionId: r.paperSectionId, paperSectionParagraphId: r.paperSectionParagraphId,
+			paperTitle: "", sectionTitle: null, text: "",
+		},
+	}));
+
+	return c.json({ data, pagination: { page, limit, total } }, 200);
 });
 
 const createNoteRoute = createRoute({
@@ -292,10 +327,27 @@ meRoute.openapi(createNoteRoute, async (c) => {
 
 	const [created] = await db
 		.insert(notes)
-		.values({ userId: user.id, ...resolved, text, format: format ?? "plain" })
+		.values({
+			userId: user.id,
+			paragraphId: resolved.paragraphId,
+			paperId: resolved.paperId,
+			paperSectionId: resolved.paperSectionId,
+			paperSectionParagraphId: resolved.paperSectionParagraphId,
+			text,
+			format: format ?? "plain",
+		})
 		.returning();
 
-	return c.json({ data: { ...created, createdAt: created.createdAt.toISOString(), updatedAt: created.updatedAt.toISOString() } }, 201);
+	return c.json({
+		data: {
+			id: created.id,
+			text: created.text,
+			format: created.format,
+			createdAt: created.createdAt.toISOString(),
+			updatedAt: created.updatedAt.toISOString(),
+			paragraph: resolved,
+		},
+	}, 201);
 });
 
 const updateNoteRoute = createRoute({
@@ -324,7 +376,22 @@ meRoute.openapi(updateNoteRoute, async (c) => {
 
 	const [updated] = await db.update(notes).set(updates).where(and(eq(notes.id, id), eq(notes.userId, user.id))).returning();
 	if (!updated) return problemJson(c, 404, "Note not found.");
-	return c.json({ data: { ...updated, createdAt: updated.createdAt.toISOString(), updatedAt: updated.updatedAt.toISOString() } }, 200);
+
+	const paragraphMap = await lookupParagraphs(db, [updated.paragraphId]);
+	return c.json({
+		data: {
+			id: updated.id,
+			text: updated.text,
+			format: updated.format,
+			createdAt: updated.createdAt.toISOString(),
+			updatedAt: updated.updatedAt.toISOString(),
+			paragraph: paragraphMap.get(updated.paragraphId) ?? {
+				paragraphId: updated.paragraphId, standardReferenceId: "", paperId: updated.paperId,
+				paperSectionId: updated.paperSectionId, paperSectionParagraphId: updated.paperSectionParagraphId,
+				paperTitle: "", sectionTitle: null, text: "",
+			},
+		},
+	}, 200);
 });
 
 const deleteNoteRoute = createRoute({
@@ -397,15 +464,18 @@ meRoute.openapi(markReadRoute, async (c) => {
 	const { refs } = c.req.valid("json");
 	const { db } = getDb(c.env?.HYPERDRIVE);
 
-	// Resolve all refs in parallel
 	const resolved = await Promise.all(refs.map((ref) => resolveParagraphRef(db, ref)));
 	const valid = resolved.filter((r): r is NonNullable<typeof r> => r !== null);
+	if (valid.length === 0) return c.json({ marked: 0 }, 200);
 
-	if (valid.length === 0) {
-		return c.json({ marked: 0 }, 200);
-	}
+	const values = valid.map((item) => ({
+		userId: user.id,
+		paragraphId: item.paragraphId,
+		paperId: item.paperId,
+		paperSectionId: item.paperSectionId,
+		paperSectionParagraphId: item.paperSectionParagraphId,
+	}));
 
-	const values = valid.map((item) => ({ userId: user.id, ...item }));
 	const result = await db
 		.insert(readingProgress)
 		.values(values)

@@ -7,6 +7,17 @@ export const PaginationQuery = z.object({
 	limit: z.coerce.number().int().min(1).max(100).default(20).optional(),
 });
 
+export const ParagraphSummarySchema = z.object({
+	paragraphId: z.string(),
+	standardReferenceId: z.string(),
+	paperId: z.string(),
+	paperSectionId: z.string(),
+	paperSectionParagraphId: z.string(),
+	paperTitle: z.string(),
+	sectionTitle: z.string().nullable(),
+	text: z.string(),
+});
+
 // --- User Profile ---
 
 export const UserProfile = z.object({
@@ -30,13 +41,10 @@ export const BookmarkCreate = z.object({
 
 export const BookmarkResponse = z.object({
 	id: z.string().uuid(),
-	paragraphId: z.string(),
-	paperId: z.string(),
-	paperSectionId: z.string(),
-	paperSectionParagraphId: z.string(),
 	category: z.string().nullable(),
 	createdAt: z.string(),
 	updatedAt: z.string(),
+	paragraph: ParagraphSummarySchema,
 });
 
 // --- Notes ---
@@ -54,14 +62,11 @@ export const NoteUpdate = z.object({
 
 export const NoteResponse = z.object({
 	id: z.string().uuid(),
-	paragraphId: z.string(),
-	paperId: z.string(),
-	paperSectionId: z.string(),
-	paperSectionParagraphId: z.string(),
 	text: z.string(),
 	format: z.string(),
 	createdAt: z.string(),
 	updatedAt: z.string(),
+	paragraph: ParagraphSummarySchema,
 });
 
 // --- Reading Progress ---
