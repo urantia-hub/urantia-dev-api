@@ -198,7 +198,7 @@ export const users = pgTable("users", {
 	updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
-// --- bookmarks (paragraph-level, one per user-paragraph pair) ---
+// --- bookmarks (paragraph-level, unique per user + paragraph + category) ---
 export const bookmarks = pgTable(
 	"bookmarks",
 	{
@@ -206,16 +206,16 @@ export const bookmarks = pgTable(
 		userId: uuid("user_id")
 			.notNull()
 			.references(() => users.id, { onDelete: "cascade" }),
-		paragraphId: text("paragraph_id").notNull(), // globalId e.g. "0:1.1"
+		paragraphId: text("paragraph_id").notNull(), // globalId e.g. "1:2.0.1"
 		paperId: text("paper_id").notNull(), // denormalized
 		paperSectionId: text("paper_section_id").notNull(), // denormalized
 		paperSectionParagraphId: text("paper_section_paragraph_id").notNull(), // denormalized
-		category: text("category"), // user-defined free text
+		category: text("category").notNull().default(""), // user-defined, empty string = uncategorized
 		createdAt: timestamp("created_at").notNull().defaultNow(),
 		updatedAt: timestamp("updated_at").notNull().defaultNow(),
 	},
 	(t) => [
-		uniqueIndex("bookmarks_user_paragraph_idx").on(t.userId, t.paragraphId),
+		uniqueIndex("bookmarks_user_paragraph_category_idx").on(t.userId, t.paragraphId, t.category),
 		index("bookmarks_user_id_idx").on(t.userId),
 		index("bookmarks_user_paper_idx").on(t.userId, t.paperId),
 	],

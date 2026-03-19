@@ -23,17 +23,21 @@ export type ParagraphEntity = {
 
 /**
  * Resolve a paragraph reference (any format) to its full entity + denormalized IDs for storage.
+ *
+ * Note on IDs:
+ * - paragraphs.id = paragraphs.globalId = the globalId (e.g. "1:2.0.1")
+ * - paragraphs.paragraphId = the paragraph number within a section (e.g. "1")
+ * - paragraphs.paperSectionParagraphId = dot-separated (e.g. "2.0.1")
+ * - paragraphs.standardReferenceId = colon-separated (e.g. "2:0.1")
  */
 export async function resolveParagraphRef(
 	db: ReturnType<typeof getDb>["db"],
 	ref: string,
 ): Promise<{
-	// IDs for storage in user data tables
 	globalId: string;
 	paperId: string;
 	paperSectionId: string;
 	paperSectionParagraphId: string;
-	// Full paragraph entity for response enrichment
 	paragraph: ParagraphEntity;
 } | null> {
 	const format = detectRefFormat(ref);
@@ -54,19 +58,22 @@ export async function resolveParagraphRef(
 
 	if (!row) return null;
 
+	// paragraphs.id IS the globalId (set in seed.ts: id: p.globalId)
+	const globalId = row.id;
 	const paperSectionId = row.standardReferenceId.replace(/\.\d+$/, "");
 
 	return {
-		globalId: row.id, // paragraphs.id IS the globalId
+		globalId,
 		paperId: row.paperId,
 		paperSectionId,
 		paperSectionParagraphId: `${row.paperId}.${row.sectionId ?? "0"}.${row.paragraphId}`,
-		paragraph: row as ParagraphEntity,
+		paragraph: row as unknown as ParagraphEntity,
 	};
 }
 
 /**
  * Look up full paragraph entities for a batch of globalIds.
+ * The globalId is stored as paragraphs.id (the PK).
  */
 export async function lookupParagraphs(
 	db: ReturnType<typeof getDb>["db"],
@@ -74,6 +81,7 @@ export async function lookupParagraphs(
 ): Promise<Map<string, ParagraphEntity>> {
 	if (globalIds.length === 0) return new Map();
 
+	// paragraphs.id IS the globalId
 	const rows = await db
 		.select(paragraphFields)
 		.from(paragraphs)
@@ -81,7 +89,7 @@ export async function lookupParagraphs(
 
 	const map = new Map<string, ParagraphEntity>();
 	for (const row of rows) {
-		map.set(row.id, row as ParagraphEntity);
+		map.set(row.id, row as unknown as ParagraphEntity);
 	}
 	return map;
 }

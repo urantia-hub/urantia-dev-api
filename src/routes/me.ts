@@ -178,8 +178,8 @@ const createBookmarkRoute = createRoute({
 	description: "Pass any paragraph reference format. The API resolves it and returns the enriched paragraph data.",
 	request: { body: { content: { "application/json": { schema: BookmarkCreate } } } },
 	responses: {
+		200: { description: "Bookmark already exists (idempotent)", content: { "application/json": { schema: z.object({ data: BookmarkResponse }) } } },
 		201: { description: "Bookmark created", content: { "application/json": { schema: z.object({ data: BookmarkResponse }) } } },
-		400: { description: "Duplicate bookmark", content: { "application/json": { schema: ErrorResponse } } },
 		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
 		404: { description: "Paragraph not found", content: { "application/json": { schema: ErrorResponse } } },
 	},
@@ -193,12 +193,30 @@ meRoute.openapi(createBookmarkRoute, async (c) => {
 	const resolved = await resolveParagraphRef(db, ref);
 	if (!resolved) return problemJson(c, 404, `Paragraph "${ref}" not found.`);
 
-	const existing = await db
+	const categoryValue = category ?? "";
+
+	// Idempotent: if bookmark already exists for this user+paragraph+category, return it
+	const [existing] = await db
 		.select()
 		.from(bookmarks)
-		.where(and(eq(bookmarks.userId, user.id), eq(bookmarks.paragraphId, resolved.globalId)))
+		.where(and(
+			eq(bookmarks.userId, user.id),
+			eq(bookmarks.paragraphId, resolved.globalId),
+			eq(bookmarks.category, categoryValue),
+		))
 		.limit(1);
-	if (existing.length > 0) return problemJson(c, 400, "Bookmark already exists for this paragraph.");
+
+	if (existing) {
+		return c.json({
+			data: {
+				id: existing.id,
+				category: existing.category,
+				createdAt: existing.createdAt.toISOString(),
+				updatedAt: existing.updatedAt.toISOString(),
+				paragraph: resolved.paragraph,
+			},
+		}, 200);
+	}
 
 	const [created] = await db
 		.insert(bookmarks)
@@ -208,7 +226,7 @@ meRoute.openapi(createBookmarkRoute, async (c) => {
 			paperId: resolved.paperId,
 			paperSectionId: resolved.paperSectionId,
 			paperSectionParagraphId: resolved.paperSectionParagraphId,
-			category: category ?? null,
+			category: categoryValue,
 		})
 		.returning();
 
