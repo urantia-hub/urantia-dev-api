@@ -1,6 +1,6 @@
+import { eq } from "drizzle-orm";
 import type { MiddlewareHandler } from "hono";
 import { createRemoteJWKSet, jwtVerify } from "jose";
-import { eq } from "drizzle-orm";
 import { getDb } from "../db/client.ts";
 import { users } from "../db/schema.ts";
 import { problemJson } from "../lib/errors.ts";
@@ -22,6 +22,8 @@ declare module "hono" {
 const AUTH_REQUIRED_PREFIXES = ["/me", "/auth"];
 // Auth infra routes that don't require a user token
 const AUTH_PUBLIC_PATHS = new Set(["/.well-known/openid-configuration", "/.well-known/jwks.json"]);
+// Auth routes that are public (no JWT required) — matched by prefix
+const AUTH_PUBLIC_PREFIXES = ["/auth/apps/", "/auth/token"];
 
 // Cache the JWKS keyset per Supabase URL to avoid re-fetching on every request
 const jwksCache = new Map<string, ReturnType<typeof createRemoteJWKSet>>();
@@ -47,8 +49,12 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 		return next();
 	}
 
+	// Check if this is a public auth endpoint (no JWT needed)
+	const isPublicAuthPath = AUTH_PUBLIC_PREFIXES.some((prefix) => path.startsWith(prefix));
+
 	// Check if this route requires auth
-	const requiresAuth = AUTH_REQUIRED_PREFIXES.some((prefix) => path.startsWith(prefix));
+	const requiresAuth =
+		!isPublicAuthPath && AUTH_REQUIRED_PREFIXES.some((prefix) => path.startsWith(prefix));
 
 	// Extract token from Authorization header
 	const authHeader = c.req.header("authorization");
