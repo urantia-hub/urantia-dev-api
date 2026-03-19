@@ -198,7 +198,7 @@ export const users = pgTable("users", {
 	updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
-// --- bookmarks (paragraph-level, one per user + paragraph) ---
+// --- bookmarks (paragraph-level, one per user + paragraph + app) ---
 export const bookmarks = pgTable(
 	"bookmarks",
 	{
@@ -206,16 +206,18 @@ export const bookmarks = pgTable(
 		userId: uuid("user_id")
 			.notNull()
 			.references(() => users.id, { onDelete: "cascade" }),
+		appId: text("app_id").notNull().default("default"), // which app created this
 		paragraphId: text("paragraph_id").notNull(), // globalId e.g. "1:2.0.1"
 		paperId: text("paper_id").notNull(), // denormalized
 		paperSectionId: text("paper_section_id").notNull(), // denormalized
 		paperSectionParagraphId: text("paper_section_paragraph_id").notNull(), // denormalized
 		category: text("category"), // user-defined label, nullable
+		visibility: text("visibility").notNull().default("private"), // private | public | group (future)
 		createdAt: timestamp("created_at").notNull().defaultNow(),
 		updatedAt: timestamp("updated_at").notNull().defaultNow(),
 	},
 	(t) => [
-		uniqueIndex("bookmarks_user_paragraph_idx").on(t.userId, t.paragraphId),
+		uniqueIndex("bookmarks_user_paragraph_app_idx").on(t.userId, t.paragraphId, t.appId),
 		index("bookmarks_user_id_idx").on(t.userId),
 		index("bookmarks_user_paper_idx").on(t.userId, t.paperId),
 	],
@@ -229,12 +231,14 @@ export const notes = pgTable(
 		userId: uuid("user_id")
 			.notNull()
 			.references(() => users.id, { onDelete: "cascade" }),
+		appId: text("app_id").notNull().default("default"),
 		paragraphId: text("paragraph_id").notNull(),
 		paperId: text("paper_id").notNull(),
 		paperSectionId: text("paper_section_id").notNull(),
 		paperSectionParagraphId: text("paper_section_paragraph_id").notNull(),
 		text: text("text").notNull(),
 		format: text("format").notNull().default("plain"), // 'plain' or 'markdown'
+		visibility: text("visibility").notNull().default("private"),
 		createdAt: timestamp("created_at").notNull().defaultNow(),
 		updatedAt: timestamp("updated_at").notNull().defaultNow(),
 	},
@@ -245,7 +249,7 @@ export const notes = pgTable(
 	],
 );
 
-// --- reading_progress (paragraph-level, one per user-paragraph pair) ---
+// --- reading_progress (paragraph-level, one per user + paragraph + app) ---
 export const readingProgress = pgTable(
 	"reading_progress",
 	{
@@ -253,6 +257,7 @@ export const readingProgress = pgTable(
 		userId: uuid("user_id")
 			.notNull()
 			.references(() => users.id, { onDelete: "cascade" }),
+		appId: text("app_id").notNull().default("default"),
 		paragraphId: text("paragraph_id").notNull(),
 		paperId: text("paper_id").notNull(),
 		paperSectionId: text("paper_section_id").notNull(),
@@ -260,7 +265,7 @@ export const readingProgress = pgTable(
 		readAt: timestamp("read_at").notNull().defaultNow(),
 	},
 	(t) => [
-		uniqueIndex("reading_progress_user_paragraph_idx").on(t.userId, t.paragraphId),
+		uniqueIndex("reading_progress_user_paragraph_app_idx").on(t.userId, t.paragraphId, t.appId),
 		index("reading_progress_user_id_idx").on(t.userId),
 		index("reading_progress_user_paper_idx").on(t.userId, t.paperId),
 	],

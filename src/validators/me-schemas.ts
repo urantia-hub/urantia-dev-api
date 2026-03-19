@@ -65,9 +65,13 @@ export const ReadingProgressBatch = z.object({
 	refs: z.array(z.string()).min(1).max(500).describe("Paragraph references in any format"),
 });
 
-export const ReadingProgressSummary = z.object({
+export const ReadingProgressSummaryResponse = z.object({
 	paperId: z.string(),
+	paperTitle: z.string(),
 	readCount: z.number().int(),
+	totalParagraphs: z.number().int(),
+	percentage: z.number(),
+	readRefs: z.array(z.string()),
 });
 
 // --- Preferences ---

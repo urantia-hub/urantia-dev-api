@@ -1,13 +1,13 @@
 import { createRoute } from "@hono/zod-openapi";
-import { and, count, eq } from "drizzle-orm";
+import { and, count, eq, sql } from "drizzle-orm";
 import { z } from "zod";
 import { getDb } from "../db/client.ts";
-import { bookmarks, notes, readingProgress, userPreferences, users } from "../db/schema.ts";
+import { bookmarks, notes, paragraphs, readingProgress, userPreferences, users } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
 import { problemJson } from "../lib/errors.ts";
 import { lookupParagraphs, resolveParagraphRef } from "../lib/paragraph-lookup.ts";
 import type { AuthUser } from "../middleware/auth.ts";
-import { ErrorResponse } from "../validators/schemas.ts";
+import { ErrorResponse, ParagraphSchema } from "../validators/schemas.ts";
 import {
 	BookmarkCreate,
 	BookmarkResponse,
@@ -17,7 +17,7 @@ import {
 	PaginationQuery,
 	PreferencesUpdate,
 	ReadingProgressBatch,
-	ReadingProgressSummary,
+	ReadingProgressSummaryResponse,
 	UserProfile,
 	UserUpdate,
 } from "../validators/me-schemas.ts";
@@ -31,7 +31,7 @@ function getUser(c: { get: (key: "user") => AuthUser | null }): AuthUser {
 }
 
 // ============================================================
-// Profile
+// Profile (#2: GET /me reads from DB, not JWT context)
 // ============================================================
 
 const getProfileRoute = createRoute({
@@ -48,7 +48,10 @@ const getProfileRoute = createRoute({
 
 meRoute.openapi(getProfileRoute, async (c) => {
 	const user = getUser(c);
-	return c.json({ data: { id: user.id, email: user.email, name: user.name, avatarUrl: user.avatarUrl } }, 200);
+	const { db } = getDb(c.env?.HYPERDRIVE);
+	const [row] = await db.select().from(users).where(eq(users.id, user.id)).limit(1);
+	if (!row) return problemJson(c, 404, "User not found.");
+	return c.json({ data: { id: row.id, email: row.email, name: row.name, avatarUrl: row.avatarUrl } }, 200);
 });
 
 const updateProfileRoute = createRoute({
@@ -73,32 +76,12 @@ meRoute.openapi(updateProfileRoute, async (c) => {
 	if (body.name !== undefined) updates.name = body.name;
 	if (body.avatarUrl !== undefined) updates.avatarUrl = body.avatarUrl;
 
-	await db.update(users).set(updates).where(eq(users.id, user.id));
-	const [updated] = await db.select().from(users).where(eq(users.id, user.id)).limit(1);
+	const [updated] = await db.update(users).set(updates).where(eq(users.id, user.id)).returning();
 	return c.json({ data: { id: updated.id, email: updated.email, name: updated.name, avatarUrl: updated.avatarUrl } }, 200);
 });
 
-const deleteProfileRoute = createRoute({
-	operationId: "deleteProfile",
-	method: "delete",
-	path: "/",
-	tags: ["User"],
-	summary: "Delete account and all data",
-	responses: {
-		204: { description: "Account deleted" },
-		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
-	},
-});
-
-meRoute.openapi(deleteProfileRoute, async (c) => {
-	const user = getUser(c);
-	const { db } = getDb(c.env?.HYPERDRIVE);
-	await db.delete(users).where(eq(users.id, user.id));
-	return c.body(null, 204);
-});
-
 // ============================================================
-// Bookmarks
+// Bookmarks (#1: categories with totals, #5: null category, #11: sorted by sortId)
 // ============================================================
 
 const listBookmarksRoute = createRoute({
@@ -127,23 +110,30 @@ meRoute.openapi(listBookmarksRoute, async (c) => {
 	if (category) conditions.push(eq(bookmarks.category, category));
 	const where = and(...conditions);
 
+	// Join with paragraphs to sort by sortId
 	const [rows, [{ value: total }]] = await Promise.all([
-		db.select().from(bookmarks).where(where).orderBy(bookmarks.createdAt).limit(limit).offset(page * limit),
+		db
+			.select({ bookmark: bookmarks, sortId: paragraphs.sortId })
+			.from(bookmarks)
+			.leftJoin(paragraphs, eq(bookmarks.paragraphId, paragraphs.id))
+			.where(where)
+			.orderBy(paragraphs.sortId)
+			.limit(limit)
+			.offset(page * limit),
 		db.select({ value: count() }).from(bookmarks).where(where),
 	]);
 
-	// Enrich with full paragraph entities
-	const globalIds = rows.map((r) => r.paragraphId);
+	const globalIds = rows.map((r) => r.bookmark.paragraphId);
 	const paragraphMap = await lookupParagraphs(db, globalIds);
 
 	const data = rows
-		.filter((r) => paragraphMap.has(r.paragraphId))
+		.filter((r) => paragraphMap.has(r.bookmark.paragraphId))
 		.map((r) => ({
-			id: r.id,
-			category: r.category,
-			createdAt: r.createdAt.toISOString(),
-			updatedAt: r.updatedAt.toISOString(),
-			paragraph: paragraphMap.get(r.paragraphId)!,
+			id: r.bookmark.id,
+			category: r.bookmark.category,
+			createdAt: r.bookmark.createdAt.toISOString(),
+			updatedAt: r.bookmark.updatedAt.toISOString(),
+			paragraph: paragraphMap.get(r.bookmark.paragraphId)!,
 		}));
 
 	return c.json({ data, pagination: { page, limit, total } }, 200);
@@ -154,9 +144,22 @@ const listBookmarkCategoriesRoute = createRoute({
 	method: "get",
 	path: "/bookmarks/categories",
 	tags: ["Bookmarks"],
-	summary: "List bookmark categories",
+	summary: "List bookmark categories with counts and refs",
 	responses: {
-		200: { description: "Category list", content: { "application/json": { schema: z.object({ data: z.array(z.string()) }) } } },
+		200: {
+			description: "Category list with counts",
+			content: {
+				"application/json": {
+					schema: z.object({
+						data: z.array(z.object({
+							category: z.string().nullable(),
+							count: z.number(),
+							refs: z.array(z.string()),
+						})),
+					}),
+				},
+			},
+		},
 		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
 	},
 });
@@ -164,9 +167,34 @@ const listBookmarkCategoriesRoute = createRoute({
 meRoute.openapi(listBookmarkCategoriesRoute, async (c) => {
 	const user = getUser(c);
 	const { db } = getDb(c.env?.HYPERDRIVE);
-	const rows = await db.selectDistinct({ category: bookmarks.category }).from(bookmarks).where(eq(bookmarks.userId, user.id));
-	const categories = rows.map((r) => r.category).filter((c): c is string => c !== null).sort();
-	return c.json({ data: categories }, 200);
+
+	// Get categories with counts and refs, ordered by paragraph sortId within each category
+	const rows = await db
+		.select({
+			category: bookmarks.category,
+			paragraphId: bookmarks.paragraphId,
+			sortId: paragraphs.sortId,
+		})
+		.from(bookmarks)
+		.leftJoin(paragraphs, eq(bookmarks.paragraphId, paragraphs.id))
+		.where(eq(bookmarks.userId, user.id))
+		.orderBy(paragraphs.sortId);
+
+	// Group by category
+	const categoryMap = new Map<string | null, string[]>();
+	for (const row of rows) {
+		const key = row.category;
+		if (!categoryMap.has(key)) categoryMap.set(key, []);
+		categoryMap.get(key)!.push(row.paragraphId);
+	}
+
+	const data = Array.from(categoryMap.entries()).map(([category, refs]) => ({
+		category,
+		count: refs.length,
+		refs,
+	}));
+
+	return c.json({ data }, 200);
 });
 
 const createBookmarkRoute = createRoute({
@@ -174,11 +202,11 @@ const createBookmarkRoute = createRoute({
 	method: "post",
 	path: "/bookmarks",
 	tags: ["Bookmarks"],
-	summary: "Create a bookmark",
-	description: "Pass any paragraph reference format. The API resolves it and returns the enriched paragraph data.",
+	summary: "Create a bookmark (idempotent)",
+	description: "Pass any paragraph reference format. If already bookmarked, updates the category and returns 200.",
 	request: { body: { content: { "application/json": { schema: BookmarkCreate } } } },
 	responses: {
-		200: { description: "Bookmark already exists (idempotent)", content: { "application/json": { schema: z.object({ data: BookmarkResponse }) } } },
+		200: { description: "Bookmark already exists (updated category if provided)", content: { "application/json": { schema: z.object({ data: BookmarkResponse }) } } },
 		201: { description: "Bookmark created", content: { "application/json": { schema: z.object({ data: BookmarkResponse }) } } },
 		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
 		404: { description: "Paragraph not found", content: { "application/json": { schema: ErrorResponse } } },
@@ -193,7 +221,6 @@ meRoute.openapi(createBookmarkRoute, async (c) => {
 	const resolved = await resolveParagraphRef(db, ref);
 	if (!resolved) return problemJson(c, 404, `Paragraph "${ref}" not found.`);
 
-	// Idempotent: if bookmark exists, update category (if provided) and return it
 	const [existing] = await db
 		.select()
 		.from(bookmarks)
@@ -201,7 +228,6 @@ meRoute.openapi(createBookmarkRoute, async (c) => {
 		.limit(1);
 
 	if (existing) {
-		// Update category if a new one was provided
 		if (category !== undefined && category !== existing.category) {
 			await db.update(bookmarks).set({ category, updatedAt: new Date() }).where(eq(bookmarks.id, existing.id));
 			existing.category = category;
@@ -247,13 +273,11 @@ const deleteBookmarkRoute = createRoute({
 	path: "/bookmarks/{ref}",
 	tags: ["Bookmarks"],
 	summary: "Delete a bookmark by paragraph reference",
-	request: {
-		params: z.object({ ref: z.string().describe("Paragraph reference in any format") }),
-	},
+	request: { params: z.object({ ref: z.string() }) },
 	responses: {
-		204: { description: "Bookmark(s) deleted" },
+		204: { description: "Bookmark deleted" },
 		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
-		404: { description: "Bookmark not found", content: { "application/json": { schema: ErrorResponse } } },
+		404: { description: "Paragraph or bookmark not found", content: { "application/json": { schema: ErrorResponse } } },
 	},
 });
 
@@ -274,7 +298,7 @@ meRoute.openapi(deleteBookmarkRoute, async (c) => {
 });
 
 // ============================================================
-// Notes
+// Notes (#6: ref query param, #11: sorted by sortId)
 // ============================================================
 
 const listNotesRoute = createRoute({
@@ -283,7 +307,7 @@ const listNotesRoute = createRoute({
 	path: "/notes",
 	tags: ["Notes"],
 	summary: "List notes",
-	request: { query: PaginationQuery.extend({ paperId: z.string().optional(), paragraphId: z.string().optional() }) },
+	request: { query: PaginationQuery.extend({ paperId: z.string().optional(), ref: z.string().optional() }) },
 	responses: {
 		200: {
 			description: "Note list",
@@ -295,31 +319,41 @@ const listNotesRoute = createRoute({
 
 meRoute.openapi(listNotesRoute, async (c) => {
 	const user = getUser(c);
-	const { page = 0, limit = 20, paperId, paragraphId } = c.req.valid("query");
+	const { page = 0, limit = 20, paperId, ref } = c.req.valid("query");
 	const { db } = getDb(c.env?.HYPERDRIVE);
 
 	const conditions = [eq(notes.userId, user.id)];
 	if (paperId) conditions.push(eq(notes.paperId, paperId));
-	if (paragraphId) conditions.push(eq(notes.paragraphId, paragraphId));
+	if (ref) {
+		const resolved = await resolveParagraphRef(db, ref);
+		if (resolved) conditions.push(eq(notes.paragraphId, resolved.globalId));
+	}
 	const where = and(...conditions);
 
 	const [rows, [{ value: total }]] = await Promise.all([
-		db.select().from(notes).where(where).orderBy(notes.createdAt).limit(limit).offset(page * limit),
+		db
+			.select({ note: notes, sortId: paragraphs.sortId })
+			.from(notes)
+			.leftJoin(paragraphs, eq(notes.paragraphId, paragraphs.id))
+			.where(where)
+			.orderBy(paragraphs.sortId)
+			.limit(limit)
+			.offset(page * limit),
 		db.select({ value: count() }).from(notes).where(where),
 	]);
 
-	const globalIds = rows.map((r) => r.paragraphId);
+	const globalIds = rows.map((r) => r.note.paragraphId);
 	const paragraphMap = await lookupParagraphs(db, globalIds);
 
 	const data = rows
-		.filter((r) => paragraphMap.has(r.paragraphId))
+		.filter((r) => paragraphMap.has(r.note.paragraphId))
 		.map((r) => ({
-			id: r.id,
-			text: r.text,
-			format: r.format,
-			createdAt: r.createdAt.toISOString(),
-			updatedAt: r.updatedAt.toISOString(),
-			paragraph: paragraphMap.get(r.paragraphId)!,
+			id: r.note.id,
+			text: r.note.text,
+			format: r.note.format,
+			createdAt: r.note.createdAt.toISOString(),
+			updatedAt: r.note.updatedAt.toISOString(),
+			paragraph: paragraphMap.get(r.note.paragraphId)!,
 		}));
 
 	return c.json({ data, pagination: { page, limit, total } }, 200);
@@ -331,7 +365,7 @@ const createNoteRoute = createRoute({
 	path: "/notes",
 	tags: ["Notes"],
 	summary: "Create a note",
-	description: "Pass any paragraph reference format. Multiple notes per paragraph are allowed.",
+	description: "Pass any paragraph reference format. Multiple notes per paragraph are allowed. Format: 'plain' (default) or 'markdown'.",
 	request: { body: { content: { "application/json": { schema: NoteCreate } } } },
 	responses: {
 		201: { description: "Note created", content: { "application/json": { schema: z.object({ data: NoteResponse }) } } },
@@ -401,7 +435,6 @@ meRoute.openapi(updateNoteRoute, async (c) => {
 	if (!updated) return problemJson(c, 404, "Note not found.");
 
 	const paragraphMap = await lookupParagraphs(db, [updated.paragraphId]);
-	const paragraph = paragraphMap.get(updated.paragraphId);
 	return c.json({
 		data: {
 			id: updated.id,
@@ -409,18 +442,17 @@ meRoute.openapi(updateNoteRoute, async (c) => {
 			format: updated.format,
 			createdAt: updated.createdAt.toISOString(),
 			updatedAt: updated.updatedAt.toISOString(),
-			...(paragraph ? { paragraph } : {}),
+			...(paragraphMap.has(updated.paragraphId) ? { paragraph: paragraphMap.get(updated.paragraphId)! } : {}),
 		},
 	}, 200);
 });
 
-const deleteNoteByIdRoute = createRoute({
+const deleteNoteRoute = createRoute({
 	operationId: "deleteNoteById",
 	method: "delete",
 	path: "/notes/{id}",
 	tags: ["Notes"],
 	summary: "Delete a note by ID",
-	description: "Delete a specific note by its UUID. Use this when a user has multiple notes on the same paragraph.",
 	request: { params: z.object({ id: z.string().uuid() }) },
 	responses: {
 		204: { description: "Note deleted" },
@@ -429,7 +461,7 @@ const deleteNoteByIdRoute = createRoute({
 	},
 });
 
-meRoute.openapi(deleteNoteByIdRoute, async (c) => {
+meRoute.openapi(deleteNoteRoute, async (c) => {
 	const user = getUser(c);
 	const { id } = c.req.valid("param");
 	const { db } = getDb(c.env?.HYPERDRIVE);
@@ -439,7 +471,7 @@ meRoute.openapi(deleteNoteByIdRoute, async (c) => {
 });
 
 // ============================================================
-// Reading Progress
+// Reading Progress (#8: better response, #9: idempotent delete, #10: enriched GET)
 // ============================================================
 
 const getReadingProgressRoute = createRoute({
@@ -447,9 +479,12 @@ const getReadingProgressRoute = createRoute({
 	method: "get",
 	path: "/reading-progress",
 	tags: ["Reading Progress"],
-	summary: "Get reading progress summary per paper",
+	summary: "Get reading progress summary per paper with refs and completion",
 	responses: {
-		200: { description: "Reading progress per paper", content: { "application/json": { schema: z.object({ data: z.array(ReadingProgressSummary) }) } } },
+		200: {
+			description: "Reading progress per paper",
+			content: { "application/json": { schema: z.object({ data: z.array(ReadingProgressSummaryResponse) }) } },
+		},
 		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
 	},
 });
@@ -457,13 +492,62 @@ const getReadingProgressRoute = createRoute({
 meRoute.openapi(getReadingProgressRoute, async (c) => {
 	const user = getUser(c);
 	const { db } = getDb(c.env?.HYPERDRIVE);
-	const rows = await db
-		.select({ paperId: readingProgress.paperId, readCount: count() })
+
+	// Get all read paragraph IDs for this user, joined with paragraphs for sortId
+	const readRows = await db
+		.select({
+			paperId: readingProgress.paperId,
+			paragraphId: readingProgress.paragraphId,
+			sortId: paragraphs.sortId,
+		})
 		.from(readingProgress)
+		.leftJoin(paragraphs, eq(readingProgress.paragraphId, paragraphs.id))
 		.where(eq(readingProgress.userId, user.id))
-		.groupBy(readingProgress.paperId)
-		.orderBy(readingProgress.paperId);
-	return c.json({ data: rows }, 200);
+		.orderBy(paragraphs.sortId);
+
+	// Get total paragraph counts per paper (static content, could be cached)
+	const paperCounts = await db
+		.select({
+			paperId: paragraphs.paperId,
+			total: count(),
+		})
+		.from(paragraphs)
+		.groupBy(paragraphs.paperId);
+
+	const totalMap = new Map(paperCounts.map((r) => [r.paperId, r.total]));
+
+	// Get paper titles
+	const paperIds = [...new Set(readRows.map((r) => r.paperId))];
+	const paperTitles = new Map<string, string>();
+	if (paperIds.length > 0) {
+		const titleRows = await db
+			.select({ paperId: paragraphs.paperId, paperTitle: paragraphs.paperTitle })
+			.from(paragraphs)
+			.where(sql`${paragraphs.paperId} IN ${paperIds}`)
+			.groupBy(paragraphs.paperId, paragraphs.paperTitle);
+		for (const r of titleRows) paperTitles.set(r.paperId, r.paperTitle);
+	}
+
+	// Group read refs by paper
+	const paperProgress = new Map<string, string[]>();
+	for (const row of readRows) {
+		if (!paperProgress.has(row.paperId)) paperProgress.set(row.paperId, []);
+		paperProgress.get(row.paperId)!.push(row.paragraphId);
+	}
+
+	const data = Array.from(paperProgress.entries()).map(([paperId, readRefs]) => {
+		const totalParagraphs = totalMap.get(paperId) ?? 0;
+		return {
+			paperId,
+			paperTitle: paperTitles.get(paperId) ?? "",
+			readCount: readRefs.length,
+			totalParagraphs,
+			percentage: totalParagraphs > 0 ? Math.round((readRefs.length / totalParagraphs) * 10000) / 100 : 0,
+			readRefs,
+		};
+	});
+
+	return c.json({ data }, 200);
 });
 
 const markReadRoute = createRoute({
@@ -471,11 +555,20 @@ const markReadRoute = createRoute({
 	method: "post",
 	path: "/reading-progress",
 	tags: ["Reading Progress"],
-	summary: "Mark paragraphs as read (batch)",
-	description: "Pass an array of paragraph references in any format. Already-read paragraphs are silently skipped (idempotent).",
+	summary: "Mark paragraphs as read (batch, idempotent)",
+	description: "Pass an array of paragraph references in any format. Already-read paragraphs are silently skipped.",
 	request: { body: { content: { "application/json": { schema: ReadingProgressBatch } } } },
 	responses: {
-		200: { description: "Paragraphs marked as read", content: { "application/json": { schema: z.object({ marked: z.number() }) } } },
+		200: {
+			description: "Result",
+			content: {
+				"application/json": {
+					schema: z.object({
+						data: z.object({ marked: z.number(), alreadyRead: z.number(), total: z.number() }),
+					}),
+				},
+			},
+		},
 		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
 	},
 });
@@ -487,7 +580,7 @@ meRoute.openapi(markReadRoute, async (c) => {
 
 	const resolved = await Promise.all(refs.map((ref) => resolveParagraphRef(db, ref)));
 	const valid = resolved.filter((r): r is NonNullable<typeof r> => r !== null);
-	if (valid.length === 0) return c.json({ marked: 0 }, 200);
+	if (valid.length === 0) return c.json({ data: { marked: 0, alreadyRead: 0, total: refs.length } }, 200);
 
 	const values = valid.map((item) => ({
 		userId: user.id,
@@ -500,10 +593,16 @@ meRoute.openapi(markReadRoute, async (c) => {
 	const result = await db
 		.insert(readingProgress)
 		.values(values)
-		.onConflictDoNothing({ target: [readingProgress.userId, readingProgress.paragraphId] })
+		.onConflictDoNothing({ target: [readingProgress.userId, readingProgress.paragraphId, readingProgress.appId] })
 		.returning();
 
-	return c.json({ marked: result.length }, 200);
+	return c.json({
+		data: {
+			marked: result.length,
+			alreadyRead: valid.length - result.length,
+			total: refs.length,
+		},
+	}, 200);
 });
 
 const deleteReadingProgressRoute = createRoute({
@@ -511,12 +610,13 @@ const deleteReadingProgressRoute = createRoute({
 	method: "delete",
 	path: "/reading-progress/{ref}",
 	tags: ["Reading Progress"],
-	summary: "Unmark a paragraph as read",
-	request: { params: z.object({ ref: z.string().describe("Paragraph reference in any format") }) },
+	summary: "Unmark a paragraph as read (idempotent)",
+	description: "Returns 204 whether or not progress existed. Returns 404 only if the paragraph ref is invalid.",
+	request: { params: z.object({ ref: z.string() }) },
 	responses: {
-		204: { description: "Reading progress deleted" },
+		204: { description: "Reading progress deleted (or didn't exist)" },
 		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
-		404: { description: "Not found", content: { "application/json": { schema: ErrorResponse } } },
+		404: { description: "Paragraph not found", content: { "application/json": { schema: ErrorResponse } } },
 	},
 });
 
@@ -528,11 +628,11 @@ meRoute.openapi(deleteReadingProgressRoute, async (c) => {
 	const resolved = await resolveParagraphRef(db, ref);
 	if (!resolved) return problemJson(c, 404, `Paragraph "${ref}" not found.`);
 
-	const deleted = await db
+	// Idempotent: delete if exists, no error if not
+	await db
 		.delete(readingProgress)
-		.where(and(eq(readingProgress.userId, user.id), eq(readingProgress.paragraphId, resolved.globalId)))
-		.returning();
-	if (deleted.length === 0) return problemJson(c, 404, "Reading progress entry not found.");
+		.where(and(eq(readingProgress.userId, user.id), eq(readingProgress.paragraphId, resolved.globalId)));
+
 	return c.body(null, 204);
 });
 
