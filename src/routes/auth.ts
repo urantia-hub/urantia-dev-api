@@ -1,8 +1,9 @@
 import { createRoute } from "@hono/zod-openapi";
 import { eq } from "drizzle-orm";
+import { SignJWT } from "jose";
 import { z } from "zod";
 import { getDb } from "../db/client.ts";
-import { apps, authCodes } from "../db/schema.ts";
+import { apps, authCodes, users } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
 import { problemJson } from "../lib/errors.ts";
 import type { AuthUser } from "../middleware/auth.ts";
@@ -94,6 +95,7 @@ const TokenBody = z.object({
 });
 
 const TokenResponse = z.object({
+	accessToken: z.string(),
 	userId: z.string(),
 	email: z.string().nullable(),
 	scopes: z.array(z.string()),
@@ -351,16 +353,41 @@ authRoute.openapi(tokenRoute, async (c) => {
 	// Delete the code (one-time use)
 	await db.delete(authCodes).where(eq(authCodes.code, body.code));
 
-	// Return user info + scopes
-	// Note: In a full implementation this would return a scoped JWT.
-	// For now, return user info directly. This is a known limitation.
-	const expiresAt = new Date(Date.now() + 60 * 60 * 1000); // 1 hour from now
+	// Look up user email from users table
+	const [user] = await db
+		.select({ email: users.email })
+		.from(users)
+		.where(eq(users.id, authCode.userId))
+		.limit(1);
+
+	// Generate a scoped JWT access token (1 hour expiry)
+	const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+
+	const jwtSecret = c.env?.APP_JWT_SECRET as string;
+	if (!jwtSecret) {
+		return problemJson(c, 500, "JWT signing key not configured.");
+	}
+
+	const secret = new TextEncoder().encode(jwtSecret);
+	const accessToken = await new SignJWT({
+		sub: authCode.userId,
+		email: user?.email ?? null,
+		scopes: authCode.scopes,
+		app_id: authCode.appId,
+		iss: "https://accounts.urantiahub.com",
+		aud: "authenticated",
+	})
+		.setProtectedHeader({ alg: "HS256" })
+		.setIssuedAt()
+		.setExpirationTime(expiresAt)
+		.sign(secret);
 
 	return c.json(
 		{
 			data: {
+				accessToken,
 				userId: authCode.userId,
-				email: null as string | null, // email not stored on auth_codes; consumer uses Supabase token
+				email: user?.email ?? null,
 				scopes: authCode.scopes,
 				expiresAt: expiresAt.toISOString(),
 			},

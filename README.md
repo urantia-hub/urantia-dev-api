@@ -109,14 +109,14 @@ The API includes a built-in [MCP](https://modelcontextprotocol.io) server at `ht
 
 ## Authentication
 
-Public endpoints require no auth. User endpoints (`/me/*`) require a Supabase JWT. OAuth flow:
+Public endpoints require no auth. User endpoints (`/me/*`) require a JWT. OAuth flow:
 
-1. Register an app via `POST /auth/apps` (admin)
+1. Register an app via `POST /auth/apps` (admin) or self-service at accounts.urantiahub.com/developer
 2. User signs in at [accounts.urantiahub.com](https://accounts.urantiahub.com)
-3. Exchange authorization code for token via `POST /auth/token`
+3. Exchange authorization code for access token via `POST /auth/token`
 4. Pass token as `Authorization: Bearer <token>`
 
-PKCE is supported for browser-based apps.
+Access tokens are HS256 JWTs with 7-day expiry. PKCE is supported for browser-based apps.
 
 ## Observability
 
@@ -169,6 +169,12 @@ Deployed to Cloudflare Workers. First-time setup:
 npx wrangler login
 npx wrangler secret put DATABASE_URL
 # paste your Supabase connection string (use pooler port 6543)
+
+npx wrangler secret put APP_JWT_SECRET
+# paste a 64-byte hex secret: node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+
+npx wrangler secret put ADMIN_USER_IDS
+# comma-separated Supabase user UUIDs for admin access
 ```
 
 Deploy:

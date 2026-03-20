@@ -34,7 +34,7 @@ AI/developer-first API for the Urantia Papers.
   - `auth.ts` — OAuth endpoints (app registration, authorization codes, token exchange)
   - `cite.ts`, `og.ts`, `embeddings.ts`, `mcp.ts` — Utility routes
 - `src/middleware/` — CORS, structured logging, rate limiting, cache control, JWT auth
-  - `auth.ts` — Supabase JWT validation via JWKS, lazy user creation
+  - `auth.ts` — Dual JWT validation: Supabase JWKS (ECC P-256) + app tokens (HS256 via APP_JWT_SECRET), lazy user creation
 - `src/validators/` — Zod schemas for request/response
   - `schemas.ts` — Public endpoint schemas
   - `me-schemas.ts` — Authenticated endpoint schemas
@@ -49,12 +49,22 @@ Official TypeScript SDKs published on npm (`urantia-dev-sdks/` repo):
 - `@urantia/api` (v0.1.0) — Typed fetch client for all endpoints (public + authenticated)
 - `@urantia/auth` (v0.1.0) — OAuth client for accounts.urantiahub.com (PKCE, popup/redirect, session management)
 
+## Environment Variables
+
+- `DATABASE_URL` — Supabase Postgres connection string
+- `SUPABASE_URL` — Supabase project URL (for JWKS endpoint)
+- `APP_JWT_SECRET` — HS256 secret for signing app-scoped access tokens (generated, not from Supabase)
+- `ADMIN_USER_IDS` — Comma-separated Supabase user UUIDs that can register OAuth apps
+- `OPENAI_API_KEY` — For semantic search embeddings
+- `BETTERSTACK_SOURCE_TOKEN` — BetterStack logging
+
 ## Auth Layer (on `auth` branch)
 
 The API includes a unified auth layer for the Urantia ecosystem:
 
 - **Identity**: Supabase Auth (GoTrue) with ECC P-256 JWT signing
-- **JWT validation**: Via Supabase JWKS endpoint using `jose` library
+- **JWT validation**: Dual path — Supabase JWKS (ECC P-256) for session tokens, HS256 via `APP_JWT_SECRET` for app-scoped tokens
+- **Token exchange**: `POST /auth/token` returns a signed HS256 JWT (7-day expiry) with claims: `sub`, `email`, `scopes`, `app_id`, `iss`, `aud`
 - **Login page**: accounts.urantiahub.com (separate Next.js app in `urantia-accounts/`)
 - **User data tables**: users, bookmarks, notes, reading_progress, user_preferences, apps, app_user_data, auth_codes
 - **Authenticated endpoints**: `/me/*` (bookmarks, notes, reading progress, preferences)

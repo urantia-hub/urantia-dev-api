@@ -81,13 +81,31 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 	}
 
 	try {
-		const jwks = getJwks(supabaseUrl);
-		const { payload } = await jwtVerify(token, jwks, {
-			issuer: `${supabaseUrl}/auth/v1`,
-			audience: "authenticated",
-		});
+		let payload: Record<string, unknown>;
 
-		const userId = payload.sub;
+		// Try Supabase JWKS first (ECC P-256), then fall back to app JWT (HS256)
+		try {
+			const jwks = getJwks(supabaseUrl);
+			const result = await jwtVerify(token, jwks, {
+				issuer: `${supabaseUrl}/auth/v1`,
+				audience: "authenticated",
+			});
+			payload = result.payload as Record<string, unknown>;
+		} catch {
+			// Not a Supabase token — try app-scoped JWT
+			const appJwtSecret = c.env?.APP_JWT_SECRET ?? process.env.APP_JWT_SECRET;
+			if (!appJwtSecret) {
+				return problemJson(c, 401, "Invalid or expired token.");
+			}
+			const secret = new TextEncoder().encode(appJwtSecret as string);
+			const result = await jwtVerify(token, secret, {
+				issuer: "https://accounts.urantiahub.com",
+				audience: "authenticated",
+			});
+			payload = result.payload as Record<string, unknown>;
+		}
+
+		const userId = payload.sub as string;
 		if (!userId) {
 			return problemJson(c, 401, "Invalid token: missing subject.");
 		}
@@ -116,7 +134,6 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 	} catch (err) {
 		const logger = c.get("logger");
 		if (err instanceof Error) {
-			// jose throws specific error types for expired, invalid, etc.
 			if (err.message.includes("expired")) {
 				return problemJson(c, 401, "Token has expired.");
 			}
