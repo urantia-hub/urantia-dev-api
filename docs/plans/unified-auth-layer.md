@@ -1,7 +1,8 @@
 # Unified Auth Layer for the Urantia Ecosystem
 
 **Date:** 2026-03-18
-**Status:** Approved
+**Updated:** 2026-03-19
+**Status:** In Progress (Phases 1-3 complete)
 
 ## Problem
 
@@ -249,17 +250,20 @@ POST /auth/apps                         → register an app (admin-only)
 
 ---
 
-## id.urantia.dev — Branded Login Page
+## accounts.urantiahub.com — Branded Login Page
 
-A lightweight web app that handles the "Sign in to Urantia" experience.
+**Project:** `urantia-accounts/` — separate Next.js 15 App Router app on Vercel.
+**Domain:** accounts.urantiahub.com (OIDC issuer URL, permanent per RFC 8414).
 
-- **Tech:** Static site or minimal app on Cloudflare Pages (free)
+- **Tech:** Next.js 15 (App Router) + Tailwind + @supabase/ssr
+- **Zero database deps** — pure UI + redirect orchestrator
 - **Features:**
-  - Branded login form: "Sign in to Urantia" with Google + email magic link
-  - Supabase Auth SDK under the hood (invisible to users)
-  - Consent screen for third-party apps: "App X wants to access your bookmarks and notes"
-  - First-party apps skip consent
-  - Redirects back to calling app with authorization code
+  - `/login` — "Sign in to your Urantia account" with Google + email magic link
+  - `/authorize` — OAuth consent screen for third-party apps
+  - `/callback` — Supabase Auth redirect handler
+  - `/verify` — "Check your email" confirmation
+  - `/.well-known/openid-configuration` — OIDC discovery document
+  - First-party apps (FIRST_PARTY_APP_IDS) skip consent
 
 ---
 
@@ -268,7 +272,7 @@ A lightweight web app that handles the "Sign in to Urantia" experience.
 ### Drop-in script tag (easiest)
 
 ```html
-<script src="https://id.urantia.dev/sdk.js" data-app-id="your-app-id"></script>
+<script src="https://accounts.urantiahub.com/sdk.js" data-app-id="your-app-id"></script>
 <!-- Renders a "Sign in with Urantia" button -->
 <!-- Click → popup → login → callback with token -->
 ```
@@ -307,42 +311,32 @@ The existing CORS middleware already allows `Authorization` header and `origin: 
 
 Each phase is independently shippable.
 
-### Phase 1: Auth infrastructure on api.urantia.dev
+### Phase 1: Auth infrastructure on api.urantia.dev — DONE
 
-- Enable Supabase Auth on existing Supabase project (Google OAuth + email magic link)
-- Add Drizzle schema for new tables
-- Run migrations against Supabase Postgres
-- Add JWT validation middleware (Hono) using `jose` library
-- **Files to modify:**
-  - `src/db/schema.ts` — add new table definitions
-  - `src/middleware/auth.ts` — new JWT validation middleware
-  - `src/index.ts` — mount new route groups
-  - `src/types/env.ts` — add `SUPABASE_JWT_SECRET` env var
+- Supabase Auth enabled (Google OAuth + email magic link)
+- 8 Drizzle tables: users, bookmarks, notes, reading_progress, user_preferences, apps, app_user_data, auth_codes
+- JWT validation middleware via Supabase JWKS (`jose` library)
+- Lazy user creation from JWT claims
+- 142 tests pass (9 auth-specific)
 
-### Phase 2: User data endpoints (/me/*)
+### Phase 2: User data endpoints (/me/*) — DONE
 
-- Implement CRUD routes for bookmarks, notes, reading progress, preferences
-- Implement app-specific data endpoints (/me/app-data)
-- Add scope-based authorization
-- Integration tests for all new endpoints
-- **New files:**
-  - `src/routes/me/bookmarks.ts`
-  - `src/routes/me/notes.ts`
-  - `src/routes/me/reading-progress.ts`
-  - `src/routes/me/preferences.ts`
-  - `src/routes/me/app-data.ts`
-  - `src/routes/me/index.ts` (profile)
-  - `src/routes/auth/` (OAuth endpoints)
+- `src/routes/me.ts` — 14 authenticated endpoints (profile, bookmarks, notes, reading progress, preferences)
+- `src/routes/auth.ts` — 4 OAuth endpoints (app registration, authorization codes, token exchange)
+- `src/validators/me-schemas.ts` — Zod schemas for all request/response types
+- `src/lib/paragraph-lookup.ts` — Shared ref resolution + batch paragraph enrichment
+- App-tagged data model (appId + visibility columns for forward compatibility)
+- Responses include full paragraph entities (same shape as GET /paragraphs/:ref)
+- All ref lists ordered by sortId ascending
 
-### Phase 3: id.urantia.dev (Branded Login Page)
+### Phase 3: accounts.urantiahub.com (Branded Login Page) — DONE
 
-- Build lightweight login page at id.urantia.dev
-- Branded "Sign in to Urantia" with Google + email magic link
-- OAuth authorize/consent flow for third-party apps
-- Deploy to Cloudflare Pages
-- **New project:** `urantia-id/`
+- `urantia-accounts/` — Next.js 15 App Router + Tailwind + @supabase/ssr
+- Login page, consent screen, callback handler, OIDC discovery
+- Deployed to Vercel at accounts.urantiahub.com
+- Zero database deps — delegates to Supabase Auth + api.urantia.dev
 
-### Phase 4: Developer SDKs
+### Phase 4: Developer SDKs — TODO
 
 - `@urantia/auth` — npm package for signIn/signOut/token management
 - Drop-in `<script>` tag that renders "Sign in with Urantia" button
@@ -350,15 +344,14 @@ Each phase is independently shippable.
 - Monorepo: `urantia-dev-sdks/` with npm workspaces
 - Developer docs at urantia.dev/developers
 
-### Phase 5: Demo app
+### Phase 5: Demo app — TODO
 
 - Build a lightweight demo app that exercises the full auth + user data flow
 - Shows "Sign in with Urantia" → create bookmarks/notes → view reading progress
 - Validates the entire stack end-to-end before touching UrantiaHub's ~100 users
-- Could live at `urantia-dev-demo/` or extend existing demo.urantia.dev
 - Serves as reference implementation for third-party devs
 
-### Phase 6 (future): UrantiaHub migration
+### Phase 6 (future): UrantiaHub migration — TODO
 
 - Deferred until auth layer is proven via the demo app
 - Replace NextAuth with Supabase Auth
