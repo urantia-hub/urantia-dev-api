@@ -15,8 +15,36 @@ A developer and AI-agent friendly API for the Urantia Papers. Provides full-text
 | GET | `/paragraphs/:ref/context` | Paragraph with surrounding context |
 | POST | `/search` | Full-text search with pagination |
 | GET | `/audio/:paragraphId` | Audio info for a paragraph |
+| POST | `/search/semantic` | Semantic (vector) search |
+| GET | `/entities` | List entities (beings, places, concepts, etc.) |
+| GET | `/entities/:id` | Entity details |
+| GET | `/entities/:id/paragraphs` | Paragraphs mentioning an entity |
+| GET | `/cite` | Generate citation (APA, MLA, Chicago, BibTeX) |
+| GET | `/og/:ref` | Dynamic Open Graph image |
+| POST | `/embeddings` | Vector embeddings for paragraphs |
+| GET | `/me` | User profile (auth required) |
+| POST | `/me/bookmarks` | Create bookmark (auth required) |
+| GET | `/me/bookmarks` | List bookmarks (auth required) |
+| GET | `/me/notes` | List notes (auth required) |
+| POST | `/me/notes` | Create note (auth required) |
+| GET | `/me/reading-progress` | Reading progress (auth required) |
+| GET | `/me/preferences` | User preferences (auth required) |
+| POST | `/auth/authorize` | Get authorization code (auth required) |
+| POST | `/auth/token` | Exchange code for token |
+| GET | `/auth/apps/:id` | Get OAuth app info |
 
 Interactive docs available at `/docs` (Swagger UI). OpenAPI spec at `/openapi.json`.
+
+## SDKs
+
+Official TypeScript SDKs are available on npm:
+
+```bash
+npm install @urantia/api    # Typed client for all endpoints
+npm install @urantia/auth   # OAuth client for accounts.urantiahub.com
+```
+
+See [urantia.dev/sdks](https://urantia.dev/sdks) for documentation.
 
 ## Paragraph ID Formats
 
@@ -75,12 +103,35 @@ Recommended flow:
 3. `GET /paragraphs/:ref/context?window=3` — get surrounding context
 4. `GET /papers/:id` — read a full paper
 
+## MCP Server
+
+The API includes a built-in [MCP](https://modelcontextprotocol.io) server at `https://api.urantia.dev/mcp` — connect Claude Desktop, Cursor, or any MCP client to access all endpoints as tools.
+
+## Authentication
+
+Public endpoints require no auth. User endpoints (`/me/*`) require a Supabase JWT. OAuth flow:
+
+1. Register an app via `POST /auth/apps` (admin)
+2. User signs in at [accounts.urantiahub.com](https://accounts.urantiahub.com)
+3. Exchange authorization code for token via `POST /auth/token`
+4. Pass token as `Authorization: Bearer <token>`
+
+PKCE is supported for browser-based apps.
+
+## Observability
+
+- **Logging:** BetterStack via `@logtail/edge` — structured JSON logs with request metadata
+- **Error tracking:** Global error handler sends stack traces to BetterStack
+- **Health check:** `GET /health` — verifies DB connectivity
+- **Uptime:** BetterStack uptime monitor
+
 ## Tech Stack
 
 - **Runtime:** [Bun](https://bun.sh) (dev) / [Cloudflare Workers](https://workers.cloudflare.com) (production)
 - **Framework:** [Hono](https://hono.dev) + [@hono/zod-openapi](https://github.com/honojs/middleware/tree/main/packages/zod-openapi)
 - **Database:** [Supabase](https://supabase.com) (PostgreSQL + pgvector)
 - **ORM:** [Drizzle](https://orm.drizzle.team)
+- **Observability:** [BetterStack](https://betterstack.com) (logging, uptime)
 
 ## Development
 

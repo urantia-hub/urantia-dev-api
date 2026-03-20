@@ -43,6 +43,12 @@ AI/developer-first API for the Urantia Papers.
 - `scripts/setup-fts.sql` — Full-text search setup SQL
 - `docs/plans/unified-auth-layer.md` — Full design spec for the unified auth layer
 
+## SDKs
+
+Official TypeScript SDKs published on npm (`urantia-dev-sdks/` repo):
+- `@urantia/api` (v0.1.0) — Typed fetch client for all endpoints (public + authenticated)
+- `@urantia/auth` (v0.1.0) — OAuth client for accounts.urantiahub.com (PKCE, popup/redirect, session management)
+
 ## Auth Layer (on `auth` branch)
 
 The API includes a unified auth layer for the Urantia ecosystem:
