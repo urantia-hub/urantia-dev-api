@@ -15,6 +15,13 @@
       "when": 1772945194890,
       "tag": "0001_groovy_randall_flagg",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1774064590752,
+      "tag": "0002_giant_vance_astro",
+      "breakpoints": true
     }
   ]
 }

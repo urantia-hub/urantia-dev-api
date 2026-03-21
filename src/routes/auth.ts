@@ -60,10 +60,18 @@ const AppPublicSchema = z.object({
 });
 
 const AppCreateBody = z.object({
-	id: z.string().min(1),
+	id: z.string().min(3).max(40).regex(/^[a-z0-9][a-z0-9-]*[a-z0-9]$/, "Must be lowercase alphanumeric with hyphens, 3-40 chars"),
 	name: z.string().min(1),
 	redirectUris: z.array(z.string().url()).min(1),
 	scopes: z.array(z.string()).min(1),
+});
+
+const AppListItem = z.object({
+	id: z.string(),
+	name: z.string(),
+	redirectUris: z.array(z.string()),
+	scopes: z.array(z.string()),
+	createdAt: z.string(),
 });
 
 const AppCreateResponse = z.object({
@@ -90,7 +98,7 @@ const AuthorizeResponse = z.object({
 const TokenBody = z.object({
 	code: z.string().min(1),
 	appId: z.string().min(1),
-	appSecret: z.string().min(1),
+	appSecret: z.string().min(1).optional(),
 	codeVerifier: z.string().optional(),
 });
 
@@ -132,7 +140,7 @@ authRoute.openapi(getAppRoute, async (c) => {
 	const [app] = await db.select().from(apps).where(eq(apps.id, id)).limit(1);
 	if (!app) return problemJson(c, 404, `App "${id}" not found.`);
 
-	return c.json({ data: { id: app.id, name: app.name, scopes: app.scopes } }, 200);
+	return c.json({ data: { id: app.id, name: app.name, scopes: app.scopes, redirectUris: app.redirectUris, createdAt: app.createdAt.toISOString() } }, 200);
 });
 
 // ============================================================
@@ -144,7 +152,7 @@ const createAppRoute = createRoute({
 	method: "post",
 	path: "/apps",
 	tags: ["Auth"],
-	summary: "Register a new OAuth app (admin-only)",
+	summary: "Register a new OAuth app",
 	request: { body: { content: { "application/json": { schema: AppCreateBody } } } },
 	responses: {
 		201: {
@@ -155,19 +163,11 @@ const createAppRoute = createRoute({
 			description: "Validation error or duplicate ID",
 			content: { "application/json": { schema: ErrorResponse } },
 		},
-		403: {
-			description: "Admin access required",
-			content: { "application/json": { schema: ErrorResponse } },
-		},
 	},
 });
 
 authRoute.openapi(createAppRoute, async (c) => {
 	const user = getUser(c);
-	if (!isAdmin(c, user.id)) {
-		return problemJson(c, 403, "Only admins can register apps.");
-	}
-
 	const body = c.req.valid("json");
 	const { db } = getDb(c.env?.HYPERDRIVE);
 
@@ -187,6 +187,7 @@ authRoute.openapi(createAppRoute, async (c) => {
 		secretHash,
 		redirectUris: body.redirectUris,
 		scopes: body.scopes,
+		ownerId: user.id,
 	});
 
 	return c.json(
@@ -334,9 +335,12 @@ authRoute.openapi(tokenRoute, async (c) => {
 		return problemJson(c, 400, "App not found.");
 	}
 
-	const secretHash = await sha256(body.appSecret);
-	if (secretHash !== app.secretHash) {
-		return problemJson(c, 401, "Invalid app secret.");
+	// Verify app secret if provided
+	if (body.appSecret) {
+		const secretHash = await sha256(body.appSecret);
+		if (secretHash !== app.secretHash) {
+			return problemJson(c, 401, "Invalid app secret.");
+		}
 	}
 
 	// PKCE verification
@@ -348,6 +352,11 @@ authRoute.openapi(tokenRoute, async (c) => {
 		if (!valid) {
 			return problemJson(c, 400, "PKCE verification failed.");
 		}
+	}
+
+	// Require at least one auth method
+	if (!body.appSecret && !authCode.codeChallenge) {
+		return problemJson(c, 400, "Either appSecret or PKCE code_challenge is required.");
 	}
 
 	// Delete the code (one-time use)
@@ -394,4 +403,132 @@ authRoute.openapi(tokenRoute, async (c) => {
 		},
 		200,
 	);
+});
+
+// ============================================================
+// 5. GET /apps — List my apps
+// ============================================================
+
+const listAppsRoute = createRoute({
+	operationId: "listMyApps",
+	method: "get",
+	path: "/apps",
+	tags: ["Auth"],
+	summary: "List OAuth apps owned by the authenticated user",
+	responses: {
+		200: {
+			description: "List of apps",
+			content: { "application/json": { schema: z.object({ data: z.array(AppListItem) }) } },
+		},
+	},
+});
+
+authRoute.openapi(listAppsRoute, async (c) => {
+	const user = getUser(c);
+	const { db } = getDb(c.env?.HYPERDRIVE);
+
+	const results = await db
+		.select({
+			id: apps.id,
+			name: apps.name,
+			redirectUris: apps.redirectUris,
+			scopes: apps.scopes,
+			createdAt: apps.createdAt,
+		})
+		.from(apps)
+		.where(eq(apps.ownerId, user.id));
+
+	return c.json({
+		data: results.map((app) => ({
+			...app,
+			createdAt: app.createdAt.toISOString(),
+		})),
+	}, 200);
+});
+
+// ============================================================
+// 6. DELETE /apps/:id — Delete my app
+// ============================================================
+
+const deleteAppRoute = createRoute({
+	operationId: "deleteApp",
+	method: "delete",
+	path: "/apps/{id}",
+	tags: ["Auth"],
+	summary: "Delete an OAuth app (owner-only)",
+	request: { params: z.object({ id: z.string() }) },
+	responses: {
+		204: { description: "App deleted" },
+		403: {
+			description: "Not the app owner",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+		404: {
+			description: "App not found",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+	},
+});
+
+authRoute.openapi(deleteAppRoute, async (c) => {
+	const user = getUser(c);
+	const { id } = c.req.valid("param");
+	const { db } = getDb(c.env?.HYPERDRIVE);
+
+	const [app] = await db.select().from(apps).where(eq(apps.id, id)).limit(1);
+	if (!app) return problemJson(c, 404, `App "${id}" not found.`);
+
+	if (app.ownerId !== user.id && !isAdmin(c, user.id)) {
+		return problemJson(c, 403, "You do not own this app.");
+	}
+
+	await db.delete(apps).where(eq(apps.id, id));
+	return c.body(null, 204);
+});
+
+// ============================================================
+// 7. POST /apps/:id/rotate-secret — Rotate app secret
+// ============================================================
+
+const rotateSecretRoute = createRoute({
+	operationId: "rotateAppSecret",
+	method: "post",
+	path: "/apps/{id}/rotate-secret",
+	tags: ["Auth"],
+	summary: "Rotate the app secret (owner-only)",
+	request: { params: z.object({ id: z.string() }) },
+	responses: {
+		200: {
+			description: "New secret (shown once)",
+			content: { "application/json": { schema: z.object({ data: z.object({ secret: z.string() }) }) } },
+		},
+		403: {
+			description: "Not the app owner",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+		404: {
+			description: "App not found",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+	},
+});
+
+authRoute.openapi(rotateSecretRoute, async (c) => {
+	const user = getUser(c);
+	const { id } = c.req.valid("param");
+	const { db } = getDb(c.env?.HYPERDRIVE);
+
+	const [app] = await db.select().from(apps).where(eq(apps.id, id)).limit(1);
+	if (!app) return problemJson(c, 404, `App "${id}" not found.`);
+
+	if (app.ownerId !== user.id && !isAdmin(c, user.id)) {
+		return problemJson(c, 403, "You do not own this app.");
+	}
+
+	const secret = crypto.randomUUID();
+	const secretHash = await sha256(secret);
+
+	await db.update(apps).set({ secretHash }).where(eq(apps.id, id));
+
+	return c.json({ data: { secret } }, 200);
 });
