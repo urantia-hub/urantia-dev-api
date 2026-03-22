@@ -4,6 +4,7 @@ import { getDb } from "../db/client.ts";
 import { entities, paragraphEntities, paragraphs } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
 import { problemJson } from "../lib/errors.ts";
+import { applyEntityTranslations, applyParagraphTranslations, applyTitleTranslations } from "../lib/translations.ts";
 import { paragraphFields } from "./paragraphs.ts";
 import {
 	EntitiesListQuery,
@@ -43,7 +44,7 @@ const listEntitiesRoute = createRoute({
 
 entitiesRoute.openapi(listEntitiesRoute, async (c) => {
 	const { db } = getDb(c.env?.HYPERDRIVE);
-	const { page, limit, type, q } = c.req.valid("query");
+	const { page, limit, type, q, lang } = c.req.valid("query");
 	const offset = page * limit;
 
 	const conditions = [];
@@ -85,9 +86,14 @@ entitiesRoute.openapi(listEntitiesRoute, async (c) => {
 
 
 
+	// Apply entity translations if lang specified
+	const translatedResults = (lang && lang !== "eng")
+		? await applyEntityTranslations(db, results, lang)
+		: results;
+
 	return c.json(
 		{
-			data: results,
+			data: translatedResults,
 			meta: {
 				page,
 				limit,
@@ -144,13 +150,17 @@ entitiesRoute.openapi(getEntityRoute, async (c) => {
 		.where(eq(entities.id, id))
 		.limit(1);
 
-
-
 	if (result.length === 0) {
 		return problemJson(c, 404, `Entity "${id}" not found`);
 	}
 
-	return c.json({ data: result[0]! }, 200);
+	// Note: getEntity doesn't have a query schema with lang, so we read it manually
+	const lang = c.req.query("lang");
+	const data = (lang && lang !== "eng")
+		? (await applyEntityTranslations(db, result, lang))[0]!
+		: result[0]!;
+
+	return c.json({ data }, 200);
 });
 
 // GET /entities/:id/paragraphs — paragraphs mentioning entity
@@ -185,7 +195,7 @@ const getEntityParagraphsRoute = createRoute({
 entitiesRoute.openapi(getEntityParagraphsRoute, async (c) => {
 	const { db } = getDb(c.env?.HYPERDRIVE);
 	const { id } = c.req.valid("param");
-	const { page, limit } = c.req.valid("query");
+	const { page, limit, lang } = c.req.valid("query");
 	const offset = page * limit;
 
 	// Verify entity exists
@@ -220,9 +230,14 @@ entitiesRoute.openapi(getEntityParagraphsRoute, async (c) => {
 
 
 
+	// Apply paragraph translations if lang specified
+	const translatedResults = (lang && lang !== "eng")
+		? await applyParagraphTranslations(db, results, lang)
+		: results;
+
 	return c.json(
 		{
-			data: results,
+			data: translatedResults,
 			meta: {
 				page,
 				limit,

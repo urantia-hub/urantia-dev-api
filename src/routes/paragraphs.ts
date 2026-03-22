@@ -6,6 +6,7 @@ import { createApp } from "../lib/app.ts";
 import { enrichWithEntities, wantsEntities } from "../lib/entities.ts";
 import { problemJson } from "../lib/errors.ts";
 import { toRagFormat } from "../lib/rag.ts";
+import { applyParagraphTranslations, applyTitleTranslations } from "../lib/translations.ts";
 import { detectRefFormat } from "../types/node.ts";
 import {
 	ContextQuery,
@@ -94,11 +95,17 @@ const getRandomRoute = createRoute({
 
 paragraphsRoute.openapi(getRandomRoute, async (c) => {
 	const { db } = getDb(c.env?.HYPERDRIVE);
-	const { include, format } = c.req.valid("query");
-	const result = await db.select(paragraphFields).from(paragraphs).orderBy(sql`RANDOM()`).limit(1);
+	const { include, format, lang } = c.req.valid("query");
+	let result = await db.select(paragraphFields).from(paragraphs).orderBy(sql`RANDOM()`).limit(1);
 
 	if (result.length === 0) {
 		return problemJson(c, 500, "No paragraphs found");
+	}
+
+	// Apply translations if lang specified
+	if (lang && lang !== "eng") {
+		result = await applyParagraphTranslations(db, result, lang);
+		result = await applyTitleTranslations(db, result, lang);
 	}
 
 	const data = wantsEntities(include)
@@ -153,17 +160,23 @@ The format is auto-detected from the reference string.\n\nUse \`?include=entitie
 paragraphsRoute.openapi(getParagraphRoute, async (c) => {
 	const { db } = getDb(c.env?.HYPERDRIVE);
 	const { ref } = c.req.valid("param");
-	const { include, format: outputFormat } = c.req.valid("query");
+	const { include, format: outputFormat, lang } = c.req.valid("query");
 	const refFormat = detectRefFormat(ref);
 
 	if (refFormat === "unknown") {
 		return problemJson(c, 400, `Invalid reference format: "${ref}". Expected globalId (1:2.0.1), standardReferenceId (2:0.1), or paperSectionParagraphId (2.0.1)`, "invalid-reference-format");
 	}
 
-	const result = await findParagraphByRef(db, ref);
+	let result = await findParagraphByRef(db, ref);
 
 	if (result.length === 0) {
 		return problemJson(c, 404, `Paragraph "${ref}" not found`);
+	}
+
+	// Apply translations if lang specified
+	if (lang && lang !== "eng") {
+		result = await applyParagraphTranslations(db, result, lang);
+		result = await applyTitleTranslations(db, result, lang);
 	}
 
 	const data = wantsEntities(include)
@@ -217,7 +230,7 @@ The \`window\` query parameter controls how many paragraphs before/after to incl
 paragraphsRoute.openapi(getParagraphContextRoute, async (c) => {
 	const { db } = getDb(c.env?.HYPERDRIVE);
 	const { ref } = c.req.valid("param");
-	const { window: windowSize, include } = c.req.valid("query");
+	const { window: windowSize, include, lang } = c.req.valid("query");
 	const format = detectRefFormat(ref);
 
 	if (format === "unknown") {
@@ -260,12 +273,19 @@ paragraphsRoute.openapi(getParagraphContextRoute, async (c) => {
 		.orderBy(paragraphs.sortId)
 		.limit(windowSize);
 
+	// Apply translations if lang specified
+	let allContextParagraphs = [targetParagraph, ...before, ...after];
+	if (lang && lang !== "eng") {
+		allContextParagraphs = await applyParagraphTranslations(db, allContextParagraphs, lang);
+		allContextParagraphs = await applyTitleTranslations(db, allContextParagraphs, lang);
+	}
+	const contextMap = new Map(allContextParagraphs.map((p) => [p.id, p]));
+	const translatedTarget = contextMap.get(targetParagraph.id)!;
+
 	if (wantsEntities(include)) {
-		const allParagraphs = [targetParagraph, ...before, ...after];
-		const enriched = await enrichWithEntities(db, allParagraphs);
+		const enriched = await enrichWithEntities(db, allContextParagraphs);
 		const enrichedMap = new Map(enriched.map((p) => [p.id, p]));
 
-	
 		return c.json(
 			{
 				data: {
@@ -278,13 +298,12 @@ paragraphsRoute.openapi(getParagraphContextRoute, async (c) => {
 		);
 	}
 
-
 	return c.json(
 		{
 			data: {
-				target: targetParagraph,
-				before: before.reverse(),
-				after,
+				target: translatedTarget,
+				before: before.reverse().map((p) => contextMap.get(p.id)!),
+				after: after.map((p) => contextMap.get(p.id)!),
 			},
 		},
 		200,

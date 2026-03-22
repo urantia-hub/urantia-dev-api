@@ -1,5 +1,13 @@
 import { z } from "zod";
 
+// --- Supported languages ---
+
+export const SupportedLanguage = z.enum(["eng", "es", "fr", "pt", "de", "ko"]).default("eng");
+
+export const LangQuery = z.object({
+	lang: SupportedLanguage.optional(),
+});
+
 // --- Shared response schemas ---
 
 export const PaginationMeta = z.object({
@@ -82,6 +90,7 @@ export const ParagraphSchema = z.object({
 	paragraphId: z.string(),
 	text: z.string(),
 	htmlText: z.string(),
+	language: z.string().optional(),
 	labels: z.array(z.string()).nullable(),
 	audio: AudioSchema,
 	entities: z.array(ParagraphEntitySchema).optional(),
@@ -239,11 +248,13 @@ export const ContextQuery = z.object({
 	window: z.coerce.number().int().min(1).max(10).default(2),
 	include: z.string().optional(),
 	format: FormatEnum.optional(),
+	lang: SupportedLanguage.optional(),
 });
 
 export const IncludeQuery = z.object({
 	include: z.string().optional(),
 	format: FormatEnum.optional(),
+	lang: SupportedLanguage.optional(),
 });
 
 // --- Entity ---
@@ -256,6 +267,7 @@ export const EntitySchema = z.object({
 	description: z.string().nullable(),
 	seeAlso: z.array(z.string()).nullable(),
 	citationCount: z.number().int(),
+	language: z.string().optional(),
 });
 
 export const EntitiesListQuery = z.object({
@@ -263,6 +275,7 @@ export const EntitiesListQuery = z.object({
 	limit: z.coerce.number().int().min(1).max(100).default(20),
 	type: z.enum(["being", "place", "order", "race", "religion", "concept"]).optional(),
 	q: z.string().max(200).optional(),
+	lang: SupportedLanguage.optional(),
 });
 
 export const EntityIdParam = z.object({ id: z.string() });
@@ -270,6 +283,7 @@ export const EntityIdParam = z.object({ id: z.string() });
 export const EntityParagraphsQuery = z.object({
 	page: z.coerce.number().int().min(0).default(0),
 	limit: z.coerce.number().int().min(1).max(100).default(20),
+	lang: SupportedLanguage.optional(),
 });
 
 export const EntitiesListResponse = z.object({
@@ -282,4 +296,17 @@ export const EntityDetailResponse = z.object({ data: EntitySchema });
 export const EntityParagraphsResponse = z.object({
 	data: z.array(ParagraphSchema),
 	meta: PaginationMeta,
+});
+
+// --- Languages ---
+
+export const LanguageSchema = z.object({
+	code: z.string(),
+	name: z.string(),
+	entityCount: z.number().int(),
+	paragraphCount: z.number().int(),
+});
+
+export const LanguagesResponse = z.object({
+	data: z.array(LanguageSchema),
 });

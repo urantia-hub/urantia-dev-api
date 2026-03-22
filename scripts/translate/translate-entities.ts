@@ -1,35 +1,59 @@
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
-import { join } from "node:path";
+/**
+ * translate-entities.ts — Translate Urantia Book entities to target languages
+ *
+ * Usage:
+ *   bun scripts/translate/translate-entities.ts --lang=es
+ *   bun scripts/translate/translate-entities.ts --lang=es --entity=machiventa-melchizedek
+ *   bun scripts/translate/translate-entities.ts --lang=es --limit=20
+ *   bun scripts/translate/translate-entities.ts --lang=es --dry-run
+ *
+ * Uses Claude Sonnet for high-quality entity translations.
+ * Foundation parallel text is used as reference context only — output is independent.
+ * Idempotent: resumes from existing output file, skips already-translated entities.
+ */
+
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
+import { join, dirname } from "node:path";
 import Anthropic from "@anthropic-ai/sdk";
 
 const ROOT = join(import.meta.dir, "../..");
-const URANTIAPEDIA = join(ROOT, "../urantiapedia/input/json");
+const URANTIAPEDIA = join(ROOT, "../misc/urantiapedia/input/json");
 const SEED_PATH = join(ROOT, "data/entities/seed-entities.json");
 
-// Parse --lang flag (required)
-const langArg = process.argv.find((a) => a.startsWith("--lang="));
-const LANG = langArg ? langArg.split("=")[1]! : "";
-if (!LANG || !["nl", "es", "fr", "pt", "de", "ko"].includes(LANG)) {
-	console.error("Usage: bun scripts/translate/translate-entities.ts --lang=nl|es|fr|pt|de|ko [--limit=N]");
-	process.exit(1);
-}
+const MODEL = "claude-sonnet-4-20250514";
+const MAX_PARAGRAPHS = 2;
+const BATCH_SIZE = 10;
 
 const LANG_NAMES: Record<string, string> = {
 	nl: "Dutch", es: "Spanish", fr: "French", pt: "Portuguese", de: "German", ko: "Korean",
 };
 
-const OUTPUT_PATH = join(ROOT, `data/translations/${LANG}/entity-translations.json`);
-
-const MAX_PARAGRAPHS = 2;
-const BATCH_SIZE = 10;
-
-const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
-if (!ANTHROPIC_API_KEY) {
-	console.error("ANTHROPIC_API_KEY environment variable is required");
+// --- Parse args ---
+const langArg = process.argv.find((a) => a.startsWith("--lang="));
+const LANG = langArg ? langArg.split("=")[1]! : "";
+if (!LANG || !Object.keys(LANG_NAMES).includes(LANG)) {
+	console.error(`Usage: bun scripts/translate/translate-entities.ts --lang=${Object.keys(LANG_NAMES).join("|")} [--entity=ID] [--limit=N] [--dry-run]`);
 	process.exit(1);
 }
 
-const client = new Anthropic({ apiKey: ANTHROPIC_API_KEY });
+const entityArg = process.argv.find((a) => a.startsWith("--entity="));
+const ENTITY_FILTER = entityArg?.split("=")[1] ?? null;
+
+const limitArg = process.argv.find((a) => a.startsWith("--limit="));
+const LIMIT = limitArg ? Number(limitArg.split("=")[1]) : undefined;
+
+const DRY_RUN = process.argv.includes("--dry-run");
+
+const OUTPUT_PATH = join(ROOT, `data/translations/${LANG}/entity-translations.json`);
+
+// --- Anthropic client ---
+const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY;
+if (!ANTHROPIC_API_KEY && !DRY_RUN) {
+	console.error("ANTHROPIC_API_KEY environment variable is required (skip with --dry-run)");
+	process.exit(1);
+}
+
+const client = !DRY_RUN ? new Anthropic({ apiKey: ANTHROPIC_API_KEY! }) : null;
 
 async function callWithRetry<T>(fn: () => Promise<T>, maxRetries = 5): Promise<T> {
 	for (let attempt = 0; attempt <= maxRetries; attempt++) {
@@ -50,6 +74,7 @@ async function callWithRetry<T>(fn: () => Promise<T>, maxRetries = 5): Promise<T
 	throw new Error("Unreachable");
 }
 
+// --- Types ---
 type SeedEntity = {
 	id: string;
 	name: string;
@@ -75,7 +100,7 @@ type TranslationEntry = {
 	confidence: string;
 };
 
-// --- Paragraph loading ---
+// --- Paragraph loading (Foundation text as reference context) ---
 const paperCache = new Map<string, UrantiapediaPaper>();
 
 function loadPaper(lang: string, paperIndex: number): UrantiapediaPaper | null {
@@ -121,7 +146,7 @@ function sampleEvenly<T>(items: T[], max: number): T[] {
 	return result;
 }
 
-type ParagraphPair = { ref: string; en: string; nl: string };
+type ParagraphPair = { ref: string; en: string; target: string };
 
 function getEntityParagraphPairs(entity: SeedEntity): ParagraphPair[] {
 	const sampled = sampleEvenly(entity.citations, MAX_PARAGRAPHS);
@@ -130,17 +155,17 @@ function getEntityParagraphPairs(entity: SeedEntity): ParagraphPair[] {
 		const parsed = parseCitation(citation);
 		if (!parsed) continue;
 		const enPaper = loadPaper("en", parsed.paper);
-		const nlPaper = loadPaper(LANG, parsed.paper);
-		if (!enPaper || !nlPaper) continue;
+		const targetPaper = loadPaper(LANG, parsed.paper);
+		if (!enPaper || !targetPaper) continue;
 
 		if ("paragraph" in parsed) {
 			const en = findParagraph(enPaper, citation);
-			const nl = findParagraph(nlPaper, citation);
-			if (en && nl) pairs.push({ ref: citation, en, nl });
+			const target = findParagraph(targetPaper, citation);
+			if (en && target) pairs.push({ ref: citation, en, target });
 		} else {
 			const enFirst = findFirstInSection(enPaper, parsed.section);
-			const nlFirst = findFirstInSection(nlPaper, parsed.section);
-			if (enFirst && nlFirst) pairs.push({ ref: enFirst.ref, en: enFirst.content, nl: nlFirst.content });
+			const targetFirst = findFirstInSection(targetPaper, parsed.section);
+			if (enFirst && targetFirst) pairs.push({ ref: enFirst.ref, en: enFirst.content, target: targetFirst.content });
 		}
 	}
 	return pairs;
@@ -153,7 +178,7 @@ async function translateBatch(batch: SeedEntity[]): Promise<TranslationEntry[]> 
 		const pairs = getEntityParagraphPairs(entity);
 		const pairsText = pairs.length > 0
 			? pairs.map((p, j) =>
-				`  [${j + 1}] (${p.ref})\n    EN: "${p.en}"\n    NL (Foundation): "${p.nl}"`
+				`  [${j + 1}] (${p.ref})\n    EN: "${p.en}"\n    ${LANG_NAMES[LANG]} (Foundation, reference only): "${p.target}"`
 			).join("\n\n")
 			: "  (no paragraph pairs available)";
 
@@ -161,37 +186,41 @@ async function translateBatch(batch: SeedEntity[]): Promise<TranslationEntry[]> 
 Aliases: ${entity.aliases.length > 0 ? entity.aliases.join(", ") : "(none)"}
 Description: "${entity.description || "(empty)"}"
 
-Paragraph pairs (EN + Foundation ${LANG_NAMES[LANG]}):
+Paragraph pairs (EN + Foundation ${LANG_NAMES[LANG]} for reference):
 ${pairsText}`;
 	}).join("\n\n===\n\n");
 
-	const response = await callWithRetry(() => client.messages.create({
-		model: "claude-sonnet-4-20250514",
+	const response = await callWithRetry(() => client!.messages.create({
+		model: MODEL,
 		max_tokens: 16384,
-		system: `You are translating Urantia Book entities from English to ${LANG_NAMES[LANG]}. For each entity you must provide TWO translations:
+		system: `You are translating Urantia Book entities from English to ${LANG_NAMES[LANG]}. You must produce a single high-quality, independent translation for each entity.
 
-1. **foundation**: Extract the ${LANG_NAMES[LANG]} translation as used in the Urantia Foundation's official ${LANG_NAMES[LANG]} translation. Look at the ${LANG_NAMES[LANG]} paragraphs provided to find the exact terms used.
+The Foundation ${LANG_NAMES[LANG]} translations are provided as REFERENCE CONTEXT only — they help you understand how terms are used in context. However, your translation must be INDEPENDENT and SUPERIOR:
+- More natural and readable to a modern ${LANG_NAMES[LANG]} speaker
+- More precise and faithful to the original meaning
+- NOT a paraphrase or copy of the Foundation translation
 
-2. **urantia_dev**: Your own independent, natural ${LANG_NAMES[LANG]} translation. This should sound natural to a ${LANG_NAMES[LANG]} speaker. It may be the same as foundation if that's the most natural choice.
-
-For EACH translation, provide:
+For EACH entity, provide:
 - "name": The translated entity name
 - "aliases": Array of translated aliases (or null if none)
-- "description": The entity description translated into ${LANG_NAMES[LANG]} (1-3 sentences)
-- "confidence": "high" if clearly found in paragraphs, "medium" if inferred, "needs_manual" if uncertain
+- "description": The entity description translated into ${LANG_NAMES[LANG]} (same length/detail as English original)
+- "confidence": "high" if clearly identifiable in context, "medium" if inferred, "needs_manual" if uncertain
 
 Rules:
-- Proper nouns that are Urantia Book coinages (Melchizedek, Urantia, Nebadon) typically stay the same in both translations
-- Translate the full description, not just the name
-- Keep descriptions the same length/detail as the English original
+- Proper nouns that are Urantia Book coinages (Melchizedek, Urantia, Nebadon, Havona, Machiventa, etc.) typically stay UNCHANGED across languages
+- Common English words used as proper names should be translated (e.g. "Paradise" → translated, "Thought Adjuster" → translated)
+- Translate the full description with the same level of detail as the original
 - For entities with no paragraph pairs, translate based on name and description alone
+- Aim for natural, modern ${LANG_NAMES[LANG]} — not archaic or overly formal
 
-Respond with ONLY valid JSON array — no markdown:
+Respond with ONLY valid JSON array — no markdown fences:
 [
   {
     "id": "entity-id",
-    "foundation": { "name": "...", "aliases": [...], "description": "...", "confidence": "high" },
-    "urantia_dev": { "name": "...", "aliases": [...], "description": "...", "confidence": "high" }
+    "name": "...",
+    "aliases": [...] or null,
+    "description": "...",
+    "confidence": "high"
   }
 ]`,
 		messages: [{
@@ -206,14 +235,17 @@ Respond with ONLY valid JSON array — no markdown:
 	try {
 		let parsed: Array<{
 			id: string;
-			foundation: { name: string; aliases: string[] | null; description: string; confidence: string };
-			urantia_dev: { name: string; aliases: string[] | null; description: string; confidence: string };
+			name: string;
+			aliases: string[] | null;
+			description: string;
+			confidence: string;
 		}>;
 		try {
 			parsed = JSON.parse(text);
 		} catch {
+			// Fallback: try to extract individual JSON objects
 			const objects: typeof parsed = [];
-			const objectMatches = text.matchAll(/\{[^{}]*"id"\s*:\s*"([^"]+)"[^]*?"urantia_dev"\s*:\s*\{[^{}]*\}[^{}]*\}/g);
+			const objectMatches = text.matchAll(/\{[^{}]*"id"\s*:\s*"([^"]+)"[^]*?"confidence"\s*:\s*"[^"]*"\s*\}/g);
 			for (const match of objectMatches) {
 				try { objects.push(JSON.parse(match[0])); } catch { /* skip */ }
 			}
@@ -228,32 +260,24 @@ Respond with ONLY valid JSON array — no markdown:
 				results.push({
 					entityId: entity.id,
 					language: LANG,
-					source: "foundation",
+					source: "urantia.dev",
 					version: 1,
-					name: entry.foundation.name,
-					aliases: entry.foundation.aliases,
-					description: entry.foundation.description,
-					confidence: entry.foundation.confidence,
+					name: entry.name,
+					aliases: entry.aliases,
+					description: entry.description,
+					confidence: entry.confidence,
 				});
+			} else {
+				// Fallback — mark for manual review
 				results.push({
 					entityId: entity.id,
 					language: LANG,
 					source: "urantia.dev",
 					version: 1,
-					name: entry.urantia_dev.name,
-					aliases: entry.urantia_dev.aliases,
-					description: entry.urantia_dev.description,
-					confidence: entry.urantia_dev.confidence,
-				});
-			} else {
-				// Fallback — mark for manual review
-				results.push({
-					entityId: entity.id, language: LANG, source: "foundation", version: 1,
-					name: entity.name, aliases: null, description: "", confidence: "needs_manual",
-				});
-				results.push({
-					entityId: entity.id, language: LANG, source: "urantia.dev", version: 1,
-					name: entity.name, aliases: null, description: "", confidence: "needs_manual",
+					name: entity.name,
+					aliases: null,
+					description: "",
+					confidence: "needs_manual",
 				});
 			}
 		}
@@ -261,26 +285,50 @@ Respond with ONLY valid JSON array — no markdown:
 	} catch (err) {
 		console.error("  Parse error:", (err as Error).message);
 		console.error("  Response length:", rawText.length, "| stop_reason:", response.stop_reason);
-		return batch.flatMap((entity) => [
-			{ entityId: entity.id, language: LANG, source: "foundation", version: 1, name: entity.name, aliases: null, description: "", confidence: "needs_manual" },
-			{ entityId: entity.id, language: LANG, source: "urantia.dev", version: 1, name: entity.name, aliases: null, description: "", confidence: "needs_manual" },
-		]);
+		return batch.map((entity) => ({
+			entityId: entity.id,
+			language: LANG,
+			source: "urantia.dev",
+			version: 1,
+			name: entity.name,
+			aliases: null,
+			description: "",
+			confidence: "needs_manual",
+		}));
 	}
 }
 
 // --- Main ---
-const limitArg = process.argv.find((a) => a.startsWith("--limit="));
-const limit = limitArg ? Number(limitArg.split("=")[1]) : undefined;
-
 const allEntities: SeedEntity[] = JSON.parse(readFileSync(SEED_PATH, "utf-8"));
-const entitiesToProcess = limit ? allEntities.slice(0, limit) : allEntities;
 
-console.log("=== Translate Entities to ${LANG_NAMES[LANG]} (${LANG}) ===\n");
-console.log(`Processing ${entitiesToProcess.length} entities${limit ? ` (limited from ${allEntities.length})` : ""}\n`);
+// Filter by entity ID if specified
+let entitiesToProcess: SeedEntity[];
+if (ENTITY_FILTER) {
+	entitiesToProcess = allEntities.filter((e) =>
+		e.id === ENTITY_FILTER || e.id.includes(ENTITY_FILTER)
+	);
+	if (entitiesToProcess.length === 0) {
+		console.error(`No entities found matching "${ENTITY_FILTER}"`);
+		console.error(`Try one of: ${allEntities.filter((e) => e.id.includes(ENTITY_FILTER.split("-")[0] ?? "")).slice(0, 5).map((e) => e.id).join(", ")}`);
+		process.exit(1);
+	}
+} else {
+	entitiesToProcess = LIMIT ? allEntities.slice(0, LIMIT) : allEntities;
+}
+
+console.log(`\n=== Translate Entities to ${LANG_NAMES[LANG]} (${LANG}) ===`);
+console.log(`Model: ${MODEL}`);
+console.log(`Processing ${entitiesToProcess.length} entities${LIMIT ? ` (limited from ${allEntities.length})` : ""}${ENTITY_FILTER ? ` (filter: ${ENTITY_FILTER})` : ""}`);
+if (DRY_RUN) console.log("DRY RUN — no API calls will be made");
+console.log();
 
 // Load existing translations for resumability
 let translations: TranslationEntry[] = [];
 const processedIds = new Set<string>();
+
+// Ensure output directory exists
+mkdirSync(dirname(OUTPUT_PATH), { recursive: true });
+
 if (existsSync(OUTPUT_PATH)) {
 	translations = JSON.parse(readFileSync(OUTPUT_PATH, "utf-8"));
 	for (const t of translations) processedIds.add(t.entityId);
@@ -288,6 +336,23 @@ if (existsSync(OUTPUT_PATH)) {
 }
 
 const unprocessed = entitiesToProcess.filter((e) => !processedIds.has(e.id));
+
+if (unprocessed.length === 0) {
+	console.log("All entities already translated. Nothing to do.");
+	process.exit(0);
+}
+
+console.log(`${unprocessed.length} entities to translate\n`);
+
+if (DRY_RUN) {
+	console.log("Entities that would be translated:");
+	for (const e of unprocessed) {
+		const pairs = getEntityParagraphPairs(e);
+		console.log(`  ${e.id} — "${e.name}" (${e.type}, ${e.citations.length} citations, ${pairs.length} paragraph pairs)`);
+	}
+	console.log(`\nEstimated batches: ${Math.ceil(unprocessed.length / BATCH_SIZE)}`);
+	process.exit(0);
+}
 
 async function main() {
 	const totalBatches = Math.ceil(unprocessed.length / BATCH_SIZE);
@@ -300,18 +365,21 @@ async function main() {
 		const results = await translateBatch(batch);
 		translations.push(...results);
 		writeFileSync(OUTPUT_PATH, JSON.stringify(translations, null, 2));
+
+		// Brief progress
+		const highCount = results.filter((r) => r.confidence === "high").length;
+		const needsManualCount = results.filter((r) => r.confidence === "needs_manual").length;
+		console.log(`  → ${results.length} translated (${highCount} high, ${needsManualCount} needs_manual)\n`);
 	}
 
 	// Summary
-	const foundation = translations.filter((t) => t.source === "foundation");
-	const urantia = translations.filter((t) => t.source === "urantia.dev");
 	const high = translations.filter((t) => t.confidence === "high").length;
 	const medium = translations.filter((t) => t.confidence === "medium").length;
 	const needsManual = translations.filter((t) => t.confidence === "needs_manual").length;
 
 	console.log(`\n--- Translation Complete ---`);
-	console.log(`  Total entries:       ${translations.length} (${foundation.length} foundation + ${urantia.length} urantia.dev)`);
-	console.log(`  Unique entities:     ${processedIds.size + unprocessed.length}`);
+	console.log(`  Total entries:       ${translations.length}`);
+	console.log(`  Unique entities:     ${new Set(translations.map((t) => t.entityId)).size}`);
 	console.log(`  High confidence:     ${high}`);
 	console.log(`  Medium confidence:   ${medium}`);
 	console.log(`  Needs manual:        ${needsManual}`);

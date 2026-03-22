@@ -184,6 +184,59 @@ export const paragraphEntities = pgTable(
 	],
 );
 
+// --- paragraph_translations ---
+export const paragraphTranslations = pgTable(
+	"paragraph_translations",
+	{
+		id: text("id").primaryKey(), // "{paragraphId}:{lang}:v{version}"
+		paragraphId: text("paragraph_id")
+			.notNull()
+			.references(() => paragraphs.id),
+		language: text("language").notNull(), // ISO 639-1: "es", "fr", "pt", "de", "ko"
+		version: integer("version").notNull().default(1),
+		text: text("text").notNull(),
+		htmlText: text("html_text").notNull(),
+		source: text("source").notNull().default("urantia.dev"),
+		confidence: text("confidence"), // "high" | "medium" | "needs_review"
+		createdAt: timestamp("created_at").notNull().defaultNow(),
+	},
+	(t) => [
+		uniqueIndex("pt_paragraph_lang_version_idx").on(
+			t.paragraphId,
+			t.language,
+			t.version,
+		),
+		index("pt_language_idx").on(t.language),
+		index("pt_paragraph_id_idx").on(t.paragraphId),
+	],
+);
+
+// --- title_translations ---
+export const titleTranslations = pgTable(
+	"title_translations",
+	{
+		id: text("id").primaryKey(), // "{sourceType}:{sourceId}:{lang}:v{version}"
+		sourceType: text("source_type").notNull(), // "paper" | "section"
+		sourceId: text("source_id").notNull(), // paper.id or section.id
+		language: text("language").notNull(),
+		version: integer("version").notNull().default(1),
+		title: text("title").notNull(),
+		source: text("source").notNull().default("urantia.dev"),
+		confidence: text("confidence"),
+		createdAt: timestamp("created_at").notNull().defaultNow(),
+	},
+	(t) => [
+		uniqueIndex("tt_type_source_lang_version_idx").on(
+			t.sourceType,
+			t.sourceId,
+			t.language,
+			t.version,
+		),
+		index("tt_language_idx").on(t.language),
+		index("tt_source_type_id_idx").on(t.sourceType, t.sourceId),
+	],
+);
+
 // ============================================================
 // Auth layer tables (unified auth for the Urantia ecosystem)
 // ============================================================
