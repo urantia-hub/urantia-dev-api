@@ -59,6 +59,9 @@ export const SectionSchema = z.object({
 const AudioVariantSchema = z.object({
 	format: z.string(),
 	url: z.string(),
+	duration: z.number().optional(),
+	bitrate: z.number().optional(),
+	fileSize: z.number().optional(),
 });
 
 const AudioSchema = z
