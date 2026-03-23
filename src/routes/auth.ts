@@ -93,6 +93,7 @@ const AppPublicSchema = z.object({
 	id: z.string(),
 	name: z.string(),
 	scopes: z.array(z.string()),
+	logoUrl: z.string().nullable(),
 });
 
 const AppCreateBody = z.object({
@@ -115,6 +116,7 @@ const AppUpdateResponse = z.object({
 	name: z.string(),
 	redirectUris: z.array(z.string()),
 	scopes: z.array(z.string()),
+	logoUrl: z.string().nullable(),
 	ownerId: z.string().nullable(),
 	createdAt: z.string(),
 });
@@ -124,6 +126,7 @@ const AppListItem = z.object({
 	name: z.string(),
 	redirectUris: z.array(z.string()),
 	scopes: z.array(z.string()),
+	logoUrl: z.string().nullable(),
 	createdAt: z.string(),
 });
 
@@ -193,7 +196,7 @@ authRoute.openapi(getAppRoute, async (c) => {
 	const [app] = await db.select().from(apps).where(eq(apps.id, id)).limit(1);
 	if (!app) return problemJson(c, 404, `App "${id}" not found.`);
 
-	return c.json({ data: { id: app.id, name: app.name, scopes: app.scopes, redirectUris: app.redirectUris, createdAt: app.createdAt.toISOString() } }, 200);
+	return c.json({ data: { id: app.id, name: app.name, scopes: app.scopes, logoUrl: app.logoUrl ?? null, redirectUris: app.redirectUris, createdAt: app.createdAt.toISOString() } }, 200);
 });
 
 // ============================================================
@@ -492,6 +495,7 @@ authRoute.openapi(listAppsRoute, async (c) => {
 			name: apps.name,
 			redirectUris: apps.redirectUris,
 			scopes: apps.scopes,
+			logoUrl: apps.logoUrl,
 			createdAt: apps.createdAt,
 		})
 		.from(apps)
@@ -500,6 +504,7 @@ authRoute.openapi(listAppsRoute, async (c) => {
 	return c.json({
 		data: results.map((app) => ({
 			...app,
+			logoUrl: app.logoUrl ?? null,
 			createdAt: app.createdAt.toISOString(),
 		})),
 	}, 200);
@@ -686,10 +691,189 @@ authRoute.openapi(updateAppRoute, async (c) => {
 				name: updated.name,
 				redirectUris: updated.redirectUris,
 				scopes: updated.scopes,
+				logoUrl: updated.logoUrl ?? null,
 				ownerId: updated.ownerId,
 				createdAt: updated.createdAt.toISOString(),
 			},
 		},
 		200,
 	);
+});
+
+// ============================================================
+// 9. POST /apps/:id/logo — Upload app logo (owner-only)
+// ============================================================
+
+const ALLOWED_MIME_TYPES = ["image/png", "image/jpeg", "image/webp"];
+const MAX_LOGO_SIZE = 2 * 1024 * 1024; // 2MB
+
+const uploadLogoRoute = createRoute({
+	operationId: "uploadAppLogo",
+	method: "post",
+	path: "/apps/{id}/logo",
+	tags: ["Auth"],
+	summary: "Upload an app logo (owner-only, max 2MB, PNG/JPEG/WebP)",
+	request: {
+		params: z.object({ id: z.string() }),
+		body: { content: { "multipart/form-data": { schema: z.object({ logo: z.any() }) } } },
+	},
+	responses: {
+		200: {
+			description: "Logo uploaded",
+			content: { "application/json": { schema: z.object({ data: z.object({ logoUrl: z.string() }) }) } },
+		},
+		400: {
+			description: "Invalid file",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+		403: {
+			description: "Not the app owner",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+		404: {
+			description: "App not found",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+	},
+});
+
+authRoute.openapi(uploadLogoRoute, async (c) => {
+	const user = getUser(c);
+	const { id } = c.req.valid("param");
+	const { db } = getDb(c.env?.HYPERDRIVE);
+
+	// Look up app and verify ownership
+	const [app] = await db.select().from(apps).where(eq(apps.id, id)).limit(1);
+	if (!app) return problemJson(c, 404, `App "${id}" not found.`);
+	if (app.ownerId !== user.id && !isAdmin(c, user.id)) {
+		return problemJson(c, 403, "You do not own this app.");
+	}
+
+	// Get R2 bucket
+	const bucket = c.env?.APP_LOGOS;
+	if (!bucket) return problemJson(c, 500, "Logo storage not configured.");
+
+	// Parse multipart form
+	const formData = await c.req.formData();
+	const file = formData.get("logo");
+	if (!file || !(file instanceof File)) {
+		return problemJson(c, 400, 'Missing "logo" file in form data.');
+	}
+
+	// Validate MIME type
+	if (!ALLOWED_MIME_TYPES.includes(file.type)) {
+		return problemJson(c, 400, `Invalid file type "${file.type}". Allowed: PNG, JPEG, WebP.`);
+	}
+
+	// Validate size
+	if (file.size > MAX_LOGO_SIZE) {
+		return problemJson(c, 400, `File too large (${(file.size / 1024 / 1024).toFixed(1)}MB). Max: 2MB.`);
+	}
+
+	// Determine extension from MIME type
+	const ext = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
+	const key = `${id}/logo.${ext}`;
+
+	// Upload to R2
+	const arrayBuffer = await file.arrayBuffer();
+	await bucket.put(key, arrayBuffer, {
+		httpMetadata: { contentType: file.type, cacheControl: "public, max-age=86400" },
+	});
+
+	// Build the public URL (served via GET /auth/apps/:id/logo)
+	const logoUrl = `https://api.urantia.dev/auth/apps/${id}/logo`;
+
+	// Update the database
+	await db.update(apps).set({ logoUrl }).where(eq(apps.id, id));
+
+	return c.json({ data: { logoUrl } }, 200);
+});
+
+// ============================================================
+// 10. DELETE /apps/:id/logo — Remove app logo (owner-only)
+// ============================================================
+
+const deleteLogoRoute = createRoute({
+	operationId: "deleteAppLogo",
+	method: "delete",
+	path: "/apps/{id}/logo",
+	tags: ["Auth"],
+	summary: "Remove an app logo (owner-only)",
+	request: { params: z.object({ id: z.string() }) },
+	responses: {
+		204: { description: "Logo removed" },
+		403: {
+			description: "Not the app owner",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+		404: {
+			description: "App not found",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+	},
+});
+
+authRoute.openapi(deleteLogoRoute, async (c) => {
+	const user = getUser(c);
+	const { id } = c.req.valid("param");
+	const { db } = getDb(c.env?.HYPERDRIVE);
+
+	const [app] = await db.select().from(apps).where(eq(apps.id, id)).limit(1);
+	if (!app) return problemJson(c, 404, `App "${id}" not found.`);
+	if (app.ownerId !== user.id && !isAdmin(c, user.id)) {
+		return problemJson(c, 403, "You do not own this app.");
+	}
+
+	const bucket = c.env?.APP_LOGOS;
+	if (bucket) {
+		// Delete all possible extensions
+		await Promise.all([
+			bucket.delete(`${id}/logo.png`),
+			bucket.delete(`${id}/logo.jpg`),
+			bucket.delete(`${id}/logo.webp`),
+		]);
+	}
+
+	await db.update(apps).set({ logoUrl: null }).where(eq(apps.id, id));
+	return c.body(null, 204);
+});
+
+// ============================================================
+// 11. GET /apps/:id/logo — Serve app logo from R2 (public)
+// ============================================================
+
+const getLogoRoute = createRoute({
+	operationId: "getAppLogo",
+	method: "get",
+	path: "/apps/{id}/logo",
+	tags: ["Auth"],
+	summary: "Get app logo image (public)",
+	request: { params: z.object({ id: z.string() }) },
+	responses: {
+		200: { description: "Logo image" },
+		404: {
+			description: "No logo found",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+	},
+});
+
+authRoute.openapi(getLogoRoute, async (c) => {
+	const { id } = c.req.valid("param");
+	const bucket = c.env?.APP_LOGOS;
+	if (!bucket) return problemJson(c, 404, "No logo found.");
+
+	// Try each extension
+	for (const ext of ["png", "jpg", "webp"]) {
+		const object = await bucket.get(`${id}/logo.${ext}`);
+		if (object) {
+			const headers = new Headers();
+			headers.set("Content-Type", object.httpMetadata?.contentType ?? "image/png");
+			headers.set("Cache-Control", "public, max-age=86400");
+			headers.set("ETag", object.httpEtag);
+			return new Response(object.body as ReadableStream, { status: 200, headers });
+		}
+	}
+
+	return problemJson(c, 404, "No logo found.");
 });

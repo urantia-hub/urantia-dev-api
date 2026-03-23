@@ -11,3 +11,7 @@ routes = [
 [[hyperdrive]]
 binding = "HYPERDRIVE"
 id = "9a44af1aa9224a4f8bfc4585087440dc"
+
+[[r2_buckets]]
+binding = "APP_LOGOS"
+bucket_name = "urantia-app-logos"

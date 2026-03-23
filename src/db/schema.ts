@@ -341,6 +341,7 @@ export const apps = pgTable("apps", {
 	redirectUris: text("redirect_uris").array().notNull(),
 	scopes: text("scopes").array().notNull(),
 	ownerId: uuid("owner_id").references(() => users.id),
+	logoUrl: text("logo_url"),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
