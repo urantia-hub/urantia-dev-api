@@ -257,6 +257,14 @@ export const IncludeQuery = z.object({
 	lang: SupportedLanguage.optional(),
 });
 
+export const RandomQuery = z.object({
+	include: z.string().optional(),
+	format: FormatEnum.optional(),
+	lang: SupportedLanguage.optional(),
+	minLength: z.coerce.number().int().min(1).optional(),
+	maxLength: z.coerce.number().int().min(1).optional(),
+});
+
 // --- Entity ---
 
 export const EntitySchema = z.object({

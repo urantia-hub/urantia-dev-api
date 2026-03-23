@@ -16,6 +16,7 @@ import {
 	ParagraphRefParam,
 	ParagraphResponse,
 	RagResponseSchema,
+	RandomQuery,
 } from "../validators/schemas.ts";
 
 export const paragraphsRoute = createApp();
@@ -77,9 +78,9 @@ const getRandomRoute = createRoute({
 	tags: ["Paragraphs"],
 	summary: "Get a random paragraph",
 	description:
-		"Returns a single random paragraph from the Urantia Book. Useful for daily quotes or exploration.\n\nUse `?include=entities` to include typed entity mentions in the response.",
+		"Returns a single random paragraph from the Urantia Book. Useful for daily quotes or exploration.\n\nUse `?include=entities` to include typed entity mentions in the response.\n\nUse `?minLength=N` and/or `?maxLength=N` to filter by character count of the paragraph text.",
 	request: {
-		query: IncludeQuery,
+		query: RandomQuery,
 	},
 	responses: {
 		200: {
@@ -95,8 +96,22 @@ const getRandomRoute = createRoute({
 
 paragraphsRoute.openapi(getRandomRoute, async (c) => {
 	const { db } = getDb(c.env?.HYPERDRIVE);
-	const { include, format, lang } = c.req.valid("query");
-	let result = await db.select(paragraphFields).from(paragraphs).orderBy(sql`RANDOM()`).limit(1);
+	const { include, format, lang, minLength, maxLength } = c.req.valid("query");
+
+	const conditions = [];
+	if (minLength) {
+		conditions.push(gt(sql`char_length(${paragraphs.text})`, minLength));
+	}
+	if (maxLength) {
+		conditions.push(lt(sql`char_length(${paragraphs.text})`, maxLength));
+	}
+
+	let result = await db
+		.select(paragraphFields)
+		.from(paragraphs)
+		.where(conditions.length > 0 ? and(...conditions) : undefined)
+		.orderBy(sql`RANDOM()`)
+		.limit(1);
 
 	if (result.length === 0) {
 		return problemJson(c, 500, "No paragraphs found");
