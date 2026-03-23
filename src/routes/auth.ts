@@ -49,6 +49,42 @@ function isAdmin(c: { env?: Record<string, unknown> }, userId: string): boolean 
 	return adminIds.includes(userId);
 }
 
+const ALLOWED_SCOPES = ["profile", "bookmarks", "notes", "reading-progress", "preferences", "app-data"];
+
+/**
+ * Validate a redirect URI.
+ * - Must be https:// for production URLs
+ * - Allow http://localhost:* and http://127.0.0.1:* for development
+ * - Reject javascript:, data:, ftp:, and non-http(s) schemes
+ */
+function validateRedirectUri(uri: string): string | null {
+	let parsed: URL;
+	try {
+		parsed = new URL(uri);
+	} catch {
+		return `Invalid URL: "${uri}"`;
+	}
+	const { protocol, hostname } = parsed;
+	if (protocol !== "https:" && protocol !== "http:") {
+		return `Invalid scheme "${protocol}" in "${uri}". Only http and https are allowed.`;
+	}
+	if (protocol === "http:" && hostname !== "localhost" && hostname !== "127.0.0.1") {
+		return `http:// is only allowed for localhost and 127.0.0.1. Use https:// for "${hostname}".`;
+	}
+	return null;
+}
+
+/**
+ * Validate an array of redirect URIs. Returns null if all valid, or the first error message.
+ */
+function validateRedirectUris(uris: string[]): string | null {
+	for (const uri of uris) {
+		const error = validateRedirectUri(uri);
+		if (error) return error;
+	}
+	return null;
+}
+
 // ============================================================
 // Schemas
 // ============================================================
@@ -64,6 +100,23 @@ const AppCreateBody = z.object({
 	name: z.string().min(1),
 	redirectUris: z.array(z.string().url()).min(1),
 	scopes: z.array(z.string()).min(1),
+});
+
+const AppUpdateBody = z.object({
+	name: z.string().min(1).max(100).optional(),
+	redirectUris: z.array(z.string().url()).min(1).optional(),
+	scopes: z.array(z.enum(ALLOWED_SCOPES as [string, ...string[]])).min(1).optional(),
+}).refine((data) => data.name !== undefined || data.redirectUris !== undefined || data.scopes !== undefined, {
+	message: "At least one field (name, redirectUris, scopes) must be provided.",
+});
+
+const AppUpdateResponse = z.object({
+	id: z.string(),
+	name: z.string(),
+	redirectUris: z.array(z.string()),
+	scopes: z.array(z.string()),
+	ownerId: z.string().nullable(),
+	createdAt: z.string(),
 });
 
 const AppListItem = z.object({
@@ -175,6 +228,12 @@ authRoute.openapi(createAppRoute, async (c) => {
 	const [existing] = await db.select().from(apps).where(eq(apps.id, body.id)).limit(1);
 	if (existing) {
 		return problemJson(c, 400, `App with id "${body.id}" already exists.`);
+	}
+
+	// Validate redirect URIs
+	const uriError = validateRedirectUris(body.redirectUris);
+	if (uriError) {
+		return problemJson(c, 400, uriError);
 	}
 
 	// Generate secret and hash it
@@ -531,4 +590,106 @@ authRoute.openapi(rotateSecretRoute, async (c) => {
 	await db.update(apps).set({ secretHash }).where(eq(apps.id, id));
 
 	return c.json({ data: { secret } }, 200);
+});
+
+// ============================================================
+// 8. PATCH /apps/:id — Update my app
+// ============================================================
+
+const updateAppRoute = createRoute({
+	operationId: "updateApp",
+	method: "patch",
+	path: "/apps/{id}",
+	tags: ["Auth"],
+	summary: "Update an OAuth app (owner-only)",
+	request: {
+		params: z.object({ id: z.string() }),
+		body: { content: { "application/json": { schema: AppUpdateBody } } },
+	},
+	responses: {
+		200: {
+			description: "App updated",
+			content: { "application/json": { schema: z.object({ data: AppUpdateResponse }) } },
+		},
+		400: {
+			description: "Validation error",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+		401: {
+			description: "Not authenticated",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+		403: {
+			description: "Not the app owner",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+		404: {
+			description: "App not found",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+	},
+});
+
+authRoute.openapi(updateAppRoute, async (c) => {
+	const user = getUser(c);
+	const { id } = c.req.valid("param");
+	const body = c.req.valid("json");
+	const { db } = getDb(c.env?.HYPERDRIVE);
+	const logger = c.get("logger");
+
+	// Look up the app
+	const [app] = await db.select().from(apps).where(eq(apps.id, id)).limit(1);
+	if (!app) return problemJson(c, 404, `App "${id}" not found.`);
+
+	// Owner check
+	if (app.ownerId !== user.id && !isAdmin(c, user.id)) {
+		return problemJson(c, 403, "You do not own this app.");
+	}
+
+	// Validate redirect URIs if provided
+	if (body.redirectUris) {
+		const uriError = validateRedirectUris(body.redirectUris);
+		if (uriError) {
+			return problemJson(c, 400, uriError);
+		}
+	}
+
+	// Build the update payload (only fields that were provided)
+	const updates: Partial<{ name: string; redirectUris: string[]; scopes: string[] }> = {};
+	if (body.name !== undefined) updates.name = body.name;
+	if (body.redirectUris !== undefined) updates.redirectUris = body.redirectUris;
+	if (body.scopes !== undefined) updates.scopes = body.scopes;
+
+	// Log the before/after
+	const before = { name: app.name, redirectUris: app.redirectUris, scopes: app.scopes };
+	logger?.info(`[auth] PATCH /apps/${id}`, { before, after: updates, userId: user.id });
+
+	// Apply the update
+	await db.update(apps).set(updates).where(eq(apps.id, id));
+
+	// If scopes changed, invalidate all existing auth codes for this app
+	if (body.scopes !== undefined) {
+		const deleted = await db.delete(authCodes).where(eq(authCodes.appId, id));
+		logger?.info(`[auth] Scopes changed for app "${id}", deleted auth codes`, {
+			appId: id,
+			deletedCount: deleted.rowCount ?? 0,
+		});
+	}
+
+	// Fetch the updated app to return
+	const [updated] = await db.select().from(apps).where(eq(apps.id, id)).limit(1);
+
+	return c.json(
+		{
+			data: {
+				id: updated.id,
+				name: updated.name,
+				redirectUris: updated.redirectUris,
+				scopes: updated.scopes,
+				ownerId: updated.ownerId,
+				createdAt: updated.createdAt.toISOString(),
+			},
+		},
+		200,
+	);
 });
