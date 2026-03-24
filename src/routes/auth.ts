@@ -877,3 +877,92 @@ authRoute.openapi(getLogoRoute, async (c) => {
 
 	return problemJson(c, 404, "No logo found.");
 });
+
+// ============================================================
+// 12. GET /admin/check — Check if user is admin
+// ============================================================
+
+const adminCheckRoute = createRoute({
+	operationId: "adminCheck",
+	method: "get",
+	path: "/admin/check",
+	tags: ["Admin"],
+	summary: "Check if the authenticated user is an admin",
+	responses: {
+		200: {
+			description: "Admin status",
+			content: { "application/json": { schema: z.object({ data: z.object({ isAdmin: z.boolean() }) }) } },
+		},
+	},
+});
+
+authRoute.openapi(adminCheckRoute, async (c) => {
+	const user = getUser(c);
+	return c.json({ data: { isAdmin: isAdmin(c, user.id) } }, 200);
+});
+
+// ============================================================
+// 13. GET /admin/apps — List all apps (admin-only)
+// ============================================================
+
+const AdminAppListItem = z.object({
+	id: z.string(),
+	name: z.string(),
+	redirectUris: z.array(z.string()),
+	scopes: z.array(z.string()),
+	logoUrl: z.string().nullable(),
+	ownerId: z.string().nullable(),
+	ownerEmail: z.string().nullable(),
+	createdAt: z.string(),
+});
+
+const adminListAppsRoute = createRoute({
+	operationId: "adminListApps",
+	method: "get",
+	path: "/admin/apps",
+	tags: ["Admin"],
+	summary: "List all OAuth apps (admin-only)",
+	responses: {
+		200: {
+			description: "All apps with owner info",
+			content: { "application/json": { schema: z.object({ data: z.array(AdminAppListItem) }) } },
+		},
+		403: {
+			description: "Not an admin",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+	},
+});
+
+authRoute.openapi(adminListAppsRoute, async (c) => {
+	const user = getUser(c);
+	if (!isAdmin(c, user.id)) {
+		return problemJson(c, 403, "Admin access required.");
+	}
+
+	const { db } = getDb(c.env?.HYPERDRIVE);
+
+	const results = await db
+		.select({
+			id: apps.id,
+			name: apps.name,
+			redirectUris: apps.redirectUris,
+			scopes: apps.scopes,
+			logoUrl: apps.logoUrl,
+			ownerId: apps.ownerId,
+			ownerEmail: users.email,
+			createdAt: apps.createdAt,
+		})
+		.from(apps)
+		.leftJoin(users, eq(apps.ownerId, users.id))
+		.orderBy(apps.createdAt);
+
+	return c.json({
+		data: results.map((row) => ({
+			...row,
+			logoUrl: row.logoUrl ?? null,
+			ownerEmail: row.ownerEmail ?? null,
+			createdAt: row.createdAt.toISOString(),
+		})),
+	}, 200);
+});
