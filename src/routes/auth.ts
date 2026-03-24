@@ -89,11 +89,15 @@ function validateRedirectUris(uris: string[]): string | null {
 // Schemas
 // ============================================================
 
+const HexColor = z.string().regex(/^#[0-9a-fA-F]{6}$/, "Must be a hex color like #6366f1");
+
 const AppPublicSchema = z.object({
 	id: z.string(),
 	name: z.string(),
 	scopes: z.array(z.string()),
 	logoUrl: z.string().nullable(),
+	primaryColor: z.string().nullable(),
+	accentColor: z.string().nullable(),
 });
 
 const AppCreateBody = z.object({
@@ -101,14 +105,18 @@ const AppCreateBody = z.object({
 	name: z.string().min(1),
 	redirectUris: z.array(z.string().url()).min(1),
 	scopes: z.array(z.string()).min(1),
+	primaryColor: HexColor.optional(),
+	accentColor: HexColor.optional(),
 });
 
 const AppUpdateBody = z.object({
 	name: z.string().min(1).max(100).optional(),
 	redirectUris: z.array(z.string().url()).min(1).optional(),
 	scopes: z.array(z.enum(ALLOWED_SCOPES as [string, ...string[]])).min(1).optional(),
-}).refine((data) => data.name !== undefined || data.redirectUris !== undefined || data.scopes !== undefined, {
-	message: "At least one field (name, redirectUris, scopes) must be provided.",
+	primaryColor: HexColor.nullable().optional(),
+	accentColor: HexColor.nullable().optional(),
+}).refine((data) => data.name !== undefined || data.redirectUris !== undefined || data.scopes !== undefined || data.primaryColor !== undefined || data.accentColor !== undefined, {
+	message: "At least one field must be provided.",
 });
 
 const AppUpdateResponse = z.object({
@@ -117,6 +125,8 @@ const AppUpdateResponse = z.object({
 	redirectUris: z.array(z.string()),
 	scopes: z.array(z.string()),
 	logoUrl: z.string().nullable(),
+	primaryColor: z.string().nullable(),
+	accentColor: z.string().nullable(),
 	ownerId: z.string().nullable(),
 	createdAt: z.string(),
 });
@@ -127,6 +137,8 @@ const AppListItem = z.object({
 	redirectUris: z.array(z.string()),
 	scopes: z.array(z.string()),
 	logoUrl: z.string().nullable(),
+	primaryColor: z.string().nullable(),
+	accentColor: z.string().nullable(),
 	createdAt: z.string(),
 });
 
@@ -196,7 +208,7 @@ authRoute.openapi(getAppRoute, async (c) => {
 	const [app] = await db.select().from(apps).where(eq(apps.id, id)).limit(1);
 	if (!app) return problemJson(c, 404, `App "${id}" not found.`);
 
-	return c.json({ data: { id: app.id, name: app.name, scopes: app.scopes, logoUrl: app.logoUrl ?? null, redirectUris: app.redirectUris, createdAt: app.createdAt.toISOString() } }, 200);
+	return c.json({ data: { id: app.id, name: app.name, scopes: app.scopes, logoUrl: app.logoUrl ?? null, primaryColor: app.primaryColor ?? null, accentColor: app.accentColor ?? null, redirectUris: app.redirectUris, createdAt: app.createdAt.toISOString() } }, 200);
 });
 
 // ============================================================
@@ -250,6 +262,8 @@ authRoute.openapi(createAppRoute, async (c) => {
 		redirectUris: body.redirectUris,
 		scopes: body.scopes,
 		ownerId: user.id,
+		primaryColor: body.primaryColor ?? null,
+		accentColor: body.accentColor ?? null,
 	});
 
 	return c.json(
@@ -496,6 +510,8 @@ authRoute.openapi(listAppsRoute, async (c) => {
 			redirectUris: apps.redirectUris,
 			scopes: apps.scopes,
 			logoUrl: apps.logoUrl,
+			primaryColor: apps.primaryColor,
+			accentColor: apps.accentColor,
 			createdAt: apps.createdAt,
 		})
 		.from(apps)
@@ -505,6 +521,8 @@ authRoute.openapi(listAppsRoute, async (c) => {
 		data: results.map((app) => ({
 			...app,
 			logoUrl: app.logoUrl ?? null,
+			primaryColor: app.primaryColor ?? null,
+			accentColor: app.accentColor ?? null,
 			createdAt: app.createdAt.toISOString(),
 		})),
 	}, 200);
@@ -660,10 +678,12 @@ authRoute.openapi(updateAppRoute, async (c) => {
 	}
 
 	// Build the update payload (only fields that were provided)
-	const updates: Partial<{ name: string; redirectUris: string[]; scopes: string[] }> = {};
+	const updates: Partial<{ name: string; redirectUris: string[]; scopes: string[]; primaryColor: string | null; accentColor: string | null }> = {};
 	if (body.name !== undefined) updates.name = body.name;
 	if (body.redirectUris !== undefined) updates.redirectUris = body.redirectUris;
 	if (body.scopes !== undefined) updates.scopes = body.scopes;
+	if (body.primaryColor !== undefined) updates.primaryColor = body.primaryColor;
+	if (body.accentColor !== undefined) updates.accentColor = body.accentColor;
 
 	// Log the before/after
 	const before = { name: app.name, redirectUris: app.redirectUris, scopes: app.scopes };
@@ -692,6 +712,8 @@ authRoute.openapi(updateAppRoute, async (c) => {
 				redirectUris: updated.redirectUris,
 				scopes: updated.scopes,
 				logoUrl: updated.logoUrl ?? null,
+				primaryColor: updated.primaryColor ?? null,
+				accentColor: updated.accentColor ?? null,
 				ownerId: updated.ownerId,
 				createdAt: updated.createdAt.toISOString(),
 			},
@@ -911,6 +933,8 @@ const AdminAppListItem = z.object({
 	redirectUris: z.array(z.string()),
 	scopes: z.array(z.string()),
 	logoUrl: z.string().nullable(),
+	primaryColor: z.string().nullable(),
+	accentColor: z.string().nullable(),
 	ownerId: z.string().nullable(),
 	ownerEmail: z.string().nullable(),
 	createdAt: z.string(),
@@ -949,6 +973,8 @@ authRoute.openapi(adminListAppsRoute, async (c) => {
 			redirectUris: apps.redirectUris,
 			scopes: apps.scopes,
 			logoUrl: apps.logoUrl,
+			primaryColor: apps.primaryColor,
+			accentColor: apps.accentColor,
 			ownerId: apps.ownerId,
 			ownerEmail: users.email,
 			createdAt: apps.createdAt,
@@ -961,6 +987,8 @@ authRoute.openapi(adminListAppsRoute, async (c) => {
 		data: results.map((row) => ({
 			...row,
 			logoUrl: row.logoUrl ?? null,
+			primaryColor: row.primaryColor ?? null,
+			accentColor: row.accentColor ?? null,
 			ownerEmail: row.ownerEmail ?? null,
 			createdAt: row.createdAt.toISOString(),
 		})),

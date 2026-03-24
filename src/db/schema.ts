@@ -342,6 +342,8 @@ export const apps = pgTable("apps", {
 	scopes: text("scopes").array().notNull(),
 	ownerId: uuid("owner_id").references(() => users.id),
 	logoUrl: text("logo_url"),
+	primaryColor: text("primary_color"),
+	accentColor: text("accent_color"),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
