@@ -1,9 +1,9 @@
 import { createRoute } from "@hono/zod-openapi";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { SignJWT } from "jose";
 import { z } from "zod";
 import { getDb } from "../db/client.ts";
-import { apps, authCodes, users } from "../db/schema.ts";
+import { apps, authCodes, userConsents, users } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
 import { problemJson } from "../lib/errors.ts";
 import type { AuthUser } from "../middleware/auth.ts";
@@ -281,6 +281,57 @@ authRoute.openapi(createAppRoute, async (c) => {
 });
 
 // ============================================================
+// 2B. GET /consent — Check if user has already consented
+// ============================================================
+
+const consentCheckRoute = createRoute({
+	operationId: "checkConsent",
+	method: "get",
+	path: "/consent",
+	tags: ["Auth"],
+	summary: "Check if the user has already consented to an app's scopes",
+	request: {
+		query: z.object({
+			appId: z.string().min(1),
+			scopes: z.string().min(1), // comma-separated
+		}),
+	},
+	responses: {
+		200: {
+			description: "Consent status",
+			content: {
+				"application/json": {
+					schema: z.object({
+						data: z.object({
+							consented: z.boolean(),
+							grantedScopes: z.array(z.string()),
+						}),
+					}),
+				},
+			},
+		},
+	},
+});
+
+authRoute.openapi(consentCheckRoute, async (c) => {
+	const user = getUser(c);
+	const { appId, scopes: scopeStr } = c.req.valid("query");
+	const requestedScopes = scopeStr.split(",").map((s) => s.trim()).filter(Boolean);
+	const { db } = getDb(c.env?.HYPERDRIVE);
+
+	const [grant] = await db
+		.select({ scopes: userConsents.scopes })
+		.from(userConsents)
+		.where(and(eq(userConsents.userId, user.id), eq(userConsents.appId, appId)))
+		.limit(1);
+
+	const grantedScopes = grant?.scopes ?? [];
+	const consented = requestedScopes.every((s) => grantedScopes.includes(s));
+
+	return c.json({ data: { consented, grantedScopes } }, 200);
+});
+
+// ============================================================
 // 3. POST /authorize — Create authorization code
 // ============================================================
 
@@ -348,6 +399,30 @@ authRoute.openapi(authorizeRoute, async (c) => {
 		redirectUri: body.redirectUri,
 		expiresAt,
 	});
+
+	// Record/update consent grant (upsert: merge scopes on conflict)
+	const [existing] = await db
+		.select({ scopes: userConsents.scopes })
+		.from(userConsents)
+		.where(and(eq(userConsents.userId, user.id), eq(userConsents.appId, body.appId)))
+		.limit(1);
+
+	const mergedScopes = existing
+		? [...new Set([...existing.scopes, ...body.scopes])]
+		: body.scopes;
+
+	if (existing) {
+		await db
+			.update(userConsents)
+			.set({ scopes: mergedScopes, grantedAt: new Date() })
+			.where(and(eq(userConsents.userId, user.id), eq(userConsents.appId, body.appId)));
+	} else {
+		await db.insert(userConsents).values({
+			userId: user.id,
+			appId: body.appId,
+			scopes: body.scopes,
+		});
+	}
 
 	return c.json({ data: { code, state: body.state } }, 200);
 });

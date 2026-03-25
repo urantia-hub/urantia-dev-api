@@ -347,6 +347,25 @@ export const apps = pgTable("apps", {
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
+// --- user_consents (OAuth consent grants per user per app) ---
+export const userConsents = pgTable(
+	"user_consents",
+	{
+		id: uuid("id").primaryKey().defaultRandom(),
+		userId: uuid("user_id")
+			.notNull()
+			.references(() => users.id, { onDelete: "cascade" }),
+		appId: text("app_id")
+			.notNull()
+			.references(() => apps.id, { onDelete: "cascade" }),
+		scopes: text("scopes").array().notNull(),
+		grantedAt: timestamp("granted_at").notNull().defaultNow(),
+	},
+	(t) => [
+		uniqueIndex("user_consents_user_app_idx").on(t.userId, t.appId),
+	],
+);
+
 // --- app_user_data (sandboxed key-value per app per user) ---
 export const appUserData = pgTable(
 	"app_user_data",
