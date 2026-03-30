@@ -193,6 +193,16 @@ export const SearchRequest = z.object({
 	include: z.string().optional(),
 });
 
+export const SearchQueryParams = z.object({
+	q: z.string().min(1).max(500),
+	page: z.coerce.number().int().min(0).default(0),
+	limit: z.coerce.number().int().min(1).max(100).default(20),
+	paperId: z.string().optional(),
+	partId: z.string().optional(),
+	type: z.enum(["phrase", "and", "or"]).default("and"),
+	include: z.string().optional(),
+});
+
 export const SearchResultSchema = ParagraphSchema.extend({
 	rank: z.number(),
 });
@@ -208,6 +218,15 @@ export const SemanticSearchRequest = z.object({
 	q: z.string().min(1).max(500),
 	page: z.number().int().min(0).default(0),
 	limit: z.number().int().min(1).max(100).default(20),
+	paperId: z.string().optional(),
+	partId: z.string().optional(),
+	include: z.string().optional(),
+});
+
+export const SemanticSearchQueryParams = z.object({
+	q: z.string().min(1).max(500),
+	page: z.coerce.number().int().min(0).default(0),
+	limit: z.coerce.number().int().min(1).max(100).default(20),
 	paperId: z.string().optional(),
 	partId: z.string().optional(),
 	include: z.string().optional(),

@@ -1,5 +1,9 @@
 import { createRoute } from "@hono/zod-openapi";
 import { and, eq, sql } from "drizzle-orm";
+// biome-ignore lint: Handler context type varies per route; using `any` avoids
+// duplicating the full typed-response signature for each GET/POST pair.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyContext = any;
 import OpenAI from "openai";
 import { getDb } from "../db/client.ts";
 import { paragraphs } from "../db/schema.ts";
@@ -8,8 +12,10 @@ import { enrichWithEntities, wantsEntities } from "../lib/entities.ts";
 import { problemJson } from "../lib/errors.ts";
 import {
 	ErrorResponse,
+	SearchQueryParams,
 	SearchRequest,
 	SearchResponse,
+	SemanticSearchQueryParams,
 	SemanticSearchRequest,
 	SemanticSearchResponse,
 } from "../validators/schemas.ts";
@@ -34,48 +40,25 @@ function buildTsQuery(sanitized: string, type: "phrase" | "and" | "or"): string 
 	}
 }
 
-const searchParagraphsRoute = createRoute({
-	operationId: "search",
-	method: "post",
-	path: "/",
-	tags: ["Search"],
-	summary: "Full-text search across all paragraphs",
-	description: `Search the Urantia Papers using full-text search. Supports three search modes:
-- **and**: All words must appear (default)
-- **or**: Any word can appear
-- **phrase**: Exact phrase match
+// ── Shared handler: Full-text search ──
 
-Results are ranked by relevance. Optional filters: paperId, partId.`,
-	request: {
-		body: {
-			content: { "application/json": { schema: SearchRequest } },
-		},
-	},
-	responses: {
-		200: {
-			description: "Search results with pagination",
-			content: { "application/json": { schema: SearchResponse } },
-		},
-		400: {
-			description: "Invalid search query",
-			content: { "application/json": { schema: ErrorResponse } },
-		},
-		500: {
-			description: "Internal server error",
-			content: { "application/json": { schema: ErrorResponse } },
-		},
-	},
-});
+type SearchParams = {
+	q: string;
+	page: number;
+	limit: number;
+	paperId?: string;
+	partId?: string;
+	type: "phrase" | "and" | "or";
+	include?: string;
+};
 
-searchRoute.openapi(searchParagraphsRoute, async (c) => {
+async function handleFullTextSearch(c: AnyContext, params: SearchParams) {
 	const { db } = getDb(c.env?.HYPERDRIVE);
-	const body = c.req.valid("json");
-	const { q, page, limit, paperId, partId, type, include } = body;
+	const { q, page, limit, paperId, partId, type, include } = params;
 
 	const sanitized = q.replace(/[^\w\s]/g, " ").trim();
 
 	if (!sanitized) {
-	
 		return problemJson(c, 400, "Search query cannot be empty");
 	}
 
@@ -145,8 +128,6 @@ searchRoute.openapi(searchParagraphsRoute, async (c) => {
 		? await enrichWithEntities(db, results)
 		: results;
 
-
-
 	return c.json(
 		{
 			data: enrichedResults,
@@ -159,45 +140,24 @@ searchRoute.openapi(searchParagraphsRoute, async (c) => {
 		},
 		200,
 	);
-});
+}
 
-// ── Semantic Search ──
+// ── Shared handler: Semantic search ──
 
-const semanticSearchRoute = createRoute({
-	operationId: "semanticSearch",
-	method: "post",
-	path: "/semantic",
-	tags: ["Search"],
-	summary: "Semantic similarity search across all paragraphs",
-	description: `Search the Urantia Papers using semantic similarity (vector embeddings).
-Returns conceptually related results even without exact keyword matches.
-Optional filters: paperId, partId.`,
-	request: {
-		body: {
-			content: { "application/json": { schema: SemanticSearchRequest } },
-		},
-	},
-	responses: {
-		200: {
-			description: "Semantic search results with pagination",
-			content: { "application/json": { schema: SemanticSearchResponse } },
-		},
-		400: {
-			description: "Invalid search query",
-			content: { "application/json": { schema: ErrorResponse } },
-		},
-		500: {
-			description: "Internal server error",
-			content: { "application/json": { schema: ErrorResponse } },
-		},
-	},
-});
+type SemanticSearchParams = {
+	q: string;
+	page: number;
+	limit: number;
+	paperId?: string;
+	partId?: string;
+	include?: string;
+};
 
-searchRoute.openapi(semanticSearchRoute, async (c) => {
+async function handleSemanticSearch(c: AnyContext, params: SemanticSearchParams) {
 	const startTotal = performance.now();
 
 	const { db } = getDb(c.env?.HYPERDRIVE);
-	const { q, page, limit, paperId, partId, include } = c.req.valid("json");
+	const { q, page, limit, paperId, partId, include } = params;
 	const offset = page * limit;
 
 	const startEmbedding = performance.now();
@@ -302,4 +262,131 @@ searchRoute.openapi(semanticSearchRoute, async (c) => {
 		},
 		200,
 	);
+}
+
+// ── Route definitions ──
+
+const searchDescription = `Search the Urantia Papers using full-text search. Supports three search modes:
+- **and**: All words must appear (default)
+- **or**: Any word can appear
+- **phrase**: Exact phrase match
+
+Results are ranked by relevance. Optional filters: paperId, partId.`;
+
+const searchResponses = {
+	200: {
+		description: "Search results with pagination",
+		content: { "application/json": { schema: SearchResponse } },
+	},
+	400: {
+		description: "Invalid search query",
+		content: { "application/json": { schema: ErrorResponse } },
+	},
+	500: {
+		description: "Internal server error",
+		content: { "application/json": { schema: ErrorResponse } },
+	},
+};
+
+const semanticSearchDescription = `Search the Urantia Papers using semantic similarity (vector embeddings).
+Returns conceptually related results even without exact keyword matches.
+Optional filters: paperId, partId.`;
+
+const semanticSearchResponses = {
+	200: {
+		description: "Semantic search results with pagination",
+		content: { "application/json": { schema: SemanticSearchResponse } },
+	},
+	400: {
+		description: "Invalid search query",
+		content: { "application/json": { schema: ErrorResponse } },
+	},
+	500: {
+		description: "Internal server error",
+		content: { "application/json": { schema: ErrorResponse } },
+	},
+};
+
+// ── POST /search ──
+
+const searchPostRoute = createRoute({
+	operationId: "search",
+	method: "post",
+	path: "/",
+	tags: ["Search"],
+	summary: "Full-text search across all paragraphs",
+	description: searchDescription,
+	request: {
+		body: {
+			content: { "application/json": { schema: SearchRequest } },
+		},
+	},
+	responses: searchResponses,
+});
+
+searchRoute.openapi(searchPostRoute, async (c) => {
+	const params = c.req.valid("json");
+	return handleFullTextSearch(c, params);
+});
+
+// ── GET /search ──
+
+const searchGetRoute = createRoute({
+	operationId: "searchGet",
+	method: "get",
+	path: "/",
+	tags: ["Search"],
+	summary: "Full-text search across all paragraphs (GET)",
+	description: `${searchDescription}\n\nAccepts query parameters instead of a JSON body. Designed for AI agents and browser-based access.`,
+	request: {
+		query: SearchQueryParams,
+	},
+	responses: searchResponses,
+});
+
+searchRoute.openapi(searchGetRoute, async (c) => {
+	const params = c.req.valid("query");
+	return handleFullTextSearch(c, params);
+});
+
+// ── POST /search/semantic ──
+
+const semanticSearchPostRoute = createRoute({
+	operationId: "semanticSearch",
+	method: "post",
+	path: "/semantic",
+	tags: ["Search"],
+	summary: "Semantic similarity search across all paragraphs",
+	description: semanticSearchDescription,
+	request: {
+		body: {
+			content: { "application/json": { schema: SemanticSearchRequest } },
+		},
+	},
+	responses: semanticSearchResponses,
+});
+
+searchRoute.openapi(semanticSearchPostRoute, async (c) => {
+	const params = c.req.valid("json");
+	return handleSemanticSearch(c, params);
+});
+
+// ── GET /search/semantic ──
+
+const semanticSearchGetRoute = createRoute({
+	operationId: "semanticSearchGet",
+	method: "get",
+	path: "/semantic",
+	tags: ["Search"],
+	summary: "Semantic similarity search across all paragraphs (GET)",
+	description: `${semanticSearchDescription}\n\nAccepts query parameters instead of a JSON body. Designed for AI agents and browser-based access.`,
+	request: {
+		query: SemanticSearchQueryParams,
+	},
+	responses: semanticSearchResponses,
+});
+
+searchRoute.openapi(semanticSearchGetRoute, async (c) => {
+	const params = c.req.valid("query");
+	return handleSemanticSearch(c, params);
 });
