@@ -17,9 +17,9 @@ const STATUS_TITLES: Record<ProblemStatus, string> = {
  *
  * @see https://www.rfc-editor.org/rfc/rfc9457
  */
-export function problemJson(
+export function problemJson<S extends ProblemStatus>(
 	c: Context,
-	status: ProblemStatus,
+	status: S,
 	detail: string,
 	type?: string,
 ) {

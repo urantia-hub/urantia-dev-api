@@ -451,6 +451,10 @@ const tokenRoute = createRoute({
 			description: "Invalid app secret",
 			content: { "application/json": { schema: ErrorResponse } },
 		},
+		500: {
+			description: "Internal server error",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
 	},
 });
 
@@ -772,7 +776,7 @@ authRoute.openapi(updateAppRoute, async (c) => {
 		const deleted = await db.delete(authCodes).where(eq(authCodes.appId, id));
 		logger?.info(`[auth] Scopes changed for app "${id}", deleted auth codes`, {
 			appId: id,
-			deletedCount: deleted.rowCount ?? 0,
+			deletedCount: deleted.length,
 		});
 	}
 
@@ -782,15 +786,15 @@ authRoute.openapi(updateAppRoute, async (c) => {
 	return c.json(
 		{
 			data: {
-				id: updated.id,
-				name: updated.name,
-				redirectUris: updated.redirectUris,
-				scopes: updated.scopes,
-				logoUrl: updated.logoUrl ?? null,
-				primaryColor: updated.primaryColor ?? null,
-				accentColor: updated.accentColor ?? null,
-				ownerId: updated.ownerId,
-				createdAt: updated.createdAt.toISOString(),
+				id: updated!.id,
+				name: updated!.name,
+				redirectUris: updated!.redirectUris,
+				scopes: updated!.scopes,
+				logoUrl: updated!.logoUrl ?? null,
+				primaryColor: updated!.primaryColor ?? null,
+				accentColor: updated!.accentColor ?? null,
+				ownerId: updated!.ownerId,
+				createdAt: updated!.createdAt.toISOString(),
 			},
 		},
 		200,
@@ -831,6 +835,10 @@ const uploadLogoRoute = createRoute({
 			description: "App not found",
 			content: { "application/json": { schema: ErrorResponse } },
 		},
+		500: {
+			description: "Internal server error",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
 	},
 });
 
@@ -852,10 +860,11 @@ authRoute.openapi(uploadLogoRoute, async (c) => {
 
 	// Parse multipart form
 	const formData = await c.req.formData();
-	const file = formData.get("logo");
-	if (!file || !(file instanceof File)) {
+	const raw = formData.get("logo");
+	if (!raw || typeof raw === "string") {
 		return problemJson(c, 400, 'Missing "logo" file in form data.');
 	}
+	const file = raw as unknown as File;
 
 	// Validate MIME type
 	if (!ALLOWED_MIME_TYPES.includes(file.type)) {

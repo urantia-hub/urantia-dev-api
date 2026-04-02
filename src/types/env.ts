@@ -6,6 +6,7 @@ export type Env = {
 		LOGTAIL_TOKEN?: string;
 		SUPABASE_URL?: string;
 		ADMIN_USER_IDS?: string;
+		APP_JWT_SECRET?: string;
 		APP_LOGOS?: R2Bucket;
 	};
 };

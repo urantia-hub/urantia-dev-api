@@ -87,6 +87,10 @@ const getRandomRoute = createRoute({
 			description: "A random paragraph",
 			content: { "application/json": { schema: ParagraphResponse } },
 		},
+		400: {
+			description: "Invalid filter criteria",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
 		500: {
 			description: "Internal server error",
 			content: { "application/json": { schema: ErrorResponse } },
@@ -97,6 +101,10 @@ const getRandomRoute = createRoute({
 paragraphsRoute.openapi(getRandomRoute, async (c) => {
 	const { db } = getDb(c.env?.HYPERDRIVE);
 	const { include, format, lang, minLength, maxLength } = c.req.valid("query");
+
+	if (minLength && maxLength && minLength >= maxLength) {
+		return problemJson(c, 400, "minLength must be less than maxLength", "invalid-length-filter");
+	}
 
 	const conditions = [];
 	if (minLength) {
@@ -114,7 +122,7 @@ paragraphsRoute.openapi(getRandomRoute, async (c) => {
 		.limit(1);
 
 	if (result.length === 0) {
-		return problemJson(c, 500, "No paragraphs found");
+		return problemJson(c, 400, "No paragraphs match the given length filters", "invalid-length-filter");
 	}
 
 	// Apply translations if lang specified

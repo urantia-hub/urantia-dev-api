@@ -1,11 +1,12 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
 import { problemJson } from "./errors.ts";
+import type { Env } from "../types/env.ts";
 
 /**
  * Create an OpenAPIHono instance with the shared defaultHook
  * that formats Zod validation errors as RFC 9457 problem+json.
  */
-export function createApp<T extends Record<string, unknown> = Record<string, never>>() {
+export function createApp<T extends Record<string, unknown> = Env>() {
 	return new OpenAPIHono<T>({
 		defaultHook: (result, c) => {
 			if (!result.success) {

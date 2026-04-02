@@ -43,6 +43,7 @@ const getProfileRoute = createRoute({
 	responses: {
 		200: { description: "User profile", content: { "application/json": { schema: z.object({ data: UserProfile }) } } },
 		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
+		404: { description: "User not found", content: { "application/json": { schema: ErrorResponse } } },
 	},
 });
 
@@ -77,7 +78,7 @@ meRoute.openapi(updateProfileRoute, async (c) => {
 	if (body.avatarUrl !== undefined) updates.avatarUrl = body.avatarUrl;
 
 	const [updated] = await db.update(users).set(updates).where(eq(users.id, user.id)).returning();
-	return c.json({ data: { id: updated.id, email: updated.email, name: updated.name, avatarUrl: updated.avatarUrl } }, 200);
+	return c.json({ data: { id: updated!.id, email: updated!.email, name: updated!.name, avatarUrl: updated!.avatarUrl } }, 200);
 });
 
 // ============================================================
@@ -111,7 +112,7 @@ meRoute.openapi(listBookmarksRoute, async (c) => {
 	const where = and(...conditions);
 
 	// Join with paragraphs to sort by sortId
-	const [rows, [{ value: total }]] = await Promise.all([
+	const [rows, countResult] = await Promise.all([
 		db
 			.select({ bookmark: bookmarks, sortId: paragraphs.sortId })
 			.from(bookmarks)
@@ -122,6 +123,7 @@ meRoute.openapi(listBookmarksRoute, async (c) => {
 			.offset(page * limit),
 		db.select({ value: count() }).from(bookmarks).where(where),
 	]);
+	const total = countResult[0]!.value;
 
 	const globalIds = rows.map((r) => r.bookmark.paragraphId);
 	const paragraphMap = await lookupParagraphs(db, globalIds);
@@ -258,10 +260,10 @@ meRoute.openapi(createBookmarkRoute, async (c) => {
 
 	return c.json({
 		data: {
-			id: created.id,
-			category: created.category,
-			createdAt: created.createdAt.toISOString(),
-			updatedAt: created.updatedAt.toISOString(),
+			id: created!.id,
+			category: created!.category,
+			createdAt: created!.createdAt.toISOString(),
+			updatedAt: created!.updatedAt.toISOString(),
 			paragraph: resolved.paragraph,
 		},
 	}, 201);
@@ -330,7 +332,7 @@ meRoute.openapi(listNotesRoute, async (c) => {
 	}
 	const where = and(...conditions);
 
-	const [rows, [{ value: total }]] = await Promise.all([
+	const [rows, countResult] = await Promise.all([
 		db
 			.select({ note: notes, sortId: paragraphs.sortId })
 			.from(notes)
@@ -341,6 +343,7 @@ meRoute.openapi(listNotesRoute, async (c) => {
 			.offset(page * limit),
 		db.select({ value: count() }).from(notes).where(where),
 	]);
+	const total = countResult[0]!.value;
 
 	const globalIds = rows.map((r) => r.note.paragraphId);
 	const paragraphMap = await lookupParagraphs(db, globalIds);
@@ -397,11 +400,11 @@ meRoute.openapi(createNoteRoute, async (c) => {
 
 	return c.json({
 		data: {
-			id: created.id,
-			text: created.text,
-			format: created.format,
-			createdAt: created.createdAt.toISOString(),
-			updatedAt: created.updatedAt.toISOString(),
+			id: created!.id,
+			text: created!.text,
+			format: created!.format,
+			createdAt: created!.createdAt.toISOString(),
+			updatedAt: created!.updatedAt.toISOString(),
 			paragraph: resolved.paragraph,
 		},
 	}, 201);
@@ -647,7 +650,7 @@ const getPreferencesRoute = createRoute({
 	tags: ["Preferences"],
 	summary: "Get user preferences",
 	responses: {
-		200: { description: "User preferences", content: { "application/json": { schema: z.object({ data: z.record(z.unknown()) }) } } },
+		200: { description: "User preferences", content: { "application/json": { schema: z.object({ data: z.record(z.string(), z.unknown()) }) } } },
 		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
 	},
 });
@@ -667,7 +670,7 @@ const updatePreferencesRoute = createRoute({
 	summary: "Update user preferences (shallow merge)",
 	request: { body: { content: { "application/json": { schema: PreferencesUpdate } } } },
 	responses: {
-		200: { description: "Updated preferences", content: { "application/json": { schema: z.object({ data: z.record(z.unknown()) }) } } },
+		200: { description: "Updated preferences", content: { "application/json": { schema: z.object({ data: z.record(z.string(), z.unknown()) }) } } },
 		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
 	},
 });

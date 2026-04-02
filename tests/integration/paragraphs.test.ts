@@ -22,6 +22,52 @@ describe("GET /paragraphs/random", () => {
 	});
 });
 
+describe("GET /paragraphs/random (length filters)", () => {
+	it("returns 200 with minLength filter", async () => {
+		const res = await get("/paragraphs/random?minLength=100");
+		expect(res.status).toBe(200);
+		const { data } = await res.json();
+		assertParagraphShape(data);
+	});
+
+	it("returns 200 with maxLength filter", async () => {
+		const res = await get("/paragraphs/random?maxLength=500");
+		expect(res.status).toBe(200);
+		const { data } = await res.json();
+		assertParagraphShape(data);
+	});
+
+	it("returns 200 with valid minLength + maxLength range", async () => {
+		const res = await get("/paragraphs/random?minLength=100&maxLength=500");
+		expect(res.status).toBe(200);
+		const { data } = await res.json();
+		assertParagraphShape(data);
+	});
+
+	it("returns 400 when minLength >= maxLength", async () => {
+		const res = await get("/paragraphs/random?minLength=500&maxLength=100");
+		expect(res.status).toBe(400);
+		const json = await res.json();
+		expect(json.detail).toContain("minLength must be less than maxLength");
+		expect(json.type).toBe("https://urantia.dev/errors/invalid-length-filter");
+	});
+
+	it("returns 400 when minLength equals maxLength", async () => {
+		const res = await get("/paragraphs/random?minLength=100&maxLength=100");
+		expect(res.status).toBe(400);
+		const json = await res.json();
+		expect(json.detail).toContain("minLength must be less than maxLength");
+	});
+
+	it("returns 400 when minLength exceeds all paragraphs", async () => {
+		const res = await get("/paragraphs/random?minLength=9999999");
+		expect(res.status).toBe(400);
+		const json = await res.json();
+		expect(json.type).toBe("https://urantia.dev/errors/invalid-length-filter");
+		expect(json.title).toBe("Bad Request");
+	});
+});
+
 describe("GET /paragraphs/:ref (globalId format)", () => {
 	it("returns 200 for '1:2.0.1'", async () => {
 		const res = await get("/paragraphs/1:2.0.1");
