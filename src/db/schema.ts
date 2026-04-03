@@ -25,6 +25,22 @@ const vector = customType<{ data: number[] }>({
 type AudioVariant = { format: string; url: string };
 type AudioData = Record<string, Record<string, AudioVariant>> | null;
 
+type VideoVariant = { mp4: string; thumbnail: string; duration: number };
+type VideoData = Record<string, VideoVariant> | null;
+
+const videoJsonb = customType<{ data: VideoData }>({
+	dataType() {
+		return "jsonb";
+	},
+	toDriver(value: VideoData) {
+		return value === null ? null : JSON.stringify(value);
+	},
+	fromDriver(value: unknown) {
+		if (typeof value === "string") return JSON.parse(value) as VideoData;
+		return value as VideoData;
+	},
+});
+
 const jsonb = customType<{ data: AudioData }>({
 	dataType() {
 		return "jsonb";
@@ -58,6 +74,7 @@ export const papers = pgTable(
 		globalId: text("global_id").notNull(),
 		sortId: text("sort_id").notNull(),
 		labels: text("labels").array(),
+		video: videoJsonb("video"),
 	},
 	(t) => [index("papers_part_id_idx").on(t.partId)],
 );

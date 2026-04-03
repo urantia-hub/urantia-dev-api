@@ -16,7 +16,7 @@ const PARAGRAPH_KEYS = [
 	"text",
 ];
 
-const PAPER_KEYS = ["id", "labels", "partId", "sortId", "title"];
+const PAPER_KEYS = ["id", "labels", "partId", "sortId", "title", "video"];
 
 const SECTION_KEYS = [
 	"globalId",

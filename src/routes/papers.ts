@@ -45,6 +45,7 @@ papersRoute.openapi(listPapersRoute, async (c) => {
 			title: papers.title,
 			sortId: papers.sortId,
 			labels: papers.labels,
+			video: papers.video,
 		})
 		.from(papers)
 		.orderBy(papers.sortId);
@@ -94,6 +95,7 @@ papersRoute.openapi(getPaperRoute, async (c) => {
 			title: papers.title,
 			sortId: papers.sortId,
 			labels: papers.labels,
+			video: papers.video,
 		})
 		.from(papers)
 		.where(eq(papers.id, id))

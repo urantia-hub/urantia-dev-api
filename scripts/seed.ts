@@ -19,12 +19,24 @@ const MANIFEST_PATH =
   process.env.AUDIO_MANIFEST ??
   join(import.meta.dir, "../data/audio-manifest.json");
 
+const VIDEO_MANIFEST_PATH =
+  process.env.VIDEO_MANIFEST ??
+  join(import.meta.dir, "../data/video-manifest.json");
+
 let audioManifest: Record<string, Record<string, Record<string, { format: string; url: string }>>> = {};
 if (existsSync(MANIFEST_PATH)) {
   audioManifest = JSON.parse(readFileSync(MANIFEST_PATH, "utf-8"));
   console.log(`Audio manifest loaded: ${Object.keys(audioManifest).length} paragraphs`);
 } else {
   console.warn(`Audio manifest not found at ${MANIFEST_PATH} — audio will be null`);
+}
+
+let videoManifest: Record<string, Record<string, { mp4: string; thumbnail: string; duration: number }>> = {};
+if (existsSync(VIDEO_MANIFEST_PATH)) {
+  videoManifest = JSON.parse(readFileSync(VIDEO_MANIFEST_PATH, "utf-8"));
+  console.log(`Video manifest loaded: ${Object.keys(videoManifest).length} papers`);
+} else {
+  console.warn(`Video manifest not found at ${VIDEO_MANIFEST_PATH} — video will be null`);
 }
 
 const client = postgres(DATABASE_URL);
@@ -94,6 +106,7 @@ async function seed() {
           globalId: paperNode.globalId,
           sortId: paperNode.sortId,
           labels: paperNode.labels ?? [],
+          video: videoManifest[paperNode.paperId] ?? null,
         })
         .onConflictDoNothing();
       totalPapers++;

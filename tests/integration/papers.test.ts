@@ -19,7 +19,7 @@ describe("GET /papers", () => {
 		expect(data.length).toBeGreaterThan(0);
 	});
 
-	it("each paper has exact 5-key shape", async () => {
+	it("each paper has exact 6-key shape", async () => {
 		const res = await get("/papers");
 		const { data } = await res.json();
 		for (const paper of data) {
@@ -33,6 +33,17 @@ describe("GET /papers", () => {
 		for (let i = 1; i < data.length; i++) {
 			expect(data[i].sortId >= data[i - 1].sortId).toBe(true);
 		}
+	});
+
+	it("papers include video field with nova voice", async () => {
+		const res = await get("/papers");
+		const { data } = await res.json();
+		const paper = data.find((p: any) => p.id === "1");
+		expect(paper.video).toBeDefined();
+		expect(paper.video.nova).toBeDefined();
+		expect(paper.video.nova.mp4).toContain("video.urantiahub.com");
+		expect(paper.video.nova.thumbnail).toContain("thumbnail-1.png");
+		expect(paper.video.nova.duration).toBeGreaterThan(0);
 	});
 });
 
@@ -50,7 +61,7 @@ describe("GET /papers/:id (valid)", () => {
 		expect(data.paragraphs.length).toBeGreaterThan(0);
 	});
 
-	it("paper has exact 5-key shape", async () => {
+	it("paper has exact 6-key shape", async () => {
 		const res = await get("/papers/2");
 		const { data } = await res.json();
 		assertPaperShape(data.paper);

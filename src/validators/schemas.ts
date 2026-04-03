@@ -35,12 +35,25 @@ export const PartSchema = z.object({
 
 // --- Paper ---
 
+// --- Video variant ---
+
+const VideoVariantSchema = z.object({
+	mp4: z.string(),
+	thumbnail: z.string(),
+	duration: z.number(),
+});
+
+const VideoSchema = z.record(z.string(), VideoVariantSchema).nullable();
+
+// --- Paper ---
+
 export const PaperSchema = z.object({
 	id: z.string(),
 	partId: z.string(),
 	title: z.string(),
 	sortId: z.string(),
 	labels: z.array(z.string()).nullable(),
+	video: VideoSchema,
 });
 
 // --- Section ---
