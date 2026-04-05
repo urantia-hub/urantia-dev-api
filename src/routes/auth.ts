@@ -3,7 +3,7 @@ import { and, eq } from "drizzle-orm";
 import { SignJWT } from "jose";
 import { z } from "zod";
 import { getDb } from "../db/client.ts";
-import { apps, authCodes, userConsents, users } from "../db/schema.ts";
+import { apps, authCodes, refreshTokens, userConsents, users } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
 import { problemJson } from "../lib/errors.ts";
 import type { AuthUser } from "../middleware/auth.ts";
@@ -51,11 +51,41 @@ function isAdmin(c: { env?: Record<string, unknown> }, userId: string): boolean 
 
 const ALLOWED_SCOPES = ["profile", "bookmarks", "notes", "reading-progress", "preferences", "app-data"];
 
+const REFRESH_TOKEN_EXPIRY_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
+
+/**
+ * Generate a refresh token, hash it, store it, and return the raw token.
+ */
+async function createRefreshToken(
+	db: ReturnType<typeof getDb>["db"],
+	userId: string,
+	appId: string,
+): Promise<string> {
+	const rawToken = crypto.randomUUID();
+	const tokenHash = await sha256(rawToken);
+	const expiresAt = new Date(Date.now() + REFRESH_TOKEN_EXPIRY_MS);
+
+	await db.insert(refreshTokens).values({
+		userId,
+		appId,
+		tokenHash,
+		expiresAt,
+	});
+
+	return rawToken;
+}
+
+/**
+ * Dangerous schemes that must never be used as redirect URIs.
+ */
+const BLOCKED_SCHEMES = new Set(["javascript:", "data:", "file:", "ftp:", "blob:", "vbscript:"]);
+
 /**
  * Validate a redirect URI.
- * - Must be https:// for production URLs
- * - Allow http://localhost:* and http://127.0.0.1:* for development
- * - Reject javascript:, data:, ftp:, and non-http(s) schemes
+ * - https:// allowed for any domain
+ * - http://localhost:* and http://127.0.0.1:* allowed for development
+ * - Custom schemes (e.g. urantiahub://) allowed for native apps
+ * - Reject dangerous schemes: javascript:, data:, file:, ftp:, blob:, vbscript:
  */
 function validateRedirectUri(uri: string): string | null {
 	let parsed: URL;
@@ -65,12 +95,17 @@ function validateRedirectUri(uri: string): string | null {
 		return `Invalid URL: "${uri}"`;
 	}
 	const { protocol, hostname } = parsed;
-	if (protocol !== "https:" && protocol !== "http:") {
-		return `Invalid scheme "${protocol}" in "${uri}". Only http and https are allowed.`;
+
+	// Block dangerous schemes
+	if (BLOCKED_SCHEMES.has(protocol)) {
+		return `Blocked scheme "${protocol}" in "${uri}".`;
 	}
+
+	// http:// only allowed for localhost
 	if (protocol === "http:" && hostname !== "localhost" && hostname !== "127.0.0.1") {
 		return `http:// is only allowed for localhost and 127.0.0.1. Use https:// for "${hostname}".`;
 	}
+
 	return null;
 }
 
@@ -103,7 +138,7 @@ const AppPublicSchema = z.object({
 const AppCreateBody = z.object({
 	id: z.string().min(3).max(40).regex(/^[a-z0-9][a-z0-9-]*[a-z0-9]$/, "Must be lowercase alphanumeric with hyphens, 3-40 chars"),
 	name: z.string().min(1),
-	redirectUris: z.array(z.string().url()).min(1),
+	redirectUris: z.array(z.string().min(1)).min(1),
 	scopes: z.array(z.string()).min(1),
 	primaryColor: HexColor.optional(),
 	accentColor: HexColor.optional(),
@@ -111,7 +146,7 @@ const AppCreateBody = z.object({
 
 const AppUpdateBody = z.object({
 	name: z.string().min(1).max(100).optional(),
-	redirectUris: z.array(z.string().url()).min(1).optional(),
+	redirectUris: z.array(z.string().min(1)).min(1).optional(),
 	scopes: z.array(z.enum(ALLOWED_SCOPES as [string, ...string[]])).min(1).optional(),
 	primaryColor: HexColor.nullable().optional(),
 	accentColor: HexColor.nullable().optional(),
@@ -152,7 +187,7 @@ const AppCreateResponse = z.object({
 
 const AuthorizeBody = z.object({
 	appId: z.string().min(1),
-	redirectUri: z.string().url(),
+	redirectUri: z.string().min(1),
 	scopes: z.array(z.string()).min(1),
 	codeChallenge: z.string().optional(),
 	state: z.string().optional(),
@@ -168,10 +203,12 @@ const TokenBody = z.object({
 	appId: z.string().min(1),
 	appSecret: z.string().min(1).optional(),
 	codeVerifier: z.string().optional(),
+	redirectUri: z.string().optional(),
 });
 
 const TokenResponse = z.object({
 	accessToken: z.string(),
+	refreshToken: z.string(),
 	userId: z.string(),
 	email: z.string().nullable(),
 	scopes: z.array(z.string()),
@@ -484,6 +521,14 @@ authRoute.openapi(tokenRoute, async (c) => {
 		return problemJson(c, 400, "App ID does not match the authorization code.");
 	}
 
+	// RFC 6749: re-validate redirect_uri on token exchange
+	if (body.redirectUri) {
+		if (body.redirectUri !== authCode.redirectUri) {
+			await db.delete(authCodes).where(eq(authCodes.code, body.code));
+			return problemJson(c, 400, "Redirect URI does not match the one used during authorization.");
+		}
+	}
+
 	// Look up the app and verify secret
 	const [app] = await db.select().from(apps).where(eq(apps.id, body.appId)).limit(1);
 	if (!app) {
@@ -524,8 +569,8 @@ authRoute.openapi(tokenRoute, async (c) => {
 		.where(eq(users.id, authCode.userId))
 		.limit(1);
 
-	// Generate a scoped JWT access token (1 hour expiry)
-	const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+	// Generate a scoped JWT access token (7-day expiry)
+	const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
 	const jwtSecret = c.env?.APP_JWT_SECRET as string;
 	if (!jwtSecret) {
@@ -546,13 +591,172 @@ authRoute.openapi(tokenRoute, async (c) => {
 		.setExpirationTime(expiresAt)
 		.sign(secret);
 
+	// Generate refresh token
+	const refreshToken = await createRefreshToken(db, authCode.userId, authCode.appId);
+
 	return c.json(
 		{
 			data: {
 				accessToken,
+				refreshToken,
 				userId: authCode.userId,
 				email: user?.email ?? null,
 				scopes: authCode.scopes,
+				expiresAt: expiresAt.toISOString(),
+			},
+		},
+		200,
+	);
+});
+
+// ============================================================
+// 4B. POST /refresh — Refresh access token
+// ============================================================
+
+const RefreshBody = z.object({
+	refreshToken: z.string().min(1),
+	appId: z.string().min(1),
+});
+
+const refreshRoute = createRoute({
+	operationId: "refreshToken",
+	method: "post",
+	path: "/refresh",
+	tags: ["Auth"],
+	summary: "Exchange a refresh token for a new access token + refresh token",
+	request: { body: { content: { "application/json": { schema: RefreshBody } } } },
+	responses: {
+		200: {
+			description: "New token pair",
+			content: { "application/json": { schema: z.object({ data: TokenResponse }) } },
+		},
+		400: {
+			description: "Invalid or expired refresh token",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+		401: {
+			description: "Refresh token reused (theft detected) — all tokens revoked",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+		500: {
+			description: "Internal server error",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+	},
+});
+
+authRoute.openapi(refreshRoute, async (c) => {
+	const body = c.req.valid("json");
+	const { db } = getDb(c.env?.HYPERDRIVE);
+	const logger = c.get("logger");
+
+	const tokenHash = await sha256(body.refreshToken);
+
+	// Find the refresh token by hash
+	const [token] = await db
+		.select()
+		.from(refreshTokens)
+		.where(and(eq(refreshTokens.tokenHash, tokenHash), eq(refreshTokens.appId, body.appId)))
+		.limit(1);
+
+	if (!token) {
+		return problemJson(c, 400, "Invalid refresh token.");
+	}
+
+	// Check if this token was already consumed (theft detection)
+	if (token.consumed) {
+		// Token reuse detected — revoke ALL refresh tokens for this user+app
+		logger?.warn("[auth] Refresh token reuse detected — revoking all tokens", {
+			userId: token.userId,
+			appId: token.appId,
+			reusedTokenId: token.id,
+		});
+		await db
+			.delete(refreshTokens)
+			.where(and(eq(refreshTokens.userId, token.userId), eq(refreshTokens.appId, token.appId)));
+		return problemJson(c, 401, "Refresh token has already been used. All sessions revoked for security.");
+	}
+
+	// Check expiry
+	if (token.expiresAt < new Date()) {
+		await db.delete(refreshTokens).where(eq(refreshTokens.id, token.id));
+		return problemJson(c, 400, "Refresh token has expired. Please sign in again.");
+	}
+
+	// Mark as consumed (keep for theft detection, don't delete yet)
+	await db
+		.update(refreshTokens)
+		.set({ consumed: new Date() })
+		.where(eq(refreshTokens.id, token.id));
+
+	// Look up user
+	const [user] = await db
+		.select({ email: users.email })
+		.from(users)
+		.where(eq(users.id, token.userId))
+		.limit(1);
+
+	// Look up app scopes from the consent grant
+	const [consent] = await db
+		.select({ scopes: userConsents.scopes })
+		.from(userConsents)
+		.where(and(eq(userConsents.userId, token.userId), eq(userConsents.appId, token.appId)))
+		.limit(1);
+
+	const scopes = consent?.scopes ?? ["profile"];
+
+	// Generate new access token
+	const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+
+	const jwtSecret = c.env?.APP_JWT_SECRET as string;
+	if (!jwtSecret) {
+		return problemJson(c, 500, "JWT signing key not configured.");
+	}
+
+	const secret = new TextEncoder().encode(jwtSecret);
+	const accessToken = await new SignJWT({
+		sub: token.userId,
+		email: user?.email ?? null,
+		scopes,
+		app_id: token.appId,
+		iss: "https://accounts.urantiahub.com",
+		aud: "authenticated",
+	})
+		.setProtectedHeader({ alg: "HS256" })
+		.setIssuedAt()
+		.setExpirationTime(expiresAt)
+		.sign(secret);
+
+	// Issue new refresh token (rotation)
+	const newRefreshToken = await createRefreshToken(db, token.userId, token.appId);
+
+	// Clean up old consumed tokens for this user+app (keep last 5 for theft detection window)
+	const oldTokens = await db
+		.select({ id: refreshTokens.id })
+		.from(refreshTokens)
+		.where(
+			and(
+				eq(refreshTokens.userId, token.userId),
+				eq(refreshTokens.appId, token.appId),
+			),
+		)
+		.orderBy(refreshTokens.createdAt);
+
+	if (oldTokens.length > 5) {
+		const toDelete = oldTokens.slice(0, oldTokens.length - 5);
+		for (const old of toDelete) {
+			await db.delete(refreshTokens).where(eq(refreshTokens.id, old.id));
+		}
+	}
+
+	return c.json(
+		{
+			data: {
+				accessToken,
+				refreshToken: newRefreshToken,
+				userId: token.userId,
+				email: user?.email ?? null,
+				scopes,
 				expiresAt: expiresAt.toISOString(),
 			},
 		},

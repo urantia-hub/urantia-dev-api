@@ -43,6 +43,13 @@
       "when": 1774401675013,
       "tag": "0005_left_darkstar",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1775344117699,
+      "tag": "0006_high_ronan",
+      "breakpoints": true
     }
   ]
 }

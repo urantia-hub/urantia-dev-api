@@ -405,6 +405,28 @@ export const appUserData = pgTable(
 	],
 );
 
+// --- refresh_tokens (one-time-use, rotated on each refresh) ---
+export const refreshTokens = pgTable(
+	"refresh_tokens",
+	{
+		id: uuid("id").primaryKey().defaultRandom(),
+		userId: uuid("user_id")
+			.notNull()
+			.references(() => users.id, { onDelete: "cascade" }),
+		appId: text("app_id")
+			.notNull()
+			.references(() => apps.id, { onDelete: "cascade" }),
+		tokenHash: text("token_hash").notNull(),
+		consumed: timestamp("consumed"), // null = active, set = used (kept for theft detection)
+		expiresAt: timestamp("expires_at").notNull(),
+		createdAt: timestamp("created_at").notNull().defaultNow(),
+	},
+	(t) => [
+		index("refresh_tokens_user_app_idx").on(t.userId, t.appId),
+		index("refresh_tokens_token_hash_idx").on(t.tokenHash),
+	],
+);
+
 // --- auth_codes (short-lived OAuth authorization codes) ---
 export const authCodes = pgTable("auth_codes", {
 	code: text("code").primaryKey(),
