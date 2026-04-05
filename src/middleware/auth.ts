@@ -23,7 +23,7 @@ const AUTH_REQUIRED_PREFIXES = ["/me", "/auth"];
 // Auth infra routes that don't require a user token
 const AUTH_PUBLIC_PATHS = new Set(["/.well-known/openid-configuration", "/.well-known/jwks.json"]);
 // Auth routes that are public (no JWT required) — matched by prefix
-const AUTH_PUBLIC_PREFIXES = ["/auth/apps/", "/auth/token"];
+const AUTH_PUBLIC_PREFIXES = ["/auth/apps/", "/auth/token", "/auth/refresh"];
 
 // Cache the JWKS keyset per Supabase URL to avoid re-fetching on every request
 const jwksCache = new Map<string, ReturnType<typeof createRemoteJWKSet>>();
