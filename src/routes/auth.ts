@@ -400,6 +400,15 @@ authRoute.openapi(authorizeRoute, async (c) => {
 	const body = c.req.valid("json");
 	const { db } = getDb(c.env?.HYPERDRIVE);
 
+	// Sync profile from Supabase JWT (may have fresh Google OAuth data)
+	if (user.name || user.avatarUrl) {
+		const updates: Record<string, unknown> = {};
+		if (user.name) updates.name = user.name;
+		if (user.avatarUrl) updates.avatarUrl = user.avatarUrl;
+		if (user.email) updates.email = user.email;
+		await db.update(users).set(updates).where(eq(users.id, user.id));
+	}
+
 	// Look up app
 	const [app] = await db.select().from(apps).where(eq(apps.id, body.appId)).limit(1);
 	if (!app) return problemJson(c, 404, `App "${body.appId}" not found.`);
