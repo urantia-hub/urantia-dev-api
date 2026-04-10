@@ -128,6 +128,16 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 				name,
 				avatarUrl,
 			});
+		} else {
+			// Sync profile fields from JWT if the DB record is missing them
+			const row = existing[0];
+			const updates: Record<string, unknown> = {};
+			if (!row.name && name) updates.name = name;
+			if (!row.avatarUrl && avatarUrl) updates.avatarUrl = avatarUrl;
+			if (!row.email && email) updates.email = email;
+			if (Object.keys(updates).length > 0) {
+				await db.update(users).set(updates).where(eq(users.id, userId));
+			}
 		}
 
 		c.set("user", { id: userId, email, name, avatarUrl });
