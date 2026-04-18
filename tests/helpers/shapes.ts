@@ -17,6 +17,9 @@ const PARAGRAPH_KEYS = [
 ];
 
 const PAPER_KEYS = ["id", "labels", "partId", "sortId", "title", "video"];
+const PAPER_WITH_ENTITIES_KEYS = [...PAPER_KEYS, "topEntities"].sort();
+
+const TOP_ENTITY_KEYS = ["count", "id", "name", "type"];
 
 const SECTION_KEYS = [
 	"globalId",
@@ -45,6 +48,14 @@ export function assertParagraphShape(p: Record<string, unknown>) {
 
 export function assertPaperShape(p: Record<string, unknown>) {
 	expect(Object.keys(p).sort()).toEqual(PAPER_KEYS);
+}
+
+export function assertPaperWithEntitiesShape(p: Record<string, unknown>) {
+	expect(Object.keys(p).sort()).toEqual(PAPER_WITH_ENTITIES_KEYS);
+}
+
+export function assertTopEntityShape(e: Record<string, unknown>) {
+	expect(Object.keys(e).sort()).toEqual(TOP_ENTITY_KEYS);
 }
 
 export function assertSectionShape(s: Record<string, unknown>) {

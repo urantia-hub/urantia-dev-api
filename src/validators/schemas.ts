@@ -47,6 +47,21 @@ const VideoSchema = z.record(z.string(), VideoVariantSchema).nullable();
 
 // --- Paper ---
 
+// --- Entity mention (used by paragraphs when ?include=entities, and by
+//     paper-level topEntities aggregate) ---
+
+export const EntityMentionSchema = z.object({
+	id: z.string(),
+	name: z.string(),
+	type: z.string(),
+});
+
+export const TopEntitySchema = EntityMentionSchema.extend({
+	count: z.number().int().nonnegative(),
+});
+
+// --- Paper ---
+
 export const PaperSchema = z.object({
 	id: z.string(),
 	partId: z.string(),
@@ -54,6 +69,7 @@ export const PaperSchema = z.object({
 	sortId: z.string(),
 	labels: z.array(z.string()).nullable(),
 	video: VideoSchema,
+	topEntities: z.array(TopEntitySchema).optional(),
 });
 
 // --- Section ---

@@ -3,7 +3,7 @@ import { eq, sql } from "drizzle-orm";
 import { getDb } from "../db/client.ts";
 import { papers, paragraphs, sections } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
-import { enrichWithEntities, wantsEntities } from "../lib/entities.ts";
+import { aggregateTopEntities, enrichWithEntities, wantsEntities } from "../lib/entities.ts";
 import { problemJson } from "../lib/errors.ts";
 import {
 	ErrorResponse,
@@ -130,16 +130,27 @@ papersRoute.openapi(getPaperRoute, async (c) => {
 		.where(eq(paragraphs.paperId, id))
 		.orderBy(paragraphs.sortId);
 
-	const enrichedParagraphs = wantsEntities(include)
-		? await enrichWithEntities(db, paperParagraphs)
-		: paperParagraphs;
-
+	if (wantsEntities(include)) {
+		// Attach per-paragraph entity mentions AND a paper-level topEntities
+		// aggregate — the N most-referenced named entities in this paper,
+		// sorted by frequency. Useful for UI chips, YouTube tags, SEO, etc.
+		const enriched = await enrichWithEntities(db, paperParagraphs);
+		return c.json(
+			{
+				data: {
+					paper: { ...paper[0]!, topEntities: aggregateTopEntities(enriched) },
+					paragraphs: enriched,
+				},
+			},
+			200,
+		);
+	}
 
 	return c.json(
 		{
 			data: {
 				paper: paper[0]!,
-				paragraphs: enrichedParagraphs,
+				paragraphs: paperParagraphs,
 			},
 		},
 		200,

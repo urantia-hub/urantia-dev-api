@@ -2,8 +2,10 @@ import { describe, expect, it } from "bun:test";
 import { get } from "../helpers/app.ts";
 import {
 	assertPaperShape,
+	assertPaperWithEntitiesShape,
 	assertParagraphShape,
 	assertSectionShape,
+	assertTopEntityShape,
 } from "../helpers/shapes.ts";
 
 describe("GET /papers", () => {
@@ -93,6 +95,45 @@ describe("GET /papers/:id (valid)", () => {
 				data.paragraphs[i].sortId >= data.paragraphs[i - 1].sortId,
 			).toBe(true);
 		}
+	});
+});
+
+describe("GET /papers/:id?include=entities", () => {
+	it("attaches topEntities to the paper object", async () => {
+		const res = await get("/papers/1?include=entities");
+		expect(res.status).toBe(200);
+		const { data } = await res.json();
+		assertPaperWithEntitiesShape(data.paper);
+		expect(data.paper.topEntities).toBeArray();
+		expect(data.paper.topEntities.length).toBeGreaterThan(0);
+		expect(data.paper.topEntities.length).toBeLessThanOrEqual(12);
+	});
+
+	it("each top entity has the expected 4-key shape", async () => {
+		const res = await get("/papers/1?include=entities");
+		const { data } = await res.json();
+		for (const e of data.paper.topEntities) {
+			assertTopEntityShape(e);
+			expect(typeof e.count).toBe("number");
+			expect(e.count).toBeGreaterThan(0);
+		}
+	});
+
+	it("top entities are sorted by count descending", async () => {
+		const res = await get("/papers/1?include=entities");
+		const { data } = await res.json();
+		for (let i = 1; i < data.paper.topEntities.length; i++) {
+			expect(data.paper.topEntities[i - 1].count).toBeGreaterThanOrEqual(
+				data.paper.topEntities[i].count,
+			);
+		}
+	});
+
+	it("does not attach topEntities when include=entities is absent", async () => {
+		const res = await get("/papers/1");
+		const { data } = await res.json();
+		assertPaperShape(data.paper);
+		expect(data.paper.topEntities).toBeUndefined();
 	});
 });
 
