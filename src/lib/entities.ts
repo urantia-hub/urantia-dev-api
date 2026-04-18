@@ -66,9 +66,13 @@ export async function enrichWithEntities<T extends ParagraphRow>(
  * list. Entities are deduplicated by id and counted by the number of paragraphs
  * they appear in. Used for the paper-level `topEntities` field.
  *
- * `limit` caps the returned list (default 12). Types are tier-ranked so that
- * persons/places/concepts surface before orders/races/religions when the long
- * tail gets cut off — matches what reads best as YouTube tags and UI chips.
+ * Sort order (all descending where applicable):
+ *   1. `count` — primary. Higher-cited entities always outrank lower-cited ones.
+ *   2. Tier (tie-breaker) — beings / places / concepts rank above orders /
+ *      races / religions. Only applied when counts are equal.
+ *   3. Name alpha (final tie-breaker) — stable output on identical count+tier.
+ *
+ * `limit` caps the returned list (default 12).
  */
 export function aggregateTopEntities(
 	paragraphs: readonly { entities?: EntityMention[] }[],
