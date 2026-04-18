@@ -14,6 +14,15 @@ export function wantsEntities(include: string | undefined): boolean {
 }
 
 /**
+ * Check if `include` query param contains "topEntities".
+ * Case-sensitive: only matches the exact literal "topEntities".
+ */
+export function wantsTopEntities(include: string | undefined): boolean {
+	if (!include) return false;
+	return include.split(",").map((s) => s.trim()).includes("topEntities");
+}
+
+/**
  * Batch-enrich paragraph rows with their entity mentions via the junction table.
  * Returns new array with `entities` array attached to each row.
  */

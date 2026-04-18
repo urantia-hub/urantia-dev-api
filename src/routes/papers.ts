@@ -3,7 +3,12 @@ import { eq, sql } from "drizzle-orm";
 import { getDb } from "../db/client.ts";
 import { papers, paragraphs, sections } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
-import { aggregateTopEntities, enrichWithEntities, wantsEntities } from "../lib/entities.ts";
+import {
+	aggregateTopEntities,
+	enrichWithEntities,
+	wantsEntities,
+	wantsTopEntities,
+} from "../lib/entities.ts";
 import { problemJson } from "../lib/errors.ts";
 import {
 	ErrorResponse,
@@ -23,7 +28,11 @@ const listPapersRoute = createRoute({
 	path: "/",
 	tags: ["Papers"],
 	summary: "List all 197 papers",
-	description: "Returns metadata for all papers in the Urantia Book, ordered by paper number.",
+	description:
+		"Returns metadata for all papers in the Urantia Book, ordered by paper number.\n\nUse `?include=topEntities` to attach a per-paper aggregate of the most-referenced named entities (beings, places, concepts, etc.) sorted by citation frequency.",
+	request: {
+		query: IncludeQuery,
+	},
 	responses: {
 		200: {
 			description: "List of all papers",
@@ -38,6 +47,8 @@ const listPapersRoute = createRoute({
 
 papersRoute.openapi(listPapersRoute, async (c) => {
 	const { db } = getDb(c.env?.HYPERDRIVE);
+	const { include } = c.req.valid("query");
+
 	const allPapers = await db
 		.select({
 			id: papers.id,
@@ -50,6 +61,31 @@ papersRoute.openapi(listPapersRoute, async (c) => {
 		.from(papers)
 		.orderBy(papers.sortId);
 
+	if (wantsTopEntities(include)) {
+		// Fetch all paragraphs across all papers in a single query, enrich with
+		// entities via the junction, then bucket by paperId and aggregate top
+		// entities per bucket. One round-trip to the DB regardless of paper
+		// count; indexed junction lookup keeps it reasonable even with ~41K rows.
+		const allParagraphs = await db
+			.select({ id: paragraphs.id, paperId: paragraphs.paperId })
+			.from(paragraphs);
+
+		const enriched = await enrichWithEntities(db, allParagraphs);
+
+		const byPaper = new Map<string, (typeof enriched)[number][]>();
+		for (const p of enriched) {
+			const bucket = byPaper.get(p.paperId) ?? [];
+			bucket.push(p);
+			byPaper.set(p.paperId, bucket);
+		}
+
+		const papersWithTop = allPapers.map((paper) => ({
+			...paper,
+			topEntities: aggregateTopEntities(byPaper.get(paper.id) ?? []),
+		}));
+
+		return c.json({ data: papersWithTop }, 200);
+	}
 
 	return c.json({ data: allPapers }, 200);
 });
@@ -130,16 +166,25 @@ papersRoute.openapi(getPaperRoute, async (c) => {
 		.where(eq(paragraphs.paperId, id))
 		.orderBy(paragraphs.sortId);
 
-	if (wantsEntities(include)) {
-		// Attach per-paragraph entity mentions AND a paper-level topEntities
-		// aggregate — the N most-referenced named entities in this paper,
-		// sorted by frequency. Useful for UI chips, YouTube tags, SEO, etc.
+	const needEntities = wantsEntities(include);
+	const needTopEntities = needEntities || wantsTopEntities(include);
+
+	if (needTopEntities) {
+		// Enrich paragraphs with entities so we can aggregate paper-level topEntities.
+		// If the caller asked only for topEntities (not entities), we keep the
+		// paragraphs free of the entity mentions array to reduce payload size.
 		const enriched = await enrichWithEntities(db, paperParagraphs);
+		const topEntities = aggregateTopEntities(enriched);
+
+		const responseParagraphs = needEntities
+			? enriched
+			: paperParagraphs;
+
 		return c.json(
 			{
 				data: {
-					paper: { ...paper[0]!, topEntities: aggregateTopEntities(enriched) },
-					paragraphs: enriched,
+					paper: { ...paper[0]!, topEntities },
+					paragraphs: responseParagraphs,
 				},
 			},
 			200,
