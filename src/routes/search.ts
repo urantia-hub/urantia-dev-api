@@ -11,6 +11,13 @@ import { createApp } from "../lib/app.ts";
 import { enrichWithEntities, wantsEntities } from "../lib/entities.ts";
 import { problemJson } from "../lib/errors.ts";
 import {
+	getCachedCount,
+	getCachedEmbedding,
+	runAfter,
+	setCachedCount,
+	setCachedEmbedding,
+} from "../lib/search-cache.ts";
+import {
 	ErrorResponse,
 	SearchQueryParams,
 	SearchRequest,
@@ -102,7 +109,7 @@ async function handleFullTextSearch(c: AnyContext, params: SearchParams) {
 			sectionTitle: paragraphs.sectionTitle,
 			paragraphId: paragraphs.paragraphId,
 			text: paragraphs.text,
-			htmlText: sql<string>`ts_headline('english', ${paragraphs.htmlText}, ${sql.raw(tsQuery)}, ${sql.raw("'StartSel=\"<span class=urantia-dev-highlighted>\", StopSel=\"</span>\", MaxFragments=0, HighlightAll=true'")})`,
+			htmlText: sql<string>`ts_headline('english', ${paragraphs.htmlText}, ${sql.raw(tsQuery)}, ${sql.raw('\'StartSel="<span class=urantia-dev-highlighted>", StopSel="</span>", MaxFragments=0, HighlightAll=true\'')})`,
 			labels: paragraphs.labels,
 			audio: paragraphs.audio,
 			rank: sql<number>`ts_rank(search_vector, ${sql.raw(tsQuery)})`,
@@ -124,9 +131,7 @@ async function handleFullTextSearch(c: AnyContext, params: SearchParams) {
 		});
 	}
 
-	const enrichedResults = wantsEntities(include)
-		? await enrichWithEntities(db, results)
-		: results;
+	const enrichedResults = wantsEntities(include) ? await enrichWithEntities(db, results) : results;
 
 	return c.json(
 		{
@@ -157,21 +162,27 @@ async function handleSemanticSearch(c: AnyContext, params: SemanticSearchParams)
 	const startTotal = performance.now();
 
 	const { db } = getDb(c.env?.HYPERDRIVE);
+	const kv = c.env?.SEARCH_CACHE as KVNamespace | undefined;
 	const { q, page, limit, paperId, partId, include } = params;
 	const offset = page * limit;
 
 	const startEmbedding = performance.now();
-	const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-	const embeddingResponse = await openai.embeddings.create({
-		model: "text-embedding-3-small",
-		input: q,
-	});
-	const embeddingMs = Math.round(performance.now() - startEmbedding);
-
-	const queryVector = embeddingResponse.data[0]?.embedding;
+	let queryVector = await getCachedEmbedding(kv, q);
+	const embeddingCacheHit = queryVector !== null;
 	if (!queryVector) {
-		return problemJson(c, 500, "Failed to generate embedding");
+		const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+		const embeddingResponse = await openai.embeddings.create({
+			model: "text-embedding-3-small",
+			input: q,
+		});
+		const vec = embeddingResponse.data[0]?.embedding;
+		if (!vec) {
+			return problemJson(c, 500, "Failed to generate embedding");
+		}
+		queryVector = vec;
+		runAfter(c, setCachedEmbedding(kv, q, vec));
 	}
+	const embeddingMs = Math.round(performance.now() - startEmbedding);
 	const vectorStr = `[${queryVector.join(",")}]`;
 
 	// Build WHERE conditions
@@ -184,13 +195,15 @@ async function handleSemanticSearch(c: AnyContext, params: SemanticSearchParams)
 	}
 	const whereClause = and(...conditions);
 
-	// Run count and vector search in parallel to save a round-trip
+	// Run count (if not cached) and vector search in parallel.
 	const startQueries = performance.now();
+	const cachedCount = await getCachedCount(kv, paperId, partId);
+	const countCacheHit = cachedCount !== null;
+	const countPromise = countCacheHit
+		? Promise.resolve<{ count: number }[]>([{ count: cachedCount }])
+		: db.select({ count: sql<number>`count(*)` }).from(paragraphs).where(whereClause);
 	const [countResult, results] = await Promise.all([
-		db
-			.select({ count: sql<number>`count(*)` })
-			.from(paragraphs)
-			.where(whereClause),
+		countPromise,
 		db
 			.select({
 				id: paragraphs.id,
@@ -221,6 +234,9 @@ async function handleSemanticSearch(c: AnyContext, params: SemanticSearchParams)
 	const queriesMs = Math.round(performance.now() - startQueries);
 
 	const total = Number(countResult[0]?.count ?? 0);
+	if (!countCacheHit) {
+		runAfter(c, setCachedCount(kv, paperId, partId, total));
+	}
 
 	let enrichMs = 0;
 	const enrichedResults = wantsEntities(include)
@@ -241,6 +257,10 @@ async function handleSemanticSearch(c: AnyContext, params: SemanticSearchParams)
 			paper_id: paperId ?? undefined,
 			part_id: partId ?? undefined,
 			result_count: total,
+			cache: {
+				embedding_hit: embeddingCacheHit,
+				count_hit: countCacheHit,
+			},
 			timing: {
 				embedding_ms: embeddingMs,
 				db_queries_ms: queriesMs,

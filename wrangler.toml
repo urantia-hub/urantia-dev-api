@@ -15,3 +15,10 @@ id = "9a44af1aa9224a4f8bfc4585087440dc"
 [[r2_buckets]]
 binding = "APP_LOGOS"
 bucket_name = "urantia-app-logos"
+
+# Cache for query embeddings (keyed by sha256(q)) and filter counts.
+# Create with: wrangler kv:namespace create SEARCH_CACHE
+# Then replace the id below with the returned id.
+[[kv_namespaces]]
+binding = "SEARCH_CACHE"
+id = "30a200787c5445a1a998582a112fd1f8"

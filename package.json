@@ -18,7 +18,7 @@
     "generate-manifest": "bun scripts/generate-audio-manifest.ts",
     "generate-embeddings": "bun scripts/generate-embeddings.ts",
     "create-hnsw-index": "bun scripts/create-hnsw-index.ts",
-    "deploy": "wrangler deploy",
+    "deploy": "bash scripts/deploy.sh",
     "test": "bun test"
   },
   "devDependencies": {

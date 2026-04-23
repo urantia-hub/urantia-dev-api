@@ -1,6 +1,27 @@
 # urantia-dev-api
 
-AI/developer-first API for the Urantia Papers.
+AI/developer-first API for the Urantia Papers — the **hub product's**
+backend service.
+
+## Scope of this service
+
+This service owns Papers content (text, paragraphs, entities, search,
+audio) and the hub product's per-user data (bookmarks, notes, reading
+progress, preferences). It also hosts the shared OAuth infrastructure
+(`/auth/*` — app registry, auth codes, token exchange) because that was
+the natural first home for it.
+
+**This is NOT a catch-all backend for every Urantia app.** Other product
+apps get their own services with their own databases:
+
+- `urantia-listen-api/` — Listen app (audio transcripts, semantic hits,
+  streaming insights)
+- future product apps — same pattern
+
+All backends validate tokens issued by `accounts.urantiahub.com`, but each
+owns its own schema, migrations, deploy, secrets, and data retention
+rules. Don't bolt new product features onto this repo just because the
+auth middleware is already wired up — stand up a new service.
 
 ## Tech Stack
 
@@ -19,6 +40,23 @@ AI/developer-first API for the Urantia Papers.
 - `bun run db:push` — Push schema to database
 - `bun run typecheck` — Type check
 - `bun run lint` — Lint with Biome
+- `bun run deploy` — Deploy to Cloudflare Workers and warm the cache (see Deploy + cache warmup)
+
+## Deploy + cache warmup
+
+`bun run deploy` runs `scripts/deploy.sh`, which does `wrangler deploy` and
+then hits `/health` and `/search/semantic?q=warmup&limit=1`.
+
+The warmup hit is load-bearing, not cosmetic. `/search/semantic` uses a KV
+cache (`SEARCH_CACHE` binding) for query embeddings and filter-tuple counts.
+Without the warmup, the first real user query after a deploy eats the cold
+path: fresh Worker isolate, cold Hyperdrive pool, no cached `count(*)` —
+roughly 2s. With the warmup, the unfiltered count cache is populated and the
+steady-state floor is ~300ms.
+
+Do not strip the warmup from the deploy script. If you change the cache key
+scheme in `src/lib/search-cache.ts` (bump `COUNT_KEY_VERSION`), the warmup is
+what rebuilds the hot set after the rollout.
 
 ## Project Structure
 
