@@ -1,5 +1,7 @@
 # Urantia Papers API
 
+[![smithery badge](https://smithery.ai/badge/urantiahub/urantia-papers)](https://smithery.ai/servers/urantiahub/urantia-papers)
+
 A developer and AI-agent friendly API for the Urantia Papers. Provides full-text search, structured content access, and audio URLs for all 14,500+ paragraphs across 197 papers.
 
 ## API Endpoints
@@ -105,7 +107,13 @@ Recommended flow:
 
 ## MCP Server
 
-The API includes a built-in [MCP](https://modelcontextprotocol.io) server at `https://api.urantia.dev/mcp` — connect Claude Desktop, Cursor, or any MCP client to access all endpoints as tools.
+The API includes a built-in [MCP](https://modelcontextprotocol.io) server at `https://api.urantia.dev/mcp` — connect Claude Desktop, Cursor, or any MCP client to access:
+
+- **13 tools** — search, paragraph lookup, paper navigation, entity browsing, audio
+- **2 resource templates** — `urantia://paper/{id}` (markdown) and `urantia://entity/{id}`
+- **2 prompt templates** — `study_assistant`, `comparative_theology`
+
+One-click install via [Smithery](https://smithery.ai/servers/urantiahub/urantia-papers).
 
 ## Authentication
 
