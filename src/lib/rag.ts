@@ -1,6 +1,5 @@
-import { and, eq, gt, lt, sql } from "drizzle-orm";
 import type { getDb } from "../db/client.ts";
-import { paragraphs } from "../db/schema.ts";
+import { getParagraphNavigation } from "./paragraph-lookup.ts";
 
 interface ParagraphRow {
 	id: string;
@@ -51,31 +50,7 @@ export async function toRagFormat(
 	const citation = `The Urantia Book, Paper ${paperId}, Section ${sectionId ?? "0"}, Paragraph ${paraId}`;
 	const tokenCount = paragraph.text.split(/\s+/).filter(Boolean).length;
 
-	// Get prev/next by sortId within the same paper
-	const [prevRows, nextRows] = await Promise.all([
-		db
-			.select({ standardReferenceId: paragraphs.standardReferenceId })
-			.from(paragraphs)
-			.where(
-				and(
-					eq(paragraphs.paperId, paragraph.paperId),
-					lt(paragraphs.sortId, paragraph.sortId),
-				),
-			)
-			.orderBy(sql`${paragraphs.sortId} DESC`)
-			.limit(1),
-		db
-			.select({ standardReferenceId: paragraphs.standardReferenceId })
-			.from(paragraphs)
-			.where(
-				and(
-					eq(paragraphs.paperId, paragraph.paperId),
-					gt(paragraphs.sortId, paragraph.sortId),
-				),
-			)
-			.orderBy(paragraphs.sortId)
-			.limit(1),
-	]);
+	const navigation = await getParagraphNavigation(db, paragraph.paperId, paragraph.sortId);
 
 	const entityNames = paragraph.entities?.map((e) => e.name) ?? [];
 
@@ -91,10 +66,7 @@ export async function toRagFormat(
 			partId,
 			paragraphId: paraId,
 		},
-		navigation: {
-			prev: prevRows[0]?.standardReferenceId ?? null,
-			next: nextRows[0]?.standardReferenceId ?? null,
-		},
+		navigation,
 		tokenCount,
 		entities: entityNames,
 	};

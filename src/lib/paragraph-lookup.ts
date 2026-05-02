@@ -1,4 +1,4 @@
-import { eq, inArray } from "drizzle-orm";
+import { and, eq, gt, inArray, lt, sql } from "drizzle-orm";
 import type { getDb } from "../db/client.ts";
 import { paragraphs } from "../db/schema.ts";
 import { paragraphFields } from "../routes/paragraphs.ts";
@@ -68,6 +68,41 @@ export async function resolveParagraphRef(
 		paperSectionId,
 		paperSectionParagraphId: `${row.paperId}.${row.sectionId ?? "0"}.${row.paragraphId}`,
 		paragraph: row as unknown as ParagraphEntity,
+	};
+}
+
+export interface ParagraphNavigation {
+	prev: string | null;
+	next: string | null;
+}
+
+/**
+ * Get the previous and next paragraph refs (standardReferenceId) within the
+ * same paper, ordered by sortId. Returns nulls at paper boundaries.
+ */
+export async function getParagraphNavigation(
+	db: ReturnType<typeof getDb>["db"],
+	paperId: string,
+	sortId: string,
+): Promise<ParagraphNavigation> {
+	const [prevRows, nextRows] = await Promise.all([
+		db
+			.select({ standardReferenceId: paragraphs.standardReferenceId })
+			.from(paragraphs)
+			.where(and(eq(paragraphs.paperId, paperId), lt(paragraphs.sortId, sortId)))
+			.orderBy(sql`${paragraphs.sortId} DESC`)
+			.limit(1),
+		db
+			.select({ standardReferenceId: paragraphs.standardReferenceId })
+			.from(paragraphs)
+			.where(and(eq(paragraphs.paperId, paperId), gt(paragraphs.sortId, sortId)))
+			.orderBy(paragraphs.sortId)
+			.limit(1),
+	]);
+
+	return {
+		prev: prevRows[0]?.standardReferenceId ?? null,
+		next: nextRows[0]?.standardReferenceId ?? null,
 	};
 }
 

@@ -97,6 +97,61 @@ describe("GET /paragraphs/:ref (paperSectionParagraphId format)", () => {
 	});
 });
 
+describe("GET /paragraphs/:ref (navigation)", () => {
+	it("returns navigation envelope with prev and next refs", async () => {
+		const res = await get("/paragraphs/1:2.1");
+		expect(res.status).toBe(200);
+		const json = await res.json();
+		expect(json.navigation).toBeDefined();
+		expect(json.navigation).toHaveProperty("prev");
+		expect(json.navigation).toHaveProperty("next");
+	});
+
+	it("prev is null at start of paper, next is non-null", async () => {
+		// Foreword paragraph 0:0.1 — first paragraph of Paper 0
+		const res = await get("/paragraphs/0:0.1");
+		expect(res.status).toBe(200);
+		const json = await res.json();
+		expect(json.navigation.prev).toBeNull();
+		expect(typeof json.navigation.next).toBe("string");
+	});
+
+	it("next ref resolves to a real paragraph in same paper", async () => {
+		const res = await get("/paragraphs/1:2.1");
+		const { data, navigation } = await res.json();
+		if (navigation.next) {
+			const nextRes = await get(`/paragraphs/${navigation.next}`);
+			expect(nextRes.status).toBe(200);
+			const next = (await nextRes.json()).data;
+			expect(next.paperId).toBe(data.paperId);
+			expect(next.sortId > data.sortId).toBe(true);
+		}
+	});
+
+	it("prev ref resolves to a real paragraph in same paper", async () => {
+		const res = await get("/paragraphs/1:2.1");
+		const { data, navigation } = await res.json();
+		if (navigation.prev) {
+			const prevRes = await get(`/paragraphs/${navigation.prev}`);
+			expect(prevRes.status).toBe(200);
+			const prev = (await prevRes.json()).data;
+			expect(prev.paperId).toBe(data.paperId);
+			expect(prev.sortId < data.sortId).toBe(true);
+		}
+	});
+});
+
+describe("GET /paragraphs/random (navigation)", () => {
+	it("returns navigation envelope", async () => {
+		const res = await get("/paragraphs/random");
+		expect(res.status).toBe(200);
+		const json = await res.json();
+		expect(json.navigation).toBeDefined();
+		expect(json.navigation).toHaveProperty("prev");
+		expect(json.navigation).toHaveProperty("next");
+	});
+});
+
 describe("GET /paragraphs/:ref (error cases)", () => {
 	it("returns 400 for invalid format (RFC 9457)", async () => {
 		const res = await get("/paragraphs/not-a-ref");

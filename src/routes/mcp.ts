@@ -1,4 +1,4 @@
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPTransport } from "@hono/mcp";
 import { Hono } from "hono";
 import { z } from "zod";
@@ -547,6 +547,223 @@ function createMcpServer() {
 		},
 	);
 
+	// --- Resources ---
+
+	// urantia://paper/{id} — full paper as plaintext markdown
+	server.resource(
+		"paper",
+		new ResourceTemplate("urantia://paper/{id}", {
+			list: async () => {
+				const { db } = getDb();
+				const all = await db
+					.select({ id: papers.id, title: papers.title })
+					.from(papers)
+					.orderBy(papers.sortId);
+				return {
+					resources: all.map((p) => ({
+						uri: `urantia://paper/${p.id}`,
+						name: `Paper ${p.id}: ${p.title}`,
+						mimeType: "text/markdown",
+					})),
+				};
+			},
+		}),
+		{
+			description:
+				"A single paper from the Urantia Book (0-196), rendered as plaintext markdown with section headings and paragraph references. Useful for full-paper context in RAG or summarization.",
+			mimeType: "text/markdown",
+		},
+		async (uri, { id }) => {
+			const paperId = String(id);
+			const { db } = getDb();
+			const paper = await db
+				.select({ id: papers.id, title: papers.title, partId: papers.partId })
+				.from(papers)
+				.where(eq(papers.id, paperId))
+				.limit(1);
+
+			if (paper.length === 0) {
+				throw new Error(`Paper ${paperId} not found`);
+			}
+
+			const paperParagraphs = await db
+				.select({
+					sortId: paragraphs.sortId,
+					sectionTitle: paragraphs.sectionTitle,
+					standardReferenceId: paragraphs.standardReferenceId,
+					text: paragraphs.text,
+				})
+				.from(paragraphs)
+				.where(eq(paragraphs.paperId, paperId))
+				.orderBy(paragraphs.sortId);
+
+			const lines: string[] = [`# Paper ${paperId}: ${paper[0]!.title}`, ""];
+			let currentSection: string | null | undefined;
+			for (const p of paperParagraphs) {
+				if (p.sectionTitle !== currentSection) {
+					currentSection = p.sectionTitle;
+					if (currentSection) {
+						lines.push("", `## ${currentSection}`, "");
+					}
+				}
+				lines.push(`[${p.standardReferenceId}] ${p.text}`, "");
+			}
+
+			return {
+				contents: [
+					{
+						uri: uri.href,
+						mimeType: "text/markdown",
+						text: lines.join("\n"),
+					},
+				],
+			};
+		},
+	);
+
+	// urantia://entity/{id} — entity description + paragraph refs that mention it
+	server.resource(
+		"entity",
+		new ResourceTemplate("urantia://entity/{id}", {
+			list: async () => {
+				const { db } = getDb();
+				const all = await db
+					.select({ id: entities.id, name: entities.name })
+					.from(entities)
+					.orderBy(entities.name)
+					.limit(500);
+				return {
+					resources: all.map((e) => ({
+						uri: `urantia://entity/${e.id}`,
+						name: e.name,
+						mimeType: "text/markdown",
+					})),
+				};
+			},
+		}),
+		{
+			description:
+				"An entity (being, place, order, race, religion, or concept) from the Urantia Book with description, aliases, related entities, and references to all paragraphs that mention it.",
+			mimeType: "text/markdown",
+		},
+		async (uri, { id }) => {
+			const entityId = String(id);
+			const { db } = getDb();
+			const entity = await db
+				.select()
+				.from(entities)
+				.where(eq(entities.id, entityId))
+				.limit(1);
+
+			if (entity.length === 0) {
+				throw new Error(`Entity "${entityId}" not found`);
+			}
+
+			const e = entity[0]!;
+			const refs = await db
+				.select({ standardReferenceId: paragraphs.standardReferenceId })
+				.from(paragraphs)
+				.innerJoin(paragraphEntities, eq(paragraphs.id, paragraphEntities.paragraphId))
+				.where(eq(paragraphEntities.entityId, entityId))
+				.orderBy(paragraphs.sortId);
+
+			const lines: string[] = [`# ${e.name}`, "", `**Type:** ${e.type}`];
+			if (e.aliases && e.aliases.length > 0) {
+				lines.push(`**Aliases:** ${e.aliases.join(", ")}`);
+			}
+			lines.push("");
+			if (e.description) {
+				lines.push(e.description, "");
+			}
+			if (e.seeAlso && e.seeAlso.length > 0) {
+				lines.push(`**See also:** ${e.seeAlso.join(", ")}`, "");
+			}
+			lines.push(
+				`## References (${refs.length})`,
+				"",
+				...refs.map((r) => `- ${r.standardReferenceId}`),
+			);
+
+			return {
+				contents: [
+					{
+						uri: uri.href,
+						mimeType: "text/markdown",
+						text: lines.join("\n"),
+					},
+				],
+			};
+		},
+	);
+
+	// --- Prompts ---
+
+	server.prompt(
+		"study_assistant",
+		"Prime the model to act as a Urantia Book study assistant. Optionally focus on a specific topic.",
+		{
+			topic: z
+				.string()
+				.optional()
+				.describe('Optional topic or passage to focus on. Example: "the nature of God"'),
+		},
+		({ topic }) => {
+			const focus = topic
+				? `\n\nThe student wants to explore: **${topic}**. Begin by surfacing 2-3 of the most relevant Urantia Book passages on this topic via the search or semantic_search tools, then offer a thoughtful entry point for discussion.`
+				: "";
+			return {
+				messages: [
+					{
+						role: "user",
+						content: {
+							type: "text",
+							text: `You are a study assistant for the Urantia Book — a 2,097-page revelation in 196 papers covering cosmology, theology, philosophy, and the life and teachings of Jesus. Help the user study by:
+
+- Citing exact paragraph references (e.g. "Paper 1:2.3") when quoting
+- Using the search and semantic_search tools to find relevant passages
+- Following passages back to their full context with get_paragraph_context
+- Surfacing entity relationships via list_entities and get_entity_paragraphs
+- Reading entire papers via the urantia://paper/{id} resource when needed
+
+Stay grounded in the text. When the user asks something not addressed in the Urantia Book, say so clearly rather than improvising.${focus}`,
+						},
+					},
+				],
+			};
+		},
+	);
+
+	server.prompt(
+		"comparative_theology",
+		"Prime the model to compare a Urantia Book teaching with another religious or philosophical tradition.",
+		{
+			topic: z.string().describe('The teaching or concept to compare. Example: "the soul"'),
+			tradition: z
+				.string()
+				.describe('The other tradition. Example: "Buddhism", "Christian mysticism", "Stoicism"'),
+		},
+		({ topic, tradition }) => ({
+			messages: [
+				{
+					role: "user",
+					content: {
+						type: "text",
+						text: `Compare what the Urantia Book teaches about **${topic}** with the corresponding teaching in **${tradition}**.
+
+Approach:
+1. Use semantic_search to gather Urantia passages on ${topic} (start broad, then narrow)
+2. State the Urantia view in 3-5 bullet points with paragraph citations
+3. State the ${tradition} view in 3-5 bullet points (you may rely on general knowledge here)
+4. Identify points of resonance and points of divergence
+5. Be honest about uncertainty; don't force a synthesis
+
+Cite Urantia passages by their standard reference (e.g. "Paper 112:7.1"). For ${tradition}, cite source texts where possible.`,
+					},
+				},
+			],
+		}),
+	);
+
 	return server;
 }
 
@@ -588,6 +805,14 @@ mcpRoute.get("/", async (c) => {
 				get_entity: { description: "Get entity details by slug ID", params: ["entity_id"] },
 				get_entity_paragraphs: { description: "Get all paragraphs mentioning an entity", params: ["entity_id", "page", "limit"] },
 				get_audio: { description: "Get audio file URLs for a paragraph", params: ["paragraph_ref"] },
+			},
+			resources: {
+				"urantia://paper/{id}": { description: "Full paper rendered as plaintext markdown with section headings and paragraph references" },
+				"urantia://entity/{id}": { description: "Entity description with aliases, see-also, and all paragraph references" },
+			},
+			prompts: {
+				study_assistant: { description: "Prime the model as a Urantia Book study assistant", args: ["topic"] },
+				comparative_theology: { description: "Compare a Urantia teaching with another tradition", args: ["topic", "tradition"] },
 			},
 		},
 		usage: {

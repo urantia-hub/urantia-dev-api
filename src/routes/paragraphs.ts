@@ -5,6 +5,7 @@ import { paragraphs } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
 import { enrichWithEntities, wantsEntities } from "../lib/entities.ts";
 import { problemJson } from "../lib/errors.ts";
+import { getParagraphNavigation } from "../lib/paragraph-lookup.ts";
 import { toRagFormat } from "../lib/rag.ts";
 import { applyParagraphTranslations, applyTitleTranslations } from "../lib/translations.ts";
 import { detectRefFormat } from "../types/node.ts";
@@ -78,7 +79,7 @@ const getRandomRoute = createRoute({
 	tags: ["Paragraphs"],
 	summary: "Get a random paragraph",
 	description:
-		"Returns a single random paragraph from the Urantia Book. Useful for daily quotes or exploration.\n\nUse `?include=entities` to include typed entity mentions in the response.\n\nUse `?minLength=N` and/or `?maxLength=N` to filter by character count of the paragraph text.",
+		"Returns a single random paragraph from the Urantia Book. Useful for daily quotes or exploration.\n\nResponse includes a `navigation` envelope with the previous and next paragraph refs (within the same paper, ordered by sortId). Refs are `null` at paper boundaries.\n\nUse `?include=entities` to include typed entity mentions in the response.\n\nUse `?minLength=N` and/or `?maxLength=N` to filter by character count of the paragraph text.",
 	request: {
 		query: RandomQuery,
 	},
@@ -140,7 +141,8 @@ paragraphsRoute.openapi(getRandomRoute, async (c) => {
 		return c.json({ data: ragData }, 200);
 	}
 
-	return c.json({ data }, 200);
+	const navigation = await getParagraphNavigation(db, data.paperId, data.sortId);
+	return c.json({ data, navigation }, 200);
 });
 
 // GET /paragraphs/:ref — paragraph by any reference format
@@ -155,7 +157,7 @@ const getParagraphRoute = createRoute({
 - **standardReferenceId**: "2:0.1" (paperId:sectionId.paragraphId)
 - **paperSectionParagraphId**: "2.0.1" (paperId.sectionId.paragraphId)
 
-The format is auto-detected from the reference string.\n\nUse \`?include=entities\` to include typed entity mentions in the response.`,
+The format is auto-detected from the reference string.\n\nResponse includes a \`navigation\` envelope with the previous and next paragraph refs (within the same paper, ordered by sortId). Refs are \`null\` at paper boundaries.\n\nUse \`?include=entities\` to include typed entity mentions in the response.`,
 	request: {
 		params: ParagraphRefParam,
 		query: IncludeQuery,
@@ -211,7 +213,8 @@ paragraphsRoute.openapi(getParagraphRoute, async (c) => {
 		return c.json({ data: ragData }, 200);
 	}
 
-	return c.json({ data }, 200);
+	const navigation = await getParagraphNavigation(db, data.paperId, data.sortId);
+	return c.json({ data, navigation }, 200);
 });
 
 // GET /paragraphs/:ref/context — paragraph with surrounding context

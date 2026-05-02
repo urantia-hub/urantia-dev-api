@@ -23,8 +23,7 @@ async function parseMcpResponse(res: Response) {
 	return results;
 }
 
-async function callTool(name: string, args: Record<string, unknown> = {}) {
-	// First initialize
+async function initialize() {
 	const initRes = await mcpRequest({
 		id: 1,
 		method: "initialize",
@@ -36,15 +35,36 @@ async function callTool(name: string, args: Record<string, unknown> = {}) {
 	});
 	const initResults = await parseMcpResponse(initRes);
 	expect(initResults.length).toBeGreaterThan(0);
+}
 
-	// Then call tool
+async function callTool(name: string, args: Record<string, unknown> = {}) {
+	await initialize();
 	const toolRes = await mcpRequest({
 		id: 2,
 		method: "tools/call",
 		params: { name, arguments: args },
 	});
-	const toolResults = await parseMcpResponse(toolRes);
-	return toolResults;
+	return parseMcpResponse(toolRes);
+}
+
+async function readResource(uri: string) {
+	await initialize();
+	const res = await mcpRequest({
+		id: 2,
+		method: "resources/read",
+		params: { uri },
+	});
+	return parseMcpResponse(res);
+}
+
+async function getPrompt(name: string, args: Record<string, unknown> = {}) {
+	await initialize();
+	const res = await mcpRequest({
+		id: 2,
+		method: "prompts/get",
+		params: { name, arguments: args },
+	});
+	return parseMcpResponse(res);
 }
 
 describe("MCP Server", () => {
@@ -54,6 +74,14 @@ describe("MCP Server", () => {
 		const body = await res.json();
 		expect(body.server.name).toBe("Urantia Papers API");
 		expect(Object.keys(body.capabilities.tools).length).toBe(13);
+		expect(Object.keys(body.capabilities.resources)).toEqual([
+			"urantia://paper/{id}",
+			"urantia://entity/{id}",
+		]);
+		expect(Object.keys(body.capabilities.prompts).sort()).toEqual([
+			"comparative_theology",
+			"study_assistant",
+		]);
 		expect(body.usage.config.mcpServers["urantia-papers"].url).toBe("https://api.urantia.dev/mcp");
 	});
 
@@ -155,5 +183,83 @@ describe("MCP Server", () => {
 		const content = JSON.parse(results[0].result.content[0].text);
 		expect(content.data).toBeArray();
 		expect(content.meta).toHaveProperty("total");
+	});
+});
+
+describe("MCP Resources", () => {
+	it("lists resource templates", async () => {
+		await initialize();
+		const res = await mcpRequest({
+			id: 2,
+			method: "resources/templates/list",
+		});
+		const results = await parseMcpResponse(res);
+		expect(results.length).toBeGreaterThan(0);
+		const templates = results[0].result.resourceTemplates;
+		expect(templates).toBeArray();
+		const uris = templates.map((t: { uriTemplate: string }) => t.uriTemplate).sort();
+		expect(uris).toEqual(["urantia://entity/{id}", "urantia://paper/{id}"]);
+	});
+
+	it("reads urantia://paper/1 as markdown", async () => {
+		const results = await readResource("urantia://paper/1");
+		expect(results.length).toBeGreaterThan(0);
+		const contents = results[0].result.contents;
+		expect(contents).toBeArray();
+		expect(contents[0].mimeType).toBe("text/markdown");
+		expect(contents[0].text).toStartWith("# Paper 1:");
+		// Should contain at least one bracketed paragraph reference
+		expect(contents[0].text).toMatch(/\[1:\d+\.\d+\]/);
+	});
+
+	it("reads urantia://entity/{id} as markdown when entity exists", async () => {
+		// Use list_entities to find a real entity id, then fetch the resource
+		const listResults = await callTool("list_entities", { limit: 1 });
+		const list = JSON.parse(listResults[0].result.content[0].text);
+		const entityId = list.data[0]?.id;
+		if (!entityId) return; // skip if no entities seeded
+		const results = await readResource(`urantia://entity/${entityId}`);
+		expect(results.length).toBeGreaterThan(0);
+		const contents = results[0].result.contents;
+		expect(contents[0].mimeType).toBe("text/markdown");
+		expect(contents[0].text).toContain("**Type:**");
+	});
+});
+
+describe("MCP Prompts", () => {
+	it("lists prompts", async () => {
+		await initialize();
+		const res = await mcpRequest({
+			id: 2,
+			method: "prompts/list",
+		});
+		const results = await parseMcpResponse(res);
+		const prompts = results[0].result.prompts;
+		const names = prompts.map((p: { name: string }) => p.name).sort();
+		expect(names).toEqual(["comparative_theology", "study_assistant"]);
+	});
+
+	it("study_assistant returns a primer message", async () => {
+		const results = await getPrompt("study_assistant");
+		const messages = results[0].result.messages;
+		expect(messages).toBeArray();
+		expect(messages[0].role).toBe("user");
+		expect(messages[0].content.text).toContain("study assistant");
+	});
+
+	it("study_assistant interpolates the topic argument", async () => {
+		const results = await getPrompt("study_assistant", { topic: "the nature of God" });
+		const text = results[0].result.messages[0].content.text;
+		expect(text).toContain("the nature of God");
+	});
+
+	it("comparative_theology requires topic and tradition", async () => {
+		const results = await getPrompt("comparative_theology", {
+			topic: "the soul",
+			tradition: "Buddhism",
+		});
+		const text = results[0].result.messages[0].content.text;
+		expect(text).toContain("the soul");
+		expect(text).toContain("Buddhism");
 	});
 });

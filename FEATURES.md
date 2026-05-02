@@ -27,8 +27,10 @@
 
 ## AI & Developer Tools
 
-- **MCP Server** at `api.urantia.dev/mcp` — 13 tools for Claude, Cursor, Windsurf, and other AI agents
+- **MCP Server** at `api.urantia.dev/mcp` — 13 tools, 2 resource templates (`urantia://paper/{id}`, `urantia://entity/{id}`), and 2 prompt templates (`study_assistant`, `comparative_theology`) for Claude, Cursor, Windsurf, and other AI agents
+- **Function-calling schemas** — `/tools/openai` and `/tools/anthropic` return drop-in tool definitions for the OpenAI and Anthropic SDKs
 - **RAG-optimized format** — `?format=rag` returns streamlined responses with metadata, navigation, and token counts
+- **Navigation metadata** — every single-paragraph response includes prev/next refs within the paper for reading-flow UIs
 - **Context windows** — fetch a paragraph with N surrounding paragraphs for richer AI context
 - **Embedding export** — bulk download vectors per paper (JSONL/JSON)
 - **OpenAPI 3.1 spec** — generate typed clients in any language from `/openapi.json`

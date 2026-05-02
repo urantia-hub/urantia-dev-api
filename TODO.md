@@ -46,13 +46,13 @@ Infrastructure layer: turn the Urantia Papers from a book into a queryable knowl
 
 ## API Polish (Medium Priority)
 
-- [ ] **Navigation metadata** — Add `prev`/`next` paragraph refs to `GET /paragraphs/{ref}` responses. Enables reading flow UIs without extra API calls.
+- [x] **Navigation metadata** — `GET /paragraphs/{ref}` and `GET /paragraphs/random` now return a `navigation` envelope with `prev`/`next` refs (within the same paper, ordered by sortId; null at boundaries). Helper extracted to `src/lib/paragraph-lookup.ts` and reused by RAG format.
 
-- [ ] **Function calling schemas** — `GET /tools/openai` and `GET /tools/anthropic` returning ready-to-use tool definitions. Lets devs add Urantia Book access to any AI agent in minutes.
+- [x] **Function calling schemas** — `GET /tools/openai` and `GET /tools/anthropic` return ready-to-use tool definitions for the OpenAI Chat Completions and Anthropic Messages APIs. Source of truth lives in `src/lib/tool-catalog.ts`.
 
-- [ ] **MCP server enhancements** — Add Resources (`urantia://paper/{id}`, `urantia://entity/{id}`) and Prompts (study assistant, comparative theology) primitives beyond current Tools.
+- [x] **MCP server enhancements** — Added Resources (`urantia://paper/{id}` rendered as markdown, `urantia://entity/{id}` with description + paragraph references) and Prompts (`study_assistant` with optional topic, `comparative_theology` taking topic + tradition) on top of the existing 13 tools.
 
-- [ ] **API directory listings** — Submit to public-api-lists (GitHub), Postman public workspace, RapidAPI, faith.tools, APIs.guru. Free distribution to millions of developers.
+- [ ] **API directory listings** — Submit to ~~public-api-lists (GitHub)~~ ✅ merged, Postman public workspace, RapidAPI, faith.tools, APIs.guru. Free distribution to millions of developers.
 
 ## Study Group Toolkit API (Build #3)
 

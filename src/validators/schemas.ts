@@ -172,8 +172,14 @@ export const SectionsResponse = z.object({
 
 // --- Paragraph ---
 
+export const NavigationSchema = z.object({
+	prev: z.string().nullable(),
+	next: z.string().nullable(),
+});
+
 export const ParagraphResponse = z.object({
 	data: ParagraphSchema,
+	navigation: NavigationSchema.optional(),
 });
 
 // --- RAG format ---

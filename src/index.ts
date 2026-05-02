@@ -24,6 +24,7 @@ import { papersRoute } from "./routes/papers.ts";
 import { paragraphsRoute } from "./routes/paragraphs.ts";
 import { searchRoute } from "./routes/search.ts";
 import { tocRoute } from "./routes/toc.ts";
+import { toolsRoute } from "./routes/tools.ts";
 
 const app = createApp<Env>();
 
@@ -144,6 +145,7 @@ app.route("/audio", audioRoute);
 app.route("/cite", citeRoute);
 app.route("/og", ogRoute);
 app.route("/embeddings", embeddingsRoute);
+app.route("/tools", toolsRoute);
 
 // OpenAPI spec
 app.doc("/openapi.json", {
