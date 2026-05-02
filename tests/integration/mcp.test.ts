@@ -67,13 +67,29 @@ async function getPrompt(name: string, args: Record<string, unknown> = {}) {
 	return parseMcpResponse(res);
 }
 
+const EXPECTED_TOOL_NAMES = [
+	"audio.get",
+	"entities.get",
+	"entities.list",
+	"entities.paragraphs",
+	"papers.get",
+	"papers.list",
+	"papers.sections",
+	"paragraphs.context",
+	"paragraphs.get",
+	"paragraphs.random",
+	"search.fulltext",
+	"search.semantic",
+	"toc.get",
+];
+
 describe("MCP Server", () => {
 	it("returns discovery response for GET /mcp", async () => {
 		const res = await app.request("/mcp", { method: "GET" });
 		expect(res.status).toBe(200);
 		const body = await res.json();
 		expect(body.server.name).toBe("Urantia Papers API");
-		expect(Object.keys(body.capabilities.tools).length).toBe(13);
+		expect(Object.keys(body.capabilities.tools).sort()).toEqual(EXPECTED_TOOL_NAMES);
 		expect(Object.keys(body.capabilities.resources)).toEqual([
 			"urantia://paper/{id}",
 			"urantia://entity/{id}",
@@ -101,22 +117,9 @@ describe("MCP Server", () => {
 		expect(results[0].result.serverInfo.name).toBe("Urantia Papers API");
 	});
 
-	it("lists all 13 tools", async () => {
-		// Initialize first
-		await mcpRequest({
-			id: 1,
-			method: "initialize",
-			params: {
-				protocolVersion: "2025-03-26",
-				capabilities: {},
-				clientInfo: { name: "test", version: "1.0.0" },
-			},
-		});
-
-		const res = await mcpRequest({
-			id: 2,
-			method: "tools/list",
-		});
+	it("lists all 13 tools with dot-notation names", async () => {
+		await initialize();
+		const res = await mcpRequest({ id: 2, method: "tools/list" });
 		expect(res.status).toBe(200);
 		const results = await parseMcpResponse(res);
 		expect(results.length).toBeGreaterThan(0);
@@ -124,43 +127,52 @@ describe("MCP Server", () => {
 		expect(tools.length).toBe(13);
 
 		const toolNames = tools.map((t: { name: string }) => t.name).sort();
-		expect(toolNames).toEqual([
-			"get_audio",
-			"get_entity",
-			"get_entity_paragraphs",
-			"get_paper",
-			"get_paper_sections",
-			"get_paragraph",
-			"get_paragraph_context",
-			"get_random_paragraph",
-			"get_table_of_contents",
-			"list_entities",
-			"list_papers",
-			"search",
-			"semantic_search",
-		]);
+		expect(toolNames).toEqual(EXPECTED_TOOL_NAMES);
 	});
 
-	it("get_table_of_contents returns parts with papers", async () => {
-		const results = await callTool("get_table_of_contents");
+	it("tools advertise read-only annotations", async () => {
+		await initialize();
+		const res = await mcpRequest({ id: 2, method: "tools/list" });
+		const results = await parseMcpResponse(res);
+		const tools = results[0].result.tools;
+		for (const tool of tools) {
+			expect(tool.annotations?.readOnlyHint).toBe(true);
+			expect(tool.annotations?.destructiveHint).toBe(false);
+		}
+	});
+
+	it("tools advertise output schemas", async () => {
+		await initialize();
+		const res = await mcpRequest({ id: 2, method: "tools/list" });
+		const results = await parseMcpResponse(res);
+		const tools = results[0].result.tools;
+		for (const tool of tools) {
+			expect(tool.outputSchema).toBeDefined();
+			expect(tool.outputSchema.type).toBe("object");
+		}
+	});
+
+	it("toc.get returns parts with papers via structuredContent", async () => {
+		const results = await callTool("toc.get");
 		expect(results.length).toBeGreaterThan(0);
-		const content = JSON.parse(results[0].result.content[0].text);
-		expect(content.parts).toBeArray();
-		expect(content.parts.length).toBeGreaterThan(0);
-		expect(content.parts[0]).toHaveProperty("title");
-		expect(content.parts[0].papers).toBeArray();
+		const result = results[0].result;
+		expect(result.structuredContent).toBeDefined();
+		expect(result.structuredContent.parts).toBeArray();
+		expect(result.structuredContent.parts[0]).toHaveProperty("title");
+		expect(result.structuredContent.parts[0].papers).toBeArray();
 	});
 
-	it("get_paragraph returns a paragraph by ref", async () => {
-		const results = await callTool("get_paragraph", { ref: "0.0.1" });
+	it("paragraphs.get returns a paragraph wrapped under .paragraph", async () => {
+		const results = await callTool("paragraphs.get", { ref: "0.0.1" });
 		expect(results.length).toBeGreaterThan(0);
-		const content = JSON.parse(results[0].result.content[0].text);
-		expect(content).toHaveProperty("text");
-		expect(content).toHaveProperty("standardReferenceId");
+		const { structuredContent } = results[0].result;
+		expect(structuredContent.paragraph).toBeDefined();
+		expect(structuredContent.paragraph.text).toBeDefined();
+		expect(structuredContent.paragraph.standardReferenceId).toBeDefined();
 	});
 
-	it("get_paragraph returns error for invalid ref", async () => {
-		const results = await callTool("get_paragraph", { ref: "invalid" });
+	it("paragraphs.get returns error for invalid ref", async () => {
+		const results = await callTool("paragraphs.get", { ref: "invalid" });
 		expect(results.length).toBeGreaterThan(0);
 		const result = results[0].result;
 		expect(result.isError).toBe(true);
@@ -168,21 +180,39 @@ describe("MCP Server", () => {
 		expect(content.error).toContain("Invalid reference format");
 	});
 
-	it("search returns results for a query", async () => {
-		const results = await callTool("search", { q: "God", limit: 3 });
+	it("search.fulltext returns results for a query", async () => {
+		const results = await callTool("search.fulltext", { q: "God", limit: 3 });
 		expect(results.length).toBeGreaterThan(0);
-		const content = JSON.parse(results[0].result.content[0].text);
-		expect(content.data).toBeArray();
-		expect(content.data.length).toBeGreaterThan(0);
-		expect(content.meta).toHaveProperty("total");
+		const { structuredContent } = results[0].result;
+		expect(structuredContent.data).toBeArray();
+		expect(structuredContent.data.length).toBeGreaterThan(0);
+		expect(structuredContent.meta).toHaveProperty("total");
 	});
 
-	it("list_entities returns paginated results", async () => {
-		const results = await callTool("list_entities", { limit: 5 });
+	it("entities.list returns paginated results", async () => {
+		const results = await callTool("entities.list", { limit: 5 });
 		expect(results.length).toBeGreaterThan(0);
-		const content = JSON.parse(results[0].result.content[0].text);
-		expect(content.data).toBeArray();
-		expect(content.meta).toHaveProperty("total");
+		const { structuredContent } = results[0].result;
+		expect(structuredContent.data).toBeArray();
+		expect(structuredContent.meta).toHaveProperty("total");
+	});
+
+	it("paragraphs.random advertises non-idempotent annotation", async () => {
+		await initialize();
+		const res = await mcpRequest({ id: 2, method: "tools/list" });
+		const results = await parseMcpResponse(res);
+		const tools = results[0].result.tools;
+		const random = tools.find((t: { name: string }) => t.name === "paragraphs.random");
+		expect(random.annotations.idempotentHint).toBe(false);
+	});
+
+	it("search.semantic advertises openWorld annotation", async () => {
+		await initialize();
+		const res = await mcpRequest({ id: 2, method: "tools/list" });
+		const results = await parseMcpResponse(res);
+		const tools = results[0].result.tools;
+		const semantic = tools.find((t: { name: string }) => t.name === "search.semantic");
+		expect(semantic.annotations.openWorldHint).toBe(true);
 	});
 });
 
@@ -208,16 +238,14 @@ describe("MCP Resources", () => {
 		expect(contents).toBeArray();
 		expect(contents[0].mimeType).toBe("text/markdown");
 		expect(contents[0].text).toStartWith("# Paper 1:");
-		// Should contain at least one bracketed paragraph reference
 		expect(contents[0].text).toMatch(/\[1:\d+\.\d+\]/);
 	});
 
 	it("reads urantia://entity/{id} as markdown when entity exists", async () => {
-		// Use list_entities to find a real entity id, then fetch the resource
-		const listResults = await callTool("list_entities", { limit: 1 });
-		const list = JSON.parse(listResults[0].result.content[0].text);
+		const listResults = await callTool("entities.list", { limit: 1 });
+		const list = listResults[0].result.structuredContent;
 		const entityId = list.data[0]?.id;
-		if (!entityId) return; // skip if no entities seeded
+		if (!entityId) return;
 		const results = await readResource(`urantia://entity/${entityId}`);
 		expect(results.length).toBeGreaterThan(0);
 		const contents = results[0].result.contents;
