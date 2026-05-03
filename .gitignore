@@ -37,3 +37,6 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 
 # Large files
 data/embeddings.json
+
+# MCP Registry publisher key (DNS auth for dev.urantia/* namespace)
+.mcp-publisher-key.pem

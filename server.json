@@ -1,8 +1,8 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.urantia-hub/urantia-papers",
+  "name": "dev.urantia/urantia-papers",
   "title": "Urantia Papers",
-  "description": "A free, open MCP server for The Urantia Book — 197 papers, 1,626 sections, 14,500+ paragraphs, 4,400+ entities. Provides 13 tools (full-text + semantic search, paragraph lookup, entity browsing, audio), 2 resource templates (urantia://paper/{id} and urantia://entity/{id}), and 2 prompt templates (study_assistant, comparative_theology). No authentication required.",
+  "description": "Free, open MCP server for The Urantia Book. 197 papers, 14,500+ paragraphs, 4,400+ entities.",
   "version": "1.0.0",
   "repository": {
     "url": "https://github.com/urantia-hub/urantia-dev-api",
