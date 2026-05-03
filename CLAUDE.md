@@ -116,6 +116,28 @@ The API includes a unified auth layer for the Urantia ecosystem:
 - `TODO.md` — Running list of planned work.
 - `docs/plans/unified-auth-layer.md` — Design spec for the auth layer.
 
+## Distribution
+
+The MCP server and REST API are listed across several AI/dev directories. Before
+adding new submission work, check what's already done so you don't duplicate it.
+See `TODO.md` "API & MCP directory listings" for the live state of in-flight
+review queues.
+
+- **MCP Registry**: published as `dev.urantia/urantia-papers` (`server.json`).
+  Namespace is DNS-authenticated via `dev.urantia` so org membership stays
+  private — do not switch this back to a `urantia-hub/*` (GitHub-auth) namespace.
+- **Smithery**: hosted listing at `urantiahub/urantia-papers` (badge in README).
+- **Glama**: dual listing — Connector tab (hosted endpoint, A grades) and Server
+  tab (`glama.json` claims maintainer `kelsonic`). Server-tab grade is capped at
+  C because we have no Dockerfile-installable stdio mode. Don't refactor to a
+  stdio MCP server just to chase Glama's A grade — Kelson explicitly rejected
+  that path. The `Dockerfile` in the repo is for local/self-hosted runs only,
+  not for Glama Path A.
+- **Connector verification**: `/.well-known/glama.json` in `src/index.ts`.
+- **Function-calling schemas**: `/tools/openai` and `/tools/anthropic` are public
+  endpoints that ship the same 13 MCP tools as ready-to-use OpenAI/Anthropic
+  tool definitions. Source of truth lives in `src/lib/tool-catalog.ts`.
+
 ## Observability
 
 - **Logging**: BetterStack via `@logtail/edge`. Structured JSON logs with request metadata.
