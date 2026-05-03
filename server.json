@@ -2,8 +2,8 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "dev.urantia/urantia-papers",
   "title": "Urantia Papers",
-  "description": "Free, open MCP server for The Urantia Book. 197 papers, 14,500+ paragraphs, 4,400+ entities.",
-  "version": "1.0.0",
+  "description": "Free, open MCP server for The Urantia Papers. 197 papers, 14,500+ paragraphs, 4,400+ entities.",
+  "version": "1.0.1",
   "repository": {
     "url": "https://github.com/urantia-hub/urantia-dev-api",
     "source": "github"
