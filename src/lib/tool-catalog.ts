@@ -140,11 +140,12 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 	{
 		name: "search",
 		description:
-			'Full-text search across all Urantia Book paragraphs. Supports three modes: "and" (all words must appear, default), "or" (any word), "phrase" (exact phrase). Results ranked by relevance.',
+			'Full-text search across all Urantia Book paragraphs. Supports three modes: "and" (all words must appear, default), "or" (any word), "phrase" (exact phrase). Results ranked by relevance. Provide the search string as either `query` (preferred) or `q` (REST alias) — exactly one is required.',
 		parameters: {
 			type: "object",
 			properties: {
-				q: { type: "string", description: 'Search query. Example: "nature of God"' },
+				query: { type: "string", description: 'Search query. Example: "nature of God"' },
+				q: { type: "string", description: "Alias for `query` (REST compatibility)." },
 				type: {
 					type: "string",
 					description: "Search mode",
@@ -157,33 +158,32 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 				limit: limitProp,
 				include_entities: includeEntitiesProp,
 			},
-			required: ["q"],
 		},
 	},
 	{
 		name: "semantic_search",
 		description:
-			"Search the Urantia Book using semantic similarity (vector embeddings). Returns conceptually related results even without exact keyword matches.",
+			"Search the Urantia Book using semantic similarity (vector embeddings). Returns conceptually related results even without exact keyword matches. Provide the search string as either `query` (preferred) or `q` (REST alias) — exactly one is required.",
 		parameters: {
 			type: "object",
 			properties: {
-				q: {
+				query: {
 					type: "string",
 					description: 'Natural language query. Example: "What is the meaning of life?"',
 				},
+				q: { type: "string", description: "Alias for `query` (REST compatibility)." },
 				paper_id: { type: "string", description: "Filter to a specific paper ID" },
 				part_id: { type: "string", description: "Filter to a specific part ID (1-4)" },
 				page: pageProp,
 				limit: limitProp,
 				include_entities: includeEntitiesProp,
 			},
-			required: ["q"],
 		},
 	},
 	{
 		name: "list_entities",
 		description:
-			"Browse the entity catalog: beings, places, orders, races, religions, and concepts mentioned in the Urantia Book. Supports filtering by type and searching by name.",
+			"Browse the entity catalog: beings, places, orders, races, religions, and concepts mentioned in the Urantia Book. Supports filtering by type and searching by name. Provide the search string as either `query` or `q` (alias) — both are optional.",
 		parameters: {
 			type: "object",
 			properties: {
@@ -192,7 +192,8 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 					description: "Filter by entity type",
 					enum: ["being", "place", "order", "race", "religion", "concept"],
 				},
-				q: { type: "string", description: "Search entities by name or alias" },
+				query: { type: "string", description: "Search entities by name or alias" },
+				q: { type: "string", description: "Alias for `query` (REST compatibility)." },
 				page: pageProp,
 				limit: limitProp,
 			},

@@ -55,6 +55,26 @@ describe("GET /tools/openai", () => {
 		);
 		expect(getParagraph.function.parameters.required).toEqual(["ref"]);
 	});
+
+	it("search tool exposes both `query` and `q` parameters", async () => {
+		const res = await get("/tools/openai");
+		const { tools } = await res.json();
+		const search = tools.find(
+			(t: { function: { name: string } }) => t.function.name === "search",
+		);
+		expect(search.function.parameters.properties).toHaveProperty("query");
+		expect(search.function.parameters.properties).toHaveProperty("q");
+	});
+
+	it("semantic_search tool exposes both `query` and `q` parameters", async () => {
+		const res = await get("/tools/openai");
+		const { tools } = await res.json();
+		const semantic = tools.find(
+			(t: { function: { name: string } }) => t.function.name === "semantic_search",
+		);
+		expect(semantic.function.parameters.properties).toHaveProperty("query");
+		expect(semantic.function.parameters.properties).toHaveProperty("q");
+	});
 });
 
 describe("GET /tools/anthropic", () => {

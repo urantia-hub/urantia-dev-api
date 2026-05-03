@@ -180,7 +180,7 @@ describe("MCP Server", () => {
 		expect(content.error).toContain("Invalid reference format");
 	});
 
-	it("search.fulltext returns results for a query", async () => {
+	it("search.fulltext returns results when query passed as `q`", async () => {
 		const results = await callTool("search.fulltext", { q: "God", limit: 3 });
 		expect(results.length).toBeGreaterThan(0);
 		const { structuredContent } = results[0].result;
@@ -189,12 +189,48 @@ describe("MCP Server", () => {
 		expect(structuredContent.meta).toHaveProperty("total");
 	});
 
+	it("search.fulltext returns results when query passed as `query`", async () => {
+		const results = await callTool("search.fulltext", { query: "God", limit: 3 });
+		expect(results.length).toBeGreaterThan(0);
+		const { structuredContent } = results[0].result;
+		expect(structuredContent.data).toBeArray();
+		expect(structuredContent.data.length).toBeGreaterThan(0);
+	});
+
+	it("search.fulltext errors when neither `query` nor `q` is provided", async () => {
+		const results = await callTool("search.fulltext", { limit: 3 });
+		expect(results.length).toBeGreaterThan(0);
+		const result = results[0].result;
+		expect(result.isError).toBe(true);
+		const err = JSON.parse(result.content[0].text);
+		expect(err.error).toContain("query");
+	});
+
+	it("search.semantic accepts `query` as well as `q`", async () => {
+		const results = await callTool("search.semantic", { query: "what happens after death", limit: 2 });
+		expect(results.length).toBeGreaterThan(0);
+		const { structuredContent } = results[0].result;
+		expect(structuredContent.data).toBeArray();
+	});
+
 	it("entities.list returns paginated results", async () => {
 		const results = await callTool("entities.list", { limit: 5 });
 		expect(results.length).toBeGreaterThan(0);
 		const { structuredContent } = results[0].result;
 		expect(structuredContent.data).toBeArray();
 		expect(structuredContent.meta).toHaveProperty("total");
+	});
+
+	it("entities.list filters by `q` (legacy alias)", async () => {
+		const results = await callTool("entities.list", { q: "Adjuster", limit: 3 });
+		const { structuredContent } = results[0].result;
+		expect(structuredContent.data).toBeArray();
+	});
+
+	it("entities.list filters by `query`", async () => {
+		const results = await callTool("entities.list", { query: "Adjuster", limit: 3 });
+		const { structuredContent } = results[0].result;
+		expect(structuredContent.data).toBeArray();
 	});
 
 	it("paragraphs.random advertises non-idempotent annotation", async () => {

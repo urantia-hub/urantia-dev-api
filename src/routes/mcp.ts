@@ -484,7 +484,11 @@ function createMcpServer() {
 			description:
 				'Full-text search across all Urantia Book paragraphs. Supports three modes: "and" (all words must appear, default), "or" (any word), "phrase" (exact phrase). Results ranked by relevance.',
 			inputSchema: {
-				q: z.string().describe('Search query. Example: "nature of God"'),
+				query: z
+					.string()
+					.optional()
+					.describe('Search query. Example: "nature of God"'),
+				q: z.string().optional().describe("Alias for `query` (REST compatibility)."),
 				type: z
 					.enum(["phrase", "and", "or"])
 					.default("and")
@@ -504,9 +508,11 @@ function createMcpServer() {
 			},
 			annotations: { title: "Full-Text Search", ...READ_ONLY_LOCAL },
 		},
-		async ({ q, type, paper_id, part_id, page, limit, include_entities }) => {
+		async ({ query, q, type, paper_id, part_id, page, limit, include_entities }) => {
+			const searchQuery = query ?? q;
+			if (!searchQuery) return errorResult("Either 'query' or 'q' is required");
 			const { db } = getDb();
-			const sanitized = q.replace(/[^\w\s]/g, " ").trim();
+			const sanitized = searchQuery.replace(/[^\w\s]/g, " ").trim();
 			if (!sanitized) return errorResult("Search query cannot be empty");
 
 			const tsQuery = buildTsQuery(sanitized, type);
@@ -553,9 +559,11 @@ function createMcpServer() {
 			description:
 				"Search the Urantia Book using semantic similarity (vector embeddings). Returns conceptually related results even without exact keyword matches. Requires OPENAI_API_KEY.",
 			inputSchema: {
-				q: z
+				query: z
 					.string()
+					.optional()
 					.describe('Natural language query. Example: "What is the meaning of life?"'),
+				q: z.string().optional().describe("Alias for `query` (REST compatibility)."),
 				paper_id: z.string().optional().describe("Filter to a specific paper ID"),
 				part_id: z.string().optional().describe("Filter to a specific part ID (1-4)"),
 				page: z.number().int().min(0).default(0).describe("Page number (0-indexed)"),
@@ -571,12 +579,14 @@ function createMcpServer() {
 			},
 			annotations: { title: "Semantic Search", ...READ_ONLY_OPEN_WORLD },
 		},
-		async ({ q, paper_id, part_id, page, limit, include_entities }) => {
+		async ({ query, q, paper_id, part_id, page, limit, include_entities }) => {
+			const searchQuery = query ?? q;
+			if (!searchQuery) return errorResult("Either 'query' or 'q' is required");
 			const { db } = getDb();
 			const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 			const embeddingResponse = await openai.embeddings.create({
 				model: "text-embedding-3-small",
-				input: q,
+				input: searchQuery,
 			});
 			const queryVector = embeddingResponse.data[0]?.embedding;
 			if (!queryVector) return errorResult("Failed to generate embedding");
@@ -625,7 +635,8 @@ function createMcpServer() {
 				"Browse the entity catalog: beings, places, orders, races, religions, and concepts mentioned in the Urantia Book. Supports filtering by type and searching by name.",
 			inputSchema: {
 				type: entityTypeEnum.optional().describe("Filter by entity type"),
-				q: z.string().optional().describe("Search entities by name or alias"),
+				query: z.string().optional().describe("Search entities by name or alias"),
+				q: z.string().optional().describe("Alias for `query` (REST compatibility)."),
 				page: z.number().int().min(0).default(0).describe("Page number (0-indexed)"),
 				limit: z.number().int().min(1).max(100).default(20).describe("Results per page (1-100)"),
 			},
@@ -635,14 +646,15 @@ function createMcpServer() {
 			},
 			annotations: { title: "List Entities", ...READ_ONLY_LOCAL },
 		},
-		async ({ type, q, page, limit }) => {
+		async ({ type, query, q, page, limit }) => {
+			const searchQuery = query ?? q;
 			const { db } = getDb();
 			const offset = page * limit;
 			const conditions = [];
 			if (type) conditions.push(eq(entities.type, type));
-			if (q) {
+			if (searchQuery) {
 				conditions.push(
-					sql`(${ilike(entities.name, `%${q}%`)} OR array_to_string(${entities.aliases}, ',') ILIKE ${`%${q}%`})`,
+					sql`(${ilike(entities.name, `%${searchQuery}%`)} OR array_to_string(${entities.aliases}, ',') ILIKE ${`%${searchQuery}%`})`,
 				);
 			}
 			const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
