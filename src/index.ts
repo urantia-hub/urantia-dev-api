@@ -121,6 +121,14 @@ app.get("/sitemap.xml", (c) => {
 	return c.text(sitemap, 200, { "Content-Type": "application/xml" });
 });
 
+// Glama maintainer verification (https://glama.ai/mcp/connectors/dev.urantia/urantia-papers)
+app.get("/.well-known/glama.json", (c) =>
+	c.json({
+		$schema: "https://glama.ai/mcp/schemas/connector.json",
+		maintainers: [{ email: "kgadams93@gmail.com" }],
+	}),
+);
+
 // OAuth/OIDC metadata discovery — return JSON 404 so MCP clients (Claude Code) know no auth is needed
 // Covers all discovery paths: root, path-aware (RFC 8414), MCP-scoped, and protected resource (RFC 9728)
 app.get("/.well-known/*", (c) =>
