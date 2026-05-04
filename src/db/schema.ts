@@ -296,12 +296,22 @@ export const bibleChunks = pgTable(
 		verseStart: integer("verse_start").notNull(),
 		verseEnd: integer("verse_end").notNull(),
 		text: text("text").notNull(),
+		// Full-precision 3072-d 3-large vectors used for the pre-computed
+		// cross-reference tables. Not HNSW-indexable (pgvector caps at 2000
+		// dims for the regular `vector` type).
 		embedding: vector3072("embedding"),
+		// 1536-d 3-small vectors used by the live Bible semantic search.
+		// Mirrors the strategy on `paragraphs.embedding`: HNSW-indexable so
+		// queries hit ~50ms instead of multi-second sequential scan.
+		embeddingSmall: vector("embedding_small"),
 		embeddingModel: text("embedding_model"),
 	},
 	(t) => [
 		index("bc_book_chapter_idx").on(t.bookCode, t.chapter),
 		index("bc_book_chapter_start_idx").on(t.bookCode, t.chapter, t.verseStart),
+		index("bc_embedding_small_hnsw_idx")
+			.using("hnsw", t.embeddingSmall.op("vector_cosine_ops"))
+			.with({ m: 16, ef_construction: 64 }),
 	],
 );
 

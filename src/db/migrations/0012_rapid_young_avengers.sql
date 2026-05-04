@@ -1,0 +1,2 @@
+ALTER TABLE "bible_chunks" ADD COLUMN "embedding_small" vector(1536);--> statement-breakpoint
+CREATE INDEX "bc_embedding_small_hnsw_idx" ON "bible_chunks" USING hnsw ("embedding_small" vector_cosine_ops) WITH (m=16,ef_construction=64);

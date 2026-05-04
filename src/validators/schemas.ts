@@ -474,6 +474,46 @@ export const BibleVerseResponse = z.object({
 	data: BibleVerseSchema,
 });
 
+// Bible semantic search request + response.
+export const BibleSemanticSearchRequest = z.object({
+	q: z.string().min(1).max(2000),
+	limit: z.number().int().min(1).max(50).default(10),
+	page: z.number().int().min(0).default(0),
+	canon: BibleCanon.optional(),
+	bookCode: z.string().min(1).optional(),
+	paragraphLimit: z.number().int().min(0).max(10).default(3),
+});
+
+const BibleSearchUbParagraphSchema = z.object({
+	id: z.string(),
+	standardReferenceId: z.string(),
+	paperId: z.string(),
+	paperTitle: z.string(),
+	sectionTitle: z.string().nullable(),
+	text: z.string(),
+	similarity: z.number(),
+	rank: z.number().int(),
+});
+
+export const BibleSemanticSearchResultSchema = z.object({
+	id: z.string(),
+	reference: z.string(),
+	bookCode: z.string(),
+	bookName: z.string(),
+	canon: BibleCanon,
+	chapter: z.number().int(),
+	verseStart: z.number().int(),
+	verseEnd: z.number().int(),
+	text: z.string(),
+	similarity: z.number(),
+	paragraphs: z.array(BibleSearchUbParagraphSchema),
+});
+
+export const BibleSemanticSearchResponse = z.object({
+	data: z.array(BibleSemanticSearchResultSchema),
+	meta: PaginationMeta,
+});
+
 // Reverse-query: given a Bible verse, list the top-N UB paragraphs
 // semantically nearest to the chunk that verse belongs to.
 export const BibleVerseParagraphSchema = z.object({

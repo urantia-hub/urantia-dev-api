@@ -143,6 +143,60 @@ describe("GET /bible/{bookCode}/{chapter}", () => {
 	});
 });
 
+describe("POST /bible/search/semantic", () => {
+	const post = async (body: object) => {
+		// biome-ignore lint: test helper
+		return await (await import("../helpers/app.ts")).post("/bible/search/semantic", body);
+	};
+
+	it("returns 200 with chunk hits and UB paragraphs attached", { timeout: 30_000 }, async () => {
+		const res = await post({ q: "forgiveness", limit: 3, paragraphLimit: 3 });
+		expect(res.status).toBe(200);
+		const { data, meta } = await res.json();
+		expect(data).toBeArray();
+		expect(data.length).toBeLessThanOrEqual(3);
+		expect(meta.total).toBeGreaterThan(0);
+		const first = data[0];
+		expect(first).toHaveProperty("reference");
+		expect(first).toHaveProperty("bookCode");
+		expect(first).toHaveProperty("canon");
+		expect(first).toHaveProperty("similarity");
+		expect(first.paragraphs).toBeArray();
+		expect(first.paragraphs.length).toBeGreaterThan(0);
+		expect(first.paragraphs[0]).toHaveProperty("standardReferenceId");
+		expect(first.paragraphs[0]).toHaveProperty("paperTitle");
+	});
+
+	it("respects paragraphLimit=0 (suppresses UB paragraphs)", { timeout: 30_000 }, async () => {
+		const res = await post({ q: "creation", limit: 2, paragraphLimit: 0 });
+		expect(res.status).toBe(200);
+		const { data } = await res.json();
+		for (const r of data) expect(r.paragraphs).toEqual([]);
+	});
+
+	it("filters by canon=nt", { timeout: 30_000 }, async () => {
+		const res = await post({ q: "love your neighbor", limit: 5, canon: "nt", paragraphLimit: 0 });
+		const { data } = await res.json();
+		for (const r of data) expect(r.canon).toBe("nt");
+	});
+
+	it("filters by bookCode (alias allowed)", { timeout: 30_000 }, async () => {
+		const res = await post({ q: "blessed", limit: 3, bookCode: "matthew", paragraphLimit: 0 });
+		const { data } = await res.json();
+		for (const r of data) expect(r.bookCode).toBe("Matt");
+	});
+
+	it("returns 400 for unknown bookCode", { timeout: 30_000 }, async () => {
+		const res = await post({ q: "anything", limit: 1, bookCode: "NotABook" });
+		expect(res.status).toBe(400);
+	});
+
+	it("returns 400 for empty query", { timeout: 30_000 }, async () => {
+		const res = await post({ q: "", limit: 1 });
+		expect(res.status).toBe(400);
+	});
+});
+
 describe("GET /bible/{bookCode}/{chapter}/{verse}/paragraphs", () => {
 	it("returns the verse, its chunk, and top UB paragraphs", async () => {
 		const res = await get("/bible/Gen/1/1/paragraphs");

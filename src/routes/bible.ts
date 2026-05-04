@@ -1,5 +1,6 @@
 import { createRoute } from "@hono/zod-openapi";
-import { and, asc, eq, sql } from "drizzle-orm";
+import { and, asc, eq, inArray, sql } from "drizzle-orm";
+import OpenAI from "openai";
 import { getDb } from "../db/client.ts";
 import {
 	bibleChunks,
@@ -15,11 +16,18 @@ import {
 } from "../lib/bible-canonicalizer.ts";
 import { problemJson } from "../lib/errors.ts";
 import {
+	getCachedEmbedding,
+	runAfter,
+	setCachedEmbedding,
+} from "../lib/search-cache.ts";
+import {
 	BibleBookParam,
 	BibleBookResponse,
 	BibleBooksResponse,
 	BibleChapterParam,
 	BibleChapterResponse,
+	BibleSemanticSearchRequest,
+	BibleSemanticSearchResponse,
 	BibleVerseParagraphsResponse,
 	BibleVerseParam,
 	BibleVerseResponse,
@@ -450,6 +458,233 @@ bibleRoute.openapi(getVerseParagraphsRoute, async (c) => {
 					source: p.source,
 					embeddingModel: p.embeddingModel,
 				})),
+			},
+		},
+		200,
+	);
+});
+
+// POST /bible/search/semantic
+// Live natural-language search across the entire World English Bible.
+// Returns Bible chunks ranked by cosine similarity AND, for each result,
+// the top-N pre-computed Urantia paragraphs related to that chunk.
+//
+// The query is embedded with `text-embedding-3-small` (1536-d) and matched
+// against `bible_chunks.embedding_small` via the HNSW index. The UB
+// paragraphs are joined from the existing `bible_parallels` table
+// (direction='bible_to_ub', already populated at top-10 per chunk in
+// Phase 3) — no extra compute needed.
+const semanticSearchRoute = createRoute({
+	operationId: "bibleSemanticSearch",
+	method: "post",
+	path: "/search/semantic",
+	tags: ["Bible"],
+	summary: "Semantic search across the Bible (with UB paragraphs)",
+	description: `Free-form natural-language search across all 17,641 Bible chunks. Each result includes the top-N pre-computed Urantia paragraphs related to that chunk via the existing cross-reference data, so a single query surfaces both the Bible matches and the relevant UB content.
+
+Query is embedded via \`text-embedding-3-small\` (1536-d) and matched against \`bible_chunks.embedding_small\` with a pgvector HNSW index. Latency is ~50-100ms on cache miss for the embedding call, ~30ms cached.
+
+Optional filters: \`canon\` (\`ot\`, \`deuterocanon\`, \`nt\`), \`bookCode\` (any OSIS/USFM/full-name/alias). \`paragraphLimit\` controls how many UB paragraphs to attach per result (0-10, default 3). Set to 0 to suppress.`,
+	request: {
+		body: {
+			content: { "application/json": { schema: BibleSemanticSearchRequest } },
+		},
+	},
+	responses: {
+		200: {
+			description: "Bible semantic search results",
+			content: { "application/json": { schema: BibleSemanticSearchResponse } },
+		},
+		400: {
+			description: "Invalid request",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+		500: {
+			description: "Internal server error",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+	},
+});
+
+bibleRoute.openapi(semanticSearchRoute, async (c) => {
+	const { db } = getDb(c.env?.HYPERDRIVE);
+	// biome-ignore lint: Cloudflare KV namespace type comes from env
+	const kv = c.env?.SEARCH_CACHE as KVNamespace | undefined;
+	const { q, page, limit, canon, bookCode, paragraphLimit } = c.req.valid("json");
+	const offset = page * limit;
+
+	// Resolve bookCode (if provided) before doing any expensive work
+	let resolvedBookCode: string | undefined;
+	if (bookCode) {
+		const meta = resolveBibleBook(bookCode);
+		if (!meta) {
+			return problemJson(c, 400, `Bible book "${bookCode}" not found`);
+		}
+		resolvedBookCode = meta.osis;
+	}
+
+	// 1. Get/cache query embedding
+	let queryVector = await getCachedEmbedding(kv, q);
+	if (!queryVector) {
+		const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+		const embeddingResponse = await openai.embeddings.create({
+			model: "text-embedding-3-small",
+			input: q,
+		});
+		const vec = embeddingResponse.data[0]?.embedding;
+		if (!vec) {
+			return problemJson(c, 500, "Failed to generate embedding");
+		}
+		queryVector = vec;
+		runAfter(c, setCachedEmbedding(kv, q, vec));
+	}
+	const vectorStr = `[${queryVector.join(",")}]`;
+
+	// 2. Build WHERE clause (filters by canon/book if provided)
+	const conditions = [sql`embedding_small IS NOT NULL`];
+	if (canon) conditions.push(sql`canon = ${canon}`);
+	if (resolvedBookCode) conditions.push(sql`book_code = ${resolvedBookCode}`);
+	const whereClause = and(...conditions);
+
+	// `canon` lives on `bible_verses`, not `bible_chunks`. We need to join.
+	// Use a subquery so HNSW + filters compose cleanly.
+	const filteredChunks = sql`
+		SELECT bc.id, bc.book_code, bc.chapter, bc.verse_start, bc.verse_end,
+		       bc.text, bc.embedding_small,
+		       (SELECT canon FROM bible_verses WHERE chunk_id = bc.id LIMIT 1) AS canon
+		FROM bible_chunks bc
+		WHERE bc.embedding_small IS NOT NULL
+		${canon ? sql`AND EXISTS (SELECT 1 FROM bible_verses WHERE chunk_id = bc.id AND canon = ${canon})` : sql``}
+		${resolvedBookCode ? sql`AND bc.book_code = ${resolvedBookCode}` : sql``}
+	`;
+
+	// 3. Run count + ranked search in parallel.
+	// Count includes the same filters but doesn't need embedding.
+	const countPromise = db.execute(sql<{ n: number }[]>`
+		SELECT COUNT(*)::int AS n FROM (${filteredChunks}) f
+	`);
+
+	// Ranked search: cosine similarity, ORDER BY <=> uses HNSW.
+	const resultsPromise = db.execute(sql<
+		{
+			id: string;
+			book_code: string;
+			chapter: number;
+			verse_start: number;
+			verse_end: number;
+			text: string;
+			canon: string;
+			similarity: number;
+		}[]
+	>`
+		SELECT f.id, f.book_code, f.chapter, f.verse_start, f.verse_end, f.text, f.canon,
+		       (1 - (f.embedding_small <=> ${vectorStr}::vector))::real AS similarity
+		FROM (${filteredChunks}) f
+		ORDER BY f.embedding_small <=> ${vectorStr}::vector ASC
+		LIMIT ${limit} OFFSET ${offset}
+	`);
+
+	const [countRows, resultRows] = await Promise.all([countPromise, resultsPromise]);
+	const total = Number((countRows as unknown as { n: number }[])[0]?.n ?? 0);
+	const chunks = resultRows as unknown as {
+		id: string;
+		book_code: string;
+		chapter: number;
+		verse_start: number;
+		verse_end: number;
+		text: string;
+		canon: string;
+		similarity: number;
+	}[];
+
+	// 4. Look up the top-N UB paragraphs for each chunk in one batch query.
+	let paragraphsByChunk = new Map<
+		string,
+		{
+			id: string;
+			standardReferenceId: string;
+			paperId: string;
+			paperTitle: string;
+			sectionTitle: string | null;
+			text: string;
+			similarity: number;
+			rank: number;
+		}[]
+	>();
+
+	if (chunks.length > 0 && paragraphLimit > 0) {
+		const chunkIds = chunks.map((c) => c.id);
+		const paragraphRows = await db
+			.select({
+				chunkId: bibleParallels.bibleChunkId,
+				rank: bibleParallels.rank,
+				similarity: bibleParallels.similarity,
+				id: paragraphs.id,
+				standardReferenceId: paragraphs.standardReferenceId,
+				paperId: paragraphs.paperId,
+				paperTitle: paragraphs.paperTitle,
+				sectionTitle: paragraphs.sectionTitle,
+				text: paragraphs.text,
+			})
+			.from(bibleParallels)
+			.innerJoin(paragraphs, eq(bibleParallels.paragraphId, paragraphs.id))
+			.where(
+				and(
+					eq(bibleParallels.direction, "bible_to_ub"),
+					inArray(bibleParallels.bibleChunkId, chunkIds),
+				),
+			)
+			.orderBy(asc(bibleParallels.bibleChunkId), asc(bibleParallels.rank));
+
+		for (const row of paragraphRows) {
+			const list = paragraphsByChunk.get(row.chunkId) ?? [];
+			if (list.length < paragraphLimit) {
+				list.push({
+					id: row.id,
+					standardReferenceId: row.standardReferenceId,
+					paperId: row.paperId,
+					paperTitle: row.paperTitle,
+					sectionTitle: row.sectionTitle,
+					text: row.text,
+					similarity: row.similarity,
+					rank: row.rank,
+				});
+			}
+			paragraphsByChunk.set(row.chunkId, list);
+		}
+	}
+
+	// 5. Shape the response
+	const data = chunks.map((c) => {
+		const meta = resolveBibleBook(c.book_code);
+		const reference =
+			formatBibleReference(c.book_code, c.chapter, c.verse_start) ??
+			`${meta?.name ?? c.book_code} ${c.chapter}:${c.verse_start}`;
+		const fullRef =
+			c.verse_end === c.verse_start ? reference : `${reference}-${c.verse_end}`;
+		return {
+			id: c.id,
+			reference: fullRef,
+			bookCode: c.book_code,
+			bookName: meta?.name ?? c.book_code,
+			canon: c.canon as "ot" | "deuterocanon" | "nt",
+			chapter: c.chapter,
+			verseStart: c.verse_start,
+			verseEnd: c.verse_end,
+			text: c.text,
+			similarity: c.similarity,
+			paragraphs: paragraphsByChunk.get(c.id) ?? [],
+		};
+	});
+
+	return c.json(
+		{
+			data,
+			meta: {
+				page,
+				limit,
+				total,
+				totalPages: Math.ceil(total / limit),
 			},
 		},
 		200,
