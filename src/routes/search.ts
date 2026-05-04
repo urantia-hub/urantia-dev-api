@@ -8,6 +8,7 @@ import OpenAI from "openai";
 import { getDb } from "../db/client.ts";
 import { paragraphs } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
+import { enrichWithBibleParallels, wantsBibleParallels } from "../lib/bible-parallels.ts";
 import { enrichWithEntities, wantsEntities } from "../lib/entities.ts";
 import { problemJson } from "../lib/errors.ts";
 import {
@@ -17,6 +18,10 @@ import {
 	setCachedCount,
 	setCachedEmbedding,
 } from "../lib/search-cache.ts";
+import {
+	enrichWithUrantiaParallels,
+	wantsUrantiaParallels,
+} from "../lib/urantia-parallels.ts";
 import {
 	ErrorResponse,
 	SearchQueryParams,
@@ -131,7 +136,18 @@ async function handleFullTextSearch(c: AnyContext, params: SearchParams) {
 		});
 	}
 
-	const enrichedResults = wantsEntities(include) ? await enrichWithEntities(db, results) : results;
+	type Enriched = (typeof results)[number] & {
+		entities?: Awaited<ReturnType<typeof enrichWithEntities>>[number]["entities"];
+		bibleParallels?: Awaited<ReturnType<typeof enrichWithBibleParallels>>[number]["bibleParallels"];
+		urantiaParallels?: Awaited<ReturnType<typeof enrichWithUrantiaParallels>>[number]["urantiaParallels"];
+	};
+	let enrichedResults: Enriched[] = results;
+	if (wantsEntities(include))
+		enrichedResults = (await enrichWithEntities(db, enrichedResults)) as Enriched[];
+	if (wantsBibleParallels(include))
+		enrichedResults = (await enrichWithBibleParallels(db, enrichedResults)) as Enriched[];
+	if (wantsUrantiaParallels(include))
+		enrichedResults = (await enrichWithUrantiaParallels(db, enrichedResults)) as Enriched[];
 
 	return c.json(
 		{
@@ -238,15 +254,23 @@ async function handleSemanticSearch(c: AnyContext, params: SemanticSearchParams)
 		runAfter(c, setCachedCount(kv, paperId, partId, total));
 	}
 
+	type Enriched = (typeof results)[number] & {
+		entities?: Awaited<ReturnType<typeof enrichWithEntities>>[number]["entities"];
+		bibleParallels?: Awaited<ReturnType<typeof enrichWithBibleParallels>>[number]["bibleParallels"];
+		urantiaParallels?: Awaited<ReturnType<typeof enrichWithUrantiaParallels>>[number]["urantiaParallels"];
+	};
 	let enrichMs = 0;
-	const enrichedResults = wantsEntities(include)
-		? await (async () => {
-				const startEnrich = performance.now();
-				const enriched = await enrichWithEntities(db, results);
-				enrichMs = Math.round(performance.now() - startEnrich);
-				return enriched;
-			})()
-		: results;
+	let enrichedResults: Enriched[] = results;
+	const startEnrich = performance.now();
+	if (wantsEntities(include))
+		enrichedResults = (await enrichWithEntities(db, enrichedResults)) as Enriched[];
+	if (wantsBibleParallels(include))
+		enrichedResults = (await enrichWithBibleParallels(db, enrichedResults)) as Enriched[];
+	if (wantsUrantiaParallels(include))
+		enrichedResults = (await enrichWithUrantiaParallels(db, enrichedResults)) as Enriched[];
+	if (wantsEntities(include) || wantsBibleParallels(include) || wantsUrantiaParallels(include)) {
+		enrichMs = Math.round(performance.now() - startEnrich);
+	}
 
 	const totalMs = Math.round(performance.now() - startTotal);
 
@@ -264,7 +288,7 @@ async function handleSemanticSearch(c: AnyContext, params: SemanticSearchParams)
 			timing: {
 				embedding_ms: embeddingMs,
 				db_queries_ms: queriesMs,
-				entity_enrichment_ms: enrichMs,
+				enrichment_ms: enrichMs,
 				total_ms: totalMs,
 			},
 		});
