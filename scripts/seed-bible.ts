@@ -106,6 +106,7 @@ async function seed() {
 				verse: v.verse,
 				text: v.text,
 				paragraphMarker: v.paragraphMarker,
+				paragraphIndex: v.paragraphIndex,
 				translation: "web",
 				sourceVersion: SOURCE_VERSION,
 			});
@@ -130,6 +131,7 @@ async function seed() {
 				set: {
 					text: sql`excluded.text`,
 					paragraphMarker: sql`excluded.paragraph_marker`,
+					paragraphIndex: sql`excluded.paragraph_index`,
 					sourceVersion: sql`excluded.source_version`,
 				},
 			});

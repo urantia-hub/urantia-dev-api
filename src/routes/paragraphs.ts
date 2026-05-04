@@ -3,6 +3,7 @@ import { and, eq, gt, lt, sql } from "drizzle-orm";
 import { getDb } from "../db/client.ts";
 import { paragraphs } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
+import { enrichWithBibleParallels, wantsBibleParallels } from "../lib/bible-parallels.ts";
 import { enrichWithEntities, wantsEntities } from "../lib/entities.ts";
 import { problemJson } from "../lib/errors.ts";
 import { getParagraphNavigation } from "../lib/paragraph-lookup.ts";
@@ -132,9 +133,14 @@ paragraphsRoute.openapi(getRandomRoute, async (c) => {
 		result = await applyTitleTranslations(db, result, lang);
 	}
 
-	const data = wantsEntities(include)
-		? (await enrichWithEntities(db, result))[0]!
-		: result[0]!;
+	type Enriched = (typeof result)[number] & {
+		entities?: Awaited<ReturnType<typeof enrichWithEntities>>[number]["entities"];
+		bibleParallels?: Awaited<ReturnType<typeof enrichWithBibleParallels>>[number]["bibleParallels"];
+	};
+	let enriched: Enriched[] = result;
+	if (wantsEntities(include)) enriched = (await enrichWithEntities(db, enriched)) as Enriched[];
+	if (wantsBibleParallels(include)) enriched = (await enrichWithBibleParallels(db, enriched)) as Enriched[];
+	const data = enriched[0]!;
 
 	if (format === "rag") {
 		const ragData = await toRagFormat(db, data as Parameters<typeof toRagFormat>[1]);
@@ -204,9 +210,14 @@ paragraphsRoute.openapi(getParagraphRoute, async (c) => {
 		result = await applyTitleTranslations(db, result, lang);
 	}
 
-	const data = wantsEntities(include)
-		? (await enrichWithEntities(db, result))[0]!
-		: result[0]!;
+	type Enriched = (typeof result)[number] & {
+		entities?: Awaited<ReturnType<typeof enrichWithEntities>>[number]["entities"];
+		bibleParallels?: Awaited<ReturnType<typeof enrichWithBibleParallels>>[number]["bibleParallels"];
+	};
+	let enriched: Enriched[] = result;
+	if (wantsEntities(include)) enriched = (await enrichWithEntities(db, enriched)) as Enriched[];
+	if (wantsBibleParallels(include)) enriched = (await enrichWithBibleParallels(db, enriched)) as Enriched[];
+	const data = enriched[0]!;
 
 	if (outputFormat === "rag") {
 		const ragData = await toRagFormat(db, data as Parameters<typeof toRagFormat>[1]);

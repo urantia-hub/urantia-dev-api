@@ -229,3 +229,47 @@ describe("GET /paragraphs/:ref/context", () => {
 		expect(res.status).toBe(404);
 	});
 });
+
+describe("GET /paragraphs/:ref?include=bibleParallels", () => {
+	it("returns 200 and a bibleParallels array on the paragraph", async () => {
+		const res = await get("/paragraphs/1:0.1?include=bibleParallels");
+		expect(res.status).toBe(200);
+		const { data } = await res.json();
+		expect(data).toHaveProperty("bibleParallels");
+		expect(data.bibleParallels).toBeArray();
+		// Up to 10 parallels (less if seed hasn't fully populated).
+		if (data.bibleParallels.length > 0) {
+			const p = data.bibleParallels[0];
+			expect(p).toHaveProperty("chunkId");
+			expect(p).toHaveProperty("reference");
+			expect(p).toHaveProperty("similarity");
+			expect(p.rank).toBe(1);
+			expect(p.source).toBe("semantic");
+		}
+	});
+
+	it("does not include bibleParallels when include is omitted", async () => {
+		const res = await get("/paragraphs/1:0.1");
+		const { data } = await res.json();
+		expect(data.bibleParallels).toBeUndefined();
+	});
+
+	it("supports combined includes (entities + bibleParallels)", async () => {
+		const res = await get("/paragraphs/1:0.1?include=entities,bibleParallels");
+		expect(res.status).toBe(200);
+		const { data } = await res.json();
+		expect(data).toHaveProperty("entities");
+		expect(data).toHaveProperty("bibleParallels");
+	});
+
+	it("RAG format renders bibleParallels when requested", async () => {
+		const res = await get("/paragraphs/1:0.1?format=rag&include=bibleParallels");
+		expect(res.status).toBe(200);
+		const { data } = await res.json();
+		// Paragraph 1:0.1 is in our seed; expect bibleParallels in RAG output if seeded
+		if (data.bibleParallels && data.bibleParallels.length > 0) {
+			expect(data.bibleParallels[0]).toHaveProperty("reference");
+			expect(data.bibleParallels[0]).toHaveProperty("similarity");
+		}
+	});
+});

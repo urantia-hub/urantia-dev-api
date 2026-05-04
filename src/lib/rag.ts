@@ -16,6 +16,12 @@ interface ParagraphRow {
 	labels: string[] | null;
 	audio: unknown;
 	entities?: Array<{ id: string; name: string; type: string }>;
+	bibleParallels?: Array<{
+		reference: string;
+		text: string;
+		similarity: number;
+		rank: number;
+	}>;
 }
 
 export interface RagResponse {
@@ -36,6 +42,12 @@ export interface RagResponse {
 	};
 	tokenCount: number;
 	entities: string[];
+	bibleParallels?: Array<{
+		reference: string;
+		text: string;
+		similarity: number;
+		rank: number;
+	}>;
 }
 
 /**
@@ -54,7 +66,7 @@ export async function toRagFormat(
 
 	const entityNames = paragraph.entities?.map((e) => e.name) ?? [];
 
-	return {
+	const result: RagResponse = {
 		ref: paragraph.standardReferenceId,
 		text: paragraph.text,
 		citation,
@@ -70,4 +82,15 @@ export async function toRagFormat(
 		tokenCount,
 		entities: entityNames,
 	};
+
+	if (paragraph.bibleParallels?.length) {
+		result.bibleParallels = paragraph.bibleParallels.map((p) => ({
+			reference: p.reference,
+			text: p.text,
+			similarity: p.similarity,
+			rank: p.rank,
+		}));
+	}
+
+	return result;
 }

@@ -22,6 +22,11 @@ export type ParsedVerse = {
 	verse: number;
 	text: string;
 	paragraphMarker: string | null; // \p, \m, \q1, \q2, \nb, \pi1, etc.
+	// Per-book counter that increments every time the parser encounters a
+	// paragraph marker. Verses that share the same paragraphIndex belong to
+	// the same logical paragraph in the source — used in Phase 2 to group
+	// verses into embedding chunks.
+	paragraphIndex: number;
 };
 
 export type ParsedBook = {
@@ -168,6 +173,12 @@ export function parseUsfm(content: string): ParsedBook | null {
 	let currentChapter = 0;
 	let currentVerse = 0;
 	let currentMarker: string | null = null;
+	let currentParagraphIndex = 0;
+	// Snapshots of marker + index at the moment the current verse STARTED.
+	// Without snapshotting we'd attribute a verse to the paragraph that follows
+	// it, since flushVerse() runs after we've seen the next \p marker.
+	let verseStartMarker: string | null = null;
+	let verseStartParagraphIndex = 0;
 	let buffer: string[] = [];
 
 	const flushVerse = () => {
@@ -179,7 +190,8 @@ export function parseUsfm(content: string): ParsedBook | null {
 			chapter: currentChapter,
 			verse: currentVerse,
 			text: verseText,
-			paragraphMarker: currentMarker,
+			paragraphMarker: verseStartMarker,
+			paragraphIndex: verseStartParagraphIndex,
 		});
 	};
 
@@ -203,6 +215,9 @@ export function parseUsfm(content: string): ParsedBook | null {
 			if (tok.name === "v") {
 				flushVerse();
 				buffer = [];
+				// Snapshot paragraph context at verse start.
+				verseStartMarker = currentMarker;
+				verseStartParagraphIndex = currentParagraphIndex;
 				// Next text token contains "<num> <verse-body>".
 				const next = tokens[i + 1];
 				if (next?.kind === "text") {
@@ -219,6 +234,7 @@ export function parseUsfm(content: string): ParsedBook | null {
 			}
 			if (PARAGRAPH_MARKERS.has(tok.name)) {
 				currentMarker = tok.name;
+				currentParagraphIndex++;
 				continue;
 			}
 			// Other markers were already stripped or are ignorable.

@@ -143,6 +143,34 @@ describe("GET /bible/{bookCode}/{chapter}", () => {
 	});
 });
 
+describe("GET /bible/{bookCode}/{chapter}/{verse}/paragraphs", () => {
+	it("returns the verse, its chunk, and top UB paragraphs", async () => {
+		const res = await get("/bible/Gen/1/1/paragraphs");
+		expect(res.status).toBe(200);
+		const { data } = await res.json();
+		expect(data).toHaveProperty("verse");
+		expect(data).toHaveProperty("chunk");
+		expect(data).toHaveProperty("paragraphs");
+		expect(data.verse.reference).toBe("Genesis 1:1");
+		expect(data.chunk.id).toMatch(/^Gen\.1\./);
+		expect(data.paragraphs).toBeArray();
+		// Up to 10 paragraphs (less if seed hasn't fully populated)
+		if (data.paragraphs.length > 0) {
+			const p = data.paragraphs[0];
+			expect(p).toHaveProperty("standardReferenceId");
+			expect(p).toHaveProperty("similarity");
+			expect(p).toHaveProperty("rank");
+			expect(p.source).toBe("semantic");
+			expect(p.embeddingModel).toBe("text-embedding-3-large");
+		}
+	});
+
+	it("returns 404 for unknown book", async () => {
+		const res = await get("/bible/NotABook/1/1/paragraphs");
+		expect(res.status).toBe(404);
+	});
+});
+
 describe("GET /bible/{bookCode}/{chapter}/{verse}", () => {
 	it("returns Gen 1:1 with the canonical text", async () => {
 		const res = await get("/bible/Gen/1/1");

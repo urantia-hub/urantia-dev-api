@@ -4,6 +4,8 @@ import {
 	integer,
 	jsonb as pgJsonb,
 	pgTable,
+	real,
+	serial,
 	text,
 	timestamp,
 	uniqueIndex,
@@ -19,6 +21,12 @@ const tsvector = customType<{ data: string }>({
 const vector = customType<{ data: number[] }>({
 	dataType() {
 		return "vector(1536)";
+	},
+});
+
+const vector3072 = customType<{ data: number[] }>({
+	dataType() {
+		return "vector(3072)";
 	},
 });
 
@@ -128,6 +136,11 @@ export const paragraphs = pgTable(
 
 		// Semantic search — populated later via generate-embeddings script
 		embedding: vector("embedding"),
+
+		// Phase 2 — text-embedding-3-large (3072-d). Populated alongside the
+		// existing 1536-d column so /search/semantic can be cut over without
+		// downtime via a flag-gated read switch.
+		embeddingV2: vector3072("embedding_v2"),
 
 		audio: jsonb("audio"),
 	},
@@ -254,6 +267,35 @@ export const titleTranslations = pgTable(
 	],
 );
 
+// --- bible_chunks (paragraph-grain groups for embedding) ---
+// Each chunk corresponds to one logical paragraph in the WEB USFM source —
+// driven by the parser's paragraphIndex counter. Chunk text is the
+// concatenation of all verses sharing the same (book, paragraphIndex).
+//
+// Phase 2 embeds chunks (not individual verses) because short verses like
+// "Jesus wept." (John 11:35) carry almost no embeddable signal in isolation.
+// Paragraph granularity matches the UB side and matches Faw's grain.
+//
+// Chunk ids encode the verse range they cover, e.g. "Gen.1.1-5" or
+// "John.11.35" (single-verse chunks omit the dash form).
+export const bibleChunks = pgTable(
+	"bible_chunks",
+	{
+		id: text("id").primaryKey(),
+		bookCode: text("book_code").notNull(),
+		chapter: integer("chapter").notNull(),
+		verseStart: integer("verse_start").notNull(),
+		verseEnd: integer("verse_end").notNull(),
+		text: text("text").notNull(),
+		embedding: vector3072("embedding"),
+		embeddingModel: text("embedding_model"),
+	},
+	(t) => [
+		index("bc_book_chapter_idx").on(t.bookCode, t.chapter),
+		index("bc_book_chapter_start_idx").on(t.bookCode, t.chapter, t.verseStart),
+	],
+);
+
 // --- bible_verses (World English Bible, public domain) ---
 // One row per verse across 81 books (39 OT + 15 deuterocanon + 27 NT).
 // Source: eBible.org `eng-web` USFM bundle. Translation `web` is reserved
@@ -275,6 +317,14 @@ export const bibleVerses = pgTable(
 		verse: integer("verse").notNull(),
 		text: text("text").notNull(),
 		paragraphMarker: text("paragraph_marker"),
+		// Per-book counter from the USFM parser. Increments each time a
+		// paragraph marker (\p, \q1, \m, etc.) is encountered. Verses sharing
+		// the same paragraphIndex live in the same logical paragraph and get
+		// grouped into a single bible_chunk.
+		paragraphIndex: integer("paragraph_index"),
+		// FK to bible_chunks.id — the chunk this verse belongs to. Set during
+		// chunk creation in Phase 2.
+		chunkId: text("chunk_id"),
 		translation: text("translation").notNull().default("web"),
 		sourceVersion: text("source_version").notNull(),
 	},
@@ -282,6 +332,43 @@ export const bibleVerses = pgTable(
 		index("bv_book_chapter_verse_idx").on(t.bookCode, t.chapter, t.verse),
 		index("bv_book_order_idx").on(t.bookOrder),
 		index("bv_canon_idx").on(t.canon),
+		index("bv_chunk_id_idx").on(t.chunkId),
+	],
+);
+
+// --- bible_parallels ---
+// Pre-computed top-10 nearest neighbors in each direction between UB
+// paragraphs and Bible chunks. Direction is stored explicitly because the
+// neighbor relation is asymmetric: paragraph A's top 10 verses don't always
+// contain Bible chunk B that lists A in its top 10.
+//
+// `source` is future-proofing for an optional curated layer (e.g., Faw's
+// Paramony) that would coexist alongside `source: "semantic"` rows.
+//
+// `embedding_model` records which model produced the similarity scores so
+// re-running the seed after a model upgrade overwrites cleanly via
+// ON CONFLICT (...) DO UPDATE.
+export const bibleParallels = pgTable(
+	"bible_parallels",
+	{
+		id: serial("id").primaryKey(),
+		direction: text("direction").notNull(), // "ub_to_bible" | "bible_to_ub"
+		paragraphId: text("paragraph_id")
+			.notNull()
+			.references(() => paragraphs.id),
+		bibleChunkId: text("bible_chunk_id")
+			.notNull()
+			.references(() => bibleChunks.id),
+		similarity: real("similarity").notNull(),
+		rank: integer("rank").notNull(),
+		source: text("source").notNull().default("semantic"),
+		embeddingModel: text("embedding_model").notNull(),
+		generatedAt: timestamp("generated_at").notNull().defaultNow(),
+	},
+	(t) => [
+		index("bp_para_direction_rank_idx").on(t.paragraphId, t.direction, t.rank),
+		index("bp_bible_direction_rank_idx").on(t.bibleChunkId, t.direction, t.rank),
+		uniqueIndex("bp_natural_key_idx").on(t.direction, t.paragraphId, t.bibleChunkId, t.source),
 	],
 );
 

@@ -108,6 +108,22 @@ export const ParagraphEntitySchema = z.object({
 	type: z.enum(["being", "place", "order", "race", "religion", "concept"]),
 });
 
+// --- Paragraph Bible parallel (inline on paragraph when include=bibleParallels) ---
+
+export const ParagraphBibleParallelSchema = z.object({
+	chunkId: z.string(),
+	reference: z.string(),
+	bookCode: z.string(),
+	chapter: z.number().int(),
+	verseStart: z.number().int(),
+	verseEnd: z.number().int(),
+	text: z.string(),
+	similarity: z.number(),
+	rank: z.number().int(),
+	source: z.string(),
+	embeddingModel: z.string(),
+});
+
 // --- Paragraph ---
 
 export const ParagraphSchema = z.object({
@@ -126,6 +142,7 @@ export const ParagraphSchema = z.object({
 	labels: z.array(z.string()).nullable(),
 	audio: AudioSchema,
 	entities: z.array(ParagraphEntitySchema).optional(),
+	bibleParallels: z.array(ParagraphBibleParallelSchema).optional(),
 });
 
 // --- TOC ---
@@ -439,4 +456,32 @@ export const BibleChapterResponse = z.object({
 });
 export const BibleVerseResponse = z.object({
 	data: BibleVerseSchema,
+});
+
+// Reverse-query: given a Bible verse, list the top-N UB paragraphs
+// semantically nearest to the chunk that verse belongs to.
+export const BibleVerseParagraphSchema = z.object({
+	id: z.string(), // paragraph globalId
+	standardReferenceId: z.string(),
+	paperId: z.string(),
+	paperTitle: z.string(),
+	sectionTitle: z.string().nullable(),
+	text: z.string(),
+	similarity: z.number(),
+	rank: z.number().int(),
+	source: z.string(),
+	embeddingModel: z.string(),
+});
+export const BibleVerseParagraphsResponse = z.object({
+	data: z.object({
+		verse: BibleVerseSchema,
+		chunk: z.object({
+			id: z.string(),
+			reference: z.string(),
+			verseStart: z.number().int(),
+			verseEnd: z.number().int(),
+			text: z.string(),
+		}),
+		paragraphs: z.array(BibleVerseParagraphSchema),
+	}),
 });

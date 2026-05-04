@@ -1,7 +1,12 @@
 import { createRoute } from "@hono/zod-openapi";
-import { and, eq, sql } from "drizzle-orm";
+import { and, asc, eq, sql } from "drizzle-orm";
 import { getDb } from "../db/client.ts";
-import { bibleVerses } from "../db/schema.ts";
+import {
+	bibleChunks,
+	bibleParallels,
+	bibleVerses,
+	paragraphs,
+} from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
 import {
 	BIBLE_BOOKS,
@@ -15,6 +20,7 @@ import {
 	BibleBooksResponse,
 	BibleChapterParam,
 	BibleChapterResponse,
+	BibleVerseParagraphsResponse,
 	BibleVerseParam,
 	BibleVerseResponse,
 	ErrorResponse,
@@ -282,6 +288,168 @@ bibleRoute.openapi(getVerseRoute, async (c) => {
 				verse: row.verse,
 				text: row.text,
 				translation: row.translation,
+			},
+		},
+		200,
+	);
+});
+
+// GET /bible/{bookCode}/{chapter}/{verse}/paragraphs
+// Reverse-query: top-10 UB paragraphs semantically nearest to the Bible
+// chunk that contains this verse.
+const getVerseParagraphsRoute = createRoute({
+	operationId: "getBibleVerseParagraphs",
+	method: "get",
+	path: "/{bookCode}/{chapter}/{verse}/paragraphs",
+	tags: ["Bible"],
+	summary: "Top-10 UB paragraphs for a Bible verse",
+	description:
+		"Returns the top 10 Urantia paragraphs whose embeddings are nearest to the Bible chunk containing this verse. Pre-computed at seed time using `text-embedding-3-large` (3072-d) cosine similarity across the entire UB corpus. Each result includes a similarity score (0..1) and rank (1..10).\n\n**These are *semantic* parallels, not curated.** Some matches will be subtly wrong — the embedding model treats surface-level vocabulary as meaning, but the UB uses standard religious terms in nonstandard ways. Treat results as starting points for further reading, not as authoritative parallels.",
+	request: { params: BibleVerseParam },
+	responses: {
+		200: {
+			description: "Bible verse with top-10 UB paragraphs",
+			content: { "application/json": { schema: BibleVerseParagraphsResponse } },
+		},
+		404: {
+			description: "Verse not found or no parallels computed",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+		500: {
+			description: "Internal server error",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+	},
+});
+
+bibleRoute.openapi(getVerseParagraphsRoute, async (c) => {
+	const { db } = getDb(c.env?.HYPERDRIVE);
+	const { bookCode, chapter, verse } = c.req.valid("param");
+
+	const meta = resolveBibleBook(bookCode);
+	if (!meta) {
+		return problemJson(c, 404, `Bible book "${bookCode}" not found`);
+	}
+
+	// Find the verse and its containing chunk in one round-trip.
+	const verseRows = await db
+		.select({
+			verseId: bibleVerses.id,
+			bookCode: bibleVerses.bookCode,
+			bookName: bibleVerses.bookName,
+			bookOrder: bibleVerses.bookOrder,
+			canon: bibleVerses.canon,
+			chapter: bibleVerses.chapter,
+			verse: bibleVerses.verse,
+			text: bibleVerses.text,
+			translation: bibleVerses.translation,
+			chunkId: bibleVerses.chunkId,
+		})
+		.from(bibleVerses)
+		.where(
+			and(
+				eq(bibleVerses.bookCode, meta.osis),
+				eq(bibleVerses.chapter, chapter),
+				eq(bibleVerses.verse, verse),
+			),
+		)
+		.limit(1);
+
+	const v = verseRows[0];
+	if (!v) {
+		return problemJson(c, 404, `${meta.name} ${chapter}:${verse} not found`);
+	}
+	if (!v.chunkId) {
+		return problemJson(
+			c,
+			404,
+			`${meta.name} ${chapter}:${verse} has no embedding chunk yet`,
+		);
+	}
+
+	const chunkRows = await db
+		.select({
+			id: bibleChunks.id,
+			verseStart: bibleChunks.verseStart,
+			verseEnd: bibleChunks.verseEnd,
+			text: bibleChunks.text,
+		})
+		.from(bibleChunks)
+		.where(eq(bibleChunks.id, v.chunkId))
+		.limit(1);
+	const chunk = chunkRows[0];
+	if (!chunk) {
+		return problemJson(c, 404, `Chunk ${v.chunkId} not found`);
+	}
+
+	const reference =
+		formatBibleReference(v.bookCode, v.chapter, chunk.verseStart) ??
+		`${v.bookName} ${v.chapter}:${chunk.verseStart}`;
+	const chunkReference =
+		chunk.verseEnd === chunk.verseStart
+			? reference
+			: `${reference}-${chunk.verseEnd}`;
+
+	const top = await db
+		.select({
+			paragraphId: bibleParallels.paragraphId,
+			similarity: bibleParallels.similarity,
+			rank: bibleParallels.rank,
+			source: bibleParallels.source,
+			embeddingModel: bibleParallels.embeddingModel,
+			pId: paragraphs.id,
+			standardReferenceId: paragraphs.standardReferenceId,
+			paperId: paragraphs.paperId,
+			paperTitle: paragraphs.paperTitle,
+			sectionTitle: paragraphs.sectionTitle,
+			text: paragraphs.text,
+		})
+		.from(bibleParallels)
+		.innerJoin(paragraphs, eq(bibleParallels.paragraphId, paragraphs.id))
+		.where(
+			and(
+				eq(bibleParallels.bibleChunkId, v.chunkId),
+				eq(bibleParallels.direction, "bible_to_ub"),
+			),
+		)
+		.orderBy(asc(bibleParallels.rank));
+
+	return c.json(
+		{
+			data: {
+				verse: {
+					id: v.verseId,
+					reference:
+						formatBibleReference(v.bookCode, v.chapter, v.verse) ??
+						`${v.bookName} ${v.chapter}:${v.verse}`,
+					bookCode: v.bookCode,
+					bookName: v.bookName,
+					bookOrder: v.bookOrder,
+					canon: v.canon as "ot" | "deuterocanon" | "nt",
+					chapter: v.chapter,
+					verse: v.verse,
+					text: v.text,
+					translation: v.translation,
+				},
+				chunk: {
+					id: chunk.id,
+					reference: chunkReference,
+					verseStart: chunk.verseStart,
+					verseEnd: chunk.verseEnd,
+					text: chunk.text,
+				},
+				paragraphs: top.map((p) => ({
+					id: p.pId,
+					standardReferenceId: p.standardReferenceId,
+					paperId: p.paperId,
+					paperTitle: p.paperTitle,
+					sectionTitle: p.sectionTitle,
+					text: p.text,
+					similarity: p.similarity,
+					rank: p.rank,
+					source: p.source,
+					embeddingModel: p.embeddingModel,
+				})),
 			},
 		},
 		200,
