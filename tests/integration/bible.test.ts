@@ -197,9 +197,9 @@ describe("POST /bible/search/semantic", () => {
 	});
 });
 
-describe("GET /bible/{bookCode}/{chapter}/{verse}/paragraphs", () => {
+describe("GET /bible/{bookCode}/{chapter}/{verse}/urantia-parallels", () => {
 	it("returns the verse, its chunk, and top UB paragraphs", async () => {
-		const res = await get("/bible/Gen/1/1/paragraphs");
+		const res = await get("/bible/Gen/1/1/urantia-parallels");
 		expect(res.status).toBe(200);
 		const { data } = await res.json();
 		expect(data).toHaveProperty("verse");
@@ -220,7 +220,7 @@ describe("GET /bible/{bookCode}/{chapter}/{verse}/paragraphs", () => {
 	});
 
 	it("returns 404 for unknown book", async () => {
-		const res = await get("/bible/NotABook/1/1/paragraphs");
+		const res = await get("/bible/NotABook/1/1/urantia-parallels");
 		expect(res.status).toBe(404);
 	});
 });

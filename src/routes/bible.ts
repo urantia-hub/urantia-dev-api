@@ -302,17 +302,17 @@ bibleRoute.openapi(getVerseRoute, async (c) => {
 	);
 });
 
-// GET /bible/{bookCode}/{chapter}/{verse}/paragraphs
+// GET /bible/{bookCode}/{chapter}/{verse}/urantia-parallels
 // Reverse-query: top-10 UB paragraphs semantically nearest to the Bible
 // chunk that contains this verse.
 const getVerseParagraphsRoute = createRoute({
-	operationId: "getBibleVerseParagraphs",
+	operationId: "getBibleVerseUrantiaParallels",
 	method: "get",
-	path: "/{bookCode}/{chapter}/{verse}/paragraphs",
+	path: "/{bookCode}/{chapter}/{verse}/urantia-parallels",
 	tags: ["Bible"],
-	summary: "Top-10 UB paragraphs for a Bible verse",
+	summary: "Top-10 Urantia paragraphs for a Bible verse",
 	description:
-		"Returns the top 10 Urantia paragraphs whose embeddings are nearest to the Bible chunk containing this verse. Pre-computed at seed time using `text-embedding-3-large` (3072-d) cosine similarity across the entire UB corpus. Each result includes a similarity score (0..1) and rank (1..10).\n\n**These are *semantic* parallels, not curated.** Some matches will be subtly wrong — the embedding model treats surface-level vocabulary as meaning, but the UB uses standard religious terms in nonstandard ways. Treat results as starting points for further reading, not as authoritative parallels.",
+		"Returns the top 10 Urantia paragraphs whose embeddings are nearest to the Bible chunk containing this verse — the reverse of `?include=bibleParallels` on the UB side. Pre-computed at seed time using `text-embedding-3-large` (3072-d) cosine similarity across the entire UB corpus. Each result includes a similarity score (0..1) and rank (1..10).\n\n**These are *semantic* parallels, not curated.** Some matches will be subtly wrong — the embedding model treats surface-level vocabulary as meaning, but the UB uses standard religious terms in nonstandard ways. Treat results as starting points for further reading, not as authoritative parallels.",
 	request: { params: BibleVerseParam },
 	responses: {
 		200: {

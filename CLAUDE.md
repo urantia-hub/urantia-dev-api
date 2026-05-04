@@ -146,7 +146,7 @@ sequential-scan SQL times out on a hosted DB. Both seeds use
 **Surface:**
 - `GET /paragraphs/{ref}?include=urantiaParallels` — top-10 similar UB paragraphs
 - `GET /paragraphs/{ref}?include=bibleParallels` — top-10 Bible verses
-- `GET /bible/{bcv}/paragraphs` — reverse query, top-10 UB paragraphs for a Bible verse
+- `GET /bible/{bcv}/urantia-parallels` — reverse query, top-10 UB paragraphs for a Bible verse
 - All three include params combine: `?include=entities,bibleParallels,urantiaParallels`
 - RAG format (`?format=rag`) renders any combination inline
 
