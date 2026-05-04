@@ -227,3 +227,10 @@ review queues.
 - **Health check**: `GET /health` verifies DB connectivity.
 - **Uptime monitoring**: BetterStack uptime monitor on `/health`.
 
+
+**Bible semantic search:** `POST /bible/search/semantic` does live free-form
+search over the Bible at 1536-d (`bible_chunks.embedding_small`, HNSW-indexed)
+and joins each result against `bible_parallels` (direction='bible_to_ub') so
+Bible hits arrive with the relevant Urantia paragraphs already attached.
+This is the urantia.dev API — Bible search without UB content would miss the
+point. Filters: `canon`, `bookCode`, `paragraphLimit` (0-10).
