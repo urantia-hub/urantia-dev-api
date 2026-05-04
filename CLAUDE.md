@@ -132,19 +132,39 @@ those endpoints to the new column is a deferred coordinated step. Bible
 chunks are paragraph-grain (USFM `\p`/`\q1`/etc. boundaries) — verse-grain
 embeddings carry too little signal for short verses like John 11:35.
 
-**Cross-references (Phase 3):** `bible_parallels` stores top-10 nearest
-neighbors per source in both directions (`ub_to_bible`, `bible_to_ub`). The
-seed (`scripts/seed-bible-parallels.ts`) computes dot products in-memory in
-Bun — pgvector can't index 3072-d vectors with HNSW (capped at 2000), and
-sequential-scan SQL times out on a hosted DB. `ON CONFLICT DO UPDATE` so
-re-runs after a model upgrade overwrite cleanly.
+**Cross-references:** three pre-computed cross-reference tables, all using
+`text-embedding-3-large` cosine similarity, all top-10 per source:
+- `bible_parallels` — UB↔Bible in both directions (Phase 3)
+- `paragraph_parallels` — UB↔UB ("see also" between Urantia paragraphs)
+
+The seed scripts (`scripts/seed-bible-parallels.ts`,
+`scripts/seed-paragraph-parallels.ts`) compute dot products in-memory in Bun —
+pgvector can't index 3072-d vectors with HNSW (capped at 2000), and
+sequential-scan SQL times out on a hosted DB. Both seeds use
+`ON CONFLICT DO UPDATE` so re-runs after a model upgrade overwrite cleanly.
 
 **Surface:**
+- `GET /paragraphs/{ref}?include=paragraphParallels` — top-10 similar UB paragraphs
 - `GET /paragraphs/{ref}?include=bibleParallels` — top-10 Bible verses
-  for a UB paragraph
-- `GET /bible/{bcv}/paragraphs` — reverse query, top-10 UB paragraphs
-  for a Bible verse
-- RAG format (`?format=rag`) renders the parallels inline
+- `GET /bible/{bcv}/paragraphs` — reverse query, top-10 UB paragraphs for a Bible verse
+- All three include params combine: `?include=entities,bibleParallels,paragraphParallels`
+- RAG format (`?format=rag`) renders any combination inline
+
+**Embeddings endpoint (`GET /embeddings/{ref}`):** accepts `?model=small|large`.
+Default is `large` (3072-d). Response carries `model` + `dimensions` body
+fields and `X-Embedding-Model` response header so consumers can detect
+mismatches if they cache vectors. `/embeddings/export?paperId=X` accepts
+the same param.
+
+**Why /search/semantic stays on 3-small:** pgvector's HNSW caps at 2000
+dimensions. We HNSW-index `paragraphs.embedding` (1536-d) only — without
+the index every query is sequential scan (~14s). The +8pt benchmark
+benefit of 3-large was on Bible-on-Bible retrieval, not directly relevant
+to UB-on-UB live queries. **Important:** the HNSW index is declared in
+`src/db/schema.ts` so `bun run db:push` does NOT silently drop it. If you
+ever see /search/semantic latency jump from <1s to >10s, the first thing
+to check is whether the `paragraphs_embedding_hnsw_idx` index still
+exists in production.
 
 **Honest framing:** these are *semantic* parallels, not curated. Faw-recall
 (`scripts/validate-paramony-recall.ts`) measures overlap with Faw's 1986
