@@ -370,7 +370,9 @@ const searchPostRoute = createRoute({
 
 searchRoute.openapi(searchPostRoute, async (c) => {
 	const params = c.req.valid("json");
-	return handleFullTextSearch(c, params);
+	// Accept ?include=... on POST as a fallback so callers who default to
+	// putting opt-in flags in the URL still get enrichment.
+	return handleFullTextSearch(c, { ...params, include: params.include ?? c.req.query("include") });
 });
 
 // ── GET /search ──
@@ -412,7 +414,7 @@ const semanticSearchPostRoute = createRoute({
 
 searchRoute.openapi(semanticSearchPostRoute, async (c) => {
 	const params = c.req.valid("json");
-	return handleSemanticSearch(c, params);
+	return handleSemanticSearch(c, { ...params, include: params.include ?? c.req.query("include") });
 });
 
 // ── GET /search/semantic ──
