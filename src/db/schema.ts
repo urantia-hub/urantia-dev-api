@@ -254,6 +254,37 @@ export const titleTranslations = pgTable(
 	],
 );
 
+// --- bible_verses (World English Bible, public domain) ---
+// One row per verse across 81 books (39 OT + 15 deuterocanon + 27 NT).
+// Source: eBible.org `eng-web` USFM bundle. Translation `web` is reserved
+// for "faithful copies" per WEB's only license constraint (the name).
+// `paragraphMarker` is captured at ingest from USFM `\p`/`\m`/`\q*`/`\m1`
+// markers — Phase 1 doesn't use it, but Phase 2 groups verses into chunks
+// by paragraph marker for embedding and we'd otherwise have to re-parse.
+// `sourceVersion` records the eBible.org snapshot date (e.g., "web-2026-04-23")
+// so we can diff which verses changed when eBible.org publishes a correction.
+export const bibleVerses = pgTable(
+	"bible_verses",
+	{
+		id: text("id").primaryKey(), // OSIS-style: "Gen.1.1"
+		bookCode: text("book_code").notNull(), // OSIS: "Gen", "Matt", "1Macc", "DanGr"
+		bookName: text("book_name").notNull(), // "Genesis", "1 Maccabees", "Daniel (Greek)"
+		bookOrder: integer("book_order").notNull(), // 1..81 canonical traversal
+		canon: text("canon").notNull(), // "ot" | "deuterocanon" | "nt"
+		chapter: integer("chapter").notNull(),
+		verse: integer("verse").notNull(),
+		text: text("text").notNull(),
+		paragraphMarker: text("paragraph_marker"),
+		translation: text("translation").notNull().default("web"),
+		sourceVersion: text("source_version").notNull(),
+	},
+	(t) => [
+		index("bv_book_chapter_verse_idx").on(t.bookCode, t.chapter, t.verse),
+		index("bv_book_order_idx").on(t.bookOrder),
+		index("bv_canon_idx").on(t.canon),
+	],
+);
+
 // ============================================================
 // Auth layer tables (unified auth for the Urantia ecosystem)
 // ============================================================

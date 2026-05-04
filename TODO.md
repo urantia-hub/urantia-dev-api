@@ -22,6 +22,16 @@
 
 Infrastructure layer: turn the Urantia Papers from a book into a queryable knowledge graph.
 
+### UB ↔ Bible cross-references (3-phase build, plan in `~/.claude/plans/whimsical-yawning-sketch.md`)
+
+- [x] **Phase 1 — Bible API** — Surface World English Bible (eng-web) as a queryable resource. New `bible_verses` table (38,034 verses across 81 books: 39 OT + 15 deuterocanonical + 27 NT). New `/bible/*` endpoints: `/bible/books`, `/bible/{bookCode}`, `/bible/{bookCode}/{chapter}`, `/bible/{bookCode}/{chapter}/{verse}`. OSIS book codes; forgiving alias resolution (USFM, full names, hyphens). `sourceVersion` tracks eBible.org snapshot date.
+
+- [ ] **Phase 2 — Embeddings** — Re-embed UB paragraphs and Bible chunks with `text-embedding-3-large` (3072-d, +8pt over 3-small on Bible retrieval per LetsChurch benchmark). Group Bible verses into chunks by USFM paragraph marker. Migrate `/search/semantic` (parallel column + flag-gated read switch, no downtime). Coordinated cutover for `/embeddings/{ref}` with new `model` and `dimensions` response fields and `X-Embedding-Model` header. ~$0.67 OpenAI cost.
+
+- [ ] **Phase 3 — Cross-references** — Pre-compute top-10 nearest neighbors in both directions (UB→Bible, Bible→UB). Surface via `?include=bibleParallels` on paragraph endpoints and `GET /bible/{bcv}/paragraphs` for reverse. Use exact KNN at seed time (`SET LOCAL enable_indexscan = OFF`) since this powers a product feature; HNSW for live queries only. Validate via Faw-overlap recall test (recall@20 ≥ 60% gate). Schema future-proofs a `source: "paramony"` layer for if Faw's license ever clears.
+
+### Earlier scope (intra-Papers + topic pages) — separate Wave from Bible build
+
 - [ ] **Cross-reference generation** — Auto-generate and manually curate cross-references linking related passages across Papers. When a reader encounters "Thought Adjusters" in Paper 107, surface connections to Papers 1, 2, 5, 108-112, etc. Pipeline: embedding similarity + keyword co-occurrence + LLM validation. New endpoints: `GET /paragraphs/{ref}/cross-references`, `GET /cross-references?topic=`.
 
 - [ ] **Topic & concept pages** — 200+ topic aggregation pages (Morontia, Paradise, The Supreme Being, Faith, Prayer, etc.) collecting every relevant passage. New endpoints: `GET /topics`, `GET /topics/{slug}`, `GET /topics/{slug}/paragraphs`. Data sources: Fellowship glossary (1,549 terms / 90,948 refs), Urantiapedia, LLM classification.

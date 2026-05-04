@@ -375,3 +375,68 @@ export const LanguageSchema = z.object({
 export const LanguagesResponse = z.object({
 	data: z.array(LanguageSchema),
 });
+
+// --- Bible ---
+
+export const BibleCanon = z.enum(["ot", "deuterocanon", "nt"]);
+
+// One Bible verse from the World English Bible (eng-web).
+export const BibleVerseSchema = z.object({
+	id: z.string(), // OSIS id, e.g. "Gen.1.1"
+	reference: z.string(), // display: "Genesis 1:1"
+	bookCode: z.string(), // OSIS: "Gen"
+	bookName: z.string(),
+	bookOrder: z.number().int(),
+	canon: BibleCanon,
+	chapter: z.number().int(),
+	verse: z.number().int(),
+	text: z.string(),
+	translation: z.string(), // currently always "web"
+});
+
+// A book entry in the master books list.
+export const BibleBookSchema = z.object({
+	bookCode: z.string(),
+	bookName: z.string(),
+	fullName: z.string(),
+	abbr: z.string(),
+	bookOrder: z.number().int(),
+	canon: BibleCanon,
+	chapterCount: z.number().int(),
+	verseCount: z.number().int(),
+});
+
+// A chapter contains its book metadata plus all of its verses.
+export const BibleChapterSchema = z.object({
+	bookCode: z.string(),
+	bookName: z.string(),
+	canon: BibleCanon,
+	chapter: z.number().int(),
+	verses: z.array(BibleVerseSchema),
+});
+
+// Path params.
+export const BibleBookParam = z.object({ bookCode: z.string().min(1) });
+export const BibleChapterParam = z.object({
+	bookCode: z.string().min(1),
+	chapter: z.coerce.number().int().min(1),
+});
+export const BibleVerseParam = z.object({
+	bookCode: z.string().min(1),
+	chapter: z.coerce.number().int().min(1),
+	verse: z.coerce.number().int().min(1),
+});
+
+// Response wrappers.
+export const BibleBooksResponse = z.object({
+	data: z.array(BibleBookSchema),
+});
+export const BibleBookResponse = z.object({
+	data: BibleBookSchema,
+});
+export const BibleChapterResponse = z.object({
+	data: BibleChapterSchema,
+});
+export const BibleVerseResponse = z.object({
+	data: BibleVerseSchema,
+});

@@ -42,6 +42,44 @@ const ENTITY_KEYS = [
 
 const META_KEYS = ["limit", "page", "total", "totalPages"];
 
+const BIBLE_VERSE_KEYS = [
+	"bookCode",
+	"bookName",
+	"bookOrder",
+	"canon",
+	"chapter",
+	"id",
+	"reference",
+	"text",
+	"translation",
+	"verse",
+];
+
+const BIBLE_BOOK_KEYS = [
+	"abbr",
+	"bookCode",
+	"bookName",
+	"bookOrder",
+	"canon",
+	"chapterCount",
+	"fullName",
+	"verseCount",
+];
+
+const BIBLE_CHAPTER_KEYS = ["bookCode", "bookName", "canon", "chapter", "verses"];
+
+export function assertBibleVerseShape(v: Record<string, unknown>) {
+	expect(Object.keys(v).sort()).toEqual(BIBLE_VERSE_KEYS);
+}
+
+export function assertBibleBookShape(b: Record<string, unknown>) {
+	expect(Object.keys(b).sort()).toEqual(BIBLE_BOOK_KEYS);
+}
+
+export function assertBibleChapterShape(c: Record<string, unknown>) {
+	expect(Object.keys(c).sort()).toEqual(BIBLE_CHAPTER_KEYS);
+}
+
 export function assertParagraphShape(p: Record<string, unknown>) {
 	expect(Object.keys(p).sort()).toEqual(PARAGRAPH_KEYS);
 }

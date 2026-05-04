@@ -50,6 +50,13 @@
       "when": 1775344117699,
       "tag": "0006_high_ronan",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1777866702470,
+      "tag": "0007_charming_thundra",
+      "breakpoints": true
     }
   ]
 }

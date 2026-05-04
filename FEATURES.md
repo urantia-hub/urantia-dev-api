@@ -10,8 +10,10 @@
 
 - **197 papers** across 4 parts, 1,626 sections, 14,500+ paragraphs
 - **4,400+ entities** — beings, places, orders, races, religions, concepts (sourced from Urantiapedia)
+- **38,034 Bible verses** — entire World English Bible (eng-web), public domain, 81 books (39 OT + 15 deuterocanonical + 27 NT)
 - **Three paragraph reference formats** — all auto-detected (`2:0.1`, `2.0.1`, `1:2.0.1`)
 - **Entity enrichment** — attach typed entity mentions to any paragraph via `?include=entities`
+- **Bible API** — `/bible/books`, `/bible/{bookCode}`, `/bible/{bookCode}/{chapter}`, `/bible/{bookCode}/{chapter}/{verse}` with OSIS book codes and forgiving alias resolution
 
 ## Search
 
@@ -63,6 +65,7 @@
 
 ## Roadmap
 
+- UB ↔ Bible cross-references (semantic, bidirectional, top-10 per direction; Phase 2 + 3 of the Bible build)
 - Translations (Spanish, French, Portuguese, German, Korean)
 - ElevenLabs premium audio narration
 - Entity relationship graph visualization

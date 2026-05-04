@@ -116,6 +116,36 @@ The API includes a unified auth layer for the Urantia ecosystem:
 - `TODO.md` — Running list of planned work.
 - `docs/plans/unified-auth-layer.md` — Design spec for the auth layer.
 
+## Bible corpus
+
+This API hosts the World English Bible (eng-web) as a queryable resource.
+38,034 verses across 81 books (39 OT + 15 deuterocanonical + 27 NT). Public
+domain text from eBible.org; stored in `bible_verses`. Source: the USFM bundle
+lives at `urantia-data-sources/data/bible/eng-web_usfm.zip` (snapshot date
+captured in `bible_verses.source_version` so future re-seeds can diff).
+
+**OSIS conventions:** book codes follow CrossWire OSIS (`Gen`, `Matt`,
+`1Macc`, `DanGr`). API endpoints accept OSIS, USFM (`GEN`), full names,
+and aliases (case-insensitive, hyphens/underscores tolerated) via
+`src/lib/bible-canonicalizer.ts`.
+
+**WEB Classic note:** we use `eng-web` (Yahweh-rendering) intentionally — it
+aligns with the Urantia Papers' usage of "Yahweh" in Papers 96–97. Don't
+swap to `eng-webbe` (British) or `eng-webp` (Protestant subset, no
+deuterocanon) without revisiting that choice.
+
+**Embedded books:** WEB ecumenical edition embeds Prayer of Azariah, Susanna,
+and Bel and the Dragon inside Greek Daniel (`DanGr`); Letter of Jeremiah is
+Baruch chapter 6. The canonicalizer resolves their alternate names back to
+the containing book.
+
+The Bible exists in this codebase as Phase 1 of a three-phase cross-reference
+build (see `docs/plans/bible-cross-references.md` if it exists, or just
+`/Users/kelsonic/.claude/plans/whimsical-yawning-sketch.md`). Phase 2 adds
+embeddings (`text-embedding-3-large`), Phase 3 pre-computes bidirectional
+UB↔Bible parallels. Don't bolt unrelated Bible features on without
+re-reading the plan.
+
 ## Distribution
 
 The MCP server and REST API are listed across several AI/dev directories. Before
