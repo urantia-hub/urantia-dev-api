@@ -150,7 +150,7 @@ describe("POST /bible/search/semantic", () => {
 	};
 
 	it("returns 200 with chunk hits and UB paragraphs attached", { timeout: 30_000 }, async () => {
-		const res = await post({ q: "forgiveness", limit: 3, paragraphLimit: 3 });
+		const res = await post({ q: "forgiveness", limit: 3, urantiaParallelLimit: 3 });
 		expect(res.status).toBe(200);
 		const { data, meta } = await res.json();
 		expect(data).toBeArray();
@@ -167,21 +167,21 @@ describe("POST /bible/search/semantic", () => {
 		expect(first.urantiaParallels[0]).toHaveProperty("paperTitle");
 	});
 
-	it("respects paragraphLimit=0 (suppresses UB paragraphs)", { timeout: 30_000 }, async () => {
-		const res = await post({ q: "creation", limit: 2, paragraphLimit: 0 });
+	it("respects urantiaParallelLimit=0 (suppresses UB paragraphs)", { timeout: 30_000 }, async () => {
+		const res = await post({ q: "creation", limit: 2, urantiaParallelLimit: 0 });
 		expect(res.status).toBe(200);
 		const { data } = await res.json();
 		for (const r of data) expect(r.urantiaParallels).toEqual([]);
 	});
 
 	it("filters by canon=nt", { timeout: 30_000 }, async () => {
-		const res = await post({ q: "love your neighbor", limit: 5, canon: "nt", paragraphLimit: 0 });
+		const res = await post({ q: "love your neighbor", limit: 5, canon: "nt", urantiaParallelLimit: 0 });
 		const { data } = await res.json();
 		for (const r of data) expect(r.canon).toBe("nt");
 	});
 
 	it("filters by bookCode (alias allowed)", { timeout: 30_000 }, async () => {
-		const res = await post({ q: "blessed", limit: 3, bookCode: "matthew", paragraphLimit: 0 });
+		const res = await post({ q: "blessed", limit: 3, bookCode: "matthew", urantiaParallelLimit: 0 });
 		const { data } = await res.json();
 		for (const r of data) expect(r.bookCode).toBe("Matt");
 	});

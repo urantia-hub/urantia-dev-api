@@ -416,6 +416,11 @@ export const urantiaParallels = pgTable(
 			.references(() => paragraphs.id),
 		similarity: real("similarity").notNull(),
 		rank: integer("rank").notNull(), // 1..10
+		// Provenance label (matches `bible_parallels.source`). "semantic" today;
+		// reserved for a future curated layer (e.g., Fellowship glossary topic
+		// clusters) so the schema can hold both kinds of cross-references side
+		// by side without breaking consumers.
+		source: text("source").notNull().default("semantic"),
 		embeddingModel: text("embedding_model").notNull(),
 		generatedAt: timestamp("generated_at").notNull().defaultNow(),
 	},

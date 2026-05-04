@@ -484,7 +484,7 @@ const semanticSearchRoute = createRoute({
 
 Query is embedded via \`text-embedding-3-small\` (1536-d) and matched against \`bible_chunks.embedding_small\` with a pgvector HNSW index. Latency is ~50-100ms on cache miss for the embedding call, ~30ms cached.
 
-Optional filters: \`canon\` (\`ot\`, \`deuterocanon\`, \`nt\`), \`bookCode\` (any OSIS/USFM/full-name/alias). \`paragraphLimit\` controls how many UB paragraphs to attach per result (0-10, default 3). Set to 0 to suppress.`,
+Optional filters: \`canon\` (\`ot\`, \`deuterocanon\`, \`nt\`), \`bookCode\` (any OSIS/USFM/full-name/alias). \`urantiaParallelLimit\` controls how many UB paragraphs to attach per result (0-10, default 3). Set to 0 to suppress.`,
 	request: {
 		body: {
 			content: { "application/json": { schema: BibleSemanticSearchRequest } },
@@ -510,7 +510,7 @@ bibleRoute.openapi(semanticSearchRoute, async (c) => {
 	const { db } = getDb(c.env?.HYPERDRIVE);
 	// biome-ignore lint: Cloudflare KV namespace type comes from env
 	const kv = c.env?.SEARCH_CACHE as KVNamespace | undefined;
-	const { q, page, limit, canon, bookCode, paragraphLimit } = c.req.valid("json");
+	const { q, page, limit, canon, bookCode, urantiaParallelLimit } = c.req.valid("json");
 	const offset = page * limit;
 
 	// Resolve bookCode (if provided) before doing any expensive work
@@ -612,7 +612,7 @@ bibleRoute.openapi(semanticSearchRoute, async (c) => {
 		}[]
 	>();
 
-	if (chunks.length > 0 && paragraphLimit > 0) {
+	if (chunks.length > 0 && urantiaParallelLimit > 0) {
 		const chunkIds = chunks.map((c) => c.id);
 		const paragraphRows = await db
 			.select({
@@ -638,7 +638,7 @@ bibleRoute.openapi(semanticSearchRoute, async (c) => {
 
 		for (const row of paragraphRows) {
 			const list = paragraphsByChunk.get(row.chunkId) ?? [];
-			if (list.length < paragraphLimit) {
+			if (list.length < urantiaParallelLimit) {
 				list.push({
 					id: row.id,
 					standardReferenceId: row.standardReferenceId,

@@ -8,7 +8,7 @@ describe("GET /embeddings/:ref", () => {
 		expect(res.status).toBe(200);
 		expect(res.headers.get("x-embedding-model")).toBe("text-embedding-3-large");
 		const { data } = await res.json();
-		expect(data.ref).toBeString();
+		expect(data.standardReferenceId).toBeString();
 		expect(data.model).toBe("text-embedding-3-large");
 		expect(data.dimensions).toBe(3072);
 		expect(data.embedding).toBeArray();
@@ -52,7 +52,7 @@ describe("GET /embeddings/export", () => {
 		const lines = text.trim().split("\n");
 		expect(lines.length).toBeGreaterThan(0);
 		const first = JSON.parse(lines[0]!);
-		expect(first.ref).toBeString();
+		expect(first.standardReferenceId).toBeString();
 		expect(first.embedding).toBeArray();
 	});
 
@@ -62,7 +62,7 @@ describe("GET /embeddings/export", () => {
 		const body = await res.json();
 		expect(body.data).toBeArray();
 		expect(body.data.length).toBeGreaterThan(0);
-		expect(body.data[0].ref).toBeString();
+		expect(body.data[0].standardReferenceId).toBeString();
 		expect(body.data[0].embedding).toBeArray();
 		expect(body.model).toBe("text-embedding-3-large");
 		expect(body.dimensions).toBe(3072);

@@ -12,7 +12,7 @@ export const audioRoute = createApp();
 const getAudioRoute = createRoute({
 	operationId: "getAudio",
 	method: "get",
-	path: "/{paragraphId}",
+	path: "/{ref}",
 	tags: ["Audio"],
 	summary: "Get audio URL for a paragraph",
 	description:
@@ -38,8 +38,8 @@ const getAudioRoute = createRoute({
 
 audioRoute.openapi(getAudioRoute, async (c) => {
 	const { db } = getDb(c.env?.HYPERDRIVE);
-	const { paragraphId } = c.req.valid("param");
-	const format = detectRefFormat(paragraphId);
+	const { ref } = c.req.valid("param");
+	const format = detectRefFormat(ref);
 
 	const col =
 		format === "globalId"
@@ -51,8 +51,7 @@ audioRoute.openapi(getAudioRoute, async (c) => {
 					: null;
 
 	if (!col) {
-	
-		return problemJson(c, 404, `Invalid paragraph reference: "${paragraphId}"`);
+		return problemJson(c, 404, `Invalid paragraph reference: "${ref}"`);
 	}
 
 	const result = await db
@@ -61,20 +60,18 @@ audioRoute.openapi(getAudioRoute, async (c) => {
 			audio: paragraphs.audio,
 		})
 		.from(paragraphs)
-		.where(eq(col, paragraphId))
+		.where(eq(col, ref))
 		.limit(1);
 
-
-
 	if (!result || result.length === 0) {
-		return problemJson(c, 404, `Paragraph "${paragraphId}" not found`);
+		return problemJson(c, 404, `Paragraph "${ref}" not found`);
 	}
 
 	const row = result[0]!;
 	return c.json(
 		{
 			data: {
-				paragraphId: row.globalId,
+				id: row.globalId,
 				audio: row.audio ?? null,
 			},
 		},

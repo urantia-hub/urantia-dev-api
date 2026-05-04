@@ -136,6 +136,7 @@ export const UrantiaParallelSchema = z.object({
 	text: z.string(),
 	similarity: z.number(),
 	rank: z.number().int(),
+	source: z.string(),
 	embeddingModel: z.string(),
 });
 
@@ -283,7 +284,7 @@ export const SearchResponse = z.object({
 // --- Semantic Search ---
 
 export const SemanticSearchRequest = z.object({
-	q: z.string().min(1).max(500),
+	q: z.string().min(1).max(2000),
 	page: z.number().int().min(0).default(0),
 	limit: z.number().int().min(1).max(100).default(20),
 	paperId: z.string().optional(),
@@ -292,7 +293,7 @@ export const SemanticSearchRequest = z.object({
 });
 
 export const SemanticSearchQueryParams = z.object({
-	q: z.string().min(1).max(500),
+	q: z.string().min(1).max(2000),
 	page: z.coerce.number().int().min(0).default(0),
 	limit: z.coerce.number().int().min(1).max(100).default(20),
 	paperId: z.string().optional(),
@@ -313,7 +314,7 @@ export const SemanticSearchResponse = z.object({
 
 export const AudioResponse = z.object({
 	data: z.object({
-		paragraphId: z.string(),
+		id: z.string(),
 		audio: AudioSchema,
 	}),
 });
@@ -329,7 +330,7 @@ export const ParagraphRefParam = z.object({
 });
 
 export const AudioParam = z.object({
-	paragraphId: z.string(),
+	ref: z.string(),
 });
 
 export const FormatEnum = z.enum(["default", "rag"]).default("default");
@@ -475,13 +476,16 @@ export const BibleVerseResponse = z.object({
 });
 
 // Bible semantic search request + response.
+// Caps mirror the UB-side semantic search (now both q.max=2000, limit.max=100,
+// limit.default=20) so RAG agents and clients can use the same params on
+// either endpoint.
 export const BibleSemanticSearchRequest = z.object({
 	q: z.string().min(1).max(2000),
-	limit: z.number().int().min(1).max(50).default(10),
 	page: z.number().int().min(0).default(0),
+	limit: z.number().int().min(1).max(100).default(20),
 	canon: BibleCanon.optional(),
 	bookCode: z.string().min(1).optional(),
-	paragraphLimit: z.number().int().min(0).max(10).default(3),
+	urantiaParallelLimit: z.number().int().min(0).max(10).default(3),
 });
 
 // One Urantia paragraph attached to a Bible-side response (search result

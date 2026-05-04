@@ -19,6 +19,7 @@ export type UrantiaParallel = {
 	text: string;
 	similarity: number;
 	rank: number;
+	source: string;
 	embeddingModel: string;
 };
 
@@ -50,6 +51,7 @@ export async function enrichWithUrantiaParallels<T extends ParagraphRow>(
 			text: target.text,
 			similarity: urantiaParallels.similarity,
 			rank: urantiaParallels.rank,
+			source: urantiaParallels.source,
 			embeddingModel: urantiaParallels.embeddingModel,
 		})
 		.from(urantiaParallels)
@@ -69,6 +71,7 @@ export async function enrichWithUrantiaParallels<T extends ParagraphRow>(
 			text: r.text,
 			similarity: r.similarity,
 			rank: r.rank,
+			source: r.source,
 			embeddingModel: r.embeddingModel,
 		});
 		bySource.set(r.sourceId, list);

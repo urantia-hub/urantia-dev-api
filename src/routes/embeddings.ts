@@ -82,7 +82,7 @@ embeddingsRoute.openapi(exportEmbeddingsRoute, async (c) => {
 
 	if (format === "json") {
 		const data = rows.map((r) => ({
-			ref: r.standardReferenceId,
+			standardReferenceId: r.standardReferenceId,
 			embedding: parseEmbedding(r.embedding),
 		}));
 		c.header("X-Embedding-Model", meta.name);
@@ -94,7 +94,11 @@ embeddingsRoute.openapi(exportEmbeddingsRoute, async (c) => {
 
 	// JSONL
 	const lines = rows.map(
-		(r) => JSON.stringify({ ref: r.standardReferenceId, embedding: parseEmbedding(r.embedding) }),
+		(r) =>
+			JSON.stringify({
+				standardReferenceId: r.standardReferenceId,
+				embedding: parseEmbedding(r.embedding),
+			}),
 	);
 	const body = `${lines.join("\n")}\n`;
 
@@ -113,7 +117,7 @@ embeddingsRoute.openapi(exportEmbeddingsRoute, async (c) => {
 
 const EmbeddingResponse = z.object({
 	data: z.object({
-		ref: z.string(),
+		standardReferenceId: z.string(),
 		model: z.string(),
 		dimensions: z.number().int(),
 		embedding: z.array(z.number()),
@@ -199,7 +203,7 @@ embeddingsRoute.openapi(getEmbeddingRoute, async (c) => {
 	return c.json(
 		{
 			data: {
-				ref: row.standardReferenceId,
+				standardReferenceId: row.standardReferenceId,
 				model: meta.name,
 				dimensions: meta.dimensions,
 				embedding,
