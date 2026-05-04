@@ -135,19 +135,19 @@ embeddings carry too little signal for short verses like John 11:35.
 **Cross-references:** three pre-computed cross-reference tables, all using
 `text-embedding-3-large` cosine similarity, all top-10 per source:
 - `bible_parallels` — UB↔Bible in both directions (Phase 3)
-- `paragraph_parallels` — UB↔UB ("see also" between Urantia paragraphs)
+- `urantia_parallels` — UB↔UB ("see also" between Urantia paragraphs)
 
 The seed scripts (`scripts/seed-bible-parallels.ts`,
-`scripts/seed-paragraph-parallels.ts`) compute dot products in-memory in Bun —
+`scripts/seed-urantia-parallels.ts`) compute dot products in-memory in Bun —
 pgvector can't index 3072-d vectors with HNSW (capped at 2000), and
 sequential-scan SQL times out on a hosted DB. Both seeds use
 `ON CONFLICT DO UPDATE` so re-runs after a model upgrade overwrite cleanly.
 
 **Surface:**
-- `GET /paragraphs/{ref}?include=paragraphParallels` — top-10 similar UB paragraphs
+- `GET /paragraphs/{ref}?include=urantiaParallels` — top-10 similar UB paragraphs
 - `GET /paragraphs/{ref}?include=bibleParallels` — top-10 Bible verses
 - `GET /bible/{bcv}/paragraphs` — reverse query, top-10 UB paragraphs for a Bible verse
-- All three include params combine: `?include=entities,bibleParallels,paragraphParallels`
+- All three include params combine: `?include=entities,bibleParallels,urantiaParallels`
 - RAG format (`?format=rag`) renders any combination inline
 
 **Embeddings endpoint (`GET /embeddings/{ref}`):** accepts `?model=small|large`.
