@@ -116,13 +116,44 @@ The API includes a unified auth layer for the Urantia ecosystem:
 - `TODO.md` — Running list of planned work.
 - `docs/plans/unified-auth-layer.md` — Design spec for the auth layer.
 
-## Bible corpus
+## Bible corpus + cross-references (UB ↔ Bible)
 
 This API hosts the World English Bible (eng-web) as a queryable resource.
 38,034 verses across 81 books (39 OT + 15 deuterocanonical + 27 NT). Public
 domain text from eBible.org; stored in `bible_verses`. Source: the USFM bundle
 lives at `urantia-data-sources/data/bible/eng-web_usfm.zip` (snapshot date
 captured in `bible_verses.source_version` so future re-seeds can diff).
+
+**Embeddings (Phase 2):** `paragraphs.embedding_v2` (3072-d) and
+`bible_chunks.embedding` (3072-d) hold `text-embedding-3-large` vectors used
+by Phase 3 cross-references. The existing `paragraphs.embedding` (1536-d)
+column still backs `/search/semantic` and `/embeddings/{ref}` — switching
+those endpoints to the new column is a deferred coordinated step. Bible
+chunks are paragraph-grain (USFM `\p`/`\q1`/etc. boundaries) — verse-grain
+embeddings carry too little signal for short verses like John 11:35.
+
+**Cross-references (Phase 3):** `bible_parallels` stores top-10 nearest
+neighbors per source in both directions (`ub_to_bible`, `bible_to_ub`). The
+seed (`scripts/seed-bible-parallels.ts`) computes dot products in-memory in
+Bun — pgvector can't index 3072-d vectors with HNSW (capped at 2000), and
+sequential-scan SQL times out on a hosted DB. `ON CONFLICT DO UPDATE` so
+re-runs after a model upgrade overwrite cleanly.
+
+**Surface:**
+- `GET /paragraphs/{ref}?include=bibleParallels` — top-10 Bible verses
+  for a UB paragraph
+- `GET /bible/{bcv}/paragraphs` — reverse query, top-10 UB paragraphs
+  for a Bible verse
+- RAG format (`?format=rag`) renders the parallels inline
+
+**Honest framing:** these are *semantic* parallels, not curated. Faw-recall
+(`scripts/validate-paramony-recall.ts`) measures overlap with Faw's 1986
+Paramony at ~25% recall@10. That's by design — Faw picked LINGUISTIC
+parallels for human readers (specific verse allusions), our embeddings pick
+CONCEPTUAL parallels for AI agents (thematic neighbors). Top results are
+qualitatively excellent (Matt 5:3 → UB 140:3.3 at 0.854: UB rephrases the
+Beatitudes). Schema reserves `source: "paramony"` for an optional curated
+layer if Faw's license ever clears.
 
 **OSIS conventions:** book codes follow CrossWire OSIS (`Gen`, `Matt`,
 `1Macc`, `DanGr`). API endpoints accept OSIS, USFM (`GEN`), full names,
