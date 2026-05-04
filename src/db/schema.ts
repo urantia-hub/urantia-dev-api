@@ -150,6 +150,15 @@ export const paragraphs = pgTable(
 		index("paragraphs_sort_id_idx").on(t.sortId),
 		index("paragraphs_std_ref_idx").on(t.standardReferenceId),
 		index("paragraphs_psp_id_idx").on(t.paperSectionParagraphId),
+		// HNSW index on the 1536-d 3-small embedding column. /search/semantic
+		// queries depend on this — without it, every query is a sequential
+		// scan over 14,593 vectors (~14s instead of <300ms). Declared here so
+		// `bun run db:push` doesn't silently drop it. Note: pgvector caps HNSW
+		// at 2000 dimensions for the regular `vector` type, which is why we
+		// only index `embedding` (1536-d) and not `embedding_v2` (3072-d).
+		index("paragraphs_embedding_hnsw_idx")
+			.using("hnsw", t.embedding.op("vector_cosine_ops"))
+			.with({ m: 16, ef_construction: 64 }),
 	],
 );
 

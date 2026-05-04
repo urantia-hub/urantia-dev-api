@@ -71,6 +71,13 @@
       "when": 1777870057054,
       "tag": "0009_great_gunslinger",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1777901277829,
+      "tag": "0010_pretty_tarot",
+      "breakpoints": true
     }
   ]
 }
