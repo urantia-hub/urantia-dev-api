@@ -124,6 +124,21 @@ export const ParagraphBibleParallelSchema = z.object({
 	embeddingModel: z.string(),
 });
 
+// --- Paragraph parallel (inline on paragraph when include=paragraphParallels) ---
+// Top-10 most-similar OTHER UB paragraphs to this one, by cosine similarity
+// of text-embedding-3-large vectors.
+export const ParagraphSelfParallelSchema = z.object({
+	id: z.string(),
+	standardReferenceId: z.string(),
+	paperId: z.string(),
+	paperTitle: z.string(),
+	sectionTitle: z.string().nullable(),
+	text: z.string(),
+	similarity: z.number(),
+	rank: z.number().int(),
+	embeddingModel: z.string(),
+});
+
 // --- Paragraph ---
 
 export const ParagraphSchema = z.object({
@@ -143,6 +158,7 @@ export const ParagraphSchema = z.object({
 	audio: AudioSchema,
 	entities: z.array(ParagraphEntitySchema).optional(),
 	bibleParallels: z.array(ParagraphBibleParallelSchema).optional(),
+	paragraphParallels: z.array(ParagraphSelfParallelSchema).optional(),
 });
 
 // --- TOC ---

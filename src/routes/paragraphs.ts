@@ -5,6 +5,10 @@ import { paragraphs } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
 import { enrichWithBibleParallels, wantsBibleParallels } from "../lib/bible-parallels.ts";
 import { enrichWithEntities, wantsEntities } from "../lib/entities.ts";
+import {
+	enrichWithParagraphParallels,
+	wantsParagraphParallels,
+} from "../lib/paragraph-parallels.ts";
 import { problemJson } from "../lib/errors.ts";
 import { getParagraphNavigation } from "../lib/paragraph-lookup.ts";
 import { toRagFormat } from "../lib/rag.ts";
@@ -136,10 +140,12 @@ paragraphsRoute.openapi(getRandomRoute, async (c) => {
 	type Enriched = (typeof result)[number] & {
 		entities?: Awaited<ReturnType<typeof enrichWithEntities>>[number]["entities"];
 		bibleParallels?: Awaited<ReturnType<typeof enrichWithBibleParallels>>[number]["bibleParallels"];
+		paragraphParallels?: Awaited<ReturnType<typeof enrichWithParagraphParallels>>[number]["paragraphParallels"];
 	};
 	let enriched: Enriched[] = result;
 	if (wantsEntities(include)) enriched = (await enrichWithEntities(db, enriched)) as Enriched[];
 	if (wantsBibleParallels(include)) enriched = (await enrichWithBibleParallels(db, enriched)) as Enriched[];
+	if (wantsParagraphParallels(include)) enriched = (await enrichWithParagraphParallels(db, enriched)) as Enriched[];
 	const data = enriched[0]!;
 
 	if (format === "rag") {
@@ -213,10 +219,12 @@ paragraphsRoute.openapi(getParagraphRoute, async (c) => {
 	type Enriched = (typeof result)[number] & {
 		entities?: Awaited<ReturnType<typeof enrichWithEntities>>[number]["entities"];
 		bibleParallels?: Awaited<ReturnType<typeof enrichWithBibleParallels>>[number]["bibleParallels"];
+		paragraphParallels?: Awaited<ReturnType<typeof enrichWithParagraphParallels>>[number]["paragraphParallels"];
 	};
 	let enriched: Enriched[] = result;
 	if (wantsEntities(include)) enriched = (await enrichWithEntities(db, enriched)) as Enriched[];
 	if (wantsBibleParallels(include)) enriched = (await enrichWithBibleParallels(db, enriched)) as Enriched[];
+	if (wantsParagraphParallels(include)) enriched = (await enrichWithParagraphParallels(db, enriched)) as Enriched[];
 	const data = enriched[0]!;
 
 	if (outputFormat === "rag") {

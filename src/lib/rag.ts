@@ -22,6 +22,13 @@ interface ParagraphRow {
 		similarity: number;
 		rank: number;
 	}>;
+	paragraphParallels?: Array<{
+		standardReferenceId: string;
+		paperTitle: string;
+		text: string;
+		similarity: number;
+		rank: number;
+	}>;
 }
 
 export interface RagResponse {
@@ -44,6 +51,13 @@ export interface RagResponse {
 	entities: string[];
 	bibleParallels?: Array<{
 		reference: string;
+		text: string;
+		similarity: number;
+		rank: number;
+	}>;
+	paragraphParallels?: Array<{
+		ref: string;
+		paperTitle: string;
 		text: string;
 		similarity: number;
 		rank: number;
@@ -86,6 +100,16 @@ export async function toRagFormat(
 	if (paragraph.bibleParallels?.length) {
 		result.bibleParallels = paragraph.bibleParallels.map((p) => ({
 			reference: p.reference,
+			text: p.text,
+			similarity: p.similarity,
+			rank: p.rank,
+		}));
+	}
+
+	if (paragraph.paragraphParallels?.length) {
+		result.paragraphParallels = paragraph.paragraphParallels.map((p) => ({
+			ref: p.standardReferenceId,
+			paperTitle: p.paperTitle,
 			text: p.text,
 			similarity: p.similarity,
 			rank: p.rank,

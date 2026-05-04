@@ -230,6 +230,41 @@ describe("GET /paragraphs/:ref/context", () => {
 	});
 });
 
+describe("GET /paragraphs/:ref?include=paragraphParallels", () => {
+	it("returns 200 and a paragraphParallels array on the paragraph", async () => {
+		const res = await get("/paragraphs/1:0.1?include=paragraphParallels");
+		expect(res.status).toBe(200);
+		const { data } = await res.json();
+		expect(data).toHaveProperty("paragraphParallels");
+		expect(data.paragraphParallels).toBeArray();
+		if (data.paragraphParallels.length > 0) {
+			const p = data.paragraphParallels[0];
+			expect(p).toHaveProperty("standardReferenceId");
+			expect(p).toHaveProperty("similarity");
+			expect(p.rank).toBe(1);
+			// Self should never appear in own parallels
+			expect(p.standardReferenceId).not.toBe("1:0.1");
+		}
+	});
+
+	it("does not include paragraphParallels when include is omitted", async () => {
+		const res = await get("/paragraphs/1:0.1");
+		const { data } = await res.json();
+		expect(data.paragraphParallels).toBeUndefined();
+	});
+
+	it("combined includes work (entities + bibleParallels + paragraphParallels)", async () => {
+		const res = await get(
+			"/paragraphs/1:0.1?include=entities,bibleParallels,paragraphParallels",
+		);
+		expect(res.status).toBe(200);
+		const { data } = await res.json();
+		expect(data).toHaveProperty("entities");
+		expect(data).toHaveProperty("bibleParallels");
+		expect(data).toHaveProperty("paragraphParallels");
+	});
+});
+
 describe("GET /paragraphs/:ref?include=bibleParallels", () => {
 	it("returns 200 and a bibleParallels array on the paragraph", async () => {
 		const res = await get("/paragraphs/1:0.1?include=bibleParallels");
