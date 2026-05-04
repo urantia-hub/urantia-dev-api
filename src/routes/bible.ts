@@ -446,7 +446,7 @@ bibleRoute.openapi(getVerseParagraphsRoute, async (c) => {
 					verseEnd: chunk.verseEnd,
 					text: chunk.text,
 				},
-				paragraphs: top.map((p) => ({
+				urantiaParallels: top.map((p) => ({
 					id: p.pId,
 					standardReferenceId: p.standardReferenceId,
 					paperId: p.paperId,
@@ -673,7 +673,7 @@ bibleRoute.openapi(semanticSearchRoute, async (c) => {
 			verseEnd: c.verse_end,
 			text: c.text,
 			similarity: c.similarity,
-			paragraphs: paragraphsByChunk.get(c.id) ?? [],
+			urantiaParallels: paragraphsByChunk.get(c.id) ?? [],
 		};
 	});
 

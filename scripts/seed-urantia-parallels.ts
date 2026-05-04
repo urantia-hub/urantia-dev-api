@@ -5,7 +5,7 @@
 // Self-similarity is excluded — we want the top-10 OTHER paragraphs.
 //
 // Usage:
-//   DATABASE_URL=... bun run scripts/seed-paragraph-parallels.ts
+//   DATABASE_URL=... bun run scripts/seed-urantia-parallels.ts
 
 import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
@@ -115,7 +115,7 @@ async function bulkInsert(rows: ParallelRow[]) {
 			sql`, `,
 		);
 		await db.execute(sql`
-			INSERT INTO paragraph_parallels (
+			INSERT INTO urantia_parallels (
 				source_paragraph_id, target_paragraph_id, similarity, rank, embedding_model
 			)
 			VALUES ${valuesSql}
@@ -167,10 +167,10 @@ async function main() {
 	console.log(`\nTotal wall-clock: ${elapsed}s`);
 
 	const summary = await db.execute(sql<{ n: number }[]>`
-		SELECT COUNT(*)::int AS n FROM paragraph_parallels
+		SELECT COUNT(*)::int AS n FROM urantia_parallels
 	`);
 	const total = (summary as unknown as { n: number }[])[0]?.n ?? 0;
-	console.log(`paragraph_parallels rows: ${total}`);
+	console.log(`urantia_parallels rows: ${total}`);
 
 	await client.end();
 }

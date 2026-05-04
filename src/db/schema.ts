@@ -391,20 +391,21 @@ export const bibleParallels = pgTable(
 	],
 );
 
-// --- paragraph_parallels (UB ↔ UB top-10 nearest neighbors) ---
+// --- urantia_parallels (UB ↔ UB top-10 nearest neighbors) ---
+// Naming: `urantiaParallels` mirrors `bibleParallels` — both names describe
+// the TARGET type (Urantia paragraphs vs Bible verses). The previous name
+// `paragraphParallels` was object-typed (and "paragraph" implicitly meant
+// UB throughout this API), which was confusing on first read.
+//
 // Pre-computed top-10 most-similar Urantia paragraphs per source paragraph.
-// Same shape as `bible_parallels` but both endpoints are UB paragraphs.
 // Cosine similarity is symmetric in value but the top-K relation is not —
 // A's top-10 may not contain B even if B's top-10 contains A — so we
 // compute and store both directions naturally (one row per ordered pair).
 //
 // Self-references are filtered out at compute time; the lowest possible
 // rank is 1 (most similar OTHER paragraph).
-//
-// `embedding_model` records provenance so a future model upgrade can
-// re-run with ON CONFLICT DO UPDATE without silent no-ops.
-export const paragraphParallels = pgTable(
-	"paragraph_parallels",
+export const urantiaParallels = pgTable(
+	"urantia_parallels",
 	{
 		id: serial("id").primaryKey(),
 		sourceParagraphId: text("source_paragraph_id")
@@ -419,9 +420,9 @@ export const paragraphParallels = pgTable(
 		generatedAt: timestamp("generated_at").notNull().defaultNow(),
 	},
 	(t) => [
-		index("pp_source_rank_idx").on(t.sourceParagraphId, t.rank),
-		index("pp_target_idx").on(t.targetParagraphId),
-		uniqueIndex("pp_natural_key_idx").on(t.sourceParagraphId, t.targetParagraphId),
+		index("up_source_rank_idx").on(t.sourceParagraphId, t.rank),
+		index("up_target_idx").on(t.targetParagraphId),
+		uniqueIndex("up_natural_key_idx").on(t.sourceParagraphId, t.targetParagraphId),
 	],
 );
 

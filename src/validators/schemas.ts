@@ -124,10 +124,10 @@ export const ParagraphBibleParallelSchema = z.object({
 	embeddingModel: z.string(),
 });
 
-// --- Paragraph parallel (inline on paragraph when include=paragraphParallels) ---
+// --- Urantia parallel (inline on paragraph when include=urantiaParallels) ---
 // Top-10 most-similar OTHER UB paragraphs to this one, by cosine similarity
 // of text-embedding-3-large vectors.
-export const ParagraphSelfParallelSchema = z.object({
+export const UrantiaParallelSchema = z.object({
 	id: z.string(),
 	standardReferenceId: z.string(),
 	paperId: z.string(),
@@ -158,7 +158,7 @@ export const ParagraphSchema = z.object({
 	audio: AudioSchema,
 	entities: z.array(ParagraphEntitySchema).optional(),
 	bibleParallels: z.array(ParagraphBibleParallelSchema).optional(),
-	paragraphParallels: z.array(ParagraphSelfParallelSchema).optional(),
+	urantiaParallels: z.array(UrantiaParallelSchema).optional(),
 });
 
 // --- TOC ---
@@ -484,7 +484,10 @@ export const BibleSemanticSearchRequest = z.object({
 	paragraphLimit: z.number().int().min(0).max(10).default(3),
 });
 
-const BibleSearchUbParagraphSchema = z.object({
+// One Urantia paragraph attached to a Bible-side response (search result
+// or reverse-query result). Same shape as the inline parallel returned on
+// /paragraphs/{ref}?include=urantiaParallels.
+const BibleSideUrantiaParallelSchema = z.object({
 	id: z.string(),
 	standardReferenceId: z.string(),
 	paperId: z.string(),
@@ -506,7 +509,7 @@ export const BibleSemanticSearchResultSchema = z.object({
 	verseEnd: z.number().int(),
 	text: z.string(),
 	similarity: z.number(),
-	paragraphs: z.array(BibleSearchUbParagraphSchema),
+	urantiaParallels: z.array(BibleSideUrantiaParallelSchema),
 });
 
 export const BibleSemanticSearchResponse = z.object({
@@ -516,7 +519,7 @@ export const BibleSemanticSearchResponse = z.object({
 
 // Reverse-query: given a Bible verse, list the top-N UB paragraphs
 // semantically nearest to the chunk that verse belongs to.
-export const BibleVerseParagraphSchema = z.object({
+export const BibleVerseUrantiaParallelSchema = z.object({
 	id: z.string(), // paragraph globalId
 	standardReferenceId: z.string(),
 	paperId: z.string(),
@@ -538,6 +541,6 @@ export const BibleVerseParagraphsResponse = z.object({
 			verseEnd: z.number().int(),
 			text: z.string(),
 		}),
-		paragraphs: z.array(BibleVerseParagraphSchema),
+		urantiaParallels: z.array(BibleVerseUrantiaParallelSchema),
 	}),
 });

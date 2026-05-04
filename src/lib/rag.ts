@@ -22,7 +22,7 @@ interface ParagraphRow {
 		similarity: number;
 		rank: number;
 	}>;
-	paragraphParallels?: Array<{
+	urantiaParallels?: Array<{
 		standardReferenceId: string;
 		paperTitle: string;
 		text: string;
@@ -55,7 +55,7 @@ export interface RagResponse {
 		similarity: number;
 		rank: number;
 	}>;
-	paragraphParallels?: Array<{
+	urantiaParallels?: Array<{
 		ref: string;
 		paperTitle: string;
 		text: string;
@@ -106,8 +106,8 @@ export async function toRagFormat(
 		}));
 	}
 
-	if (paragraph.paragraphParallels?.length) {
-		result.paragraphParallels = paragraph.paragraphParallels.map((p) => ({
+	if (paragraph.urantiaParallels?.length) {
+		result.urantiaParallels = paragraph.urantiaParallels.map((p) => ({
 			ref: p.standardReferenceId,
 			paperTitle: p.paperTitle,
 			text: p.text,

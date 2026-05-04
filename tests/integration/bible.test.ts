@@ -161,17 +161,17 @@ describe("POST /bible/search/semantic", () => {
 		expect(first).toHaveProperty("bookCode");
 		expect(first).toHaveProperty("canon");
 		expect(first).toHaveProperty("similarity");
-		expect(first.paragraphs).toBeArray();
-		expect(first.paragraphs.length).toBeGreaterThan(0);
-		expect(first.paragraphs[0]).toHaveProperty("standardReferenceId");
-		expect(first.paragraphs[0]).toHaveProperty("paperTitle");
+		expect(first.urantiaParallels).toBeArray();
+		expect(first.urantiaParallels.length).toBeGreaterThan(0);
+		expect(first.urantiaParallels[0]).toHaveProperty("standardReferenceId");
+		expect(first.urantiaParallels[0]).toHaveProperty("paperTitle");
 	});
 
 	it("respects paragraphLimit=0 (suppresses UB paragraphs)", { timeout: 30_000 }, async () => {
 		const res = await post({ q: "creation", limit: 2, paragraphLimit: 0 });
 		expect(res.status).toBe(200);
 		const { data } = await res.json();
-		for (const r of data) expect(r.paragraphs).toEqual([]);
+		for (const r of data) expect(r.urantiaParallels).toEqual([]);
 	});
 
 	it("filters by canon=nt", { timeout: 30_000 }, async () => {
@@ -204,13 +204,13 @@ describe("GET /bible/{bookCode}/{chapter}/{verse}/paragraphs", () => {
 		const { data } = await res.json();
 		expect(data).toHaveProperty("verse");
 		expect(data).toHaveProperty("chunk");
-		expect(data).toHaveProperty("paragraphs");
+		expect(data).toHaveProperty("urantiaParallels");
 		expect(data.verse.reference).toBe("Genesis 1:1");
 		expect(data.chunk.id).toMatch(/^Gen\.1\./);
-		expect(data.paragraphs).toBeArray();
-		// Up to 10 paragraphs (less if seed hasn't fully populated)
-		if (data.paragraphs.length > 0) {
-			const p = data.paragraphs[0];
+		expect(data.urantiaParallels).toBeArray();
+		// Up to 10 (less if seed hasn't fully populated)
+		if (data.urantiaParallels.length > 0) {
+			const p = data.urantiaParallels[0];
 			expect(p).toHaveProperty("standardReferenceId");
 			expect(p).toHaveProperty("similarity");
 			expect(p).toHaveProperty("rank");

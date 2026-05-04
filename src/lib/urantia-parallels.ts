@@ -1,15 +1,16 @@
 // Helpers for the UB↔UB cross-reference feature ("see also" between
-// paragraphs). Mirrors src/lib/bible-parallels.ts but the target is
-// another UB paragraph rather than a Bible chunk.
+// Urantia paragraphs). Naming mirrors `bible-parallels.ts`: both libraries
+// are named after the TARGET type they surface — Urantia paragraphs vs
+// Bible verses.
 
 import { aliasedTable, asc, eq, inArray } from "drizzle-orm";
 import type { getDb } from "../db/client.ts";
-import { paragraphParallels, paragraphs } from "../db/schema.ts";
+import { paragraphs, urantiaParallels } from "../db/schema.ts";
 
 type Db = ReturnType<typeof getDb>["db"];
 type ParagraphRow = { id: string; [key: string]: unknown };
 
-export type ParagraphParallel = {
+export type UrantiaParallel = {
 	id: string;
 	standardReferenceId: string;
 	paperId: string;
@@ -21,18 +22,18 @@ export type ParagraphParallel = {
 	embeddingModel: string;
 };
 
-export function wantsParagraphParallels(include: string | undefined): boolean {
+export function wantsUrantiaParallels(include: string | undefined): boolean {
 	if (!include) return false;
 	return include
 		.split(",")
 		.map((s) => s.trim())
-		.includes("paragraphParallels");
+		.includes("urantiaParallels");
 }
 
-export async function enrichWithParagraphParallels<T extends ParagraphRow>(
+export async function enrichWithUrantiaParallels<T extends ParagraphRow>(
 	db: Db,
 	rows: T[],
-): Promise<(T & { paragraphParallels: ParagraphParallel[] })[]> {
+): Promise<(T & { urantiaParallels: UrantiaParallel[] })[]> {
 	if (rows.length === 0) return [];
 
 	const sourceIds = rows.map((r) => r.id);
@@ -40,23 +41,23 @@ export async function enrichWithParagraphParallels<T extends ParagraphRow>(
 
 	const junctionRows = await db
 		.select({
-			sourceId: paragraphParallels.sourceParagraphId,
+			sourceId: urantiaParallels.sourceParagraphId,
 			targetId: target.id,
 			standardReferenceId: target.standardReferenceId,
 			paperId: target.paperId,
 			paperTitle: target.paperTitle,
 			sectionTitle: target.sectionTitle,
 			text: target.text,
-			similarity: paragraphParallels.similarity,
-			rank: paragraphParallels.rank,
-			embeddingModel: paragraphParallels.embeddingModel,
+			similarity: urantiaParallels.similarity,
+			rank: urantiaParallels.rank,
+			embeddingModel: urantiaParallels.embeddingModel,
 		})
-		.from(paragraphParallels)
-		.innerJoin(target, eq(paragraphParallels.targetParagraphId, target.id))
-		.where(inArray(paragraphParallels.sourceParagraphId, sourceIds))
-		.orderBy(asc(paragraphParallels.sourceParagraphId), asc(paragraphParallels.rank));
+		.from(urantiaParallels)
+		.innerJoin(target, eq(urantiaParallels.targetParagraphId, target.id))
+		.where(inArray(urantiaParallels.sourceParagraphId, sourceIds))
+		.orderBy(asc(urantiaParallels.sourceParagraphId), asc(urantiaParallels.rank));
 
-	const bySource = new Map<string, ParagraphParallel[]>();
+	const bySource = new Map<string, UrantiaParallel[]>();
 	for (const r of junctionRows) {
 		const list = bySource.get(r.sourceId) ?? [];
 		list.push({
@@ -75,6 +76,6 @@ export async function enrichWithParagraphParallels<T extends ParagraphRow>(
 
 	return rows.map((r) => ({
 		...r,
-		paragraphParallels: bySource.get(r.id) ?? [],
+		urantiaParallels: bySource.get(r.id) ?? [],
 	}));
 }

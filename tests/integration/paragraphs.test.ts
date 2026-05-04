@@ -230,15 +230,15 @@ describe("GET /paragraphs/:ref/context", () => {
 	});
 });
 
-describe("GET /paragraphs/:ref?include=paragraphParallels", () => {
-	it("returns 200 and a paragraphParallels array on the paragraph", async () => {
-		const res = await get("/paragraphs/1:0.1?include=paragraphParallels");
+describe("GET /paragraphs/:ref?include=urantiaParallels", () => {
+	it("returns 200 and a urantiaParallels array on the paragraph", async () => {
+		const res = await get("/paragraphs/1:0.1?include=urantiaParallels");
 		expect(res.status).toBe(200);
 		const { data } = await res.json();
-		expect(data).toHaveProperty("paragraphParallels");
-		expect(data.paragraphParallels).toBeArray();
-		if (data.paragraphParallels.length > 0) {
-			const p = data.paragraphParallels[0];
+		expect(data).toHaveProperty("urantiaParallels");
+		expect(data.urantiaParallels).toBeArray();
+		if (data.urantiaParallels.length > 0) {
+			const p = data.urantiaParallels[0];
 			expect(p).toHaveProperty("standardReferenceId");
 			expect(p).toHaveProperty("similarity");
 			expect(p.rank).toBe(1);
@@ -247,21 +247,21 @@ describe("GET /paragraphs/:ref?include=paragraphParallels", () => {
 		}
 	});
 
-	it("does not include paragraphParallels when include is omitted", async () => {
+	it("does not include urantiaParallels when include is omitted", async () => {
 		const res = await get("/paragraphs/1:0.1");
 		const { data } = await res.json();
-		expect(data.paragraphParallels).toBeUndefined();
+		expect(data.urantiaParallels).toBeUndefined();
 	});
 
-	it("combined includes work (entities + bibleParallels + paragraphParallels)", async () => {
+	it("combined includes work (entities + bibleParallels + urantiaParallels)", async () => {
 		const res = await get(
-			"/paragraphs/1:0.1?include=entities,bibleParallels,paragraphParallels",
+			"/paragraphs/1:0.1?include=entities,bibleParallels,urantiaParallels",
 		);
 		expect(res.status).toBe(200);
 		const { data } = await res.json();
 		expect(data).toHaveProperty("entities");
 		expect(data).toHaveProperty("bibleParallels");
-		expect(data).toHaveProperty("paragraphParallels");
+		expect(data).toHaveProperty("urantiaParallels");
 	});
 });
 
