@@ -62,11 +62,13 @@ Infrastructure layer: turn the Urantia Papers from a book into a queryable knowl
 
 - [x] **MCP server enhancements** — Added Resources (`urantia://paper/{id}` rendered as markdown, `urantia://entity/{id}` with description + paragraph references) and Prompts (`study_assistant` with optional topic, `comparative_theology` taking topic + tradition) on top of the existing 13 tools.
 
+- [x] **MCP Bible + parallels parity** — Added 6 Bible tools to MCP (`bible.books`, `bible.book`, `bible.chapter`, `bible.verse`, `bible.verse.urantia_parallels`, `bible.search.semantic`) and added `include_bible_parallels` / `include_urantia_parallels` boolean params to `paragraphs.random`, `paragraphs.get`, `search.fulltext`, `search.semantic`. OpenAI/Anthropic catalogs auto-synced via `src/lib/tool-catalog.ts`. Tool count: 13 → 19. `server.json` bumped to `1.1.0` (re-publish to MCP Registry needed).
+
 - [~] **API & MCP directory listings** — Free distribution across AI/dev channels.
   - ✅ public-apis (merged)
   - ✅ Smithery (100/100 quality score)
   - ✅ Glama Connectors (A grades) + Glama Servers (C grade — hosted-only, no Dockerfile install path)
-  - ✅ MCP Registry as `dev.urantia/urantia-papers` v1.0.1 (DNS auth, keeps org membership private)
+  - ✅ MCP Registry as `dev.urantia/urantia-papers` v1.0.1 (DNS auth, keeps org membership private) — needs republish for v1.1.0 (6 Bible tools)
   - 🟡 awesome-mcp-servers PR #5759 — open, all bot checks green (`has-emoji`, `valid-name`, `has-glama`), waiting on punkpeye review
   - 🟡 APIs.guru issue #2470 — open, no movement yet
   - 🟡 faith.tools — submitted with honest doctrinal-divergence disclosure, ~30-day review window

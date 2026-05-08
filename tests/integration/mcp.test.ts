@@ -69,6 +69,12 @@ async function getPrompt(name: string, args: Record<string, unknown> = {}) {
 
 const EXPECTED_TOOL_NAMES = [
 	"audio.get",
+	"bible.book",
+	"bible.books",
+	"bible.chapter",
+	"bible.search.semantic",
+	"bible.verse",
+	"bible.verse.urantia_parallels",
 	"entities.get",
 	"entities.list",
 	"entities.paragraphs",
@@ -89,7 +95,8 @@ describe("MCP Server", () => {
 		expect(res.status).toBe(200);
 		const body = await res.json();
 		expect(body.server.name).toBe("Urantia Papers API");
-		expect(Object.keys(body.capabilities.tools).sort()).toEqual(EXPECTED_TOOL_NAMES);
+		const toolKeys = Object.keys(body.capabilities.tools).sort();
+		expect(toolKeys).toEqual(EXPECTED_TOOL_NAMES);
 		expect(Object.keys(body.capabilities.resources)).toEqual([
 			"urantia://paper/{id}",
 			"urantia://entity/{id}",
@@ -117,14 +124,14 @@ describe("MCP Server", () => {
 		expect(results[0].result.serverInfo.name).toBe("Urantia Papers API");
 	});
 
-	it("lists all 13 tools with dot-notation names", async () => {
+	it("lists all 19 tools with dot-notation names", async () => {
 		await initialize();
 		const res = await mcpRequest({ id: 2, method: "tools/list" });
 		expect(res.status).toBe(200);
 		const results = await parseMcpResponse(res);
 		expect(results.length).toBeGreaterThan(0);
 		const tools = results[0].result.tools;
-		expect(tools.length).toBe(13);
+		expect(tools.length).toBe(19);
 
 		const toolNames = tools.map((t: { name: string }) => t.name).sort();
 		expect(toolNames).toEqual(EXPECTED_TOOL_NAMES);
@@ -207,7 +214,10 @@ describe("MCP Server", () => {
 	});
 
 	it("search.semantic accepts `query` as well as `q`", async () => {
-		const results = await callTool("search.semantic", { query: "what happens after death", limit: 2 });
+		const results = await callTool("search.semantic", {
+			query: "what happens after death",
+			limit: 2,
+		});
 		expect(results.length).toBeGreaterThan(0);
 		const { structuredContent } = results[0].result;
 		expect(structuredContent.data).toBeArray();
@@ -249,6 +259,104 @@ describe("MCP Server", () => {
 		const tools = results[0].result.tools;
 		const semantic = tools.find((t: { name: string }) => t.name === "search.semantic");
 		expect(semantic.annotations.openWorldHint).toBe(true);
+	});
+
+	it("paragraphs.get accepts include_bible_parallels and include_urantia_parallels", async () => {
+		await initialize();
+		const res = await mcpRequest({ id: 2, method: "tools/list" });
+		const results = await parseMcpResponse(res);
+		const tools = results[0].result.tools;
+		const get = tools.find((t: { name: string }) => t.name === "paragraphs.get");
+		expect(get.inputSchema.properties).toHaveProperty("include_bible_parallels");
+		expect(get.inputSchema.properties).toHaveProperty("include_urantia_parallels");
+	});
+
+	it("search.fulltext and search.semantic advertise the parallels include params", async () => {
+		await initialize();
+		const res = await mcpRequest({ id: 2, method: "tools/list" });
+		const results = await parseMcpResponse(res);
+		const tools = results[0].result.tools;
+		for (const name of ["search.fulltext", "search.semantic"]) {
+			const tool = tools.find((t: { name: string }) => t.name === name);
+			expect(tool.inputSchema.properties).toHaveProperty("include_bible_parallels");
+			expect(tool.inputSchema.properties).toHaveProperty("include_urantia_parallels");
+		}
+	});
+
+	it("bible.books returns all 81 books with canon and counts", async () => {
+		const results = await callTool("bible.books");
+		const { structuredContent } = results[0].result;
+		expect(structuredContent.books).toBeArray();
+		expect(structuredContent.books.length).toBe(81);
+		const first = structuredContent.books[0];
+		expect(first).toHaveProperty("bookCode");
+		expect(first).toHaveProperty("canon");
+		expect(first).toHaveProperty("chapterCount");
+		expect(first).toHaveProperty("verseCount");
+	});
+
+	it("bible.book accepts OSIS, USFM, and full-name aliases", async () => {
+		for (const code of ["Gen", "GEN", "Genesis", "genesis"]) {
+			const results = await callTool("bible.book", { book_code: code });
+			const result = results[0].result;
+			if (result.isError) {
+				throw new Error(`bible.book failed for "${code}": ${result.content[0].text}`);
+			}
+			expect(result.structuredContent.book.bookCode).toBe("Gen");
+		}
+	});
+
+	it("bible.book errors for unknown book", async () => {
+		const results = await callTool("bible.book", { book_code: "Zorblax" });
+		expect(results[0].result.isError).toBe(true);
+	});
+
+	it("bible.chapter returns ordered verses", async () => {
+		const results = await callTool("bible.chapter", { book_code: "Gen", chapter: 1 });
+		const { structuredContent } = results[0].result;
+		expect(structuredContent.bookCode).toBe("Gen");
+		expect(structuredContent.chapter).toBe(1);
+		expect(structuredContent.verses).toBeArray();
+		expect(structuredContent.verses.length).toBeGreaterThan(0);
+		expect(structuredContent.verses[0].verse).toBe(1);
+	});
+
+	it("bible.verse returns a single verse", async () => {
+		const results = await callTool("bible.verse", {
+			book_code: "John",
+			chapter: 11,
+			verse: 35,
+		});
+		const { structuredContent } = results[0].result;
+		expect(structuredContent.verse).toBeDefined();
+		expect(structuredContent.verse.bookCode).toBe("John");
+		expect(structuredContent.verse.text).toBeTruthy();
+	});
+
+	it("bible.verse.urantia_parallels returns top-10 UB paragraphs for a Bible verse", async () => {
+		const results = await callTool("bible.verse.urantia_parallels", {
+			book_code: "Matt",
+			chapter: 5,
+			verse: 3,
+		});
+		const result = results[0].result;
+		// Skip if Bible parallels aren't seeded in this test env
+		if (result.isError) return;
+		const sc = result.structuredContent;
+		expect(sc.verse.bookCode).toBe("Matt");
+		expect(sc.chunk).toBeDefined();
+		expect(sc.urantiaParallels).toBeArray();
+	});
+
+	it("bible.search.semantic accepts canon and book_code filters", async () => {
+		await initialize();
+		const res = await mcpRequest({ id: 2, method: "tools/list" });
+		const tools = (await parseMcpResponse(res))[0].result.tools;
+		const sem = tools.find((t: { name: string }) => t.name === "bible.search.semantic");
+		expect(sem.inputSchema.properties).toHaveProperty("canon");
+		expect(sem.inputSchema.properties).toHaveProperty("book_code");
+		expect(sem.inputSchema.properties).toHaveProperty("urantia_parallel_limit");
+		expect(sem.annotations.openWorldHint).toBe(true);
 	});
 });
 

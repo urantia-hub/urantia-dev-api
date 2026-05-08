@@ -1,13 +1,26 @@
-import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPTransport } from "@hono/mcp";
+import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { and, asc, eq, gt, ilike, inArray, lt, sql } from "drizzle-orm";
 import { Hono } from "hono";
-import { z } from "zod";
-import { and, eq, gt, ilike, lt, sql } from "drizzle-orm";
 import OpenAI from "openai";
+import { z } from "zod";
 import { getDb } from "../db/client.ts";
-import { entities, papers, paragraphs, paragraphEntities, parts, sections } from "../db/schema.ts";
+import {
+	bibleChunks,
+	bibleParallels,
+	bibleVerses,
+	entities,
+	papers,
+	paragraphEntities,
+	paragraphs,
+	parts,
+	sections,
+} from "../db/schema.ts";
+import { BIBLE_BOOKS, formatBibleReference, resolveBibleBook } from "../lib/bible-canonicalizer.ts";
+import { enrichWithBibleParallels } from "../lib/bible-parallels.ts";
+import { enrichWithEntities } from "../lib/entities.ts";
+import { enrichWithUrantiaParallels } from "../lib/urantia-parallels.ts";
 import { detectRefFormat } from "../types/node.ts";
-import { enrichWithEntities, wantsEntities } from "../lib/entities.ts";
 import { paragraphFields } from "./paragraphs.ts";
 
 export const mcpRoute = new Hono();
@@ -52,11 +65,23 @@ async function findParagraphByRef(db: ReturnType<typeof getDb>["db"], ref: strin
 	const format = detectRefFormat(ref);
 	switch (format) {
 		case "globalId":
-			return db.select(paragraphFields).from(paragraphs).where(eq(paragraphs.globalId, ref)).limit(1);
+			return db
+				.select(paragraphFields)
+				.from(paragraphs)
+				.where(eq(paragraphs.globalId, ref))
+				.limit(1);
 		case "standardReferenceId":
-			return db.select(paragraphFields).from(paragraphs).where(eq(paragraphs.standardReferenceId, ref)).limit(1);
+			return db
+				.select(paragraphFields)
+				.from(paragraphs)
+				.where(eq(paragraphs.standardReferenceId, ref))
+				.limit(1);
 		case "paperSectionParagraphId":
-			return db.select(paragraphFields).from(paragraphs).where(eq(paragraphs.paperSectionParagraphId, ref)).limit(1);
+			return db
+				.select(paragraphFields)
+				.from(paragraphs)
+				.where(eq(paragraphs.paperSectionParagraphId, ref))
+				.limit(1);
 		default:
 			return [];
 	}
@@ -70,6 +95,33 @@ const paragraphEntityMentionSchema = z.object({
 	id: z.string(),
 	name: z.string(),
 	type: entityTypeEnum,
+});
+
+const bibleParallelSchema = z.object({
+	chunkId: z.string(),
+	reference: z.string(),
+	bookCode: z.string(),
+	chapter: z.number().int(),
+	verseStart: z.number().int(),
+	verseEnd: z.number().int(),
+	text: z.string(),
+	similarity: z.number(),
+	rank: z.number().int(),
+	source: z.string(),
+	embeddingModel: z.string(),
+});
+
+const urantiaParallelSchema = z.object({
+	id: z.string(),
+	standardReferenceId: z.string(),
+	paperId: z.string(),
+	paperTitle: z.string(),
+	sectionTitle: z.string().nullable(),
+	text: z.string(),
+	similarity: z.number(),
+	rank: z.number().int(),
+	source: z.string(),
+	embeddingModel: z.string(),
 });
 
 const paragraphResultSchema = z.object({
@@ -87,6 +139,34 @@ const paragraphResultSchema = z.object({
 	labels: z.array(z.string()).nullable(),
 	audio: z.any(),
 	entities: z.array(paragraphEntityMentionSchema).optional(),
+	bibleParallels: z.array(bibleParallelSchema).optional(),
+	urantiaParallels: z.array(urantiaParallelSchema).optional(),
+});
+
+const bibleCanonEnum = z.enum(["ot", "deuterocanon", "nt"]);
+
+const bibleVerseSchema = z.object({
+	id: z.string(),
+	reference: z.string(),
+	bookCode: z.string(),
+	bookName: z.string(),
+	bookOrder: z.number().int(),
+	canon: bibleCanonEnum,
+	chapter: z.number().int(),
+	verse: z.number().int(),
+	text: z.string(),
+	translation: z.string(),
+});
+
+const bibleBookSchema = z.object({
+	bookCode: z.string(),
+	bookName: z.string(),
+	fullName: z.string(),
+	abbr: z.string(),
+	bookOrder: z.number().int(),
+	canon: bibleCanonEnum,
+	chapterCount: z.number().int(),
+	verseCount: z.number().int(),
 });
 
 const searchResultSchema = paragraphResultSchema.extend({ rank: z.number() });
@@ -138,6 +218,25 @@ function structured<T>(data: T) {
 		structuredContent: data as Record<string, unknown>,
 		content: [{ type: "text" as const, text: JSON.stringify(data) }],
 	};
+}
+
+// Apply paragraph enrichments (entities, Bible parallels, UB parallels) in
+// the same order REST does (entities → bibleParallels → urantiaParallels)
+// so structured output stays consistent across tools.
+async function enrichParagraphs<T extends { id: string }>(
+	db: ReturnType<typeof getDb>["db"],
+	rows: T[],
+	opts: {
+		entities?: boolean;
+		bibleParallels?: boolean;
+		urantiaParallels?: boolean;
+	},
+) {
+	let out: Array<Record<string, unknown>> = rows as unknown as Array<Record<string, unknown>>;
+	if (opts.entities) out = (await enrichWithEntities(db, out as never)) as never;
+	if (opts.bibleParallels) out = (await enrichWithBibleParallels(db, out as never)) as never;
+	if (opts.urantiaParallels) out = (await enrichWithUrantiaParallels(db, out as never)) as never;
+	return out as unknown as T[];
 }
 
 function errorResult(message: string) {
@@ -335,15 +434,24 @@ function createMcpServer() {
 			description:
 				"Get a random paragraph from the Urantia Book. Great for daily quotes, exploration, or discovering new passages.",
 			inputSchema: {
-				include_entities: z
+				include_entities: z.boolean().default(false).describe("Include entity mentions"),
+				include_bible_parallels: z
 					.boolean()
 					.default(false)
-					.describe("Include entity mentions"),
+					.describe(
+						"Include the top-10 Bible verses semantically nearest to this paragraph (UB → Bible direction). Pre-computed via text-embedding-3-large cosine similarity.",
+					),
+				include_urantia_parallels: z
+					.boolean()
+					.default(false)
+					.describe(
+						"Include the top-10 most-similar OTHER Urantia paragraphs ('see also'). Pre-computed via text-embedding-3-large cosine similarity.",
+					),
 			},
 			outputSchema: { paragraph: paragraphResultSchema },
 			annotations: { title: "Get Random Paragraph", ...READ_ONLY_RANDOM },
 		},
-		async ({ include_entities }) => {
+		async ({ include_entities, include_bible_parallels, include_urantia_parallels }) => {
 			const { db } = getDb();
 			const result = await db
 				.select(paragraphFields)
@@ -351,10 +459,12 @@ function createMcpServer() {
 				.orderBy(sql`RANDOM()`)
 				.limit(1);
 			if (result.length === 0) return errorResult("No paragraphs found");
-			const data = include_entities
-				? (await enrichWithEntities(db, result))[0]!
-				: result[0]!;
-			return structured({ paragraph: data });
+			const enriched = await enrichParagraphs(db, result, {
+				entities: include_entities,
+				bibleParallels: include_bible_parallels,
+				urantiaParallels: include_urantia_parallels,
+			});
+			return structured({ paragraph: enriched[0]! });
 		},
 	);
 
@@ -369,15 +479,24 @@ function createMcpServer() {
 				ref: z
 					.string()
 					.describe('Paragraph reference in any format. Examples: "1:2.0.1", "2:0.1", "2.0.1"'),
-				include_entities: z
+				include_entities: z.boolean().default(false).describe("Include entity mentions"),
+				include_bible_parallels: z
 					.boolean()
 					.default(false)
-					.describe("Include entity mentions"),
+					.describe(
+						"Include the top-10 Bible verses semantically nearest to this paragraph (UB → Bible direction).",
+					),
+				include_urantia_parallels: z
+					.boolean()
+					.default(false)
+					.describe(
+						"Include the top-10 most-similar OTHER Urantia paragraphs ('see also' across the corpus).",
+					),
 			},
 			outputSchema: { paragraph: paragraphResultSchema },
 			annotations: { title: "Get Paragraph", ...READ_ONLY_LOCAL },
 		},
-		async ({ ref, include_entities }) => {
+		async ({ ref, include_entities, include_bible_parallels, include_urantia_parallels }) => {
 			const { db } = getDb();
 			const format = detectRefFormat(ref);
 			if (format === "unknown") {
@@ -389,10 +508,12 @@ function createMcpServer() {
 			const result = await findParagraphByRef(db, ref);
 			if (result.length === 0) return errorResult(`Paragraph "${ref}" not found`);
 
-			const data = include_entities
-				? (await enrichWithEntities(db, result))[0]!
-				: result[0]!;
-			return structured({ paragraph: data });
+			const enriched = await enrichParagraphs(db, result, {
+				entities: include_entities,
+				bibleParallels: include_bible_parallels,
+				urantiaParallels: include_urantia_parallels,
+			});
+			return structured({ paragraph: enriched[0]! });
 		},
 	);
 
@@ -411,10 +532,7 @@ function createMcpServer() {
 					.max(10)
 					.default(2)
 					.describe("Number of paragraphs before and after (1-10, default 2)"),
-				include_entities: z
-					.boolean()
-					.default(false)
-					.describe("Include entity mentions"),
+				include_entities: z.boolean().default(false).describe("Include entity mentions"),
 			},
 			outputSchema: {
 				target: paragraphResultSchema,
@@ -484,10 +602,7 @@ function createMcpServer() {
 			description:
 				'Full-text search across all Urantia Book paragraphs. Supports three modes: "and" (all words must appear, default), "or" (any word), "phrase" (exact phrase). Results ranked by relevance.',
 			inputSchema: {
-				query: z
-					.string()
-					.optional()
-					.describe('Search query. Example: "nature of God"'),
+				query: z.string().optional().describe('Search query. Example: "nature of God"'),
 				q: z.string().optional().describe("Alias for `query` (REST compatibility)."),
 				type: z
 					.enum(["phrase", "and", "or"])
@@ -497,10 +612,17 @@ function createMcpServer() {
 				part_id: z.string().optional().describe("Filter to a specific part ID (1-4)"),
 				page: z.number().int().min(0).default(0).describe("Page number (0-indexed)"),
 				limit: z.number().int().min(1).max(100).default(20).describe("Results per page (1-100)"),
-				include_entities: z
+				include_entities: z.boolean().default(false).describe("Include entity mentions"),
+				include_bible_parallels: z
 					.boolean()
 					.default(false)
-					.describe("Include entity mentions"),
+					.describe(
+						"Include the top-10 Bible verses semantically nearest to each result (UB → Bible).",
+					),
+				include_urantia_parallels: z
+					.boolean()
+					.default(false)
+					.describe("Include the top-10 most-similar OTHER Urantia paragraphs for each result."),
 			},
 			outputSchema: {
 				data: z.array(searchResultSchema),
@@ -508,7 +630,18 @@ function createMcpServer() {
 			},
 			annotations: { title: "Full-Text Search", ...READ_ONLY_LOCAL },
 		},
-		async ({ query, q, type, paper_id, part_id, page, limit, include_entities }) => {
+		async ({
+			query,
+			q,
+			type,
+			paper_id,
+			part_id,
+			page,
+			limit,
+			include_entities,
+			include_bible_parallels,
+			include_urantia_parallels,
+		}) => {
 			const searchQuery = query ?? q;
 			if (!searchQuery) return errorResult("Either 'query' or 'q' is required");
 			const { db } = getDb();
@@ -540,9 +673,11 @@ function createMcpServer() {
 				.limit(limit)
 				.offset(offset);
 
-			const enrichedResults = include_entities
-				? await enrichWithEntities(db, results)
-				: results;
+			const enrichedResults = await enrichParagraphs(db, results, {
+				entities: include_entities,
+				bibleParallels: include_bible_parallels,
+				urantiaParallels: include_urantia_parallels,
+			});
 
 			return structured({
 				data: enrichedResults,
@@ -568,10 +703,17 @@ function createMcpServer() {
 				part_id: z.string().optional().describe("Filter to a specific part ID (1-4)"),
 				page: z.number().int().min(0).default(0).describe("Page number (0-indexed)"),
 				limit: z.number().int().min(1).max(100).default(20).describe("Results per page (1-100)"),
-				include_entities: z
+				include_entities: z.boolean().default(false).describe("Include entity mentions"),
+				include_bible_parallels: z
 					.boolean()
 					.default(false)
-					.describe("Include entity mentions"),
+					.describe(
+						"Include the top-10 Bible verses semantically nearest to each result (UB → Bible).",
+					),
+				include_urantia_parallels: z
+					.boolean()
+					.default(false)
+					.describe("Include the top-10 most-similar OTHER Urantia paragraphs for each result."),
 			},
 			outputSchema: {
 				data: z.array(semanticResultSchema),
@@ -579,7 +721,17 @@ function createMcpServer() {
 			},
 			annotations: { title: "Semantic Search", ...READ_ONLY_OPEN_WORLD },
 		},
-		async ({ query, q, paper_id, part_id, page, limit, include_entities }) => {
+		async ({
+			query,
+			q,
+			paper_id,
+			part_id,
+			page,
+			limit,
+			include_entities,
+			include_bible_parallels,
+			include_urantia_parallels,
+		}) => {
 			const searchQuery = query ?? q;
 			if (!searchQuery) return errorResult("Either 'query' or 'q' is required");
 			const { db } = getDb();
@@ -615,9 +767,11 @@ function createMcpServer() {
 				.limit(limit)
 				.offset(offset);
 
-			const enrichedResults = include_entities
-				? await enrichWithEntities(db, results)
-				: results;
+			const enrichedResults = await enrichParagraphs(db, results, {
+				entities: include_entities,
+				bibleParallels: include_bible_parallels,
+				urantiaParallels: include_urantia_parallels,
+			});
 
 			return structured({
 				data: enrichedResults,
@@ -815,6 +969,559 @@ function createMcpServer() {
 		},
 	);
 
+	// 14. bible.books — list all 81 Bible books
+	server.registerTool(
+		"bible.books",
+		{
+			title: "List Bible Books",
+			description:
+				"List all 81 books of the World English Bible (eng-web): 39 Old Testament + 15 deuterocanonical + 27 New Testament. Each entry includes OSIS book code, full name, abbreviation, canonical order, canon, and chapter/verse counts.",
+			inputSchema: {},
+			outputSchema: { books: z.array(bibleBookSchema) },
+			annotations: { title: "List Bible Books", ...READ_ONLY_LOCAL },
+		},
+		async () => {
+			const { db } = getDb();
+			const rows = await db
+				.select({
+					bookCode: bibleVerses.bookCode,
+					chapterCount: sql<number>`count(distinct ${bibleVerses.chapter})`,
+					verseCount: sql<number>`count(*)::int`,
+				})
+				.from(bibleVerses)
+				.groupBy(bibleVerses.bookCode);
+			const counts = new Map(rows.map((r) => [r.bookCode, r]));
+			const books = BIBLE_BOOKS.map((b) => {
+				const c = counts.get(b.osis);
+				return {
+					bookCode: b.osis,
+					bookName: b.name,
+					fullName: b.fullName,
+					abbr: b.abbr,
+					bookOrder: b.order,
+					canon: b.canon,
+					chapterCount: Number(c?.chapterCount ?? 0),
+					verseCount: Number(c?.verseCount ?? 0),
+				};
+			});
+			return structured({ books });
+		},
+	);
+
+	// 15. bible.book — get a single book's metadata
+	server.registerTool(
+		"bible.book",
+		{
+			title: "Get Bible Book",
+			description:
+				'Get metadata for a single Bible book including chapter and verse counts. Accepts OSIS codes ("Gen"), USFM codes ("GEN"), full names ("Genesis"), and aliases ("genesis", "1-maccabees") — case-insensitive, hyphens/underscores tolerated.',
+			inputSchema: {
+				book_code: z
+					.string()
+					.describe('Book identifier. Examples: "Gen", "GEN", "Genesis", "1Macc", "DanGr"'),
+			},
+			outputSchema: { book: bibleBookSchema },
+			annotations: { title: "Get Bible Book", ...READ_ONLY_LOCAL },
+		},
+		async ({ book_code }) => {
+			const meta = resolveBibleBook(book_code);
+			if (!meta) return errorResult(`Bible book "${book_code}" not found`);
+
+			const { db } = getDb();
+			const counts = await db
+				.select({
+					chapterCount: sql<number>`count(distinct ${bibleVerses.chapter})`,
+					verseCount: sql<number>`count(*)::int`,
+				})
+				.from(bibleVerses)
+				.where(eq(bibleVerses.bookCode, meta.osis));
+
+			return structured({
+				book: {
+					bookCode: meta.osis,
+					bookName: meta.name,
+					fullName: meta.fullName,
+					abbr: meta.abbr,
+					bookOrder: meta.order,
+					canon: meta.canon,
+					chapterCount: Number(counts[0]?.chapterCount ?? 0),
+					verseCount: Number(counts[0]?.verseCount ?? 0),
+				},
+			});
+		},
+	);
+
+	// 16. bible.chapter — get all verses in a chapter
+	server.registerTool(
+		"bible.chapter",
+		{
+			title: "Get Bible Chapter",
+			description:
+				"Get every verse in a Bible chapter, ordered by verse number. Accepts OSIS, USFM, full name, or alias for `book_code`.",
+			inputSchema: {
+				book_code: z.string().describe('Book identifier. Example: "Gen" or "Genesis"'),
+				chapter: z.number().int().min(1).describe("Chapter number (1-indexed)"),
+			},
+			outputSchema: {
+				bookCode: z.string(),
+				bookName: z.string(),
+				canon: bibleCanonEnum,
+				chapter: z.number().int(),
+				verses: z.array(bibleVerseSchema),
+			},
+			annotations: { title: "Get Bible Chapter", ...READ_ONLY_LOCAL },
+		},
+		async ({ book_code, chapter }) => {
+			const meta = resolveBibleBook(book_code);
+			if (!meta) return errorResult(`Bible book "${book_code}" not found`);
+
+			const { db } = getDb();
+			const rows = await db
+				.select()
+				.from(bibleVerses)
+				.where(and(eq(bibleVerses.bookCode, meta.osis), eq(bibleVerses.chapter, chapter)))
+				.orderBy(bibleVerses.verse);
+
+			if (rows.length === 0) {
+				return errorResult(`${meta.name} has no chapter ${chapter}`);
+			}
+
+			const verses = rows.map((r) => ({
+				id: r.id,
+				reference:
+					formatBibleReference(r.bookCode, r.chapter, r.verse) ??
+					`${r.bookName} ${r.chapter}:${r.verse}`,
+				bookCode: r.bookCode,
+				bookName: r.bookName,
+				bookOrder: r.bookOrder,
+				canon: r.canon as "ot" | "deuterocanon" | "nt",
+				chapter: r.chapter,
+				verse: r.verse,
+				text: r.text,
+				translation: r.translation,
+			}));
+
+			return structured({
+				bookCode: meta.osis,
+				bookName: meta.name,
+				canon: meta.canon,
+				chapter,
+				verses,
+			});
+		},
+	);
+
+	// 17. bible.verse — get a single verse
+	server.registerTool(
+		"bible.verse",
+		{
+			title: "Get Bible Verse",
+			description:
+				"Get a single verse from the World English Bible (eng-web). Accepts OSIS, USFM, full name, or alias for `book_code`.",
+			inputSchema: {
+				book_code: z.string().describe('Book identifier. Example: "John" or "Joh"'),
+				chapter: z.number().int().min(1).describe("Chapter number"),
+				verse: z.number().int().min(1).describe("Verse number"),
+			},
+			outputSchema: { verse: bibleVerseSchema },
+			annotations: { title: "Get Bible Verse", ...READ_ONLY_LOCAL },
+		},
+		async ({ book_code, chapter, verse }) => {
+			const meta = resolveBibleBook(book_code);
+			if (!meta) return errorResult(`Bible book "${book_code}" not found`);
+
+			const { db } = getDb();
+			const rows = await db
+				.select()
+				.from(bibleVerses)
+				.where(
+					and(
+						eq(bibleVerses.bookCode, meta.osis),
+						eq(bibleVerses.chapter, chapter),
+						eq(bibleVerses.verse, verse),
+					),
+				)
+				.limit(1);
+
+			const row = rows[0];
+			if (!row) return errorResult(`${meta.name} ${chapter}:${verse} not found`);
+
+			return structured({
+				verse: {
+					id: row.id,
+					reference:
+						formatBibleReference(row.bookCode, row.chapter, row.verse) ??
+						`${row.bookName} ${row.chapter}:${row.verse}`,
+					bookCode: row.bookCode,
+					bookName: row.bookName,
+					bookOrder: row.bookOrder,
+					canon: row.canon as "ot" | "deuterocanon" | "nt",
+					chapter: row.chapter,
+					verse: row.verse,
+					text: row.text,
+					translation: row.translation,
+				},
+			});
+		},
+	);
+
+	// 18. bible.verse.urantia_parallels — top-10 UB paragraphs for a Bible verse
+	server.registerTool(
+		"bible.verse.urantia_parallels",
+		{
+			title: "Get Urantia Parallels for a Bible Verse",
+			description:
+				"Returns the top 10 Urantia paragraphs whose embeddings are nearest to the Bible chunk that contains this verse — the reverse of `include_bible_parallels` on the UB side. Pre-computed at seed time with text-embedding-3-large (3072-d) cosine similarity. Each result carries a similarity score (0..1) and rank (1..10).\n\nThese are *semantic* parallels, not curated. Treat results as starting points for further reading, not as authoritative parallels.",
+			inputSchema: {
+				book_code: z.string().describe('Book identifier. Example: "Matt"'),
+				chapter: z.number().int().min(1).describe("Chapter number"),
+				verse: z.number().int().min(1).describe("Verse number"),
+			},
+			outputSchema: {
+				verse: bibleVerseSchema,
+				chunk: z.object({
+					id: z.string(),
+					reference: z.string(),
+					verseStart: z.number().int(),
+					verseEnd: z.number().int(),
+					text: z.string(),
+				}),
+				urantiaParallels: z.array(urantiaParallelSchema),
+			},
+			annotations: { title: "Get Urantia Parallels for a Bible Verse", ...READ_ONLY_LOCAL },
+		},
+		async ({ book_code, chapter, verse }) => {
+			const meta = resolveBibleBook(book_code);
+			if (!meta) return errorResult(`Bible book "${book_code}" not found`);
+
+			const { db } = getDb();
+			const verseRows = await db
+				.select({
+					verseId: bibleVerses.id,
+					bookCode: bibleVerses.bookCode,
+					bookName: bibleVerses.bookName,
+					bookOrder: bibleVerses.bookOrder,
+					canon: bibleVerses.canon,
+					chapter: bibleVerses.chapter,
+					verse: bibleVerses.verse,
+					text: bibleVerses.text,
+					translation: bibleVerses.translation,
+					chunkId: bibleVerses.chunkId,
+				})
+				.from(bibleVerses)
+				.where(
+					and(
+						eq(bibleVerses.bookCode, meta.osis),
+						eq(bibleVerses.chapter, chapter),
+						eq(bibleVerses.verse, verse),
+					),
+				)
+				.limit(1);
+
+			const v = verseRows[0];
+			if (!v) return errorResult(`${meta.name} ${chapter}:${verse} not found`);
+			if (!v.chunkId) {
+				return errorResult(`${meta.name} ${chapter}:${verse} has no embedding chunk yet`);
+			}
+
+			const chunkRows = await db
+				.select({
+					id: bibleChunks.id,
+					verseStart: bibleChunks.verseStart,
+					verseEnd: bibleChunks.verseEnd,
+					text: bibleChunks.text,
+				})
+				.from(bibleChunks)
+				.where(eq(bibleChunks.id, v.chunkId))
+				.limit(1);
+			const chunk = chunkRows[0];
+			if (!chunk) return errorResult(`Chunk ${v.chunkId} not found`);
+
+			const startRef =
+				formatBibleReference(v.bookCode, v.chapter, chunk.verseStart) ??
+				`${v.bookName} ${v.chapter}:${chunk.verseStart}`;
+			const chunkReference =
+				chunk.verseEnd === chunk.verseStart ? startRef : `${startRef}-${chunk.verseEnd}`;
+
+			const top = await db
+				.select({
+					similarity: bibleParallels.similarity,
+					rank: bibleParallels.rank,
+					source: bibleParallels.source,
+					embeddingModel: bibleParallels.embeddingModel,
+					pId: paragraphs.id,
+					standardReferenceId: paragraphs.standardReferenceId,
+					paperId: paragraphs.paperId,
+					paperTitle: paragraphs.paperTitle,
+					sectionTitle: paragraphs.sectionTitle,
+					text: paragraphs.text,
+				})
+				.from(bibleParallels)
+				.innerJoin(paragraphs, eq(bibleParallels.paragraphId, paragraphs.id))
+				.where(
+					and(
+						eq(bibleParallels.bibleChunkId, v.chunkId),
+						eq(bibleParallels.direction, "bible_to_ub"),
+					),
+				)
+				.orderBy(asc(bibleParallels.rank));
+
+			return structured({
+				verse: {
+					id: v.verseId,
+					reference:
+						formatBibleReference(v.bookCode, v.chapter, v.verse) ??
+						`${v.bookName} ${v.chapter}:${v.verse}`,
+					bookCode: v.bookCode,
+					bookName: v.bookName,
+					bookOrder: v.bookOrder,
+					canon: v.canon as "ot" | "deuterocanon" | "nt",
+					chapter: v.chapter,
+					verse: v.verse,
+					text: v.text,
+					translation: v.translation,
+				},
+				chunk: {
+					id: chunk.id,
+					reference: chunkReference,
+					verseStart: chunk.verseStart,
+					verseEnd: chunk.verseEnd,
+					text: chunk.text,
+				},
+				urantiaParallels: top.map((p) => ({
+					id: p.pId,
+					standardReferenceId: p.standardReferenceId,
+					paperId: p.paperId,
+					paperTitle: p.paperTitle,
+					sectionTitle: p.sectionTitle,
+					text: p.text,
+					similarity: p.similarity,
+					rank: p.rank,
+					source: p.source,
+					embeddingModel: p.embeddingModel,
+				})),
+			});
+		},
+	);
+
+	// 19. bible.search.semantic — semantic search across Bible w/ UB paragraphs attached
+	server.registerTool(
+		"bible.search.semantic",
+		{
+			title: "Bible Semantic Search",
+			description:
+				"Free-form natural-language search across all Bible chunks, ranked by cosine similarity. Each result includes the top-N pre-computed Urantia paragraphs related to that chunk via `bible_parallels` (direction=bible_to_ub). One query surfaces both Bible matches and the relevant UB content. Optional filters: `canon` (`ot`, `deuterocanon`, `nt`) and `book_code`. Set `urantia_parallel_limit` to 0 to suppress the UB attachment. Requires OPENAI_API_KEY.",
+			inputSchema: {
+				query: z
+					.string()
+					.optional()
+					.describe('Natural language query. Example: "blessed are the poor"'),
+				q: z.string().optional().describe("Alias for `query` (REST compatibility)."),
+				canon: bibleCanonEnum.optional().describe("Filter by canon: ot, deuterocanon, nt"),
+				book_code: z
+					.string()
+					.optional()
+					.describe('Restrict to a single book. Example: "Matt" or "Matthew"'),
+				page: z.number().int().min(0).default(0).describe("Page number (0-indexed)"),
+				limit: z
+					.number()
+					.int()
+					.min(1)
+					.max(100)
+					.default(20)
+					.describe("Bible results per page (1-100)"),
+				urantia_parallel_limit: z
+					.number()
+					.int()
+					.min(0)
+					.max(10)
+					.default(3)
+					.describe(
+						"How many UB paragraphs to attach per Bible result (0-10, default 3). 0 disables.",
+					),
+			},
+			outputSchema: {
+				data: z.array(
+					z.object({
+						id: z.string(),
+						reference: z.string(),
+						bookCode: z.string(),
+						bookName: z.string(),
+						canon: bibleCanonEnum,
+						chapter: z.number().int(),
+						verseStart: z.number().int(),
+						verseEnd: z.number().int(),
+						text: z.string(),
+						similarity: z.number(),
+						urantiaParallels: z.array(
+							z.object({
+								id: z.string(),
+								standardReferenceId: z.string(),
+								paperId: z.string(),
+								paperTitle: z.string(),
+								sectionTitle: z.string().nullable(),
+								text: z.string(),
+								similarity: z.number(),
+								rank: z.number().int(),
+							}),
+						),
+					}),
+				),
+				meta: paginationMetaSchema,
+			},
+			annotations: { title: "Bible Semantic Search", ...READ_ONLY_OPEN_WORLD },
+		},
+		async ({ query, q, canon, book_code, page, limit, urantia_parallel_limit }) => {
+			const searchQuery = query ?? q;
+			if (!searchQuery) return errorResult("Either 'query' or 'q' is required");
+
+			let resolvedBookCode: string | undefined;
+			if (book_code) {
+				const meta = resolveBibleBook(book_code);
+				if (!meta) return errorResult(`Bible book "${book_code}" not found`);
+				resolvedBookCode = meta.osis;
+			}
+
+			const { db } = getDb();
+			const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+			const embeddingResponse = await openai.embeddings.create({
+				model: "text-embedding-3-small",
+				input: searchQuery,
+			});
+			const queryVector = embeddingResponse.data[0]?.embedding;
+			if (!queryVector) return errorResult("Failed to generate embedding");
+			const vectorStr = `[${queryVector.join(",")}]`;
+			const offset = page * limit;
+
+			const filteredChunks = sql`
+				SELECT bc.id, bc.book_code, bc.chapter, bc.verse_start, bc.verse_end,
+				       bc.text, bc.embedding_small,
+				       (SELECT canon FROM bible_verses WHERE chunk_id = bc.id LIMIT 1) AS canon
+				FROM bible_chunks bc
+				WHERE bc.embedding_small IS NOT NULL
+				${canon ? sql`AND EXISTS (SELECT 1 FROM bible_verses WHERE chunk_id = bc.id AND canon = ${canon})` : sql``}
+				${resolvedBookCode ? sql`AND bc.book_code = ${resolvedBookCode}` : sql``}
+			`;
+
+			const countPromise = db.execute(sql<{ n: number }[]>`
+				SELECT COUNT(*)::int AS n FROM (${filteredChunks}) f
+			`);
+			const resultsPromise = db.execute(sql<
+				{
+					id: string;
+					book_code: string;
+					chapter: number;
+					verse_start: number;
+					verse_end: number;
+					text: string;
+					canon: string;
+					similarity: number;
+				}[]
+			>`
+				SELECT f.id, f.book_code, f.chapter, f.verse_start, f.verse_end, f.text, f.canon,
+				       (1 - (f.embedding_small <=> ${vectorStr}::vector))::real AS similarity
+				FROM (${filteredChunks}) f
+				ORDER BY f.embedding_small <=> ${vectorStr}::vector ASC
+				LIMIT ${limit} OFFSET ${offset}
+			`);
+
+			const [countRows, resultRows] = await Promise.all([countPromise, resultsPromise]);
+			const total = Number((countRows as unknown as { n: number }[])[0]?.n ?? 0);
+			const chunks = resultRows as unknown as {
+				id: string;
+				book_code: string;
+				chapter: number;
+				verse_start: number;
+				verse_end: number;
+				text: string;
+				canon: string;
+				similarity: number;
+			}[];
+
+			const paragraphsByChunk = new Map<
+				string,
+				{
+					id: string;
+					standardReferenceId: string;
+					paperId: string;
+					paperTitle: string;
+					sectionTitle: string | null;
+					text: string;
+					similarity: number;
+					rank: number;
+				}[]
+			>();
+
+			if (chunks.length > 0 && urantia_parallel_limit > 0) {
+				const chunkIds = chunks.map((c) => c.id);
+				const paragraphRows = await db
+					.select({
+						chunkId: bibleParallels.bibleChunkId,
+						rank: bibleParallels.rank,
+						similarity: bibleParallels.similarity,
+						id: paragraphs.id,
+						standardReferenceId: paragraphs.standardReferenceId,
+						paperId: paragraphs.paperId,
+						paperTitle: paragraphs.paperTitle,
+						sectionTitle: paragraphs.sectionTitle,
+						text: paragraphs.text,
+					})
+					.from(bibleParallels)
+					.innerJoin(paragraphs, eq(bibleParallels.paragraphId, paragraphs.id))
+					.where(
+						and(
+							eq(bibleParallels.direction, "bible_to_ub"),
+							inArray(bibleParallels.bibleChunkId, chunkIds),
+						),
+					)
+					.orderBy(asc(bibleParallels.bibleChunkId), asc(bibleParallels.rank));
+
+				for (const row of paragraphRows) {
+					const list = paragraphsByChunk.get(row.chunkId) ?? [];
+					if (list.length < urantia_parallel_limit) {
+						list.push({
+							id: row.id,
+							standardReferenceId: row.standardReferenceId,
+							paperId: row.paperId,
+							paperTitle: row.paperTitle,
+							sectionTitle: row.sectionTitle,
+							text: row.text,
+							similarity: row.similarity,
+							rank: row.rank,
+						});
+					}
+					paragraphsByChunk.set(row.chunkId, list);
+				}
+			}
+
+			const data = chunks.map((c) => {
+				const meta = resolveBibleBook(c.book_code);
+				const startRef =
+					formatBibleReference(c.book_code, c.chapter, c.verse_start) ??
+					`${meta?.name ?? c.book_code} ${c.chapter}:${c.verse_start}`;
+				const fullRef = c.verse_end === c.verse_start ? startRef : `${startRef}-${c.verse_end}`;
+				return {
+					id: c.id,
+					reference: fullRef,
+					bookCode: c.book_code,
+					bookName: meta?.name ?? c.book_code,
+					canon: c.canon as "ot" | "deuterocanon" | "nt",
+					chapter: c.chapter,
+					verseStart: c.verse_start,
+					verseEnd: c.verse_end,
+					text: c.text,
+					similarity: c.similarity,
+					urantiaParallels: paragraphsByChunk.get(c.id) ?? [],
+				};
+			});
+
+			return structured({
+				data,
+				meta: { page, limit, total, totalPages: Math.ceil(total / limit) },
+			});
+		},
+	);
+
 	// --- Resources ---
 
 	// urantia://paper/{id} — full paper as plaintext markdown
@@ -917,11 +1624,7 @@ function createMcpServer() {
 		async (uri, { id }) => {
 			const entityId = String(id);
 			const { db } = getDb();
-			const entity = await db
-				.select()
-				.from(entities)
-				.where(eq(entities.id, entityId))
-				.limit(1);
+			const entity = await db.select().from(entities).where(eq(entities.id, entityId)).limit(1);
 
 			if (entity.length === 0) {
 				throw new Error(`Entity "${entityId}" not found`);
@@ -1072,11 +1775,16 @@ mcpRoute.get("/", async (c) => {
 				},
 				"paragraphs.random": {
 					description: "Get a random paragraph",
-					params: ["include_entities"],
+					params: ["include_entities", "include_bible_parallels", "include_urantia_parallels"],
 				},
 				"paragraphs.get": {
 					description: "Look up a paragraph by reference (3 formats auto-detected)",
-					params: ["ref", "include_entities"],
+					params: [
+						"ref",
+						"include_entities",
+						"include_bible_parallels",
+						"include_urantia_parallels",
+					],
 				},
 				"paragraphs.context": {
 					description: "Get a paragraph with surrounding context",
@@ -1084,14 +1792,34 @@ mcpRoute.get("/", async (c) => {
 				},
 				"search.fulltext": {
 					description: "Full-text search (and/or/phrase modes)",
-					params: ["q", "type", "paper_id", "part_id", "page", "limit", "include_entities"],
+					params: [
+						"q",
+						"type",
+						"paper_id",
+						"part_id",
+						"page",
+						"limit",
+						"include_entities",
+						"include_bible_parallels",
+						"include_urantia_parallels",
+					],
 				},
 				"search.semantic": {
 					description: "Semantic similarity search via vector embeddings",
-					params: ["q", "paper_id", "part_id", "page", "limit", "include_entities"],
+					params: [
+						"q",
+						"paper_id",
+						"part_id",
+						"page",
+						"limit",
+						"include_entities",
+						"include_bible_parallels",
+						"include_urantia_parallels",
+					],
 				},
 				"entities.list": {
-					description: "Browse 4,400+ entities (beings, places, orders, races, religions, concepts)",
+					description:
+						"Browse 4,400+ entities (beings, places, orders, races, religions, concepts)",
 					params: ["type", "q", "page", "limit"],
 				},
 				"entities.get": {
@@ -1105,6 +1833,31 @@ mcpRoute.get("/", async (c) => {
 				"audio.get": {
 					description: "Get audio file URLs for a paragraph",
 					params: ["paragraph_ref"],
+				},
+				"bible.books": {
+					description: "List all 81 Bible books (39 OT + 15 deuterocanon + 27 NT)",
+				},
+				"bible.book": {
+					description: "Get a Bible book's metadata (chapters, verses, canon)",
+					params: ["book_code"],
+				},
+				"bible.chapter": {
+					description: "Get every verse in a Bible chapter",
+					params: ["book_code", "chapter"],
+				},
+				"bible.verse": {
+					description: "Get a single Bible verse",
+					params: ["book_code", "chapter", "verse"],
+				},
+				"bible.verse.urantia_parallels": {
+					description:
+						"Top-10 Urantia paragraphs semantically nearest to a Bible verse's chunk (Bible → UB)",
+					params: ["book_code", "chapter", "verse"],
+				},
+				"bible.search.semantic": {
+					description:
+						"Semantic search across the Bible. Each result includes top-N pre-computed UB paragraphs.",
+					params: ["q", "canon", "book_code", "page", "limit", "urantia_parallel_limit"],
 				},
 			},
 			resources: {

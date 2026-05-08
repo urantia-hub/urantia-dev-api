@@ -1,7 +1,7 @@
 /**
  * Provider-neutral catalog of the API's AI-callable tools.
  *
- * The same 13 tools are exposed via the MCP server (src/routes/mcp.ts) and
+ * The same 19 tools are exposed via the MCP server (src/routes/mcp.ts) and
  * via /tools/openai and /tools/anthropic for direct use with the OpenAI and
  * Anthropic SDKs. The catalog here is the source of truth for the function-
  * calling schemas; MCP keeps its own zod definitions because it also owns
@@ -34,6 +34,26 @@ const includeEntitiesProp: JSONSchemaProperty = {
 	type: "boolean",
 	description: "Include entity mentions in each paragraph",
 	default: false,
+};
+
+const includeBibleParallelsProp: JSONSchemaProperty = {
+	type: "boolean",
+	description:
+		"Include the top-10 Bible verses semantically nearest to each paragraph (UB → Bible direction). Pre-computed via text-embedding-3-large cosine similarity.",
+	default: false,
+};
+
+const includeUrantiaParallelsProp: JSONSchemaProperty = {
+	type: "boolean",
+	description:
+		"Include the top-10 most-similar OTHER Urantia paragraphs ('see also') for each paragraph. Pre-computed via text-embedding-3-large cosine similarity.",
+	default: false,
+};
+
+const bookCodeProp: JSONSchemaProperty = {
+	type: "string",
+	description:
+		'Bible book identifier. Accepts OSIS ("Gen"), USFM ("GEN"), full name ("Genesis"), or alias ("1-maccabees", "DanGr"). Case-insensitive; hyphens/underscores tolerated.',
 };
 
 const refParamProp: JSONSchemaProperty = {
@@ -104,7 +124,11 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 			"Get a random paragraph from the Urantia Book. Great for daily quotes, exploration, or discovering new passages.",
 		parameters: {
 			type: "object",
-			properties: { include_entities: includeEntitiesProp },
+			properties: {
+				include_entities: includeEntitiesProp,
+				include_bible_parallels: includeBibleParallelsProp,
+				include_urantia_parallels: includeUrantiaParallelsProp,
+			},
 		},
 	},
 	{
@@ -113,7 +137,12 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 			'Look up a specific paragraph by reference. Supports three formats: globalId ("1:2.0.1"), standardReferenceId ("2:0.1"), or paperSectionParagraphId ("2.0.1"). The format is auto-detected.',
 		parameters: {
 			type: "object",
-			properties: { ref: refParamProp, include_entities: includeEntitiesProp },
+			properties: {
+				ref: refParamProp,
+				include_entities: includeEntitiesProp,
+				include_bible_parallels: includeBibleParallelsProp,
+				include_urantia_parallels: includeUrantiaParallelsProp,
+			},
 			required: ["ref"],
 		},
 	},
@@ -157,6 +186,8 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 				page: pageProp,
 				limit: limitProp,
 				include_entities: includeEntitiesProp,
+				include_bible_parallels: includeBibleParallelsProp,
+				include_urantia_parallels: includeUrantiaParallelsProp,
 			},
 		},
 	},
@@ -177,6 +208,8 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 				page: pageProp,
 				limit: limitProp,
 				include_entities: includeEntitiesProp,
+				include_bible_parallels: includeBibleParallelsProp,
+				include_urantia_parallels: includeUrantiaParallelsProp,
 			},
 		},
 	},
@@ -238,6 +271,97 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 				},
 			},
 			required: ["paragraph_ref"],
+		},
+	},
+	{
+		name: "list_bible_books",
+		description:
+			"List all 81 books of the World English Bible (eng-web): 39 OT + 15 deuterocanonical + 27 NT. Each entry includes OSIS book code, full name, abbreviation, canonical order, canon, and chapter/verse counts.",
+		parameters: { type: "object", properties: {} },
+	},
+	{
+		name: "get_bible_book",
+		description:
+			"Get a single Bible book's metadata including chapter and verse counts. Accepts OSIS, USFM, full name, or alias for `book_code`.",
+		parameters: {
+			type: "object",
+			properties: { book_code: bookCodeProp },
+			required: ["book_code"],
+		},
+	},
+	{
+		name: "get_bible_chapter",
+		description:
+			"Get every verse in a Bible chapter, ordered by verse number. Accepts OSIS, USFM, full name, or alias for `book_code`.",
+		parameters: {
+			type: "object",
+			properties: {
+				book_code: bookCodeProp,
+				chapter: { type: "integer", description: "Chapter number (1-indexed)", minimum: 1 },
+			},
+			required: ["book_code", "chapter"],
+		},
+	},
+	{
+		name: "get_bible_verse",
+		description:
+			"Get a single Bible verse from the World English Bible (eng-web). Accepts OSIS, USFM, full name, or alias for `book_code`.",
+		parameters: {
+			type: "object",
+			properties: {
+				book_code: bookCodeProp,
+				chapter: { type: "integer", description: "Chapter number", minimum: 1 },
+				verse: { type: "integer", description: "Verse number", minimum: 1 },
+			},
+			required: ["book_code", "chapter", "verse"],
+		},
+	},
+	{
+		name: "get_bible_verse_urantia_parallels",
+		description:
+			"Returns the top 10 Urantia paragraphs whose embeddings are nearest to the Bible chunk that contains this verse — the reverse direction of `include_bible_parallels` on the UB side. Pre-computed via text-embedding-3-large cosine similarity. These are *semantic* parallels, not curated; treat results as starting points.",
+		parameters: {
+			type: "object",
+			properties: {
+				book_code: bookCodeProp,
+				chapter: { type: "integer", description: "Chapter number", minimum: 1 },
+				verse: { type: "integer", description: "Verse number", minimum: 1 },
+			},
+			required: ["book_code", "chapter", "verse"],
+		},
+	},
+	{
+		name: "bible_semantic_search",
+		description:
+			"Free-form natural-language search across all Bible chunks, ranked by cosine similarity. Each result includes the top-N pre-computed Urantia paragraphs related to that chunk via `bible_parallels` (Bible → UB direction). One query surfaces both Bible matches and the relevant UB content. Provide the search string as either `query` or `q` (alias). Optional filters: `canon` and `book_code`.",
+		parameters: {
+			type: "object",
+			properties: {
+				query: {
+					type: "string",
+					description: 'Natural language query. Example: "blessed are the poor"',
+				},
+				q: { type: "string", description: "Alias for `query` (REST compatibility)." },
+				canon: {
+					type: "string",
+					description: "Filter by canon",
+					enum: ["ot", "deuterocanon", "nt"],
+				},
+				book_code: {
+					type: "string",
+					description: 'Restrict to a single book. Example: "Matt" or "Matthew"',
+				},
+				page: pageProp,
+				limit: limitProp,
+				urantia_parallel_limit: {
+					type: "integer",
+					description:
+						"How many UB paragraphs to attach per Bible result (0-10). Set to 0 to suppress.",
+					default: 3,
+					minimum: 0,
+					maximum: 10,
+				},
+			},
 		},
 	},
 ] as const;

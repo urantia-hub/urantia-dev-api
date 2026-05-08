@@ -29,7 +29,9 @@
 
 ## AI & Developer Tools
 
-- **MCP Server** at `api.urantia.dev/mcp` — 13 tools, 2 resource templates (`urantia://paper/{id}`, `urantia://entity/{id}`), and 2 prompt templates (`study_assistant`, `comparative_theology`) for Claude, Cursor, Windsurf, and other AI agents
+- **MCP Server** at `api.urantia.dev/mcp` — 19 tools (Urantia Papers + Bible + cross-references), 2 resource templates (`urantia://paper/{id}`, `urantia://entity/{id}`), and 2 prompt templates (`study_assistant`, `comparative_theology`) for Claude, Cursor, Windsurf, and other AI agents
+- **Bible + cross-reference tools** — `bible.books`, `bible.book`, `bible.chapter`, `bible.verse`, `bible.verse.urantia_parallels` (top-10 UB paragraphs nearest a Bible verse), and `bible.search.semantic` (Bible search that returns matching UB paragraphs alongside each hit)
+- **UB ↔ Bible parallels on existing tools** — pass `include_bible_parallels` and/or `include_urantia_parallels` to `paragraphs.get`, `paragraphs.random`, `search.fulltext`, and `search.semantic` to get the top-10 semantic neighbors attached to each result
 - **Function-calling schemas** — `/tools/openai` and `/tools/anthropic` return drop-in tool definitions for the OpenAI and Anthropic SDKs
 - **RAG-optimized format** — `?format=rag` returns streamlined responses with metadata, navigation, and token counts
 - **Navigation metadata** — every single-paragraph response includes prev/next refs within the paper for reading-flow UIs
@@ -65,7 +67,6 @@
 
 ## Roadmap
 
-- UB ↔ Bible cross-references (semantic, bidirectional, top-10 per direction; Phase 2 + 3 of the Bible build)
 - Translations (Spanish, French, Portuguese, German, Korean)
 - ElevenLabs premium audio narration
 - Entity relationship graph visualization

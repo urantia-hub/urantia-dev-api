@@ -2,7 +2,12 @@ import { describe, expect, it } from "bun:test";
 import { get } from "../helpers/app.ts";
 
 const EXPECTED_TOOL_NAMES = [
+	"bible_semantic_search",
 	"get_audio",
+	"get_bible_book",
+	"get_bible_chapter",
+	"get_bible_verse",
+	"get_bible_verse_urantia_parallels",
 	"get_entity",
 	"get_entity_paragraphs",
 	"get_paper",
@@ -11,6 +16,7 @@ const EXPECTED_TOOL_NAMES = [
 	"get_paragraph_context",
 	"get_random_paragraph",
 	"get_table_of_contents",
+	"list_bible_books",
 	"list_entities",
 	"list_papers",
 	"search",
@@ -25,7 +31,7 @@ describe("GET /tools/openai", () => {
 		expect(body.server.name).toBe("Urantia Papers API");
 		expect(body.server.base_url).toBe("https://api.urantia.dev");
 		expect(body.tools).toBeArray();
-		expect(body.tools.length).toBe(13);
+		expect(body.tools.length).toBe(19);
 	});
 
 	it("each tool has the OpenAI function envelope", async () => {
@@ -40,7 +46,7 @@ describe("GET /tools/openai", () => {
 		}
 	});
 
-	it("exposes all 13 expected tool names", async () => {
+	it("exposes all 19 expected tool names", async () => {
 		const res = await get("/tools/openai");
 		const { tools } = await res.json();
 		const names = tools.map((t: { function: { name: string } }) => t.function.name).sort();
@@ -59,9 +65,7 @@ describe("GET /tools/openai", () => {
 	it("search tool exposes both `query` and `q` parameters", async () => {
 		const res = await get("/tools/openai");
 		const { tools } = await res.json();
-		const search = tools.find(
-			(t: { function: { name: string } }) => t.function.name === "search",
-		);
+		const search = tools.find((t: { function: { name: string } }) => t.function.name === "search");
 		expect(search.function.parameters.properties).toHaveProperty("query");
 		expect(search.function.parameters.properties).toHaveProperty("q");
 	});
@@ -84,7 +88,7 @@ describe("GET /tools/anthropic", () => {
 		const body = await res.json();
 		expect(body.server.name).toBe("Urantia Papers API");
 		expect(body.tools).toBeArray();
-		expect(body.tools.length).toBe(13);
+		expect(body.tools.length).toBe(19);
 	});
 
 	it("each tool has name, description, input_schema", async () => {
@@ -98,7 +102,7 @@ describe("GET /tools/anthropic", () => {
 		}
 	});
 
-	it("exposes all 13 expected tool names", async () => {
+	it("exposes all 19 expected tool names", async () => {
 		const res = await get("/tools/anthropic");
 		const { tools } = await res.json();
 		const names = tools.map((t: { name: string }) => t.name).sort();
@@ -106,10 +110,7 @@ describe("GET /tools/anthropic", () => {
 	});
 
 	it("matches OpenAI tool count and names exactly", async () => {
-		const [oaiRes, anthRes] = await Promise.all([
-			get("/tools/openai"),
-			get("/tools/anthropic"),
-		]);
+		const [oaiRes, anthRes] = await Promise.all([get("/tools/openai"), get("/tools/anthropic")]);
 		const oai = await oaiRes.json();
 		const anth = await anthRes.json();
 		const oaiNames = oai.tools.map((t: { function: { name: string } }) => t.function.name).sort();

@@ -207,6 +207,10 @@ review queues.
 - **MCP Registry**: published as `dev.urantia/urantia-papers` (`server.json`).
   Namespace is DNS-authenticated via `dev.urantia` so org membership stays
   private — do not switch this back to a `urantia-hub/*` (GitHub-auth) namespace.
+  Republishing rules: bump `server.json` `version` first, keep `description`
+  ≤100 chars (registry rejects longer with a 422), and use `mcp-publisher
+  validate` before `publish`. Auth key + exact command are out-of-band; ask
+  Kelson if you need the operator playbook.
 - **Smithery**: hosted listing at `urantiahub/urantia-papers` (badge in README).
 - **Glama**: dual listing — Connector tab (hosted endpoint, A grades) and Server
   tab (`glama.json` claims maintainer `kelsonic`). Server-tab grade is capped at
@@ -216,8 +220,9 @@ review queues.
   not for Glama Path A.
 - **Connector verification**: `/.well-known/glama.json` in `src/index.ts`.
 - **Function-calling schemas**: `/tools/openai` and `/tools/anthropic` are public
-  endpoints that ship the same 13 MCP tools as ready-to-use OpenAI/Anthropic
-  tool definitions. Source of truth lives in `src/lib/tool-catalog.ts`.
+  endpoints that ship the same 19 MCP tools (13 UB + 6 Bible/cross-reference)
+  as ready-to-use OpenAI/Anthropic tool definitions. Source of truth lives in
+  `src/lib/tool-catalog.ts`.
 
 ## Observability
 
