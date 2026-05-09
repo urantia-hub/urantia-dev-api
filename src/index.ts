@@ -4,28 +4,29 @@ import { HTTPException } from "hono/http-exception";
 import { getDb } from "./db/client.ts";
 import { createApp } from "./lib/app.ts";
 import { problemJson } from "./lib/errors.ts";
-import type { Env } from "./types/env.ts";
+import { authMiddleware } from "./middleware/auth.ts";
 import { cacheControl } from "./middleware/cache.ts";
 import { corsMiddleware } from "./middleware/cors.ts";
 import { loggerMiddleware } from "./middleware/logger.ts";
 import { rateLimiter } from "./middleware/rate-limit.ts";
 import { scannerBlock } from "./middleware/security.ts";
-import { authMiddleware } from "./middleware/auth.ts";
-import { authRoute } from "./routes/auth.ts";
-import { meRoute } from "./routes/me.ts";
+import { adminRoute } from "./routes/admin.ts";
 import { audioRoute } from "./routes/audio.ts";
+import { authRoute } from "./routes/auth.ts";
 import { bibleRoute } from "./routes/bible.ts";
 import { citeRoute } from "./routes/cite.ts";
 import { embeddingsRoute } from "./routes/embeddings.ts";
 import { entitiesRoute } from "./routes/entities.ts";
 import { languagesRoute } from "./routes/languages.ts";
 import { mcpRoute } from "./routes/mcp.ts";
+import { meRoute } from "./routes/me.ts";
 import { ogRoute } from "./routes/og.ts";
 import { papersRoute } from "./routes/papers.ts";
 import { paragraphsRoute } from "./routes/paragraphs.ts";
 import { searchRoute } from "./routes/search.ts";
 import { tocRoute } from "./routes/toc.ts";
 import { toolsRoute } from "./routes/tools.ts";
+import type { Env } from "./types/env.ts";
 
 const app = createApp<Env>();
 
@@ -132,12 +133,13 @@ app.get("/.well-known/glama.json", (c) =>
 
 // OAuth/OIDC metadata discovery — return JSON 404 so MCP clients (Claude Code) know no auth is needed
 // Covers all discovery paths: root, path-aware (RFC 8414), MCP-scoped, and protected resource (RFC 9728)
-app.get("/.well-known/*", (c) =>
-	problemJson(c, 404, "This server requires no authentication."),
-);
+app.get("/.well-known/*", (c) => problemJson(c, 404, "This server requires no authentication."));
 
 // MCP server (mounted before OpenAPI doc generation so it doesn't pollute the REST spec)
 app.route("/mcp", mcpRoute);
+
+// Admin routes (excluded from public OpenAPI spec — internal only, ADMIN_USER_IDS gated)
+app.route("/admin", adminRoute);
 
 // Authenticated routes
 app.route("/me", meRoute);

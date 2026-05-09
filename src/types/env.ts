@@ -9,5 +9,8 @@ export type Env = {
 		APP_JWT_SECRET?: string;
 		APP_LOGOS?: R2Bucket;
 		SEARCH_CACHE?: KVNamespace;
+		// Cloudflare GraphQL Analytics (read-only) — used by /admin/stats
+		CF_ANALYTICS_API_TOKEN?: string;
+		CF_ZONE_TAG?: string;
 	};
 };

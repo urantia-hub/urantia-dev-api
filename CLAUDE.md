@@ -95,6 +95,8 @@ Official TypeScript SDKs published on npm (`urantia-dev-sdks/` repo):
 - `ADMIN_USER_IDS` — Comma-separated Supabase user UUIDs that can register OAuth apps
 - `OPENAI_API_KEY` — For semantic search embeddings
 - `BETTERSTACK_SOURCE_TOKEN` — BetterStack logging
+- `CF_ANALYTICS_API_TOKEN` — Cloudflare API token (Analytics:Read on the zone) for `/admin/stats`
+- `CF_ZONE_TAG` — Cloudflare zone tag (the `api.urantia.dev` zone) for `/admin/stats`
 
 ## Auth Layer (on `auth` branch)
 
@@ -231,6 +233,14 @@ review queues.
 - **Error tracking**: Global error handler sends stack traces to BetterStack.
 - **Health check**: `GET /health` verifies DB connectivity.
 - **Uptime monitoring**: BetterStack uptime monitor on `/health`.
+- **Admin stats**: `GET /admin/stats?window=1h|24h|7d` aggregates Cloudflare GraphQL Analytics
+  (request counts, status buckets, top paths with origin latency quantiles, top countries,
+  user-agent families) plus DB counters (apps, users, refresh grants in window) plus a KV
+  cache-warmth gauge. Gated by `ADMIN_USER_IDS`; returns 404 for non-admins so the
+  endpoint is invisible to scrapers. Excluded from `/openapi.json`. User-agent strings are
+  bucketed into coarse families (`claude-code`, `openai`, `browser`, etc.) via
+  `src/lib/ua-family.ts` so individual callers cannot be fingerprinted from the response.
+  Source-of-truth files: `src/routes/admin.ts`, `src/lib/cf-analytics.ts`.
 
 
 **Bible semantic search:** `POST /bible/search/semantic` does live free-form
