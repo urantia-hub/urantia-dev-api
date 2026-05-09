@@ -135,6 +135,15 @@ app.get("/.well-known/glama.json", (c) =>
 // Covers all discovery paths: root, path-aware (RFC 8414), MCP-scoped, and protected resource (RFC 9728)
 app.get("/.well-known/*", (c) => problemJson(c, 404, "This server requires no authentication."));
 
+// Mintlify docs are hosted at urantia.dev (Vercel). Some clients (stale caches,
+// bots constructing URLs from the OpenAPI spec, etc.) request /mintlify-assets/*
+// against api.urantia.dev. Redirect them to where the assets actually live.
+app.all("/mintlify-assets/*", (c) => {
+	const path = new URL(c.req.url).pathname;
+	const search = new URL(c.req.url).search;
+	return c.redirect(`https://urantia.dev${path}${search}`, 301);
+});
+
 // MCP server (mounted before OpenAPI doc generation so it doesn't pollute the REST spec)
 app.route("/mcp", mcpRoute);
 

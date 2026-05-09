@@ -36,6 +36,7 @@ export const loggerMiddleware: MiddlewareHandler = async (c, next) => {
 		duration_ms: duration,
 		ip,
 		user_agent: c.req.header("user-agent") ?? "unknown",
+		referer: c.req.header("referer") ?? undefined,
 		cf_ray: c.req.header("cf-ray") ?? undefined,
 	});
 };
