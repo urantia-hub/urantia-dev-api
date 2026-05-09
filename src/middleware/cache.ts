@@ -11,6 +11,10 @@ export function cacheControl(): MiddlewareHandler {
 		// Don't cache error responses
 		if (c.res.status >= 400) return;
 
+		// If the route handler already set Cache-Control, treat that as authoritative
+		// (e.g. /auth/apps/:id/logo sets its own public,max-age=86400 for R2 logos).
+		if (c.res.headers.has("cache-control")) return;
+
 		const path = c.req.path;
 
 		if (path.startsWith("/og/")) {
@@ -18,8 +22,12 @@ export function cacheControl(): MiddlewareHandler {
 		} else if (
 			path === "/paragraphs/random" ||
 			path === "/health" ||
-			path.startsWith("/admin/")
+			path.startsWith("/admin/") ||
+			path.startsWith("/me/") ||
+			path.startsWith("/auth/")
 		) {
+			// no-store: admin/auth endpoints serve per-user or sensitive data
+			// that must not be edge-cached.
 			c.header("Cache-Control", "no-store");
 		} else if (path === "/search") {
 			c.header("Cache-Control", "public, s-maxage=3600, max-age=300");
