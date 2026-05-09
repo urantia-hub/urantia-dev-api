@@ -109,7 +109,7 @@ Recommended flow:
 
 The API includes a built-in [MCP](https://modelcontextprotocol.io) server at `https://api.urantia.dev/mcp` — connect Claude Desktop, Cursor, or any MCP client to access:
 
-- **13 tools** — search, paragraph lookup, paper navigation, entity browsing, audio
+- **19 tools** — search, paragraph lookup, paper navigation, entity browsing, audio, Bible (WEB) lookup + semantic search, and UB↔Bible / UB↔UB cross-reference enrichment
 - **2 resource templates** — `urantia://paper/{id}` (markdown) and `urantia://entity/{id}`
 - **2 prompt templates** — `study_assistant`, `comparative_theology`
 
