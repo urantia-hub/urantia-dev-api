@@ -54,6 +54,9 @@ interface GqlResponse {
 	errors?: Array<{ message: string }>;
 }
 
+// Note on latency: CF Free plan does NOT expose quantile fields
+// (edgeTimeToFirstByteMs*, originResponseDurationMs*). Adding them back
+// requires CF Pro+. For now, latency lives in BetterStack only.
 const QUERY = /* GraphQL */ `
 	query Stats($zoneTag: String!, $start: Time!, $end: Time!) {
 		viewer {
@@ -64,10 +67,6 @@ const QUERY = /* GraphQL */ `
 				) {
 					count
 					sum { edgeResponseBytes }
-					quantiles {
-						edgeTimeToFirstByteMsP50
-						edgeTimeToFirstByteMsP95
-					}
 				}
 				byStatus: httpRequestsAdaptiveGroups(
 					limit: 50
@@ -84,10 +83,6 @@ const QUERY = /* GraphQL */ `
 				) {
 					count
 					dimensions { clientRequestPath }
-					quantiles {
-						originResponseDurationMsP50
-						originResponseDurationMsP95
-					}
 				}
 				byUA: httpRequestsAdaptiveGroups(
 					limit: 50
