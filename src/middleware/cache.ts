@@ -15,7 +15,11 @@ export function cacheControl(): MiddlewareHandler {
 
 		if (path.startsWith("/og/")) {
 			c.header("Cache-Control", "public, max-age=31536000, immutable");
-		} else if (path === "/paragraphs/random" || path === "/health") {
+		} else if (
+			path === "/paragraphs/random" ||
+			path === "/health" ||
+			path.startsWith("/admin/")
+		) {
 			c.header("Cache-Control", "no-store");
 		} else if (path === "/search") {
 			c.header("Cache-Control", "public, s-maxage=3600, max-age=300");
