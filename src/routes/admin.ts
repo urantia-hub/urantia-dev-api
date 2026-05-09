@@ -91,7 +91,7 @@ adminRoute.get("/stats", async (c) => {
 	const { db } = getDb(c.env?.HYPERDRIVE);
 
 	// Run the four expensive lookups in parallel.
-	const [cf, embCache, countCache, dbCounters] = await Promise.all([
+	const [cfResult, embCache, countCache, dbCounters] = await Promise.all([
 		fetchCfStats(apiToken, zoneTag, window),
 		sampleKvPrefix(c.env?.SEARCH_CACHE, "emb:"),
 		sampleKvPrefix(c.env?.SEARCH_CACHE, "count:"),
@@ -121,6 +121,9 @@ adminRoute.get("/stats", async (c) => {
 	} catch {
 		dbConnected = false;
 	}
+
+	const cf = cfResult.ok ? cfResult.stats : null;
+	const cfError = cfResult.ok ? null : cfResult.error;
 
 	const traffic = cf
 		? {
@@ -169,6 +172,7 @@ adminRoute.get("/stats", async (c) => {
 		health: {
 			db_connected: dbConnected,
 			cf_analytics: cf ? "ok" : "unavailable",
+			cf_analytics_error: cfError,
 		},
 	});
 });

@@ -126,19 +126,23 @@ export function windowToRange(
 	};
 }
 
+export type CfStatsResult =
+	| { ok: true; stats: CfStatsRaw }
+	| { ok: false; error: string };
+
 /**
  * Fetch + parse Cloudflare analytics for the given window.
  *
- * Returns null if the env isn't configured or the API call fails — callers
- * surface that as `cf_analytics: "unavailable"` rather than 500ing the whole
- * stats endpoint, since DB + KV signals are still useful on their own.
+ * Returns a tagged result so callers can surface the failure reason (admin
+ * sees it for debugging; the rest of the stats response degrades gracefully).
  */
 export async function fetchCfStats(
 	apiToken: string | undefined,
 	zoneTag: string | undefined,
 	window: CfWindow,
-): Promise<CfStatsRaw | null> {
-	if (!apiToken || !zoneTag) return null;
+): Promise<CfStatsResult> {
+	if (!apiToken) return { ok: false, error: "missing CF_ANALYTICS_API_TOKEN" };
+	if (!zoneTag) return { ok: false, error: "missing CF_ZONE_TAG" };
 
 	const { start, end } = windowToRange(window);
 	let res: Response;
@@ -151,21 +155,29 @@ export async function fetchCfStats(
 			},
 			body: JSON.stringify({ query: QUERY, variables: { zoneTag, start, end } }),
 		});
-	} catch {
-		return null;
+	} catch (err) {
+		return { ok: false, error: `fetch failed: ${err instanceof Error ? err.message : String(err)}` };
 	}
 
-	if (!res.ok) return null;
+	if (!res.ok) {
+		return { ok: false, error: `http ${res.status} from CF GraphQL API` };
+	}
 
 	let body: GqlResponse;
 	try {
 		body = (await res.json()) as GqlResponse;
 	} catch {
-		return null;
+		return { ok: false, error: "invalid JSON response from CF GraphQL API" };
 	}
-	if (body.errors?.length) return null;
+	if (body.errors?.length) {
+		return { ok: false, error: `graphql: ${body.errors.map((e) => e.message).join("; ")}` };
+	}
 
-	return parseCfStats(body);
+	const stats = parseCfStats(body);
+	if (!stats) {
+		return { ok: false, error: "CF GraphQL returned no zone — check CF_ZONE_TAG matches the api.urantia.dev zone" };
+	}
+	return { ok: true, stats };
 }
 
 export function parseCfStats(body: GqlResponse): CfStatsRaw | null {
