@@ -10,6 +10,10 @@ const CDN_BASE = "https://cdn.urantia.dev/audio/eng/paragraphs";
 const LEGACY_CDN_BASE = "https://audio.urantia.dev";
 const OUTPUT_PATH = join(import.meta.dir, "../data/audio-manifest.json");
 
+// The upload script publishes from the data-sources checkout, so write there too.
+// Without this copy the published manifest silently drifts behind this one.
+const PUBLISH_PATH = join(AUDIO_BASE, "../../manifests/audio-manifest.json");
+
 // Ordered longest-first so longer prefixes match before shorter ones
 const MODEL_PREFIXES = ["gpt-4o-mini-tts", "tts-1-hd", "tts-1"] as const;
 
@@ -165,17 +169,27 @@ async function generateManifest(): Promise<void> {
 		}
 	}
 
+	const json = `${JSON.stringify(sorted, null, 2)}\n`;
+
 	const outputDir = dirname(OUTPUT_PATH);
 	if (!existsSync(outputDir)) {
 		mkdirSync(outputDir, { recursive: true });
 	}
 
-	writeFileSync(OUTPUT_PATH, `${JSON.stringify(sorted, null, 2)}\n`);
+	writeFileSync(OUTPUT_PATH, json);
 
 	console.log(`Parsed: ${parsed} files`);
 	console.log(`Skipped: ${skipped} entries (non-mp3 or unparseable)`);
 	console.log(`Unique globalIds: ${Object.keys(sorted).length}`);
 	console.log(`Written to: ${OUTPUT_PATH}`);
+
+	const publishDir = dirname(PUBLISH_PATH);
+	mkdirSync(publishDir, { recursive: true });
+	writeFileSync(PUBLISH_PATH, json);
+	console.log(`Written to: ${PUBLISH_PATH}`);
+	console.log(
+		"Publish it: cd ../urantia-data-sources && bun run upload manifests",
+	);
 }
 
 generateManifest().catch(console.error);

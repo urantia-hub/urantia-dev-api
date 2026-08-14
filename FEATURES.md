@@ -24,8 +24,8 @@
 ## Audio
 
 - **Text-to-speech narration** for every paragraph
-- **Multiple voices** — 6 voices across 2 TTS models (tts-1-hd, tts-1)
-- **Hosted on `audio.urantia.dev`** — direct MP3 URLs in every paragraph response
+- **Multiple voices** — 7 voices across 3 TTS models (tts-1-hd, gpt-4o-mini-tts, tts-1)
+- **Hosted on `cdn.urantia.dev/audio/eng/`** — direct MP3 URLs in every paragraph response
 
 ## AI & Developer Tools
 
