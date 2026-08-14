@@ -112,6 +112,27 @@ The API includes a unified auth layer for the Urantia ecosystem:
 - **App-tagged data**: All user data has an `appId` column (defaults to "default", scoped per-app in future)
 - **Forward compat**: `visibility` column on bookmarks/notes (private/public/group)
 
+## Audio
+
+Audio lives on `cdn.urantia.dev`, not on `audio.urantia.dev`.
+
+- Paragraph: `cdn.urantia.dev/audio/eng/paragraphs/{voice}/{model}-{voice}-{globalId}.mp3`
+- Paper: `cdn.urantia.dev/audio/eng/papers/{paperId}.mp3` (0 is the Foreword)
+- Part: `cdn.urantia.dev/audio/eng/parts/{model}-{voice}-Part{n}.mp3`
+
+`audio.urantia.dev` still resolves. It is a frozen snapshot that holds nova files
+only. A nova URL returns 200 there, so the host looks healthy while every other
+voice 404s. Never test that host with a nova path alone.
+
+Only `tts-1-hd`/`nova` covers all 16,220 paragraphs. `gpt-4o-mini-tts`/`cedar`
+covers 3,438, `tts-1-hd`/`onyx` 231, and the rest are under a dozen samples each.
+Read the `audio` object on the paragraph. Do not build a URL for a non-nova voice.
+
+The manifest has two copies and both are gitignored. `generate-audio-manifest.ts`
+writes `data/audio-manifest.json` for `seed.ts` and a second copy into
+`../urantia-data-sources/data/manifests/`, which is what `bun run upload manifests`
+publishes. Generating does not publish. See `DATA_PIPELINE.md`.
+
 ## Documentation
 
 - `FEATURES.md` — Consumer-facing feature list. Keep up to date when endpoints change.

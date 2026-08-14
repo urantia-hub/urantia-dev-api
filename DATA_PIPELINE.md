@@ -10,7 +10,7 @@ R2: urantia-data-sources bucket
 ├── entities/             ──→  bun run seed:entities  ──→  entities, paragraph_entities tables
 ├── embeddings/           ──→  (insert script)        ──→  paragraphs.embedding column
 ├── manifests/            ──→  (joined during seed)   ──→  paragraphs.audio column
-└── audio/eng/            ──→  served via CDN at audio.urantia.dev
+└── audio/eng/            ──→  served via CDN at cdn.urantia.dev/audio/eng/
 ```
 
 ## Setup from Scratch
@@ -79,6 +79,21 @@ Regenerate from the MP3 files in R2/local:
 
 ```bash
 bun run generate-manifest
+```
+
+This writes two copies: `data/audio-manifest.json` here, which `seed.ts` reads, and
+`../urantia-data-sources/data/manifests/audio-manifest.json`, which the upload script
+publishes. Regenerating does not publish. Upload it as a second step:
+
+```bash
+cd ../urantia-data-sources && bun run upload manifests
+```
+
+Both copies are gitignored, so nothing warns you when the published manifest falls
+behind. It sat 19 days stale in August 2026 for exactly this reason. Check it with:
+
+```bash
+curl -s https://cdn.urantia.dev/manifests/audio-manifest.json | head -c 400
 ```
 
 ### Embeddings

@@ -76,8 +76,13 @@ Paragraphs include an `audio` field — a nested object keyed by model and voice
 {
   "audio": {
     "tts-1-hd": {
-      "nova": { "format": "mp3", "url": "https://audio.urantia.dev/tts-1-hd-nova-3:119.1.5.mp3" },
-      "echo": { "format": "mp3", "url": "https://audio.urantia.dev/tts-1-hd-echo-3:119.1.5.mp3" }
+      "nova": {
+        "format": "mp3",
+        "url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-3:119.1.5.mp3",
+        "bitrate": 160,
+        "duration": 43.3,
+        "fileSize": 866400
+      }
     }
   }
 }
@@ -193,7 +198,7 @@ bun run deploy
 
 ## Data
 
-Content sourced from [urantia-papers-json](https://github.com/nicholasgasior/urantia-papers-json) — 197 papers, 1,626 sections, 14,500+ paragraphs with audio narration via [audio.urantia.dev](https://audio.urantia.dev).
+Content sourced from [urantia-papers-json](https://github.com/nicholasgasior/urantia-papers-json) — 197 papers, 1,626 sections, 14,500+ paragraphs with audio narration via [cdn.urantia.dev](https://cdn.urantia.dev/audio/eng/papers/1.mp3).
 
 ## License
 
