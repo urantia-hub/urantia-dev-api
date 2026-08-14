@@ -8,7 +8,7 @@ Generate ~14,500+ MP3 files — one per paragraph + section title + paper title 
 2. **Dialogue speaker** (Jesus, apostles, and other characters in quoted speech)
 3. **Consistent tonal flow** between consecutive paragraphs
 
-The existing audio lives at `https://audio.urantia.dev/` using OpenAI's `tts-1-hd` model with the `nova` voice. We're replacing that with dramatically higher quality, multi-voice narration.
+The existing audio lives at `https://cdn.urantia.dev/audio/eng/paragraphs/{voice}/` using OpenAI's `tts-1-hd` model with the `nova` voice. We're replacing that with dramatically higher quality, multi-voice narration.
 
 ---
 
@@ -170,8 +170,8 @@ Each paragraph from the API contains (post slim-down):
   "labels": [],                    // topic labels on paper nodes only (see below)
   "audio": {                       // nullable, supports multiple models/voices
     "tts-1-hd": {
-      "nova": { "url": "https://audio.urantia.dev/tts-1-hd-nova-1:2.0.1.mp3", "format": "mp3" },
-      "onyx": { "url": "https://audio.urantia.dev/tts-1-hd-onyx-1:2.0.1.mp3", "format": "mp3" }
+      "nova": { "url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-1:2.0.1.mp3", "format": "mp3" },
+      "onyx": { "url": "https://cdn.urantia.dev/audio/eng/paragraphs/onyx/tts-1-hd-onyx-1:2.0.1.mp3", "format": "mp3" }
     }
   }
 }
@@ -204,7 +204,7 @@ with enriched metadata:
   "paperAuthor": "Divine Counselor",       // enriched from PAPER_AUTHORS map
   "detectedSpeaker": null,                 // populated by dialogue detection
   "voiceId": "voice_divine_counselor_01",  // populated by voice assignment
-  "existingAudioUrl": "https://audio.urantia.dev/tts-1-hd-nova-2:0.1.mp3"
+  "existingAudioUrl": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-2:0.1.mp3"
 }
 ```
 
@@ -1021,7 +1021,7 @@ After generation:
 1. Run `generate-audio-manifest.ts` pointed at `output/eleven-v3/` to build a new manifest
 2. Merge with existing `audio-manifest.json` (ElevenLabs audio coexists with OpenAI audio)
 3. Run `seed.ts` to update the DB `audio` JSONB field
-4. Upload MP3s to Cloudflare R2 (same bucket as existing audio at `audio.urantia.dev`)
+4. Upload MP3s to Cloudflare R2 (same bucket as existing audio at `cdn.urantia.dev/audio/eng/`)
 5. New audio appears in API responses automatically under `audio["eleven-v3"]`
 
 ---
@@ -1125,10 +1125,10 @@ The `audio` JSONB field supports multiple models/voices side by side:
 ```json
 "audio": {
   "tts-1-hd": {
-    "nova": { "url": "https://audio.urantia.dev/tts-1-hd-nova-1:2.0.1.mp3", "format": "mp3" }
+    "nova": { "url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-1:2.0.1.mp3", "format": "mp3" }
   },
   "eleven-v3": {
-    "divine_counselor": { "url": "https://audio.urantia.dev/eleven-v3-divine_counselor-1:2.0.1.mp3", "format": "mp3" }
+    "divine_counselor": { "url": "https://cdn.urantia.dev/audio/eng/paragraphs/divine_counselor/eleven-v3-divine_counselor-1:2.0.1.mp3", "format": "mp3" }
   }
 }
 ```
