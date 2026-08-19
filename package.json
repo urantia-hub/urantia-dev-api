@@ -42,7 +42,7 @@
 		"hono": "^4.13.3",
 		"jose": "^6.2.9",
 		"music-metadata": "^11.15.0",
-		"openai": "^6.49.0",
+		"openai": "^7.4.0",
 		"postgres": "^3.4.9",
 		"workers-og": "^0.0.27",
 		"yaml": "^2.9.0",
