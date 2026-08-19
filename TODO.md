@@ -66,6 +66,7 @@ Infrastructure layer: turn the Urantia Papers from a book into a queryable knowl
 
 - [~] **API & MCP directory listings** — Free distribution across AI/dev channels.
   - ✅ public-apis (merged)
+  - ✅ public-api-lists (PR #427 merged)
   - ✅ Smithery (100/100 quality score)
   - ✅ Glama Connectors (A grades) + Glama Servers (C grade — hosted-only, no Dockerfile install path)
   - ✅ MCP Registry as `dev.urantia/urantia-papers` v1.1.0 (DNS auth, keeps org membership private; 19 tools incl. Bible + parallels)
