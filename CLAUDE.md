@@ -32,6 +32,28 @@ auth middleware is already wired up — stand up a new service.
 - Validation: Zod v4
 - Linting: Biome
 
+## Dependency and toolchain pins
+
+- `bun.lock` is the ONLY lockfile. A stale leftover `yarn.lock` sat here until
+  2026-08-19 and kept 51 Dependabot alerts open after the real deps were fixed —
+  GitHub scans every lockfile it finds. Never add a second one.
+- `wrangler` pinned exact `4.73.0` — 4.124+ requires Node 22 and this machine
+  runs Node 20. Bumping it breaks `bun run deploy` locally.
+- `@biomejs/biome` pinned exact `2.4.7` — 2.5.x changes formatting rules and
+  flags untouched files. Bump it only together with a deliberate repo-wide
+  `bun run format`.
+- `overrides.yaml` forces the patched transitive `yaml` version.
+- Known baseline (pre-existing, not regressions): 4 typecheck errors in test
+  files and 43 Biome lint errors. Compare against this baseline before blaming
+  a change.
+
+## Testing against production
+
+`bun test` runs the Hono app in-process with the real `.env`, which points at
+the production database. The unit/middleware suites and the content
+integration suites (papers, toc, search, root, mcp, tools) are read-only and
+safe. The `auth`/`me` suites can write; run them only deliberately.
+
 ## Commands
 
 - `bun run dev` — Start dev server with hot reload
