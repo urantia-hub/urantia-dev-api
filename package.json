@@ -22,29 +22,29 @@
     "test": "bun test"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.7",
+    "@biomejs/biome": "^2.5.8",
     "@cloudflare/workers-types": "^4.20260317.1",
     "@types/bun": "latest",
-    "drizzle-kit": "^0.31.9",
-    "wrangler": "^4.73.0"
+    "drizzle-kit": "^0.31.10",
+    "wrangler": "^4.123.0"
   },
   "peerDependencies": {
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.78.0",
-    "@hono/mcp": "^0.2.4",
-    "@hono/swagger-ui": "^0.5.3",
-    "@hono/zod-openapi": "^1.2.2",
+    "@anthropic-ai/sdk": "^0.117.1",
+    "@hono/mcp": "^0.3.1",
+    "@hono/swagger-ui": "^0.6.1",
+    "@hono/zod-openapi": "^1.6.0",
     "@logtail/edge": "^0.5.8",
-    "@modelcontextprotocol/sdk": "^1.27.1",
-    "drizzle-orm": "^0.45.1",
-    "hono": "^4.12.8",
-    "jose": "^6.2.1",
-    "music-metadata": "^11.12.3",
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "drizzle-orm": "^0.45.2",
+    "hono": "^4.13.2",
+    "jose": "^6.2.9",
+    "music-metadata": "^11.14.0",
     "openai": "^6.29.0",
-    "postgres": "^3.4.8",
+    "postgres": "^3.4.9",
     "workers-og": "^0.0.27",
-    "zod": "^4.3.6"
+    "zod": "^4.4.3"
   }
 }
