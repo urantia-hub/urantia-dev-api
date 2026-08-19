@@ -39,7 +39,7 @@ const includeEntitiesProp: JSONSchemaProperty = {
 const includeBibleParallelsProp: JSONSchemaProperty = {
 	type: "boolean",
 	description:
-		"Include the top-10 Bible verses semantically nearest to each paragraph (UB → Bible direction). Pre-computed via text-embedding-3-large cosine similarity.",
+		"Include the top-10 Bible verses semantically nearest to each paragraph (Urantia → Bible direction). Pre-computed via text-embedding-3-large cosine similarity.",
 	default: false,
 };
 
@@ -86,13 +86,13 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 	{
 		name: "get_table_of_contents",
 		description:
-			"Get the full table of contents of the Urantia Book. Returns all 4 parts and 197 papers with their titles. Best starting point to understand the book structure.",
+			"Get the full table of contents of the Urantia Papers. Returns all 4 parts and 197 papers with their titles. Best starting point to understand the structure.",
 		parameters: { type: "object", properties: {} },
 	},
 	{
 		name: "list_papers",
 		description:
-			"List all 197 papers in the Urantia Book with their metadata (id, title, partId, labels). Use get_table_of_contents for a hierarchical view.",
+			"List all 197 Urantia Papers with their metadata (id, title, partId, labels). Use get_table_of_contents for a hierarchical view.",
 		parameters: { type: "object", properties: {} },
 	},
 	{
@@ -121,7 +121,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 	{
 		name: "get_random_paragraph",
 		description:
-			"Get a random paragraph from the Urantia Book. Great for daily quotes, exploration, or discovering new passages.",
+			"Get a random paragraph from the Urantia Papers. Great for daily quotes, exploration, or discovering new passages.",
 		parameters: {
 			type: "object",
 			properties: {
@@ -169,7 +169,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 	{
 		name: "search",
 		description:
-			'Full-text search across all Urantia Book paragraphs. Supports three modes: "and" (all words must appear, default), "or" (any word), "phrase" (exact phrase). Results ranked by relevance. Provide the search string as either `query` (preferred) or `q` (REST alias) — exactly one is required.',
+			'Full-text search across all paragraphs in the Urantia Papers. Supports three modes: "and" (all words must appear, default), "or" (any word), "phrase" (exact phrase). Results ranked by relevance. Provide the search string as either `query` (preferred) or `q` (REST alias) — exactly one is required.',
 		parameters: {
 			type: "object",
 			properties: {
@@ -194,7 +194,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 	{
 		name: "semantic_search",
 		description:
-			"Search the Urantia Book using semantic similarity (vector embeddings). Returns conceptually related results even without exact keyword matches. Provide the search string as either `query` (preferred) or `q` (REST alias) — exactly one is required.",
+			"Search the Urantia Papers using semantic similarity (vector embeddings). Returns conceptually related results even without exact keyword matches. Provide the search string as either `query` (preferred) or `q` (REST alias) — exactly one is required.",
 		parameters: {
 			type: "object",
 			properties: {
@@ -216,7 +216,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 	{
 		name: "list_entities",
 		description:
-			"Browse the entity catalog: beings, places, orders, races, religions, and concepts mentioned in the Urantia Book. Supports filtering by type and searching by name. Provide the search string as either `query` or `q` (alias) — both are optional.",
+			"Browse the entity catalog: beings, places, orders, races, religions, and concepts mentioned in the Urantia Papers. Supports filtering by type and searching by name. Provide the search string as either `query` or `q` (alias) — both are optional.",
 		parameters: {
 			type: "object",
 			properties: {
@@ -319,7 +319,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 	{
 		name: "get_bible_verse_urantia_parallels",
 		description:
-			"Returns the top 10 Urantia paragraphs whose embeddings are nearest to the Bible chunk that contains this verse — the reverse direction of `include_bible_parallels` on the UB side. Pre-computed via text-embedding-3-large cosine similarity. These are *semantic* parallels, not curated; treat results as starting points.",
+			"Returns the top 10 Urantia paragraphs whose embeddings are nearest to the Bible chunk that contains this verse — the reverse direction of `include_bible_parallels` on the Urantia side. Pre-computed via text-embedding-3-large cosine similarity. These are *semantic* parallels, not curated; treat results as starting points.",
 		parameters: {
 			type: "object",
 			properties: {
@@ -333,7 +333,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 	{
 		name: "bible_semantic_search",
 		description:
-			"Free-form natural-language search across all Bible chunks, ranked by cosine similarity. Each result includes the top-N pre-computed Urantia paragraphs related to that chunk via `bible_parallels` (Bible → UB direction). One query surfaces both Bible matches and the relevant UB content. Provide the search string as either `query` or `q` (alias). Optional filters: `canon` and `book_code`.",
+			"Free-form natural-language search across all Bible chunks, ranked by cosine similarity. Each result includes the top-N pre-computed Urantia paragraphs related to that chunk via `bible_parallels` (Bible → Urantia direction). One query surfaces both Bible matches and the relevant Urantia content. Provide the search string as either `query` or `q` (alias). Optional filters: `canon` and `book_code`.",
 		parameters: {
 			type: "object",
 			properties: {
@@ -356,7 +356,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 				urantia_parallel_limit: {
 					type: "integer",
 					description:
-						"How many UB paragraphs to attach per Bible result (0-10). Set to 0 to suppress.",
+						"How many Urantia paragraphs to attach per Bible result (0-10). Set to 0 to suppress.",
 					default: 3,
 					minimum: 0,
 					maximum: 10,

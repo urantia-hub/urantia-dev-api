@@ -1,6 +1,6 @@
 # Urantia.dev — Features
 
-> **Free, open API for The Urantia Book.** No authentication required. MIT-licensed.
+> **Free, open API for The Urantia Papers.** No authentication required. MIT-licensed.
 >
 > Base URL: `https://api.urantia.dev`
 
