@@ -1,6 +1,8 @@
 import { describe, expect, it } from "bun:test";
+import { Hono } from "hono";
 import { app } from "../../src/index.ts";
 import { createFeedbackRoute, FEEDBACK_RATE_LIMIT } from "../../src/routes/feedback.ts";
+import type { Env } from "../../src/types/env.ts";
 import { assertProblemShape } from "../helpers/shapes.ts";
 
 /**
@@ -250,23 +252,73 @@ describe("POST /feedback (handler)", () => {
 	});
 });
 
-describe("POST /feedback (Cloudflare rate limit bindings)", () => {
-	// A stand-in for a Workers Rate Limiting binding. It records each key.
-	function limiter(behavior: "allow" | "block" | "throw") {
+describe("POST /feedback (Cloudflare limiters)", () => {
+	type Behavior = "allow" | "block" | "throw" | "hang" | "http-500";
+
+	// A stand-in for the Durable Object namespace. It records each object name.
+	function namespace(behavior: Behavior) {
+		const names: string[] = [];
+		return {
+			names,
+			idFromName: (name: string) => {
+				names.push(name);
+				return name;
+			},
+			get: () => ({
+				fetch: async () => {
+					if (behavior === "throw") throw new Error("object unavailable");
+					if (behavior === "hang") return new Promise<Response>(() => {});
+					if (behavior === "http-500") return new Response("broken", { status: 500 });
+					return Response.json({
+						allowed: behavior === "allow",
+						retryAfterSeconds: behavior === "allow" ? 0 : 42,
+					});
+				},
+			}),
+		};
+	}
+
+	// A stand-in for the Workers Rate Limiting binding.
+	function binding(behavior: "allow" | "block" | "throw") {
 		const keys: string[] = [];
 		return {
 			keys,
 			limit: async ({ key }: { key: string }) => {
 				keys.push(key);
-				if (behavior === "throw") throw new Error("limiter unavailable");
+				if (behavior === "throw") throw new Error("binding unavailable");
 				return { success: behavior === "allow" };
 			},
 		};
 	}
 
-	function sendWith(bindings: Record<string, unknown>, ip: string) {
-		const { rows, route } = harness();
-		const res = route.request(
+	// The route with a logger that records each warning.
+	function sendWith(bindings: Record<string, unknown>, ip = nextIp()) {
+		const rows: unknown[] = [];
+		const warnings: Array<{ message: string; context?: Record<string, unknown> }> = [];
+		const route = createFeedbackRoute({
+			save: async (_c, row) => {
+				rows.push(row);
+				return SAVED;
+			},
+			fetch: async () => new Response("{}"),
+		});
+		const host = new Hono<Env>();
+		host.use("*", async (c, next) => {
+			c.set("logger", {
+				info() {},
+				debug() {},
+				error() {},
+				// Keep the limiter warnings only. The handler also warns when email is not set up.
+				warn: (message, context) => {
+					if (String(message).includes("limiter"))
+						warnings.push({ message: String(message), context });
+				},
+			});
+			await next();
+		});
+		host.route("/", route);
+
+		const res = host.request(
 			"/",
 			{
 				method: "POST",
@@ -275,49 +327,102 @@ describe("POST /feedback (Cloudflare rate limit bindings)", () => {
 			},
 			{ ...NO_DELIVERY, ...bindings },
 		);
-		return { rows, res };
+		return { rows, warnings, res };
 	}
 
-	it("keys the IP limiter by IP and the global limiter by one shared key", async () => {
-		const ipLimiter = limiter("allow");
-		const globalLimiter = limiter("allow");
+	it("counts each client in its own Durable Object, named by IP", async () => {
+		const limiter = namespace("allow");
 		const ip = nextIp();
-		const { rows, res } = sendWith(
-			{ FEEDBACK_IP_LIMITER: ipLimiter, FEEDBACK_GLOBAL_LIMITER: globalLimiter },
-			ip,
-		);
+		const { rows, warnings, res } = sendWith({ FEEDBACK_LIMITER: limiter }, ip);
 
 		expect((await res).status).toBe(201);
 		expect(rows).toHaveLength(1);
-		expect(ipLimiter.keys).toEqual([ip]);
-		expect(globalLimiter.keys).toEqual(["all"]);
+		expect(limiter.names).toEqual([`ip:${ip}`]);
+		expect(warnings).toHaveLength(0);
 	});
 
-	it("returns 429 and saves nothing when the IP limiter blocks", async () => {
-		const { rows, res } = sendWith({ FEEDBACK_IP_LIMITER: limiter("block") }, nextIp());
+	it("returns 429 problem+json with Retry-After and saves nothing when the limiter blocks", async () => {
+		const { rows, res } = sendWith({ FEEDBACK_LIMITER: namespace("block") });
 		const response = await res;
 
 		expect(response.status).toBe(429);
+		expect(response.headers.get("retry-after")).toBe("42");
+		expect(response.headers.get("content-type")).toContain("application/problem+json");
 		expect(response.headers.get("cache-control")).toBe("no-store");
 		assertProblemShape((await response.json()) as Record<string, unknown>);
 		expect(rows).toHaveLength(0);
 	});
 
-	it("returns 429 and saves nothing when the global limiter blocks", async () => {
-		const { rows, res } = sendWith(
-			{ FEEDBACK_IP_LIMITER: limiter("allow"), FEEDBACK_GLOBAL_LIMITER: limiter("block") },
-			nextIp(),
+	it("blocks an invalid request too, before validation", async () => {
+		const route = createFeedbackRoute({
+			save: async () => SAVED,
+			fetch: async () => new Response("{}"),
+		});
+		const res = await route.request(
+			"/",
+			{
+				method: "POST",
+				headers: { "Content-Type": "application/json", "cf-connecting-ip": nextIp() },
+				body: JSON.stringify({ category: "other", message: "" }),
+			},
+			{ ...NO_DELIVERY, FEEDBACK_LIMITER: namespace("block") },
 		);
+		expect(res.status).toBe(429);
+	});
+
+	for (const fault of ["throw", "hang", "http-500"] as const) {
+		it(`accepts the request and logs a warning when the limiter fault is "${fault}"`, async () => {
+			const { rows, warnings, res } = sendWith({ FEEDBACK_LIMITER: namespace(fault) });
+
+			expect((await res).status).toBe(201);
+			expect(rows).toHaveLength(1);
+			expect(warnings.map((w) => w.message)).toEqual(["feedback limiter failed, request allowed"]);
+			expect(String(warnings[0]?.context?.error)).not.toBe("");
+		});
+	}
+
+	it("answers a hung limiter within the timeout, not never", async () => {
+		const started = Date.now();
+		const { res } = sendWith({ FEEDBACK_LIMITER: namespace("hang") });
+		expect((await res).status).toBe(201);
+		expect(Date.now() - started).toBeLessThan(3000);
+	});
+
+	it("logs a warning when the binding is missing on Workers", async () => {
+		// HYPERDRIVE is bound on Workers only, so its presence marks the Workers runtime.
+		const { warnings, res } = sendWith({ HYPERDRIVE: {} });
+		expect((await res).status).toBe(201);
+		expect(warnings.map((w) => w.message)).toEqual([
+			"feedback limiter binding is missing, request allowed",
+		]);
+	});
+
+	it("logs nothing when the binding is missing under Bun", async () => {
+		const { warnings, res } = sendWith({});
+		expect((await res).status).toBe(201);
+		expect(warnings).toHaveLength(0);
+	});
+
+	it("returns 429 when the total-volume cap blocks, keyed by one shared key", async () => {
+		const cap = binding("block");
+		const { rows, res } = sendWith({
+			FEEDBACK_LIMITER: namespace("allow"),
+			FEEDBACK_GLOBAL_LIMITER: cap,
+		});
 
 		expect((await res).status).toBe(429);
 		expect(rows).toHaveLength(0);
+		expect(cap.keys).toEqual(["all"]);
 	});
 
-	it("accepts the request when a limiter throws", async () => {
-		const { rows, res } = sendWith({ FEEDBACK_IP_LIMITER: limiter("throw") }, nextIp());
+	it("accepts the request and logs a warning when the total-volume cap throws", async () => {
+		const { rows, warnings, res } = sendWith({ FEEDBACK_GLOBAL_LIMITER: binding("throw") });
 
 		expect((await res).status).toBe(201);
 		expect(rows).toHaveLength(1);
+		expect(warnings.map((w) => w.message)).toEqual([
+			"feedback global limiter failed, request allowed",
+		]);
 	});
 });
 

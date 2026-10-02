@@ -137,13 +137,22 @@ are optional, and a delivery failure never fails the request.
   Slack mrkdwn. All output goes through `src/lib/feedback-sanitize.ts`.
 - There is no MCP `submit_feedback` tool, on purpose. Do not add one until
   spam control exists.
-- Limits: 10 requests per 15 minutes per IP (`rateLimiter` with
-  `scope: "feedback"`), a 32 KB body, and 4000 characters per message. The
-  limiter is an in-memory Map per Worker isolate, so the limit is best-effort.
-  Two Workers Rate Limiting bindings in `wrangler.toml` back it up across
-  isolates: `FEEDBACK_IP_LIMITER` (5 per minute per IP) and
-  `FEEDBACK_GLOBAL_LIMITER` (30 per minute in total). They count per Cloudflare
-  location and are absent under Bun, where the route skips them.
+- Limits: 5 requests per minute and 10 per 15 minutes per IP, a 32 KB body, and
+  4000 characters per message. The limit that holds is a Durable Object,
+  `FeedbackRateLimiter` in `src/lib/feedback-limiter.ts`, one object per IP
+  (binding `FEEDBACK_LIMITER`). It fails open, with a warning in the logs and a
+  1.5 second timeout.
+- Do not put a low per-client limit on the Workers Rate Limiting binding or on
+  the in-memory `rateLimiter`. Both count per machine or per isolate, and
+  production spreads one client over ten or more isolates. Measured 2026-10-02:
+  with a 5 per minute binding limit, 45 requests in 50 seconds got 2 blocks.
+  `FEEDBACK_GLOBAL_LIMITER` (30 per minute in total) stays on the binding as a
+  flood backstop only. In a `wrangler dev` session there is one isolate, so both
+  look exact there. Only production shows the difference.
+- "The Workers runtime canceled this request because it detected that your
+  Worker's code had hung" shows in `wrangler tail` on every route, with a
+  normal response. It comes from the BetterStack logger's shared batch flush,
+  not from the route. It is an open, separate fault.
 - The tests use `save` and `fetch` doubles (`createFeedbackRoute`). No test
   writes a feedback row, sends an email, or posts to Slack.
 - `bun scripts/run-feedback-setup.ts` creates only the `feedback` table. It

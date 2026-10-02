@@ -25,8 +25,20 @@ import { rateLimiter } from "../middleware/rate-limit.ts";
 import type { Env } from "../types/env.ts";
 import { ErrorResponse } from "../validators/schemas.ts";
 
-// Stricter than the global 200/min limiter. Counted per IP, per isolate.
+// A cheap first check, counted per IP in this isolate only. Production runs many
+// isolates, so the Durable Object below is the limit that holds.
 export const FEEDBACK_RATE_LIMIT = { windowMs: 15 * 60_000, max: 10 };
+// A limiter that does not answer in this time is treated as a fault.
+const LIMITER_TIMEOUT_MS = 1500;
+
+// Reject when `promise` takes longer than `ms`, so a stuck call cannot hang the request.
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+	let timer: ReturnType<typeof setTimeout>;
+	const timeout = new Promise<never>((_, reject) => {
+		timer = setTimeout(() => reject(new Error(`limiter timed out after ${ms} ms`)), ms);
+	});
+	return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
+}
 // A 4000-character message is at most 16 KB of UTF-8. 32 KB leaves room for the other fields.
 const MAX_BODY_BYTES = 32 * 1024;
 
@@ -146,29 +158,55 @@ export function createFeedbackRoute(overrides: Partial<FeedbackDeps> = {}) {
 	});
 	route.use("*", rateLimiter({ ...FEEDBACK_RATE_LIMIT, scope: "feedback" }));
 
-	// Cloudflare-side limits, shared by every isolate in a location. The Map
-	// limiter above counts per isolate only. Both bindings are absent under Bun.
+	// The real per-client limit: one Durable Object per IP, so every isolate
+	// counts against the same number. See src/lib/feedback-limiter.ts.
 	route.use("*", async (c, next) => {
+		const logger = c.get("logger");
 		const ip =
 			c.req.header("cf-connecting-ip") ??
 			c.req.header("x-forwarded-for")?.split(",")[0]?.trim() ??
 			"unknown";
-		const checks: Array<[RateLimit | undefined, string]> = [
-			[c.env?.FEEDBACK_IP_LIMITER, ip],
-			[c.env?.FEEDBACK_GLOBAL_LIMITER, "all"],
-		];
-		for (const [limiter, key] of checks) {
-			if (!limiter) continue;
-			let allowed = true;
+
+		const namespace = c.env?.FEEDBACK_LIMITER;
+		if (namespace) {
 			try {
-				allowed = (await limiter.limit({ key })).success;
-			} catch {
-				// A limiter fault must not block feedback.
+				const stub = namespace.get(namespace.idFromName(`ip:${ip}`));
+				const res = await withTimeout(
+					stub.fetch("https://feedback-limiter/count", { method: "POST" }),
+					LIMITER_TIMEOUT_MS,
+				);
+				if (!res.ok) throw new Error(`limiter answered HTTP ${res.status}`);
+				const decision = (await res.json()) as { allowed: boolean; retryAfterSeconds: number };
+				if (!decision.allowed) {
+					c.header("Retry-After", String(decision.retryAfterSeconds));
+					return problemJson(c, 429, "Too many requests, please try again later");
+				}
+			} catch (err) {
+				// Fail open: a limiter fault must not block feedback. It must be visible.
+				logger?.warn("feedback limiter failed, request allowed", {
+					error: err instanceof Error ? err.message : "unknown error",
+				});
 			}
-			if (!allowed) {
-				return problemJson(c, 429, "Too many requests, please try again later");
+		} else if (c.env?.HYPERDRIVE) {
+			// On Workers (Hyperdrive is bound) the limiter binding must be there too.
+			logger?.warn("feedback limiter binding is missing, request allowed");
+		}
+
+		// A coarse cap on total volume from all clients. This binding counts per
+		// machine and syncs late, so it is a backstop for floods, not a precise limit.
+		const globalLimiter = c.env?.FEEDBACK_GLOBAL_LIMITER;
+		if (globalLimiter) {
+			try {
+				if (!(await globalLimiter.limit({ key: "all" })).success) {
+					return problemJson(c, 429, "Too many requests, please try again later");
+				}
+			} catch (err) {
+				logger?.warn("feedback global limiter failed, request allowed", {
+					error: err instanceof Error ? err.message : "unknown error",
+				});
 			}
 		}
+
 		await next();
 	});
 	route.use(
