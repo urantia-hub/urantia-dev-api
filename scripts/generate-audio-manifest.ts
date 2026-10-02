@@ -7,7 +7,7 @@ const AUDIO_BASE =
 	join(import.meta.dir, "../../urantia-data-sources/data/audio/eng");
 
 const CDN_BASE = "https://cdn.urantia.dev/audio/eng/paragraphs";
-const LEGACY_CDN_BASE = "https://audio.urantia.dev";
+const LEGACY_CDN_BASE = "https://cdn.urantia.dev/audio/eng";
 const OUTPUT_PATH = join(import.meta.dir, "../data/audio-manifest.json");
 
 // The upload script publishes from the data-sources checkout, so write there too.

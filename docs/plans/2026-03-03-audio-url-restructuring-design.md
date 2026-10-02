@@ -2,7 +2,7 @@
 
 ## Problem
 
-The API currently returns a flat `audioUrl` string and `hasAudio` boolean per paragraph. This bakes in a single model/voice/format combo (`tts-1-hd-nova`) and isn't extensible to support the multiple model-voice combos that already exist on the CDN (`audio.urantia.dev`).
+The API currently returns a flat `audioUrl` string and `hasAudio` boolean per paragraph. This bakes in a single model/voice/format combo (`tts-1-hd-nova`) and isn't extensible to support the multiple model-voice combos that already exist on the CDN (`cdn.urantia.dev`).
 
 ## Design
 
@@ -15,11 +15,11 @@ Replace `audioUrl` (string) and `hasAudio` (boolean) with a single `audio` field
   "id": "3:119.1.5",
   "audio": {
     "tts-1-hd": {
-      "nova": { "format": "mp3", "url": "https://audio.urantia.dev/tts-1-hd-nova-3:119.1.5.mp3" },
-      "echo": { "format": "mp3", "url": "https://audio.urantia.dev/tts-1-hd-echo-3:119.1.5.mp3" }
+      "nova": { "format": "mp3", "url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-3:119.1.5.mp3" },
+      "echo": { "format": "mp3", "url": "https://cdn.urantia.dev/audio/eng/paragraphs/echo/tts-1-hd-echo-3:119.1.5.mp3" }
     },
     "tts-1": {
-      "alloy": { "format": "mp3", "url": "https://audio.urantia.dev/tts-1-alloy-3:119.1.5.mp3" }
+      "alloy": { "format": "mp3", "url": "https://cdn.urantia.dev/audio/eng/paragraphs/alloy/tts-1-alloy-3:119.1.5.mp3" }
     }
   }
 }
