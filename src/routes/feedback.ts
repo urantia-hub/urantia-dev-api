@@ -38,10 +38,10 @@ const FeedbackRequest = z.strictObject({
 	message: z.string().trim().min(1).max(4000),
 	ref: z.string().max(200).optional(),
 	endpoint: z.string().max(300).optional(),
-	request_id: z.string().max(100).optional(),
+	requestId: z.string().max(100).optional(),
 	client: z.string().max(100).optional(),
 	contact: z.string().max(200).optional(),
-	page_url: z
+	pageUrl: z
 		.url({ protocol: /^https?$/ })
 		.max(500)
 		.optional(),
@@ -50,7 +50,7 @@ const FeedbackRequest = z.strictObject({
 const FeedbackResponse = z.object({
 	data: z.object({
 		id: z.string(),
-		received_at: z.string(),
+		receivedAt: z.string(),
 	}),
 });
 
@@ -94,7 +94,7 @@ const submitFeedbackRoute = createRoute({
 	summary: "Submit product or API feedback. No authentication required.",
 	description: `Report a bug, a gap in the docs, or an idea. People and AI agents can both use it.
 
-Send a \`category\` and a \`message\`. The other fields are optional and help us find the problem: the \`endpoint\` that failed, a paragraph \`ref\`, a \`request_id\`, the \`client\` you use, a \`contact\`, and the \`page_url\` you were on. Unknown fields are rejected.
+Send a \`category\` and a \`message\`. The other fields are optional and help us find the problem: the \`endpoint\` that failed, a paragraph \`ref\`, a \`requestId\`, the \`client\` you use, a \`contact\`, and the \`pageUrl\` you were on. Unknown fields are rejected.
 
 Limits: 10 requests per 15 minutes per IP address, and 4000 characters per message.
 
@@ -175,10 +175,10 @@ export function createFeedbackRoute(overrides: Partial<FeedbackDeps> = {}) {
 			message: body.message,
 			ref: orNull(body.ref),
 			endpoint: orNull(body.endpoint),
-			requestId: orNull(body.request_id),
+			requestId: orNull(body.requestId),
 			client: orNull(body.client),
 			contact: orNull(body.contact),
-			pageUrl: orNull(body.page_url),
+			pageUrl: orNull(body.pageUrl),
 			// No pepper means no hash. An unkeyed hash of an IPv4 address is reversible.
 			ipHash: ip && env.FEEDBACK_IP_PEPPER ? await hashIp(ip, env.FEEDBACK_IP_PEPPER) : null,
 			userAgent: userAgent ? truncate(singleLine(userAgent), USER_AGENT_MAX) : null,
@@ -226,7 +226,7 @@ export function createFeedbackRoute(overrides: Partial<FeedbackDeps> = {}) {
 		logDelivery("email", email, true);
 		logDelivery("slack", slack, false);
 
-		return c.json({ data: { id: record.id, received_at: record.receivedAt } }, 201);
+		return c.json({ data: { id: record.id, receivedAt: record.receivedAt } }, 201);
 	});
 
 	return route;

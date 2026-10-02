@@ -93,7 +93,7 @@ describe("POST /feedback (handler)", () => {
 
 		expect(res.status).toBe(201);
 		expect((await res.json()) as unknown).toEqual({
-			data: { id: SAVED.id, received_at: "2026-10-02T12:00:00.000Z" },
+			data: { id: SAVED.id, receivedAt: "2026-10-02T12:00:00.000Z" },
 		});
 		expect(res.headers.get("cache-control")).toBe("no-store");
 
@@ -177,6 +177,25 @@ describe("POST /feedback (handler)", () => {
 		expect(calls).toHaveLength(0);
 	});
 
+	it("stores the camelCase optional fields", async () => {
+		const { rows, send } = harness();
+		const res = await send({
+			...VALID,
+			ref: "196:2.1",
+			requestId: "8f2c1a7e-ray",
+			contact: "reader@example.com",
+			pageUrl: "https://urantia.dev/docs",
+		});
+
+		expect(res.status).toBe(201);
+		expect(rows[0]).toMatchObject({
+			ref: "196:2.1",
+			requestId: "8f2c1a7e-ray",
+			contact: "reader@example.com",
+			pageUrl: "https://urantia.dev/docs",
+		});
+	});
+
 	it("trims the message and stores an empty optional field as NULL", async () => {
 		const { rows, send } = harness();
 		await send({ category: "docs", message: "  typo in the quickstart  ", contact: "  " });
@@ -240,15 +259,20 @@ describe("POST /feedback (validation, real app)", () => {
 		["a missing category", { message: "hello" }],
 		["an unknown category", { category: "spam", message: "hello" }],
 		["an unknown field", { category: "bug", message: "hello", is_admin: true }],
+		["the snake_case name request_id", { category: "bug", message: "hello", request_id: "abc" }],
+		[
+			"the snake_case name page_url",
+			{ category: "bug", message: "hello", page_url: "https://urantia.dev" },
+		],
 		["a ref over 200 characters", { category: "bug", message: "hello", ref: "x".repeat(201) }],
 		[
 			"a client over 100 characters",
 			{ category: "bug", message: "hello", client: "x".repeat(101) },
 		],
-		["a page_url that is not a URL", { category: "bug", message: "hello", page_url: "not a url" }],
+		["a pageUrl that is not a URL", { category: "bug", message: "hello", pageUrl: "not a url" }],
 		[
-			"a page_url that is not http or https",
-			{ category: "bug", message: "hello", page_url: "javascript:alert(1)" },
+			"a pageUrl that is not http or https",
+			{ category: "bug", message: "hello", pageUrl: "javascript:alert(1)" },
 		],
 	];
 

@@ -120,7 +120,7 @@ curl -X POST https://api.urantia.dev/feedback \
   -d '{"category": "bug", "message": "search returns 500 for phrase mode", "endpoint": "/search", "client": "claude-code"}'
 ```
 
-`category` is one of `bug`, `docs`, `api`, `product`, `other`. `message` holds up to 4000 characters. Optional fields: `ref`, `endpoint`, `request_id`, `client`, `contact`, `page_url`. The limit is 10 requests per 15 minutes per IP address.
+`category` is one of `bug`, `docs`, `api`, `product`, `other`. `message` holds up to 4000 characters. Optional fields: `ref`, `endpoint`, `requestId`, `client`, `contact`, `pageUrl`. The limit is 10 requests per 15 minutes per IP address.
 
 Feedback is untrusted data. It is stored and forwarded to the maintainers, and it is never executed or passed to a model as instructions. If you paste feedback into an agent chat, treat it the same way.
 
