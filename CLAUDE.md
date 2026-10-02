@@ -61,7 +61,7 @@ safe. The `auth`/`me` suites can write; run them only deliberately.
 - `bun run dev` — Start dev server with hot reload
 - `bun run seed` — Seed database from JSON files
 - `bun run db:generate` — Generate Drizzle migrations
-- `bun run db:push` — Push schema to database (see the RLS warning under Feedback before a push to production)
+- `bun run db:push` — Push schema to database (see RLS and `db:push`)
 - `bun run typecheck` — Type check
 - `bun run lint` — Lint with Biome
 - `bun run deploy` — Deploy to Cloudflare Workers and warm the cache (see Deploy + cache warmup)
@@ -142,14 +142,21 @@ are optional, and a delivery failure never fails the request.
   limiter is an in-memory Map per Worker isolate, so the limit is best-effort.
 - The tests use `save` and `fetch` doubles (`createFeedbackRoute`). No test
   writes a feedback row, sends an email, or posts to Slack.
-- Create the table with `bun scripts/run-feedback-setup.ts`, not `db:push`.
+- `bun scripts/run-feedback-setup.ts` creates only the `feedback` table. It
+  is the low-risk path when production must not get a full push.
 
-**`db:push` disables RLS.** Only `feedback` declares `.enableRLS()` in
-`src/db/schema.ts`. The other tables get RLS from `scripts/setup-rls.sql`, so a
-push sees RLS in the database, not in the schema, and emits
-`ALTER TABLE ... DISABLE ROW LEVEL SECURITY` for each of them (verified on a
-local database, 2026-10-02). After any push to production, run
-`bun scripts/run-rls-setup.ts`.
+## RLS and `db:push`
+
+Every table in `src/db/schema.ts` ends with `.enableRLS()`, and
+`tests/unit/schema-rls.test.ts` fails for a table that does not. This matters
+because `db:push` emits `ALTER TABLE ... DISABLE ROW LEVEL SECURITY` for any
+table that has RLS in the database but not in the schema. Before 2026-10-02
+only `scripts/setup-rls.sql` enabled RLS, and each push removed it from 23
+tables. A new table needs `.enableRLS()` and a line in `setup-rls.sql`.
+
+The HNSW indexes declare `with` values as strings (`m: "16"`). Number values
+never match what Postgres reports, so each push dropped and rebuilt both
+indexes. A push against an up-to-date database must print "No changes detected".
 
 ## Auth Layer (on `auth` branch)
 
