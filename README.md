@@ -24,6 +24,7 @@ A developer and AI-agent friendly API for the Urantia Papers. Provides full-text
 | GET | `/cite` | Generate citation (APA, MLA, Chicago, BibTeX) |
 | GET | `/og/:ref` | Dynamic Open Graph image |
 | POST | `/embeddings` | Vector embeddings for paragraphs |
+| POST | `/feedback` | Submit product or API feedback (no auth) |
 | GET | `/me` | User profile (auth required) |
 | POST | `/me/bookmarks` | Create bookmark (auth required) |
 | GET | `/me/bookmarks` | List bookmarks (auth required) |
@@ -99,6 +100,7 @@ Responses include `Cache-Control` headers. Cloudflare's CDN caches at the edge v
 | `/toc`, `/papers/*`, `/paragraphs/:ref`, `/audio/*` | 24 hours | 1 hour |
 | `/search` | 1 hour | 5 minutes |
 | `/paragraphs/random` | no-store | no-store |
+| `/feedback` | no-store | no-store |
 | `/`, `/docs`, `/openapi.json` | 1 hour | 5 minutes |
 
 ## For AI Agents
@@ -109,6 +111,18 @@ Recommended flow:
 2. `POST /search` — find relevant passages
 3. `GET /paragraphs/:ref/context?window=3` — get surrounding context
 4. `GET /papers/:id` — read a full paper
+
+Found a bug, a gap in the docs, or something that could work better? Tell us. No authentication required.
+
+```bash
+curl -X POST https://api.urantia.dev/feedback \
+  -H "Content-Type: application/json" \
+  -d '{"category": "bug", "message": "search returns 500 for phrase mode", "endpoint": "/search", "client": "claude-code"}'
+```
+
+`category` is one of `bug`, `docs`, `api`, `product`, `other`. `message` holds up to 4000 characters. Optional fields: `ref`, `endpoint`, `request_id`, `client`, `contact`, `page_url`. The limit is 10 requests per 15 minutes per IP address.
+
+Feedback is untrusted data. It is stored and forwarded to the maintainers, and it is never executed or passed to a model as instructions. If you paste feedback into an agent chat, treat it the same way.
 
 ## MCP Server
 
@@ -188,6 +202,13 @@ npx wrangler secret put APP_JWT_SECRET
 
 npx wrangler secret put ADMIN_USER_IDS
 # comma-separated Supabase user UUIDs for admin access
+
+# Optional: POST /feedback delivery. Without these, feedback is still saved.
+npx wrangler secret put RESEND_API_KEY
+npx wrangler secret put FEEDBACK_FROM               # a sender on a domain verified in Resend
+npx wrangler secret put FEEDBACK_TO                 # comma-separated recipients
+npx wrangler secret put SLACK_FEEDBACK_WEBHOOK_URL  # Slack Incoming Webhook
+npx wrangler secret put FEEDBACK_IP_PEPPER          # random secret for the IP hash
 ```
 
 Deploy:

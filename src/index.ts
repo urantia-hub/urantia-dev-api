@@ -17,6 +17,7 @@ import { bibleRoute } from "./routes/bible.ts";
 import { citeRoute } from "./routes/cite.ts";
 import { embeddingsRoute } from "./routes/embeddings.ts";
 import { entitiesRoute } from "./routes/entities.ts";
+import { feedbackRoute } from "./routes/feedback.ts";
 import { languagesRoute } from "./routes/languages.ts";
 import { mcpRoute } from "./routes/mcp.ts";
 import { meRoute } from "./routes/me.ts";
@@ -167,6 +168,7 @@ app.route("/cite", citeRoute);
 app.route("/og", ogRoute);
 app.route("/embeddings", embeddingsRoute);
 app.route("/tools", toolsRoute);
+app.route("/feedback", feedbackRoute);
 
 // OpenAPI spec
 app.doc("/openapi.json", {
