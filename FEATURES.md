@@ -58,7 +58,8 @@
 
 ## Resources
 
-- **API docs**: [urantia.dev](https://urantia.dev)
+- **Home**: [urantia.dev](https://urantia.dev)
+- **API docs**: [docs.urantia.dev](https://docs.urantia.dev)
 - **Interactive demo**: [demo.urantia.dev](https://demo.urantia.dev)
 - **Reading platform**: [urantiahub.com](https://urantiahub.com)
 - **OpenAPI spec**: [api.urantia.dev/openapi.json](https://api.urantia.dev/openapi.json)
