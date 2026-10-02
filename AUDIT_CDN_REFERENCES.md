@@ -6,6 +6,9 @@
 ## Issue Reported
 Live audit found `https://cdn.openurantia.com` returning HTTP 530 on audio MP3 files.
 
+## Current Status
+Resolved: Cloudflare now redirects `cdn.openurantia.com` → `https://cdn.urantia.dev` (301, path and query preserved). The redirect lives in Cloudflare only; no code change in this repo was required. The sections below are the original investigation, kept for historical context.
+
 ## Findings
 
 ### 1. Current Code State (urantia-dev-api)
@@ -114,5 +117,5 @@ https://cdn.urantia.dev/audio/eng/papers/0.mp3
 These should NOT be used (legacy, frozen, or broken):
 ```
 https://audio.urantia.dev/* (frozen snapshot, nova only)
-https://cdn.openurantia.com/* (returns 530)
+https://cdn.openurantia.com/* (returned 530 at time of audit; now 301s to cdn.urantia.dev, but use cdn.urantia.dev directly)
 ```
