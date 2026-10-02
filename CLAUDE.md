@@ -149,10 +149,11 @@ are optional, and a delivery failure never fails the request.
   `FEEDBACK_GLOBAL_LIMITER` (30 per minute in total) stays on the binding as a
   flood backstop only. In a `wrangler dev` session there is one isolate, so both
   look exact there. Only production shows the difference.
-- "The Workers runtime canceled this request because it detected that your
-  Worker's code had hung" shows in `wrangler tail` on every route, with a
-  normal response. It comes from the BetterStack logger's shared batch flush,
-  not from the route. It is an open, separate fault.
+- Logging: `src/lib/logger.ts` builds one BetterStack client per request, and
+  the logger middleware flushes it with `ctx.waitUntil`. Do not go back to one
+  module-level client. A shared client batched every request's lines together
+  and resolved them from another request's timer, which Workers cancels as
+  "your Worker's code had hung" (seen on every route until 2026-10-02).
 - The tests use `save` and `fetch` doubles (`createFeedbackRoute`). No test
   writes a feedback row, sends an email, or posts to Slack.
 - `bun scripts/run-feedback-setup.ts` creates only the `feedback` table. It
