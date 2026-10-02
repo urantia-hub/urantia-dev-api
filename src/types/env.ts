@@ -18,5 +18,8 @@ export type Env = {
 		FEEDBACK_TO?: string;
 		SLACK_FEEDBACK_WEBHOOK_URL?: string;
 		FEEDBACK_IP_PEPPER?: string;
+		// Workers Rate Limiting bindings for POST /feedback (wrangler.toml [[ratelimits]])
+		FEEDBACK_IP_LIMITER?: RateLimit;
+		FEEDBACK_GLOBAL_LIMITER?: RateLimit;
 	};
 };
