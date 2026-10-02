@@ -197,6 +197,8 @@ app.get("/docs", swaggerUI({ url: "/openapi.json" }));
 
 const port = Number(process.env.PORT) || 3000;
 
+// Durable Object class for the feedback limiter. Workers needs it exported from the main module.
+export { FeedbackRateLimiter } from "./lib/feedback-limiter.ts";
 export { app };
 
 export default {
