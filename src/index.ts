@@ -4,6 +4,7 @@ import { HTTPException } from "hono/http-exception";
 import { getDb } from "./db/client.ts";
 import { createApp } from "./lib/app.ts";
 import { problemJson } from "./lib/errors.ts";
+import { mcpManifest, mcpServerCard } from "./lib/mcp-discovery.ts";
 import { authMiddleware } from "./middleware/auth.ts";
 import { cacheControl } from "./middleware/cache.ts";
 import { corsMiddleware } from "./middleware/cors.ts";
@@ -131,6 +132,12 @@ app.get("/.well-known/glama.json", (c) =>
 		maintainers: [{ email: "kgadams93@gmail.com" }],
 	}),
 );
+
+// MCP discovery: where this API's MCP server is, and what it offers.
+// These sit before the catch-all below, which answers every other well-known path with a 404.
+app.get("/.well-known/mcp.json", (c) => c.json(mcpManifest()));
+app.get("/.well-known/mcp", (c) => c.json(mcpManifest()));
+app.get("/.well-known/mcp/server-card.json", (c) => c.json(mcpServerCard()));
 
 // OAuth/OIDC metadata discovery — return JSON 404 so MCP clients (Claude Code) know no auth is needed
 // Covers all discovery paths: root, path-aware (RFC 8414), MCP-scoped, and protected resource (RFC 9728)

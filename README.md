@@ -134,6 +134,8 @@ The API includes a built-in [MCP](https://modelcontextprotocol.io) server at `ht
 
 One-click install via [Smithery](https://smithery.ai/servers/urantiahub/urantia-papers).
 
+Clients can discover the server at `https://api.urantia.dev/.well-known/mcp.json` (also `/.well-known/mcp/server-card.json`).
+
 ## Authentication
 
 Public endpoints require no auth. User endpoints (`/me/*`) require a JWT. OAuth flow:
