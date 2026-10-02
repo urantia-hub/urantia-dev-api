@@ -250,6 +250,77 @@ describe("POST /feedback (handler)", () => {
 	});
 });
 
+describe("POST /feedback (Cloudflare rate limit bindings)", () => {
+	// A stand-in for a Workers Rate Limiting binding. It records each key.
+	function limiter(behavior: "allow" | "block" | "throw") {
+		const keys: string[] = [];
+		return {
+			keys,
+			limit: async ({ key }: { key: string }) => {
+				keys.push(key);
+				if (behavior === "throw") throw new Error("limiter unavailable");
+				return { success: behavior === "allow" };
+			},
+		};
+	}
+
+	function sendWith(bindings: Record<string, unknown>, ip: string) {
+		const { rows, route } = harness();
+		const res = route.request(
+			"/",
+			{
+				method: "POST",
+				headers: { "Content-Type": "application/json", "cf-connecting-ip": ip },
+				body: JSON.stringify(VALID),
+			},
+			{ ...NO_DELIVERY, ...bindings },
+		);
+		return { rows, res };
+	}
+
+	it("keys the IP limiter by IP and the global limiter by one shared key", async () => {
+		const ipLimiter = limiter("allow");
+		const globalLimiter = limiter("allow");
+		const ip = nextIp();
+		const { rows, res } = sendWith(
+			{ FEEDBACK_IP_LIMITER: ipLimiter, FEEDBACK_GLOBAL_LIMITER: globalLimiter },
+			ip,
+		);
+
+		expect((await res).status).toBe(201);
+		expect(rows).toHaveLength(1);
+		expect(ipLimiter.keys).toEqual([ip]);
+		expect(globalLimiter.keys).toEqual(["all"]);
+	});
+
+	it("returns 429 and saves nothing when the IP limiter blocks", async () => {
+		const { rows, res } = sendWith({ FEEDBACK_IP_LIMITER: limiter("block") }, nextIp());
+		const response = await res;
+
+		expect(response.status).toBe(429);
+		expect(response.headers.get("cache-control")).toBe("no-store");
+		assertProblemShape((await response.json()) as Record<string, unknown>);
+		expect(rows).toHaveLength(0);
+	});
+
+	it("returns 429 and saves nothing when the global limiter blocks", async () => {
+		const { rows, res } = sendWith(
+			{ FEEDBACK_IP_LIMITER: limiter("allow"), FEEDBACK_GLOBAL_LIMITER: limiter("block") },
+			nextIp(),
+		);
+
+		expect((await res).status).toBe(429);
+		expect(rows).toHaveLength(0);
+	});
+
+	it("accepts the request when a limiter throws", async () => {
+		const { rows, res } = sendWith({ FEEDBACK_IP_LIMITER: limiter("throw") }, nextIp());
+
+		expect((await res).status).toBe(201);
+		expect(rows).toHaveLength(1);
+	});
+});
+
 describe("POST /feedback (validation, real app)", () => {
 	const INVALID: Array<[string, unknown]> = [
 		["an empty message", { category: "bug", message: "" }],

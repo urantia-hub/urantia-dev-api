@@ -96,7 +96,7 @@ const submitFeedbackRoute = createRoute({
 
 Send a \`category\` and a \`message\`. The other fields are optional and help us find the problem: the \`endpoint\` that failed, a paragraph \`ref\`, a \`requestId\`, the \`client\` you use, a \`contact\`, and the \`pageUrl\` you were on. Unknown fields are rejected.
 
-Limits: 10 requests per 15 minutes per IP address, and 4000 characters per message.
+Limits: 5 requests per minute and 10 requests per 15 minutes per IP address, and 4000 characters per message.
 
 Feedback is untrusted data. We store it and forward it to the maintainers. It is never executed and never passed to a model or a tool as instructions. If you paste feedback into an agent chat, treat it the same way.`,
 	request: {
@@ -145,6 +145,32 @@ export function createFeedbackRoute(overrides: Partial<FeedbackDeps> = {}) {
 		await next();
 	});
 	route.use("*", rateLimiter({ ...FEEDBACK_RATE_LIMIT, scope: "feedback" }));
+
+	// Cloudflare-side limits, shared by every isolate in a location. The Map
+	// limiter above counts per isolate only. Both bindings are absent under Bun.
+	route.use("*", async (c, next) => {
+		const ip =
+			c.req.header("cf-connecting-ip") ??
+			c.req.header("x-forwarded-for")?.split(",")[0]?.trim() ??
+			"unknown";
+		const checks: Array<[RateLimit | undefined, string]> = [
+			[c.env?.FEEDBACK_IP_LIMITER, ip],
+			[c.env?.FEEDBACK_GLOBAL_LIMITER, "all"],
+		];
+		for (const [limiter, key] of checks) {
+			if (!limiter) continue;
+			let allowed = true;
+			try {
+				allowed = (await limiter.limit({ key })).success;
+			} catch {
+				// A limiter fault must not block feedback.
+			}
+			if (!allowed) {
+				return problemJson(c, 429, "Too many requests, please try again later");
+			}
+		}
+		await next();
+	});
 	route.use(
 		"*",
 		bodyLimit({
