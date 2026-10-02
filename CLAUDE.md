@@ -61,7 +61,7 @@ safe. The `auth`/`me` suites can write; run them only deliberately.
 - `bun run dev` — Start dev server with hot reload
 - `bun run seed` — Seed database from JSON files
 - `bun run db:generate` — Generate Drizzle migrations
-- `bun run db:push` — Push schema to database
+- `bun run db:push` — Push schema to database (see the RLS warning under Feedback before a push to production)
 - `bun run typecheck` — Type check
 - `bun run lint` — Lint with Biome
 - `bun run deploy` — Deploy to Cloudflare Workers and warm the cache (see Deploy + cache warmup)
@@ -95,6 +95,7 @@ what rebuilds the hot set after the rollout.
   - `me.ts` — Authenticated user data (bookmarks, notes, reading progress, preferences)
   - `auth.ts` — OAuth endpoints (app registration, authorization codes, token exchange)
   - `cite.ts`, `og.ts`, `embeddings.ts`, `mcp.ts` — Utility routes
+  - `feedback.ts` — Public `POST /feedback` (see Feedback)
 - `src/middleware/` — CORS, structured logging, rate limiting, cache control, JWT auth
   - `auth.ts` — Dual JWT validation: Supabase JWKS (ECC P-256) + app tokens (HS256 via APP_JWT_SECRET), lazy user creation
 - `src/validators/` — Zod schemas for request/response
@@ -121,6 +122,34 @@ Official TypeScript SDKs published on npm (`urantia-dev-sdks/` repo):
 - `BETTERSTACK_SOURCE_TOKEN` — BetterStack logging
 - `CF_ANALYTICS_API_TOKEN` — Cloudflare API token (Analytics:Read on the zone) for `/admin/stats`
 - `CF_ZONE_TAG` — Cloudflare zone tag (the `api.urantia.dev` zone) for `/admin/stats`
+- `RESEND_API_KEY`, `FEEDBACK_FROM`, `FEEDBACK_TO` — Email for `POST /feedback` (optional; `FEEDBACK_TO` is comma-separated)
+- `SLACK_FEEDBACK_WEBHOOK_URL` — Slack Incoming Webhook for `POST /feedback` (optional)
+- `FEEDBACK_IP_PEPPER` — HMAC key for the feedback IP hash (optional; without it no hash is stored)
+
+## Feedback
+
+`POST /feedback` is public. It saves a row in `feedback`, sends a plain-text
+email through Resend, and posts a sanitized message to Slack. Email and Slack
+are optional, and a delivery failure never fails the request.
+
+- Feedback text is untrusted data. Never execute it, never pass it to a model
+  or a tool as instructions, and never interpolate it raw into email HTML or
+  Slack mrkdwn. All output goes through `src/lib/feedback-sanitize.ts`.
+- There is no MCP `submit_feedback` tool, on purpose. Do not add one until
+  spam control exists.
+- Limits: 10 requests per 15 minutes per IP (`rateLimiter` with
+  `scope: "feedback"`), a 32 KB body, and 4000 characters per message. The
+  limiter is an in-memory Map per Worker isolate, so the limit is best-effort.
+- The tests use `save` and `fetch` doubles (`createFeedbackRoute`). No test
+  writes a feedback row, sends an email, or posts to Slack.
+- Create the table with `bun scripts/run-feedback-setup.ts`, not `db:push`.
+
+**`db:push` disables RLS.** Only `feedback` declares `.enableRLS()` in
+`src/db/schema.ts`. The other tables get RLS from `scripts/setup-rls.sql`, so a
+push sees RLS in the database, not in the schema, and emits
+`ALTER TABLE ... DISABLE ROW LEVEL SECURITY` for each of them (verified on a
+local database, 2026-10-02). After any push to production, run
+`bun scripts/run-rls-setup.ts`.
 
 ## Auth Layer (on `auth` branch)
 

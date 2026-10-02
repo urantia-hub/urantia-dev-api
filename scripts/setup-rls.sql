@@ -35,3 +35,6 @@ ALTER TABLE user_consents            ENABLE ROW LEVEL SECURITY;
 ALTER TABLE app_user_data            ENABLE ROW LEVEL SECURITY;
 ALTER TABLE refresh_tokens           ENABLE ROW LEVEL SECURITY;
 ALTER TABLE auth_codes               ENABLE ROW LEVEL SECURITY;
+
+-- Public feedback (holds optional contact details)
+ALTER TABLE feedback                 ENABLE ROW LEVEL SECURITY;

@@ -45,6 +45,7 @@
 - **Dynamic OG images** — social-ready 1200×630 PNGs with theme options
 - **Random paragraph** — daily quotes, serendipitous discovery
 - **Table of contents** — full hierarchical structure (parts → papers)
+- **Feedback** — `POST /feedback` takes bug reports, docs gaps, and ideas from people and AI agents, no auth required
 
 ## Infrastructure
 

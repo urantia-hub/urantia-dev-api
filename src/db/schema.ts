@@ -618,3 +618,30 @@ export const authCodes = pgTable("auth_codes", {
 	redirectUri: text("redirect_uri").notNull(),
 	expiresAt: timestamp("expires_at").notNull(),
 });
+
+// ============================================================
+// Feedback (public POST /feedback)
+// ============================================================
+
+// --- feedback (untrusted user text; stored and forwarded, never executed) ---
+export const feedback = pgTable(
+	"feedback",
+	{
+		id: uuid("id").primaryKey().defaultRandom(),
+		category: text("category").notNull(), // bug | docs | api | product | other
+		message: text("message").notNull(),
+		ref: text("ref"),
+		endpoint: text("endpoint"),
+		requestId: text("request_id"),
+		client: text("client"),
+		contact: text("contact"),
+		pageUrl: text("page_url"),
+		ipHash: text("ip_hash"), // HMAC of the client IP; the raw IP is never stored
+		userAgent: text("user_agent"),
+		createdAt: timestamp("created_at").notNull().defaultNow(),
+	},
+	(t) => [
+		index("feedback_created_at_idx").on(t.createdAt),
+		index("feedback_category_idx").on(t.category),
+	],
+).enableRLS();
