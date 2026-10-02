@@ -39,4 +39,8 @@ export const loggerMiddleware: MiddlewareHandler = async (c, next) => {
 		referer: c.req.header("referer") ?? undefined,
 		cf_ray: c.req.header("cf-ray") ?? undefined,
 	});
+
+	// Send this request's log lines now, inside its own context. Without this
+	// the client waits for its one-second batch timer before it sends.
+	if (ctx && logger.flush) ctx.waitUntil(logger.flush().catch(() => {}));
 };
