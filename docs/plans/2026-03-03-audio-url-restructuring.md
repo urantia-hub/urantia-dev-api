@@ -27,7 +27,7 @@ const MP3_DIR =
   process.env.MP3_DIR ??
   join(import.meta.dir, "../../urantia-hub-api/public/data/mp3/eng");
 
-const CDN_BASE = "https://audio.urantia.dev";
+const CDN_BASE = "https://cdn.urantia.dev/audio/eng/paragraphs";
 
 // Known model prefixes — order matters (longer first to avoid partial matches)
 const MODEL_PREFIXES = ["tts-1-hd", "tts-1"] as const;
@@ -234,7 +234,7 @@ Replace the CDN_BASE/AUDIO_PREFIX constants and audio field assignment:
 
 ```typescript
 // Remove:
-const CDN_BASE = "https://audio.urantia.dev";
+const CDN_BASE = "https://cdn.urantia.dev/audio/eng/paragraphs";
 const AUDIO_PREFIX = `${CDN_BASE}/tts-1-hd-nova-`;
 
 // Add:
@@ -421,7 +421,7 @@ Expected: Nested audio object like:
   "tts-1-hd": {
     "nova": {
       "format": "mp3",
-      "url": "https://audio.urantia.dev/tts-1-hd-nova-..."
+      "url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-..."
     }
   }
 }
