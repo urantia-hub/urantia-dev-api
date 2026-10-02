@@ -38,6 +38,13 @@ A developer and AI-agent friendly API for the Urantia Papers. Provides full-text
 
 Interactive docs available at `/docs` (Swagger UI). OpenAPI spec at `/openapi.json`.
 
+## Links
+
+- Home: [urantia.dev](https://urantia.dev)
+- Docs: [docs.urantia.dev](https://docs.urantia.dev)
+- MCP server: `https://api.urantia.dev/mcp` ([setup guide](https://docs.urantia.dev/mcp-servers))
+- Status: [status.urantia.dev](https://status.urantia.dev)
+
 ## SDKs
 
 Official TypeScript SDKs are available on npm:
@@ -47,7 +54,7 @@ npm install @urantia/api    # Typed client for all endpoints
 npm install @urantia/auth   # OAuth client for accounts.urantiahub.com
 ```
 
-See [urantia.dev/sdks](https://urantia.dev/sdks) for documentation.
+See [docs.urantia.dev/sdks/overview](https://docs.urantia.dev/sdks/overview) for documentation.
 
 ## Paragraph ID Formats
 
@@ -138,7 +145,7 @@ One-click install via [Smithery](https://smithery.ai/servers/urantiahub/urantia-
 
 Public endpoints require no auth. User endpoints (`/me/*`) require a JWT. OAuth flow:
 
-1. Register an app via `POST /auth/apps` (admin) or self-service at accounts.urantiahub.com/developer
+1. Register an app via `POST /auth/apps` (admin) or self-service at [accounts.urantiahub.com/apps](https://accounts.urantiahub.com/apps)
 2. User signs in at [accounts.urantiahub.com](https://accounts.urantiahub.com)
 3. Exchange authorization code for access token via `POST /auth/token`
 4. Pass token as `Authorization: Bearer <token>`

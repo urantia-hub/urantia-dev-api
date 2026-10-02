@@ -1759,7 +1759,7 @@ mcpRoute.get("/", async (c) => {
 			name: "Urantia Papers API",
 			version: "1.0.0",
 			transport: "streamable-http",
-			docs: "https://urantia.dev/mcp",
+			docs: "https://docs.urantia.dev/mcp-servers",
 		},
 		capabilities: {
 			tools: {
