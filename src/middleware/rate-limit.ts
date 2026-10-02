@@ -8,11 +8,13 @@ interface RateLimitEntry {
 
 const store = new Map<string, RateLimitEntry>();
 
+// `scope` gives a route-level limiter its own counters, apart from the global limiter.
 export function rateLimiter(opts: {
 	windowMs: number;
 	max: number;
+	scope?: string;
 }): MiddlewareHandler {
-	const { windowMs, max } = opts;
+	const { windowMs, max, scope } = opts;
 
 	return async (c, next) => {
 		// Inline cleanup instead of setInterval (Workers-compatible)
@@ -23,10 +25,11 @@ export function rateLimiter(opts: {
 			}
 		}
 
-		const key =
+		const ip =
 			c.req.header("cf-connecting-ip") ??
 			c.req.header("x-forwarded-for")?.split(",")[0]?.trim() ??
 			"unknown";
+		const key = scope ? `${scope}:${ip}` : ip;
 
 		const now = Date.now();
 		let entry = store.get(key);

@@ -16,6 +16,7 @@ const PUBLIC_BODY_ROUTES: Array<{ method: string; path: string }> = [
 	{ method: "POST", path: "/bible/search/semantic" },
 	{ method: "POST", path: "/auth/token" },
 	{ method: "POST", path: "/auth/refresh" },
+	{ method: "POST", path: "/feedback" },
 ];
 
 // Body routes behind auth — the 401 lands before the validator.
