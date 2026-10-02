@@ -30,6 +30,9 @@ const vector3072 = customType<{ data: number[] }>({
 	},
 });
 
+// Every table ends with `.enableRLS()`. `bun run db:push` disables RLS on a
+// table that does not declare it. tests/unit/schema-rls.test.ts guards this.
+
 type AudioVariant = { format: string; url: string };
 type AudioData = Record<string, Record<string, AudioVariant>> | null;
 
@@ -68,7 +71,7 @@ export const parts = pgTable("parts", {
 	title: text("title").notNull(),
 	sponsorship: text("sponsorship"),
 	sortId: text("sort_id").notNull(),
-});
+}).enableRLS();
 
 // --- papers ---
 export const papers = pgTable(
@@ -85,7 +88,7 @@ export const papers = pgTable(
 		video: videoJsonb("video"),
 	},
 	(t) => [index("papers_part_id_idx").on(t.partId)],
-);
+).enableRLS();
 
 // --- sections ---
 export const sections = pgTable(
@@ -101,7 +104,7 @@ export const sections = pgTable(
 		sortId: text("sort_id").notNull(),
 	},
 	(t) => [index("sections_paper_id_idx").on(t.paperId)],
-);
+).enableRLS();
 
 // --- paragraphs ---
 export const paragraphs = pgTable(
@@ -156,11 +159,13 @@ export const paragraphs = pgTable(
 		// `bun run db:push` doesn't silently drop it. Note: pgvector caps HNSW
 		// at 2000 dimensions for the regular `vector` type, which is why we
 		// only index `embedding` (1536-d) and not `embedding_v2` (3072-d).
+		// The `with` values are strings on purpose: Postgres reports them as
+		// strings, and number values make every push drop and rebuild the index.
 		index("paragraphs_embedding_hnsw_idx")
 			.using("hnsw", t.embedding.op("vector_cosine_ops"))
-			.with({ m: 16, ef_construction: 64 }),
+			.with({ m: "16", ef_construction: "64" }),
 	],
-);
+).enableRLS();
 
 // --- entities ---
 export const entities = pgTable(
@@ -175,7 +180,7 @@ export const entities = pgTable(
 		citationCount: integer("citation_count").notNull(),
 	},
 	(t) => [index("entities_type_idx").on(t.type)],
-);
+).enableRLS();
 
 // --- entity_translations ---
 export const entityTranslations = pgTable(
@@ -204,7 +209,7 @@ export const entityTranslations = pgTable(
 			t.version,
 		),
 	],
-);
+).enableRLS();
 
 // --- paragraph_entities (junction) ---
 export const paragraphEntities = pgTable(
@@ -221,7 +226,7 @@ export const paragraphEntities = pgTable(
 		index("pe_paragraph_id_idx").on(t.paragraphId),
 		index("pe_entity_id_idx").on(t.entityId),
 	],
-);
+).enableRLS();
 
 // --- paragraph_translations ---
 export const paragraphTranslations = pgTable(
@@ -248,7 +253,7 @@ export const paragraphTranslations = pgTable(
 		index("pt_language_idx").on(t.language),
 		index("pt_paragraph_id_idx").on(t.paragraphId),
 	],
-);
+).enableRLS();
 
 // --- title_translations ---
 export const titleTranslations = pgTable(
@@ -274,7 +279,7 @@ export const titleTranslations = pgTable(
 		index("tt_language_idx").on(t.language),
 		index("tt_source_type_id_idx").on(t.sourceType, t.sourceId),
 	],
-);
+).enableRLS();
 
 // --- bible_chunks (paragraph-grain groups for embedding) ---
 // Each chunk corresponds to one logical paragraph in the WEB USFM source —
@@ -311,9 +316,9 @@ export const bibleChunks = pgTable(
 		index("bc_book_chapter_start_idx").on(t.bookCode, t.chapter, t.verseStart),
 		index("bc_embedding_small_hnsw_idx")
 			.using("hnsw", t.embeddingSmall.op("vector_cosine_ops"))
-			.with({ m: 16, ef_construction: 64 }),
+			.with({ m: "16", ef_construction: "64" }),
 	],
-);
+).enableRLS();
 
 // --- bible_verses (World English Bible, public domain) ---
 // One row per verse across 81 books (39 OT + 15 deuterocanon + 27 NT).
@@ -353,7 +358,7 @@ export const bibleVerses = pgTable(
 		index("bv_canon_idx").on(t.canon),
 		index("bv_chunk_id_idx").on(t.chunkId),
 	],
-);
+).enableRLS();
 
 // --- bible_parallels ---
 // Pre-computed top-10 nearest neighbors in each direction between UB
@@ -389,7 +394,7 @@ export const bibleParallels = pgTable(
 		index("bp_bible_direction_rank_idx").on(t.bibleChunkId, t.direction, t.rank),
 		uniqueIndex("bp_natural_key_idx").on(t.direction, t.paragraphId, t.bibleChunkId, t.source),
 	],
-);
+).enableRLS();
 
 // --- urantia_parallels (UB ↔ UB top-10 nearest neighbors) ---
 // Naming: `urantiaParallels` mirrors `bibleParallels` — both names describe
@@ -429,7 +434,7 @@ export const urantiaParallels = pgTable(
 		index("up_target_idx").on(t.targetParagraphId),
 		uniqueIndex("up_natural_key_idx").on(t.sourceParagraphId, t.targetParagraphId),
 	],
-);
+).enableRLS();
 
 // ============================================================
 // Auth layer tables (unified auth for the Urantia ecosystem)
@@ -443,7 +448,7 @@ export const users = pgTable("users", {
 	avatarUrl: text("avatar_url"),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 	updatedAt: timestamp("updated_at").notNull().defaultNow(),
-});
+}).enableRLS();
 
 // --- bookmarks (paragraph-level, one per user + paragraph + app) ---
 export const bookmarks = pgTable(
@@ -468,7 +473,7 @@ export const bookmarks = pgTable(
 		index("bookmarks_user_id_idx").on(t.userId),
 		index("bookmarks_user_paper_idx").on(t.userId, t.paperId),
 	],
-);
+).enableRLS();
 
 // --- notes (paragraph-level, multiple per paragraph allowed) ---
 export const notes = pgTable(
@@ -494,7 +499,7 @@ export const notes = pgTable(
 		index("notes_user_paper_idx").on(t.userId, t.paperId),
 		index("notes_user_paragraph_idx").on(t.userId, t.paragraphId),
 	],
-);
+).enableRLS();
 
 // --- reading_progress (paragraph-level, one per user + paragraph + app) ---
 export const readingProgress = pgTable(
@@ -516,7 +521,7 @@ export const readingProgress = pgTable(
 		index("reading_progress_user_id_idx").on(t.userId),
 		index("reading_progress_user_paper_idx").on(t.userId, t.paperId),
 	],
-);
+).enableRLS();
 
 // --- user_preferences (flexible JSONB per user) ---
 export const userPreferences = pgTable("user_preferences", {
@@ -525,7 +530,7 @@ export const userPreferences = pgTable("user_preferences", {
 		.references(() => users.id, { onDelete: "cascade" }),
 	preferences: pgJsonb("preferences").default({}).notNull(),
 	updatedAt: timestamp("updated_at").notNull().defaultNow(),
-});
+}).enableRLS();
 
 // --- apps (OAuth client registry) ---
 export const apps = pgTable("apps", {
@@ -539,7 +544,7 @@ export const apps = pgTable("apps", {
 	primaryColor: text("primary_color"),
 	accentColor: text("accent_color"),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
-});
+}).enableRLS();
 
 // --- user_consents (OAuth consent grants per user per app) ---
 export const userConsents = pgTable(
@@ -558,7 +563,7 @@ export const userConsents = pgTable(
 	(t) => [
 		uniqueIndex("user_consents_user_app_idx").on(t.userId, t.appId),
 	],
-);
+).enableRLS();
 
 // --- app_user_data (sandboxed key-value per app per user) ---
 export const appUserData = pgTable(
@@ -580,7 +585,7 @@ export const appUserData = pgTable(
 		uniqueIndex("app_user_data_app_user_key_idx").on(t.appId, t.userId, t.key),
 		index("app_user_data_app_user_idx").on(t.appId, t.userId),
 	],
-);
+).enableRLS();
 
 // --- refresh_tokens (one-time-use, rotated on each refresh) ---
 export const refreshTokens = pgTable(
@@ -602,7 +607,7 @@ export const refreshTokens = pgTable(
 		index("refresh_tokens_user_app_idx").on(t.userId, t.appId),
 		index("refresh_tokens_token_hash_idx").on(t.tokenHash),
 	],
-);
+).enableRLS();
 
 // --- auth_codes (short-lived OAuth authorization codes) ---
 export const authCodes = pgTable("auth_codes", {
@@ -617,7 +622,7 @@ export const authCodes = pgTable("auth_codes", {
 	codeChallenge: text("code_challenge"), // PKCE
 	redirectUri: text("redirect_uri").notNull(),
 	expiresAt: timestamp("expires_at").notNull(),
-});
+}).enableRLS();
 
 // ============================================================
 // Feedback (public POST /feedback)
