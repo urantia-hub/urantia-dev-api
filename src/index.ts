@@ -184,7 +184,7 @@ app.doc("/openapi.json", {
 		title: "Urantia Papers API",
 		version: "1.0.0",
 		description:
-			"A developer and AI-agent friendly API for the Urantia Papers. Provides full-text search, structured content access, and audio URLs for all 17,000+ paragraphs across 197 papers.",
+			"An API and MCP server for the Urantia Papers. Structured access to all 197 papers and more than 14,500 paragraphs, with full-text and semantic search, named entities, Bible cross-references, and audio. No key needed. Docs: https://docs.urantia.dev",
 	},
 	servers: [
 		{ url: "https://api.urantia.dev", description: "Production" },
