@@ -22,3 +22,23 @@ bucket_name = "urantia-app-logos"
 [[kv_namespaces]]
 binding = "SEARCH_CACHE"
 id = "30a200787c5445a1a998582a112fd1f8"
+
+# Rate limits for POST /feedback, enforced by Cloudflare per location. The
+# in-memory limiter in the Worker counts per isolate only. `period` accepts
+# 10 or 60 seconds. `namespace_id` is any integer unique in the account.
+[[ratelimits]]
+name = "FEEDBACK_IP_LIMITER"
+namespace_id = "6601"
+
+  [ratelimits.simple]
+  limit = 5
+  period = 60
+
+# Caps total feedback volume (and the email and Slack fan-out) from all IPs.
+[[ratelimits]]
+name = "FEEDBACK_GLOBAL_LIMITER"
+namespace_id = "6602"
+
+  [ratelimits.simple]
+  limit = 30
+  period = 60

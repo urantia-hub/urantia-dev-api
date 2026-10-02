@@ -140,6 +140,10 @@ are optional, and a delivery failure never fails the request.
 - Limits: 10 requests per 15 minutes per IP (`rateLimiter` with
   `scope: "feedback"`), a 32 KB body, and 4000 characters per message. The
   limiter is an in-memory Map per Worker isolate, so the limit is best-effort.
+  Two Workers Rate Limiting bindings in `wrangler.toml` back it up across
+  isolates: `FEEDBACK_IP_LIMITER` (5 per minute per IP) and
+  `FEEDBACK_GLOBAL_LIMITER` (30 per minute in total). They count per Cloudflare
+  location and are absent under Bun, where the route skips them.
 - The tests use `save` and `fetch` doubles (`createFeedbackRoute`). No test
   writes a feedback row, sends an email, or posts to Slack.
 - `bun scripts/run-feedback-setup.ts` creates only the `feedback` table. It
