@@ -144,6 +144,15 @@ const paragraphResultSchema = z.object({
 	urantiaParallels: z.array(urantiaParallelSchema).optional(),
 });
 
+// papers.get with format "text": what an agent needs to read and cite a paper.
+const paragraphTextSchema = z.object({
+	standardReferenceId: z.string(),
+	sectionId: z.string().nullable(),
+	sectionTitle: z.string().nullable(),
+	text: z.string(),
+	entities: z.array(paragraphEntityMentionSchema).optional(),
+});
+
 const bibleCanonEnum = z.enum(["ot", "deuterocanon", "nt"]);
 
 const bibleVerseSchema = z.object({
@@ -341,13 +350,19 @@ function createMcpServer() {
 		{
 			title: "Get Paper",
 			description:
-				"Get a single paper with all its paragraphs. Paper IDs range from 0 (Foreword) to 196. Optionally include entity mentions.",
+				"Get a single paper with all its paragraphs. Paper IDs range from 0 (Foreword) to 196. Use format 'text' to read a whole paper: it returns only the reference, section, and text of each paragraph, about a quarter of the full size. Optionally include entity mentions.",
 			inputSchema: {
 				paper_id: z.string().describe("Paper ID (0-196). Example: '1'"),
 				include_entities: z
 					.boolean()
 					.default(false)
 					.describe("Include entity mentions in each paragraph"),
+				format: z
+					.enum(["full", "text"])
+					.default("full")
+					.describe(
+						"'full' (default): every field, including HTML text and audio links. 'text': reference, section, and plain text only.",
+					),
 			},
 			outputSchema: {
 				paper: z.object({
@@ -357,11 +372,11 @@ function createMcpServer() {
 					sortId: z.string(),
 					labels: z.array(z.string()).nullable(),
 				}),
-				paragraphs: z.array(paragraphResultSchema),
+				paragraphs: z.array(z.union([paragraphResultSchema, paragraphTextSchema])),
 			},
 			annotations: { title: "Get Paper", ...READ_ONLY_LOCAL },
 		},
-		async ({ paper_id, include_entities }) => {
+		async ({ paper_id, include_entities, format }) => {
 			const { db } = getDb();
 			const paper = await db
 				.select({
@@ -375,7 +390,8 @@ function createMcpServer() {
 				.where(eq(papers.id, paper_id))
 				.limit(1);
 
-			if (paper.length === 0) return errorResult(`Paper ${paper_id} not found`);
+			const [found] = paper;
+			if (!found) return errorResult(`Paper ${paper_id} not found`);
 
 			const paperParagraphs = await db
 				.select(paragraphFields)
@@ -387,7 +403,18 @@ function createMcpServer() {
 				? await enrichWithEntities(db, paperParagraphs)
 				: paperParagraphs;
 
-			return structured({ paper: paper[0]!, paragraphs: enrichedParagraphs });
+			if (format === "text") {
+				const textParagraphs = enrichedParagraphs.map((p) => ({
+					standardReferenceId: p.standardReferenceId,
+					sectionId: p.sectionId,
+					sectionTitle: p.sectionTitle,
+					text: p.text,
+					...("entities" in p ? { entities: p.entities } : {}),
+				}));
+				return structured({ paper: found, paragraphs: textParagraphs });
+			}
+
+			return structured({ paper: found, paragraphs: enrichedParagraphs });
 		},
 	);
 
