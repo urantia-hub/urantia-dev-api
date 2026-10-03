@@ -281,7 +281,7 @@ function createMcpServer() {
 		{
 			title: "Get Table of Contents",
 			description:
-				"Get the full table of contents of the Urantia Book. Returns all 4 parts and 197 papers with their titles. This is the best starting point to understand the book structure.",
+				"Get the full table of contents of the Urantia Papers. Returns all 4 parts and 197 papers with their titles. This is the best starting point to understand the book structure.",
 			inputSchema: {},
 			outputSchema: {
 				parts: z.array(
@@ -323,7 +323,7 @@ function createMcpServer() {
 		{
 			title: "List Papers",
 			description:
-				"List all 197 papers in the Urantia Book with their metadata (id, title, partId, labels). Use toc.get for a hierarchical view instead.",
+				"List all 197 papers of the Urantia Papers with their metadata (id, title, partId, labels). Use toc.get for a hierarchical view instead.",
 			inputSchema: {},
 			outputSchema: {
 				papers: z.array(
@@ -463,14 +463,14 @@ function createMcpServer() {
 		{
 			title: "Get Random Paragraph",
 			description:
-				"Get a random paragraph from the Urantia Book. Great for daily quotes, exploration, or discovering new passages.",
+				"Get a random paragraph from the Urantia Papers. Great for daily quotes, exploration, or discovering new passages.",
 			inputSchema: {
 				include_entities: z.boolean().default(false).describe("Include entity mentions"),
 				include_bible_parallels: z
 					.boolean()
 					.default(false)
 					.describe(
-						"Include the top-10 Bible verses semantically nearest to this paragraph (UB → Bible direction). Pre-computed via text-embedding-3-large cosine similarity.",
+						"Include the top-10 Bible verses semantically nearest to this paragraph (Urantia → Bible). Pre-computed via text-embedding-3-large cosine similarity.",
 					),
 				include_urantia_parallels: z
 					.boolean()
@@ -515,7 +515,7 @@ function createMcpServer() {
 					.boolean()
 					.default(false)
 					.describe(
-						"Include the top-10 Bible verses semantically nearest to this paragraph (UB → Bible direction).",
+						"Include the top-10 Bible verses semantically nearest to this paragraph (Urantia → Bible).",
 					),
 				include_urantia_parallels: z
 					.boolean()
@@ -631,7 +631,7 @@ function createMcpServer() {
 		{
 			title: "Full-Text Search",
 			description:
-				'Full-text search across all Urantia Book paragraphs. Supports three modes: "and" (all words must appear, default), "or" (any word), "phrase" (exact phrase). Results ranked by relevance.',
+				'Full-text search across all paragraphs of the Urantia Papers. Supports three modes: "and" (all words must appear, default), "or" (any word), "phrase" (exact phrase). Results ranked by relevance.',
 			inputSchema: {
 				query: z.string().optional().describe('Search query. Example: "nature of God"'),
 				q: z.string().optional().describe("Alias for `query` (REST compatibility)."),
@@ -648,7 +648,7 @@ function createMcpServer() {
 					.boolean()
 					.default(false)
 					.describe(
-						"Include the top-10 Bible verses semantically nearest to each result (UB → Bible).",
+						"Include the top-10 Bible verses semantically nearest to each result (Urantia → Bible).",
 					),
 				include_urantia_parallels: z
 					.boolean()
@@ -723,7 +723,7 @@ function createMcpServer() {
 		{
 			title: "Semantic Search",
 			description:
-				"Search the Urantia Book using semantic similarity (vector embeddings). Returns conceptually related results even without exact keyword matches. Requires OPENAI_API_KEY.",
+				"Search the Urantia Papers using semantic similarity (vector embeddings). Returns conceptually related results even without exact keyword matches.",
 			inputSchema: {
 				query: z
 					.string()
@@ -739,7 +739,7 @@ function createMcpServer() {
 					.boolean()
 					.default(false)
 					.describe(
-						"Include the top-10 Bible verses semantically nearest to each result (UB → Bible).",
+						"Include the top-10 Bible verses semantically nearest to each result (Urantia → Bible).",
 					),
 				include_urantia_parallels: z
 					.boolean()
@@ -817,7 +817,7 @@ function createMcpServer() {
 		{
 			title: "List Entities",
 			description:
-				"Browse the entity catalog: beings, places, orders, races, religions, and concepts mentioned in the Urantia Book. Supports filtering by type and searching by name.",
+				"Browse the entity catalog: beings, places, orders, races, religions, and concepts mentioned in the Urantia Papers. Supports filtering by type and searching by name.",
 			inputSchema: {
 				type: entityTypeEnum.optional().describe("Filter by entity type"),
 				query: z.string().optional().describe("Search entities by name or alias"),
@@ -1202,7 +1202,7 @@ function createMcpServer() {
 		{
 			title: "Get Urantia Parallels for a Bible Verse",
 			description:
-				"Returns the top 10 Urantia paragraphs whose embeddings are nearest to the Bible chunk that contains this verse — the reverse of `include_bible_parallels` on the UB side. Pre-computed at seed time with text-embedding-3-large (3072-d) cosine similarity. Each result carries a similarity score (0..1) and rank (1..10).\n\nThese are *semantic* parallels, not curated. Treat results as starting points for further reading, not as authoritative parallels.",
+				"Returns the top 10 Urantia paragraphs whose embeddings are nearest to the Bible chunk that contains this verse — the reverse of `include_bible_parallels` on the Urantia side. Pre-computed at seed time with text-embedding-3-large (3072-d) cosine similarity. Each result carries a similarity score (0..1) and rank (1..10).\n\nThese are *semantic* parallels, not curated. Treat results as starting points for further reading, not as authoritative parallels.",
 			inputSchema: {
 				book_code: z.string().describe('Book identifier. Example: "Matt"'),
 				chapter: z.number().int().min(1).describe("Chapter number"),
@@ -1341,7 +1341,7 @@ function createMcpServer() {
 		{
 			title: "Bible Semantic Search",
 			description:
-				"Free-form natural-language search across all Bible chunks, ranked by cosine similarity. Each result includes the top-N pre-computed Urantia paragraphs related to that chunk via `bible_parallels` (direction=bible_to_ub). One query surfaces both Bible matches and the relevant UB content. Optional filters: `canon` (`ot`, `deuterocanon`, `nt`) and `book_code`. Set `urantia_parallel_limit` to 0 to suppress the UB attachment. Requires OPENAI_API_KEY.",
+				"Free-form natural-language search across all Bible chunks, ranked by cosine similarity. Each result includes the top-N pre-computed Urantia paragraphs related to that chunk. One query surfaces both Bible matches and the relevant Urantia content. Optional filters: `canon` (`ot`, `deuterocanon`, `nt`) and `book_code`. Set `urantia_parallel_limit` to 0 to leave out the Urantia paragraphs.",
 			inputSchema: {
 				query: z
 					.string()
@@ -1368,7 +1368,7 @@ function createMcpServer() {
 					.max(10)
 					.default(3)
 					.describe(
-						"How many UB paragraphs to attach per Bible result (0-10, default 3). 0 disables.",
+						"How many Urantia paragraphs to attach per Bible result (0-10, default 3). 0 disables.",
 					),
 			},
 			outputSchema: {
@@ -1576,7 +1576,7 @@ function createMcpServer() {
 		}),
 		{
 			description:
-				"A single paper from the Urantia Book (0-196), rendered as plaintext markdown with section headings and paragraph references. Useful for full-paper context in RAG or summarization.",
+				"A single paper from the Urantia Papers (0-196), rendered as plaintext markdown with section headings and paragraph references. Useful for full-paper context in RAG or summarization.",
 			mimeType: "text/markdown",
 		},
 		async (uri, { id }) => {
@@ -1649,7 +1649,7 @@ function createMcpServer() {
 		}),
 		{
 			description:
-				"An entity (being, place, order, race, religion, or concept) from the Urantia Book with description, aliases, related entities, and references to all paragraphs that mention it.",
+				"An entity (being, place, order, race, religion, or concept) from the Urantia Papers with description, aliases, related entities, and references to all paragraphs that mention it.",
 			mimeType: "text/markdown",
 		},
 		async (uri, { id }) => {
@@ -1702,7 +1702,7 @@ function createMcpServer() {
 
 	server.prompt(
 		"study_assistant",
-		"Prime the model to act as a Urantia Book study assistant. Optionally focus on a specific topic.",
+		"Prime the model to act as a Urantia Papers study assistant. Optionally focus on a specific topic.",
 		{
 			topic: z
 				.string()
@@ -1711,7 +1711,7 @@ function createMcpServer() {
 		},
 		({ topic }) => {
 			const focus = topic
-				? `\n\nThe student wants to explore: **${topic}**. Begin by surfacing 2-3 of the most relevant Urantia Book passages on this topic via the search.fulltext or search.semantic tools, then offer a thoughtful entry point for discussion.`
+				? `\n\nThe student wants to explore: **${topic}**. Begin by surfacing 2-3 of the most relevant passages from the Urantia Papers on this topic via the search.fulltext or search.semantic tools, then offer a thoughtful entry point for discussion.`
 				: "";
 			return {
 				messages: [
@@ -1719,7 +1719,7 @@ function createMcpServer() {
 						role: "user",
 						content: {
 							type: "text",
-							text: `You are a study assistant for the Urantia Book — a 2,097-page revelation in 196 papers covering cosmology, theology, philosophy, and the life and teachings of Jesus. Help the user study by:
+							text: `You are a study assistant for the Urantia Papers — a 2,097-page text of 196 papers and a Foreword covering cosmology, theology, philosophy, and the life and teachings of Jesus. Help the user study by:
 
 - Citing exact paragraph references (e.g. "Paper 1:2.3") when quoting
 - Using the search.fulltext and search.semantic tools to find relevant passages
@@ -1727,7 +1727,7 @@ function createMcpServer() {
 - Surfacing entity relationships via entities.list and entities.paragraphs
 - Reading entire papers via the urantia://paper/{id} resource when needed
 
-Stay grounded in the text. When the user asks something not addressed in the Urantia Book, say so clearly rather than improvising.${focus}`,
+Stay grounded in the text. When the user asks something not addressed in the Urantia Papers, say so clearly rather than improvising.${focus}`,
 						},
 					},
 				],
@@ -1737,7 +1737,7 @@ Stay grounded in the text. When the user asks something not addressed in the Ura
 
 	server.prompt(
 		"comparative_theology",
-		"Prime the model to compare a Urantia Book teaching with another religious or philosophical tradition.",
+		"Prime the model to compare a teaching of the Urantia Papers with another religious or philosophical tradition.",
 		{
 			topic: z.string().describe('The teaching or concept to compare. Example: "the soul"'),
 			tradition: z
@@ -1750,7 +1750,7 @@ Stay grounded in the text. When the user asks something not addressed in the Ura
 					role: "user",
 					content: {
 						type: "text",
-						text: `Compare what the Urantia Book teaches about **${topic}** with the corresponding teaching in **${tradition}**.
+						text: `Compare what the Urantia Papers teach about **${topic}** with the corresponding teaching in **${tradition}**.
 
 Approach:
 1. Use search.semantic to gather Urantia passages on ${topic} (start broad, then narrow)
@@ -1882,12 +1882,12 @@ mcpRoute.get("/", async (c) => {
 				},
 				"bible.verse.urantia_parallels": {
 					description:
-						"Top-10 Urantia paragraphs semantically nearest to a Bible verse's chunk (Bible → UB)",
+						"Top-10 Urantia paragraphs semantically nearest to a Bible verse's chunk (Bible → Urantia)",
 					params: ["book_code", "chapter", "verse"],
 				},
 				"bible.search.semantic": {
 					description:
-						"Semantic search across the Bible. Each result includes top-N pre-computed UB paragraphs.",
+						"Semantic search across the Bible. Each result includes top-N pre-computed Urantia paragraphs.",
 					params: ["q", "canon", "book_code", "page", "limit", "urantia_parallel_limit"],
 				},
 			},
@@ -1902,7 +1902,7 @@ mcpRoute.get("/", async (c) => {
 			},
 			prompts: {
 				study_assistant: {
-					description: "Prime the model as a Urantia Book study assistant",
+					description: "Prime the model as a Urantia Papers study assistant",
 					args: ["topic"],
 				},
 				comparative_theology: {
