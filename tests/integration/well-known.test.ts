@@ -69,3 +69,19 @@ describe("MCP discovery under /.well-known", () => {
 		expect((await app.request("/.well-known/glama.json")).status).toBe(200);
 	});
 });
+
+describe("OpenAI plugin domain verification", () => {
+	const path = "/.well-known/openai-apps-challenge";
+
+	it("returns 404 when no token is set", async () => {
+		expect((await app.request(path)).status).toBe(404);
+	});
+
+	it("returns only the token, as plain text", async () => {
+		const res = await app.request(path, {}, { OPENAI_APPS_CHALLENGE: " token-abc123 \n" });
+		expect(res.status).toBe(200);
+		expect(res.headers.get("content-type")).toContain("text/plain");
+		expect(res.headers.get("cache-control")).toBe("no-store");
+		expect(await res.text()).toBe("token-abc123");
+	});
+});
