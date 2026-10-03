@@ -125,6 +125,7 @@ Official TypeScript SDKs published on npm (`urantia-dev-sdks/` repo):
 - `RESEND_API_KEY`, `FEEDBACK_FROM`, `FEEDBACK_TO` — Email for `POST /feedback` (optional; `FEEDBACK_TO` is comma-separated)
 - `SLACK_FEEDBACK_WEBHOOK_URL` — Slack Incoming Webhook for `POST /feedback` (optional)
 - `FEEDBACK_IP_PEPPER` — HMAC key for the feedback IP hash (optional; without it no hash is stored)
+- `OPENAI_APPS_CHALLENGE` — Token for OpenAI plugin domain verification, served as plain text at `/.well-known/openai-apps-challenge` (optional; 404 without it). Set with `wrangler secret put`.
 
 ## Feedback
 

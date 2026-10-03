@@ -18,6 +18,8 @@ export type Env = {
 		FEEDBACK_TO?: string;
 		SLACK_FEEDBACK_WEBHOOK_URL?: string;
 		FEEDBACK_IP_PEPPER?: string;
+		// Token for OpenAI plugin domain verification (/.well-known/openai-apps-challenge)
+		OPENAI_APPS_CHALLENGE?: string;
 		// Per-client limiter for POST /feedback (Durable Object, wrangler.toml [[durable_objects.bindings]])
 		FEEDBACK_LIMITER?: DurableObjectNamespace;
 		// Coarse total-volume cap for POST /feedback (wrangler.toml [[ratelimits]])

@@ -147,6 +147,14 @@ app.get("/.well-known/glama.json", (c) =>
 	}),
 );
 
+// OpenAI plugin domain verification. The portal fetches this path and expects its token
+// as plain text, with nothing else in the body. No token set: 404.
+app.get("/.well-known/openai-apps-challenge", (c) => {
+	const token = (c.env?.OPENAI_APPS_CHALLENGE ?? process.env.OPENAI_APPS_CHALLENGE)?.trim();
+	if (!token) return c.notFound();
+	return c.text(token, 200, { "Cache-Control": "no-store" });
+});
+
 // MCP discovery: where this API's MCP server is, and what it offers.
 // These sit before the catch-all below, which answers every other well-known path with a 404.
 app.get("/.well-known/mcp.json", (c) => c.json(mcpManifest()));
