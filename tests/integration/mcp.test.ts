@@ -188,18 +188,11 @@ describe("MCP Server", () => {
 		expect(result.structuredContent.parts[0].papers).toBeArray();
 	});
 
-	it("papers.get keeps every field by default", async () => {
+	it("papers.get returns reference, section, and plain text only", async () => {
 		const results = await callTool("papers.get", { paper_id: "1" });
-		const { structuredContent } = results[0].result;
-		expect(structuredContent.paper.id).toBe("1");
-		expect(structuredContent.paragraphs[0]).toHaveProperty("htmlText");
-		expect(structuredContent.paragraphs[0]).toHaveProperty("audio");
-	});
-
-	it("papers.get with format text returns reference, section, and text only", async () => {
-		const results = await callTool("papers.get", { paper_id: "1", format: "text" });
 		const { structuredContent, isError } = results[0].result;
 		expect(isError).toBeFalsy();
+		expect(structuredContent.paper.id).toBe("1");
 		const first = structuredContent.paragraphs[0];
 		expect(Object.keys(first).sort()).toEqual(
 			["sectionId", "sectionTitle", "standardReferenceId", "text"].sort(),
@@ -207,17 +200,20 @@ describe("MCP Server", () => {
 		expect(first.standardReferenceId).toBe("1:0.1");
 	});
 
-	it("papers.get with format text keeps entities when asked", async () => {
-		const results = await callTool("papers.get", {
-			paper_id: "1",
-			format: "text",
-			include_entities: true,
-		});
+	it("papers.get keeps entities when asked", async () => {
+		const results = await callTool("papers.get", { paper_id: "1", include_entities: true });
 		const { paragraphs } = results[0].result.structuredContent;
 		expect(paragraphs.some((p: { entities?: unknown[] }) => (p.entities?.length ?? 0) > 0)).toBe(
 			true,
 		);
-		expect(paragraphs[0]).not.toHaveProperty("htmlText");
+	});
+
+	it("paragraph tools leave out htmlText and audio", async () => {
+		const results = await callTool("paragraphs.get", { ref: "2:0.1" });
+		const { paragraph } = results[0].result.structuredContent;
+		expect(paragraph.text.length).toBeGreaterThan(0);
+		expect(paragraph).not.toHaveProperty("htmlText");
+		expect(paragraph).not.toHaveProperty("audio");
 	});
 
 	it("paragraphs.get returns a paragraph wrapped under .paragraph", async () => {

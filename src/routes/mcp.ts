@@ -26,6 +26,10 @@ import { paragraphFields } from "./paragraphs.ts";
 
 export const mcpRoute = new Hono();
 
+// Agents read and quote plain text. HTML is website markup, and audio has its own tool
+// (audio.get), so MCP paragraph results leave both out. REST keeps every field.
+const { htmlText: _htmlText, audio: _audio, ...mcpParagraphFields } = paragraphFields;
+
 // Paragraph field selection for search results (includes rank/similarity)
 const searchParagraphFields = {
 	id: paragraphs.id,
@@ -42,9 +46,7 @@ const searchParagraphFields = {
 	sectionTitle: paragraphs.sectionTitle,
 	paragraphId: paragraphs.paragraphId,
 	text: paragraphs.text,
-	htmlText: paragraphs.htmlText,
 	labels: paragraphs.labels,
-	audio: paragraphs.audio,
 } as const;
 
 function buildTsQuery(sanitized: string, type: "phrase" | "and" | "or"): string {
@@ -67,19 +69,19 @@ async function findParagraphByRef(db: ReturnType<typeof getDb>["db"], ref: strin
 	switch (format) {
 		case "globalId":
 			return db
-				.select(paragraphFields)
+				.select(mcpParagraphFields)
 				.from(paragraphs)
 				.where(eq(paragraphs.globalId, ref))
 				.limit(1);
 		case "standardReferenceId":
 			return db
-				.select(paragraphFields)
+				.select(mcpParagraphFields)
 				.from(paragraphs)
 				.where(eq(paragraphs.standardReferenceId, ref))
 				.limit(1);
 		case "paperSectionParagraphId":
 			return db
-				.select(paragraphFields)
+				.select(mcpParagraphFields)
 				.from(paragraphs)
 				.where(eq(paragraphs.paperSectionParagraphId, ref))
 				.limit(1);
@@ -136,15 +138,13 @@ const paragraphResultSchema = z.object({
 	sectionTitle: z.string().nullable(),
 	paragraphId: z.string(),
 	text: z.string(),
-	htmlText: z.string(),
 	labels: z.array(z.string()).nullable(),
-	audio: z.any(),
 	entities: z.array(paragraphEntityMentionSchema).optional(),
 	bibleParallels: z.array(bibleParallelSchema).optional(),
 	urantiaParallels: z.array(urantiaParallelSchema).optional(),
 });
 
-// papers.get with format "text": what an agent needs to read and cite a paper.
+// papers.get paragraphs: what an agent needs to read and cite a whole paper.
 const paragraphTextSchema = z.object({
 	standardReferenceId: z.string(),
 	sectionId: z.string().nullable(),
@@ -350,19 +350,13 @@ function createMcpServer() {
 		{
 			title: "Get Paper",
 			description:
-				"Get a single paper with all its paragraphs. Paper IDs range from 0 (Foreword) to 196. Use format 'text' to read a whole paper: it returns only the reference, section, and text of each paragraph, about a quarter of the full size. Optionally include entity mentions.",
+				"Get a single paper with all its paragraphs. Paper IDs range from 0 (Foreword) to 196. Each paragraph has its reference, section, and plain text, so a whole paper fits in one call. Optionally include entity mentions.",
 			inputSchema: {
 				paper_id: z.string().describe("Paper ID (0-196). Example: '1'"),
 				include_entities: z
 					.boolean()
 					.default(false)
 					.describe("Include entity mentions in each paragraph"),
-				format: z
-					.enum(["full", "text"])
-					.default("full")
-					.describe(
-						"'full' (default): every field, including HTML text and audio links. 'text': reference, section, and plain text only.",
-					),
 			},
 			outputSchema: {
 				paper: z.object({
@@ -372,11 +366,11 @@ function createMcpServer() {
 					sortId: z.string(),
 					labels: z.array(z.string()).nullable(),
 				}),
-				paragraphs: z.array(z.union([paragraphResultSchema, paragraphTextSchema])),
+				paragraphs: z.array(paragraphTextSchema),
 			},
 			annotations: { title: "Get Paper", ...READ_ONLY_LOCAL },
 		},
-		async ({ paper_id, include_entities, format }) => {
+		async ({ paper_id, include_entities }) => {
 			const { db } = getDb();
 			const paper = await db
 				.select({
@@ -394,7 +388,7 @@ function createMcpServer() {
 			if (!found) return errorResult(`Paper ${paper_id} not found`);
 
 			const paperParagraphs = await db
-				.select(paragraphFields)
+				.select(mcpParagraphFields)
 				.from(paragraphs)
 				.where(eq(paragraphs.paperId, paper_id))
 				.orderBy(paragraphs.sortId);
@@ -403,18 +397,14 @@ function createMcpServer() {
 				? await enrichWithEntities(db, paperParagraphs)
 				: paperParagraphs;
 
-			if (format === "text") {
-				const textParagraphs = enrichedParagraphs.map((p) => ({
-					standardReferenceId: p.standardReferenceId,
-					sectionId: p.sectionId,
-					sectionTitle: p.sectionTitle,
-					text: p.text,
-					...("entities" in p ? { entities: p.entities } : {}),
-				}));
-				return structured({ paper: found, paragraphs: textParagraphs });
-			}
-
-			return structured({ paper: found, paragraphs: enrichedParagraphs });
+			const textParagraphs = enrichedParagraphs.map((p) => ({
+				standardReferenceId: p.standardReferenceId,
+				sectionId: p.sectionId,
+				sectionTitle: p.sectionTitle,
+				text: p.text,
+				...("entities" in p ? { entities: p.entities } : {}),
+			}));
+			return structured({ paper: found, paragraphs: textParagraphs });
 		},
 	);
 
@@ -485,7 +475,7 @@ function createMcpServer() {
 		async ({ include_entities, include_bible_parallels, include_urantia_parallels }) => {
 			const { db } = getDb();
 			const result = await db
-				.select(paragraphFields)
+				.select(mcpParagraphFields)
 				.from(paragraphs)
 				.orderBy(sql`RANDOM()`)
 				.limit(1);
@@ -583,7 +573,7 @@ function createMcpServer() {
 			const targetParagraph = target[0]!;
 
 			const before = await db
-				.select(paragraphFields)
+				.select(mcpParagraphFields)
 				.from(paragraphs)
 				.where(
 					and(
@@ -595,7 +585,7 @@ function createMcpServer() {
 				.limit(windowSize);
 
 			const after = await db
-				.select(paragraphFields)
+				.select(mcpParagraphFields)
 				.from(paragraphs)
 				.where(
 					and(
@@ -942,7 +932,7 @@ function createMcpServer() {
 			const total = Number(countResult[0]?.count ?? 0);
 
 			const results = await db
-				.select(paragraphFields)
+				.select(mcpParagraphFields)
 				.from(paragraphs)
 				.innerJoin(paragraphEntities, eq(paragraphs.id, paragraphEntities.paragraphId))
 				.where(eq(paragraphEntities.entityId, entity_id))
