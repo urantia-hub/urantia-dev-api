@@ -281,7 +281,7 @@ function createMcpServer() {
 		{
 			title: "Get Table of Contents",
 			description:
-				"Get the full table of contents of the Urantia Papers. Returns all 4 parts and 197 papers with their titles. This is the best starting point to understand the book structure.",
+				"Get the full table of contents of the Urantia Papers. Returns the Foreword and the 4 parts, with all 197 papers and their titles.",
 			inputSchema: {},
 			outputSchema: {
 				parts: z.array(
@@ -323,7 +323,7 @@ function createMcpServer() {
 		{
 			title: "List Papers",
 			description:
-				"List all 197 papers of the Urantia Papers with their metadata (id, title, partId, labels). Use toc.get for a hierarchical view instead.",
+				"List all 197 papers of the Urantia Papers with their metadata (id, title, partId, labels), as a flat list.",
 			inputSchema: {},
 			outputSchema: {
 				papers: z.array(
@@ -1202,7 +1202,7 @@ function createMcpServer() {
 		{
 			title: "Get Urantia Parallels for a Bible Verse",
 			description:
-				"Returns the top 10 Urantia paragraphs whose embeddings are nearest to the Bible chunk that contains this verse — the reverse of `include_bible_parallels` on the Urantia side. Pre-computed at seed time with text-embedding-3-large (3072-d) cosine similarity. Each result carries a similarity score (0..1) and rank (1..10).\n\nThese are *semantic* parallels, not curated. Treat results as starting points for further reading, not as authoritative parallels.",
+				"Returns the top 10 Urantia paragraphs whose embeddings are nearest to the Bible chunk that contains this verse. Pre-computed at seed time with text-embedding-3-large (3072-d) cosine similarity. Each result carries a similarity score (0..1) and rank (1..10).\n\nThese are semantic neighbors, not a curated list of parallels.",
 			inputSchema: {
 				book_code: z.string().describe('Book identifier. Example: "Matt"'),
 				chapter: z.number().int().min(1).describe("Chapter number"),
