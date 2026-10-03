@@ -297,10 +297,10 @@ re-reading the plan.
 
 ## Distribution
 
-The MCP server and REST API are listed across several AI/dev directories. Before
-adding new submission work, check what's already done so you don't duplicate it.
-See `TODO.md` "API & MCP directory listings" for the live state of in-flight
-review queues.
+The MCP server and REST API are listed across several AI/dev directories.
+`LISTINGS.md` is the one record of every listing: where, the link, the state,
+and the date it was last checked. Read it before any submission work, and edit
+its row in the same change when you submit somewhere or a listing changes state.
 
 - **MCP Registry**: published as `dev.urantia/urantia-papers` (`server.json`).
   Namespace is DNS-authenticated via `dev.urantia` so org membership stays

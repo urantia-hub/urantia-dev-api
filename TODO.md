@@ -64,16 +64,7 @@ Infrastructure layer: turn the Urantia Papers from a book into a queryable knowl
 
 - [x] **MCP Bible + parallels parity** — Added 6 Bible tools to MCP (`bible.books`, `bible.book`, `bible.chapter`, `bible.verse`, `bible.verse.urantia_parallels`, `bible.search.semantic`) and added `include_bible_parallels` / `include_urantia_parallels` boolean params to `paragraphs.random`, `paragraphs.get`, `search.fulltext`, `search.semantic`. OpenAI/Anthropic catalogs auto-synced via `src/lib/tool-catalog.ts`. Tool count: 13 → 19. `server.json` bumped to `1.1.0` and republished to MCP Registry.
 
-- [~] **API & MCP directory listings** — Free distribution across AI/dev channels.
-  - ✅ public-apis (merged)
-  - ✅ public-api-lists (PR #427 merged)
-  - ✅ Smithery (100/100 quality score)
-  - ✅ Glama Connectors (A grades) + Glama Servers (C grade — hosted-only, no Dockerfile install path)
-  - ✅ MCP Registry as `dev.urantia/urantia-papers` v1.1.0 (DNS auth, keeps org membership private; 19 tools incl. Bible + parallels)
-  - 🟡 awesome-mcp-servers PR #5759 — open, all bot checks green (`has-emoji`, `valid-name`, `has-glama`), waiting on punkpeye review
-  - 🟡 APIs.guru issue #2470 — open, no movement yet
-  - 🟡 faith.tools — submitted with honest doctrinal-divergence disclosure, ~30-day review window
-  - ⏳ Postman public workspace, RapidAPI — not started
+- [~] **API & MCP directory listings** — Free distribution across AI/dev channels. The live state of every listing is in [`LISTINGS.md`](./LISTINGS.md); keep it there, not here.
 
 ## Study Group Toolkit API (Build #3)
 
