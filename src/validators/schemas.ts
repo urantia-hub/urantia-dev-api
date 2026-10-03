@@ -364,8 +364,18 @@ export const EntitySchema = z.object({
 	type: z.enum(["being", "place", "order", "race", "religion", "concept"]),
 	aliases: z.array(z.string()).nullable(),
 	description: z.string().nullable(),
-	seeAlso: z.array(z.string()).nullable(),
-	citationCount: z.number().int(),
+	seeAlso: z
+		.array(z.string())
+		.nullable()
+		.describe(
+			"Related entry names. An entity with citationCount 0 is a cross-reference stub: follow seeAlso to the entry that has the paragraphs.",
+		),
+	citationCount: z
+		.number()
+		.int()
+		.describe(
+			"Number of citations in the source index. A citation of a whole section counts once, so the entity's paragraph total can be higher.",
+		),
 	language: z.string().optional(),
 });
 
