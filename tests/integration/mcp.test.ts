@@ -188,6 +188,38 @@ describe("MCP Server", () => {
 		expect(result.structuredContent.parts[0].papers).toBeArray();
 	});
 
+	it("papers.get keeps every field by default", async () => {
+		const results = await callTool("papers.get", { paper_id: "1" });
+		const { structuredContent } = results[0].result;
+		expect(structuredContent.paper.id).toBe("1");
+		expect(structuredContent.paragraphs[0]).toHaveProperty("htmlText");
+		expect(structuredContent.paragraphs[0]).toHaveProperty("audio");
+	});
+
+	it("papers.get with format text returns reference, section, and text only", async () => {
+		const results = await callTool("papers.get", { paper_id: "1", format: "text" });
+		const { structuredContent, isError } = results[0].result;
+		expect(isError).toBeFalsy();
+		const first = structuredContent.paragraphs[0];
+		expect(Object.keys(first).sort()).toEqual(
+			["sectionId", "sectionTitle", "standardReferenceId", "text"].sort(),
+		);
+		expect(first.standardReferenceId).toBe("1:0.1");
+	});
+
+	it("papers.get with format text keeps entities when asked", async () => {
+		const results = await callTool("papers.get", {
+			paper_id: "1",
+			format: "text",
+			include_entities: true,
+		});
+		const { paragraphs } = results[0].result.structuredContent;
+		expect(paragraphs.some((p: { entities?: unknown[] }) => (p.entities?.length ?? 0) > 0)).toBe(
+			true,
+		);
+		expect(paragraphs[0]).not.toHaveProperty("htmlText");
+	});
+
 	it("paragraphs.get returns a paragraph wrapped under .paragraph", async () => {
 		const results = await callTool("paragraphs.get", { ref: "0.0.1" });
 		expect(results.length).toBeGreaterThan(0);
