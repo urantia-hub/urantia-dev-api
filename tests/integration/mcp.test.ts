@@ -124,6 +124,25 @@ describe("MCP Server", () => {
 		expect(results[0].result.serverInfo.name).toBe("Urantia Papers API");
 	});
 
+	it("declares the urantia.dev mark as the server icon", async () => {
+		const res = await mcpRequest({
+			id: 1,
+			method: "initialize",
+			params: {
+				protocolVersion: "2025-11-25",
+				capabilities: {},
+				clientInfo: { name: "test", version: "1.0.0" },
+			},
+		});
+		const info = (await parseMcpResponse(res))[0].result.serverInfo;
+		expect(info.title).toBe("Urantia Papers");
+		expect(info.websiteUrl).toBe("https://urantia.dev");
+		expect(info.icons.map((i: { src: string }) => i.src)).toEqual([
+			"https://api.urantia.dev/icon.png",
+			"https://api.urantia.dev/favicon.svg",
+		]);
+	});
+
 	it("lists all 19 tools with dot-notation names", async () => {
 		await initialize();
 		const res = await mcpRequest({ id: 2, method: "tools/list" });

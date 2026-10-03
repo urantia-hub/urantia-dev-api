@@ -18,6 +18,7 @@ import {
 } from "../db/schema.ts";
 import { BIBLE_BOOKS, formatBibleReference, resolveBibleBook } from "../lib/bible-canonicalizer.ts";
 import { enrichWithBibleParallels } from "../lib/bible-parallels.ts";
+import { MCP_ICONS } from "../lib/brand-icon.ts";
 import { enrichWithEntities } from "../lib/entities.ts";
 import { enrichWithUrantiaParallels } from "../lib/urantia-parallels.ts";
 import { detectRefFormat } from "../types/node.ts";
@@ -249,7 +250,10 @@ function errorResult(message: string) {
 function createMcpServer() {
 	const server = new McpServer({
 		name: "Urantia Papers API",
+		title: "Urantia Papers",
 		version: "1.0.0",
+		icons: MCP_ICONS,
+		websiteUrl: "https://urantia.dev",
 	});
 
 	// 1. toc.get
