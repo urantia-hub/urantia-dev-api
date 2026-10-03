@@ -86,7 +86,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 	{
 		name: "get_table_of_contents",
 		description:
-			"Get the full table of contents of the Urantia Papers. Returns all 4 parts and 197 papers with their titles. Best starting point to understand the structure.",
+			"Get the full table of contents of the Urantia Papers. Returns the Foreword and the 4 parts, with all 197 papers and their titles.",
 		parameters: { type: "object", properties: {} },
 	},
 	{
@@ -319,7 +319,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 	{
 		name: "get_bible_verse_urantia_parallels",
 		description:
-			"Returns the top 10 Urantia paragraphs whose embeddings are nearest to the Bible chunk that contains this verse — the reverse direction of `include_bible_parallels` on the Urantia side. Pre-computed via text-embedding-3-large cosine similarity. These are *semantic* parallels, not curated; treat results as starting points.",
+			"Returns the top 10 Urantia paragraphs whose embeddings are nearest to the Bible chunk that contains this verse. Pre-computed via text-embedding-3-large cosine similarity. These are semantic neighbors, not a curated list of parallels.",
 		parameters: {
 			type: "object",
 			properties: {
