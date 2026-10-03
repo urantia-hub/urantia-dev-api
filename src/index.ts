@@ -3,6 +3,7 @@ import { sql } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 import { getDb } from "./db/client.ts";
 import { createApp } from "./lib/app.ts";
+import { ICON_SVG, iconPng } from "./lib/brand-icon.ts";
 import { problemJson } from "./lib/errors.ts";
 import { mcpManifest, mcpServerCard } from "./lib/mcp-discovery.ts";
 import { authMiddleware } from "./middleware/auth.ts";
@@ -91,6 +92,19 @@ app.get("/health", async (c) => {
 		return problemJson(c, 503, err instanceof Error ? err.message : "Database connection failed");
 	}
 });
+
+// Favicon and MCP server icon: the urantia.dev mark. Clients show it next to the connector.
+const ICON_CACHE = "public, max-age=86400";
+app.get("/favicon.svg", (c) =>
+	c.body(ICON_SVG, 200, { "Content-Type": "image/svg+xml", "Cache-Control": ICON_CACHE }),
+);
+app.get("/icon.png", (c) =>
+	c.body(iconPng(), 200, { "Content-Type": "image/png", "Cache-Control": ICON_CACHE }),
+);
+// A PNG body is valid at /favicon.ico for every current browser and favicon fetcher.
+app.get("/favicon.ico", (c) =>
+	c.body(iconPng(), 200, { "Content-Type": "image/png", "Cache-Control": ICON_CACHE }),
+);
 
 // robots.txt
 app.get("/robots.txt", (c) => {
