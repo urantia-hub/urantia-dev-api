@@ -4,6 +4,7 @@ import {
 	integer,
 	jsonb as pgJsonb,
 	pgTable,
+	primaryKey,
 	real,
 	serial,
 	text,
@@ -223,6 +224,9 @@ export const paragraphEntities = pgTable(
 			.references(() => entities.id),
 	},
 	(t) => [
+		// One row per pair. Without a key the seed's onConflictDoNothing never fired,
+		// and a second seed run doubled every row (fixed 2026-10-03).
+		primaryKey({ columns: [t.paragraphId, t.entityId] }),
 		index("pe_paragraph_id_idx").on(t.paragraphId),
 		index("pe_entity_id_idx").on(t.entityId),
 	],
