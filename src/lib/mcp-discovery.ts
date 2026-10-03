@@ -9,6 +9,8 @@
  * the server itself (tools/list), so nothing here can drift from it.
  */
 
+import { MCP_ICONS } from "./brand-icon.ts";
+
 const MCP_URL = "https://api.urantia.dev/mcp";
 const TRANSPORT = "streamable-http";
 // Keep in step with `version` in server.json (the MCP Registry entry).
@@ -41,7 +43,8 @@ export function mcpServerCard() {
 		name: NAME,
 		description: DESCRIPTION,
 		version: VERSION,
-		serverInfo: { name: NAME, version: VERSION },
+		serverInfo: { name: NAME, version: VERSION, icons: MCP_ICONS },
+		icons: MCP_ICONS,
 		url: MCP_URL,
 		transport: TRANSPORT,
 		authentication: "none",

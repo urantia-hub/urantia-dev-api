@@ -38,3 +38,25 @@ describe("GET /sitemap.xml", () => {
 		expect(text).toContain("<urlset");
 	});
 });
+
+describe("icons", () => {
+	it("serves the mark as SVG at /favicon.svg", async () => {
+		const res = await get("/favicon.svg");
+		expect(res.status).toBe(200);
+		expect(res.headers.get("content-type")).toContain("image/svg+xml");
+		expect(await res.text()).toContain("<svg");
+	});
+
+	for (const path of ["/icon.png", "/favicon.ico"]) {
+		it(`serves a 256 px PNG at ${path}`, async () => {
+			const res = await get(path);
+			expect(res.status).toBe(200);
+			expect(res.headers.get("content-type")).toBe("image/png");
+			const bytes = new Uint8Array(await res.arrayBuffer());
+			// PNG signature, then the IHDR width and height (bytes 16-23).
+			expect([...bytes.slice(0, 4)]).toEqual([0x89, 0x50, 0x4e, 0x47]);
+			const view = new DataView(bytes.buffer);
+			expect([view.getUint32(16), view.getUint32(20)]).toEqual([256, 256]);
+		});
+	}
+});
