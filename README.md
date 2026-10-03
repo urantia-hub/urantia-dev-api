@@ -44,6 +44,7 @@ Interactive docs available at `/docs` (Swagger UI). OpenAPI spec at `/openapi.js
 - Docs: [docs.urantia.dev](https://docs.urantia.dev)
 - MCP server: `https://api.urantia.dev/mcp` ([setup guide](https://docs.urantia.dev/mcp-servers))
 - Status: [status.urantia.dev](https://status.urantia.dev)
+- Where it is listed: [LISTINGS.md](./LISTINGS.md)
 
 ## SDKs
 
