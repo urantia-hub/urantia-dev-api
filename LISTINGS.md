@@ -38,6 +38,7 @@ Say "the Urantia Papers" for the text. "The Urantia Book" is the title of the 19
 | public-api-lists | https://github.com/public-api-lists/public-api-lists | PR #427, merged 2026-05-19 | 2026-10-03 |
 | PulseMCP | https://www.pulsemcp.com/servers?q=urantia | Listed with old text ("The Urantia Book", author "Urantia Hub"). PulseMCP paused all changes on 2026-09-03 and re-reads the Registry when it reopens | 2026-10-03 |
 | Postman Public API Network | https://www.postman.com/urantia-dev/urantia-papers (publisher: https://www.postman.com/urantia-dev) | Public workspace with 28 read-only requests in 12 folders, built from the OpenAPI spec. Publisher verification requested 2026-10-04 | 2026-10-04 |
+| mcpservers.org | https://mcpservers.org/servers/docs-urantia-dev-mcp-servers | Approved from the free submission of 2026-10-03. The listing links to docs.urantia.dev/mcp-servers | 2026-10-04 |
 | npm | `@urantia/api`, `@urantia/auth` | TypeScript SDKs, from the `urantia-dev-sdks` repo | 2026-10-03 |
 
 ## In review
@@ -46,7 +47,6 @@ Say "the Urantia Papers" for the text. "The Urantia Book" is the title of the 19
 |---|---|---|---|
 | Claude Connectors Directory | Manage at https://claude.ai/directory/manage, slug `urantia-papers` | In review. Questions go to mcp-review@anthropic.com | 2026-10-02 |
 | awesome-remote-mcp-servers | https://github.com/punkpeye/awesome-remote-mcp-servers/pull/1026 | Open, CI green (`endpoint-ok`, `has-connector`), waits for a maintainer | 2026-10-03 |
-| mcpservers.org | https://mcpservers.org/submit | Submitted on the free plan, category Search. Review within 2 weeks, answer by email | 2026-10-03 |
 | APIs.io | https://apis.io/add/ | Submitted. A person reviews it; it lands in their next build | 2026-10-03 |
 | OpenAI plugin directory (ChatGPT and Codex) | Manage at https://platform.openai.com/plugins | Package 1.2.2 in review. Published under a verified individual identity. Domain verified through `/.well-known/openai-apps-challenge`; tool scan found no issues. Demo video (unlisted): https://youtu.be/-2WJRON0ZOE. Feedback comes by email | 2026-10-04 |
 | mcp.so | https://mcp.so | Free-listing support ticket open. The paid path ($39) was skipped | 2026-10-02 |
