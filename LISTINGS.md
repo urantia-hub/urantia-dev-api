@@ -49,6 +49,7 @@ Say "the Urantia Papers" for the text. "The Urantia Book" is the title of the 19
 | awesome-remote-mcp-servers | https://github.com/punkpeye/awesome-remote-mcp-servers/pull/1026 | Open, CI green (`endpoint-ok`, `has-connector`), waits for a maintainer | 2026-10-03 |
 | APIs.io | https://apis.io/add/ | Submitted. A person reviews it; it lands in their next build | 2026-10-03 |
 | OpenAI plugin directory (ChatGPT and Codex) | Manage at https://platform.openai.com/plugins | Package 1.2.2 in review. Published under a verified individual identity. Domain verified through `/.well-known/openai-apps-challenge`; tool scan found no issues. Demo video (unlisted): https://youtu.be/-2WJRON0ZOE. Feedback comes by email | 2026-10-04 |
+| Gemini CLI extensions gallery | https://geminicli.com/extensions/browse/ | No form. `gemini-extension.json` is at the root of the plugin repo and the repo has the topic `gemini-cli-extension` (plugin #6). Google's crawler runs daily and lists it if it passes validation. Passed `gemini extensions validate` locally | 2026-10-04 |
 | mcp.so | https://mcp.so | Free-listing support ticket open. The paid path ($39) was skipped | 2026-10-02 |
 
 ## Stalled or closed
