@@ -37,6 +37,7 @@ Say "the Urantia Papers" for the text. "The Urantia Book" is the title of the 19
 | public-apis | https://github.com/public-apis/public-apis (Books) | Merged | 2026-10-03 |
 | public-api-lists | https://github.com/public-api-lists/public-api-lists | PR #427, merged 2026-05-19 | 2026-10-03 |
 | PulseMCP | https://www.pulsemcp.com/servers?q=urantia | Listed with old text ("The Urantia Book", author "Urantia Hub"). PulseMCP paused all changes on 2026-09-03 and re-reads the Registry when it reopens | 2026-10-03 |
+| Postman Public API Network | https://www.postman.com/urantia-dev/urantia-papers (publisher: https://www.postman.com/urantia-dev) | Public workspace with 28 read-only requests in 12 folders, built from the OpenAPI spec. Publisher verification requested 2026-10-04 | 2026-10-04 |
 | npm | `@urantia/api`, `@urantia/auth` | TypeScript SDKs, from the `urantia-dev-sdks` repo | 2026-10-03 |
 
 ## In review
@@ -62,7 +63,6 @@ Say "the Urantia Papers" for the text. "The Urantia Book" is the title of the 19
 
 | Where | Why |
 |---|---|
-| Postman Public API Network | Optional. Needs a public workspace built from the OpenAPI spec |
 | Cursor built-in Marketplace | Curated by Cursor; its publish form mostly stopped taking direct submissions. The plugin repo has a `.cursor-plugin/plugin.json` manifest, so it is ready if that reopens |
 | Unyly | Its form takes a GitHub repo and offers to host the server. Ours needs our database, so a copy cannot run |
 | remote-mcp.com | Takes submissions as a GitHub pull request to `jaw9c/awesome-remote-mcp-servers` |
