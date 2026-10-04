@@ -47,6 +47,7 @@ Say "the Urantia Papers" for the text. "The Urantia Book" is the title of the 19
 | awesome-remote-mcp-servers | https://github.com/punkpeye/awesome-remote-mcp-servers/pull/1026 | Open, CI green (`endpoint-ok`, `has-connector`), waits for a maintainer | 2026-10-03 |
 | mcpservers.org | https://mcpservers.org/submit | Submitted on the free plan, category Search. Review within 2 weeks, answer by email | 2026-10-03 |
 | APIs.io | https://apis.io/add/ | Submitted. A person reviews it; it lands in their next build | 2026-10-03 |
+| OpenAI plugin directory (ChatGPT and Codex) | Manage at https://platform.openai.com/plugins | Package 1.2.2 in review. Published under a verified individual identity. Domain verified through `/.well-known/openai-apps-challenge`; tool scan found no issues. Demo video (unlisted): https://youtu.be/-2WJRON0ZOE. Feedback comes by email | 2026-10-04 |
 | mcp.so | https://mcp.so | Free-listing support ticket open. The paid path ($39) was skipped | 2026-10-02 |
 
 ## Stalled or closed
@@ -61,7 +62,6 @@ Say "the Urantia Papers" for the text. "The Urantia Book" is the title of the 19
 
 | Where | Why |
 |---|---|
-| OpenAI ChatGPT / Codex plugins | Planned. Needs identity verification, a plugin ZIP, and a demo video. The domain check is ready: `/.well-known/openai-apps-challenge` serves the `OPENAI_APPS_CHALLENGE` secret |
 | Postman Public API Network | Optional. Needs a public workspace built from the OpenAPI spec |
 | Cursor built-in Marketplace | Curated by Cursor; its publish form mostly stopped taking direct submissions. The plugin repo has a `.cursor-plugin/plugin.json` manifest, so it is ready if that reopens |
 | Unyly | Its form takes a GitHub repo and offers to host the server. Ours needs our database, so a copy cannot run |
