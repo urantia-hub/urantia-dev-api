@@ -56,6 +56,15 @@ the production database. The unit/middleware suites and the content
 integration suites (papers, toc, search, root, mcp, tools) are read-only and
 safe. The `auth`/`me` suites can write; run them only deliberately.
 
+In a worktree there is no `.env`, so about 200 database tests fail there. That is
+expected. Compare the list of failing tests with `origin/main`, not the count
+with zero.
+
+The whole suite shares one in-memory rate limiter (200 requests per minute, IP
+`unknown`) and runs close to that limit. A new test that makes several requests
+must send its own `cf-connecting-ip` header, or unrelated tests start to fail
+with 429. See `tests/integration/openapi.test.ts` for the pattern.
+
 ## Commands
 
 - `bun run dev` — Start dev server with hot reload
@@ -295,6 +304,36 @@ embeddings (`text-embedding-3-large`), Phase 3 pre-computes bidirectional
 UB↔Bible parallels. Don't bolt unrelated Bible features on without
 re-reading the plan.
 
+## Public spec and discovery files
+
+`/openapi.json` is what directories, agents, and code generators read. It is the
+generated spec passed through `src/lib/openapi-finalize.ts`, which adds what the
+route definitions do not carry:
+
+- One shared `ProblemDetails` schema on every 4xx and 5xx response, as
+  `application/problem+json`.
+- The `X-RateLimit-*` headers on every response, and a 429 on every operation.
+- Examples. Response examples are real output in `src/lib/openapi-examples.json`.
+  Regenerate them with `bun scripts/capture-openapi-examples.ts` (read-only calls
+  to production). Do not write a response example by hand.
+
+Rules, set by Kelson on 2026-10-05:
+
+- **The public spec lists the open content API only.** `finalizeOpenApi` removes
+  `/me` and `/auth` and declares no auth scheme. Those endpoints still work for
+  the Hub and its apps. Do not advertise them: not in the spec, not in a listing,
+  not in a PR on someone else's repo. A directory score does not justify it.
+- **Never serve OAuth discovery on this host.** `/.well-known/oauth-authorization-server`,
+  `/.well-known/oauth-protected-resource`, and `/.well-known/openid-configuration`
+  must stay 404. MCP clients read those paths to decide if a server needs a
+  sign-in, and the MCP server needs none. A test in `well-known.test.ts` holds this.
+- **Auth on the MCP server is not wanted.** It stays open with no key.
+
+Discovery files that are served: `/.well-known/api-catalog` (RFC 9727,
+`src/lib/api-catalog.ts`), the MCP files under `/.well-known/mcp*`, and
+`/robots.txt` with `Content-Signal: ai-train=yes, search=yes, ai-input=yes`.
+The text is public domain, and wider use, including model training, is the goal.
+
 ## Distribution
 
 The MCP server and REST API are listed across several AI/dev directories.
@@ -324,7 +363,7 @@ its row in the same change when you submit somewhere or a listing changes state.
 
 ## Observability
 
-- **Logging**: BetterStack via `@logtail/edge`. Structured JSON logs with request metadata.
+- **Logging**: BetterStack via `@logtail/edge`. Structured JSON logs with request metadata. The source is named "Urantia.dev" (id 2281673) and receives production logs. The log alert counts `level` in warn, error, or fatal; it does not match words in the log text.
 - **Metrics**: Search queries and endpoint usage are logged as structured events to BetterStack, queryable via SQL dashboards.
 - **Error tracking**: Global error handler sends stack traces to BetterStack.
 - **Health check**: `GET /health` verifies DB connectivity.
