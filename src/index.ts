@@ -2,6 +2,7 @@ import { swaggerUI } from "@hono/swagger-ui";
 import { sql } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 import { getDb } from "./db/client.ts";
+import { API_CATALOG_TYPE, apiCatalog } from "./lib/api-catalog.ts";
 import { createApp } from "./lib/app.ts";
 import { ICON_SVG, iconPng } from "./lib/brand-icon.ts";
 import { problemJson } from "./lib/errors.ts";
@@ -162,6 +163,9 @@ app.get("/.well-known/openai-apps-challenge", (c) => {
 app.get("/.well-known/mcp.json", (c) => c.json(mcpManifest()));
 app.get("/.well-known/mcp", (c) => c.json(mcpManifest()));
 app.get("/.well-known/mcp/server-card.json", (c) => c.json(mcpServerCard()));
+app.get("/.well-known/api-catalog", (c) =>
+	c.body(JSON.stringify(apiCatalog()), 200, { "Content-Type": API_CATALOG_TYPE }),
+);
 
 // OAuth/OIDC metadata discovery — return JSON 404 so MCP clients (Claude Code) know no auth is needed
 // Covers all discovery paths: root, path-aware (RFC 8414), MCP-scoped, and protected resource (RFC 9728)

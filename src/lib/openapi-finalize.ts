@@ -51,6 +51,16 @@ const PARAMETER_EXAMPLES: Record<string, unknown> = {
 	verse: 3,
 };
 
+// The scopes an app can ask for. The same list is in ALLOWED_SCOPES in routes/auth.ts.
+const OAUTH_SCOPES: Record<string, string> = {
+	profile: "The reader's profile",
+	bookmarks: "The reader's bookmarks",
+	notes: "The reader's notes",
+	"reading-progress": "The reader's reading progress",
+	preferences: "The reader's preferences",
+	"app-data": "Data that the app stores for the reader",
+};
+
 const EXAMPLES = captured as Record<string, { request?: unknown; response: unknown }>;
 
 // Operations under these paths need a signed-in user. The rest of /auth is public.
@@ -122,6 +132,19 @@ export function finalizeOpenApi<T>(document: T): T {
 			description:
 				"An access token for a signed-in user. Only the /me and /auth operations use it. Every other operation needs no key.",
 		},
+		oauth2: {
+			type: "oauth2",
+			description:
+				"How an app gets that access token: the authorization code flow with PKCE. The sign-in server publishes its metadata at https://accounts.urantiahub.com/.well-known/openid-configuration. The token request is a JSON body, as POST /auth/token documents.",
+			flows: {
+				authorizationCode: {
+					authorizationUrl: "https://accounts.urantiahub.com/authorize",
+					tokenUrl: "https://api.urantia.dev/auth/token",
+					refreshUrl: "https://api.urantia.dev/auth/refresh",
+					scopes: OAUTH_SCOPES,
+				},
+			},
+		},
 	};
 
 	// No key is needed unless an operation says so.
@@ -137,7 +160,7 @@ export function finalizeOpenApi<T>(document: T): T {
 			// The rate limiter runs before every route.
 			operation.responses["429"] ??= { description: "Too many requests" };
 			if (needsUser(key, path)) {
-				operation.security = [{ bearerAuth: [] }];
+				operation.security = [{ bearerAuth: [] }, { oauth2: [] }];
 				operation.responses["401"] ??= { description: "Missing or invalid access token" };
 			}
 

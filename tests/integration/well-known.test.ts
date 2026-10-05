@@ -2,6 +2,8 @@ import { describe, expect, it } from "bun:test";
 import { app } from "../../src/index.ts";
 
 const MCP_URL = "https://api.urantia.dev/mcp";
+// The whole suite shares one rate-limit counter. These requests use their own.
+const OWN_COUNTER = { headers: { "cf-connecting-ip": "well-known-test" } };
 
 // biome-ignore lint/suspicious/noExplicitAny: the documents are read loosely
 const json = async (path: string): Promise<any> => (await app.request(path)).json();
@@ -58,11 +60,28 @@ describe("MCP discovery under /.well-known", () => {
 	it("still answers an OAuth discovery path with a 404", async () => {
 		for (const path of [
 			"/.well-known/oauth-authorization-server",
+			"/.well-known/oauth-protected-resource",
 			"/.well-known/oauth-protected-resource/mcp",
 			"/.well-known/openid-configuration",
 		]) {
-			expect((await app.request(path)).status).toBe(404);
+			expect((await app.request(path, OWN_COUNTER)).status).toBe(404);
 		}
+	});
+
+	it("serves an RFC 9727 API catalog whose links all exist", async () => {
+		const res = await app.request("/.well-known/api-catalog", OWN_COUNTER);
+		expect(res.status).toBe(200);
+		expect(res.headers.get("content-type")).toContain("application/linkset+json");
+
+		const { linkset } = await res.json();
+		expect(linkset.map((entry: { anchor: string }) => entry.anchor)).toEqual([
+			"https://api.urantia.dev",
+			MCP_URL,
+		]);
+		expect(linkset[0]["service-desc"][0].href).toBe("https://api.urantia.dev/openapi.json");
+		// The two links that point back at this server must resolve here.
+		expect((await app.request("/openapi.json", OWN_COUNTER)).status).toBe(200);
+		expect((await app.request("/.well-known/mcp/server-card.json", OWN_COUNTER)).status).toBe(200);
 	});
 
 	it("still serves the Glama verification file", async () => {
