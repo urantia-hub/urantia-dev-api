@@ -110,6 +110,7 @@ app.get("/favicon.ico", (c) =>
 // robots.txt
 app.get("/robots.txt", (c) => {
 	const robotsTxt = `User-agent: *
+Content-Signal: ai-train=yes, search=yes, ai-input=yes
 Allow: /
 
 Sitemap: https://api.urantia.dev/sitemap.xml
