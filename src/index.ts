@@ -6,6 +6,7 @@ import { createApp } from "./lib/app.ts";
 import { ICON_SVG, iconPng } from "./lib/brand-icon.ts";
 import { problemJson } from "./lib/errors.ts";
 import { mcpManifest, mcpServerCard } from "./lib/mcp-discovery.ts";
+import { finalizeOpenApi } from "./lib/openapi-finalize.ts";
 import { authMiddleware } from "./middleware/auth.ts";
 import { cacheControl } from "./middleware/cache.ts";
 import { corsMiddleware } from "./middleware/cors.ts";
@@ -200,19 +201,30 @@ app.route("/tools", toolsRoute);
 app.route("/feedback", feedbackRoute);
 
 // OpenAPI spec
-app.doc("/openapi.json", {
+const OPENAPI_CONFIG = {
 	openapi: "3.1.0",
 	info: {
 		title: "Urantia Papers API",
 		version: "1.0.0",
 		description:
 			"An API and MCP server for the Urantia Papers. Structured access to all 197 papers and more than 14,500 paragraphs, with full-text and semantic search, named entities, Bible cross-references, and audio. No key needed. Docs: https://docs.urantia.dev",
+		termsOfService: "https://docs.urantia.dev/terms-of-service",
+		contact: {
+			name: "urantia.dev",
+			url: "https://docs.urantia.dev/help",
+			email: "kelson@urantia.dev",
+		},
+		license: {
+			name: "MIT",
+			url: "https://github.com/urantia-hub/urantia-dev-api/blob/main/LICENSE",
+		},
 	},
 	servers: [
 		{ url: "https://api.urantia.dev", description: "Production" },
 		{ url: "http://localhost:3000", description: "Local development" },
 	],
-});
+};
+app.get("/openapi.json", (c) => c.json(finalizeOpenApi(app.getOpenAPI31Document(OPENAPI_CONFIG))));
 
 // Swagger UI
 app.get("/docs", swaggerUI({ url: "/openapi.json" }));
