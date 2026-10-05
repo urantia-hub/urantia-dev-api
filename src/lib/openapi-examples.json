@@ -1,0 +1,1169 @@
+{
+	"get /toc": {
+		"response": {
+			"data": {
+				"parts": [
+					{
+						"id": "0",
+						"title": "Foreword",
+						"sponsorship": null,
+						"papers": [
+							{
+								"id": "0",
+								"title": "Foreword",
+								"labels": [
+									"Theology",
+									"Cosmology"
+								]
+							}
+						]
+					},
+					{
+						"id": "1",
+						"title": "The Central and Superuniverses",
+						"sponsorship": "Sponsored by a Uversa Corps of Superuniverse Personalities acting by authority of the Orvonton Ancients of Days",
+						"papers": [
+							{
+								"id": "1",
+								"title": "The Universal Father",
+								"labels": [
+									"Spirituality",
+									"Theology"
+								]
+							},
+							{
+								"id": "2",
+								"title": "The Nature of God",
+								"labels": [
+									"Spirituality",
+									"Theology"
+								]
+							}
+						]
+					}
+				]
+			}
+		}
+	},
+	"get /papers": {
+		"response": {
+			"data": [
+				{
+					"id": "0",
+					"partId": "0",
+					"title": "Foreword",
+					"sortId": "0.000.000.000",
+					"labels": [
+						"Theology",
+						"Cosmology"
+					],
+					"video": {
+						"nova": {
+							"mp4": "https://video.urantiahub.com/tts-1-hd-nova-0.mp4",
+							"thumbnail": "https://video.urantiahub.com/thumbnail-0.png",
+							"duration": 3262
+						}
+					}
+				},
+				{
+					"id": "1",
+					"partId": "1",
+					"title": "The Universal Father",
+					"sortId": "1.001.000.000",
+					"labels": [
+						"Spirituality",
+						"Theology"
+					],
+					"video": {
+						"nova": {
+							"mp4": "https://video.urantiahub.com/tts-1-hd-nova-1.mp4",
+							"thumbnail": "https://video.urantiahub.com/thumbnail-1.png",
+							"duration": 2336
+						}
+					}
+				}
+			]
+		}
+	},
+	"get /papers/{id}": {
+		"response": {
+			"data": {
+				"paper": {
+					"id": "2",
+					"partId": "1",
+					"title": "The Nature of God",
+					"sortId": "1.002.000.000",
+					"labels": [
+						"Spirituality",
+						"Theology"
+					],
+					"video": {
+						"nova": {
+							"mp4": "https://video.urantiahub.com/tts-1-hd-nova-2.mp4",
+							"thumbnail": "https://video.urantiahub.com/thumbnail-2.png",
+							"duration": 2324
+						}
+					}
+				},
+				"paragraphs": [
+					{
+						"id": "1:2.0.1",
+						"standardReferenceId": "2:0.1",
+						"sortId": "1.002.000.001",
+						"paperId": "2",
+						"sectionId": "0",
+						"partId": "1",
+						"paperTitle": "The Nature of God",
+						"sectionTitle": null,
+						"paragraphId": "1",
+						"text": "INASMUCH as man’s highest possible concept of God is embraced within the human idea and ideal of a primal and infinite personality, it is permissible, and may prove helpful, to study certain characteristics of the divine nature which constitute the character of Deity. The nature of God can best be understood by the revelation of the Father which Michael of Nebadon unfolded in his manifold teachings and in his superb mortal life in the flesh. The divine nature can also be better understood by man if he regards himself as a child of God and looks up to the Paradise Creator as a true spiritual Father.",
+						"htmlText": "<span class=\"urantia-dev-pb-0\">INASMUCH as man’s highest possible concept of God is embraced within the human idea and ideal of a primal and infinite personality, it is permissible, and may prove helpful, to study certain characteristics of the divine nature which constitute the character of Deity. The nature of God can best be understood by the revelation of the Father which Michael of Nebadon unfolded in his manifold teachings and in his superb mortal life in the flesh. The divine nature can also be better understood by man if he regards himself as a child of God and looks up to the Paradise Creator as a true spiritual Father.</span>",
+						"labels": [],
+						"audio": {
+							"tts-1-hd": {
+								"nova": {
+									"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-1:2.0.1.mp3",
+									"format": "mp3",
+									"bitrate": 160,
+									"duration": 38.1,
+									"fileSize": 762240
+								},
+								"onyx": {
+									"url": "https://cdn.urantia.dev/audio/eng/paragraphs/onyx/tts-1-hd-onyx-1:2.0.1.mp3",
+									"format": "mp3",
+									"bitrate": 160,
+									"duration": 37.9,
+									"fileSize": 757440
+								}
+							},
+							"gpt-4o-mini-tts": {
+								"cedar": {
+									"url": "https://cdn.urantia.dev/audio/eng/paragraphs/cedar/gpt-4o-mini-tts-cedar-1:2.0.1.mp3",
+									"format": "mp3",
+									"bitrate": 192,
+									"duration": 38.8,
+									"fileSize": 931674
+								}
+							}
+						}
+					},
+					{
+						"id": "1:2.0.2",
+						"standardReferenceId": "2:0.2",
+						"sortId": "1.002.000.002",
+						"paperId": "2",
+						"sectionId": "0",
+						"partId": "1",
+						"paperTitle": "The Nature of God",
+						"sectionTitle": null,
+						"paragraphId": "2",
+						"text": "The nature of God can be studied in a revelation of supreme ideas, the divine character can be envisaged as a portrayal of supernal ideals, but the most enlightening and spiritually edifying of all revelations of the divine nature is to be found in the comprehension of the religious life of Jesus of Nazareth, both before and after his attainment of full consciousness of divinity. If the incarnated life of Michael is taken as the background of the revelation of God to man, we may attempt to put in human word symbols certain ideas and ideals concerning the divine nature which may possibly contribute to a further illumination and unification of the human concept of the nature and the character of the personality of the Universal Father.",
+						"htmlText": "<span class=\"urantia-dev-pb-0\">The nature of God can be studied in a revelation of supreme ideas, the divine character can be envisaged as a portrayal of supernal ideals, but the most enlightening and spiritually edifying of all revelations of the divine nature is to be found in the comprehension of the religious life of Jesus of Nazareth, both before and after his attainment of full consciousness of divinity. If the incarnated life of Michael is taken as the background of the revelation of God to man, we may attempt to put in human word symbols certain ideas and ideals concerning the divine nature which may possibly contribute to a further illumination and unification of the human concept of the nature and the character of the personality of the Universal Father.</span>",
+						"labels": [],
+						"audio": {
+							"tts-1-hd": {
+								"nova": {
+									"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-1:2.0.2.mp3",
+									"format": "mp3",
+									"bitrate": 160,
+									"duration": 45.9,
+									"fileSize": 918240
+								},
+								"onyx": {
+									"url": "https://cdn.urantia.dev/audio/eng/paragraphs/onyx/tts-1-hd-onyx-1:2.0.2.mp3",
+									"format": "mp3",
+									"bitrate": 160,
+									"duration": 46.2,
+									"fileSize": 924480
+								}
+							},
+							"gpt-4o-mini-tts": {
+								"cedar": {
+									"url": "https://cdn.urantia.dev/audio/eng/paragraphs/cedar/gpt-4o-mini-tts-cedar-1:2.0.2.mp3",
+									"format": "mp3",
+									"bitrate": 192,
+									"duration": 45,
+									"fileSize": 1080258
+								}
+							}
+						}
+					}
+				]
+			}
+		}
+	},
+	"get /papers/{id}/sections": {
+		"response": {
+			"data": [
+				{
+					"id": "2.0",
+					"paperId": "2",
+					"sectionId": "0",
+					"title": null,
+					"globalId": "1:2.0.-",
+					"sortId": "1.002.000.000"
+				},
+				{
+					"id": "2.1",
+					"paperId": "2",
+					"sectionId": "1",
+					"title": "The Infinity of God",
+					"globalId": "1:2.1.-",
+					"sortId": "1.002.001.000"
+				}
+			]
+		}
+	},
+	"get /paragraphs/random": {
+		"response": {
+			"data": {
+				"id": "2:44.3.4",
+				"standardReferenceId": "44:3.4",
+				"sortId": "2.044.003.004",
+				"paperId": "44",
+				"sectionId": "3",
+				"partId": "2",
+				"paperTitle": "The Celestial Artisans",
+				"sectionTitle": "The Divine Builders",
+				"paragraphId": "4",
+				"text": "3. The play builders. Enormous edifices are utilized during the seasons of rest, what mortals would call recreation and, in a certain sense, play. Provision is made for a suitable setting for the reversion directors, the humorists of the morontia worlds, those transition spheres whereon takes place the training of ascendant beings but recently removed from the evolutionary planets. Even the higher spirits engage in a certain form of reminiscent humor during their periods of spiritual recharging.",
+				"htmlText": "<span class=\"urantia-dev-pb-4\">3. <em>The play builders.</em> Enormous edifices are utilized during the seasons of rest, what mortals would call recreation and, in a certain sense, play. Provision is made for a suitable setting for the reversion directors, the humorists of the morontia worlds, those transition spheres whereon takes place the training of ascendant beings but recently removed from the evolutionary planets. Even the higher spirits engage in a certain form of reminiscent humor during their periods of spiritual recharging.</span>",
+				"labels": [],
+				"audio": {
+					"tts-1-hd": {
+						"nova": {
+							"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-2:44.3.4.mp3",
+							"format": "mp3",
+							"bitrate": 160,
+							"duration": 31.8,
+							"fileSize": 636000
+						}
+					}
+				}
+			},
+			"navigation": {
+				"prev": "44:3.3",
+				"next": "44:3.5"
+			}
+		}
+	},
+	"get /paragraphs/{ref}": {
+		"response": {
+			"data": {
+				"id": "1:2.5.1",
+				"standardReferenceId": "2:5.1",
+				"sortId": "1.002.005.001",
+				"paperId": "2",
+				"sectionId": "5",
+				"partId": "1",
+				"paperTitle": "The Nature of God",
+				"sectionTitle": "The Love of God",
+				"paragraphId": "1",
+				"text": "“God is love”; therefore his only personal attitude towards the affairs of the universe is always a reaction of divine affection. The Father loves us sufficiently to bestow his life upon us. “He makes his sun to rise on the evil and on the good and sends rain on the just and on the unjust.”",
+				"htmlText": "<span class=\"urantia-dev-pb-4\">“God is love”; therefore his only personal attitude towards the affairs of the universe is always a reaction of divine affection. The Father loves us sufficiently to bestow his life upon us. “He makes his sun to rise on the evil and on the good and sends rain on the just and on the unjust.”</span>",
+				"labels": [],
+				"audio": {
+					"tts-1-hd": {
+						"nova": {
+							"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-1:2.5.1.mp3",
+							"format": "mp3",
+							"bitrate": 160,
+							"duration": 18,
+							"fileSize": 360960
+						},
+						"onyx": {
+							"url": "https://cdn.urantia.dev/audio/eng/paragraphs/onyx/tts-1-hd-onyx-1:2.5.1.mp3",
+							"format": "mp3",
+							"bitrate": 160,
+							"duration": 18.4,
+							"fileSize": 367680
+						}
+					},
+					"gpt-4o-mini-tts": {
+						"cedar": {
+							"url": "https://cdn.urantia.dev/audio/eng/paragraphs/cedar/gpt-4o-mini-tts-cedar-1:2.5.1.mp3",
+							"format": "mp3",
+							"bitrate": 192,
+							"duration": 18.1,
+							"fileSize": 434511
+						}
+					}
+				}
+			},
+			"navigation": {
+				"prev": "2:4.5",
+				"next": "2:5.2"
+			}
+		}
+	},
+	"get /paragraphs/{ref}/context": {
+		"response": {
+			"data": {
+				"target": {
+					"id": "1:2.5.10",
+					"standardReferenceId": "2:5.10",
+					"sortId": "1.002.005.010",
+					"paperId": "2",
+					"sectionId": "5",
+					"partId": "1",
+					"paperTitle": "The Nature of God",
+					"sectionTitle": "The Love of God",
+					"paragraphId": "10",
+					"text": "But the love of God is an intelligent and farseeing parental affection. The divine love functions in unified association with divine wisdom and all other infinite characteristics of the perfect nature of the Universal Father. God is love, but love is not God. The greatest manifestation of the divine love for mortal beings is observed in the bestowal of the Thought Adjusters, but your greatest revelation of the Father’s love is seen in the bestowal life of his Son Michael as he lived on earth the ideal spiritual life. It is the indwelling Adjuster who individualizes the love of God to each human soul.",
+					"htmlText": "<span class=\"urantia-dev-pb-4\">But the love of God is an intelligent and farseeing parental affection. The divine love functions in unified association with divine wisdom and all other infinite characteristics of the perfect nature of the Universal Father. God is love, but love is not God. The greatest manifestation of the divine love for mortal beings is observed in the bestowal of the Thought Adjusters, but your greatest revelation of the Father’s love is seen in the bestowal life of his Son Michael as he lived on earth the ideal spiritual life. It is the indwelling Adjuster who individualizes the love of God to each human soul.</span>",
+					"labels": [],
+					"audio": {
+						"tts-1-hd": {
+							"nova": {
+								"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-1:2.5.10.mp3",
+								"format": "mp3",
+								"bitrate": 160,
+								"duration": 38.1,
+								"fileSize": 761760
+							},
+							"onyx": {
+								"url": "https://cdn.urantia.dev/audio/eng/paragraphs/onyx/tts-1-hd-onyx-1:2.5.10.mp3",
+								"format": "mp3",
+								"bitrate": 160,
+								"duration": 37.8,
+								"fileSize": 756480
+							}
+						},
+						"gpt-4o-mini-tts": {
+							"cedar": {
+								"url": "https://cdn.urantia.dev/audio/eng/paragraphs/cedar/gpt-4o-mini-tts-cedar-1:2.5.10.mp3",
+								"format": "mp3",
+								"bitrate": 192,
+								"duration": 36.4,
+								"fileSize": 873995
+							}
+						}
+					}
+				},
+				"before": [
+					{
+						"id": "1:2.5.9",
+						"standardReferenceId": "2:5.9",
+						"sortId": "1.002.005.009",
+						"paperId": "2",
+						"sectionId": "5",
+						"partId": "1",
+						"paperTitle": "The Nature of God",
+						"sectionTitle": "The Love of God",
+						"paragraphId": "9",
+						"text": "The Father’s love follows us now and throughout the endless circle of the eternal ages. As you ponder the loving nature of God, there is only one reasonable and natural personality reaction thereto: You will increasingly love your Maker; you will yield to God an affection analogous to that given by a child to an earthly parent; for, as a father, a real father, a true father, loves his children, so the Universal Father loves and forever seeks the welfare of his created sons and daughters.",
+						"htmlText": "<span class=\"urantia-dev-pb-0\">The Father’s love follows us now and throughout the endless circle of the eternal ages. As you ponder the loving nature of God, there is only one reasonable and natural personality reaction thereto: You will increasingly love your Maker; you will yield to God an affection analogous to that given by a child to an earthly parent; for, as a father, a real father, a true father, loves his children, so the Universal Father loves and forever seeks the welfare of his created sons and daughters.</span>",
+						"labels": [],
+						"audio": {
+							"tts-1-hd": {
+								"nova": {
+									"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-1:2.5.9.mp3",
+									"format": "mp3",
+									"bitrate": 160,
+									"duration": 30.5,
+									"fileSize": 609600
+								},
+								"onyx": {
+									"url": "https://cdn.urantia.dev/audio/eng/paragraphs/onyx/tts-1-hd-onyx-1:2.5.9.mp3",
+									"format": "mp3",
+									"bitrate": 160,
+									"duration": 30.7,
+									"fileSize": 613440
+								}
+							},
+							"gpt-4o-mini-tts": {
+								"cedar": {
+									"url": "https://cdn.urantia.dev/audio/eng/paragraphs/cedar/gpt-4o-mini-tts-cedar-1:2.5.9.mp3",
+									"format": "mp3",
+									"bitrate": 192,
+									"duration": 32.4,
+									"fileSize": 779328
+								}
+							}
+						}
+					}
+				],
+				"after": [
+					{
+						"id": "1:2.5.11",
+						"standardReferenceId": "2:5.11",
+						"sortId": "1.002.005.011",
+						"paperId": "2",
+						"sectionId": "5",
+						"partId": "1",
+						"paperTitle": "The Nature of God",
+						"sectionTitle": "The Love of God",
+						"paragraphId": "11",
+						"text": "At times I am almost pained to be compelled to portray the divine affection of the heavenly Father for his universe children by the employment of the human word symbol love. This term, even though it does connote man’s highest concept of the mortal relations of respect and devotion, is so frequently designative of so much of human relationship that is wholly ignoble and utterly unfit to be known by any word which is also used to indicate the matchless affection of the living God for his universe creatures! How unfortunate that I cannot make use of some supernal and exclusive term which would convey to the mind of man the true nature and exquisitely beautiful significance of the divine affection of the Paradise Father.",
+						"htmlText": "<span class=\"urantia-dev-pb-4\">At times I am almost pained to be compelled to portray the divine affection of the heavenly Father for his universe children by the employment of the human word symbol <em>love.</em> This term, even though it does connote man’s highest concept of the mortal relations of respect and devotion, is so frequently designative of so much of human relationship that is wholly ignoble and utterly unfit to be known by any word which is also used to indicate the matchless affection of the living God for his universe creatures! How unfortunate that I cannot make use of some supernal and exclusive term which would convey to the mind of man the true nature and exquisitely beautiful significance of the divine affection of the Paradise Father.</span>",
+						"labels": [],
+						"audio": {
+							"tts-1-hd": {
+								"nova": {
+									"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-1:2.5.11.mp3",
+									"format": "mp3",
+									"bitrate": 160,
+									"duration": 45.9,
+									"fileSize": 918240
+								},
+								"onyx": {
+									"url": "https://cdn.urantia.dev/audio/eng/paragraphs/onyx/tts-1-hd-onyx-1:2.5.11.mp3",
+									"format": "mp3",
+									"bitrate": 160,
+									"duration": 45.6,
+									"fileSize": 912480
+								}
+							},
+							"gpt-4o-mini-tts": {
+								"cedar": {
+									"url": "https://cdn.urantia.dev/audio/eng/paragraphs/cedar/gpt-4o-mini-tts-cedar-1:2.5.11.mp3",
+									"format": "mp3",
+									"bitrate": 192,
+									"duration": 42.7,
+									"fileSize": 1025088
+								}
+							}
+						}
+					}
+				]
+			}
+		}
+	},
+	"get /search": {
+		"response": {
+			"data": [
+				{
+					"id": "1:16.8.3",
+					"standardReferenceId": "16:8.3",
+					"sortId": "1.016.008.003",
+					"paperId": "16",
+					"sectionId": "8",
+					"partId": "1",
+					"paperTitle": "The Seven Master Spirits",
+					"sectionTitle": "Urantia Personality",
+					"paragraphId": "3",
+					"text": "Personality is a unique endowment of original nature whose existence is independent of, and antecedent to, the bestowal of the Thought Adjuster. Nevertheless, the presence of the Adjuster does augment the qualitative manifestation of personality. Thought Adjusters, when they come forth from the Father, are identical in nature, but personality is diverse, original, and exclusive; and the manifestation of personality is further conditioned and qualified by the nature and qualities of the associated energies of a material, mindal, and spiritual nature which constitute the organismal vehicle for personality manifestation.",
+					"htmlText": "<span class=\"urantia-dev-pb-0\">Personality is a unique endowment of original nature whose existence is independent of, and antecedent to, the bestowal of the <span class=urantia-dev-highlighted>Thought</span> <span class=urantia-dev-highlighted>Adjuster</span>. Nevertheless, the presence of the <span class=urantia-dev-highlighted>Adjuster</span> does augment the qualitative manifestation of personality. <span class=urantia-dev-highlighted>Thought</span> <span class=urantia-dev-highlighted>Adjusters</span>, when they come forth from the Father, are identical in nature, but personality is diverse, original, and exclusive; and the manifestation of personality is further conditioned and qualified by the nature and qualities of the associated energies of a material, mindal, and spiritual nature which constitute the organismal vehicle for personality manifestation.</span>",
+					"labels": [],
+					"audio": {
+						"tts-1-hd": {
+							"nova": {
+								"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-1:16.8.3.mp3",
+								"format": "mp3",
+								"bitrate": 160,
+								"duration": 38,
+								"fileSize": 759840
+							}
+						},
+						"gpt-4o-mini-tts": {
+							"cedar": {
+								"url": "https://cdn.urantia.dev/audio/eng/paragraphs/cedar/gpt-4o-mini-tts-cedar-1:16.8.3.mp3",
+								"format": "mp3",
+								"bitrate": 192,
+								"duration": 39.9,
+								"fileSize": 959259
+							}
+						}
+					},
+					"rank": 0.310552
+				},
+				{
+					"id": "3:108.5.5",
+					"standardReferenceId": "108:5.5",
+					"sortId": "3.108.005.005",
+					"paperId": "108",
+					"sectionId": "5",
+					"partId": "3",
+					"paperTitle": "Mission and Ministry of Thought Adjusters",
+					"sectionTitle": "The Adjuster’s Mission",
+					"paragraphId": "5",
+					"text": "The Mystery Monitors are not thought helpers; they are thought adjusters. They labor with the material mind for the purpose of constructing, by adjustment and spiritualization, a new mind for the new worlds and the new name of your future career. Their mission chiefly concerns the future life, not this life. They are called heavenly helpers, not earthly helpers. They are not interested in making the mortal career easy; rather are they concerned in making your life reasonably difficult and rugged, so that decisions will be stimulated and multiplied. The presence of a great Thought Adjuster does not bestow ease of living and freedom from strenuous thinking, but such a divine gift should confer a sublime peace of mind and a superb tranquillity of spirit.",
+					"htmlText": "<span class=\"urantia-dev-pb-0\">The Mystery Monitors are not <span class=urantia-dev-highlighted>thought</span> helpers; they are <span class=urantia-dev-highlighted>thought</span> <span class=urantia-dev-highlighted>adjusters</span>. They labor with the material mind for the purpose of constructing, by <span class=urantia-dev-highlighted>adjustment</span> and spiritualization, a new mind for the new worlds and the new name of your future career. Their mission chiefly concerns the future life, not this life. They are called heavenly helpers, not earthly helpers. They are not interested in making the mortal career easy; rather are they concerned in making your life reasonably difficult and rugged, so that decisions will be stimulated and multiplied. The presence of a great <span class=urantia-dev-highlighted>Thought</span> <span class=urantia-dev-highlighted>Adjuster</span> does not bestow ease of living and freedom from strenuous thinking, but such a divine gift should confer a sublime peace of mind and a superb tranquillity of spirit.</span>",
+					"labels": [],
+					"audio": {
+						"tts-1-hd": {
+							"nova": {
+								"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-3:108.5.5.mp3",
+								"format": "mp3",
+								"bitrate": 160,
+								"duration": 47.4,
+								"fileSize": 948000
+							}
+						}
+					},
+					"rank": 0.27321
+				}
+			],
+			"meta": {
+				"page": 0,
+				"limit": 2,
+				"total": 244,
+				"totalPages": 122
+			}
+		}
+	},
+	"post /search": {
+		"request": {
+			"q": "Thought Adjuster",
+			"limit": 2
+		},
+		"response": {
+			"data": [
+				{
+					"id": "1:16.8.3",
+					"standardReferenceId": "16:8.3",
+					"sortId": "1.016.008.003",
+					"paperId": "16",
+					"sectionId": "8",
+					"partId": "1",
+					"paperTitle": "The Seven Master Spirits",
+					"sectionTitle": "Urantia Personality",
+					"paragraphId": "3",
+					"text": "Personality is a unique endowment of original nature whose existence is independent of, and antecedent to, the bestowal of the Thought Adjuster. Nevertheless, the presence of the Adjuster does augment the qualitative manifestation of personality. Thought Adjusters, when they come forth from the Father, are identical in nature, but personality is diverse, original, and exclusive; and the manifestation of personality is further conditioned and qualified by the nature and qualities of the associated energies of a material, mindal, and spiritual nature which constitute the organismal vehicle for personality manifestation.",
+					"htmlText": "<span class=\"urantia-dev-pb-0\">Personality is a unique endowment of original nature whose existence is independent of, and antecedent to, the bestowal of the <span class=urantia-dev-highlighted>Thought</span> <span class=urantia-dev-highlighted>Adjuster</span>. Nevertheless, the presence of the <span class=urantia-dev-highlighted>Adjuster</span> does augment the qualitative manifestation of personality. <span class=urantia-dev-highlighted>Thought</span> <span class=urantia-dev-highlighted>Adjusters</span>, when they come forth from the Father, are identical in nature, but personality is diverse, original, and exclusive; and the manifestation of personality is further conditioned and qualified by the nature and qualities of the associated energies of a material, mindal, and spiritual nature which constitute the organismal vehicle for personality manifestation.</span>",
+					"labels": [],
+					"audio": {
+						"tts-1-hd": {
+							"nova": {
+								"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-1:16.8.3.mp3",
+								"format": "mp3",
+								"bitrate": 160,
+								"duration": 38,
+								"fileSize": 759840
+							}
+						},
+						"gpt-4o-mini-tts": {
+							"cedar": {
+								"url": "https://cdn.urantia.dev/audio/eng/paragraphs/cedar/gpt-4o-mini-tts-cedar-1:16.8.3.mp3",
+								"format": "mp3",
+								"bitrate": 192,
+								"duration": 39.9,
+								"fileSize": 959259
+							}
+						}
+					},
+					"rank": 0.310552
+				},
+				{
+					"id": "3:108.5.5",
+					"standardReferenceId": "108:5.5",
+					"sortId": "3.108.005.005",
+					"paperId": "108",
+					"sectionId": "5",
+					"partId": "3",
+					"paperTitle": "Mission and Ministry of Thought Adjusters",
+					"sectionTitle": "The Adjuster’s Mission",
+					"paragraphId": "5",
+					"text": "The Mystery Monitors are not thought helpers; they are thought adjusters. They labor with the material mind for the purpose of constructing, by adjustment and spiritualization, a new mind for the new worlds and the new name of your future career. Their mission chiefly concerns the future life, not this life. They are called heavenly helpers, not earthly helpers. They are not interested in making the mortal career easy; rather are they concerned in making your life reasonably difficult and rugged, so that decisions will be stimulated and multiplied. The presence of a great Thought Adjuster does not bestow ease of living and freedom from strenuous thinking, but such a divine gift should confer a sublime peace of mind and a superb tranquillity of spirit.",
+					"htmlText": "<span class=\"urantia-dev-pb-0\">The Mystery Monitors are not <span class=urantia-dev-highlighted>thought</span> helpers; they are <span class=urantia-dev-highlighted>thought</span> <span class=urantia-dev-highlighted>adjusters</span>. They labor with the material mind for the purpose of constructing, by <span class=urantia-dev-highlighted>adjustment</span> and spiritualization, a new mind for the new worlds and the new name of your future career. Their mission chiefly concerns the future life, not this life. They are called heavenly helpers, not earthly helpers. They are not interested in making the mortal career easy; rather are they concerned in making your life reasonably difficult and rugged, so that decisions will be stimulated and multiplied. The presence of a great <span class=urantia-dev-highlighted>Thought</span> <span class=urantia-dev-highlighted>Adjuster</span> does not bestow ease of living and freedom from strenuous thinking, but such a divine gift should confer a sublime peace of mind and a superb tranquillity of spirit.</span>",
+					"labels": [],
+					"audio": {
+						"tts-1-hd": {
+							"nova": {
+								"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-3:108.5.5.mp3",
+								"format": "mp3",
+								"bitrate": 160,
+								"duration": 47.4,
+								"fileSize": 948000
+							}
+						}
+					},
+					"rank": 0.27321
+				}
+			],
+			"meta": {
+				"page": 0,
+				"limit": 2,
+				"total": 244,
+				"totalPages": 122
+			}
+		}
+	},
+	"get /search/semantic": {
+		"response": {
+			"data": [
+				{
+					"id": "3:112.4.3",
+					"standardReferenceId": "112:4.3",
+					"sortId": "3.112.004.003",
+					"paperId": "112",
+					"sectionId": "4",
+					"partId": "3",
+					"paperTitle": "Personality Survival",
+					"sectionTitle": "Adjusters After Death",
+					"paragraphId": "3",
+					"text": "Subsequent to physical death, except in individuals translated from among the living, the released Adjuster goes immediately to the home sphere of Divinington. The details of what transpires on that world during the time of awaiting the factual reappearance of the surviving mortal depend chiefly on whether the human being ascends to the mansion worlds in his own individual right or awaits a dispensational summoning of the sleeping survivors of a planetary age.",
+					"htmlText": "<span class=\"urantia-dev-pb-0\">Subsequent to physical death, except in individuals translated from among the living, the released Adjuster goes immediately to the home sphere of Divinington. The details of what transpires on that world during the time of awaiting the factual reappearance of the surviving mortal depend chiefly on whether the human being ascends to the mansion worlds in his own individual right or awaits a dispensational summoning of the sleeping survivors of a planetary age.</span>",
+					"labels": [],
+					"audio": {
+						"tts-1-hd": {
+							"nova": {
+								"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-3:112.4.3.mp3",
+								"format": "mp3",
+								"bitrate": 160,
+								"duration": 29,
+								"fileSize": 579360
+							}
+						}
+					},
+					"similarity": 0.553150798189724
+				},
+				{
+					"id": "3:112.3.4",
+					"standardReferenceId": "112:3.4",
+					"sortId": "3.112.003.004",
+					"paperId": "112",
+					"sectionId": "3",
+					"partId": "3",
+					"paperTitle": "Personality Survival",
+					"sectionTitle": "The Phenomenon of Death",
+					"paragraphId": "4",
+					"text": "3. Physical (body and mind) death. When death overtakes a human being, the Adjuster remains in the citadel of the mind until it ceases to function as an intelligent mechanism, about the time that the measurable brain energies cease their rhythmic vital pulsations. Following this dissolution the Adjuster takes leave of the vanishing mind, just as unceremoniously as entry was made years before, and proceeds to Divinington by way of Uversa.",
+					"htmlText": "<span class=\"urantia-dev-pb-2\">3. <em>Physical (body and mind) death.</em> When death overtakes a human being, the Adjuster remains in the citadel of the mind until it ceases to function as an intelligent mechanism, about the time that the measurable brain energies cease their rhythmic vital pulsations. Following this dissolution the Adjuster takes leave of the vanishing mind, just as unceremoniously as entry was made years before, and proceeds to Divinington by way of Uversa.</span>",
+					"labels": [],
+					"audio": {
+						"tts-1-hd": {
+							"nova": {
+								"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-3:112.3.4.mp3",
+								"format": "mp3",
+								"bitrate": 160,
+								"duration": 27.4,
+								"fileSize": 547680
+							}
+						}
+					},
+					"similarity": 0.526940972060405
+				}
+			],
+			"meta": {
+				"page": 0,
+				"limit": 2,
+				"total": 14593,
+				"totalPages": 7297
+			}
+		}
+	},
+	"post /search/semantic": {
+		"request": {
+			"q": "what happens after death",
+			"limit": 2
+		},
+		"response": {
+			"data": [
+				{
+					"id": "3:112.4.3",
+					"standardReferenceId": "112:4.3",
+					"sortId": "3.112.004.003",
+					"paperId": "112",
+					"sectionId": "4",
+					"partId": "3",
+					"paperTitle": "Personality Survival",
+					"sectionTitle": "Adjusters After Death",
+					"paragraphId": "3",
+					"text": "Subsequent to physical death, except in individuals translated from among the living, the released Adjuster goes immediately to the home sphere of Divinington. The details of what transpires on that world during the time of awaiting the factual reappearance of the surviving mortal depend chiefly on whether the human being ascends to the mansion worlds in his own individual right or awaits a dispensational summoning of the sleeping survivors of a planetary age.",
+					"htmlText": "<span class=\"urantia-dev-pb-0\">Subsequent to physical death, except in individuals translated from among the living, the released Adjuster goes immediately to the home sphere of Divinington. The details of what transpires on that world during the time of awaiting the factual reappearance of the surviving mortal depend chiefly on whether the human being ascends to the mansion worlds in his own individual right or awaits a dispensational summoning of the sleeping survivors of a planetary age.</span>",
+					"labels": [],
+					"audio": {
+						"tts-1-hd": {
+							"nova": {
+								"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-3:112.4.3.mp3",
+								"format": "mp3",
+								"bitrate": 160,
+								"duration": 29,
+								"fileSize": 579360
+							}
+						}
+					},
+					"similarity": 0.553150798189724
+				},
+				{
+					"id": "3:112.3.4",
+					"standardReferenceId": "112:3.4",
+					"sortId": "3.112.003.004",
+					"paperId": "112",
+					"sectionId": "3",
+					"partId": "3",
+					"paperTitle": "Personality Survival",
+					"sectionTitle": "The Phenomenon of Death",
+					"paragraphId": "4",
+					"text": "3. Physical (body and mind) death. When death overtakes a human being, the Adjuster remains in the citadel of the mind until it ceases to function as an intelligent mechanism, about the time that the measurable brain energies cease their rhythmic vital pulsations. Following this dissolution the Adjuster takes leave of the vanishing mind, just as unceremoniously as entry was made years before, and proceeds to Divinington by way of Uversa.",
+					"htmlText": "<span class=\"urantia-dev-pb-2\">3. <em>Physical (body and mind) death.</em> When death overtakes a human being, the Adjuster remains in the citadel of the mind until it ceases to function as an intelligent mechanism, about the time that the measurable brain energies cease their rhythmic vital pulsations. Following this dissolution the Adjuster takes leave of the vanishing mind, just as unceremoniously as entry was made years before, and proceeds to Divinington by way of Uversa.</span>",
+					"labels": [],
+					"audio": {
+						"tts-1-hd": {
+							"nova": {
+								"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-3:112.3.4.mp3",
+								"format": "mp3",
+								"bitrate": 160,
+								"duration": 27.4,
+								"fileSize": 547680
+							}
+						}
+					},
+					"similarity": 0.526940972060405
+				}
+			],
+			"meta": {
+				"page": 0,
+				"limit": 2,
+				"total": 14593,
+				"totalPages": 7297
+			}
+		}
+	},
+	"get /entities": {
+		"response": {
+			"data": [
+				{
+					"id": "father-melchizedek",
+					"name": "Father Melchizedek",
+					"type": "being",
+					"aliases": null,
+					"description": "The original and firstborn Melchizedek Son of Nebadon, created through the union of the Creator Son and Creative Spirit, who serves as Gabriel's executive associate and assumes his responsibilities during his absence from Salvington.",
+					"seeAlso": [
+						"Melchizedek Sons"
+					],
+					"citationCount": 13
+				},
+				{
+					"id": "machiventa-melchizedek",
+					"name": "Machiventa Melchizedek",
+					"type": "being",
+					"aliases": [
+						"Machiventa Melchizedek",
+						"Melchizedek"
+					],
+					"description": "A Melchizedek Son who incarnated as an emergency bestowal on Urantia in 1973 B.C., appearing at Salem to preserve the truth of one God and prepare the way for Michael's later bestowal. Known as the Prince of Salem, he taught Abraham and established a covenant based on faith rather than sacrifice, departing after 94 years when his followers began to regard him as supernatural. He now serves as vicegerent Planetary Prince of Urantia.",
+					"seeAlso": [
+						"Melchizedek Sons",
+						"missionaries:Salem missionaries"
+					],
+					"citationCount": 55
+				}
+			],
+			"meta": {
+				"page": 0,
+				"limit": 2,
+				"total": 14,
+				"totalPages": 7
+			}
+		}
+	},
+	"get /entities/{id}": {
+		"response": {
+			"data": {
+				"id": "machiventa-melchizedek",
+				"name": "Machiventa Melchizedek",
+				"type": "being",
+				"aliases": [
+					"Machiventa Melchizedek",
+					"Melchizedek"
+				],
+				"description": "A Melchizedek Son who incarnated as an emergency bestowal on Urantia in 1973 B.C., appearing at Salem to preserve the truth of one God and prepare the way for Michael's later bestowal. Known as the Prince of Salem, he taught Abraham and established a covenant based on faith rather than sacrifice, departing after 94 years when his followers began to regard him as supernatural. He now serves as vicegerent Planetary Prince of Urantia.",
+				"seeAlso": [
+					"Melchizedek Sons",
+					"missionaries:Salem missionaries"
+				],
+				"citationCount": 55
+			}
+		}
+	},
+	"get /entities/{id}/paragraphs": {
+		"response": {
+			"data": [
+				{
+					"id": "2:35.4.5",
+					"standardReferenceId": "35:4.5",
+					"sortId": "2.035.004.005",
+					"paperId": "35",
+					"sectionId": "4",
+					"partId": "2",
+					"paperTitle": "The Local Universe Sons of God",
+					"sectionTitle": "Special Work of the Melchizedeks",
+					"paragraphId": "5",
+					"text": "The Melchizedek who lived on Urantia during the time of Abraham was locally known as Prince of Salem because he presided over a small colony of truth seekers residing at a place called Salem. He volunteered to incarnate in the likeness of mortal flesh and did so with the approval of the Melchizedek receivers of the planet, who feared that the light of life would become extinguished during that period of increasing spiritual darkness. And he did foster the truth of his day and safely pass it on to Abraham and his associates.",
+					"htmlText": "<span class=\"urantia-dev-pb-0\">The Melchizedek who lived on Urantia during the time of Abraham was locally known as Prince of Salem because he presided over a small colony of truth seekers residing at a place called Salem. He volunteered to incarnate in the likeness of mortal flesh and did so with the approval of the Melchizedek receivers of the planet, who feared that the light of life would become extinguished during that period of increasing spiritual darkness. And he did foster the truth of his day and safely pass it on to Abraham and his associates.</span>",
+					"labels": [],
+					"audio": {
+						"tts-1-hd": {
+							"nova": {
+								"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-2:35.4.5.mp3",
+								"format": "mp3",
+								"bitrate": 160,
+								"duration": 33.3,
+								"fileSize": 666240
+							}
+						},
+						"gpt-4o-mini-tts": {
+							"cedar": {
+								"url": "https://cdn.urantia.dev/audio/eng/paragraphs/cedar/gpt-4o-mini-tts-cedar-2:35.4.5.mp3",
+								"format": "mp3",
+								"bitrate": 192,
+								"duration": 32.5,
+								"fileSize": 781835
+							}
+						}
+					}
+				},
+				{
+					"id": "2:43.5.17",
+					"standardReferenceId": "43:5.17",
+					"sortId": "2.043.005.017",
+					"paperId": "43",
+					"sectionId": "5",
+					"partId": "2",
+					"paperTitle": "The Constellations",
+					"sectionTitle": "The Edentia Fathers since the Lucifer Rebellion",
+					"paragraphId": "17",
+					"text": "Every quarantined or isolated world has a Vorondadek Son acting as an observer. He does not participate in planetary administration except when ordered by the Constellation Father to intervene in the affairs of the nations. Actually it is this Most High observer who “rules in the kingdoms of men.” Urantia is one of the isolated worlds of Norlatiadek, and a Vorondadek observer has been stationed on the planet ever since the Caligastia betrayal. When Machiventa Melchizedek ministered in semimaterial form on Urantia, he paid respectful homage to the Most High observer then on duty, as it is written, “And Melchizedek, king of Salem, was the priest of the Most High.” Melchizedek revealed the relations of this Most High observer to Abraham when he said, “And blessed be the Most High, who has delivered your enemies into your hand.”",
+					"htmlText": "<span class=\"urantia-dev-pb-0\">Every quarantined or isolated world has a Vorondadek Son acting as an observer. He does not participate in planetary administration except when ordered by the Constellation Father to intervene in the affairs of the nations. Actually it is this Most High observer who “rules in the kingdoms of men.” Urantia is one of the isolated worlds of Norlatiadek, and a Vorondadek observer has been stationed on the planet ever since the Caligastia betrayal. When Machiventa Melchizedek ministered in semimaterial form on Urantia, he paid respectful homage to the Most High observer then on duty, as it is written, “And Melchizedek, king of Salem, was the priest of the Most High.” Melchizedek revealed the relations of this Most High observer to Abraham when he said, “And blessed be the Most High, who has delivered your enemies into your hand.”</span>",
+					"labels": [],
+					"audio": {
+						"tts-1-hd": {
+							"nova": {
+								"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-2:43.5.17.mp3",
+								"format": "mp3",
+								"bitrate": 160,
+								"duration": 52.1,
+								"fileSize": 1042560
+							}
+						}
+					}
+				}
+			],
+			"meta": {
+				"page": 0,
+				"limit": 2,
+				"total": 67,
+				"totalPages": 34
+			}
+		}
+	},
+	"get /languages": {
+		"response": {
+			"data": [
+				{
+					"code": "eng",
+					"name": "English",
+					"entityCount": 0,
+					"paragraphCount": 0
+				},
+				{
+					"code": "es",
+					"name": "Spanish",
+					"entityCount": 4456,
+					"paragraphCount": 0
+				}
+			]
+		}
+	},
+	"get /audio/{ref}": {
+		"response": {
+			"data": {
+				"id": "1:2.5.1",
+				"audio": {
+					"tts-1-hd": {
+						"nova": {
+							"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-1:2.5.1.mp3",
+							"format": "mp3",
+							"bitrate": 160,
+							"duration": 18,
+							"fileSize": 360960
+						},
+						"onyx": {
+							"url": "https://cdn.urantia.dev/audio/eng/paragraphs/onyx/tts-1-hd-onyx-1:2.5.1.mp3",
+							"format": "mp3",
+							"bitrate": 160,
+							"duration": 18.4,
+							"fileSize": 367680
+						}
+					},
+					"gpt-4o-mini-tts": {
+						"cedar": {
+							"url": "https://cdn.urantia.dev/audio/eng/paragraphs/cedar/gpt-4o-mini-tts-cedar-1:2.5.1.mp3",
+							"format": "mp3",
+							"bitrate": 192,
+							"duration": 18.1,
+							"fileSize": 434511
+						}
+					}
+				}
+			}
+		}
+	},
+	"get /bible/books": {
+		"response": {
+			"data": [
+				{
+					"bookCode": "Gen",
+					"bookName": "Genesis",
+					"fullName": "The First Book of Moses, Commonly Called Genesis",
+					"abbr": "Gen",
+					"bookOrder": 1,
+					"canon": "ot",
+					"chapterCount": 50,
+					"verseCount": 1533
+				},
+				{
+					"bookCode": "Exod",
+					"bookName": "Exodus",
+					"fullName": "The Second Book of Moses, Commonly Called Exodus",
+					"abbr": "Exod",
+					"bookOrder": 2,
+					"canon": "ot",
+					"chapterCount": 40,
+					"verseCount": 1213
+				}
+			]
+		}
+	},
+	"get /bible/{bookCode}": {
+		"response": {
+			"data": {
+				"bookCode": "Matt",
+				"bookName": "Matthew",
+				"fullName": "The Gospel According to Matthew",
+				"abbr": "Matt",
+				"bookOrder": 55,
+				"canon": "nt",
+				"chapterCount": 28,
+				"verseCount": 1071
+			}
+		}
+	},
+	"get /bible/{bookCode}/{chapter}": {
+		"response": {
+			"data": {
+				"bookCode": "Matt",
+				"bookName": "Matthew",
+				"canon": "nt",
+				"chapter": 5,
+				"verses": [
+					{
+						"id": "Matt.5.1",
+						"reference": "Matthew 5:1",
+						"bookCode": "Matt",
+						"bookName": "Matthew",
+						"bookOrder": 55,
+						"canon": "nt",
+						"chapter": 5,
+						"verse": 1,
+						"text": "Seeing the multitudes, he went up onto the mountain. When he had sat down, his disciples came to him.",
+						"translation": "web"
+					},
+					{
+						"id": "Matt.5.2",
+						"reference": "Matthew 5:2",
+						"bookCode": "Matt",
+						"bookName": "Matthew",
+						"bookOrder": 55,
+						"canon": "nt",
+						"chapter": 5,
+						"verse": 2,
+						"text": "He opened his mouth and taught them, saying,",
+						"translation": "web"
+					}
+				]
+			}
+		}
+	},
+	"get /bible/{bookCode}/{chapter}/{verse}": {
+		"response": {
+			"data": {
+				"id": "Matt.5.3",
+				"reference": "Matthew 5:3",
+				"bookCode": "Matt",
+				"bookName": "Matthew",
+				"bookOrder": 55,
+				"canon": "nt",
+				"chapter": 5,
+				"verse": 3,
+				"text": "“Blessed are the poor in spirit, for theirs is the Kingdom of Heaven.",
+				"translation": "web"
+			}
+		}
+	},
+	"get /bible/{bookCode}/{chapter}/{verse}/urantia-parallels": {
+		"response": {
+			"data": {
+				"verse": {
+					"id": "Matt.5.3",
+					"reference": "Matthew 5:3",
+					"bookCode": "Matt",
+					"bookName": "Matthew",
+					"bookOrder": 55,
+					"canon": "nt",
+					"chapter": 5,
+					"verse": 3,
+					"text": "“Blessed are the poor in spirit, for theirs is the Kingdom of Heaven.",
+					"translation": "web"
+				},
+				"chunk": {
+					"id": "Matt.5.3",
+					"reference": "Matthew 5:3",
+					"verseStart": 3,
+					"verseEnd": 3,
+					"text": "“Blessed are the poor in spirit, for theirs is the Kingdom of Heaven."
+				},
+				"urantiaParallels": [
+					{
+						"id": "4:140.3.3",
+						"standardReferenceId": "140:3.3",
+						"paperId": "140",
+						"paperTitle": "The Ordination of the Twelve",
+						"sectionTitle": "The Ordination Sermon",
+						"text": "“Happy are the poor in spirit, the humble, for theirs are the treasures of the kingdom of heaven.",
+						"similarity": 0.853767,
+						"rank": 1,
+						"source": "semantic",
+						"embeddingModel": "text-embedding-3-large"
+					},
+					{
+						"id": "4:140.5.7",
+						"standardReferenceId": "140:5.7",
+						"paperId": "140",
+						"paperTitle": "The Ordination of the Twelve",
+						"sectionTitle": "Fatherly and Brotherly Love",
+						"text": "1. “Happy are the poor in spirit—the humble.” To a child, happiness is the satisfaction of immediate pleasure craving. The adult is willing to sow seeds of self-denial in order to reap subsequent harvests of augmented happiness. In Jesus’ times and since, happiness has all too often been associated with the idea of the possession of wealth. In the story of the Pharisee and the publican praying in the temple, the one felt rich in spirit—egotistical; the other felt “poor in spirit”—humble. One was self-sufficient; the other was teachable and truth-seeking. The poor in spirit seek for goals of spiritual wealth—for God. And such seekers after truth do not have to wait for rewards in a distant future; they are rewarded now. They find the kingdom of heaven within their own hearts, and they experience such happiness now.",
+						"similarity": 0.644358,
+						"rank": 2,
+						"source": "semantic",
+						"embeddingModel": "text-embedding-3-large"
+					}
+				]
+			}
+		}
+	},
+	"post /bible/search/semantic": {
+		"request": {
+			"q": "blessed are the poor in spirit",
+			"limit": 2,
+			"urantiaParallelLimit": 1
+		},
+		"response": {
+			"data": [
+				{
+					"id": "Matt.5.3",
+					"reference": "Matthew 5:3",
+					"bookCode": "Matt",
+					"bookName": "Matthew",
+					"canon": "nt",
+					"chapter": 5,
+					"verseStart": 3,
+					"verseEnd": 3,
+					"text": "“Blessed are the poor in spirit, for theirs is the Kingdom of Heaven.",
+					"similarity": 0.840739,
+					"urantiaParallels": [
+						{
+							"id": "4:140.3.3",
+							"standardReferenceId": "140:3.3",
+							"paperId": "140",
+							"paperTitle": "The Ordination of the Twelve",
+							"sectionTitle": "The Ordination Sermon",
+							"text": "“Happy are the poor in spirit, the humble, for theirs are the treasures of the kingdom of heaven.",
+							"similarity": 0.853767,
+							"rank": 1
+						}
+					]
+				},
+				{
+					"id": "Ps.41.1",
+					"reference": "Psalms 41:1",
+					"bookCode": "Ps",
+					"bookName": "Psalms",
+					"canon": "ot",
+					"chapter": 41,
+					"verseStart": 1,
+					"verseEnd": 1,
+					"text": "Blessed is he who considers the poor. Yahweh will deliver him in the day of evil.",
+					"similarity": 0.642851,
+					"urantiaParallels": [
+						{
+							"id": "4:131.2.8",
+							"standardReferenceId": "131:2.8",
+							"paperId": "131",
+							"paperTitle": "The World’s Religions",
+							"sectionTitle": "Judaism",
+							"text": "“Yahweh is the God of my salvation; therefore in the divine name will I put my trust. I will trust in the Lord with all my heart; I will lean not upon my own understanding. In all my ways I will acknowledge him, and he shall direct my paths. The Lord is faithful; he keeps his word with those who serve him; the just shall live by his faith. If you do not well, it is because sin lies at the door; men reap the evil they plough and the sin they sow. Fret not yourself because of evildoers. If you regard iniquity in your heart, the Lord will not hear you; if you sin against God, you also wrong your own soul. God will bring every man’s work to judgment with every secret thing, whether it be good or evil. As a man thinks in his heart, so is he.",
+							"similarity": 0.512232,
+							"rank": 1
+						}
+					]
+				}
+			],
+			"meta": {
+				"page": 0,
+				"limit": 2,
+				"total": 17641,
+				"totalPages": 8821
+			}
+		}
+	},
+	"get /cite": {
+		"response": {
+			"data": {
+				"ref": "2:5.1",
+				"style": "apa",
+				"citation": "The Urantia Book. (1955). Urantia Foundation. Paper 2, Section 5, Paragraph 1."
+			}
+		}
+	},
+	"get /tools/openai": {
+		"response": {
+			"server": {
+				"name": "Urantia Papers API",
+				"base_url": "https://api.urantia.dev"
+			},
+			"tools": [
+				{
+					"type": "function",
+					"function": {
+						"name": "get_table_of_contents",
+						"description": "Get the full table of contents of the Urantia Papers. Returns the Foreword and the 4 parts, with all 197 papers and their titles.",
+						"parameters": {
+							"type": "object",
+							"properties": {}
+						}
+					}
+				},
+				{
+					"type": "function",
+					"function": {
+						"name": "list_papers",
+						"description": "List all 197 Urantia Papers with their metadata (id, title, partId, labels). Use get_table_of_contents for a hierarchical view.",
+						"parameters": {
+							"type": "object",
+							"properties": {}
+						}
+					}
+				}
+			]
+		}
+	},
+	"get /tools/anthropic": {
+		"response": {
+			"server": {
+				"name": "Urantia Papers API",
+				"base_url": "https://api.urantia.dev"
+			},
+			"tools": [
+				{
+					"name": "get_table_of_contents",
+					"description": "Get the full table of contents of the Urantia Papers. Returns the Foreword and the 4 parts, with all 197 papers and their titles.",
+					"input_schema": {
+						"type": "object",
+						"properties": {}
+					}
+				},
+				{
+					"name": "list_papers",
+					"description": "List all 197 Urantia Papers with their metadata (id, title, partId, labels). Use get_table_of_contents for a hierarchical view.",
+					"input_schema": {
+						"type": "object",
+						"properties": {}
+					}
+				}
+			]
+		}
+	}
+}
