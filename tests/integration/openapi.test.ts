@@ -46,7 +46,7 @@ describe("GET /openapi.json", () => {
 				]);
 			}
 		}
-		expect(errors).toBeGreaterThan(100);
+		expect(errors).toBeGreaterThan(60);
 	});
 
 	it("documents the rate limit on every operation", async () => {
@@ -78,48 +78,26 @@ describe("GET /openapi.json", () => {
 		expect(withExample.length / all.length).toBeGreaterThan(0.5);
 		expect(spec.paths["/paragraphs/{ref}"].get.responses["200"].content["application/json"].example.data.standardReferenceId).toBe("2:5.1");
 		expect(spec.paths["/og/{ref}"].get.parameters[0].example).toBe("2:5.1");
-		expect(spec.paths["/me/bookmarks"].post.requestBody.content["application/json"].example).toEqual({
-			ref: "2:5.1",
-			category: "Love",
-		});
+		expect(spec.paths["/feedback"].post.requestBody.content["application/json"].example.category).toBe("docs");
 	});
 
-	it("marks the signed-in operations, and they refuse a request with no token", async () => {
+	it("lists the open content API only, with no auth scheme", async () => {
 		const spec = await loadSpec();
-		expect(spec.components.securitySchemes.bearerAuth.scheme).toBe("bearer");
-		const flow = spec.components.securitySchemes.oauth2.flows.authorizationCode;
-		expect(flow.tokenUrl).toBe("https://api.urantia.dev/auth/token");
-		expect(Object.keys(flow.scopes)).toEqual([
-			"profile",
-			"bookmarks",
-			"notes",
-			"reading-progress",
-			"preferences",
-			"app-data",
-		]);
-
-		const secured = operations(spec).filter(({ op }) => op.security);
-		expect(secured.length).toBeGreaterThan(20);
-		for (const { key, path, method } of secured) {
-			const url = path.replace(/\{[^}]+\}/g, "00000000-0000-0000-0000-000000000000");
-			const res = await app.request(url, {
-				method: method.toUpperCase(),
-				headers: { "Content-Type": "application/json", ...TEST_IP },
-				body: method === "get" || method === "delete" ? undefined : "{}",
-			});
-			// A route with a body can reject the empty body first, with 400.
-			const allowed = method === "get" || method === "delete" ? [401] : [400, 401];
-			expect([key, allowed.includes(res.status)]).toEqual([key, true]);
-		}
-	});
-
-	it("leaves the public operations without a security requirement", async () => {
-		const spec = await loadSpec();
-		for (const { key, path, op } of operations(spec)) {
-			if (path.startsWith("/me") || path.startsWith("/auth")) continue;
+		const paths = Object.keys(spec.paths);
+		expect(paths.filter((path) => path.startsWith("/me") || path.startsWith("/auth"))).toEqual([]);
+		expect(paths).toContain("/paragraphs/{ref}");
+		expect(spec.components.securitySchemes).toBeUndefined();
+		expect(spec.security).toEqual([]);
+		for (const { key, op } of operations(spec)) {
 			expect([key, op.security]).toEqual([key, undefined]);
 		}
-		expect(spec.paths["/auth/token"].post.security).toBeUndefined();
-		expect(spec.security).toEqual([]);
+		expect(JSON.stringify(spec)).not.toContain("accounts.urantiahub.com");
+	});
+
+	it("keeps the account operations working, outside the spec", async () => {
+		for (const path of ["/me", "/me/bookmarks", "/auth/apps"]) {
+			const res = await app.request(path, { headers: TEST_IP });
+			expect([path, res.status]).toEqual([path, 401]);
+		}
 	});
 });
