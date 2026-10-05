@@ -87,6 +87,16 @@ describe("GET /openapi.json", () => {
 	it("marks the signed-in operations, and they refuse a request with no token", async () => {
 		const spec = await loadSpec();
 		expect(spec.components.securitySchemes.bearerAuth.scheme).toBe("bearer");
+		const flow = spec.components.securitySchemes.oauth2.flows.authorizationCode;
+		expect(flow.tokenUrl).toBe("https://api.urantia.dev/auth/token");
+		expect(Object.keys(flow.scopes)).toEqual([
+			"profile",
+			"bookmarks",
+			"notes",
+			"reading-progress",
+			"preferences",
+			"app-data",
+		]);
 
 		const secured = operations(spec).filter(({ op }) => op.security);
 		expect(secured.length).toBeGreaterThan(20);
