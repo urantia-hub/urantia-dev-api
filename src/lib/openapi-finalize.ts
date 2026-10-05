@@ -12,9 +12,9 @@ type Operation = {
 	parameters?: Parameter[];
 	responses?: Record<string, Response>;
 	requestBody?: { content?: Record<string, Media> };
-	security?: Record<string, string[]>[];
 };
 type Spec = {
+	tags?: { name: string }[];
 	security?: Record<string, string[]>[];
 	paths?: Record<string, Record<string, Operation>>;
 	components?: Record<string, Record<string, unknown>>;
@@ -28,13 +28,8 @@ const RATE_LIMIT_HEADERS = {
 	"X-RateLimit-Reset": { $ref: "#/components/headers/X-RateLimit-Reset" },
 };
 
-// Request bodies for the signed-in write operations. Each one is valid against its schema.
+// A request body for the one public write operation. It is valid against its schema.
 const REQUEST_EXAMPLES: Record<string, unknown> = {
-	"put /me": { name: "Reader" },
-	"post /me/bookmarks": { ref: "2:5.1", category: "Love" },
-	"post /me/notes": { ref: "2:5.1", text: "Compare with 1 John 4:8.", format: "plain" },
-	"put /me/notes/{id}": { text: "Compare with 1 John 4:8 and 4:16.", format: "plain" },
-	"post /me/reading-progress": { refs: ["2:5.1", "2:5.2"] },
 	"post /feedback": {
 		category: "docs",
 		message: "The quickstart does not say that q is required for /search.",
@@ -51,29 +46,22 @@ const PARAMETER_EXAMPLES: Record<string, unknown> = {
 	verse: 3,
 };
 
-// The scopes an app can ask for. The same list is in ALLOWED_SCOPES in routes/auth.ts.
-const OAUTH_SCOPES: Record<string, string> = {
-	profile: "The reader's profile",
-	bookmarks: "The reader's bookmarks",
-	notes: "The reader's notes",
-	"reading-progress": "The reader's reading progress",
-	preferences: "The reader's preferences",
-	"app-data": "Data that the app stores for the reader",
-};
-
 const EXAMPLES = captured as Record<string, { request?: unknown; response: unknown }>;
 
-// Operations under these paths need a signed-in user. The rest of /auth is public.
-const PUBLIC_AUTH = new Set([
-	"get /auth/apps/{id}",
-	"get /auth/apps/{id}/logo",
-	"post /auth/token",
-	"post /auth/refresh",
-]);
+// The account operations (/me and /auth) serve the sign-in of other apps. They work,
+// but the public spec does not list them: it describes the open content API only.
+const ACCOUNT_TAGS = [
+	"Admin",
+	"Auth",
+	"Bookmarks",
+	"Notes",
+	"Preferences",
+	"Reading Progress",
+	"User",
+];
 
-function needsUser(key: string, path: string): boolean {
-	if (path === "/me" || path.startsWith("/me/")) return true;
-	return path.startsWith("/auth/") && !PUBLIC_AUTH.has(key);
+function isAccountPath(path: string): boolean {
+	return path === "/me" || path.startsWith("/me/") || path.startsWith("/auth/");
 }
 
 function setExample(content: Record<string, Media> | undefined, example: unknown) {
@@ -81,7 +69,7 @@ function setExample(content: Record<string, Media> | undefined, example: unknown
 	if (media && example !== undefined) media.example = example;
 }
 
-/** Adds the facts the route definitions do not carry: errors, rate limits, auth, and examples. */
+/** Adds the facts the route definitions do not carry (errors, rate limits, examples) and keeps the spec to the open content API. */
 export function finalizeOpenApi<T>(document: T): T {
 	const spec = document as Spec;
 	spec.components ??= {};
@@ -123,32 +111,13 @@ export function finalizeOpenApi<T>(document: T): T {
 			example: 1791152213,
 		},
 	};
-	spec.components.securitySchemes = {
-		...spec.components.securitySchemes,
-		bearerAuth: {
-			type: "http",
-			scheme: "bearer",
-			bearerFormat: "JWT",
-			description:
-				"An access token for a signed-in user. Only the /me and /auth operations use it. Every other operation needs no key.",
-		},
-		oauth2: {
-			type: "oauth2",
-			description:
-				"How an app gets that access token: the authorization code flow with PKCE. The sign-in server publishes its metadata at https://accounts.urantiahub.com/.well-known/openid-configuration. The token request is a JSON body, as POST /auth/token documents.",
-			flows: {
-				authorizationCode: {
-					authorizationUrl: "https://accounts.urantiahub.com/authorize",
-					tokenUrl: "https://api.urantia.dev/auth/token",
-					refreshUrl: "https://api.urantia.dev/auth/refresh",
-					scopes: OAUTH_SCOPES,
-				},
-			},
-		},
-	};
+	// No operation in this spec needs a key.
+	spec.security = [];
 
-	// No key is needed unless an operation says so.
-	spec.security ??= [];
+	for (const path of Object.keys(spec.paths ?? {})) {
+		if (isAccountPath(path)) delete spec.paths?.[path];
+	}
+	if (spec.tags) spec.tags = spec.tags.filter((tag) => !ACCOUNT_TAGS.includes(tag.name));
 
 	for (const [path, item] of Object.entries(spec.paths ?? {})) {
 		for (const method of METHODS) {
@@ -159,10 +128,6 @@ export function finalizeOpenApi<T>(document: T): T {
 
 			// The rate limiter runs before every route.
 			operation.responses["429"] ??= { description: "Too many requests" };
-			if (needsUser(key, path)) {
-				operation.security = [{ bearerAuth: [] }, { oauth2: [] }];
-				operation.responses["401"] ??= { description: "Missing or invalid access token" };
-			}
 
 			for (const [status, response] of Object.entries(operation.responses)) {
 				response.headers = { ...response.headers, ...RATE_LIMIT_HEADERS };
