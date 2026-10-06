@@ -363,9 +363,21 @@ its row in the same change when you submit somewhere or a listing changes state.
 
 ## Observability
 
-- **Logging**: BetterStack via `@logtail/edge`. Structured JSON logs with request metadata. The source is named "Urantia.dev" (id 2281673) and receives production logs. The log alert counts `level` in warn, error, or fatal; it does not match words in the log text.
-- **Metrics**: Search queries and endpoint usage are logged as structured events to BetterStack, queryable via SQL dashboards.
-- **Error tracking**: Global error handler sends stack traces to BetterStack.
+- **Logging**: PostHog Logs (since 2026-10-06; BetterStack before). `src/lib/logger.ts` sends
+  OTLP/HTTP JSON to `https://us.i.posthog.com/i/v1/logs` with the project token in the
+  `POSTHOG_KEY` secret, `service.name` = `urantia-dev-api` and `app` = `urantia-dev` (the
+  PostHog project is shared with the Hub and Dalamatia, so filter by `app` or service).
+  One buffer per request, sent once at the end inside `ctx.waitUntil`. No token or no
+  execution context means console output (local dev and tests).
+- **Request log fields** (`src/lib/request-log.ts`): method, path, status, duration,
+  `ip_hash` (HMAC of the IP with `FEEDBACK_IP_PEPPER`, first 16 hex characters; the raw IP
+  is never logged), country, user agent, `ua_family`, `is_bot`, and on `POST /mcp` the
+  `mcp_method`, `mcp_tool`, `mcp_client`, and `mcp_client_version`. These answer the
+  adoption questions: which MCP clients connect, which tools they call, and how many
+  distinct non-bot callers there are per week.
+- **Retention**: 14 days (PostHog default). The privacy policy states it. Change both together.
+- **Error tracking**: the global error handler logs the stack at ERROR. A PostHog log alert on ERROR replaces the old BetterStack alert.
+- **Uptime and status page** stay on BetterStack (status.urantia.dev). Only logs moved.
 - **Health check**: `GET /health` verifies DB connectivity.
 - **Uptime monitoring**: BetterStack uptime monitor on `/health`.
 - **Admin stats**: `GET /admin/stats?window=1h|24h|7d` aggregates Cloudflare GraphQL Analytics
