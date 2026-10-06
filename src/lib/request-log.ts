@@ -43,7 +43,7 @@ export function summarizeMcp(body: unknown): McpSummary {
 const MAX_MCP_BODY = 64_000;
 
 /** Reads at most `max` bytes of a stream. Returns undefined when the body is longer. */
-async function readCapped(stream: ReadableStream<Uint8Array>, max: number) {
+export async function readCapped(stream: ReadableStream<Uint8Array>, max: number) {
 	const reader = stream.getReader();
 	const chunks: Uint8Array[] = [];
 	let size = 0;
