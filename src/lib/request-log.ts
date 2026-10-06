@@ -13,6 +13,11 @@ type RpcMessage = {
 	params?: { name?: unknown; clientInfo?: { name?: unknown; version?: unknown } };
 };
 
+// Crawlers, uptime monitors, and link previews. Matched anywhere in the user agent,
+// so "UptimeRobot", "GPTBot", and "ClaudeBot" count, though their family is not bot-crawler.
+const AUTOMATED =
+	/bot\b|bot\/|crawler|spider|scraper|slurp|uptime|monitor|pingdom|statuscake|headless|preview|facebookexternalhit/i;
+
 const short = (value: unknown, max = 80) =>
 	typeof value === "string" && value ? value.slice(0, max) : undefined;
 
@@ -107,6 +112,6 @@ export async function callerFields(
 		country: headers.get("cf-ipcountry") ?? undefined,
 		user_agent: userAgent,
 		ua_family: family,
-		is_bot: family === "bot-crawler",
+		is_bot: family === "bot-crawler" || (!!userAgent && AUTOMATED.test(userAgent)),
 	};
 }
