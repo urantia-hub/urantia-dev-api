@@ -28,8 +28,12 @@ const RATE_LIMIT_HEADERS = {
 	"X-RateLimit-Reset": { $ref: "#/components/headers/X-RateLimit-Reset" },
 };
 
-// A request body for the one public write operation. It is valid against its schema.
+// Request bodies for the public POST operations. Each is valid against its schema.
 const REQUEST_EXAMPLES: Record<string, unknown> = {
+	"post /quotes/verify": {
+		text: "The Father loves us enough to bestow his life upon us.",
+		ref: "2:5.1",
+	},
 	"post /feedback": {
 		category: "docs",
 		message: "The quickstart does not say that q is required for /search.",
