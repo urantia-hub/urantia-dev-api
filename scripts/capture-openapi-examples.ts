@@ -37,6 +37,11 @@ const CAPTURES: Capture[] = [
 		body: { q: "blessed are the poor in spirit", limit: 2, urantiaParallelLimit: 1 },
 	},
 	{ op: "get /cite", path: "/cite?ref=2:5.1" },
+	{
+		op: "post /quotes/verify",
+		path: "/quotes/verify",
+		body: { text: "The Father loves us enough to bestow his life upon us.", ref: "2:5.1" },
+	},
 	{ op: "get /tools/openai", path: "/tools/openai" },
 	{ op: "get /tools/anthropic", path: "/tools/anthropic" },
 ];
