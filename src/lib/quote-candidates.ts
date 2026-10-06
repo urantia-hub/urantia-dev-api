@@ -35,7 +35,9 @@ export function databaseCandidates(hyperdrive: Hyperdrive | undefined): Candidat
 				.select(fields)
 				.from(paragraphs)
 				.where(sql`search_vector @@ ${tsQuery}`)
-				.orderBy(sql`ts_rank_cd(search_vector, ${tsQuery}) DESC`)
+				// ts_rank, as in GET /search. ts_rank_cd favors words close together and
+				// ranks poorly for an OR of many words, so a paraphrase lost its paragraph.
+				.orderBy(sql`ts_rank(search_vector, ${tsQuery}) DESC`)
 				.limit(limit);
 		},
 		async byRef(ref) {
