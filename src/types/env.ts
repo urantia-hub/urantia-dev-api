@@ -3,7 +3,8 @@ export type Env = {
 		HYPERDRIVE?: Hyperdrive;
 		DATABASE_URL?: string;
 		OPENAI_API_KEY?: string;
-		LOGTAIL_TOKEN?: string;
+		// PostHog project token (phc_). The logger sends to PostHog Logs when it is set.
+		POSTHOG_KEY?: string;
 		SUPABASE_URL?: string;
 		ADMIN_USER_IDS?: string;
 		APP_JWT_SECRET?: string;

@@ -36,7 +36,6 @@
 		"@hono/mcp": "^0.2.5",
 		"@hono/swagger-ui": "^0.5.3",
 		"@hono/zod-openapi": "^1.6.0",
-		"@logtail/edge": "^0.5.8",
 		"@modelcontextprotocol/sdk": "^1.30.0",
 		"drizzle-orm": "^0.45.2",
 		"hono": "^4.13.3",

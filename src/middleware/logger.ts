@@ -1,6 +1,7 @@
 import type { ExecutionContext } from "@cloudflare/workers-types";
 import type { MiddlewareHandler } from "hono";
 import { getLogger, type Logger } from "../lib/logger.ts";
+import { callerFields, readMcpSummary } from "../lib/request-log.ts";
 
 declare module "hono" {
 	interface ContextVariableMap {
@@ -21,21 +22,22 @@ export const loggerMiddleware: MiddlewareHandler = async (c, next) => {
 	const logger = getLogger(ctx);
 	c.set("logger", logger);
 
+	// Read the MCP body before the route consumes it. Only POST /mcp has one.
+	const mcp =
+		c.req.method === "POST" && c.req.path === "/mcp" ? await readMcpSummary(c.req.raw) : {};
+
 	await next();
 
 	const duration = Date.now() - start;
-	const ip =
-		c.req.header("cf-connecting-ip") ??
-		c.req.header("x-forwarded-for")?.split(",")[0]?.trim() ??
-		"unknown";
+	const pepper = c.env?.FEEDBACK_IP_PEPPER ?? process.env.FEEDBACK_IP_PEPPER;
 
 	logger.info("request", {
 		method: c.req.method,
 		path: c.req.path,
 		status: c.res.status,
 		duration_ms: duration,
-		ip,
-		user_agent: c.req.header("user-agent") ?? "unknown",
+		...(await callerFields(c.req.raw.headers, pepper)),
+		...mcp,
 		referer: c.req.header("referer") ?? undefined,
 		cf_ray: c.req.header("cf-ray") ?? undefined,
 	});
