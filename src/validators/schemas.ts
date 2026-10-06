@@ -2,7 +2,12 @@ import { z } from "zod";
 
 // --- Supported languages ---
 
-export const SupportedLanguage = z.enum(["eng", "es", "fr", "pt", "de", "ko"]).default("eng");
+export const SupportedLanguage = z
+	.enum(["eng", "es", "fr", "pt", "de", "ko"])
+	.default("eng")
+	.describe(
+		"Language for translated fields. Entity names, aliases, and descriptions exist in es, fr, pt, de, and ko. Paragraph text is in English only, because only the English text is in the public domain. Each paragraph has a `language` field that states the language of its text.",
+	);
 
 export const LangQuery = z.object({
 	lang: SupportedLanguage.optional(),
