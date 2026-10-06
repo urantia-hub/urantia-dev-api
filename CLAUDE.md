@@ -96,7 +96,8 @@ what rebuilds the hot set after the rollout.
 - `src/index.ts` — Hono app entry point
 - `src/db/schema.ts` — Drizzle table definitions (content tables + auth/user tables)
 - `src/db/client.ts` — Database client
-- `src/lib/logger.ts` — BetterStack logger factory (dev fallback to console)
+- `src/lib/logger.ts` — PostHog Logs logger, one buffer per request (dev fallback to console)
+- `src/lib/request-log.ts` — request log fields: IP hash, user-agent family, MCP client and tool
 - `src/lib/errors.ts` — RFC 9457 problem+json error responses
 - `src/lib/paragraph-lookup.ts` — Shared paragraph ref resolution + batch lookup
 - `src/routes/` — API route handlers
@@ -128,7 +129,7 @@ Official TypeScript SDKs published on npm (`urantia-dev-sdks/` repo):
 - `APP_JWT_SECRET` — HS256 secret for signing app-scoped access tokens (generated, not from Supabase)
 - `ADMIN_USER_IDS` — Comma-separated Supabase user UUIDs that can register OAuth apps
 - `OPENAI_API_KEY` — For semantic search embeddings
-- `BETTERSTACK_SOURCE_TOKEN` — BetterStack logging
+- `POSTHOG_KEY` — PostHog project token (phc_) for logs. Unset means console logs
 - `CF_ANALYTICS_API_TOKEN` — Cloudflare API token (Analytics:Read on the zone) for `/admin/stats`
 - `CF_ZONE_TAG` — Cloudflare zone tag (the `api.urantia.dev` zone) for `/admin/stats`
 - `RESEND_API_KEY`, `FEEDBACK_FROM`, `FEEDBACK_TO` — Email for `POST /feedback` (optional; `FEEDBACK_TO` is comma-separated)
@@ -159,9 +160,9 @@ are optional, and a delivery failure never fails the request.
   `FEEDBACK_GLOBAL_LIMITER` (30 per minute in total) stays on the binding as a
   flood backstop only. In a `wrangler dev` session there is one isolate, so both
   look exact there. Only production shows the difference.
-- Logging: `src/lib/logger.ts` builds one BetterStack client per request, and
+- Logging: `src/lib/logger.ts` keeps one log buffer per request (PostHog Logs), and
   the logger middleware flushes it with `ctx.waitUntil`. Do not go back to one
-  module-level client. A shared client batched every request's lines together
+  module-level buffer. The old shared BetterStack client batched every request's lines together
   and resolved them from another request's timer, which Workers cancels as
   "your Worker's code had hung" (seen on every route until 2026-10-02).
 - The tests use `save` and `fetch` doubles (`createFeedbackRoute`). No test
