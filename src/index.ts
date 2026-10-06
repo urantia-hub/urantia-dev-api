@@ -15,6 +15,7 @@ import { loggerMiddleware } from "./middleware/logger.ts";
 import { rateLimiter } from "./middleware/rate-limit.ts";
 import { scannerBlock } from "./middleware/security.ts";
 import { adminRoute } from "./routes/admin.ts";
+import { alertWebhookRoute } from "./routes/alert-webhook.ts";
 import { audioRoute } from "./routes/audio.ts";
 import { authRoute } from "./routes/auth.ts";
 import { bibleRoute } from "./routes/bible.ts";
@@ -199,6 +200,7 @@ app.route("/og", ogRoute);
 app.route("/embeddings", embeddingsRoute);
 app.route("/tools", toolsRoute);
 app.route("/feedback", feedbackRoute);
+app.route("/hooks/posthog-alerts", alertWebhookRoute);
 
 // OpenAPI spec
 const OPENAPI_CONFIG = {
