@@ -43,10 +43,6 @@ app.onError((err, c) => {
 	}
 
 	const logger = c.get("logger");
-	const ip =
-		c.req.header("cf-connecting-ip") ??
-		c.req.header("x-forwarded-for")?.split(",")[0]?.trim() ??
-		"unknown";
 
 	if (logger) {
 		logger.error(err.message, {
@@ -54,7 +50,6 @@ app.onError((err, c) => {
 			path: c.req.path,
 			stack: err.stack,
 			cf_ray: c.req.header("cf-ray") ?? undefined,
-			ip,
 		});
 	} else {
 		console.error(`[ERROR] ${c.req.method} ${c.req.path}:`, err.message);
