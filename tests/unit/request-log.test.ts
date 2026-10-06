@@ -111,6 +111,26 @@ describe("callerFields", () => {
 		expect((await callerFields(headers, undefined)).ip_hash).toBeUndefined();
 	});
 
+	it("marks monitors and AI crawlers as bots, and leaves real clients alone", async () => {
+		const isBot = async (ua: string) =>
+			(await callerFields(new Headers({ "user-agent": ua }), undefined)).is_bot;
+		expect(
+			await isBot("Mozilla/5.0+(compatible; UptimeRobot/2.0; http://www.uptimerobot.com/)"),
+		).toBe(true);
+		expect(await isBot("Better Stack Better Uptime Bot Mozilla/5.0")).toBe(true);
+		expect(
+			await isBot("Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; GPTBot/1.2)"),
+		).toBe(true);
+		expect(await isBot("Mozilla/5.0 (compatible; ClaudeBot/1.0; +claudebot@anthropic.com)")).toBe(
+			true,
+		);
+		expect(
+			await isBot("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Chrome/140.0 Safari/537.36"),
+		).toBe(false);
+		expect(await isBot("claude-code/2.1.0")).toBe(false);
+		expect(await isBot("openai-mcp/1.0.0")).toBe(false);
+	});
+
 	it("records the country and marks a crawler as a bot", async () => {
 		const fields = await callerFields(headers, "pepper");
 		expect(fields.country).toBe("US");
