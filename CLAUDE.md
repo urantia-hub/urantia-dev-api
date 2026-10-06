@@ -371,7 +371,7 @@ its row in the same change when you submit somewhere or a listing changes state.
   One buffer per request, sent once at the end inside `ctx.waitUntil`. No token or no
   execution context means console output (local dev and tests).
 - **Request log fields** (`src/lib/request-log.ts`): method, path, status, duration,
-  `ip_hash` (HMAC of the IP with `FEEDBACK_IP_PEPPER`, first 16 hex characters; the raw IP
+  `ip_hash` (HMAC of the IP and the UTC week, keyed by `FEEDBACK_IP_PEPPER` plus `:request-log`, first 16 hex characters; it never matches a feedback hash and changes each week; the raw IP
   is never logged), country, user agent, `ua_family`, `is_bot`, and on `POST /mcp` the
   `mcp_method`, `mcp_tool`, `mcp_client`, and `mcp_client_version`. These answer the
   adoption questions: which MCP clients connect, which tools they call, and how many
