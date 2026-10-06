@@ -217,33 +217,33 @@
 	"get /paragraphs/random": {
 		"response": {
 			"data": {
-				"id": "2:44.3.4",
-				"standardReferenceId": "44:3.4",
-				"sortId": "2.044.003.004",
-				"paperId": "44",
-				"sectionId": "3",
-				"partId": "2",
-				"paperTitle": "The Celestial Artisans",
-				"sectionTitle": "The Divine Builders",
-				"paragraphId": "4",
-				"text": "3. The play builders. Enormous edifices are utilized during the seasons of rest, what mortals would call recreation and, in a certain sense, play. Provision is made for a suitable setting for the reversion directors, the humorists of the morontia worlds, those transition spheres whereon takes place the training of ascendant beings but recently removed from the evolutionary planets. Even the higher spirits engage in a certain form of reminiscent humor during their periods of spiritual recharging.",
-				"htmlText": "<span class=\"urantia-dev-pb-4\">3. <em>The play builders.</em> Enormous edifices are utilized during the seasons of rest, what mortals would call recreation and, in a certain sense, play. Provision is made for a suitable setting for the reversion directors, the humorists of the morontia worlds, those transition spheres whereon takes place the training of ascendant beings but recently removed from the evolutionary planets. Even the higher spirits engage in a certain form of reminiscent humor during their periods of spiritual recharging.</span>",
+				"id": "3:61.4.7",
+				"standardReferenceId": "61:4.7",
+				"sortId": "3.061.004.007",
+				"paperId": "61",
+				"sectionId": "4",
+				"partId": "3",
+				"paperTitle": "The Mammalian Era on Urantia",
+				"sectionTitle": "The Recent Continental-Elevation Stage - The Last Great Mammalian Migration",
+				"paragraphId": "7",
+				"text": "And thus does this period of almost ten million years’ duration draw to a close, and not yet has the ancestor of man appeared. This is the time usually designated as the Pliocene.",
+				"htmlText": "<span class=\"urantia-dev-pb-0\">And thus does this period of almost ten million years’ duration draw to a close, and not yet has the ancestor of man appeared. This is the time usually designated as the <em>Pliocene.</em></span>",
 				"labels": [],
 				"audio": {
 					"tts-1-hd": {
 						"nova": {
-							"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-2:44.3.4.mp3",
+							"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-3:61.4.7.mp3",
 							"format": "mp3",
 							"bitrate": 160,
-							"duration": 31.8,
-							"fileSize": 636000
+							"duration": 10.9,
+							"fileSize": 218400
 						}
 					}
 				}
 			},
 			"navigation": {
-				"prev": "44:3.3",
-				"next": "44:3.5"
+				"prev": "61:4.6",
+				"next": "61:5.1"
 			}
 		}
 	},
@@ -1105,6 +1105,38 @@
 				"ref": "2:5.1",
 				"style": "apa",
 				"citation": "The Urantia Book. (1955). Urantia Foundation. Paper 2, Section 5, Paragraph 1."
+			}
+		}
+	},
+	"post /quotes/verify": {
+		"request": {
+			"text": "The Father loves us enough to bestow his life upon us.",
+			"ref": "2:5.1"
+		},
+		"response": {
+			"data": {
+				"verdict": "close",
+				"match": {
+					"reference": "2:5.1",
+					"paperId": "2",
+					"paperTitle": "The Nature of God",
+					"sectionTitle": "The Love of God",
+					"verdict": "close",
+					"similarity": 0.909,
+					"text": "The Father loves us sufficiently to bestow his life upon us",
+					"differences": [
+						{
+							"quote": "enough",
+							"text": "sufficiently"
+						}
+					]
+				},
+				"claimedReference": {
+					"ref": "2:5.1",
+					"exists": true,
+					"verdict": "close"
+				},
+				"alsoFoundAt": []
 			}
 		}
 	},
