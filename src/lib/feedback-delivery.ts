@@ -54,6 +54,30 @@ async function postJson(
 	}
 }
 
+/** Send one plain-text email through the Resend HTTP API to FEEDBACK_TO. Skips when not configured. */
+export async function sendPlainEmail(
+	env: FeedbackEnv,
+	message: { subject: string; text: string },
+	fetchImpl: FetchLike = (url, init) => fetch(url, init),
+): Promise<DeliveryResult> {
+	const to = (env.FEEDBACK_TO ?? "")
+		.split(",")
+		.map((address) => address.trim())
+		.filter(Boolean);
+	if (!env.RESEND_API_KEY || !env.FEEDBACK_FROM || to.length === 0) {
+		return {
+			status: "skipped",
+			reason: "RESEND_API_KEY, FEEDBACK_FROM, or FEEDBACK_TO is not set",
+		};
+	}
+	return postJson(
+		fetchImpl,
+		RESEND_URL,
+		{ from: env.FEEDBACK_FROM, to, subject: message.subject, text: message.text },
+		{ Authorization: `Bearer ${env.RESEND_API_KEY}` },
+	);
+}
+
 /** Send the plain-text email through the Resend HTTP API. Skips when not configured. */
 export async function sendFeedbackEmail(
 	env: FeedbackEnv,
