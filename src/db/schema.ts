@@ -456,14 +456,18 @@ export const scriptureCorpora = pgTable(
 		year: integer("year").notNull(),
 		sourceUrl: text("source_url").notNull(),
 		license: text("license").notNull(),
-		// The Paper 131 section that summarizes this religion, e.g. "131:3".
-		urantiaSection: text("urantia_section").notNull(),
+		// The Paper 131 section headed with this religion, e.g. "131:3". Null when there is none.
+		urantiaSection: text("urantia_section"),
 		// "chapter" for Dhp/BG/TTC, "book" for the Analects.
 		divisionLabel: text("division_label").notNull(),
 		// "verse", "paragraph", or "chapter": the smallest numbered unit.
 		unitLabel: text("unit_label").notNull(),
 		passageCount: integer("passage_count").notNull(),
 		sortOrder: integer("sort_order").notNull(),
+		// Numbers in a full ref: 1 for "Dhp 183", 2 for "BG 2.47", 3 for "Epictetus 3.22.5".
+		refLevels: integer("ref_levels").notNull().default(2),
+		// How the text is numbered or selected, in plain words.
+		notes: text("notes"),
 	},
 	(t) => [
 		uniqueIndex("sco_slug_idx").on(t.slug),
@@ -511,6 +515,7 @@ export const scripturePassages = pgTable(
 		sort: integer("sort").notNull(),
 		division: integer("division").notNull(),
 		divisionTitle: text("division_title"),
+		subdivision: integer("subdivision"), // the chapter inside a book, for three-level refs
 		numberStart: integer("number_start").notNull(),
 		numberEnd: integer("number_end").notNull(),
 		text: text("text").notNull(),
@@ -524,7 +529,7 @@ export const scripturePassages = pgTable(
 ).enableRLS();
 
 // --- scripture_parallels (UB <-> scripture nearest neighbors) ---
-// Like bible_parallels, both directions. "ub_to_scripture" keeps the top 5
+// Like bible_parallels, both directions. "ub_to_scripture" keeps the top 3
 // per corpus for each paragraph; "scripture_to_ub" keeps the top 10.
 export const scriptureParallels = pgTable(
 	"scripture_parallels",

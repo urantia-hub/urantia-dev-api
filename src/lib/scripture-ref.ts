@@ -1,33 +1,33 @@
-// Parses a scripture reference such as "2.47", "BG 2:47-49", "Dhp 183", or "25".
-// "A.B" is a division and a number. A bare "A" is a verse in a one-level corpus
-// (the Dhammapada) and a whole division in a two-level corpus.
+// Parses a scripture reference such as "2.47", "BG 2:47-49", "Dhp 183", or "3.22.5".
+// `levels` is how many numbers a full ref has in this corpus: 1 for "Dhp 183",
+// 2 for "BG 2.47", 3 for "Epictetus 3.22.5". A shorter ref names a whole part:
+// "BG 2" is chapter 2, and "Epictetus 3.22" is chapter 22 of book 3.
 
 export const MAX_RANGE = 50;
 
-export type ScriptureRef =
-	| { kind: "number"; start: number; end: number } // "183", "58-59"
-	| { kind: "division"; division: number } // "2"
-	| { kind: "unit"; division: number; start: number; end: number }; // "2.47", "2.47-49"
+export type ScriptureRef = {
+	path: number[]; // 1 to `levels` numbers, outermost first
+	end: number; // the last number of a range on the final level; equals the final number otherwise
+	full: boolean; // true when the ref names passages, false when it names a whole part
+};
 
 /** Returns null for an input that is not a reference, or a range over MAX_RANGE. */
-export function parseScriptureRef(input: string, refPrefix: string): ScriptureRef | null {
+export function parseScriptureRef(
+	input: string,
+	refPrefix: string,
+	levels: number,
+): ScriptureRef | null {
 	let s = input.trim().replace(/\s+/g, " ");
 	if (s.toLowerCase().startsWith(refPrefix.toLowerCase())) s = s.slice(refPrefix.length).trim();
-	const m = s.match(/^(\d{1,4})(?:[.:](\d{1,4}))?(?:-(\d{1,4}))?$/);
+	const m = s.match(/^(\d{1,4}(?:[.:]\d{1,4}){0,2})(?:-(\d{1,4}))?$/);
 	if (!m) return null;
-	const a = Number(m[1]);
-	const b = m[2] === undefined ? undefined : Number(m[2]);
-	const end = m[3] === undefined ? undefined : Number(m[3]);
-	if (a < 1 || b === 0) return null;
-	if (b === undefined) {
-		const e = end ?? a;
-		if (end !== undefined) {
-			if (e < a || e - a >= MAX_RANGE) return null;
-			return { kind: "number", start: a, end: e };
-		}
-		return { kind: "division", division: a };
-	}
-	const e = end ?? b;
-	if (e < b || e - b >= MAX_RANGE) return null;
-	return { kind: "unit", division: a, start: b, end: e };
+	const path = (m[1] as string).split(/[.:]/).map(Number);
+	if (path.length > levels) return null;
+	const full = path.length === levels;
+	const last = path[path.length - 1] as number;
+	if (m[2] === undefined) return { path, end: last, full };
+	const end = Number(m[2]);
+	// A range is allowed only on the final level: "2.47-49", not "2-3".
+	if (!full || end < last || end - last >= MAX_RANGE) return null;
+	return { path, end, full };
 }

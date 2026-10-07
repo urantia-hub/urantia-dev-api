@@ -308,27 +308,36 @@ re-reading the plan.
 ## World religions layer (scriptures)
 
 Public domain texts of the religions that Paper 131 summarizes, linked to the
-Urantia paragraphs both ways. The Bible keeps its own tables. Phase 1 (live
-2026-10-06): Dhammapada (Muller 1881), Tao Te Ching (Legge 1891), Analects
-(Legge 1861), Bhagavad Gita (Besant 1922). Plan and later phases:
-`../world-religions-plan-2026-10.md`.
+Urantia paragraphs both ways. The Bible keeps its own tables. Plan and later
+phases: `../world-religions-plan-2026-10.md`.
 
+- Phase 1 (2026-10-06): Dhammapada (Muller 1881), Tao Te Ching (Legge 1891),
+  Analects (Legge 1861), Bhagavad Gita (Besant 1922).
+- Phase 2 (2026-10-07): Diogenes Laertius Book 6 (Hicks 1925), Epictetus 3.22
+  (Oldfather 1928), Shinto oracles (Aston 1905), the Koran (Pickthall 1930,
+  PG 16955), the Japji (Macauliffe 1909). The Koran and the Japji were chosen
+  because 131:1 reads like them; they have no Paper 131 heading, so their
+  `urantia_section` is null. Do not write claims about where the Papers'
+  wording came from; link to Matthew Block's source studies instead.
 - Tables: `scripture_corpora`, `scripture_passages`, `scripture_chunks`,
-  `scripture_parallels`. They were created from
-  `scripts/scriptures/create-tables.sql`, not `db:push`.
-- Pipeline, in order: `build.ts` (download and parse to JSON in
-  `urantia-data-sources/data/scriptures`, git-ignored), `seed.ts`, `embed.ts`,
-  `parallels.ts`. Each one is re-runnable. `parallels.ts` replaces every
-  `semantic` row.
-- Refs: `BG 2.47`, `TTC 25.1`, `Analects 15.23`, `Dhp 183`. The Dhammapada
-  numbers verses straight through, so a bare number is a verse there and a
-  whole chapter in the others. Combined passages exist (`Dhp 58-59`).
-- Chunks are about one Urantia paragraph long and never cross a chapter. The
-  Tao Te Ching is chunked by whole chapter.
-- `ub_to_scripture` keeps the top 5 per corpus; `?include=scriptureParallels`
-  shows 3 per corpus. `scripture_to_ub` keeps the top 10.
-- Quality check (2026-10-06): 69 to 93% of chunks have their own religion's
-  Paper 131 section in their top 10. Chance is about 0.05%.
+  `scripture_parallels`. Created from `scripts/scriptures/create-tables.sql`
+  and changed by `alter-phase2.sql`, never with `db:push`.
+- Pipeline, in order: `build.ts` (download and parse to JSON; `ONLY=id,id`
+  builds a subset), `seed.ts <dir>`, `embed.ts`, `parallels.ts`. Each one is
+  re-runnable. `parallels.ts` replaces every `semantic` row.
+- Refs: `ref_levels` per corpus. 1: `Dhp 183`, `Japji 0`, `Oracle 15`.
+  2: `BG 2.47`, `Quran 2.255`, `DL 6.20`. 3: `Epictetus 3.22.45` (division,
+  subdivision, number). A shorter ref names a whole part. Combined passages
+  match any number inside them (`Dhp 58-59`, `Epictetus 3.22.45-49`).
+- Chunks are about one Urantia paragraph long and never cross a division, a
+  subdivision, or a titled part (a life, an oracle). The Tao Te Ching is
+  chunked by whole chapter.
+- `ub_to_scripture` keeps the top 3 per corpus (all of them appear in
+  `?include=scriptureParallels`). `scripture_to_ub` keeps the top 10.
+- Quality checks: phase 1, 69 to 93% of chunks have their own religion's
+  Paper 131 section in their top 10. Phase 2: 78% of Japji chunks reach
+  131:1, 60% of the oracles reach 131:7, and the Cynic texts match 131:1
+  least of all nine.
 - No MCP tools for scriptures until the OpenAI and Claude directory reviews
   finish.
 

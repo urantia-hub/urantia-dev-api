@@ -62,6 +62,12 @@ describe("chunkPassages", () => {
 		]);
 	});
 
+	test("never crosses a titled part, such as one life in Diogenes Laertius", () => {
+		const a = { ...p("DL 6.19", 6019, "6", 10), divisionTitle: "Antisthenes" };
+		const b = { ...p("DL 6.20", 6020, "6", 10), divisionTitle: "Diogenes" };
+		expect(chunkPassages([a, b]).map((c) => c.refs)).toEqual([["DL 6.19"], ["DL 6.20"]]);
+	});
+
 	test("makes one chunk per division when asked", () => {
 		const chunks = chunkPassages(
 			[

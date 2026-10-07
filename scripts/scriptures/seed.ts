@@ -43,6 +43,8 @@ for (const [order, corpus] of CORPORA.entries()) {
 				unit_label: corpus.unitLabel,
 				passage_count: passages.length,
 				sort_order: order + 1,
+				ref_levels: corpus.refLevels,
+				notes: corpus.notes,
 			})}
 			ON CONFLICT (id) DO UPDATE SET
 				slug = EXCLUDED.slug, ref_prefix = EXCLUDED.ref_prefix, religion = EXCLUDED.religion,
@@ -50,7 +52,7 @@ for (const [order, corpus] of CORPORA.entries()) {
 				source_url = EXCLUDED.source_url, license = EXCLUDED.license,
 				urantia_section = EXCLUDED.urantia_section, division_label = EXCLUDED.division_label,
 				unit_label = EXCLUDED.unit_label, passage_count = EXCLUDED.passage_count,
-				sort_order = EXCLUDED.sort_order`;
+				sort_order = EXCLUDED.sort_order, ref_levels = EXCLUDED.ref_levels, notes = EXCLUDED.notes`;
 
 		const chunkRows = chunks.map((c) => ({
 			id: `${corpus.id}:${c.refs[0]}`,
@@ -80,6 +82,7 @@ for (const [order, corpus] of CORPORA.entries()) {
 				sort: p.sort,
 				division: Number(p.division),
 				division_title: p.divisionTitle,
+				subdivision: p.subdivision ?? null,
 				number_start: start,
 				number_end: end,
 				text: p.text,
@@ -91,7 +94,7 @@ for (const [order, corpus] of CORPORA.entries()) {
 				INSERT INTO scripture_passages ${tx(passageRows.slice(i, i + 500))}
 				ON CONFLICT (id) DO UPDATE SET
 					ref = EXCLUDED.ref, sort = EXCLUDED.sort, division = EXCLUDED.division,
-					division_title = EXCLUDED.division_title, number_start = EXCLUDED.number_start,
+					division_title = EXCLUDED.division_title, subdivision = EXCLUDED.subdivision, number_start = EXCLUDED.number_start,
 					number_end = EXCLUDED.number_end, text = EXCLUDED.text, chunk_id = EXCLUDED.chunk_id`;
 		}
 	});
