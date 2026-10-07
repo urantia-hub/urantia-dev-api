@@ -192,6 +192,10 @@ app.route("/auth", authRoute);
 // Public routes
 app.route("/toc", tocRoute);
 app.route("/papers", papersRoute);
+// /paragraphs with no reference has no data. Send people and crawlers to its docs page.
+for (const path of ["/paragraphs", "/paragraphs/"]) {
+	app.get(path, (c) => c.redirect("https://docs.urantia.dev/paragraphs", 301));
+}
 app.route("/paragraphs", paragraphsRoute);
 app.route("/search", searchRoute);
 app.route("/entities", entitiesRoute);

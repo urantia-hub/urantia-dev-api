@@ -308,3 +308,15 @@ describe("GET /paragraphs/:ref?include=bibleParallels", () => {
 		}
 	});
 });
+
+describe("GET /paragraphs with no reference", () => {
+	it("redirects to the Paragraphs docs page, and leaves the routes below it alone", async () => {
+		for (const path of ["/paragraphs", "/paragraphs/"]) {
+			const res = await get(path, { "cf-connecting-ip": "paragraphs-root-test" });
+			expect(res.status).toBe(301);
+			expect(res.headers.get("location")).toBe("https://docs.urantia.dev/paragraphs");
+		}
+		const random = await get("/paragraphs/random", { "cf-connecting-ip": "paragraphs-root-test" });
+		expect(random.status).not.toBe(301);
+	});
+});
