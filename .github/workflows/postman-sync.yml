@@ -1,6 +1,8 @@
 # Rebuilds the public Postman collection from the live OpenAPI spec and publishes it
 # when it changed. scripts/deploy.sh starts this after each deploy; the daily run is
-# a backstop. Needs the POSTMAN_API_KEY secret and the POSTMAN_COLLECTION_UID variable.
+# a backstop. Without the POSTMAN_API_KEY secret and the POSTMAN_COLLECTION_UID variable
+# (a Postman API key needs a paid plan), it is a daily check that every public request
+# returns 200, and it publishes nothing.
 name: Postman sync
 
 on:

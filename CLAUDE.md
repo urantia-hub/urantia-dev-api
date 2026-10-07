@@ -367,7 +367,9 @@ A new endpoint needs one entry in `example-requests.ts`, or
 `tests/integration/openapi.test.ts` fails. The sync runs as the GitHub
 workflow `postman-sync.yml`: `scripts/deploy.sh` starts it after each deploy,
 and it also runs daily. It needs the `POSTMAN_API_KEY` secret and the
-`POSTMAN_COLLECTION_UID` variable on the repo. To try it without publishing:
+`POSTMAN_COLLECTION_UID` variable on the repo to publish. A Postman API key
+needs a paid plan, and on 2026-10-07 the account had none, so the workflow
+runs as a daily check that every public request returns 200. To try it without publishing:
 `bun scripts/postman-sync.ts --dry-run`.
 
 ## Public spec and discovery files
