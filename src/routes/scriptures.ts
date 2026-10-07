@@ -96,7 +96,7 @@ const listRoute = createRoute({
 	tags: ["Scriptures"],
 	summary: "List the world religions texts",
 	description:
-		'Returns every scripture corpus with its religion, translator, year, source, and license. Each text is in the US public domain. `urantiaSection` names the section of Paper 131, "The World\'s Religions", that summarizes the religion. The Bible has its own endpoints under `/bible`.',
+		'Returns every scripture corpus with its religion, translator, year, source, license, and numbering notes. Each text is in the US public domain. `urantiaSection` names the section of Paper 131, "The World\'s Religions", headed with the religion, or is null when Paper 131 has no such heading. The Bible has its own endpoints under `/bible`.',
 	responses: {
 		200: {
 			description: "The corpora",
