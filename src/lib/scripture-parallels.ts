@@ -10,7 +10,7 @@ type ParagraphRow = { id: string; [key: string]: unknown };
 
 export type ScriptureCorpus = typeof scriptureCorpora.$inferSelect;
 
-/** Parallels per corpus on a paragraph. The table keeps 5; the include shows 3. */
+/** Parallels per corpus on a paragraph; the table keeps the same 3. */
 export const INCLUDE_PER_CORPUS = 3;
 
 let corporaCache: { at: number; rows: ScriptureCorpus[] } | undefined;

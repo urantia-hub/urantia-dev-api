@@ -5,25 +5,35 @@ import { get, post } from "../helpers/app.ts";
 const IP = { "cf-connecting-ip": "scriptures-test" };
 
 describe("GET /scriptures", () => {
-	it("lists the four phase 1 texts in order, with their Paper 131 sections", async () => {
+	it("lists the texts in Paper 131 order, then the texts with no Paper 131 heading", async () => {
 		const res = await get("/scriptures", IP);
 		expect(res.status).toBe(200);
 		const { data } = await res.json();
 		expect(data.map((c: { slug: string }) => c.slug)).toEqual([
+			"diogenes-laertius-6",
+			"epictetus-cynic",
 			"dhammapada",
+			"bhagavad-gita",
+			"shinto-oracles",
 			"tao-te-ching",
 			"analects",
-			"bhagavad-gita",
+			"quran",
+			"japji",
 		]);
-		expect(data.map((c: { urantiaSection: string }) => c.urantiaSection)).toEqual([
+		expect(data.map((c: { urantiaSection: string | null }) => c.urantiaSection)).toEqual([
+			"131:1",
+			"131:1",
 			"131:3",
+			"131:4",
+			"131:7",
 			"131:8",
 			"131:9",
-			"131:4",
+			null,
+			null,
 		]);
 		for (const c of data) {
 			expect(c.license).toContain("Public domain");
-			expect(c.passageCount).toBeGreaterThan(200);
+			expect([1, 2, 3]).toContain(c.refLevels);
 		}
 	});
 });
@@ -45,7 +55,7 @@ describe("GET /scriptures/{corpus}", () => {
 	});
 
 	it("returns 404 for an unknown corpus", async () => {
-		expect((await get("/scriptures/quran", IP)).status).toBe(404);
+		expect((await get("/scriptures/avesta", IP)).status).toBe(404);
 	});
 });
 
@@ -86,6 +96,31 @@ describe("GET /scriptures/{corpus}/{ref}", () => {
 	});
 });
 
+describe("GET /scriptures/{corpus}/{ref}, phase 2 ref shapes", () => {
+	it("finds a three-level ref inside its five-section block, and a whole chapter", async () => {
+		const one = await (await get("/scriptures/epictetus-cynic/3.22.47", IP)).json();
+		expect(one.data.passages.map((p: { ref: string }) => p.ref)).toEqual(["Epictetus 3.22.45-49"]);
+		expect(one.data.passages[0].subdivision).toBe(22);
+		const chapter = await (await get("/scriptures/epictetus/3.22", IP)).json();
+		expect(chapter.data.passages).toHaveLength(22);
+	});
+
+	it("serves the Koran by sura and verse, and Japji 0", async () => {
+		const verse = await (await get("/scriptures/quran/2.255", IP)).json();
+		expect(verse.data.passages[0].text).toStartWith("Allah! There is no deity save Him");
+		const opening = await (await get("/scriptures/japji/0", IP)).json();
+		expect(opening.data.passages[0].text).toStartWith("There is but one God whose name is true");
+	});
+
+	it("keeps the life a Diogenes Laertius section belongs to, and the oracle titles", async () => {
+		const dl = await (await get("/scriptures/dl/6.20", IP)).json();
+		expect(dl.data.passages[0].divisionTitle).toBe("Diogenes");
+		const oracle = await (await get("/scriptures/shinto-oracles/15", IP)).json();
+		expect(oracle.data.passages[0].divisionTitle).toBe("Oracle of Itsukushima in Aki");
+		expect(oracle.data.passages[0].text).toContain("knew not my name");
+	});
+});
+
 describe("GET /scriptures/{corpus}/{ref}/urantia-parallels", () => {
 	it("returns the chunk and 10 ranked Urantia paragraphs", async () => {
 		const res = await get("/scriptures/bg/2.47/urantia-parallels", IP);
@@ -105,16 +140,16 @@ describe("GET /scriptures/{corpus}/{ref}/urantia-parallels", () => {
 });
 
 describe("GET /paragraphs/{ref}?include=scriptureParallels", () => {
-	it("adds the top 3 passages of each corpus", async () => {
+	it("adds the top 3 passages of each text", async () => {
 		const res = await get("/paragraphs/131:3.1?include=scriptureParallels", IP);
 		expect(res.status).toBe(200);
 		const { data } = await res.json();
-		expect(data.scriptureParallels).toHaveLength(12);
+		expect(data.scriptureParallels).toHaveLength(27);
 		const corpora = new Set(
 			data.scriptureParallels.map((p: { corpus: { id: string } }) => p.corpus.id),
 		);
-		expect(corpora.size).toBe(4);
-		expect(data.scriptureParallels[0].corpus.slug).toBe("dhammapada");
+		expect(corpora.size).toBe(9);
+		expect(data.scriptureParallels[0].corpus.slug).toBe("diogenes-laertius-6");
 	});
 });
 
