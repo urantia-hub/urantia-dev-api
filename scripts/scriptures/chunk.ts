@@ -1,5 +1,5 @@
 // Groups passages into chunks of about Urantia paragraph size for embedding.
-// A chunk never crosses a division, and keeps the passages in reading order.
+// A chunk never crosses a division or a titled part, and keeps the passages in reading order.
 import type { Passage } from "./parsers.ts";
 
 export const MIN_WORDS = 60;
@@ -51,7 +51,13 @@ export function chunkPassages(passages: Passage[], wholeDivisions = false): Chun
 	};
 	for (const p of passages) {
 		const n = words(p.text);
-		const sameDivision = cur.length > 0 && (cur[0] as Passage).division === p.division;
+		const prev = cur[cur.length - 1];
+		// A chunk stays inside one division, one subdivision, and one titled part (a life, an oracle).
+		const sameDivision =
+			prev !== undefined &&
+			prev.division === p.division &&
+			prev.subdivision === p.subdivision &&
+			prev.divisionTitle === p.divisionTitle;
 		const full = !wholeDivisions && (count >= MIN_WORDS || count + n > MAX_WORDS);
 		if (cur.length && (!sameDivision || full)) flush();
 		cur.push(p);

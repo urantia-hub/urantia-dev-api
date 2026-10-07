@@ -6,6 +6,7 @@ export type Passage = {
 	sort: number; // reading order within the corpus
 	division: string; // the chapter or book the passage belongs to, for chunking
 	divisionTitle: string | null;
+	subdivision?: number; // the chapter inside a book, for three-level refs ("Epictetus 3.22.5")
 	text: string;
 };
 
@@ -98,7 +99,7 @@ export function parseTaoTeChing(raw: string): Passage[] {
 		const start = line.match(/^(?:Ch\. )?(\d{1,2})\. 1\.\s*(.*)$/);
 		const para = line.match(/^(?:Ch\. )?(\d{1,2})\.\s*(.*)$/);
 		const n = para ? Number(para[1]) : 0;
-		const nextParagraph = (current?.p ?? 0) + 1;
+		const nextParagraph: number = (current?.p ?? 0) + 1;
 		if (start && Number(start[1]) === chapter + 1) {
 			flush();
 			chapter = Number(start[1]);
@@ -238,4 +239,224 @@ export function parseBesantGita(htmlByChapter: Record<string, string>): Passage[
 		}
 	}
 	return passages.sort((a, b) => a.sort - b.sort);
+}
+
+/** The page without its footnote list. */
+function beforeNotes(html: string): string {
+	const i = html.search(
+		/<div[^>]*class="[^"]*(?:reflist|references-small)|<ol class="references"|<h2[^>]*>\s*Footnotes/,
+	);
+	return i < 0 ? html : html.slice(0, i);
+}
+
+/** Wikisource HTML as text: no styles, footnote markers, page numbers, or tags. */
+function wikisourceText(html: string): string {
+	return clean(
+		decodeEntities(
+			html
+				.replace(/<(script|style)[^>]*>[\s\S]*?<\/\1>/g, "")
+				.replace(/<sup[^>]*class="reference"[^>]*>[\s\S]*?<\/sup>/g, "")
+				.replace(/<span[^>]*class="pagenum[^"]*"[^>]*>[\s\S]*?<\/span><\/span>/g, "")
+				.replace(/<[^>]+>/g, " "),
+		).replace(/[\u200b\u00a0]/g, " "),
+	);
+}
+
+/**
+ * The Koran (Pickthall, 1930), from Project Gutenberg 16955. That file sets three
+ * translations under each "SSS.VVV" number; only the "P:" (Pickthall) text is kept.
+ * Verse numbers follow the standard (Cairo) count of 6,236 verses.
+ */
+export function parsePickthall(raw: string): Passage[] {
+	const passages: Passage[] = [];
+	for (const m of gutenbergBody(raw).matchAll(
+		/^(\d{3})\.(\d{3})\s*\n([\s\S]*?)(?=^\d{3}\.\d{3}\s*$|(?![\s\S]))/gm,
+	)) {
+		const sura = Number(m[1]);
+		const verse = Number(m[2]);
+		// Four blocks (17.32, 39.45, 45.31, 56.25) hold a second, unnumbered verse: the next one.
+		const ps = [...(m[3] as string).matchAll(/^P:\s*([\s\S]*?)(?=^[A-Z]:|(?![\s\S]))/gm)];
+		for (const [k, p] of ps.entries()) {
+			const v = verse + k;
+			const text = clean(p[1] ?? "");
+			if (text)
+				passages.push({
+					ref: `Quran ${sura}.${v}`,
+					sort: sura * 1000 + v,
+					division: String(sura),
+					divisionTitle: null,
+					text,
+				});
+		}
+	}
+	return passages;
+}
+
+/**
+ * Shinto oracles, as Aston quotes them in "Shinto: The Way of the Gods" (1905), chapter 14.
+ * Aston prints each oracle in italics after its source ("Oracle of the Gods of Kasuga:—").
+ * His own summaries are in roman type and are not kept. He does not number the oracles,
+ * so the numbers follow his order.
+ */
+export function parseAstonOracles(chapterHtml: string): Passage[] {
+	const start = chapterHtml.indexOf("Shinto Oracles");
+	const end = chapterHtml.indexOf("Revival of Pure Shinto");
+	if (start < 0 || end < start) throw new Error("Aston: oracle section not found");
+	const section = chapterHtml.slice(start, end);
+	const oracles: { title: string; parts: string[] }[] = [];
+	let gap = "";
+	let last = 0;
+	for (const m of section.matchAll(/<i>([\s\S]*?)<\/i>/g)) {
+		gap += ` ${wikisourceText(section.slice(last, m.index))}`;
+		last = (m.index as number) + m[0].length;
+		const italic = wikisourceText(m[1] as string);
+		const intro = gap.trim();
+		// A name in italics inside an introduction, such as "Oracle of <i>Temman tenjin</i>".
+		if (intro && !/(:—|[.!?])$/.test(intro)) {
+			gap += ` ${italic}`;
+			continue;
+		}
+		gap = "";
+		const current = oracles[oracles.length - 1];
+		// A new oracle starts when its source is named. Otherwise the quote continues.
+		if (!current || /:—$/.test(intro) || /[Oo]racle of/.test(intro)) {
+			oracles.push({ title: oracleTitle(intro), parts: [italic] });
+		} else {
+			current.parts.push(italic);
+		}
+	}
+	return oracles.map((o, i) => ({
+		ref: `Oracle ${i + 1}`,
+		sort: i + 1,
+		division: "1",
+		divisionTitle: o.title,
+		text: clean(o.parts.join(" ").replace(/\s+([.!?,;:])/g, "$1")),
+	}));
+}
+
+function oracleTitle(intro: string): string {
+	const sentence = (intro.split(/(?<=[.!?])\s+/).pop() ?? intro).replace(/\s*:—\s*$/, "").trim();
+	const named = sentence.match(
+		/[Oo]racle of ([^,:(]*?)(?=\s*[,:(]|\s+(?:denounces|promises|enjoins|speaks)|$)/,
+	);
+	const title = named
+		? `Oracle of ${named[1]}`
+		: sentence
+				.replace(
+					/^The following (?:sentiments are ascribed to|poem was revealed in a dream to) /,
+					"",
+				)
+				.replace(
+					/^(.*?) received the following inspiration in a dream(?: from (.*))?$/,
+					(_, who, from) =>
+						from
+							? `Dream of ${who.replace(/^The /, "the ")}, from ${from}`
+							: `Dream of ${who.replace(/^A /, "a ")}`,
+				)
+				.replace(/ says$/, "");
+	const t = title.replace(/\s+/g, " ").trim();
+	return t.charAt(0).toUpperCase() + t.slice(1);
+}
+
+const ROMAN_NUMERAL = /^(?=[MDCLXVI])M*(C[MD]|D?C{0,3})(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})$/;
+
+/**
+ * The Japji (Macauliffe, "The Sikh Religion", 1909, volume 1). Each pauri follows a
+ * centered roman numeral; the closing slok follows a centered "SLOK". Japji 0 is the
+ * opening (the Mul Mantar), 1 to 38 are the pauris, and 39 is the closing slok.
+ */
+export function parseJapji(html: string): Passage[] {
+	const parts = beforeNotes(html).split(
+		/<div class="wst-center tiInherit">\s*<p>([A-Z]+)\s*<\/p>\s*<\/div>/,
+	);
+	const passages: Passage[] = [];
+	const opening = wikisourceText(parts[0] ?? "").replace(/^[\s\S]*?THE JAPJI\s*/, "");
+	passages.push({
+		ref: "Japji 0",
+		sort: 0,
+		division: "1",
+		divisionTitle: "Mul Mantar",
+		text: opening,
+	});
+	for (let i = 1; i < parts.length; i += 2) {
+		const label = parts[i] as string;
+		const text = wikisourceText(parts[i + 1] ?? "");
+		if (label === "SLOK") {
+			passages.push({ ref: "Japji 39", sort: 39, division: "1", divisionTitle: "Slok", text });
+			continue;
+		}
+		if (!ROMAN_NUMERAL.test(label)) throw new Error(`Japji: unexpected heading ${label}`);
+		const n = romanToInt(label);
+		passages.push({ ref: `Japji ${n}`, sort: n, division: "1", divisionTitle: null, text });
+	}
+	return passages.map((p) => ({ ...p, text: p.text.replace(/(\w) s (?=\w)/g, "$1's ") }));
+}
+
+/**
+ * Diogenes Laertius, Lives of Eminent Philosophers, Book 6 (Hicks, 1925, Wikisource).
+ * Sections start with a bold "N."; each life starts with a heading.
+ */
+export function parseHicksBook6(html: string): Passage[] {
+	const passages: Passage[] = [];
+	let person: string | null = null;
+	const tokens = beforeNotes(html).split(/(<h2[^>]*>[\s\S]*?<\/h2>|<b>\d+\.<\/b>)/);
+	let current: Passage | null = null;
+	for (const t of tokens) {
+		const h = t.match(/^<h2[^>]*>([\s\S]*?)<\/h2>$/);
+		if (h) {
+			person = wikisourceText(h[1] as string);
+			continue;
+		}
+		const n = t.match(/^<b>(\d+)\.<\/b>$/);
+		if (n) {
+			const section = Number(n[1]);
+			current = {
+				ref: `DL 6.${section}`,
+				sort: 6000 + section,
+				division: "6",
+				divisionTitle: person,
+				text: "",
+			};
+			passages.push(current);
+			continue;
+		}
+		if (current)
+			current.text += ` ${wikisourceText(t.replace(/<span class="mw-editsection">[\s\S]*?<\/span><\/span>/g, ""))}`;
+	}
+	return passages.map((p) => ({ ...p, text: clean(p.text) }));
+}
+
+/**
+ * Epictetus, Discourses (Oldfather, 1928, Wikisource), one chapter. Oldfather marks every
+ * fifth section in the margin, so each passage covers the sections up to the next mark,
+ * such as 3.22.5-9. `lastSection` closes the final range.
+ */
+export function parseOldfatherChapter(
+	html: string,
+	book: number,
+	chapter: number,
+	lastSection: number,
+): Passage[] {
+	const parts = beforeNotes(html).split(
+		/<span class="wst-verse[^"]*" id="(\d+)"><sup>\d+<\/sup><\/span>/,
+	);
+	const starts = [1];
+	const texts = [parts[0] ?? ""];
+	for (let i = 1; i < parts.length; i += 2) {
+		starts.push(Number(parts[i]));
+		texts.push(parts[i + 1] ?? "");
+	}
+	return starts.map((start, i) => {
+		const end = (starts[i + 1] ?? lastSection + 1) - 1;
+		let text = wikisourceText(texts[i] as string);
+		if (i === 0) text = text.replace(/^[\s\S]*?On the calling of a Cynic\s*/i, "");
+		return {
+			ref: `Epictetus ${book}.${chapter}.${start}-${end}`,
+			sort: book * 100000 + chapter * 1000 + start,
+			division: String(book),
+			divisionTitle: null,
+			subdivision: chapter,
+			text,
+		};
+	});
 }

@@ -1,5 +1,5 @@
 // Computes scripture_parallels in memory, as seed-bible-parallels.ts does:
-// - ub_to_scripture: for each Urantia paragraph, the top 5 chunks of each corpus
+// - ub_to_scripture: for each Urantia paragraph, the top 3 chunks of each corpus
 // - scripture_to_ub: for each chunk, the top 10 Urantia paragraphs
 // Vectors are text-embedding-3-large (L2 = 1), so cosine is a dot product.
 // It replaces every "semantic" row in one transaction.
@@ -11,7 +11,7 @@ if (!DATABASE_URL) throw new Error("DATABASE_URL is required");
 const sql = postgres(DATABASE_URL, { max: 2 });
 
 const DIMS = 3072;
-const PER_CORPUS = 5;
+const PER_CORPUS = 3;
 const TO_UB = 10;
 const MODEL = "text-embedding-3-large";
 
