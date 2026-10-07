@@ -353,6 +353,23 @@ phases: `../world-religions-plan-2026-10.md`.
 - No MCP tools for scriptures until the OpenAI and Claude directory reviews
   finish.
 
+## Example requests and the Postman collection
+
+`scripts/example-requests.ts` holds one real request for every public
+operation. Two things use it:
+
+- `scripts/capture-openapi-examples.ts` captures the spec's response examples.
+- `scripts/postman-sync.ts` builds the public Postman collection
+  (https://www.postman.com/urantia-dev/urantia-papers), checks that every
+  request returns 200, and replaces the published collection when it changed.
+
+A new endpoint needs one entry in `example-requests.ts`, or
+`tests/integration/openapi.test.ts` fails. The sync runs as the GitHub
+workflow `postman-sync.yml`: `scripts/deploy.sh` starts it after each deploy,
+and it also runs daily. It needs the `POSTMAN_API_KEY` secret and the
+`POSTMAN_COLLECTION_UID` variable on the repo. To try it without publishing:
+`bun scripts/postman-sync.ts --dry-run`.
+
 ## Public spec and discovery files
 
 `/openapi.json` is what directories, agents, and code generators read. It is the
