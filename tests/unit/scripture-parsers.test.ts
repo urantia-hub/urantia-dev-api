@@ -4,6 +4,7 @@ import {
 	parseAnalects,
 	parseBesantGita,
 	parseDhammapada,
+	parseJapji,
 	parseTaoTeChing,
 	romanToInt,
 } from "../../scripts/scriptures/parsers.ts";
@@ -107,5 +108,22 @@ describe("parseBesantGita", () => {
 			["BG 1.3", "That austerity done under a deluded understanding."],
 			["BG 1.4", "That Reason is of darkness."],
 		]);
+	});
+});
+
+describe("parseJapji", () => {
+	it("reads every pauri, including a numeral outside the centered box", () => {
+		const box = (n: string) => `<div class="wst-center tiInherit"><p>${n}\n</p></div>`;
+		const html = `<p>THE JAPJI There is but one God.</p>${box("I")}<p>First pauri.</p>${box("XXXII")}<p>Thirty-second.</p><p>XXXIII\n</p><p>Thirty-third.</p>${box("SLOK")}<p>Closing.</p>`;
+		const ps = parseJapji(html);
+		expect(ps.map((p) => p.ref)).toEqual([
+			"Japji 0",
+			"Japji 1",
+			"Japji 32",
+			"Japji 33",
+			"Japji 39",
+		]);
+		expect(ps[0]?.text).toBe("There is but one God.");
+		expect(ps[2]?.text).toBe("Thirty-second.");
 	});
 });

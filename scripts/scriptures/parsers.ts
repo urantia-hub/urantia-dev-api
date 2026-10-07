@@ -366,8 +366,9 @@ const ROMAN_NUMERAL = /^(?=[MDCLXVI])M*(C[MD]|D?C{0,3})(X[CL]|L?X{0,3})(I[XV]|V?
  * opening (the Mul Mantar), 1 to 38 are the pauris, and 39 is the closing slok.
  */
 export function parseJapji(html: string): Passage[] {
+	// Pauri XXXIII has its numeral in a plain paragraph, not a centered one.
 	const parts = beforeNotes(html).split(
-		/<div class="wst-center tiInherit">\s*<p>([A-Z]+)\s*<\/p>\s*<\/div>/,
+		/(?:<div class="wst-center tiInherit">\s*)?<p>([A-Z]+)\s*<\/p>(?:\s*<\/div>)?/,
 	);
 	const passages: Passage[] = [];
 	const opening = wikisourceText(parts[0] ?? "").replace(/^[\s\S]*?THE JAPJI\s*/, "");
