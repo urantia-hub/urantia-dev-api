@@ -54,39 +54,28 @@ function corpusDetail(c: ScriptureCorpus) {
 		divisionLabel: c.divisionLabel,
 		unitLabel: c.unitLabel,
 		passageCount: c.passageCount,
+		refLevels: c.refLevels,
+		notes: c.notes,
 	};
 }
 
-// A ref with a dot ("BG 2.47") belongs to a two-level corpus. A bare number
-// is a verse in a one-level corpus (Dhp) and a whole chapter in the others.
+// The ref's numbers, outermost first, map to division, then subdivision (three-level
+// refs only), then the passage number. A full ref matches the passages whose number
+// range overlaps it, so "Dhp 59" finds the combined passage "Dhp 58-59".
 function refCondition(
-	corpusId: string,
+	corpus: ScriptureCorpus,
 	ref: NonNullable<ReturnType<typeof parseScriptureRef>>,
 ): SQL {
 	const p = scripturePassages;
-	const twoLevel = sql`position('.' in ${p.ref}) > 0`;
-	const oneLevel = sql`position('.' in ${p.ref}) = 0`;
-	const inCorpus = eq(p.corpusId, corpusId);
-	if (ref.kind === "unit") {
-		return and(
-			inCorpus,
-			twoLevel,
-			eq(p.division, ref.division),
-			sql`${p.numberEnd} >= ${ref.start} AND ${p.numberStart} <= ${ref.end}`,
-		) as SQL;
+	const conditions: SQL[] = [eq(p.corpusId, corpus.id)];
+	const parts = ref.full ? ref.path.slice(0, -1) : ref.path;
+	const columns = corpus.refLevels === 3 ? [p.division, p.subdivision] : [p.division];
+	for (const [i, n] of parts.entries()) conditions.push(eq(columns[i] as typeof p.division, n));
+	if (ref.full) {
+		const start = ref.path[ref.path.length - 1] as number;
+		conditions.push(sql`${p.numberEnd} >= ${start} AND ${p.numberStart} <= ${ref.end}`);
 	}
-	if (ref.kind === "number") {
-		return and(
-			inCorpus,
-			oneLevel,
-			sql`${p.numberEnd} >= ${ref.start} AND ${p.numberStart} <= ${ref.end}`,
-		) as SQL;
-	}
-	const n = ref.division;
-	return and(
-		inCorpus,
-		sql`((${twoLevel} AND ${p.division} = ${n}) OR (${oneLevel} AND ${p.numberStart} <= ${n} AND ${p.numberEnd} >= ${n}))`,
-	) as SQL;
+	return and(...conditions) as SQL;
 }
 
 const passageFields = {
@@ -94,6 +83,7 @@ const passageFields = {
 	ref: scripturePassages.ref,
 	division: scripturePassages.division,
 	divisionTitle: scripturePassages.divisionTitle,
+	subdivision: scripturePassages.subdivision,
 	text: scripturePassages.text,
 	chunkId: scripturePassages.chunkId,
 };
@@ -167,7 +157,7 @@ const passagesRoute = createRoute({
 	tags: ["Scriptures"],
 	summary: "Get scripture passages by reference",
 	description:
-		"Returns the passages for a reference. Use `2.47` (chapter and verse), `2.47-49` (a range of up to 50), or `2` (a whole chapter). The Dhammapada numbers its verses straight through, so `Dhp 183` is verse 183. The ref prefix is optional: `BG 2.47` and `2.47` are the same.",
+		"Returns the passages for a reference. Use `2.47` (chapter and verse), `2.47-49` (a range of up to 50), or `2` (a whole chapter). Each text has its own number of levels (`refLevels`): the Dhammapada, the Japji, and the Shinto oracles have one (`Dhp 183`), Epictetus has three (`Epictetus 3.22.5`), and the others have two. A ref with fewer numbers names a whole part, such as `Epictetus 3.22`. The ref prefix is optional: `BG 2.47` and `2.47` are the same.",
 	request: { params: ScriptureRefParam },
 	responses: {
 		200: {
@@ -187,7 +177,7 @@ scripturesRoute.openapi(passagesRoute, async (c) => {
 	const params = c.req.valid("param");
 	const corpus = await resolveCorpus(db, params.corpus);
 	if (!corpus) return problemJson(c, 404, `Scripture "${params.corpus}" not found`);
-	const ref = parseScriptureRef(params.ref, corpus.refPrefix);
+	const ref = parseScriptureRef(params.ref, corpus.refPrefix, corpus.refLevels);
 	if (!ref)
 		return problemJson(
 			c,
@@ -198,7 +188,7 @@ scripturesRoute.openapi(passagesRoute, async (c) => {
 	const rows = await db
 		.select(passageFields)
 		.from(scripturePassages)
-		.where(refCondition(corpus.id, ref))
+		.where(refCondition(corpus, ref))
 		.orderBy(asc(scripturePassages.sort))
 		.limit(200);
 	if (rows.length === 0) return problemJson(c, 404, `${corpus.refPrefix} ${params.ref} not found`);
@@ -235,7 +225,7 @@ scripturesRoute.openapi(parallelsRoute, async (c) => {
 	const params = c.req.valid("param");
 	const corpus = await resolveCorpus(db, params.corpus);
 	if (!corpus) return problemJson(c, 404, `Scripture "${params.corpus}" not found`);
-	const ref = parseScriptureRef(params.ref, corpus.refPrefix);
+	const ref = parseScriptureRef(params.ref, corpus.refPrefix, corpus.refLevels);
 	if (!ref)
 		return problemJson(
 			c,
@@ -246,7 +236,7 @@ scripturesRoute.openapi(parallelsRoute, async (c) => {
 	const rows = await db
 		.select(passageFields)
 		.from(scripturePassages)
-		.where(refCondition(corpus.id, ref))
+		.where(refCondition(corpus, ref))
 		.orderBy(asc(scripturePassages.sort))
 		.limit(2);
 	const passage = rows[0];

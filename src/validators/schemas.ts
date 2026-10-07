@@ -156,7 +156,10 @@ export const ScriptureCorpusSummarySchema = z.object({
 	translator: z.string(),
 	year: z.number().int(),
 	refPrefix: z.string(),
-	urantiaSection: z.string(),
+	urantiaSection: z
+		.string()
+		.nullable()
+		.describe("The Paper 131 section headed with this religion, or null when Paper 131 has no such heading"),
 });
 
 export const ScriptureParallelSchema = z.object({
@@ -598,6 +601,8 @@ export const ScriptureCorpusSchema = ScriptureCorpusSummarySchema.extend({
 	divisionLabel: z.string(),
 	unitLabel: z.string(),
 	passageCount: z.number().int(),
+	refLevels: z.number().int().describe("Numbers in a full ref: 1 for `Dhp 183`, 2 for `BG 2.47`, 3 for `Epictetus 3.22.5`"),
+	notes: z.string().nullable().describe("How the text is numbered or selected"),
 });
 
 export const ScriptureCorporaResponse = z.object({
@@ -618,7 +623,7 @@ export const ScriptureRefParam = z.object({
 		.string()
 		.min(1)
 		.max(32)
-		.describe("A passage (`2.47`, `BG 2.47`, `Dhp 183`), a short range (`2.47-49`), or a whole chapter (`2`)"),
+		.describe("A passage (`2.47`, `BG 2.47`, `Dhp 183`, `Epictetus 3.22.5`), a short range (`2.47-49`), or a whole chapter (`2`)"),
 });
 
 export const ScriptureCorpusResponse = z.object({
@@ -640,6 +645,7 @@ export const ScripturePassageSchema = z.object({
 	ref: z.string(),
 	division: z.number().int(),
 	divisionTitle: z.string().nullable(),
+	subdivision: z.number().int().nullable(),
 	text: z.string(),
 });
 
