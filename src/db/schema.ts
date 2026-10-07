@@ -440,6 +440,119 @@ export const urantiaParallels = pgTable(
 	],
 ).enableRLS();
 
+// --- scripture_corpora (world religions layer, one row per text) ---
+// Public domain texts of the religions that Paper 131 summarizes. The Bible
+// keeps its own tables; these hold every other corpus. Built and seeded by
+// scripts/scriptures/*.
+export const scriptureCorpora = pgTable(
+	"scripture_corpora",
+	{
+		id: text("id").primaryKey(), // "dhammapada-muller-1881"
+		slug: text("slug").notNull(), // "dhammapada", used in URLs
+		refPrefix: text("ref_prefix").notNull(), // "Dhp", as in "Dhp 183"
+		religion: text("religion").notNull(),
+		title: text("title").notNull(),
+		translator: text("translator").notNull(),
+		year: integer("year").notNull(),
+		sourceUrl: text("source_url").notNull(),
+		license: text("license").notNull(),
+		// The Paper 131 section that summarizes this religion, e.g. "131:3".
+		urantiaSection: text("urantia_section").notNull(),
+		// "chapter" for Dhp/BG/TTC, "book" for the Analects.
+		divisionLabel: text("division_label").notNull(),
+		// "verse", "paragraph", or "chapter": the smallest numbered unit.
+		unitLabel: text("unit_label").notNull(),
+		passageCount: integer("passage_count").notNull(),
+		sortOrder: integer("sort_order").notNull(),
+	},
+	(t) => [
+		uniqueIndex("sco_slug_idx").on(t.slug),
+		uniqueIndex("sco_ref_prefix_idx").on(t.refPrefix),
+	],
+).enableRLS();
+
+// --- scripture_chunks (passages grouped to about Urantia paragraph size) ---
+// Short verses carry little signal alone, as with bible_chunks. A chunk never
+// crosses a division (chapter or book).
+export const scriptureChunks = pgTable(
+	"scripture_chunks",
+	{
+		id: text("id").primaryKey(), // "<corpus id>:<first ref>"
+		corpusId: text("corpus_id")
+			.notNull()
+			.references(() => scriptureCorpora.id),
+		label: text("label").notNull(), // "Dhp 1-2", "BG 2.47-49"
+		sortStart: integer("sort_start").notNull(),
+		sortEnd: integer("sort_end").notNull(),
+		text: text("text").notNull(),
+		embedding: vector3072("embedding"), // text-embedding-3-large, for parallels
+		embeddingSmall: vector("embedding_small"), // text-embedding-3-small, for live search
+		embeddingModel: text("embedding_model"),
+	},
+	(t) => [
+		index("sch_corpus_sort_idx").on(t.corpusId, t.sortStart),
+		index("sch_embedding_small_hnsw_idx")
+			.using("hnsw", t.embeddingSmall.op("vector_cosine_ops"))
+			.with({ m: "16", ef_construction: "64" }),
+	],
+).enableRLS();
+
+// --- scripture_passages (one row per smallest numbered unit) ---
+// `sort` orders passages within a corpus (division * 1000 + number for
+// two-level refs). numberStart/End cover a combined passage like "Dhp 58-59".
+export const scripturePassages = pgTable(
+	"scripture_passages",
+	{
+		id: text("id").primaryKey(), // "<corpus id>:<ref>"
+		corpusId: text("corpus_id")
+			.notNull()
+			.references(() => scriptureCorpora.id),
+		ref: text("ref").notNull(), // "BG 2.47"
+		sort: integer("sort").notNull(),
+		division: integer("division").notNull(),
+		divisionTitle: text("division_title"),
+		numberStart: integer("number_start").notNull(),
+		numberEnd: integer("number_end").notNull(),
+		text: text("text").notNull(),
+		chunkId: text("chunk_id").references(() => scriptureChunks.id),
+	},
+	(t) => [
+		uniqueIndex("sp_corpus_sort_idx").on(t.corpusId, t.sort),
+		index("sp_corpus_division_idx").on(t.corpusId, t.division),
+		index("sp_chunk_id_idx").on(t.chunkId),
+	],
+).enableRLS();
+
+// --- scripture_parallels (UB <-> scripture nearest neighbors) ---
+// Like bible_parallels, both directions. "ub_to_scripture" keeps the top 5
+// per corpus for each paragraph; "scripture_to_ub" keeps the top 10.
+export const scriptureParallels = pgTable(
+	"scripture_parallels",
+	{
+		id: serial("id").primaryKey(),
+		direction: text("direction").notNull(), // "ub_to_scripture" | "scripture_to_ub"
+		paragraphId: text("paragraph_id")
+			.notNull()
+			.references(() => paragraphs.id),
+		chunkId: text("chunk_id")
+			.notNull()
+			.references(() => scriptureChunks.id),
+		corpusId: text("corpus_id")
+			.notNull()
+			.references(() => scriptureCorpora.id),
+		similarity: real("similarity").notNull(),
+		rank: integer("rank").notNull(), // within (paragraph, corpus) or within chunk
+		source: text("source").notNull().default("semantic"),
+		embeddingModel: text("embedding_model").notNull(),
+		generatedAt: timestamp("generated_at").notNull().defaultNow(),
+	},
+	(t) => [
+		index("spar_para_direction_idx").on(t.paragraphId, t.direction, t.corpusId, t.rank),
+		index("spar_chunk_direction_idx").on(t.chunkId, t.direction, t.rank),
+		uniqueIndex("spar_natural_key_idx").on(t.direction, t.paragraphId, t.chunkId, t.source),
+	],
+).enableRLS();
+
 // ============================================================
 // Auth layer tables (unified auth for the Urantia ecosystem)
 // ============================================================

@@ -11,6 +11,10 @@ import {
 } from "../lib/urantia-parallels.ts";
 import { problemJson } from "../lib/errors.ts";
 import { getParagraphNavigation } from "../lib/paragraph-lookup.ts";
+import {
+	enrichWithScriptureParallels,
+	wantsScriptureParallels,
+} from "../lib/scripture-parallels.ts";
 import { toRagFormat } from "../lib/rag.ts";
 import { applyParagraphTranslations, applyTitleTranslations } from "../lib/translations.ts";
 import { detectRefFormat } from "../types/node.ts";
@@ -141,11 +145,13 @@ paragraphsRoute.openapi(getRandomRoute, async (c) => {
 		entities?: Awaited<ReturnType<typeof enrichWithEntities>>[number]["entities"];
 		bibleParallels?: Awaited<ReturnType<typeof enrichWithBibleParallels>>[number]["bibleParallels"];
 		urantiaParallels?: Awaited<ReturnType<typeof enrichWithUrantiaParallels>>[number]["urantiaParallels"];
+		scriptureParallels?: Awaited<ReturnType<typeof enrichWithScriptureParallels>>[number]["scriptureParallels"];
 	};
 	let enriched: Enriched[] = result;
 	if (wantsEntities(include)) enriched = (await enrichWithEntities(db, enriched)) as Enriched[];
 	if (wantsBibleParallels(include)) enriched = (await enrichWithBibleParallels(db, enriched)) as Enriched[];
 	if (wantsUrantiaParallels(include)) enriched = (await enrichWithUrantiaParallels(db, enriched)) as Enriched[];
+	if (wantsScriptureParallels(include)) enriched = (await enrichWithScriptureParallels(db, enriched)) as Enriched[];
 	const data = enriched[0]!;
 
 	if (format === "rag") {
@@ -220,11 +226,13 @@ paragraphsRoute.openapi(getParagraphRoute, async (c) => {
 		entities?: Awaited<ReturnType<typeof enrichWithEntities>>[number]["entities"];
 		bibleParallels?: Awaited<ReturnType<typeof enrichWithBibleParallels>>[number]["bibleParallels"];
 		urantiaParallels?: Awaited<ReturnType<typeof enrichWithUrantiaParallels>>[number]["urantiaParallels"];
+		scriptureParallels?: Awaited<ReturnType<typeof enrichWithScriptureParallels>>[number]["scriptureParallels"];
 	};
 	let enriched: Enriched[] = result;
 	if (wantsEntities(include)) enriched = (await enrichWithEntities(db, enriched)) as Enriched[];
 	if (wantsBibleParallels(include)) enriched = (await enrichWithBibleParallels(db, enriched)) as Enriched[];
 	if (wantsUrantiaParallels(include)) enriched = (await enrichWithUrantiaParallels(db, enriched)) as Enriched[];
+	if (wantsScriptureParallels(include)) enriched = (await enrichWithScriptureParallels(db, enriched)) as Enriched[];
 	const data = enriched[0]!;
 
 	if (outputFormat === "rag") {
