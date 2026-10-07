@@ -1103,34 +1103,38 @@
 		"response": {
 			"data": [
 				{
-					"id": "dhammapada-muller-1881",
-					"slug": "dhammapada",
-					"religion": "Buddhism",
-					"title": "The Dhammapada",
-					"translator": "F. Max Muller",
-					"year": 1881,
-					"refPrefix": "Dhp",
-					"urantiaSection": "131:3",
-					"sourceUrl": "https://www.gutenberg.org/ebooks/2017",
+					"id": "diogenes-laertius-6-hicks-1925",
+					"slug": "diogenes-laertius-6",
+					"religion": "Cynicism",
+					"title": "Lives of Eminent Philosophers, Book 6: The Cynics",
+					"translator": "R. D. Hicks",
+					"year": 1925,
+					"refPrefix": "DL",
+					"urantiaSection": "131:1",
+					"sourceUrl": "https://en.wikisource.org/wiki/Lives_of_the_Eminent_Philosophers/Book_VI",
 					"license": "Public domain in the United States",
-					"divisionLabel": "chapter",
-					"unitLabel": "verse",
-					"passageCount": 414
+					"divisionLabel": "book",
+					"unitLabel": "section",
+					"passageCount": 105,
+					"refLevels": 2,
+					"notes": "Book 6 only: the lives and sayings of Antisthenes, Diogenes, Crates, Hipparchia, and the other Cynics. A biography, not scripture."
 				},
 				{
-					"id": "tao-te-ching-legge-1891",
-					"slug": "tao-te-ching",
-					"religion": "Taoism",
-					"title": "The Tao Te Ching",
-					"translator": "James Legge",
-					"year": 1891,
-					"refPrefix": "TTC",
-					"urantiaSection": "131:8",
-					"sourceUrl": "https://www.gutenberg.org/ebooks/216",
+					"id": "epictetus-3-22-oldfather-1928",
+					"slug": "epictetus-cynic",
+					"religion": "Cynicism",
+					"title": "Discourses 3.22: On the Calling of a Cynic",
+					"translator": "W. A. Oldfather",
+					"year": 1928,
+					"refPrefix": "Epictetus",
+					"urantiaSection": "131:1",
+					"sourceUrl": "https://en.wikisource.org/wiki/Epictetus,_the_Discourses_as_reported_by_Arrian,_the_Manual,_and_Fragments/Book_3/Chapter_22",
 					"license": "Public domain in the United States",
-					"divisionLabel": "chapter",
-					"unitLabel": "paragraph",
-					"passageCount": 236
+					"divisionLabel": "book",
+					"unitLabel": "section",
+					"passageCount": 22,
+					"refLevels": 3,
+					"notes": "One chapter of the Discourses, as reported by Arrian. Oldfather marks every fifth section, so each passage covers up to five sections, such as 3.22.5-9."
 				}
 			]
 		}
@@ -1151,6 +1155,8 @@
 				"divisionLabel": "chapter",
 				"unitLabel": "verse",
 				"passageCount": 701,
+				"refLevels": 2,
+				"notes": null,
 				"divisions": [
 					{
 						"division": 1,
@@ -1189,6 +1195,7 @@
 						"ref": "BG 2.47",
 						"division": 2,
 						"divisionTitle": null,
+						"subdivision": null,
 						"text": "Thy business is with the action only, never with its fruits; so let not the fruit of action be thy motive, nor be thou to inaction attached."
 					}
 				]
@@ -1213,6 +1220,7 @@
 					"ref": "BG 2.47",
 					"division": 2,
 					"divisionTitle": null,
+					"subdivision": null,
 					"text": "Thy business is with the action only, never with its fruits; so let not the fruit of action be thy motive, nor be thou to inaction attached."
 				},
 				"chunk": {
@@ -1313,8 +1321,8 @@
 			"meta": {
 				"page": 0,
 				"limit": 2,
-				"total": 759,
-				"totalPages": 380
+				"total": 2973,
+				"totalPages": 1487
 			}
 		}
 	},
