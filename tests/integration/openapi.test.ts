@@ -1,4 +1,5 @@
 import { describe, expect, it } from "bun:test";
+import { buildCollection } from "../../scripts/postman-collection.ts";
 import { app } from "../../src/index.ts";
 
 // biome-ignore lint/suspicious/noExplicitAny: the spec is read loosely
@@ -42,7 +43,9 @@ describe("GET /openapi.json", () => {
 				expect([key, status, response.content]).toEqual([
 					key,
 					status,
-					{ "application/problem+json": { schema: { $ref: "#/components/schemas/ProblemDetails" } } },
+					{
+						"application/problem+json": { schema: { $ref: "#/components/schemas/ProblemDetails" } },
+					},
 				]);
 			}
 		}
@@ -55,7 +58,11 @@ describe("GET /openapi.json", () => {
 			expect([key, Object.keys(op.responses).includes("429")]).toEqual([key, true]);
 			for (const response of Object.values<Loose>(op.responses)) {
 				expect(Object.keys(response.headers)).toEqual(
-					expect.arrayContaining(["X-RateLimit-Limit", "X-RateLimit-Remaining", "X-RateLimit-Reset"]),
+					expect.arrayContaining([
+						"X-RateLimit-Limit",
+						"X-RateLimit-Remaining",
+						"X-RateLimit-Reset",
+					]),
 				);
 			}
 		}
@@ -76,9 +83,14 @@ describe("GET /openapi.json", () => {
 		const all = operations(spec);
 		const withExample = all.filter(({ op }) => JSON.stringify(op).includes('"example"'));
 		expect(withExample.length / all.length).toBeGreaterThan(0.5);
-		expect(spec.paths["/paragraphs/{ref}"].get.responses["200"].content["application/json"].example.data.standardReferenceId).toBe("2:5.1");
+		expect(
+			spec.paths["/paragraphs/{ref}"].get.responses["200"].content["application/json"].example.data
+				.standardReferenceId,
+		).toBe("2:5.1");
 		expect(spec.paths["/og/{ref}"].get.parameters[0].example).toBe("2:5.1");
-		expect(spec.paths["/feedback"].post.requestBody.content["application/json"].example.category).toBe("docs");
+		expect(
+			spec.paths["/feedback"].post.requestBody.content["application/json"].example.category,
+		).toBe("docs");
 	});
 
 	it("says on every lang parameter that paragraph text is English only", async () => {
@@ -108,5 +120,13 @@ describe("GET /openapi.json", () => {
 			const res = await app.request(path, { headers: TEST_IP });
 			expect([path, res.status]).toEqual([path, 401]);
 		}
+	});
+});
+
+describe("Postman collection coverage", () => {
+	it("has an example request for every public operation", async () => {
+		const spec = await loadSpec();
+		const collection = buildCollection(spec);
+		expect(collection.item.flatMap((f) => f.item).length).toBeGreaterThan(30);
 	});
 });
