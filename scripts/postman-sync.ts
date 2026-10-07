@@ -1,5 +1,6 @@
 // Rebuilds the public Postman collection from the live spec, checks that every request
-// returns 200, and replaces the published collection when it changed.
+// returns 200, and replaces the published collection when it changed. Without a
+// Postman API key it only checks.
 // Run: POSTMAN_API_KEY=... POSTMAN_COLLECTION_UID=... bun scripts/postman-sync.ts [--dry-run]
 // --dry-run builds and checks only, and writes the file to postman-collection.json.
 import { buildCollection } from "./postman-collection.ts";
@@ -43,7 +44,12 @@ if (dryRun) {
 
 const key = process.env.POSTMAN_API_KEY;
 const uid = process.env.POSTMAN_COLLECTION_UID;
-if (!key || !uid) throw new Error("POSTMAN_API_KEY and POSTMAN_COLLECTION_UID are required");
+// Postman API keys need a paid plan. Without one, this run is a daily check that
+// every public request returns 200, and publishing is skipped.
+if (!key || !uid) {
+	console.log("No POSTMAN_API_KEY or POSTMAN_COLLECTION_UID: checked only, nothing published");
+	process.exit(0);
+}
 const api = `https://api.getpostman.com/collections/${uid}`;
 const headers = { "X-Api-Key": key, "Content-Type": "application/json" };
 
