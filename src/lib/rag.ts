@@ -29,6 +29,13 @@ interface ParagraphRow {
 		similarity: number;
 		rank: number;
 	}>;
+	scriptureParallels?: Array<{
+		reference: string;
+		corpus: { title: string; religion: string };
+		text: string;
+		similarity: number;
+		rank: number;
+	}>;
 }
 
 export interface RagResponse {
@@ -58,6 +65,14 @@ export interface RagResponse {
 	urantiaParallels?: Array<{
 		ref: string;
 		paperTitle: string;
+		text: string;
+		similarity: number;
+		rank: number;
+	}>;
+	scriptureParallels?: Array<{
+		reference: string;
+		title: string;
+		religion: string;
 		text: string;
 		similarity: number;
 		rank: number;
@@ -110,6 +125,17 @@ export async function toRagFormat(
 		result.urantiaParallels = paragraph.urantiaParallels.map((p) => ({
 			ref: p.standardReferenceId,
 			paperTitle: p.paperTitle,
+			text: p.text,
+			similarity: p.similarity,
+			rank: p.rank,
+		}));
+	}
+
+	if (paragraph.scriptureParallels?.length) {
+		result.scriptureParallels = paragraph.scriptureParallels.map((p) => ({
+			reference: p.reference,
+			title: p.corpus.title,
+			religion: p.corpus.religion,
 			text: p.text,
 			similarity: p.similarity,
 			rank: p.rank,
