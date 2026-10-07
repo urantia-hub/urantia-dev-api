@@ -159,7 +159,9 @@ export const ScriptureCorpusSummarySchema = z.object({
 	urantiaSection: z
 		.string()
 		.nullable()
-		.describe("The Paper 131 section headed with this religion, or null when Paper 131 has no such heading"),
+		.describe(
+			"The Paper 131 section headed with this religion, or null when Paper 131 has no such heading",
+		),
 });
 
 export const ScriptureParallelSchema = z.object({
@@ -194,6 +196,10 @@ export const ParagraphSchema = z.object({
 	bibleParallels: z.array(ParagraphBibleParallelSchema).optional(),
 	urantiaParallels: z.array(UrantiaParallelSchema).optional(),
 	scriptureParallels: z.array(ScriptureParallelSchema).optional(),
+	scriptureScores: z
+		.lazy(() => ParagraphScriptureScoresSchema)
+		.nullable()
+		.optional(),
 });
 
 // --- TOC ---
@@ -601,7 +607,10 @@ export const ScriptureCorpusSchema = ScriptureCorpusSummarySchema.extend({
 	divisionLabel: z.string(),
 	unitLabel: z.string(),
 	passageCount: z.number().int(),
-	refLevels: z.number().int().describe("Numbers in a full ref: 1 for `Dhp 183`, 2 for `BG 2.47`, 3 for `Epictetus 3.22.5`"),
+	refLevels: z
+		.number()
+		.int()
+		.describe("Numbers in a full ref: 1 for `Dhp 183`, 2 for `BG 2.47`, 3 for `Epictetus 3.22.5`"),
 	notes: z.string().nullable().describe("How the text is numbered or selected"),
 });
 
@@ -623,7 +632,9 @@ export const ScriptureRefParam = z.object({
 		.string()
 		.min(1)
 		.max(32)
-		.describe("A passage (`2.47`, `BG 2.47`, `Dhp 183`, `Epictetus 3.22.5`), a short range (`2.47-49`), or a whole chapter (`2`)"),
+		.describe(
+			"A passage (`2.47`, `BG 2.47`, `Dhp 183`, `Epictetus 3.22.5`), a short range (`2.47-49`), or a whole chapter (`2`)",
+		),
 });
 
 export const ScriptureCorpusResponse = z.object({
@@ -696,4 +707,117 @@ export const ScriptureSemanticSearchResponse = z.object({
 		}),
 	),
 	meta: PaginationMeta,
+});
+
+// --- Scripture insights (scores across the world religions texts and the Bible) ---
+
+const InsightParagraphSchema = z.object({
+	id: z.string(),
+	standardReferenceId: z.string(),
+	paperId: z.string(),
+	paperTitle: z.string(),
+	sectionTitle: z.string().nullable(),
+	text: z.string(),
+});
+
+const InsightTextScoreSchema = z.object({
+	corpus: ScriptureCorpusSummarySchema,
+	percentile: z
+		.number()
+		.describe(
+			"The paragraph's best match in this text, as a percentile within the text after a length adjustment, 0 to 1",
+		),
+});
+
+export const InsightsQuery = z.object({
+	paperId: z.coerce.number().int().min(0).max(196).optional(),
+	partId: z.coerce.number().int().min(1).max(4).optional(),
+	minLength: z.coerce
+		.number()
+		.int()
+		.min(0)
+		.max(2000)
+		.default(200)
+		.describe("Leave out paragraphs shorter than this many characters. Headings and fragments score unreliably"),
+	page: z.coerce.number().int().min(0).default(0),
+	limit: z.coerce.number().int().min(1).max(50).default(20),
+});
+
+export const InsightsCorpusQuery = z.object({
+	corpus: z
+		.string()
+		.min(1)
+		.max(64)
+		.optional()
+		.describe("A corpus id, slug, or ref prefix, or `bible`"),
+	excludeBible: z
+		.enum(["true", "false"])
+		.optional()
+		.describe("`true` leaves out the Bible, which has most of the mutual pairs"),
+	minLength: z.coerce
+		.number()
+		.int()
+		.min(0)
+		.max(2000)
+		.default(200)
+		.describe("Leave out paragraphs shorter than this many characters. Headings and fragments score unreliably"),
+	page: z.coerce.number().int().min(0).default(0),
+	limit: z.coerce.number().int().min(1).max(50).default(20),
+});
+
+export const InsightsScoredResponse = z.object({
+	data: z.array(
+		z.object({
+			paragraph: InsightParagraphSchema,
+			textsClose: z.number().int().describe("Texts that have this paragraph in their top 10%"),
+			consensus: z.number().describe("Mean percentile across the texts, 0 to 1"),
+			distance: z.number().describe("1 minus the highest percentile, 0 to 1"),
+			closest: z.array(InsightTextScoreSchema),
+		}),
+	),
+	meta: PaginationMeta,
+});
+
+const InsightPassageSchema = z.object({
+	chunkId: z.string(),
+	reference: z.string(),
+	text: z.string(),
+});
+
+export const InsightsPairsResponse = z.object({
+	data: z.array(
+		z.object({
+			paragraph: InsightParagraphSchema,
+			corpus: ScriptureCorpusSummarySchema,
+			passage: InsightPassageSchema,
+			similarity: z.number().describe("text-embedding-3-large cosine similarity"),
+			similaritySmall: z.number().describe("text-embedding-3-small cosine similarity"),
+		}),
+	),
+	meta: PaginationMeta,
+});
+
+export const InsightsLeansResponse = z.object({
+	data: z.array(
+		z.object({
+			paragraph: InsightParagraphSchema,
+			corpus: ScriptureCorpusSummarySchema,
+			gap: z
+				.number()
+				.describe("How far this text's percentile is above the paragraph's mean across texts"),
+			percentile: z.number(),
+		}),
+	),
+	meta: PaginationMeta,
+});
+
+export const ParagraphScriptureScoresSchema = z.object({
+	textsClose: z.number().int(),
+	consensus: z.number(),
+	distance: z.number(),
+	lean: z.object({ corpus: ScriptureCorpusSummarySchema, gap: z.number() }).nullable(),
+	mutualPairs: z.array(
+		z.object({ corpus: ScriptureCorpusSummarySchema, passage: InsightPassageSchema }),
+	),
+	profile: z.array(InsightTextScoreSchema),
 });

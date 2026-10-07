@@ -338,6 +338,18 @@ phases: `../world-religions-plan-2026-10.md`.
   Paper 131 section in their top 10. Phase 2: 78% of Japji chunks reach
   131:1, 60% of the oracles reach 131:7, and the Cynic texts match 131:1
   least of all nine.
+- Insights (2026-10-07): `scripts/scriptures/scores.ts` fills
+  `paragraph_scripture_scores` and `scripture_mutual_pairs`
+  (tables from `create-scores-tables.sql`). Rerun it after any reseed or
+  parallels run. For each of the 10 texts (9 corpora + the Bible), a
+  paragraph's best match becomes a percentile within that text after a
+  length adjustment (length correlates 0.23 with similarity). Lean and
+  mutual pairs must also hold under text-embedding-3-small; the small-model
+  matches are computed in memory (~4 minutes). Endpoints:
+  `/scriptures/insights/{shared-currents,far,pairs,leans}` and
+  `?include=scriptureScores`. Shared currents leaves out Paper 131. The
+  texts' scores correlate (mean 0.42), so "close in N texts" is not N
+  independent votes; say so wherever the count appears.
 - No MCP tools for scriptures until the OpenAI and Claude directory reviews
   finish.
 

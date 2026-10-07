@@ -558,6 +558,60 @@ export const scriptureParallels = pgTable(
 	],
 ).enableRLS();
 
+// --- paragraph_scripture_scores (one row per Urantia paragraph) ---
+// Computed by scripts/scriptures/scores.ts from both embedding models. For each
+// text (the nine corpora and the Bible), a paragraph's best match becomes a
+// percentile within that text, after an adjustment for paragraph length.
+export const paragraphScriptureScores = pgTable(
+	"paragraph_scripture_scores",
+	{
+		paragraphId: text("paragraph_id")
+			.primaryKey()
+			.references(() => paragraphs.id),
+		// Texts where the paragraph is in that text's top 10%.
+		textsClose: integer("texts_close").notNull(),
+		// Mean adjusted percentile across the texts, 0 to 1. High: shared currents.
+		consensus: real("consensus").notNull(),
+		// 1 minus the highest adjusted percentile, 0 to 1. High: far from these texts.
+		distance: real("distance").notNull(),
+		// The text the paragraph comes closest to beyond its own mean, when that text
+		// also has it in its top 10% and both models agree. Null otherwise.
+		leanCorpus: text("lean_corpus"),
+		leanGap: real("lean_gap"),
+		// { corpusId: adjusted percentile } for every text, from the large model.
+		profile: pgJsonb("profile").notNull(),
+		generatedAt: timestamp("generated_at").notNull().defaultNow(),
+	},
+	(t) => [
+		index("pss_consensus_idx").on(t.consensus),
+		index("pss_distance_idx").on(t.distance),
+		index("pss_lean_idx").on(t.leanCorpus, t.leanGap),
+	],
+).enableRLS();
+
+// --- scripture_mutual_pairs ---
+// A paragraph and a passage that are each other's best match, under both models.
+// corpusId is a scripture corpus id or "bible"; chunkId is a scripture_chunks or
+// bible_chunks id. Neither has a foreign key because the Bible keeps its own tables.
+export const scriptureMutualPairs = pgTable(
+	"scripture_mutual_pairs",
+	{
+		id: serial("id").primaryKey(),
+		paragraphId: text("paragraph_id")
+			.notNull()
+			.references(() => paragraphs.id),
+		corpusId: text("corpus_id").notNull(),
+		chunkId: text("chunk_id").notNull(),
+		similarity: real("similarity").notNull(), // text-embedding-3-large
+		similaritySmall: real("similarity_small").notNull(), // text-embedding-3-small
+		generatedAt: timestamp("generated_at").notNull().defaultNow(),
+	},
+	(t) => [
+		uniqueIndex("smp_para_corpus_idx").on(t.paragraphId, t.corpusId),
+		index("smp_corpus_sim_idx").on(t.corpusId, t.similarity),
+	],
+).enableRLS();
+
 // ============================================================
 // Auth layer tables (unified auth for the Urantia ecosystem)
 // ============================================================
