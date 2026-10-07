@@ -1326,6 +1326,316 @@
 			}
 		}
 	},
+	"get /scriptures/insights/shared-currents": {
+		"response": {
+			"data": [
+				{
+					"paragraph": {
+						"id": "4:156.5.20",
+						"standardReferenceId": "156:5.20",
+						"paperId": "156",
+						"paperTitle": "The Sojourn at Tyre and Sidon",
+						"sectionTitle": "Jesus’ Teaching at Tyre",
+						"text": "The God-conscious mortal is certain of salvation; he is unafraid of life; he is honest and consistent. He knows how bravely to endure unavoidable suffering; he is uncomplaining when faced by inescapable hardship."
+					},
+					"textsClose": 9,
+					"consensus": 0.967998,
+					"distance": 0.00205578,
+					"closest": [
+						{
+							"corpus": {
+								"id": "epictetus-3-22-oldfather-1928",
+								"slug": "epictetus-cynic",
+								"religion": "Cynicism",
+								"title": "Discourses 3.22: On the Calling of a Cynic",
+								"translator": "W. A. Oldfather",
+								"year": 1928,
+								"refPrefix": "Epictetus",
+								"urantiaSection": "131:1"
+							},
+							"percentile": 0.998
+						},
+						{
+							"corpus": {
+								"id": "dhammapada-muller-1881",
+								"slug": "dhammapada",
+								"religion": "Buddhism",
+								"title": "The Dhammapada",
+								"translator": "F. Max Muller",
+								"year": 1881,
+								"refPrefix": "Dhp",
+								"urantiaSection": "131:3"
+							},
+							"percentile": 0.996
+						}
+					]
+				},
+				{
+					"paragraph": {
+						"id": "1:1.3.2",
+						"standardReferenceId": "1:3.2",
+						"paperId": "1",
+						"paperTitle": "The Universal Father",
+						"sectionTitle": "God is a Universal Spirit",
+						"text": "Said the seer of old: “Lo, he goes by me, and I see him not; he passes on also, but I perceive him not.” We may constantly observe the works of God, we may be highly conscious of the material evidences of his majestic conduct, but rarely may we gaze upon the visible manifestation of his divinity, not even to behold the presence of his delegated spirit of human indwelling."
+					},
+					"textsClose": 9,
+					"consensus": 0.958775,
+					"distance": 0.00493387,
+					"closest": [
+						{
+							"corpus": {
+								"id": "bhagavad-gita-besant-1922",
+								"slug": "bhagavad-gita",
+								"religion": "Hinduism",
+								"title": "The Bhagavad Gita",
+								"translator": "Annie Besant (4th edition)",
+								"year": 1922,
+								"refPrefix": "BG",
+								"urantiaSection": "131:4"
+							},
+							"percentile": 0.995
+						},
+						{
+							"corpus": {
+								"id": "tao-te-ching-legge-1891",
+								"slug": "tao-te-ching",
+								"religion": "Taoism",
+								"title": "The Tao Te Ching",
+								"translator": "James Legge",
+								"year": 1891,
+								"refPrefix": "TTC",
+								"urantiaSection": "131:8"
+							},
+							"percentile": 0.992
+						}
+					]
+				}
+			],
+			"meta": {
+				"page": 0,
+				"limit": 2,
+				"total": 11866,
+				"totalPages": 5933
+			}
+		}
+	},
+	"get /scriptures/insights/far": {
+		"response": {
+			"data": [
+				{
+					"paragraph": {
+						"id": "3:108.2.1",
+						"standardReferenceId": "108:2.1",
+						"paperId": "108",
+						"paperTitle": "Mission and Ministry of Thought Adjusters",
+						"sectionTitle": "Prerequisites of Adjuster Indwelling",
+						"text": "Though the Adjusters volunteer for service as soon as the personality forecasts have been relayed to Divinington, they are not actually assigned until the human subjects make their first moral personality decision. The first moral choice of the human child is automatically indicated in the seventh mind-adjutant and registers instantly, by way of the local universe Creative Spirit, over the universal mind-gravity circuit of the Conjoint Actor in the presence of the Master Spirit of superuniverse jurisdiction, who forthwith dispatches this intelligence to Divinington. Adjusters reach their human subjects on Urantia, on the average, just prior to the sixth birthday. In the present generation it is running five years, ten months, and four days; that is, on the 2,134th day of terrestrial life."
+					},
+					"textsClose": 0,
+					"consensus": 0.19066,
+					"distance": 0.675941,
+					"closest": [
+						{
+							"corpus": {
+								"id": "analects-legge-1861",
+								"slug": "analects",
+								"religion": "Confucianism",
+								"title": "The Analects of Confucius",
+								"translator": "James Legge",
+								"year": 1861,
+								"refPrefix": "Analects",
+								"urantiaSection": "131:9"
+							},
+							"percentile": 0.324
+						},
+						{
+							"corpus": {
+								"id": "shinto-oracles-aston-1905",
+								"slug": "shinto-oracles",
+								"religion": "Shinto",
+								"title": "Shinto Oracles",
+								"translator": "W. G. Aston",
+								"year": 1905,
+								"refPrefix": "Oracle",
+								"urantiaSection": "131:7"
+							},
+							"percentile": 0.251
+						}
+					]
+				},
+				{
+					"paragraph": {
+						"id": "3:108.4.4",
+						"standardReferenceId": "108:4.4",
+						"paperId": "108",
+						"paperTitle": "Mission and Ministry of Thought Adjusters",
+						"sectionTitle": "Relation to Other Spiritual Influences",
+						"text": "When a world is isolated by rebellion, when a planet is cut off from all outside encircuited communication, as was Urantia after the Caligastia upheaval, aside from personal messengers there remains but one possibility of direct interplanetary or universe communication, and that is through the liaison of the Adjusters of the spheres. No matter what happens on a world or in a universe, the Adjusters are never directly concerned. The isolation of a planet in no way affects the Adjusters and their ability to communicate with any part of the local universe, superuniverse, or the central universe. And this is the reason why contacts with the supreme and the self-acting Adjusters of the reserve corps of destiny are so frequently made on quarantined worlds. Recourse is had to such a technique as a means of circumventing the handicaps of planetary isolation. In recent years the archangels’ circuit has functioned on Urantia, but that means of communication is largely limited to the transactions of the archangel corps itself."
+					},
+					"textsClose": 0,
+					"consensus": 0.185843,
+					"distance": 0.605701,
+					"closest": [
+						{
+							"corpus": {
+								"id": "japji-macauliffe-1909",
+								"slug": "japji",
+								"religion": "Sikhism",
+								"title": "The Japji",
+								"translator": "Max Arthur Macauliffe",
+								"year": 1909,
+								"refPrefix": "Japji",
+								"urantiaSection": null
+							},
+							"percentile": 0.394
+						},
+						{
+							"corpus": {
+								"id": "shinto-oracles-aston-1905",
+								"slug": "shinto-oracles",
+								"religion": "Shinto",
+								"title": "Shinto Oracles",
+								"translator": "W. G. Aston",
+								"year": 1905,
+								"refPrefix": "Oracle",
+								"urantiaSection": "131:7"
+							},
+							"percentile": 0.302
+						}
+					]
+				}
+			],
+			"meta": {
+				"page": 0,
+				"limit": 2,
+				"total": 52,
+				"totalPages": 26
+			}
+		}
+	},
+	"get /scriptures/insights/pairs": {
+		"response": {
+			"data": [
+				{
+					"paragraph": {
+						"id": "4:121.4.4",
+						"standardReferenceId": "121:4.4",
+						"paperId": "121",
+						"paperTitle": "The Times of Michael’s Bestowal",
+						"sectionTitle": "Gentile Philosophy",
+						"text": "3. The Cynic. Although the Cynics traced their philosophy to Diogenes of Athens, they derived much of their doctrine from the remnants of the teachings of Machiventa Melchizedek. Cynicism had formerly been more of a religion than a philosophy. At least the Cynics made their religio-philosophy democratic. In the fields and in the market places they continually preached their doctrine that “man could save himself if he would.” They preached simplicity and virtue and urged men to meet death fearlessly. These wandering Cynic preachers did much to prepare the spiritually hungry populace for the later Christian missionaries. Their plan of popular preaching was much after the pattern, and in accordance with the style, of Paul’s Epistles."
+					},
+					"corpus": {
+						"id": "diogenes-laertius-6-hicks-1925",
+						"slug": "diogenes-laertius-6",
+						"religion": "Cynicism",
+						"title": "Lives of Eminent Philosophers, Book 6: The Cynics",
+						"translator": "R. D. Hicks",
+						"year": 1925,
+						"refPrefix": "DL",
+						"urantiaSection": "131:1"
+					},
+					"passage": {
+						"chunkId": "diogenes-laertius-6-hicks-1925:DL 6.103",
+						"reference": "DL 6.103",
+						"text": "Such are the lives of the several Cynics. But we will go on to append the doctrines which they held in common – if, that is, we decide that Cynicism is really a philosophy, and not, as some maintain, just a way of life. They are content then, like Ariston of Chios, to do away with the subjects of Logic and Physics and to devote their whole attention to Ethics. And what some assert of Socrates, Diocles records of Diogenes, representing him as saying: \"We must inquire into Whate'er of good or ill within our halls is wrought.\" They also dispense with the ordinary subjects of instruction. At least Antisthenes used to say that those who had attained discretion had better not study literature, lest they should be perverted by alien influences."
+					},
+					"similarity": 0.679463,
+					"similaritySmall": 0.720913
+				},
+				{
+					"paragraph": {
+						"id": "4:122.2.3",
+						"standardReferenceId": "122:2.3",
+						"paperId": "122",
+						"paperTitle": "Birth and Infancy of Jesus",
+						"sectionTitle": "Gabriel Appears to Elizabeth",
+						"text": "“While your husband, Zacharias, stands before the altar in Jerusalem, and while the assembled people pray for the coming of a deliverer, I, Gabriel, have come to announce that you will shortly bear a son who shall be the forerunner of this divine teacher, and you shall call your son John. He will grow up dedicated to the Lord your God, and when he has come to full years, he will gladden your heart because he will turn many souls to God, and he will also proclaim the coming of the soul-healer of your people and the spirit-liberator of all mankind. Your kinswoman Mary shall be the mother of this child of promise, and I will also appear to her.”"
+					},
+					"corpus": {
+						"id": "koran-pickthall-1930",
+						"slug": "quran",
+						"religion": "Islam",
+						"title": "The Meaning of the Glorious Koran",
+						"translator": "Marmaduke Pickthall",
+						"year": 1930,
+						"refPrefix": "Quran",
+						"urantiaSection": null
+					},
+					"passage": {
+						"chunkId": "koran-pickthall-1930:Quran 3.38",
+						"reference": "Quran 3.38-39",
+						"text": "Then Zachariah prayed unto his Lord and said: My Lord! Bestow upon me of Thy bounty goodly offspring. Lo! Thou art the Hearer of Prayer. And the angels called to him as he stood praying in the sanctuary: Allah giveth thee glad tidings of (a son whose name is) John, (who cometh) to confirm a word from Allah lordly, chaste, a prophet of the righteous."
+					},
+					"similarity": 0.675817,
+					"similaritySmall": 0.692782
+				}
+			],
+			"meta": {
+				"page": 0,
+				"limit": 2,
+				"total": 83,
+				"totalPages": 42
+			}
+		}
+	},
+	"get /scriptures/insights/leans": {
+		"response": {
+			"data": [
+				{
+					"paragraph": {
+						"id": "4:122.2.7",
+						"standardReferenceId": "122:2.7",
+						"paperId": "122",
+						"paperTitle": "Birth and Infancy of Jesus",
+						"sectionTitle": "Gabriel Appears to Elizabeth",
+						"text": "John was born in the City of Judah, March 25, 7 b.c. Zacharias and Elizabeth rejoiced greatly in the realization that a son had come to them as Gabriel had promised, and when on the eighth day they presented the child for circumcision, they formally christened him John, as they had been directed aforetime. Already had a nephew of Zacharias departed for Nazareth, carrying the message of Elizabeth to Mary proclaiming that a son had been born to her and that his name was to be John."
+					},
+					"corpus": {
+						"id": "koran-pickthall-1930",
+						"slug": "quran",
+						"religion": "Islam",
+						"title": "The Meaning of the Glorious Koran",
+						"translator": "Marmaduke Pickthall",
+						"year": 1930,
+						"refPrefix": "Quran",
+						"urantiaSection": null
+					},
+					"gap": 0.755588,
+					"percentile": 0.992
+				},
+				{
+					"paragraph": {
+						"id": "4:135.0.1",
+						"standardReferenceId": "135:0.1",
+						"paperId": "135",
+						"paperTitle": "John the Baptist",
+						"sectionTitle": null,
+						"text": "JOHN the Baptist was born March 25, 7 b.c., in accordance with the promise that Gabriel made to Elizabeth in June of the previous year. For five months Elizabeth kept secret Gabriel’s visitation; and when she told her husband, Zacharias, he was greatly troubled and fully believed her narrative only after he had an unusual dream about six weeks before the birth of John. Excepting the visit of Gabriel to Elizabeth and the dream of Zacharias, there was nothing unusual or supernatural connected with the birth of John the Baptist."
+					},
+					"corpus": {
+						"id": "koran-pickthall-1930",
+						"slug": "quran",
+						"religion": "Islam",
+						"title": "The Meaning of the Glorious Koran",
+						"translator": "Marmaduke Pickthall",
+						"year": 1930,
+						"refPrefix": "Quran",
+						"urantiaSection": null
+					},
+					"gap": 0.738292,
+					"percentile": 0.965
+				}
+			],
+			"meta": {
+				"page": 0,
+				"limit": 2,
+				"total": 328,
+				"totalPages": 164
+			}
+		}
+	},
 	"get /cite": {
 		"response": {
 			"data": {
