@@ -97,6 +97,17 @@ for (const [order, corpus] of CORPORA.entries()) {
 					division_title = EXCLUDED.division_title, subdivision = EXCLUDED.subdivision, number_start = EXCLUDED.number_start,
 					number_end = EXCLUDED.number_end, text = EXCLUDED.text, chunk_id = EXCLUDED.chunk_id`;
 		}
+
+		// Remove the chunks this build no longer makes, and their parallels.
+		const keep = chunkRows.map((c) => c.id);
+		const stale = await tx`
+			SELECT id FROM scripture_chunks WHERE corpus_id = ${corpus.id} AND NOT (id = ANY(${keep}))`;
+		if (stale.length) {
+			const ids = stale.map((s) => s.id as string);
+			await tx`DELETE FROM scripture_parallels WHERE chunk_id = ANY(${ids})`;
+			await tx`DELETE FROM scripture_chunks WHERE id = ANY(${ids})`;
+			console.log(`${corpus.id}: removed ${ids.length} stale chunks`);
+		}
 	});
 	console.log(`${corpus.id}: ${passages.length} passages, ${chunks.length} chunks`);
 }
