@@ -1099,6 +1099,225 @@
 			}
 		}
 	},
+	"get /scriptures": {
+		"response": {
+			"data": [
+				{
+					"id": "dhammapada-muller-1881",
+					"slug": "dhammapada",
+					"religion": "Buddhism",
+					"title": "The Dhammapada",
+					"translator": "F. Max Muller",
+					"year": 1881,
+					"refPrefix": "Dhp",
+					"urantiaSection": "131:3",
+					"sourceUrl": "https://www.gutenberg.org/ebooks/2017",
+					"license": "Public domain in the United States",
+					"divisionLabel": "chapter",
+					"unitLabel": "verse",
+					"passageCount": 414
+				},
+				{
+					"id": "tao-te-ching-legge-1891",
+					"slug": "tao-te-ching",
+					"religion": "Taoism",
+					"title": "The Tao Te Ching",
+					"translator": "James Legge",
+					"year": 1891,
+					"refPrefix": "TTC",
+					"urantiaSection": "131:8",
+					"sourceUrl": "https://www.gutenberg.org/ebooks/216",
+					"license": "Public domain in the United States",
+					"divisionLabel": "chapter",
+					"unitLabel": "paragraph",
+					"passageCount": 236
+				}
+			]
+		}
+	},
+	"get /scriptures/{corpus}": {
+		"response": {
+			"data": {
+				"id": "bhagavad-gita-besant-1922",
+				"slug": "bhagavad-gita",
+				"religion": "Hinduism",
+				"title": "The Bhagavad Gita",
+				"translator": "Annie Besant (4th edition)",
+				"year": 1922,
+				"refPrefix": "BG",
+				"urantiaSection": "131:4",
+				"sourceUrl": "https://en.wikisource.org/wiki/Bhagavad-Gita_(Besant_4th)",
+				"license": "Public domain in the United States",
+				"divisionLabel": "chapter",
+				"unitLabel": "verse",
+				"passageCount": 701,
+				"divisions": [
+					{
+						"division": 1,
+						"title": null,
+						"firstRef": "BG 1.1",
+						"lastRef": "BG 1.47",
+						"passageCount": 47
+					},
+					{
+						"division": 2,
+						"title": null,
+						"firstRef": "BG 2.1",
+						"lastRef": "BG 2.72",
+						"passageCount": 72
+					}
+				]
+			}
+		}
+	},
+	"get /scriptures/{corpus}/{ref}": {
+		"response": {
+			"data": {
+				"corpus": {
+					"id": "bhagavad-gita-besant-1922",
+					"slug": "bhagavad-gita",
+					"religion": "Hinduism",
+					"title": "The Bhagavad Gita",
+					"translator": "Annie Besant (4th edition)",
+					"year": 1922,
+					"refPrefix": "BG",
+					"urantiaSection": "131:4"
+				},
+				"passages": [
+					{
+						"id": "bhagavad-gita-besant-1922:BG 2.47",
+						"ref": "BG 2.47",
+						"division": 2,
+						"divisionTitle": null,
+						"text": "Thy business is with the action only, never with its fruits; so let not the fruit of action be thy motive, nor be thou to inaction attached."
+					}
+				]
+			}
+		}
+	},
+	"get /scriptures/{corpus}/{ref}/urantia-parallels": {
+		"response": {
+			"data": {
+				"corpus": {
+					"id": "bhagavad-gita-besant-1922",
+					"slug": "bhagavad-gita",
+					"religion": "Hinduism",
+					"title": "The Bhagavad Gita",
+					"translator": "Annie Besant (4th edition)",
+					"year": 1922,
+					"refPrefix": "BG",
+					"urantiaSection": "131:4"
+				},
+				"passage": {
+					"id": "bhagavad-gita-besant-1922:BG 2.47",
+					"ref": "BG 2.47",
+					"division": 2,
+					"divisionTitle": null,
+					"text": "Thy business is with the action only, never with its fruits; so let not the fruit of action be thy motive, nor be thou to inaction attached."
+				},
+				"chunk": {
+					"id": "bhagavad-gita-besant-1922:BG 2.47",
+					"reference": "BG 2.47-49",
+					"text": "Thy business is with the action only, never with its fruits; so let not the fruit of action be thy motive, nor be thou to inaction attached. Perform action, O Dhananjaya, dwelling in union with the divine, renouncing attachments and balanced evenly in success and failure: equilibrium is called yoga. Far lower than the Yoga of Discrimination is action, O Dhananjaya. Take thou refuge in the Pure Reason; pitiable are they who work for fruit."
+				},
+				"urantiaParallels": [
+					{
+						"id": "4:131.3.5",
+						"standardReferenceId": "131:3.5",
+						"paperId": "131",
+						"paperTitle": "The World’s Religions",
+						"sectionTitle": "Buddhism",
+						"text": "“No religionist may hope to attain the enlightenment of immortal wisdom who persists in being slothful, indolent, feeble, idle, shameless, and selfish. But whoso is thoughtful, prudent, reflective, fervent, and earnest — even while he yet lives on earth — may attain the supreme enlightenment of the peace and liberty of divine wisdom. Remember, every act shall receive its reward. Evil results in sorrow and sin ends in pain. Joy and happiness are the outcome of a good life. Even the evildoer enjoys a season of grace before the time of the full ripening of his evil deeds, but inevitably there must come the full harvest of evil-doing. Let no man think lightly of sin, saying in his heart: ‘The penalty of wrongdoing shall not come near me.’ What you do shall be done to you, in the judgment of wisdom. Injustice done to your fellows shall come back upon you. The creature cannot escape the destiny of his deeds.",
+						"similarity": 0.442891,
+						"rank": 1
+					},
+					{
+						"id": "2:48.7.13",
+						"standardReferenceId": "48:7.13",
+						"paperId": "48",
+						"paperTitle": "The Morontia Life",
+						"sectionTitle": "Morontia Mota",
+						"text": "11. The weak indulge in resolutions, but the strong act. Life is but a day’s work — do it well. The act is ours; the consequences God’s.",
+						"similarity": 0.422695,
+						"rank": 2
+					}
+				]
+			}
+		}
+	},
+	"post /scriptures/search/semantic": {
+		"request": {
+			"q": "hatred ceases by love",
+			"limit": 2,
+			"urantiaParallelLimit": 1
+		},
+		"response": {
+			"data": [
+				{
+					"chunkId": "dhammapada-muller-1881:Dhp 3",
+					"reference": "Dhp 3-5",
+					"corpus": {
+						"id": "dhammapada-muller-1881",
+						"slug": "dhammapada",
+						"religion": "Buddhism",
+						"title": "The Dhammapada",
+						"translator": "F. Max Muller",
+						"year": 1881,
+						"refPrefix": "Dhp",
+						"urantiaSection": "131:3"
+					},
+					"text": "\"He abused me, he beat me, he defeated me, he robbed me,\"--in those who harbour such thoughts hatred will never cease. \"He abused me, he beat me, he defeated me, he robbed me,\"--in those who do not harbour such thoughts hatred will cease. For hatred does not cease by hatred at any time: hatred ceases by love, this is an old rule.",
+					"similarity": 0.599195,
+					"urantiaParallels": [
+						{
+							"id": "4:131.3.6",
+							"standardReferenceId": "131:3.6",
+							"paperId": "131",
+							"paperTitle": "The World’s Religions",
+							"sectionTitle": "Buddhism",
+							"text": "“The fool has said in his heart, ‘Evil shall not overtake me’; but safety is found only when the soul craves reproof and the mind seeks wisdom. The wise man is a noble soul who is friendly in the midst of his enemies, tranquil among the turbulent, and generous among the grasping. Love of self is like weeds in a goodly field. Selfishness leads to grief; perpetual care kills. The tamed mind yields happiness. He is the greatest of warriors who overcomes and subdues himself. Restraint in all things is good. He alone is a superior person who esteems virtue and is observant of his duty. Let not anger and hate master you. Speak harshly of no one. Contentment is the greatest wealth. What is given wisely is well saved. Do not to others those things you would not wish done to you. Pay good for evil; overcome evil with the good.",
+							"similarity": 0.412424,
+							"rank": 1
+						}
+					]
+				},
+				{
+					"chunkId": "dhammapada-muller-1881:Dhp 211",
+					"reference": "Dhp 211-213",
+					"corpus": {
+						"id": "dhammapada-muller-1881",
+						"slug": "dhammapada",
+						"religion": "Buddhism",
+						"title": "The Dhammapada",
+						"translator": "F. Max Muller",
+						"year": 1881,
+						"refPrefix": "Dhp",
+						"urantiaSection": "131:3"
+					},
+					"text": "Let, therefore, no man love anything; loss of the beloved is evil. Those who love nothing and hate nothing, have no fetters. From pleasure comes grief, from pleasure comes fear; he who is free from pleasure knows neither grief nor fear. From affection comes grief, from affection comes fear; he who is free from affection knows neither grief nor fear.",
+					"similarity": 0.441808,
+					"urantiaParallels": [
+						{
+							"id": "4:131.3.6",
+							"standardReferenceId": "131:3.6",
+							"paperId": "131",
+							"paperTitle": "The World’s Religions",
+							"sectionTitle": "Buddhism",
+							"text": "“The fool has said in his heart, ‘Evil shall not overtake me’; but safety is found only when the soul craves reproof and the mind seeks wisdom. The wise man is a noble soul who is friendly in the midst of his enemies, tranquil among the turbulent, and generous among the grasping. Love of self is like weeds in a goodly field. Selfishness leads to grief; perpetual care kills. The tamed mind yields happiness. He is the greatest of warriors who overcomes and subdues himself. Restraint in all things is good. He alone is a superior person who esteems virtue and is observant of his duty. Let not anger and hate master you. Speak harshly of no one. Contentment is the greatest wealth. What is given wisely is well saved. Do not to others those things you would not wish done to you. Pay good for evil; overcome evil with the good.",
+							"similarity": 0.475247,
+							"rank": 1
+						}
+					]
+				}
+			],
+			"meta": {
+				"page": 0,
+				"limit": 2,
+				"total": 759,
+				"totalPages": 380
+			}
+		}
+	},
 	"get /cite": {
 		"response": {
 			"data": {
