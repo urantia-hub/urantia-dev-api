@@ -30,6 +30,7 @@ import { ogRoute } from "./routes/og.ts";
 import { papersRoute } from "./routes/papers.ts";
 import { paragraphsRoute } from "./routes/paragraphs.ts";
 import { quotesRoute } from "./routes/quotes.ts";
+import { scriptureInsightsRoute } from "./routes/scripture-insights.ts";
 import { scripturesRoute } from "./routes/scriptures.ts";
 import { searchRoute } from "./routes/search.ts";
 import { tocRoute } from "./routes/toc.ts";
@@ -197,6 +198,8 @@ app.route("/entities", entitiesRoute);
 app.route("/languages", languagesRoute);
 app.route("/audio", audioRoute);
 app.route("/bible", bibleRoute);
+// Before /scriptures, so "insights" is not read as a corpus name.
+app.route("/scriptures/insights", scriptureInsightsRoute);
 app.route("/scriptures", scripturesRoute);
 app.route("/cite", citeRoute);
 app.route("/quotes", quotesRoute);

@@ -48,6 +48,10 @@ const CAPTURES: Capture[] = [
 		path: "/scriptures/search/semantic",
 		body: { q: "hatred ceases by love", limit: 2, urantiaParallelLimit: 1 },
 	},
+	{ op: "get /scriptures/insights/shared-currents", path: "/scriptures/insights/shared-currents?limit=2" },
+	{ op: "get /scriptures/insights/far", path: "/scriptures/insights/far?paperId=108&limit=2" },
+	{ op: "get /scriptures/insights/pairs", path: "/scriptures/insights/pairs?excludeBible=true&limit=2" },
+	{ op: "get /scriptures/insights/leans", path: "/scriptures/insights/leans?corpus=quran&limit=2" },
 	{ op: "get /cite", path: "/cite?ref=2:5.1" },
 	{
 		op: "post /quotes/verify",

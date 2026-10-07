@@ -27,6 +27,8 @@ ALTER TABLE scripture_corpora        ENABLE ROW LEVEL SECURITY;
 ALTER TABLE scripture_chunks         ENABLE ROW LEVEL SECURITY;
 ALTER TABLE scripture_passages       ENABLE ROW LEVEL SECURITY;
 ALTER TABLE scripture_parallels      ENABLE ROW LEVEL SECURITY;
+ALTER TABLE paragraph_scripture_scores ENABLE ROW LEVEL SECURITY;
+ALTER TABLE scripture_mutual_pairs   ENABLE ROW LEVEL SECURITY;
 
 -- Auth + per-user tables (sensitive)
 ALTER TABLE users                    ENABLE ROW LEVEL SECURITY;
