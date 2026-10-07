@@ -30,6 +30,7 @@ import { ogRoute } from "./routes/og.ts";
 import { papersRoute } from "./routes/papers.ts";
 import { paragraphsRoute } from "./routes/paragraphs.ts";
 import { quotesRoute } from "./routes/quotes.ts";
+import { scripturesRoute } from "./routes/scriptures.ts";
 import { searchRoute } from "./routes/search.ts";
 import { tocRoute } from "./routes/toc.ts";
 import { toolsRoute } from "./routes/tools.ts";
@@ -196,6 +197,7 @@ app.route("/entities", entitiesRoute);
 app.route("/languages", languagesRoute);
 app.route("/audio", audioRoute);
 app.route("/bible", bibleRoute);
+app.route("/scriptures", scripturesRoute);
 app.route("/cite", citeRoute);
 app.route("/quotes", quotesRoute);
 app.route("/og", ogRoute);
@@ -211,7 +213,7 @@ const OPENAPI_CONFIG = {
 		title: "Urantia Papers API",
 		version: "1.0.0",
 		description:
-			"An API and MCP server for the Urantia Papers. Structured access to all 197 papers and more than 14,500 paragraphs, with full-text and semantic search, named entities, Bible cross-references, and audio. No key needed. Docs: https://docs.urantia.dev",
+			"An API and MCP server for the Urantia Papers. Structured access to all 197 papers and more than 14,500 paragraphs, with full-text and semantic search, named entities, cross-references to the Bible and to the texts of other world religions, and audio. No key needed. Docs: https://docs.urantia.dev",
 		termsOfService: "https://docs.urantia.dev/terms-of-service",
 		contact: {
 			name: "urantia.dev",

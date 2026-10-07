@@ -305,6 +305,33 @@ embeddings (`text-embedding-3-large`), Phase 3 pre-computes bidirectional
 UB↔Bible parallels. Don't bolt unrelated Bible features on without
 re-reading the plan.
 
+## World religions layer (scriptures)
+
+Public domain texts of the religions that Paper 131 summarizes, linked to the
+Urantia paragraphs both ways. The Bible keeps its own tables. Phase 1 (live
+2026-10-06): Dhammapada (Muller 1881), Tao Te Ching (Legge 1891), Analects
+(Legge 1861), Bhagavad Gita (Besant 1922). Plan and later phases:
+`../world-religions-plan-2026-10.md`.
+
+- Tables: `scripture_corpora`, `scripture_passages`, `scripture_chunks`,
+  `scripture_parallels`. They were created from
+  `scripts/scriptures/create-tables.sql`, not `db:push`.
+- Pipeline, in order: `build.ts` (download and parse to JSON in
+  `urantia-data-sources/data/scriptures`, git-ignored), `seed.ts`, `embed.ts`,
+  `parallels.ts`. Each one is re-runnable. `parallels.ts` replaces every
+  `semantic` row.
+- Refs: `BG 2.47`, `TTC 25.1`, `Analects 15.23`, `Dhp 183`. The Dhammapada
+  numbers verses straight through, so a bare number is a verse there and a
+  whole chapter in the others. Combined passages exist (`Dhp 58-59`).
+- Chunks are about one Urantia paragraph long and never cross a chapter. The
+  Tao Te Ching is chunked by whole chapter.
+- `ub_to_scripture` keeps the top 5 per corpus; `?include=scriptureParallels`
+  shows 3 per corpus. `scripture_to_ub` keeps the top 10.
+- Quality check (2026-10-06): 69 to 93% of chunks have their own religion's
+  Paper 131 section in their top 10. Chance is about 0.05%.
+- No MCP tools for scriptures until the OpenAI and Claude directory reviews
+  finish.
+
 ## Public spec and discovery files
 
 `/openapi.json` is what directories, agents, and code generators read. It is the

@@ -36,6 +36,18 @@ const CAPTURES: Capture[] = [
 		path: "/bible/search/semantic",
 		body: { q: "blessed are the poor in spirit", limit: 2, urantiaParallelLimit: 1 },
 	},
+	{ op: "get /scriptures", path: "/scriptures" },
+	{ op: "get /scriptures/{corpus}", path: "/scriptures/bhagavad-gita" },
+	{ op: "get /scriptures/{corpus}/{ref}", path: "/scriptures/bhagavad-gita/2.47" },
+	{
+		op: "get /scriptures/{corpus}/{ref}/urantia-parallels",
+		path: "/scriptures/bhagavad-gita/2.47/urantia-parallels",
+	},
+	{
+		op: "post /scriptures/search/semantic",
+		path: "/scriptures/search/semantic",
+		body: { q: "hatred ceases by love", limit: 2, urantiaParallelLimit: 1 },
+	},
 	{ op: "get /cite", path: "/cite?ref=2:5.1" },
 	{
 		op: "post /quotes/verify",

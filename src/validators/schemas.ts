@@ -145,6 +145,31 @@ export const UrantiaParallelSchema = z.object({
 	embeddingModel: z.string(),
 });
 
+// --- Scripture parallel (inline on paragraph when include=scriptureParallels) ---
+// The closest passages from each world religions corpus, by cosine
+// similarity of text-embedding-3-large vectors.
+export const ScriptureCorpusSummarySchema = z.object({
+	id: z.string(),
+	slug: z.string(),
+	religion: z.string(),
+	title: z.string(),
+	translator: z.string(),
+	year: z.number().int(),
+	refPrefix: z.string(),
+	urantiaSection: z.string(),
+});
+
+export const ScriptureParallelSchema = z.object({
+	chunkId: z.string(),
+	reference: z.string(),
+	corpus: ScriptureCorpusSummarySchema,
+	text: z.string(),
+	similarity: z.number(),
+	rank: z.number().int(),
+	source: z.string(),
+	embeddingModel: z.string(),
+});
+
 // --- Paragraph ---
 
 export const ParagraphSchema = z.object({
@@ -165,6 +190,7 @@ export const ParagraphSchema = z.object({
 	entities: z.array(ParagraphEntitySchema).optional(),
 	bibleParallels: z.array(ParagraphBibleParallelSchema).optional(),
 	urantiaParallels: z.array(UrantiaParallelSchema).optional(),
+	scriptureParallels: z.array(ScriptureParallelSchema).optional(),
 });
 
 // --- TOC ---
@@ -562,4 +588,106 @@ export const BibleVerseParagraphsResponse = z.object({
 		}),
 		urantiaParallels: z.array(BibleVerseUrantiaParallelSchema),
 	}),
+});
+
+// --- Scriptures (world religions layer) ---
+
+export const ScriptureCorpusSchema = ScriptureCorpusSummarySchema.extend({
+	sourceUrl: z.string(),
+	license: z.string(),
+	divisionLabel: z.string(),
+	unitLabel: z.string(),
+	passageCount: z.number().int(),
+});
+
+export const ScriptureCorporaResponse = z.object({
+	data: z.array(ScriptureCorpusSchema),
+});
+
+const CorpusName = z
+	.string()
+	.min(1)
+	.max(64)
+	.describe("Corpus id, slug, or ref prefix, e.g. `bhagavad-gita`, `bg`, or `dhammapada`");
+
+export const ScriptureCorpusParam = z.object({ corpus: CorpusName });
+
+export const ScriptureRefParam = z.object({
+	corpus: CorpusName,
+	ref: z
+		.string()
+		.min(1)
+		.max(32)
+		.describe("A passage (`2.47`, `BG 2.47`, `Dhp 183`), a short range (`2.47-49`), or a whole chapter (`2`)"),
+});
+
+export const ScriptureCorpusResponse = z.object({
+	data: ScriptureCorpusSchema.extend({
+		divisions: z.array(
+			z.object({
+				division: z.number().int(),
+				title: z.string().nullable(),
+				firstRef: z.string(),
+				lastRef: z.string(),
+				passageCount: z.number().int(),
+			}),
+		),
+	}),
+});
+
+export const ScripturePassageSchema = z.object({
+	id: z.string(),
+	ref: z.string(),
+	division: z.number().int(),
+	divisionTitle: z.string().nullable(),
+	text: z.string(),
+});
+
+export const ScripturePassagesResponse = z.object({
+	data: z.object({
+		corpus: ScriptureCorpusSummarySchema,
+		passages: z.array(ScripturePassageSchema),
+	}),
+});
+
+const ScriptureSideUrantiaParallelSchema = z.object({
+	id: z.string(),
+	standardReferenceId: z.string(),
+	paperId: z.string(),
+	paperTitle: z.string(),
+	sectionTitle: z.string().nullable(),
+	text: z.string(),
+	similarity: z.number(),
+	rank: z.number().int(),
+});
+
+export const ScriptureUrantiaParallelsResponse = z.object({
+	data: z.object({
+		corpus: ScriptureCorpusSummarySchema,
+		passage: ScripturePassageSchema,
+		chunk: z.object({ id: z.string(), reference: z.string(), text: z.string() }),
+		urantiaParallels: z.array(ScriptureSideUrantiaParallelSchema),
+	}),
+});
+
+export const ScriptureSemanticSearchRequest = z.object({
+	q: z.string().min(1).max(2000),
+	corpus: CorpusName.optional(),
+	page: z.number().int().min(0).default(0),
+	limit: z.number().int().min(1).max(50).default(10),
+	urantiaParallelLimit: z.number().int().min(0).max(10).default(3),
+});
+
+export const ScriptureSemanticSearchResponse = z.object({
+	data: z.array(
+		z.object({
+			chunkId: z.string(),
+			reference: z.string(),
+			corpus: ScriptureCorpusSummarySchema,
+			text: z.string(),
+			similarity: z.number(),
+			urantiaParallels: z.array(ScriptureSideUrantiaParallelSchema),
+		}),
+	),
+	meta: PaginationMeta,
 });
