@@ -44,3 +44,4 @@ data/embeddings.json
 
 # Wrangler local state (dev server, local Durable Object storage)
 .wrangler
+postman-collection.json

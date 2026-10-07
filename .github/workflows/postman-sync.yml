@@ -1,0 +1,29 @@
+# Rebuilds the public Postman collection from the live OpenAPI spec and publishes it
+# when it changed. scripts/deploy.sh starts this after each deploy; the daily run is
+# a backstop. Needs the POSTMAN_API_KEY secret and the POSTMAN_COLLECTION_UID variable.
+name: Postman sync
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 13 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: postman-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - name: Build, check, and publish the collection
+        run: bun scripts/postman-sync.ts
+        env:
+          POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
+          POSTMAN_COLLECTION_UID: ${{ vars.POSTMAN_COLLECTION_UID }}

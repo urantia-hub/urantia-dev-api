@@ -27,4 +27,13 @@ else
 	echo "  ! warmup failed (deploy itself succeeded)"
 fi
 
+# The public Postman collection follows the live spec. The workflow does the work;
+# a failure here never fails the deploy.
+echo "→ Starting the Postman sync..."
+if command -v gh > /dev/null && gh workflow run postman-sync.yml -R urantia-hub/urantia-dev-api > /dev/null 2>&1; then
+	echo "  started (gh run list -R urantia-hub/urantia-dev-api -w postman-sync.yml)"
+else
+	echo "  ! could not start it; run: gh workflow run postman-sync.yml -R urantia-hub/urantia-dev-api"
+fi
+
 echo "→ Deploy complete."
