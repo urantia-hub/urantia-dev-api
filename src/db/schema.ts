@@ -719,6 +719,14 @@ export const apps = pgTable("apps", {
 	logoUrl: text("logo_url"),
 	primaryColor: text("primary_color"),
 	accentColor: text("accent_color"),
+	// pending | approved | declined | suspended. An admin approves an app before other readers can use it.
+	status: text("status").notNull().default("pending"),
+	// What the developer says the app does, and where it is. For the admin's review.
+	description: text("description"),
+	websiteUrl: text("website_url"),
+	// The admin's note to the developer, and when the admin last decided.
+	reviewNote: text("review_note"),
+	reviewedAt: timestamp("reviewed_at"),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 }).enableRLS();
 

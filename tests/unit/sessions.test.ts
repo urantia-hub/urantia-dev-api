@@ -1,5 +1,6 @@
 import { beforeAll, describe, expect, it } from "bun:test";
 import { decodeJwt, exportJWK, generateKeyPair } from "jose";
+import type { AppStatus } from "../../src/lib/app-status.ts";
 import { type TokenEnv, verifyAccessToken } from "../../src/lib/app-tokens.ts";
 import type { AuthStore, RefreshRow } from "../../src/lib/auth-store.ts";
 import { issueSession, refreshSession, revokeSession, sha256 } from "../../src/lib/sessions.ts";
@@ -14,6 +15,10 @@ type Row = RefreshRow & { tokenHash: string };
 
 function memoryStore(consents: Record<string, string[] | null> = { [APP]: ["profile", "notes"] }) {
 	const rows: Row[] = [];
+	const access: { status: AppStatus; ownerId: string | null } = {
+		status: "approved",
+		ownerId: "owner-1",
+	};
 	let next = 1;
 	const store: AuthStore = {
 		async findRefreshToken(tokenHash, appId) {
@@ -56,6 +61,9 @@ function memoryStore(consents: Record<string, string[] | null> = { [APP]: ["prof
 				if (row?.familyId === familyId && row.consumed && row.consumed < before) rows.splice(i, 1);
 			}
 		},
+		async appAccess() {
+			return access;
+		},
 		async consentedScopes(_userId, appId) {
 			return consents[appId] ?? null;
 		},
@@ -63,7 +71,7 @@ function memoryStore(consents: Record<string, string[] | null> = { [APP]: ["prof
 			return "reader@example.com";
 		},
 	};
-	return { store, rows, consents };
+	return { store, rows, consents, access };
 }
 
 let env: TokenEnv;
@@ -292,6 +300,61 @@ describe("refreshSession", () => {
 		}
 		// Left: the live token, and the one used at the last refresh.
 		expect(rows).toHaveLength(2);
+	});
+});
+
+describe("an app that other readers cannot use", () => {
+	it("gets no new token after an admin suspends it, and the sign-in ends", async () => {
+		const { store, rows, access } = memoryStore();
+		const first = await start(store);
+		access.status = "suspended";
+		const result = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: first.refreshToken },
+			after(60),
+		);
+		expect(result).toMatchObject({ ok: false, status: 401 });
+		expect(rows).toHaveLength(0);
+	});
+
+	// An approved app that changes its name or a return address is pending again.
+	it("gets no new token for another reader while it is pending, but its owner goes on", async () => {
+		const { store, access } = memoryStore();
+		const first = await start(store);
+		access.status = "pending";
+		expect(
+			(
+				await refreshSession(
+					store,
+					env,
+					{ appId: APP, refreshToken: first.refreshToken },
+					after(60),
+				)
+			).ok,
+		).toBe(false);
+		access.ownerId = USER;
+		const mine = await start(store);
+		expect(
+			(await refreshSession(store, env, { appId: APP, refreshToken: mine.refreshToken }, after(60)))
+				.ok,
+		).toBe(true);
+	});
+
+	it("gets no new token when the app is gone", async () => {
+		const { store } = memoryStore();
+		const first = await start(store);
+		store.appAccess = async () => null;
+		expect(
+			(
+				await refreshSession(
+					store,
+					env,
+					{ appId: APP, refreshToken: first.refreshToken },
+					after(60),
+				)
+			).ok,
+		).toBe(false);
 	});
 });
 
