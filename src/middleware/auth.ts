@@ -3,11 +3,11 @@ import type { MiddlewareHandler } from "hono";
 import { createRemoteJWKSet, jwtVerify } from "jose";
 import { getDb } from "../db/client.ts";
 import { apps, users } from "../db/schema.ts";
-import { consentNow } from "../lib/account-store.ts";
+import { consentNow, createUserRow, isDeleted } from "../lib/account-store.ts";
 import { canUseApp, isAppStatus } from "../lib/app-status.ts";
 import { tokenEnv, verifyAccessToken } from "../lib/app-tokens.ts";
+import { deletedAccountAllows } from "../lib/consents.ts";
 import { problemJson } from "../lib/errors.ts";
-import { adminSettings, signInExists } from "../lib/supabase-admin.ts";
 import { appTokenProblem, liveTokenProblem } from "../lib/token-access.ts";
 
 export type AuthUser = {
@@ -176,21 +176,20 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 		}
 		// Lazy user creation: ensure user exists in our DB
 		const { db } = getDb(c.env?.HYPERDRIVE);
-		const existing = await db.select().from(users).where(eq(users.id, userId)).limit(1);
+		const [existing, deleted] = await Promise.all([
+			db.select().from(users).where(eq(users.id, userId)).limit(1),
+			isDeleted(db, userId),
+		]);
 
-		if (existing.length === 0) {
-			// A session token stays good for a time after the reader deleted the account.
-			// It must not bring the reader's row back.
-			const admin = tokenAppId ? null : adminSettings(c.env ?? process.env);
-			if (admin && !(await signInExists(admin, userId))) {
-				return problemJson(c, 401, "This account does not exist.");
+		// A token stays good for a time after its reader deleted the account. From the moment of the mark
+		// it is no sign-in, also while the delete is not finished: so no request adds a row behind it, and
+		// none brings the reader's row back. The reader can still finish a delete that failed halfway.
+		if (deleted) {
+			if (!deletedAccountAllows({ method: c.req.method, path, fromApp: tokenAppId !== null })) {
+				return problemJson(c, 401, "This account is deleted.");
 			}
-			await db.insert(users).values({
-				id: userId,
-				email,
-				name,
-				avatarUrl,
-			});
+		} else if (existing.length === 0) {
+			await createUserRow(db, { id: userId, email, name, avatarUrl });
 		} else {
 			// Sync profile fields from JWT if the DB record is missing them
 			const row = existing[0];

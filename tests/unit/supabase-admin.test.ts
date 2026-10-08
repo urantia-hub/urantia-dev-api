@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { adminSettings, removeSignIn, signInExists } from "../../src/lib/supabase-admin.ts";
+import { adminSettings, removeSignIn } from "../../src/lib/supabase-admin.ts";
 
 const ID = "00000000-0000-4000-8000-000000000001";
 const settings = { url: "https://project.supabase.co", key: "service-key-for-tests" };
@@ -67,18 +67,5 @@ describe("removeSignIn", () => {
 			await expect(removeSignIn(settings, id, fetcher)).rejects.toThrow();
 		}
 		expect(calls).toEqual([]);
-	});
-});
-
-describe("signInExists", () => {
-	it("is true for a user that Supabase knows, and false for one that it does not", async () => {
-		const found = fakeFetch(200);
-		expect(await signInExists(settings, ID, found.fetcher)).toBe(true);
-		expect(found.calls[0]?.method).toBe("GET");
-		expect(found.calls[0]?.url).toBe(`https://project.supabase.co/auth/v1/admin/users/${ID}`);
-		expect(await signInExists(settings, ID, fakeFetch(404).fetcher)).toBe(false);
-	});
-	it("throws when Supabase cannot say", async () => {
-		await expect(signInExists(settings, ID, fakeFetch(500).fetcher)).rejects.toThrow();
 	});
 });

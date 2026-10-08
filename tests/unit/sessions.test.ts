@@ -3,7 +3,13 @@ import { decodeJwt, exportJWK, generateKeyPair } from "jose";
 import type { AppStatus } from "../../src/lib/app-status.ts";
 import { type TokenEnv, verifyAccessToken } from "../../src/lib/app-tokens.ts";
 import type { AuthStore, RefreshRow } from "../../src/lib/auth-store.ts";
-import { issueSession, refreshSession, revokeSession, sha256 } from "../../src/lib/sessions.ts";
+import {
+	AccessRemoved,
+	issueSession,
+	refreshSession,
+	revokeSession,
+	sha256,
+} from "../../src/lib/sessions.ts";
 
 const USER = "00000000-0000-4000-8000-000000000001";
 const APP = "some-app";
@@ -20,12 +26,17 @@ function memoryStore(consents: Record<string, string[] | null> = { [APP]: ["prof
 		ownerId: "owner-1",
 	};
 	let next = 1;
+	// The reader removes the app between the check of the consent and the insert of the token.
+	const flags = { removedBeforeInsert: false };
 	const store: AuthStore = {
 		async findRefreshToken(tokenHash, appId) {
 			return rows.find((r) => r.tokenHash === tokenHash && r.appId === appId) ?? null;
 		},
 		async insertRefreshToken(row) {
+			// As the database: the row is stored only if the reader allows the app at that moment.
+			if (flags.removedBeforeInsert || !consents[row.appId]) return false;
 			rows.push({ ...row, id: `row-${next++}`, consumed: null });
+			return true;
 		},
 		async markConsumed(id, at) {
 			const row = rows.find((r) => r.id === id);
@@ -71,7 +82,7 @@ function memoryStore(consents: Record<string, string[] | null> = { [APP]: ["prof
 			return "reader@example.com";
 		},
 	};
-	return { store, rows, consents, access };
+	return { store, rows, consents, access, flags };
 }
 
 let env: TokenEnv;
@@ -542,6 +553,34 @@ describe("revokeSession", () => {
 				NOW,
 			),
 		).toEqual({ signOutToken: null });
+		expect(rows).toHaveLength(0);
+	});
+});
+
+// "Remove" on the account page and a token exchange can run at the same moment.
+// No token must outlive the removal: a later "Allow" would bring it back to life.
+describe("a sign-in for an app that the reader removed", () => {
+	it("issues nothing, and stores nothing", async () => {
+		const { store, rows } = memoryStore({ [APP]: null });
+		await expect(start(store)).rejects.toBeInstanceOf(AccessRemoved);
+		expect(rows).toHaveLength(0);
+	});
+
+	it("refuses a refresh when the app is removed between the check and the insert, and ends the sign-in", async () => {
+		const { store, rows, flags } = memoryStore();
+		const first = await start(store);
+		flags.removedBeforeInsert = true;
+		const result = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: first.refreshToken },
+			after(60),
+		);
+		expect(result).toEqual({
+			ok: false,
+			status: 401,
+			detail: "The reader removed this app. Please sign in again.",
+		});
 		expect(rows).toHaveLength(0);
 	});
 });

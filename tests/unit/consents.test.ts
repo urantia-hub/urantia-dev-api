@@ -2,6 +2,7 @@ import { describe, expect, it } from "bun:test";
 import {
 	type AccountStore,
 	deleteAccount,
+	deletedAccountAllows,
 	listAccess,
 	READER_TABLES,
 	removeAccess,
@@ -65,6 +66,7 @@ function memory() {
 	}
 	rows.add(`refresh_tokens:${ME}:log`);
 	const users = new Set([ME, OTHER]);
+	const deleted = new Set<string>();
 	const calls: string[] = [];
 	// Set to a step's name to make that step fail one time.
 	const fail = { at: "" };
@@ -102,6 +104,10 @@ function memory() {
 					otherUsers: consents.filter((c) => c.appId === a.id && c.userId !== userId).length,
 				}));
 		},
+		async markDeleted(userId) {
+			step("marker");
+			deleted.add(userId);
+		},
 		async deleteRows(table, userId) {
 			step(table);
 			for (const row of [...rows]) if (row.startsWith(`${table}:${userId}:`)) rows.delete(row);
@@ -121,7 +127,7 @@ function memory() {
 			users.delete(userId);
 		},
 	};
-	return { store, apps, consents, rows, users, calls, fail };
+	return { store, apps, consents, rows, users, deleted, calls, fail };
 }
 
 const ours = (app: { id: string }) => app.id === "urantiahub-app";
@@ -214,11 +220,11 @@ describe("delete the account", () => {
 		expect(calls).toEqual([]);
 	});
 
-	it("removes each kind of the reader's data, then the reader, then the sign-in, in that order", async () => {
+	it("marks the account as deleted first, then removes the data, the reader, and the sign-in", async () => {
 		const { store, rows, users, calls } = memory();
 		const { args, removed } = input();
 		expect(await deleteAccount(store, args)).toEqual({ ok: true });
-		expect(calls).toEqual([...READER_TABLES, "user"]);
+		expect(calls).toEqual(["marker", ...READER_TABLES, "user"]);
 		expect([...rows].filter((r) => r.includes(`:${ME}:`))).toEqual([]);
 		expect(users.has(ME)).toBe(false);
 		expect(removed).toEqual([ME]);
@@ -288,7 +294,7 @@ describe("delete the account", () => {
 		// The reader's own consent to the app does not count as another person.
 		m.consents.push({ userId: ME, appId: "mine", scopes: ["profile"], grantedAt: new Date() });
 		expect(await deleteAccount(m.store, input().args)).toEqual({ ok: true });
-		expect(m.calls).toEqual([...READER_TABLES, "app:mine", "app:draft", "user"]);
+		expect(m.calls).toEqual(["marker", ...READER_TABLES, "app:mine", "app:draft", "user"]);
 		expect(m.apps.map((a) => a.id)).not.toContain("mine");
 	});
 
@@ -307,7 +313,7 @@ describe("delete the account", () => {
 		expect(await deleteAccount(m.store, input().args)).toEqual({ ok: true });
 	});
 
-	for (const at of [...READER_TABLES, "user"]) {
+	for (const at of ["marker", ...READER_TABLES, "user"]) {
 		it(`can run again and finish after a failure at "${at}"`, async () => {
 			const m = memory();
 			m.fail.at = at;
@@ -334,5 +340,64 @@ describe("delete the account", () => {
 		const again = input();
 		expect(await deleteAccount(m.store, again.args)).toEqual({ ok: true });
 		expect(again.removed).toEqual([ME]);
+	});
+});
+
+// A session token stays good for up to an hour after a delete, and a token of an app for its own life.
+// The marker is what stops them: without it, the next request would make the reader's row again.
+describe("the marker of a deleted account", () => {
+	it("is set before anything is removed, and is not set when the delete is refused", async () => {
+		const refusedEmail = memory();
+		await deleteAccount(refusedEmail.store, {
+			userId: ME,
+			email: "reader@example.com",
+			typedEmail: "wrong@example.com",
+			removeSignIn: async () => {},
+		});
+		expect(refusedEmail.deleted.has(ME)).toBe(false);
+
+		const done = memory();
+		await deleteAccount(done.store, {
+			userId: ME,
+			email: "reader@example.com",
+			typedEmail: "reader@example.com",
+			removeSignIn: async () => {},
+		});
+		expect(done.deleted.has(ME)).toBe(true);
+		expect(done.deleted.has(OTHER)).toBe(false);
+	});
+
+	it("stays when a later step fails, so no request can undo what was removed", async () => {
+		const m = memory();
+		m.fail.at = "notes";
+		await expect(
+			deleteAccount(m.store, {
+				userId: ME,
+				email: "reader@example.com",
+				typedEmail: "reader@example.com",
+				removeSignIn: async () => {},
+			}),
+		).rejects.toThrow();
+		expect(m.deleted.has(ME)).toBe(true);
+	});
+
+	// The reader must be able to finish a delete that failed halfway. Nothing else is open.
+	it("lets a deleted reader do one thing: finish the delete, with a session of the accounts site", () => {
+		const ok = { method: "DELETE", path: "/auth/account", fromApp: false };
+		expect(deletedAccountAllows(ok)).toBe(true);
+		expect(deletedAccountAllows({ ...ok, fromApp: true })).toBe(false);
+		expect(deletedAccountAllows({ ...ok, method: "GET" })).toBe(false);
+		expect(deletedAccountAllows({ ...ok, method: "POST" })).toBe(false);
+		for (const path of [
+			"/auth/account/",
+			"/auth/account/x",
+			"/auth/consents",
+			"/auth/authorize",
+			"/me",
+			"/me/bookmarks",
+			"/auth/apps",
+		]) {
+			expect(deletedAccountAllows({ ...ok, path })).toBe(false);
+		}
 	});
 });

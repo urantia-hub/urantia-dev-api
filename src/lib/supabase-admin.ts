@@ -1,4 +1,4 @@
-// The two calls that need the service key of Supabase: does this sign-in exist, and remove it.
+// The one call that needs the service key of Supabase: remove a sign-in.
 // The key never goes into a log or an error.
 
 export type AdminSettings = { url: string; key: string };
@@ -16,7 +16,7 @@ const USER_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 
 async function call(
 	settings: AdminSettings,
-	method: "GET" | "DELETE",
+	method: "DELETE",
 	userId: string,
 	fetcher: typeof fetch,
 ): Promise<number> {
@@ -37,16 +37,4 @@ export async function removeSignIn(
 	const status = await call(settings, "DELETE", userId, fetcher);
 	if (status === 404 || (status >= 200 && status < 300)) return;
 	throw new Error(`supabase admin: delete answered ${status}`);
-}
-
-// Does Supabase still know this user? A session token stays good for a time after a delete.
-export async function signInExists(
-	settings: AdminSettings,
-	userId: string,
-	fetcher: typeof fetch = fetch,
-): Promise<boolean> {
-	const status = await call(settings, "GET", userId, fetcher);
-	if (status === 404) return false;
-	if (status >= 200 && status < 300) return true;
-	throw new Error(`supabase admin: lookup answered ${status}`);
 }

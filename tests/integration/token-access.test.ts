@@ -12,9 +12,14 @@ beforeAll(() => {
 	// Nothing listens here, so the check against the Supabase keys fails at once.
 	process.env.SUPABASE_URL = "http://127.0.0.1:9";
 });
+// A value of "undefined" is not the same as no value: a runtime can store it as the text "undefined".
+function restore(name: string, value: string | undefined) {
+	if (value === undefined) delete process.env[name];
+	else process.env[name] = value;
+}
 afterAll(() => {
-	process.env.APP_JWT_SECRET = saved.secret;
-	process.env.SUPABASE_URL = saved.supabase;
+	restore("APP_JWT_SECRET", saved.secret);
+	restore("SUPABASE_URL", saved.supabase);
 });
 
 const appToken = (claims: Record<string, unknown>) =>
@@ -142,7 +147,7 @@ describe("a database that is down", () => {
 			expect(res.status).toBe(503);
 			expect(res.headers.get("retry-after")).toBe("5");
 		} finally {
-			process.env.DATABASE_URL = saved;
+			restore("DATABASE_URL", saved);
 		}
 	});
 
@@ -168,7 +173,7 @@ describe("a token signed with the new key", () => {
 				401,
 			);
 		} finally {
-			process.env.APP_JWT_PRIVATE_JWK = saved;
+			restore("APP_JWT_PRIVATE_JWK", saved);
 		}
 	});
 });
