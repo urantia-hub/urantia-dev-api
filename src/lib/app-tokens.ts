@@ -145,7 +145,34 @@ export async function verifyAccessToken(
 	throw new Error("This kind of token is not accepted.");
 }
 
+export const SIGN_OUT_TOKEN_SECONDS = 60;
+const SIGN_OUT_AUDIENCE = "signout";
+
+// A token that lets the accounts site end its own session for this reader with no question.
+// It is not an access token: another audience, a purpose, and a life of one minute.
+// Null while no private key is set, because the accounts site checks it with the public key.
+export async function signSignOutToken(
+	input: { userId: string; appId: string },
+	env: TokenEnv,
+	now: Date = new Date(),
+): Promise<string | null> {
+	const jwk = privateJwk(env);
+	const pub = await publicKey(env);
+	if (!jwk || !pub) return null;
+	const issuedAt = Math.floor(now.getTime() / 1000);
+	return new SignJWT({ app_id: input.appId, purpose: "signout" })
+		.setProtectedHeader({ alg: "ES256", kid: pub.kid })
+		.setSubject(input.userId)
+		.setIssuer(ISSUER)
+		.setAudience(SIGN_OUT_AUDIENCE)
+		.setIssuedAt(issuedAt)
+		.setExpirationTime(issuedAt + SIGN_OUT_TOKEN_SECONDS)
+		.sign(await importJWK(jwk, "ES256"));
+}
+
 function toClaims(payload: JWTPayload): AppClaims {
+	// A token made for one purpose is never an access token.
+	if (payload.purpose !== undefined) throw new Error("This token is not an access token.");
 	if (typeof payload.sub !== "string" || typeof payload.app_id !== "string") {
 		throw new Error("The token has no reader or no app.");
 	}

@@ -65,6 +65,7 @@ describe("a token of an app", () => {
 		const token = await appToken({ scopes: ["profile"] });
 		expect((await call("/auth/token", token, "POST")).status).toBe(400);
 		expect((await call("/auth/refresh", token, "POST")).status).toBe(400);
+		expect((await call("/auth/revoke", token, "POST")).status).toBe(400);
 	});
 
 	it("cannot change an app, or rotate its secret", async () => {

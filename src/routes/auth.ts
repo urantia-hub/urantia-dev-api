@@ -3,10 +3,18 @@ import { and, eq } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 import { z } from "zod";
 import { getDb } from "../db/client.ts";
-import { apps, authCodes, refreshTokens, userConsents, users } from "../db/schema.ts";
+import { apps, authCodes, userConsents, users } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
-import { REFRESH_TOKEN_MS, signAccessToken, tokenEnv } from "../lib/app-tokens.ts";
+import { tokenEnv } from "../lib/app-tokens.ts";
+import { createAuthStore } from "../lib/auth-store.ts";
 import { problemJson } from "../lib/errors.ts";
+import {
+	issueSession,
+	type RefreshResult,
+	refreshSession,
+	revokeSession,
+	type Tokens,
+} from "../lib/sessions.ts";
 import { canIssueCode, firstPartyIds, isFirstPartyApp } from "../lib/token-access.ts";
 import type { AuthUser } from "../middleware/auth.ts";
 import { ErrorResponse } from "../validators/schemas.ts";
@@ -80,27 +88,6 @@ function isFirstParty(
 const ALLOWED_SCOPES = ["profile", "bookmarks", "notes", "reading-progress", "preferences", "app-data"];
 
 
-/**
- * Generate a refresh token, hash it, store it, and return the raw token.
- */
-async function createRefreshToken(
-	db: ReturnType<typeof getDb>["db"],
-	userId: string,
-	appId: string,
-): Promise<string> {
-	const rawToken = crypto.randomUUID();
-	const tokenHash = await sha256(rawToken);
-	const expiresAt = new Date(Date.now() + REFRESH_TOKEN_MS);
-
-	await db.insert(refreshTokens).values({
-		userId,
-		appId,
-		tokenHash,
-		expiresAt,
-	});
-
-	return rawToken;
-}
 
 /**
  * Dangerous schemes that must never be used as redirect URIs.
@@ -620,8 +607,15 @@ authRoute.openapi(tokenRoute, async (c) => {
 		return problemJson(c, 400, "Either appSecret or PKCE code_challenge is required.");
 	}
 
-	// Delete the code (one-time use)
-	await db.delete(authCodes).where(eq(authCodes.code, body.code));
+	// Delete the code (one-time use). Two requests with one code can arrive together: only the one
+	// that deletes the row goes on.
+	const used = await db
+		.delete(authCodes)
+		.where(eq(authCodes.code, body.code))
+		.returning({ code: authCodes.code });
+	if (used.length === 0) {
+		return problemJson(c, 400, "Invalid or already-used authorization code.");
+	}
 
 	// Look up user email from users table
 	const [user] = await db
@@ -630,39 +624,20 @@ authRoute.openapi(tokenRoute, async (c) => {
 		.where(eq(users.id, authCode.userId))
 		.limit(1);
 
-	// A short-lived access token for this app and these scopes.
-	let accessToken: string;
-	let expiresAt: Date;
+	// A new sign-in: an access token and the first refresh token of a new family.
+	let tokens: Tokens;
 	try {
-		({ token: accessToken, expiresAt } = await signAccessToken(
-			{
-				sub: authCode.userId,
-				email: user?.email ?? null,
-				scopes: authCode.scopes,
-				app_id: authCode.appId,
-			},
-			tokenEnv(c),
-		));
+		tokens = await issueSession(createAuthStore(db), tokenEnv(c), {
+			userId: authCode.userId,
+			appId: authCode.appId,
+			scopes: authCode.scopes,
+			email: user?.email ?? null,
+		});
 	} catch {
 		return problemJson(c, 500, "JWT signing key not configured.");
 	}
 
-	// Generate refresh token
-	const refreshToken = await createRefreshToken(db, authCode.userId, authCode.appId);
-
-	return c.json(
-		{
-			data: {
-				accessToken,
-				refreshToken,
-				userId: authCode.userId,
-				email: user?.email ?? null,
-				scopes: authCode.scopes,
-				expiresAt: expiresAt.toISOString(),
-			},
-		},
-		200,
-	);
+	return c.json({ data: tokens }, 200);
 });
 
 // ============================================================
@@ -704,110 +679,52 @@ const refreshRoute = createRoute({
 authRoute.openapi(refreshRoute, async (c) => {
 	const body = c.req.valid("json");
 	const { db } = getDb(c.env?.HYPERDRIVE);
-	const logger = c.get("logger");
 
-	const tokenHash = await sha256(body.refreshToken);
-
-	// Find the refresh token by hash
-	const [token] = await db
-		.select()
-		.from(refreshTokens)
-		.where(and(eq(refreshTokens.tokenHash, tokenHash), eq(refreshTokens.appId, body.appId)))
-		.limit(1);
-
-	if (!token) {
-		return problemJson(c, 400, "Invalid refresh token.");
-	}
-
-	// Check if this token was already consumed (theft detection)
-	if (token.consumed) {
-		// Token reuse detected — revoke ALL refresh tokens for this user+app
-		logger?.warn("[auth] Refresh token reuse detected — revoking all tokens", {
-			userId: token.userId,
-			appId: token.appId,
-			reusedTokenId: token.id,
-		});
-		await db
-			.delete(refreshTokens)
-			.where(and(eq(refreshTokens.userId, token.userId), eq(refreshTokens.appId, token.appId)));
-		return problemJson(c, 401, "Refresh token has already been used. All sessions revoked for security.");
-	}
-
-	// Check expiry
-	if (token.expiresAt < new Date()) {
-		await db.delete(refreshTokens).where(eq(refreshTokens.id, token.id));
-		return problemJson(c, 400, "Refresh token has expired. Please sign in again.");
-	}
-
-	// Mark as consumed (keep for theft detection, don't delete yet)
-	await db
-		.update(refreshTokens)
-		.set({ consumed: new Date() })
-		.where(eq(refreshTokens.id, token.id));
-
-	// Look up user
-	const [user] = await db
-		.select({ email: users.email })
-		.from(users)
-		.where(eq(users.id, token.userId))
-		.limit(1);
-
-	// Look up app scopes from the consent grant
-	const [consent] = await db
-		.select({ scopes: userConsents.scopes })
-		.from(userConsents)
-		.where(and(eq(userConsents.userId, token.userId), eq(userConsents.appId, token.appId)))
-		.limit(1);
-
-	const scopes = consent?.scopes ?? ["profile"];
-
-	// Generate new access token
-	let accessToken: string;
-	let expiresAt: Date;
+	let result: RefreshResult;
 	try {
-		({ token: accessToken, expiresAt } = await signAccessToken(
-			{ sub: token.userId, email: user?.email ?? null, scopes, app_id: token.appId },
-			tokenEnv(c),
-		));
+		result = await refreshSession(createAuthStore(db), tokenEnv(c), body);
 	} catch {
 		return problemJson(c, 500, "JWT signing key not configured.");
 	}
+	if (!result.ok) return problemJson(c, result.status, result.detail);
+	return c.json({ data: result.tokens }, 200);
+});
 
-	// Issue new refresh token (rotation)
-	const newRefreshToken = await createRefreshToken(db, token.userId, token.appId);
+// ============================================================
+// 4C. POST /revoke — End one sign-in
+// ============================================================
 
-	// Clean up old consumed tokens for this user+app (keep last 5 for theft detection window)
-	const oldTokens = await db
-		.select({ id: refreshTokens.id })
-		.from(refreshTokens)
-		.where(
-			and(
-				eq(refreshTokens.userId, token.userId),
-				eq(refreshTokens.appId, token.appId),
-			),
-		)
-		.orderBy(refreshTokens.createdAt);
-
-	if (oldTokens.length > 5) {
-		const toDelete = oldTokens.slice(0, oldTokens.length - 5);
-		for (const old of toDelete) {
-			await db.delete(refreshTokens).where(eq(refreshTokens.id, old.id));
-		}
-	}
-
-	return c.json(
-		{
-			data: {
-				accessToken,
-				refreshToken: newRefreshToken,
-				userId: token.userId,
-				email: user?.email ?? null,
-				scopes,
-				expiresAt: expiresAt.toISOString(),
+const revokeRoute = createRoute({
+	operationId: "revokeToken",
+	method: "post",
+	path: "/revoke",
+	tags: ["Auth"],
+	summary: "End the sign-in that a refresh token belongs to",
+	request: {
+		body: { content: { "application/json": { schema: RefreshBody } }, required: true },
+	},
+	responses: {
+		200: {
+			description:
+				"Done. The answer is the same for a token that is not known. signOutToken lets the accounts site end its own session.",
+			content: {
+				"application/json": {
+					schema: z.object({ data: z.object({ signOutToken: z.string().nullable() }) }),
+				},
 			},
 		},
-		200,
-	);
+		400: {
+			description: "The body is not valid",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+	},
+});
+
+authRoute.openapi(revokeRoute, async (c) => {
+	const body = c.req.valid("json");
+	const { db } = getDb(c.env?.HYPERDRIVE);
+	const data = await revokeSession(createAuthStore(db), tokenEnv(c), body);
+	return c.json({ data }, 200);
 });
 
 // ============================================================
