@@ -179,8 +179,13 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 
 		c.set("user", reader);
 	} catch (err) {
+		// The kind of error only. The message of a database error can hold the reader's email or a host name.
 		c.get("logger")?.error("auth: the lookup of the reader failed", {
-			error: err instanceof Error ? err.message : String(err),
+			kind: err instanceof Error ? err.name : "unknown",
+			code:
+				typeof (err as { code?: unknown })?.code === "string"
+					? (err as { code: string }).code
+					: undefined,
 		});
 		c.header("Retry-After", "5");
 		return problemJson(c, 503, "The service cannot check your sign-in at the moment. Try again.");
