@@ -20,6 +20,7 @@ import { tokenEnv } from "../lib/app-tokens.ts";
 import { createAuthStore } from "../lib/auth-store.ts";
 import { problemJson } from "../lib/errors.ts";
 import {
+	AccessRemoved,
 	issueSession,
 	type RefreshResult,
 	refreshSession,
@@ -868,7 +869,10 @@ authRoute.openapi(tokenRoute, async (c) => {
 			scopes: authCode.scopes,
 			email: user?.email ?? null,
 		});
-	} catch {
+	} catch (error) {
+		if (error instanceof AccessRemoved) {
+			return problemJson(c, 400, "The reader removed the access of this app.");
+		}
 		return problemJson(c, 500, "JWT signing key not configured.");
 	}
 

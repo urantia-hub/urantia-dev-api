@@ -1,4 +1,4 @@
-import { and, eq, isNotNull, isNull, lt } from "drizzle-orm";
+import { and, eq, isNotNull, isNull, lt, sql } from "drizzle-orm";
 import type { getDb } from "../db/client.ts";
 import { apps, refreshTokens, userConsents, users } from "../db/schema.ts";
 import { type AppStatus, isAppStatus } from "./app-status.ts";
@@ -17,13 +17,14 @@ export type RefreshRow = {
 
 export interface AuthStore {
 	findRefreshToken(tokenHash: string, appId: string): Promise<RefreshRow | null>;
+	// Stores the token only if the reader allows the app at that moment. False if not.
 	insertRefreshToken(row: {
 		userId: string;
 		appId: string;
 		tokenHash: string;
 		familyId: string;
 		expiresAt: Date;
-	}): Promise<void>;
+	}): Promise<boolean>;
 	// Marks a token as used. False if another request used it first.
 	markConsumed(id: string, at: Date): Promise<boolean>;
 	setFamily(id: string, familyId: string): Promise<void>;
@@ -63,7 +64,21 @@ export function createAuthStore(db: Db): AuthStore {
 			};
 		},
 		async insertRefreshToken(row) {
-			await db.insert(refreshTokens).values(row);
+			// One statement. The lock on the consent row makes this insert and a removal take turns:
+			// a removal deletes the consent first and the tokens after it, so it always sees this token,
+			// or this insert sees no consent.
+			const kept = await db.execute(sql`
+				with allowed as (
+					select 1 from ${userConsents}
+					where ${userConsents.userId} = ${row.userId} and ${userConsents.appId} = ${row.appId}
+					for key share
+				)
+				insert into ${refreshTokens} (user_id, app_id, token_hash, family_id, expires_at)
+				select ${row.userId}::uuid, ${row.appId}, ${row.tokenHash}, ${row.familyId}::uuid, ${row.expiresAt.toISOString()}::timestamptz at time zone 'UTC'
+				from allowed
+				returning id
+			`);
+			return kept.length > 0;
 		},
 		async markConsumed(id, at) {
 			const done = await db

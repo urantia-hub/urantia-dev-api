@@ -5,6 +5,7 @@ import {
 	appUserData,
 	authCodes,
 	bookmarks,
+	deletedUsers,
 	notes,
 	readingProgress,
 	refreshTokens,
@@ -70,6 +71,9 @@ export function createAccountStore(db: Db): AccountStore {
 			);
 			return owned.map((app) => ({ ...app, otherUsers: counts.get(app.id) ?? 0 }));
 		},
+		async markDeleted(userId) {
+			await db.insert(deletedUsers).values({ id: userId }).onConflictDoNothing();
+		},
 		async deleteRows(table, userId) {
 			const [target, column] = TABLES[table];
 			await db.delete(target).where(eq(column, userId));
@@ -106,4 +110,28 @@ export async function otherUserCounts(
 		.where(and(inArray(userConsents.appId, appIds), ne(userConsents.userId, userId)))
 		.groupBy(userConsents.appId);
 	return new Map(rows.map((row) => [row.appId, Number(row.count)]));
+}
+
+// Is this account marked as deleted?
+export async function isDeleted(db: Db, userId: string): Promise<boolean> {
+	const [row] = await db
+		.select({ id: deletedUsers.id })
+		.from(deletedUsers)
+		.where(eq(deletedUsers.id, userId))
+		.limit(1);
+	return Boolean(row);
+}
+
+// Makes the reader's row on the first request. One statement: it makes no row for an account that is
+// marked as deleted, also when the mark arrives at the same moment.
+export async function createUserRow(
+	db: Db,
+	user: { id: string; email: string | null; name: string | null; avatarUrl: string | null },
+): Promise<void> {
+	await db.execute(sql`
+		insert into ${users} (id, email, name, avatar_url)
+		select ${user.id}::uuid, ${user.email}, ${user.name}, ${user.avatarUrl}
+		where not exists (select 1 from ${deletedUsers} where ${deletedUsers.id} = ${user.id}::uuid)
+		on conflict (id) do nothing
+	`);
 }

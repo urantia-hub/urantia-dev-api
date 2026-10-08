@@ -33,6 +33,8 @@ export interface AccountStore {
 	ownedApps(
 		userId: string,
 	): Promise<Array<{ id: string; name: string; status: string; otherUsers: number }>>;
+	// Records that this account is deleted. From that moment no token of the reader is a sign-in.
+	markDeleted(userId: string): Promise<void>;
 	deleteRows(table: ReaderTable, userId: string): Promise<void>;
 	deleteApp(appId: string): Promise<void>;
 	deleteUser(userId: string): Promise<void>;
@@ -73,6 +75,7 @@ const same = (a: string, b: string) => a.trim().toLowerCase() === b.trim().toLow
 
 // Deletes the account. Each step removes what is there and is safe to run again, so a delete that
 // failed halfway finishes on the next try. The sign-in goes last: until then the reader can try again.
+// The removal of the reader's row removes each row that still points at it, so nothing stays behind.
 export async function deleteAccount(
 	store: AccountStore,
 	input: {
@@ -88,9 +91,22 @@ export async function deleteAccount(
 	const inUse = owned.filter((app) => app.status === "approved" && app.otherUsers > 0);
 	if (inUse.length > 0) return { ok: false, reason: "apps", apps: inUse.map((app) => app.name) };
 
+	// The marker comes first and stays. A token that is still good cannot make the reader's row again,
+	// and cannot add a row behind the delete.
+	await store.markDeleted(input.userId);
 	for (const table of READER_TABLES) await store.deleteRows(table, input.userId);
 	for (const app of owned) await store.deleteApp(app.id);
 	await store.deleteUser(input.userId);
 	await input.removeSignIn(input.userId);
 	return { ok: true };
+}
+
+// What a reader whose account is marked as deleted can still do: finish the delete, from the accounts
+// site. Each other request is refused, with any token.
+export function deletedAccountAllows(request: {
+	method: string;
+	path: string;
+	fromApp: boolean;
+}): boolean {
+	return !request.fromApp && request.method === "DELETE" && request.path === "/auth/account";
 }
