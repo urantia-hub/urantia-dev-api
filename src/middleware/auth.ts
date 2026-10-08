@@ -116,9 +116,10 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 			const scopes = Array.isArray(payload.scopes)
 				? payload.scopes.filter((s) => typeof s === "string")
 				: [];
-			// A public route takes no sign-in, so a token of an app is not one there.
-			if (isPublicAuthPath) return next();
-			const problem = appTokenProblem(path, scopes);
+			// A token of an app is a sign-in on the routes that need one, and nowhere else.
+			// The admin routes know an admin by the user id, so an app must never carry that id there.
+			if (!requiresAuth) return next();
+			const problem = appTokenProblem(path, scopes, c.req.method);
 			if (problem) return problemJson(c, 403, problem);
 		}
 

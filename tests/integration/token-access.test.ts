@@ -83,6 +83,25 @@ describe("a token of an app", () => {
 	});
 });
 
+describe("a token of an app, away from /me", () => {
+	// The admin routes know an admin by the user id. A token that an app holds for an admin must not be that admin.
+	it("is not a sign-in on the admin routes", async () => {
+		const token = await appToken({
+			scopes: ["profile", "bookmarks", "notes", "reading-progress", "preferences", "app-data"],
+		});
+		const withToken = await call("/admin/stats", token);
+		const bare = await app.request("/admin/stats", {
+			headers: { "cf-connecting-ip": "token-access-test" },
+		});
+		expect(withToken.status).toBe(bare.status);
+		expect([401, 403, 404]).toContain(withToken.status);
+	});
+
+	it("cannot change the profile with the profile scope", async () => {
+		expect((await call("/me", await appToken({ scopes: ["profile"] }), "PUT")).status).toBe(403);
+	});
+});
+
 describe("a request with no token", () => {
 	const bare = (path: string, method: string) =>
 		app.request(path, {

@@ -59,4 +59,12 @@ describe("what a token of an app can reach", () => {
 		expect(appTokenProblem("/search", [])).toBeNull();
 		expect(appTokenProblem("/meaning", [])).toBeNull();
 	});
+
+	// The "profile" scope reads the profile. No scope of an app changes it.
+	it("lets the profile scope read the profile, and not change it", () => {
+		expect(appTokenProblem("/me", ["profile"], "GET")).toBeNull();
+		expect(appTokenProblem("/me", ["profile"], "PUT")).not.toBeNull();
+		expect(appTokenProblem("/me", ["profile"], "DELETE")).not.toBeNull();
+		expect(appTokenProblem("/me/bookmarks", ["bookmarks"], "POST")).toBeNull();
+	});
 });
