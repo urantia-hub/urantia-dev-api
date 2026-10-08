@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { appTokenProblem } from "../../src/lib/token-access.ts";
+import { appTokenProblem, canIssueCode, firstPartyIds } from "../../src/lib/token-access.ts";
 
 describe("what a token of an app can reach", () => {
 	it.each([
@@ -66,5 +66,33 @@ describe("what a token of an app can reach", () => {
 		expect(appTokenProblem("/me", ["profile"], "PUT")).not.toBeNull();
 		expect(appTokenProblem("/me", ["profile"], "DELETE")).not.toBeNull();
 		expect(appTokenProblem("/me/bookmarks", ["bookmarks"], "POST")).toBeNull();
+	});
+});
+
+describe("canIssueCode", () => {
+	const base = {
+		requested: ["profile", "notes"],
+		consented: ["profile"],
+		firstParty: false,
+		grant: false,
+	};
+	it("refuses a new permission with no press on Allow", () =>
+		expect(canIssueCode(base)).toBe(false));
+	it("allows it after a press on Allow", () =>
+		expect(canIssueCode({ ...base, grant: true })).toBe(true));
+	it("allows what the reader already allowed", () =>
+		expect(canIssueCode({ ...base, requested: ["profile"] })).toBe(true));
+	it("allows a first-party app", () =>
+		expect(canIssueCode({ ...base, firstParty: true })).toBe(true));
+	it("refuses a reader with no consent at all", () =>
+		expect(canIssueCode({ ...base, consented: [] })).toBe(false));
+});
+
+describe("firstPartyIds", () => {
+	it("reads a list, and ignores spaces and empty items", () => {
+		expect(firstPartyIds(" urantiahub-app, ,demo ")).toEqual(["urantiahub-app", "demo"]);
+	});
+	it("is empty with no setting, so no app skips the consent screen by default", () => {
+		expect(firstPartyIds(undefined)).toEqual([]);
 	});
 });

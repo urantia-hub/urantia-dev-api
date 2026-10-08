@@ -118,3 +118,33 @@ describe("a request with no token", () => {
 		expect((await bare("/auth/apps/some-app/logo", "POST")).status).toBe(401);
 	});
 });
+
+describe("the path rule", () => {
+	// "/meaning" starts with "/me" but is not under it.
+	it("does not treat a path that only starts with /me as a signed-in route", async () => {
+		const res = await app.request("/meaning", {
+			headers: { "cf-connecting-ip": "token-access-test" },
+		});
+		expect(res.status).not.toBe(401);
+	});
+});
+
+describe("a database that is down", () => {
+	// 401 tells a client to sign the reader out. An outage must not do that.
+	// This file runs with no database, so the lookup of the reader fails.
+	it("answers 503, not 401, for a good token", async () => {
+		const saved = process.env.DATABASE_URL;
+		process.env.DATABASE_URL = "postgres://nobody:nothing@127.0.0.1:9/none";
+		try {
+			const res = await call("/me/bookmarks", await appToken({ scopes: ["bookmarks"] }));
+			expect(res.status).toBe(503);
+			expect(res.headers.get("retry-after")).toBe("5");
+		} finally {
+			process.env.DATABASE_URL = saved;
+		}
+	});
+
+	it("still answers 401 for a token that is not good", async () => {
+		expect((await call("/me/bookmarks", "not-a-token")).status).toBe(401);
+	});
+});
