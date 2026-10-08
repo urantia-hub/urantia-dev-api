@@ -1,5 +1,5 @@
 import { createRoute } from "@hono/zod-openapi";
-import { and, eq, inArray } from "drizzle-orm";
+import { and, eq, inArray, sql } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 import { z } from "zod";
 import { getDb } from "../db/client.ts";
@@ -28,6 +28,7 @@ import {
 } from "../lib/sessions.ts";
 import { canIssueCode, firstPartyIds, isFirstPartyApp } from "../lib/token-access.ts";
 import type { AuthUser } from "../middleware/auth.ts";
+import { rateLimiter } from "../middleware/rate-limit.ts";
 import { ErrorResponse } from "../validators/schemas.ts";
 
 export const authRoute = createApp();
@@ -362,6 +363,11 @@ const createAppRoute = createRoute({
 		},
 	},
 });
+
+// Each new app sends an email to each admin. This limit holds for one Worker instance, so it slows a
+// flood down and does not stop it. The cap on apps in review is the hard limit.
+const createAppLimit = rateLimiter({ windowMs: 60 * 60 * 1000, max: 5, scope: "app-create" });
+authRoute.use("/apps", async (c, next) => (c.req.method === "POST" ? createAppLimit(c, next) : next()));
 
 authRoute.openapi(createAppRoute, async (c) => {
 	const user = getUser(c);
@@ -1061,9 +1067,6 @@ authRoute.openapi(updateAppRoute, async (c) => {
 	const before = { name: app.name, redirectUris: app.redirectUris, scopes: app.scopes };
 	logger?.info(`[auth] PATCH /apps/${id}`, { before, after: updates, userId: user.id });
 
-	// Apply the update. The status is not part of it: see sendToReview.
-	await db.update(apps).set(updates).where(eq(apps.id, id));
-
 	// A change to what the admin approved sends the app to review again.
 	const changed = needsReview(
 		{ name: app.name, logoUrl: app.logoUrl, redirectUris: app.redirectUris, scopes: app.scopes },
@@ -1074,7 +1077,25 @@ authRoute.openapi(updateAppRoute, async (c) => {
 			scopes: updates.scopes ?? app.scopes,
 		},
 	);
-	if (await sendToReview(db, id, changed, isAdmin(c, user.id))) {
+	const review = reviewStatusChange(changed, isAdmin(c, user.id));
+
+	// One statement writes the new values and the new status together. So there is no moment in which
+	// an approved app has a name or an address that no admin saw. The status is computed by the database
+	// from the row as it is now, so an edit cannot undo a suspension that an admin made a moment ago.
+	const [written] = await db
+		.update(apps)
+		.set({
+			...updates,
+			...(review
+				? {
+						status: sql<string>`CASE WHEN ${apps.status} IN ('approved', 'declined') THEN 'pending' ELSE ${apps.status} END`,
+					}
+				: {}),
+		})
+		.where(eq(apps.id, id))
+		.returning({ status: apps.status });
+
+	if (review && written?.status === "pending" && statusOf(app) !== "pending") {
 		await notifyAdmins(
 			c,
 			{
@@ -1202,6 +1223,10 @@ authRoute.openapi(uploadLogoRoute, async (c) => {
 
 	// Upload to R2
 	const arrayBuffer = await file.arrayBuffer();
+	// A new logo is a new face for the sign-in screen: the app goes to review again.
+	// This is done before the image is stored, so an approved app never shows an image that no admin saw.
+	await sendToReview(db, id, true, isAdmin(c, user.id));
+
 	await bucket.put(key, arrayBuffer, {
 		httpMetadata: { contentType: file.type, cacheControl: "public, max-age=86400" },
 	});
@@ -1211,8 +1236,6 @@ authRoute.openapi(uploadLogoRoute, async (c) => {
 
 	// Update the database
 	await db.update(apps).set({ logoUrl }).where(eq(apps.id, id));
-	// A new logo is a new face for the sign-in screen: the app goes to review again.
-	await sendToReview(db, id, true, isAdmin(c, user.id));
 
 	return c.json({ data: { logoUrl } }, 200);
 });
@@ -1262,8 +1285,8 @@ authRoute.openapi(deleteLogoRoute, async (c) => {
 		]);
 	}
 
-	await db.update(apps).set({ logoUrl: null }).where(eq(apps.id, id));
 	await sendToReview(db, id, app.logoUrl !== null, isAdmin(c, user.id));
+	await db.update(apps).set({ logoUrl: null }).where(eq(apps.id, id));
 	return c.body(null, 204);
 });
 
@@ -1459,12 +1482,13 @@ authRoute.openapi(setAppStatusRoute, async (c) => {
 	const [app] = await db.select().from(apps).where(eq(apps.id, id)).limit(1);
 	if (!app) return problemJson(c, 404, `App "${id}" not found.`);
 
+	// The status first. Each request of the app, each refresh, and each sign-in reads it, so the app
+	// stops with this one statement. The two deletes after it only clean up.
 	await db
 		.update(apps)
 		.set({ status: body.status, reviewNote: body.note || null, reviewedAt: new Date() })
 		.where(eq(apps.id, id));
 
-	// A suspension ends each sign-in of the app at once. A refresh also checks the status.
 	if (body.status === "suspended") {
 		await db.delete(refreshTokens).where(eq(refreshTokens.appId, id));
 		await db.delete(authCodes).where(eq(authCodes.appId, id));

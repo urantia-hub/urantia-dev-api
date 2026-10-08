@@ -49,11 +49,23 @@ export function reviewStatusChange(
 	return { from: ["approved", "declined"], to: "pending" };
 }
 
-// The link to the app that its developer gives. An admin presses it, so it is a web address and nothing else.
+// The link to the app that its developer gives. An admin reads it as text, so the host that a browser
+// would open must be the host that the text shows: https, plain letters, no name before an @, no
+// backslash, no other script, and nothing that a browser reads in another way than a person does.
 export function isWebLink(value: string): boolean {
+	if (!/^https:\/\/[a-z0-9.-]+(:\d{1,5})?(\/[\x21-\x7e]*)?$/i.test(value)) return false;
+	if (value.includes("\\") || value.includes("@")) return false;
 	try {
 		const url = new URL(value);
-		return url.protocol === "https:" && url.hostname.includes(".");
+		const host = url.hostname.toLowerCase();
+		return (
+			url.protocol === "https:" &&
+			url.username === "" &&
+			url.password === "" &&
+			host.includes(".") &&
+			/[a-z]/.test(host) &&
+			!host.split(".").some((label) => label.startsWith("xn--") || label === "")
+		);
 	} catch {
 		return false;
 	}

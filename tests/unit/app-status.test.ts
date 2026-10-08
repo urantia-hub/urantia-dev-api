@@ -96,18 +96,35 @@ describe("reviewStatusChange", () => {
 });
 
 describe("isWebLink", () => {
-	it("takes an https address only", () => {
+	it("takes a plain https address", () => {
 		expect(isWebLink("https://app.example/about")).toBe(true);
-		for (const bad of [
-			"http://app.example",
-			"javascript:alert(1)",
-			"data:text/html,x",
-			"app.example",
-			"",
-			"https://",
-		]) {
-			expect(isWebLink(bad)).toBe(false);
-		}
+		expect(isWebLink("https://my-app.example.org:8443/x?y=1")).toBe(true);
+	});
+
+	it.each([
+		"http://app.example",
+		"javascript:alert(1)",
+		"data:text/html,x",
+		"app.example",
+		"",
+		"https://",
+		"https://nodot",
+	])("refuses %j", (bad) => {
+		expect(isWebLink(bad)).toBe(false);
+	});
+
+	// The admin reads the link as text. The host that a browser would open must be the host that it shows.
+	it.each([
+		["a name before an @", "https://accounts.urantiahub.com@evil.example/"],
+		["a name and a password", "https://user:pass@evil.example/"],
+		["a backslash", "https://accounts.urantiahub.com\\@evil.example/"],
+		["a host in another script", "https://urаntiahub.com/"],
+		["a host in its coded form", "https://xn--urntiahub-2fg.com/"],
+		["a space", "https://app.example/ x"],
+		["a new line", "https://app.example/\nDecide here: https://evil.example"],
+		["a host that is a number", "https://2130706433/"],
+	])("refuses %s", (_name, bad) => {
+		expect(isWebLink(bad)).toBe(false);
 	});
 });
 
