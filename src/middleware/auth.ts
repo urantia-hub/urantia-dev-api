@@ -25,7 +25,7 @@ const AUTH_REQUIRED_PREFIXES = ["/me", "/auth"];
 // Auth infra routes that don't require a user token
 const AUTH_PUBLIC_PATHS = new Set(["/.well-known/openid-configuration", "/.well-known/jwks.json"]);
 // Auth routes that are public (no JWT required)
-const AUTH_PUBLIC_POSTS = new Set(["/auth/token", "/auth/refresh"]);
+const AUTH_PUBLIC_POSTS = new Set(["/auth/token", "/auth/refresh", "/auth/revoke"]);
 // The public record of an app and its logo. A change to an app needs a sign-in.
 const AUTH_PUBLIC_APP_GET = /^\/auth\/apps\/[^/]+(\/logo)?$/;
 

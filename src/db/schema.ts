@@ -775,6 +775,8 @@ export const refreshTokens = pgTable(
 			.notNull()
 			.references(() => apps.id, { onDelete: "cascade" }),
 		tokenHash: text("token_hash").notNull(),
+		// One sign-in on one device. Each refresh keeps it. Null for a token from before 2026-10-08.
+		familyId: uuid("family_id"),
 		consumed: timestamp("consumed"), // null = active, set = used (kept for theft detection)
 		expiresAt: timestamp("expires_at").notNull(),
 		createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -782,6 +784,7 @@ export const refreshTokens = pgTable(
 	(t) => [
 		index("refresh_tokens_user_app_idx").on(t.userId, t.appId),
 		index("refresh_tokens_token_hash_idx").on(t.tokenHash),
+		index("refresh_tokens_family_idx").on(t.familyId),
 	],
 ).enableRLS();
 
