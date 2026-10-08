@@ -1,6 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from "bun:test";
-import { SignJWT } from "jose";
+import { exportJWK, generateKeyPair, SignJWT } from "jose";
 import { app } from "../../src/index.ts";
+import { signAccessToken } from "../../src/lib/app-tokens.ts";
 
 // These requests stop in the auth middleware, before the database. So they are safe with any .env.
 const SECRET = "test-secret-for-app-tokens-0123456789";
@@ -146,5 +147,27 @@ describe("a database that is down", () => {
 
 	it("still answers 401 for a token that is not good", async () => {
 		expect((await call("/me/bookmarks", "not-a-token")).status).toBe(401);
+	});
+});
+
+describe("a token signed with the new key", () => {
+	const reader = { sub: "00000000-0000-4000-8000-000000000001", email: null, app_id: "some-app" };
+
+	it("is checked by the middleware: the scope rule applies to it", async () => {
+		const saved = process.env.APP_JWT_PRIVATE_JWK;
+		const { privateKey } = await generateKeyPair("ES256", { extractable: true });
+		process.env.APP_JWT_PRIVATE_JWK = JSON.stringify(await exportJWK(privateKey));
+		try {
+			const env = { APP_JWT_PRIVATE_JWK: process.env.APP_JWT_PRIVATE_JWK };
+			const { token } = await signAccessToken({ ...reader, scopes: ["profile"] }, env);
+			// 403 proves that the token was accepted and its scopes were read. A bad token gets 401.
+			expect((await call("/me/bookmarks", token)).status).toBe(403);
+			// With the key in place and no date for old tokens, an HS256 token is refused.
+			expect((await call("/me/bookmarks", await appToken({ scopes: ["profile"] }))).status).toBe(
+				401,
+			);
+		} finally {
+			process.env.APP_JWT_PRIVATE_JWK = saved;
+		}
 	});
 });

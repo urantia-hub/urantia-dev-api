@@ -11,6 +11,9 @@ routes = [
 # Our own apps. A reader does not see the consent screen for them. Not a secret.
 [vars]
 FIRST_PARTY_APP_IDS = "urantiahub-app"
+# The life of an app access token. 7 days until each client has @urantia/auth 0.3.0:
+# 0.2.0 drops a session whose access token is past its end. Remove this line then (the default is 15 minutes).
+ACCESS_TOKEN_SECONDS = "604800"
 
 [[hyperdrive]]
 binding = "HYPERDRIVE"
