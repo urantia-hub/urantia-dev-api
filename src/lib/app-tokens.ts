@@ -49,7 +49,18 @@ type PublicKey = {
 };
 
 function privateJwk(env: TokenEnv): JWK | null {
-	return env.APP_JWT_PRIVATE_JWK ? (JSON.parse(env.APP_JWT_PRIVATE_JWK) as JWK) : null;
+	if (!env.APP_JWT_PRIVATE_JWK) return null;
+	let jwk: unknown;
+	try {
+		jwk = JSON.parse(env.APP_JWT_PRIVATE_JWK);
+	} catch {
+		// The message of a JSON error quotes the text, and this text is the private key. Drop that error.
+		throw new Error("The signing key setting is not valid JSON.");
+	}
+	if (typeof jwk !== "object" || jwk === null) {
+		throw new Error("The signing key setting is not a key.");
+	}
+	return jwk as JWK;
 }
 
 async function publicKey(env: TokenEnv): Promise<PublicKey | null> {
