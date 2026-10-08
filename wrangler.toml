@@ -8,6 +8,10 @@ routes = [
   { pattern = "api.urantia.dev", custom_domain = true }
 ]
 
+# Our own apps. A reader does not see the consent screen for them. Not a secret.
+[vars]
+FIRST_PARTY_APP_IDS = "urantiahub-app"
+
 [[hyperdrive]]
 binding = "HYPERDRIVE"
 id = "9a44af1aa9224a4f8bfc4585087440dc"

@@ -58,7 +58,8 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 
 	// Check if this route requires auth
 	const requiresAuth =
-		!isPublicAuthPath && AUTH_REQUIRED_PREFIXES.some((prefix) => path.startsWith(prefix));
+		!isPublicAuthPath &&
+		AUTH_REQUIRED_PREFIXES.some((prefix) => path === prefix || path.startsWith(`${prefix}/`));
 
 	// Extract token from Authorization header
 	const authHeader = c.req.header("authorization");
@@ -84,6 +85,8 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 		return next();
 	}
 
+	// What the token says about the reader. Only a bad or old token answers 401.
+	let reader: AuthUser;
 	try {
 		let payload: Record<string, unknown>;
 		let fromApp = false;
@@ -135,6 +138,22 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 		const avatarUrl =
 			(userMetadata.avatar_url as string) ?? (userMetadata.picture as string) ?? null;
 
+		reader = { id: userId, email, name, avatarUrl };
+	} catch (err) {
+		const logger = c.get("logger");
+		if (err instanceof Error) {
+			if (err.message.includes("expired")) {
+				return problemJson(c, 401, "Token has expired.");
+			}
+			logger?.warn("JWT verification failed", { error: err.message });
+		}
+		return problemJson(c, 401, "Invalid or expired token.");
+	}
+
+	// The token is good. A failure from here on is ours, not the reader's, so it must not answer 401:
+	// a client signs the reader out on 401.
+	try {
+		const { id: userId, email, name, avatarUrl } = reader;
 		// Lazy user creation: ensure user exists in our DB
 		const { db } = getDb(c.env?.HYPERDRIVE);
 		const existing = await db.select().from(users).where(eq(users.id, userId)).limit(1);
@@ -158,16 +177,18 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 			}
 		}
 
-		c.set("user", { id: userId, email, name, avatarUrl });
+		c.set("user", reader);
 	} catch (err) {
-		const logger = c.get("logger");
-		if (err instanceof Error) {
-			if (err.message.includes("expired")) {
-				return problemJson(c, 401, "Token has expired.");
-			}
-			logger?.warn("JWT verification failed", { error: err.message });
-		}
-		return problemJson(c, 401, "Invalid or expired token.");
+		// The kind of error only. The message of a database error can hold the reader's email or a host name.
+		c.get("logger")?.error("auth: the lookup of the reader failed", {
+			kind: err instanceof Error ? err.name : "unknown",
+			code:
+				typeof (err as { code?: unknown })?.code === "string"
+					? (err as { code: string }).code
+					: undefined,
+		});
+		c.header("Retry-After", "5");
+		return problemJson(c, 503, "The service cannot check your sign-in at the moment. Try again.");
 	}
 
 	return next();
