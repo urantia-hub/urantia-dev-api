@@ -5,7 +5,7 @@ import { z } from "zod";
 import { getDb } from "../db/client.ts";
 import { apps, authCodes, refreshTokens, userConsents, users } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
-import { decisionMail, requestMail, sendMail } from "../lib/app-review-mail.ts";
+import { decisionMail, requestMail, reviewSender, sendMail } from "../lib/app-review-mail.ts";
 import {
 	type AppStatus,
 	canRegisterAnother,
@@ -106,7 +106,11 @@ const NOT_OPEN = "This app is not open yet. Its developer waits for a review.";
 type MailEnv = { RESEND_API_KEY?: string; FEEDBACK_FROM?: string; FEEDBACK_TO?: string };
 const mailEnv = (c: { env?: Record<string, unknown> }): MailEnv => ({
 	RESEND_API_KEY: (c.env?.RESEND_API_KEY as string | undefined) ?? process.env.RESEND_API_KEY,
-	FEEDBACK_FROM: (c.env?.FEEDBACK_FROM as string | undefined) ?? process.env.FEEDBACK_FROM,
+	// The review notices have their own sender, with a name. See reviewSender.
+	FEEDBACK_FROM: reviewSender({
+		APP_REVIEW_FROM: (c.env?.APP_REVIEW_FROM as string | undefined) ?? process.env.APP_REVIEW_FROM,
+		FEEDBACK_FROM: (c.env?.FEEDBACK_FROM as string | undefined) ?? process.env.FEEDBACK_FROM,
+	}),
 	FEEDBACK_TO: (c.env?.FEEDBACK_TO as string | undefined) ?? process.env.FEEDBACK_TO,
 });
 
@@ -133,7 +137,7 @@ async function sendToReview(
 	if (!change) return false;
 	const moved = await db
 		.update(apps)
-		.set({ status: change.to })
+		.set({ status: change.to, reviewNote: null })
 		.where(and(eq(apps.id, appId), inArray(apps.status, change.from)))
 		.returning({ id: apps.id });
 	return moved.length > 0;
@@ -1089,6 +1093,8 @@ authRoute.openapi(updateAppRoute, async (c) => {
 			...(review
 				? {
 						status: sql<string>`CASE WHEN ${apps.status} IN ('approved', 'declined') THEN 'pending' ELSE ${apps.status} END`,
+						// The reviewer's note was about the version before this edit.
+						reviewNote: sql<string | null>`CASE WHEN ${apps.status} IN ('approved', 'declined') THEN NULL ELSE ${apps.reviewNote} END`,
 					}
 				: {}),
 		})
