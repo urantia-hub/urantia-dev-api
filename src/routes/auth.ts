@@ -7,6 +7,7 @@ import { getDb } from "../db/client.ts";
 import { apps, authCodes, refreshTokens, userConsents, users } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
 import { problemJson } from "../lib/errors.ts";
+import { canIssueCode, firstPartyIds } from "../lib/token-access.ts";
 import type { AuthUser } from "../middleware/auth.ts";
 import { ErrorResponse } from "../validators/schemas.ts";
 
@@ -63,6 +64,11 @@ function isAdmin(c: { env?: Record<string, unknown> }, userId: string): boolean 
 		.map((id) => id.trim())
 		.filter(Boolean);
 	return adminIds.includes(userId);
+}
+
+function isFirstParty(c: { env?: Record<string, unknown> }, appId: string): boolean {
+	const setting = (c.env?.FIRST_PARTY_APP_IDS as string | undefined) ?? process.env.FIRST_PARTY_APP_IDS;
+	return firstPartyIds(setting).includes(appId);
 }
 
 const ALLOWED_SCOPES = ["profile", "bookmarks", "notes", "reading-progress", "preferences", "app-data"];
@@ -149,6 +155,8 @@ const AppPublicSchema = z.object({
 	logoUrl: z.string().nullable(),
 	primaryColor: z.string().nullable(),
 	accentColor: z.string().nullable(),
+	// One of our own apps. A reader does not see the consent screen for it.
+	firstParty: z.boolean(),
 });
 
 const AppCreateBody = z.object({
@@ -207,6 +215,8 @@ const AuthorizeBody = z.object({
 	scopes: z.array(z.string()).min(1),
 	codeChallenge: z.string().optional(),
 	state: z.string().optional(),
+	// True only when the reader pressed Allow on the consent screen.
+	grant: z.boolean().optional(),
 });
 
 const AuthorizeResponse = z.object({
@@ -261,7 +271,7 @@ authRoute.openapi(getAppRoute, async (c) => {
 	const [app] = await db.select().from(apps).where(eq(apps.id, id)).limit(1);
 	if (!app) return problemJson(c, 404, `App "${id}" not found.`);
 
-	return c.json({ data: { id: app.id, name: app.name, scopes: app.scopes, logoUrl: app.logoUrl ?? null, primaryColor: app.primaryColor ?? null, accentColor: app.accentColor ?? null, redirectUris: app.redirectUris, createdAt: app.createdAt.toISOString() } }, 200);
+	return c.json({ data: { id: app.id, name: app.name, scopes: app.scopes, logoUrl: app.logoUrl ?? null, primaryColor: app.primaryColor ?? null, accentColor: app.accentColor ?? null, firstParty: isFirstParty(c, app.id), redirectUris: app.redirectUris, createdAt: app.createdAt.toISOString() } }, 200);
 });
 
 // ============================================================
@@ -404,6 +414,10 @@ const authorizeRoute = createRoute({
 			description: "Invalid redirect URI or scopes",
 			content: { "application/json": { schema: ErrorResponse } },
 		},
+		403: {
+			description: "The reader did not allow these permissions",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
 		404: {
 			description: "App not found",
 			content: { "application/json": { schema: ErrorResponse } },
@@ -448,6 +462,24 @@ authRoute.openapi(authorizeRoute, async (c) => {
 		);
 	}
 
+	// A code for a new permission needs a press on Allow, unless the app is ours.
+	const [existing] = await db
+		.select({ scopes: userConsents.scopes })
+		.from(userConsents)
+		.where(and(eq(userConsents.userId, user.id), eq(userConsents.appId, body.appId)))
+		.limit(1);
+
+	if (
+		!canIssueCode({
+			requested: body.scopes,
+			consented: existing?.scopes ?? [],
+			firstParty: isFirstParty(c, body.appId),
+			grant: body.grant === true,
+		})
+	) {
+		return problemJson(c, 403, "The reader did not allow these permissions.");
+	}
+
 	// Generate auth code with 5-minute expiry
 	const code = crypto.randomUUID();
 	const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
@@ -462,13 +494,7 @@ authRoute.openapi(authorizeRoute, async (c) => {
 		expiresAt,
 	});
 
-	// Record/update consent grant (upsert: merge scopes on conflict)
-	const [existing] = await db
-		.select({ scopes: userConsents.scopes })
-		.from(userConsents)
-		.where(and(eq(userConsents.userId, user.id), eq(userConsents.appId, body.appId)))
-		.limit(1);
-
+	// Record/update consent grant (merge scopes)
 	const mergedScopes = existing
 		? [...new Set([...existing.scopes, ...body.scopes])]
 		: body.scopes;
