@@ -1,5 +1,10 @@
 import { describe, expect, it } from "bun:test";
-import { appTokenProblem, canIssueCode, firstPartyIds } from "../../src/lib/token-access.ts";
+import {
+	appTokenProblem,
+	canIssueCode,
+	firstPartyIds,
+	isFirstPartyApp,
+} from "../../src/lib/token-access.ts";
 
 describe("what a token of an app can reach", () => {
 	it.each([
@@ -94,5 +99,31 @@ describe("firstPartyIds", () => {
 	});
 	it("is empty with no setting, so no app skips the consent screen by default", () => {
 		expect(firstPartyIds(undefined)).toEqual([]);
+	});
+});
+
+// Any reader can register an app and pick its id. So an id alone must never make an app ours.
+describe("isFirstPartyApp", () => {
+	const ids = "urantiahub-app";
+	const admins = "admin-1, admin-2";
+	it("is true for a listed app that an admin owns", () => {
+		expect(isFirstPartyApp({ id: "urantiahub-app", ownerId: "admin-1" }, ids, admins)).toBe(true);
+	});
+	it("is false for a listed id that another reader owns", () => {
+		expect(isFirstPartyApp({ id: "urantiahub-app", ownerId: "reader-9" }, ids, admins)).toBe(false);
+	});
+	it("is false for a listed id with no owner", () => {
+		expect(isFirstPartyApp({ id: "urantiahub-app", ownerId: null }, ids, admins)).toBe(false);
+	});
+	it("is false for an app of an admin that is not in the list", () => {
+		expect(isFirstPartyApp({ id: "other", ownerId: "admin-1" }, ids, admins)).toBe(false);
+	});
+	it("is false when either setting is absent", () => {
+		expect(isFirstPartyApp({ id: "urantiahub-app", ownerId: "admin-1" }, undefined, admins)).toBe(
+			false,
+		);
+		expect(isFirstPartyApp({ id: "urantiahub-app", ownerId: "admin-1" }, ids, undefined)).toBe(
+			false,
+		);
 	});
 });

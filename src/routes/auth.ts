@@ -7,7 +7,7 @@ import { getDb } from "../db/client.ts";
 import { apps, authCodes, refreshTokens, userConsents, users } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
 import { problemJson } from "../lib/errors.ts";
-import { canIssueCode, firstPartyIds } from "../lib/token-access.ts";
+import { canIssueCode, firstPartyIds, isFirstPartyApp } from "../lib/token-access.ts";
 import type { AuthUser } from "../middleware/auth.ts";
 import { ErrorResponse } from "../validators/schemas.ts";
 
@@ -66,9 +66,15 @@ function isAdmin(c: { env?: Record<string, unknown> }, userId: string): boolean 
 	return adminIds.includes(userId);
 }
 
-function isFirstParty(c: { env?: Record<string, unknown> }, appId: string): boolean {
-	const setting = (c.env?.FIRST_PARTY_APP_IDS as string | undefined) ?? process.env.FIRST_PARTY_APP_IDS;
-	return firstPartyIds(setting).includes(appId);
+const firstPartySetting = (c: { env?: Record<string, unknown> }) =>
+	(c.env?.FIRST_PARTY_APP_IDS as string | undefined) ?? process.env.FIRST_PARTY_APP_IDS;
+
+function isFirstParty(
+	c: { env?: Record<string, unknown> },
+	app: { id: string; ownerId: string | null },
+): boolean {
+	const admins = (c.env?.ADMIN_USER_IDS as string | undefined) ?? process.env.ADMIN_USER_IDS;
+	return isFirstPartyApp(app, firstPartySetting(c), admins);
 }
 
 const ALLOWED_SCOPES = ["profile", "bookmarks", "notes", "reading-progress", "preferences", "app-data"];
@@ -271,7 +277,7 @@ authRoute.openapi(getAppRoute, async (c) => {
 	const [app] = await db.select().from(apps).where(eq(apps.id, id)).limit(1);
 	if (!app) return problemJson(c, 404, `App "${id}" not found.`);
 
-	return c.json({ data: { id: app.id, name: app.name, scopes: app.scopes, logoUrl: app.logoUrl ?? null, primaryColor: app.primaryColor ?? null, accentColor: app.accentColor ?? null, firstParty: isFirstParty(c, app.id), redirectUris: app.redirectUris, createdAt: app.createdAt.toISOString() } }, 200);
+	return c.json({ data: { id: app.id, name: app.name, scopes: app.scopes, logoUrl: app.logoUrl ?? null, primaryColor: app.primaryColor ?? null, accentColor: app.accentColor ?? null, firstParty: isFirstParty(c, app), redirectUris: app.redirectUris, createdAt: app.createdAt.toISOString() } }, 200);
 });
 
 // ============================================================
@@ -301,6 +307,11 @@ authRoute.openapi(createAppRoute, async (c) => {
 	const user = getUser(c);
 	const body = c.req.valid("json");
 	const { db } = getDb(c.env?.HYPERDRIVE);
+
+	// An id of one of our own apps is not free for another reader, also when that app does not exist yet.
+	if (firstPartyIds(firstPartySetting(c)).includes(body.id) && !isAdmin(c, user.id)) {
+		return problemJson(c, 400, `The id "${body.id}" is reserved.`);
+	}
 
 	// Check for duplicate
 	const [existing] = await db.select().from(apps).where(eq(apps.id, body.id)).limit(1);
@@ -473,7 +484,7 @@ authRoute.openapi(authorizeRoute, async (c) => {
 		!canIssueCode({
 			requested: body.scopes,
 			consented: existing?.scopes ?? [],
-			firstParty: isFirstParty(c, body.appId),
+			firstParty: isFirstParty(c, app),
 			grant: body.grant === true,
 		})
 	) {
