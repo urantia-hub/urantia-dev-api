@@ -1,5 +1,10 @@
 import { describe, expect, it } from "bun:test";
-import { decisionMail, requestMail, sendMail } from "../../src/lib/app-review-mail.ts";
+import {
+	decisionMail,
+	requestMail,
+	reviewSender,
+	sendMail,
+} from "../../src/lib/app-review-mail.ts";
 
 const app = {
 	id: "my-app",
@@ -79,6 +84,29 @@ describe("decisionMail", () => {
 		expect(decisionMail(app, "approved", null).subject).toBe("Your app My App is approved");
 		expect(decisionMail(app, "suspended", null).subject).toBe("Your app My App is suspended");
 		expect(decisionMail(app, "approved", null).text).not.toContain("null");
+	});
+});
+
+// The first notice went to spam: the sender had no name. The review notices have their own sender.
+describe("the sender of a review notice", () => {
+	it("is the review sender when it is set, with a name", () => {
+		expect(
+			reviewSender({
+				APP_REVIEW_FROM: "UrantiaHub <developers@accounts.urantiahub.com>",
+				FEEDBACK_FROM: "feedback@urantiahub.com",
+			}),
+		).toBe("UrantiaHub <developers@accounts.urantiahub.com>");
+	});
+	it("is the feedback sender with a name added, when no review sender is set", () => {
+		expect(reviewSender({ FEEDBACK_FROM: "feedback@urantiahub.com" })).toBe(
+			"UrantiaHub <feedback@urantiahub.com>",
+		);
+		expect(reviewSender({ FEEDBACK_FROM: "Team <feedback@urantiahub.com>" })).toBe(
+			"Team <feedback@urantiahub.com>",
+		);
+	});
+	it("is nothing with no sender at all", () => {
+		expect(reviewSender({})).toBeUndefined();
 	});
 });
 
