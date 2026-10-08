@@ -4,6 +4,7 @@ import { createRemoteJWKSet, jwtVerify } from "jose";
 import { getDb } from "../db/client.ts";
 import { users } from "../db/schema.ts";
 import { problemJson } from "../lib/errors.ts";
+import { appTokenProblem } from "../lib/token-access.ts";
 
 export type AuthUser = {
 	id: string;
@@ -22,8 +23,10 @@ declare module "hono" {
 const AUTH_REQUIRED_PREFIXES = ["/me", "/auth"];
 // Auth infra routes that don't require a user token
 const AUTH_PUBLIC_PATHS = new Set(["/.well-known/openid-configuration", "/.well-known/jwks.json"]);
-// Auth routes that are public (no JWT required) — matched by prefix
-const AUTH_PUBLIC_PREFIXES = ["/auth/apps/", "/auth/token", "/auth/refresh"];
+// Auth routes that are public (no JWT required)
+const AUTH_PUBLIC_POSTS = new Set(["/auth/token", "/auth/refresh"]);
+// The public record of an app and its logo. A change to an app needs a sign-in.
+const AUTH_PUBLIC_APP_GET = /^\/auth\/apps\/[^/]+(\/logo)?$/;
 
 // Cache the JWKS keyset per Supabase URL to avoid re-fetching on every request
 const jwksCache = new Map<string, ReturnType<typeof createRemoteJWKSet>>();
@@ -50,7 +53,8 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 	}
 
 	// Check if this is a public auth endpoint (no JWT needed)
-	const isPublicAuthPath = AUTH_PUBLIC_PREFIXES.some((prefix) => path.startsWith(prefix));
+	const isPublicAuthPath =
+		AUTH_PUBLIC_POSTS.has(path) || (c.req.method === "GET" && AUTH_PUBLIC_APP_GET.test(path));
 
 	// Check if this route requires auth
 	const requiresAuth =
@@ -82,6 +86,7 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 
 	try {
 		let payload: Record<string, unknown>;
+		let fromApp = false;
 
 		// Try Supabase JWKS first (ECC P-256), then fall back to app JWT (HS256)
 		try {
@@ -103,6 +108,19 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 				audience: "authenticated",
 			});
 			payload = result.payload as Record<string, unknown>;
+			fromApp = true;
+		}
+
+		// A token of an app reaches only what its scopes allow. This runs before any database work.
+		if (fromApp) {
+			const scopes = Array.isArray(payload.scopes)
+				? payload.scopes.filter((s) => typeof s === "string")
+				: [];
+			// A token of an app is a sign-in on the routes that need one, and nowhere else.
+			// The admin routes know an admin by the user id, so an app must never carry that id there.
+			if (!requiresAuth) return next();
+			const problem = appTokenProblem(path, scopes, c.req.method);
+			if (problem) return problemJson(c, 403, problem);
 		}
 
 		const userId = payload.sub as string;
