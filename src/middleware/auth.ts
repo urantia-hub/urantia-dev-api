@@ -3,10 +3,12 @@ import type { MiddlewareHandler } from "hono";
 import { createRemoteJWKSet, jwtVerify } from "jose";
 import { getDb } from "../db/client.ts";
 import { apps, users } from "../db/schema.ts";
+import { consentNow } from "../lib/account-store.ts";
 import { canUseApp, isAppStatus } from "../lib/app-status.ts";
 import { tokenEnv, verifyAccessToken } from "../lib/app-tokens.ts";
 import { problemJson } from "../lib/errors.ts";
-import { appTokenProblem } from "../lib/token-access.ts";
+import { adminSettings, signInExists } from "../lib/supabase-admin.ts";
+import { appTokenProblem, liveTokenProblem } from "../lib/token-access.ts";
 
 export type AuthUser = {
 	id: string;
@@ -91,6 +93,7 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 	let reader: AuthUser;
 	// The app of an app token. Null for a session token of the accounts site.
 	let tokenAppId: string | null = null;
+	let tokenScopes: string[] = [];
 	try {
 		let payload: Record<string, unknown>;
 		let fromApp = false;
@@ -121,6 +124,7 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 			if (!requiresAuth) return next();
 			const problem = appTokenProblem(path, scopes, c.req.method);
 			if (problem) return problemJson(c, 403, problem);
+			tokenScopes = scopes;
 		}
 
 		const userId = payload.sub as string;
@@ -161,17 +165,26 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 				.from(apps)
 				.where(eq(apps.id, tokenAppId))
 				.limit(1);
-			const open =
-				app &&
-				isAppStatus(app.status) &&
-				canUseApp({ status: app.status, ownerId: app.ownerId }, userId);
-			if (!open) return problemJson(c, 403, "This app is not open.");
+			// The reader can take the access back on the accounts site. That must hold from that moment.
+			const problem = liveTokenProblem({
+				app: app && isAppStatus(app.status) ? { status: app.status, ownerId: app.ownerId } : null,
+				consented: await consentNow(appDb, userId, tokenAppId),
+				userId,
+				scopes: tokenScopes,
+			});
+			if (problem) return problemJson(c, problem.status, problem.detail);
 		}
 		// Lazy user creation: ensure user exists in our DB
 		const { db } = getDb(c.env?.HYPERDRIVE);
 		const existing = await db.select().from(users).where(eq(users.id, userId)).limit(1);
 
 		if (existing.length === 0) {
+			// A session token stays good for a time after the reader deleted the account.
+			// It must not bring the reader's row back.
+			const admin = tokenAppId ? null : adminSettings(c.env ?? process.env);
+			if (admin && !(await signInExists(admin, userId))) {
+				return problemJson(c, 401, "This account does not exist.");
+			}
 			await db.insert(users).values({
 				id: userId,
 				email,

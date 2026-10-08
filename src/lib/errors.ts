@@ -1,12 +1,13 @@
 import type { Context } from "hono";
 
-type ProblemStatus = 400 | 401 | 403 | 404 | 413 | 429 | 500 | 503;
+type ProblemStatus = 400 | 401 | 403 | 404 | 409 | 413 | 429 | 500 | 503;
 
 const STATUS_TITLES: Record<ProblemStatus, string> = {
 	400: "Bad Request",
 	401: "Unauthorized",
 	403: "Forbidden",
 	404: "Not Found",
+	409: "Conflict",
 	413: "Content Too Large",
 	429: "Too Many Requests",
 	500: "Internal Server Error",

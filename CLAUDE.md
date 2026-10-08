@@ -197,6 +197,14 @@ The API includes a unified auth layer for the Urantia ecosystem:
 - **App-tagged data**: All user data has an `appId` column (defaults to "default", scoped per-app in future)
 - **Forward compat**: `visibility` column on bookmarks/notes (private/public/group)
 
+### The reader's account (2026-10-08)
+
+- `GET /auth/consents`, `DELETE /auth/consents/{appId}`, `DELETE /auth/account`: for a session of the accounts site only. The rules are in `src/lib/consents.ts` over a store, with tests that need no database.
+- A request with a token of an app is checked against what is true now (`liveTokenProblem`): the app must be open, and the reader must still allow each scope of the token. So "Remove" on the account page holds from that moment (401), not from the end of the token.
+- A delete removes each table in `READER_TABLES`, then the reader's own apps, then the `users` row, then the Supabase sign-in (last). Each step is safe to run again. It is refused (409) when the reader owns an approved app that other people use. A new table with a `user_id` must be added to `READER_TABLES` and to `TABLES` in `account-store.ts`.
+- `SUPABASE_SERVICE_ROLE_KEY` (secret) is used for two calls only (`src/lib/supabase-admin.ts`): remove a sign-in, and check that a sign-in still exists before the middleware creates a `users` row. Without it, a delete answers 503 before it removes anything.
+- An app can register only the scopes in `ALLOWED_SCOPES` (`src/validators/app-schemas.ts`). The consent screen has words for each of them and refuses any other name. Add a scope in both places together.
+
 ## Audio
 
 Audio lives on `cdn.urantia.dev`, not on `audio.urantia.dev`.
