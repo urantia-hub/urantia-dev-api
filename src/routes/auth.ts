@@ -326,7 +326,18 @@ authRoute.openapi(getAppRoute, async (c) => {
 	const [app] = await db.select().from(apps).where(eq(apps.id, id)).limit(1);
 	if (!app) return problemJson(c, 404, `App "${id}" not found.`);
 
-	return c.json({ data: { id: app.id, name: app.name, scopes: app.scopes, logoUrl: app.logoUrl ?? null, primaryColor: app.primaryColor ?? null, accentColor: app.accentColor ?? null, firstParty: isFirstParty(c, app), status: statusOf(app), redirectUris: app.redirectUris, createdAt: app.createdAt.toISOString() } }, 200);
+	// The review fields are for the owner and for an admin. The public record does not hold them.
+	const viewer = c.get("user");
+	const review =
+		viewer && (viewer.id === app.ownerId || isAdmin(c, viewer.id))
+			? {
+					description: app.description ?? null,
+					websiteUrl: app.websiteUrl ?? null,
+					reviewNote: app.reviewNote ?? null,
+				}
+			: {};
+
+	return c.json({ data: { id: app.id, name: app.name, scopes: app.scopes, logoUrl: app.logoUrl ?? null, primaryColor: app.primaryColor ?? null, accentColor: app.accentColor ?? null, firstParty: isFirstParty(c, app), status: statusOf(app), redirectUris: app.redirectUris, createdAt: app.createdAt.toISOString(), ...review } }, 200);
 });
 
 // ============================================================
