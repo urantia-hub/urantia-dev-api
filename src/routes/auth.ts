@@ -1,11 +1,11 @@
 import { createRoute } from "@hono/zod-openapi";
 import { and, eq } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
-import { SignJWT } from "jose";
 import { z } from "zod";
 import { getDb } from "../db/client.ts";
 import { apps, authCodes, refreshTokens, userConsents, users } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
+import { REFRESH_TOKEN_MS, signAccessToken, tokenEnv } from "../lib/app-tokens.ts";
 import { problemJson } from "../lib/errors.ts";
 import { canIssueCode, firstPartyIds, isFirstPartyApp } from "../lib/token-access.ts";
 import type { AuthUser } from "../middleware/auth.ts";
@@ -79,7 +79,6 @@ function isFirstParty(
 
 const ALLOWED_SCOPES = ["profile", "bookmarks", "notes", "reading-progress", "preferences", "app-data"];
 
-const REFRESH_TOKEN_EXPIRY_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
 
 /**
  * Generate a refresh token, hash it, store it, and return the raw token.
@@ -91,7 +90,7 @@ async function createRefreshToken(
 ): Promise<string> {
 	const rawToken = crypto.randomUUID();
 	const tokenHash = await sha256(rawToken);
-	const expiresAt = new Date(Date.now() + REFRESH_TOKEN_EXPIRY_MS);
+	const expiresAt = new Date(Date.now() + REFRESH_TOKEN_MS);
 
 	await db.insert(refreshTokens).values({
 		userId,
@@ -631,27 +630,22 @@ authRoute.openapi(tokenRoute, async (c) => {
 		.where(eq(users.id, authCode.userId))
 		.limit(1);
 
-	// Generate a scoped JWT access token (7-day expiry)
-	const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-
-	const jwtSecret = c.env?.APP_JWT_SECRET as string;
-	if (!jwtSecret) {
+	// A short-lived access token for this app and these scopes.
+	let accessToken: string;
+	let expiresAt: Date;
+	try {
+		({ token: accessToken, expiresAt } = await signAccessToken(
+			{
+				sub: authCode.userId,
+				email: user?.email ?? null,
+				scopes: authCode.scopes,
+				app_id: authCode.appId,
+			},
+			tokenEnv(c),
+		));
+	} catch {
 		return problemJson(c, 500, "JWT signing key not configured.");
 	}
-
-	const secret = new TextEncoder().encode(jwtSecret);
-	const accessToken = await new SignJWT({
-		sub: authCode.userId,
-		email: user?.email ?? null,
-		scopes: authCode.scopes,
-		app_id: authCode.appId,
-		iss: "https://accounts.urantiahub.com",
-		aud: "authenticated",
-	})
-		.setProtectedHeader({ alg: "HS256" })
-		.setIssuedAt()
-		.setExpirationTime(expiresAt)
-		.sign(secret);
 
 	// Generate refresh token
 	const refreshToken = await createRefreshToken(db, authCode.userId, authCode.appId);
@@ -768,26 +762,16 @@ authRoute.openapi(refreshRoute, async (c) => {
 	const scopes = consent?.scopes ?? ["profile"];
 
 	// Generate new access token
-	const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
-
-	const jwtSecret = c.env?.APP_JWT_SECRET as string;
-	if (!jwtSecret) {
+	let accessToken: string;
+	let expiresAt: Date;
+	try {
+		({ token: accessToken, expiresAt } = await signAccessToken(
+			{ sub: token.userId, email: user?.email ?? null, scopes, app_id: token.appId },
+			tokenEnv(c),
+		));
+	} catch {
 		return problemJson(c, 500, "JWT signing key not configured.");
 	}
-
-	const secret = new TextEncoder().encode(jwtSecret);
-	const accessToken = await new SignJWT({
-		sub: token.userId,
-		email: user?.email ?? null,
-		scopes,
-		app_id: token.appId,
-		iss: "https://accounts.urantiahub.com",
-		aud: "authenticated",
-	})
-		.setProtectedHeader({ alg: "HS256" })
-		.setIssuedAt()
-		.setExpirationTime(expiresAt)
-		.sign(secret);
 
 	// Issue new refresh token (rotation)
 	const newRefreshToken = await createRefreshToken(db, token.userId, token.appId);

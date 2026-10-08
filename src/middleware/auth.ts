@@ -3,6 +3,7 @@ import type { MiddlewareHandler } from "hono";
 import { createRemoteJWKSet, jwtVerify } from "jose";
 import { getDb } from "../db/client.ts";
 import { users } from "../db/schema.ts";
+import { tokenEnv, verifyAccessToken } from "../lib/app-tokens.ts";
 import { problemJson } from "../lib/errors.ts";
 import { appTokenProblem } from "../lib/token-access.ts";
 
@@ -100,17 +101,9 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 			});
 			payload = result.payload as Record<string, unknown>;
 		} catch {
-			// Not a Supabase token — try app-scoped JWT
-			const appJwtSecret = c.env?.APP_JWT_SECRET ?? process.env.APP_JWT_SECRET;
-			if (!appJwtSecret) {
-				return problemJson(c, 401, "Invalid or expired token.");
-			}
-			const secret = new TextEncoder().encode(appJwtSecret as string);
-			const result = await jwtVerify(token, secret, {
-				issuer: "https://accounts.urantiahub.com",
-				audience: "authenticated",
-			});
-			payload = result.payload as Record<string, unknown>;
+			// Not a Supabase token. Is it a token of an app?
+			const claims = await verifyAccessToken(token, tokenEnv(c));
+			payload = { ...claims };
 			fromApp = true;
 		}
 
