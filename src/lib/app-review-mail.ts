@@ -94,6 +94,16 @@ export function decisionMail(
 	};
 }
 
+// The sender of a review notice. A sender with no name reads as spam, so a bare address gets one.
+export function reviewSender(env: {
+	APP_REVIEW_FROM?: string;
+	FEEDBACK_FROM?: string;
+}): string | undefined {
+	const from = (env.APP_REVIEW_FROM || env.FEEDBACK_FROM || "").trim();
+	if (!from) return undefined;
+	return from.includes("<") ? from : `UrantiaHub <${from}>`;
+}
+
 type Fetch = (url: string, init: RequestInit) => Promise<Response>;
 
 // Sends one notice. True if Resend took it. It never throws: a notice must not stop a request.
