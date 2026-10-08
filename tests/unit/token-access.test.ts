@@ -4,6 +4,7 @@ import {
 	canIssueCode,
 	firstPartyIds,
 	isFirstPartyApp,
+	liveTokenProblem,
 } from "../../src/lib/token-access.ts";
 
 describe("what a token of an app can reach", () => {
@@ -125,5 +126,45 @@ describe("isFirstPartyApp", () => {
 		expect(isFirstPartyApp({ id: "urantiahub-app", ownerId: "admin-1" }, ids, undefined)).toBe(
 			false,
 		);
+	});
+});
+
+// An access token lives for a time after it is made. Each request of an app checks what is true now.
+describe("liveTokenProblem", () => {
+	const app = { status: "approved" as const, ownerId: "owner-1" };
+	const base = { app, consented: ["profile", "notes"], userId: "reader-1", scopes: ["profile"] };
+
+	it("is null for an open app that the reader still allows", () => {
+		expect(liveTokenProblem(base)).toBeNull();
+	});
+
+	it("answers 403 for an app that is gone, suspended, or in review for another reader", () => {
+		expect(liveTokenProblem({ ...base, app: null })?.status).toBe(403);
+		expect(liveTokenProblem({ ...base, app: { ...app, status: "suspended" } })?.status).toBe(403);
+		expect(liveTokenProblem({ ...base, app: { ...app, status: "pending" } })?.status).toBe(403);
+	});
+
+	it("lets the owner use an app in review", () => {
+		expect(
+			liveTokenProblem({ ...base, app: { ...app, status: "pending" }, userId: "owner-1" }),
+		).toBeNull();
+	});
+
+	// "Remove" on the account page must be true at once, not when the token ends.
+	it("answers 401 when the reader removed the app, so the app signs the reader out", () => {
+		expect(liveTokenProblem({ ...base, consented: null })).toEqual({
+			status: 401,
+			detail: "The reader removed the access of this app.",
+		});
+	});
+
+	// Removed, then allowed again with less: the old token must not keep what the reader took back.
+	it("answers 401 for a token with a permission that the reader does not allow now", () => {
+		expect(liveTokenProblem({ ...base, scopes: ["profile", "bookmarks"] })?.status).toBe(401);
+		expect(liveTokenProblem({ ...base, consented: [] })?.status).toBe(401);
+	});
+
+	it("checks the app before the consent, so a closed app says that it is closed", () => {
+		expect(liveTokenProblem({ ...base, app: null, consented: null })?.status).toBe(403);
 	});
 });

@@ -1,3 +1,5 @@
+import { type AppStatus, canUseApp } from "./app-status.ts";
+
 // What a token of an app can reach. A session token of the accounts site is not limited here:
 // it is the reader, signed in on the accounts site itself.
 
@@ -67,4 +69,22 @@ export function isFirstPartyApp(
 	return (
 		firstPartyIds(idsSetting).includes(app.id) && firstPartyIds(adminsSetting).includes(app.ownerId)
 	);
+}
+
+// Why a token of an app that was good when it was made cannot be used now, or null if it can.
+// 403: the app is closed. 401: the reader took the access back, so the app must sign the reader out.
+export function liveTokenProblem(input: {
+	app: { status: AppStatus; ownerId: string | null } | null;
+	// The scopes that the reader allows this app now. Null when the reader removed the app.
+	consented: readonly string[] | null;
+	userId: string;
+	scopes: readonly string[];
+}): { status: 401 | 403; detail: string } | null {
+	if (!input.app || !canUseApp(input.app, input.userId))
+		return { status: 403, detail: "This app is not open." };
+	if (!input.consented)
+		return { status: 401, detail: "The reader removed the access of this app." };
+	if (!input.scopes.every((scope) => input.consented?.includes(scope)))
+		return { status: 401, detail: "The reader does not allow these permissions now." };
+	return null;
 }
