@@ -2,7 +2,8 @@ import { eq } from "drizzle-orm";
 import type { MiddlewareHandler } from "hono";
 import { createRemoteJWKSet, jwtVerify } from "jose";
 import { getDb } from "../db/client.ts";
-import { users } from "../db/schema.ts";
+import { apps, users } from "../db/schema.ts";
+import { canUseApp, isAppStatus } from "../lib/app-status.ts";
 import { tokenEnv, verifyAccessToken } from "../lib/app-tokens.ts";
 import { problemJson } from "../lib/errors.ts";
 import { appTokenProblem } from "../lib/token-access.ts";
@@ -88,6 +89,8 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 
 	// What the token says about the reader. Only a bad or old token answers 401.
 	let reader: AuthUser;
+	// The app of an app token. Null for a session token of the accounts site.
+	let tokenAppId: string | null = null;
 	try {
 		let payload: Record<string, unknown>;
 		let fromApp = false;
@@ -105,6 +108,7 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 			const claims = await verifyAccessToken(token, tokenEnv(c));
 			payload = { ...claims };
 			fromApp = true;
+			tokenAppId = claims.app_id;
 		}
 
 		// A token of an app reaches only what its scopes allow. This runs before any database work.
@@ -147,6 +151,22 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 	// a client signs the reader out on 401.
 	try {
 		const { id: userId, email, name, avatarUrl } = reader;
+
+		// An access token lives for a time after it is made. A suspended app must stop at once, and an app
+		// that went back to review must stop for other readers, so each request of an app checks the app.
+		if (tokenAppId) {
+			const { db: appDb } = getDb(c.env?.HYPERDRIVE);
+			const [app] = await appDb
+				.select({ status: apps.status, ownerId: apps.ownerId })
+				.from(apps)
+				.where(eq(apps.id, tokenAppId))
+				.limit(1);
+			const open =
+				app &&
+				isAppStatus(app.status) &&
+				canUseApp({ status: app.status, ownerId: app.ownerId }, userId);
+			if (!open) return problemJson(c, 403, "This app is not open.");
+		}
 		// Lazy user creation: ensure user exists in our DB
 		const { db } = getDb(c.env?.HYPERDRIVE);
 		const existing = await db.select().from(users).where(eq(users.id, userId)).limit(1);

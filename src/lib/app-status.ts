@@ -21,23 +21,45 @@ export function canUseApp(
 	return false;
 }
 
-type Reviewed = { name: string; logoUrl: string | null; redirectUris: readonly string[] };
+type Reviewed = {
+	name: string;
+	logoUrl: string | null;
+	redirectUris: readonly string[];
+	scopes: readonly string[];
+};
 
 // Did the edit change what the admin approved? The name and the logo are what a reader sees on the
-// sign-in screen, and a return address is where a reader is sent. A removed address needs no review.
+// sign-in screen, a return address is where a reader is sent, and a permission is what the app can reach.
+// A removed address or permission needs no review.
 export function needsReview(before: Reviewed, after: Reviewed): boolean {
 	if (before.name !== after.name || before.logoUrl !== after.logoUrl) return true;
-	return after.redirectUris.some((uri) => !before.redirectUris.includes(uri));
+	if (after.redirectUris.some((uri) => !before.redirectUris.includes(uri))) return true;
+	return after.scopes.some((scope) => !before.scopes.includes(scope));
 }
 
-// The status of an app after an edit by its owner or by an admin.
-export function statusAfterEdit(
-	status: AppStatus,
+// What an edit does to the status. The route reads the app and then writes, and an admin can suspend
+// the app between the two. So an edit never writes a status that it read. It names the statuses that
+// move to pending, and the database applies that to the row as it is at that moment.
+// An edit can never approve an app or lift a suspension.
+export function reviewStatusChange(
 	editNeedsReview: boolean,
 	byAdmin: boolean,
-): AppStatus {
-	// Only the status route lifts a suspension.
-	if (status === "suspended") return "suspended";
-	if (!editNeedsReview || byAdmin) return status;
-	return "pending";
+): { from: AppStatus[]; to: "pending" } | null {
+	if (!editNeedsReview || byAdmin) return null;
+	return { from: ["approved", "declined"], to: "pending" };
 }
+
+// The link to the app that its developer gives. An admin presses it, so it is a web address and nothing else.
+export function isWebLink(value: string): boolean {
+	try {
+		const url = new URL(value);
+		return url.protocol === "https:" && url.hostname.includes(".");
+	} catch {
+		return false;
+	}
+}
+
+// Each new app sends an email to each admin. One reader cannot have more than this many in review.
+export const MAX_PENDING_APPS = 3;
+export const canRegisterAnother = (pendingAppsOfReader: number): boolean =>
+	pendingAppsOfReader < MAX_PENDING_APPS;

@@ -19,10 +19,15 @@ export type ReviewedApp = {
 // One line, with no control characters, and not too long.
 const line = (value: string, max = 120) =>
 	value
-		.replace(/[\u0000-\u001f\u007f]+/g, " ")
+		.replace(/\p{Cc}+/gu, " ")
 		.trim()
 		.slice(0, max);
 const block = (value: string | null, max: number) => (value ?? "").trim().slice(0, max) || "(none)";
+// Text that a stranger wrote: each line is marked, so it cannot pass for a line of ours.
+const quoted = (value: string | null, max: number) =>
+	block(value, max)
+		.split(/\r?\n/)
+		.map((l) => `> ${line(l, 300)}`);
 
 export function requestMail(app: ReviewedApp, kind: "new" | "changed"): Mail {
 	const name = line(app.name);
@@ -31,20 +36,26 @@ export function requestMail(app: ReviewedApp, kind: "new" | "changed"): Mail {
 		text: [
 			kind === "new"
 				? "A developer registered an app. Other readers cannot use it until you approve it."
-				: "An approved app changed its name, its logo, or a return address. It is pending again.",
+				: "An approved app changed its name, its logo, a return address, or a permission. It is pending again.",
 			"",
-			`Name: ${name}`,
-			`Id: ${line(app.id)}`,
-			`Developer: ${line(app.ownerEmail ?? "(no email)")}`,
-			`Link: ${line(app.websiteUrl ?? "(none)", 300)}`,
+			// Our own link comes first. Everything below the next line is from the developer.
+			`Decide here: ${ACCOUNTS}/apps/admin`,
+			"",
+			"The lines that start with > are the developer's own words. Do not follow a link in them.",
+			"",
+			"Name:",
+			`> ${name}`,
+			"Id:",
+			`> ${line(app.id)}`,
+			"Developer:",
+			`> ${line(app.ownerEmail ?? "(no email)")}`,
+			"Link:",
+			`> ${line(app.websiteUrl ?? "(none)", 300)}`,
 			`Permissions: ${app.scopes.map((s) => line(s, 40)).join(", ")}`,
 			"Return addresses:",
-			...app.redirectUris.slice(0, 10).map((uri) => `  ${line(uri, 300)}`),
-			"",
+			...app.redirectUris.slice(0, 10).map((uri) => `> ${line(uri, 300)}`),
 			"What it does:",
-			block(app.description, 1000),
-			"",
-			`Decide here: ${ACCOUNTS}/apps/admin`,
+			...quoted(app.description, 1000),
 		].join("\n"),
 	};
 }
@@ -74,7 +85,7 @@ export function decisionMail(
 		text: [
 			`Your app ${name} ${verb}.`,
 			meaning,
-			...(note?.trim() ? ["", "Note from the reviewer:", block(note, 1000)] : []),
+			...(note?.trim() ? ["", "Note from the reviewer:", ...quoted(note, 1000)] : []),
 			"",
 			`${ACCOUNTS}/apps/${encodeURIComponent(app.id)}`,
 			"",

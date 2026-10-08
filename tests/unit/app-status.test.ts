@@ -1,10 +1,12 @@
 import { describe, expect, it } from "bun:test";
 import {
 	type AppStatus,
+	canRegisterAnother,
 	canUseApp,
 	isAppStatus,
+	isWebLink,
 	needsReview,
-	statusAfterEdit,
+	reviewStatusChange,
 } from "../../src/lib/app-status.ts";
 
 const OWNER = "owner-1";
@@ -41,6 +43,7 @@ describe("needsReview", () => {
 		name: "My App",
 		logoUrl: "https://x/logo.png",
 		redirectUris: ["https://a/cb", "https://b/cb"],
+		scopes: ["profile", "bookmarks"],
 	};
 
 	it("is false when nothing that a reader trusts changed", () => {
@@ -60,33 +63,60 @@ describe("needsReview", () => {
 			{ redirectUris: ["https://a/cb", "https://b/cb", "https://evil.example/cb"] },
 		],
 		["a changed return address", { redirectUris: ["https://a/cb", "https://evil.example/cb"] }],
+		// Approved for the profile, then asks for the notes of each reader.
+		["a new permission", { scopes: ["profile", "bookmarks", "notes"] }],
 	])("is true for %s", (_name, change) => {
 		expect(needsReview(before, { ...before, ...change })).toBe(true);
 	});
 
-	it("is false when a return address is only removed", () => {
+	it("is false when a return address or a permission is only removed", () => {
 		expect(needsReview(before, { ...before, redirectUris: ["https://a/cb"] })).toBe(false);
+		expect(needsReview(before, { ...before, scopes: ["profile"] })).toBe(false);
 	});
 });
 
-describe("statusAfterEdit", () => {
-	it("sends an approved app back to pending when the edit needs a review", () => {
-		expect(statusAfterEdit("approved", true, false)).toBe("pending");
+// The route reads the app, then writes. An admin can suspend the app between the two.
+// So an edit never writes a status that it read: it only names the statuses that it moves to pending.
+describe("reviewStatusChange", () => {
+	it("moves an approved or a declined app to pending when the edit needs a review", () => {
+		expect(reviewStatusChange(true, false)).toEqual({
+			from: ["approved", "declined"],
+			to: "pending",
+		});
 	});
-	it("keeps an approved app approved for another edit, and for an edit by an admin", () => {
-		expect(statusAfterEdit("approved", false, false)).toBe("approved");
-		expect(statusAfterEdit("approved", true, true)).toBe("approved");
+	it("changes nothing for another edit, or for an edit by an admin", () => {
+		expect(reviewStatusChange(false, false)).toBeNull();
+		expect(reviewStatusChange(true, true)).toBeNull();
 	});
-	it("sends a declined app back to pending when its owner changes it, so the admin looks again", () => {
-		expect(statusAfterEdit("declined", true, false)).toBe("pending");
-		expect(statusAfterEdit("declined", false, false)).toBe("declined");
+	it("can never lift a suspension or approve an app", () => {
+		const change = reviewStatusChange(true, false);
+		expect(change?.to).toBe("pending");
+		expect(change?.from).not.toContain("suspended");
 	});
-	it("never lifts a suspension through an edit", () => {
-		expect(statusAfterEdit("suspended", true, false)).toBe("suspended");
-		expect(statusAfterEdit("suspended", true, true)).toBe("suspended");
+});
+
+describe("isWebLink", () => {
+	it("takes an https address only", () => {
+		expect(isWebLink("https://app.example/about")).toBe(true);
+		for (const bad of [
+			"http://app.example",
+			"javascript:alert(1)",
+			"data:text/html,x",
+			"app.example",
+			"",
+			"https://",
+		]) {
+			expect(isWebLink(bad)).toBe(false);
+		}
 	});
-	it("keeps a pending app pending", () => {
-		expect(statusAfterEdit("pending", true, false)).toBe("pending");
+});
+
+// Each new app sends an email to the admin. One reader must not be able to send a hundred.
+describe("canRegisterAnother", () => {
+	it("stops at three apps that wait for a review", () => {
+		expect(canRegisterAnother(0)).toBe(true);
+		expect(canRegisterAnother(2)).toBe(true);
+		expect(canRegisterAnother(3)).toBe(false);
 	});
 });
 

@@ -1,5 +1,5 @@
 import { createRoute } from "@hono/zod-openapi";
-import { and, eq } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 import { z } from "zod";
 import { getDb } from "../db/client.ts";
@@ -8,10 +8,13 @@ import { createApp } from "../lib/app.ts";
 import { decisionMail, requestMail, sendMail } from "../lib/app-review-mail.ts";
 import {
 	type AppStatus,
+	canRegisterAnother,
 	canUseApp,
 	isAppStatus,
+	isWebLink,
+	MAX_PENDING_APPS,
 	needsReview,
-	statusAfterEdit,
+	reviewStatusChange,
 } from "../lib/app-status.ts";
 import { tokenEnv } from "../lib/app-tokens.ts";
 import { createAuthStore } from "../lib/auth-store.ts";
@@ -117,6 +120,24 @@ async function notifyAdmins(
 	await Promise.all(to.map((address) => sendMail(env, address, requestMail(app, kind))));
 }
 
+// Moves the app to pending if the edit needs a review. The database applies it to the row as it is now,
+// so an edit cannot undo a suspension that an admin made a moment ago. True if the app moved.
+async function sendToReview(
+	db: ReturnType<typeof getDb>["db"],
+	appId: string,
+	editNeedsReview: boolean,
+	byAdmin: boolean,
+): Promise<boolean> {
+	const change = reviewStatusChange(editNeedsReview, byAdmin);
+	if (!change) return false;
+	const moved = await db
+		.update(apps)
+		.set({ status: change.to })
+		.where(and(eq(apps.id, appId), inArray(apps.status, change.from)))
+		.returning({ id: apps.id });
+	return moved.length > 0;
+}
+
 const ALLOWED_SCOPES = ["profile", "bookmarks", "notes", "reading-progress", "preferences", "app-data"];
 
 
@@ -194,7 +215,12 @@ const AppCreateBody = z.object({
 	accentColor: HexColor.optional(),
 	// For the admin's review: what the app does, and where it is.
 	description: z.string().trim().max(1000).optional(),
-	websiteUrl: z.string().trim().url().max(300).optional(),
+	websiteUrl: z
+		.string()
+		.trim()
+		.max(300)
+		.refine(isWebLink, "Must be an https address.")
+		.optional(),
 });
 
 const AppUpdateBody = z.object({
@@ -346,6 +372,21 @@ authRoute.openapi(createAppRoute, async (c) => {
 	const uriError = validateRedirectUris(body.redirectUris);
 	if (uriError) {
 		return problemJson(c, 400, uriError);
+	}
+
+	// Each new app sends an email to each admin. One reader cannot fill that inbox.
+	if (!isAdmin(c, user.id)) {
+		const waiting = await db
+			.select({ id: apps.id })
+			.from(apps)
+			.where(and(eq(apps.ownerId, user.id), eq(apps.status, "pending")));
+		if (!canRegisterAnother(waiting.length)) {
+			return problemJson(
+				c,
+				400,
+				`You have ${MAX_PENDING_APPS} apps in review. Wait for a decision before you register another.`,
+			);
+		}
 	}
 
 	// Generate secret and hash it
@@ -1009,21 +1050,20 @@ authRoute.openapi(updateAppRoute, async (c) => {
 	const before = { name: app.name, redirectUris: app.redirectUris, scopes: app.scopes };
 	logger?.info(`[auth] PATCH /apps/${id}`, { before, after: updates, userId: user.id });
 
+	// Apply the update. The status is not part of it: see sendToReview.
+	await db.update(apps).set(updates).where(eq(apps.id, id));
+
 	// A change to what the admin approved sends the app to review again.
 	const changed = needsReview(
-		{ name: app.name, logoUrl: app.logoUrl, redirectUris: app.redirectUris },
+		{ name: app.name, logoUrl: app.logoUrl, redirectUris: app.redirectUris, scopes: app.scopes },
 		{
 			name: updates.name ?? app.name,
 			logoUrl: app.logoUrl,
 			redirectUris: updates.redirectUris ?? app.redirectUris,
+			scopes: updates.scopes ?? app.scopes,
 		},
 	);
-	const status = statusAfterEdit(statusOf(app), changed, isAdmin(c, user.id));
-
-	// Apply the update
-	await db.update(apps).set({ ...updates, status }).where(eq(apps.id, id));
-
-	if (status === "pending" && statusOf(app) !== "pending") {
+	if (await sendToReview(db, id, changed, isAdmin(c, user.id))) {
 		await notifyAdmins(
 			c,
 			{
@@ -1159,9 +1199,9 @@ authRoute.openapi(uploadLogoRoute, async (c) => {
 	const logoUrl = `https://api.urantia.dev/auth/apps/${id}/logo`;
 
 	// Update the database
+	await db.update(apps).set({ logoUrl }).where(eq(apps.id, id));
 	// A new logo is a new face for the sign-in screen: the app goes to review again.
-	const status = statusAfterEdit(statusOf(app), true, isAdmin(c, user.id));
-	await db.update(apps).set({ logoUrl, status }).where(eq(apps.id, id));
+	await sendToReview(db, id, true, isAdmin(c, user.id));
 
 	return c.json({ data: { logoUrl } }, 200);
 });
@@ -1211,13 +1251,8 @@ authRoute.openapi(deleteLogoRoute, async (c) => {
 		]);
 	}
 
-	await db
-		.update(apps)
-		.set({
-			logoUrl: null,
-			status: statusAfterEdit(statusOf(app), app.logoUrl !== null, isAdmin(c, user.id)),
-		})
-		.where(eq(apps.id, id));
+	await db.update(apps).set({ logoUrl: null }).where(eq(apps.id, id));
+	await sendToReview(db, id, app.logoUrl !== null, isAdmin(c, user.id));
 	return c.body(null, 204);
 });
 

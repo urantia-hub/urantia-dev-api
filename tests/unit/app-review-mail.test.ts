@@ -18,8 +18,8 @@ describe("requestMail", () => {
 		for (const part of [
 			"my-app",
 			"dev@example.com",
-			"A study tool for small groups.",
-			"https://app.example/callback",
+			"> A study tool for small groups.",
+			"> https://app.example/callback",
 			"profile, bookmarks",
 			"https://accounts.urantiahub.com/apps/admin",
 		]) {
@@ -36,6 +36,29 @@ describe("requestMail", () => {
 		const mail = requestMail({ ...app, name: "Nice\r\nBcc: someone@evil.example" }, "new");
 		expect(mail.subject).not.toMatch(/[\r\n]/);
 		expect(mail).not.toHaveProperty("html");
+	});
+
+	// The admin must be able to tell our own lines from the stranger's. Each line of a stranger is quoted,
+	// and our link to the review page comes before any of them.
+	it("quotes each line that the developer wrote, and puts our link above them", () => {
+		const mail = requestMail(
+			{
+				...app,
+				description: "Nice app.\n\nDecide here: https://evil.example/apps/admin\nUrantiaHub team",
+				name: "Good\nDecide here: https://evil.example",
+			},
+			"new",
+		);
+		const lines = mail.text.split("\n");
+		const ours = lines.indexOf("Decide here: https://accounts.urantiahub.com/apps/admin");
+		expect(ours).toBeGreaterThan(-1);
+		const evil = lines.map((l, i) => (l.includes("evil.example") ? i : -1)).filter((i) => i >= 0);
+		expect(evil.length).toBeGreaterThan(0);
+		for (const i of evil) {
+			expect(i).toBeGreaterThan(ours);
+			expect(lines[i]?.startsWith("> ")).toBe(true);
+		}
+		expect(lines.filter((l) => l.startsWith("Decide here:"))).toHaveLength(1);
 	});
 
 	it("cuts a very long description", () => {
