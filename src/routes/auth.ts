@@ -3,8 +3,16 @@ import { and, eq } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 import { z } from "zod";
 import { getDb } from "../db/client.ts";
-import { apps, authCodes, userConsents, users } from "../db/schema.ts";
+import { apps, authCodes, refreshTokens, userConsents, users } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
+import { decisionMail, requestMail, sendMail } from "../lib/app-review-mail.ts";
+import {
+	type AppStatus,
+	canUseApp,
+	isAppStatus,
+	needsReview,
+	statusAfterEdit,
+} from "../lib/app-status.ts";
 import { tokenEnv } from "../lib/app-tokens.ts";
 import { createAuthStore } from "../lib/auth-store.ts";
 import { problemJson } from "../lib/errors.ts";
@@ -85,6 +93,30 @@ function isFirstParty(
 	return isFirstPartyApp(app, firstPartySetting(c), admins);
 }
 
+// The review status of an app row. A value that is not known counts as suspended: no one can use the app.
+const statusOf = (app: { status: string }): AppStatus =>
+	isAppStatus(app.status) ? app.status : "suspended";
+
+const NOT_OPEN = "This app is not open yet. Its developer waits for a review.";
+
+type MailEnv = { RESEND_API_KEY?: string; FEEDBACK_FROM?: string; FEEDBACK_TO?: string };
+const mailEnv = (c: { env?: Record<string, unknown> }): MailEnv => ({
+	RESEND_API_KEY: (c.env?.RESEND_API_KEY as string | undefined) ?? process.env.RESEND_API_KEY,
+	FEEDBACK_FROM: (c.env?.FEEDBACK_FROM as string | undefined) ?? process.env.FEEDBACK_FROM,
+	FEEDBACK_TO: (c.env?.FEEDBACK_TO as string | undefined) ?? process.env.FEEDBACK_TO,
+});
+
+// Tells each admin address that an app waits for a review. It never throws.
+async function notifyAdmins(
+	c: { env?: Record<string, unknown> },
+	app: Parameters<typeof requestMail>[0],
+	kind: "new" | "changed",
+): Promise<void> {
+	const env = mailEnv(c);
+	const to = (env.FEEDBACK_TO ?? "").split(",").map((a) => a.trim()).filter(Boolean);
+	await Promise.all(to.map((address) => sendMail(env, address, requestMail(app, kind))));
+}
+
 const ALLOWED_SCOPES = ["profile", "bookmarks", "notes", "reading-progress", "preferences", "app-data"];
 
 
@@ -149,6 +181,8 @@ const AppPublicSchema = z.object({
 	accentColor: z.string().nullable(),
 	// One of our own apps. A reader does not see the consent screen for it.
 	firstParty: z.boolean(),
+	// pending, approved, declined, or suspended. Only an approved app is open to each reader.
+	status: z.string(),
 });
 
 const AppCreateBody = z.object({
@@ -158,6 +192,9 @@ const AppCreateBody = z.object({
 	scopes: z.array(z.string()).min(1),
 	primaryColor: HexColor.optional(),
 	accentColor: HexColor.optional(),
+	// For the admin's review: what the app does, and where it is.
+	description: z.string().trim().max(1000).optional(),
+	websiteUrl: z.string().trim().url().max(300).optional(),
 });
 
 const AppUpdateBody = z.object({
@@ -263,7 +300,7 @@ authRoute.openapi(getAppRoute, async (c) => {
 	const [app] = await db.select().from(apps).where(eq(apps.id, id)).limit(1);
 	if (!app) return problemJson(c, 404, `App "${id}" not found.`);
 
-	return c.json({ data: { id: app.id, name: app.name, scopes: app.scopes, logoUrl: app.logoUrl ?? null, primaryColor: app.primaryColor ?? null, accentColor: app.accentColor ?? null, firstParty: isFirstParty(c, app), redirectUris: app.redirectUris, createdAt: app.createdAt.toISOString() } }, 200);
+	return c.json({ data: { id: app.id, name: app.name, scopes: app.scopes, logoUrl: app.logoUrl ?? null, primaryColor: app.primaryColor ?? null, accentColor: app.accentColor ?? null, firstParty: isFirstParty(c, app), status: statusOf(app), redirectUris: app.redirectUris, createdAt: app.createdAt.toISOString() } }, 200);
 });
 
 // ============================================================
@@ -314,6 +351,7 @@ authRoute.openapi(createAppRoute, async (c) => {
 	// Generate secret and hash it
 	const secret = crypto.randomUUID();
 	const secretHash = await sha256(secret);
+	const status: AppStatus = isAdmin(c, user.id) ? "approved" : "pending";
 
 	await db.insert(apps).values({
 		id: body.id,
@@ -324,7 +362,28 @@ authRoute.openapi(createAppRoute, async (c) => {
 		ownerId: user.id,
 		primaryColor: body.primaryColor ?? null,
 		accentColor: body.accentColor ?? null,
+		// An app of an admin needs no review. Each other app waits for one.
+		status,
+		reviewedAt: status === "approved" ? new Date() : null,
+		description: body.description || null,
+		websiteUrl: body.websiteUrl || null,
 	});
+
+	if (status === "pending") {
+		await notifyAdmins(
+			c,
+			{
+				id: body.id,
+				name: body.name,
+				description: body.description ?? null,
+				websiteUrl: body.websiteUrl ?? null,
+				redirectUris: body.redirectUris,
+				scopes: body.scopes,
+				ownerEmail: user.email,
+			},
+			"new",
+		);
+	}
 
 	return c.json(
 		{
@@ -334,6 +393,7 @@ authRoute.openapi(createAppRoute, async (c) => {
 				redirectUris: body.redirectUris,
 				scopes: body.scopes,
 				secret,
+				status,
 			},
 		},
 		201,
@@ -459,6 +519,11 @@ authRoute.openapi(authorizeRoute, async (c) => {
 		);
 	}
 
+	// Only an approved app is open to each reader. Its owner can use it before that, to build and test.
+	if (!canUseApp({ status: statusOf(app), ownerId: app.ownerId }, user.id)) {
+		return problemJson(c, 403, NOT_OPEN);
+	}
+
 	// A code for a new permission needs a press on Allow, unless the app is ours.
 	const [existing] = await db
 		.select({ scopes: userConsents.scopes })
@@ -581,6 +646,11 @@ authRoute.openapi(tokenRoute, async (c) => {
 	const [app] = await db.select().from(apps).where(eq(apps.id, body.appId)).limit(1);
 	if (!app) {
 		return problemJson(c, 400, "App not found.");
+	}
+	// The status can change between the code and its exchange.
+	if (!canUseApp({ status: statusOf(app), ownerId: app.ownerId }, authCode.userId)) {
+		await db.delete(authCodes).where(eq(authCodes.code, body.code));
+		return problemJson(c, 400, NOT_OPEN);
 	}
 
 	// Verify app secret if provided
@@ -758,6 +828,10 @@ authRoute.openapi(listAppsRoute, async (c) => {
 			logoUrl: apps.logoUrl,
 			primaryColor: apps.primaryColor,
 			accentColor: apps.accentColor,
+			status: apps.status,
+			description: apps.description,
+			websiteUrl: apps.websiteUrl,
+			reviewNote: apps.reviewNote,
 			createdAt: apps.createdAt,
 		})
 		.from(apps)
@@ -935,8 +1009,35 @@ authRoute.openapi(updateAppRoute, async (c) => {
 	const before = { name: app.name, redirectUris: app.redirectUris, scopes: app.scopes };
 	logger?.info(`[auth] PATCH /apps/${id}`, { before, after: updates, userId: user.id });
 
+	// A change to what the admin approved sends the app to review again.
+	const changed = needsReview(
+		{ name: app.name, logoUrl: app.logoUrl, redirectUris: app.redirectUris },
+		{
+			name: updates.name ?? app.name,
+			logoUrl: app.logoUrl,
+			redirectUris: updates.redirectUris ?? app.redirectUris,
+		},
+	);
+	const status = statusAfterEdit(statusOf(app), changed, isAdmin(c, user.id));
+
 	// Apply the update
-	await db.update(apps).set(updates).where(eq(apps.id, id));
+	await db.update(apps).set({ ...updates, status }).where(eq(apps.id, id));
+
+	if (status === "pending" && statusOf(app) !== "pending") {
+		await notifyAdmins(
+			c,
+			{
+				id,
+				name: updates.name ?? app.name,
+				description: app.description,
+				websiteUrl: app.websiteUrl,
+				redirectUris: updates.redirectUris ?? app.redirectUris,
+				scopes: updates.scopes ?? app.scopes,
+				ownerEmail: user.email,
+			},
+			"changed",
+		);
+	}
 
 	// If scopes changed, invalidate all existing auth codes for this app
 	if (body.scopes !== undefined) {
@@ -961,6 +1062,7 @@ authRoute.openapi(updateAppRoute, async (c) => {
 				primaryColor: updated!.primaryColor ?? null,
 				accentColor: updated!.accentColor ?? null,
 				ownerId: updated!.ownerId,
+				status: statusOf(updated!),
 				createdAt: updated!.createdAt.toISOString(),
 			},
 		},
@@ -1057,7 +1159,9 @@ authRoute.openapi(uploadLogoRoute, async (c) => {
 	const logoUrl = `https://api.urantia.dev/auth/apps/${id}/logo`;
 
 	// Update the database
-	await db.update(apps).set({ logoUrl }).where(eq(apps.id, id));
+	// A new logo is a new face for the sign-in screen: the app goes to review again.
+	const status = statusAfterEdit(statusOf(app), true, isAdmin(c, user.id));
+	await db.update(apps).set({ logoUrl, status }).where(eq(apps.id, id));
 
 	return c.json({ data: { logoUrl } }, 200);
 });
@@ -1107,7 +1211,13 @@ authRoute.openapi(deleteLogoRoute, async (c) => {
 		]);
 	}
 
-	await db.update(apps).set({ logoUrl: null }).where(eq(apps.id, id));
+	await db
+		.update(apps)
+		.set({
+			logoUrl: null,
+			status: statusAfterEdit(statusOf(app), app.logoUrl !== null, isAdmin(c, user.id)),
+		})
+		.where(eq(apps.id, id));
 	return c.body(null, 204);
 });
 
@@ -1228,6 +1338,11 @@ authRoute.openapi(adminListAppsRoute, async (c) => {
 			accentColor: apps.accentColor,
 			ownerId: apps.ownerId,
 			ownerEmail: users.email,
+			status: apps.status,
+			description: apps.description,
+			websiteUrl: apps.websiteUrl,
+			reviewNote: apps.reviewNote,
+			reviewedAt: apps.reviewedAt,
 			createdAt: apps.createdAt,
 		})
 		.from(apps)
@@ -1241,7 +1356,84 @@ authRoute.openapi(adminListAppsRoute, async (c) => {
 			primaryColor: row.primaryColor ?? null,
 			accentColor: row.accentColor ?? null,
 			ownerEmail: row.ownerEmail ?? null,
+			reviewedAt: row.reviewedAt?.toISOString() ?? null,
 			createdAt: row.createdAt.toISOString(),
 		})),
 	}, 200);
+});
+
+// ============================================================
+// PATCH /apps/:id/status — An admin approves, declines, or suspends an app
+// ============================================================
+
+const AppStatusBody = z.object({
+	status: z.enum(["approved", "declined", "suspended", "pending"]),
+	// A note to the developer.
+	note: z.string().trim().max(1000).optional(),
+});
+
+const setAppStatusRoute = createRoute({
+	operationId: "adminSetAppStatus",
+	method: "patch",
+	path: "/apps/{id}/status",
+	tags: ["Auth"],
+	summary: "Approve, decline, or suspend an app (admin-only)",
+	request: {
+		params: z.object({ id: z.string() }),
+		body: { content: { "application/json": { schema: AppStatusBody } }, required: true },
+	},
+	responses: {
+		200: {
+			description: "The new status",
+			content: {
+				"application/json": {
+					schema: z.object({ data: z.object({ id: z.string(), status: z.string() }) }),
+				},
+			},
+		},
+		403: {
+			description: "Admin access required",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+		404: {
+			description: "App not found",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+	},
+});
+
+authRoute.openapi(setAppStatusRoute, async (c) => {
+	const user = getUser(c);
+	if (!isAdmin(c, user.id)) return problemJson(c, 403, "Admin access required.");
+
+	const { id } = c.req.valid("param");
+	const body = c.req.valid("json");
+	const { db } = getDb(c.env?.HYPERDRIVE);
+
+	const [app] = await db.select().from(apps).where(eq(apps.id, id)).limit(1);
+	if (!app) return problemJson(c, 404, `App "${id}" not found.`);
+
+	await db
+		.update(apps)
+		.set({ status: body.status, reviewNote: body.note || null, reviewedAt: new Date() })
+		.where(eq(apps.id, id));
+
+	// A suspension ends each sign-in of the app at once. A refresh also checks the status.
+	if (body.status === "suspended") {
+		await db.delete(refreshTokens).where(eq(refreshTokens.appId, id));
+		await db.delete(authCodes).where(eq(authCodes.appId, id));
+	}
+
+	c.get("logger")?.info(`[auth] app "${id}" is now ${body.status}`, { adminId: user.id });
+
+	if (app.ownerId && app.ownerId !== user.id) {
+		const [owner] = await db
+			.select({ email: users.email })
+			.from(users)
+			.where(eq(users.id, app.ownerId))
+			.limit(1);
+		await sendMail(mailEnv(c), owner?.email, decisionMail(app, body.status, body.note ?? null));
+	}
+
+	return c.json({ data: { id, status: body.status } }, 200);
 });

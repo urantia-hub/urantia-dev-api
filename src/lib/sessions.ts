@@ -1,3 +1,4 @@
+import { canUseApp } from "./app-status.ts";
 import {
 	REFRESH_TOKEN_MS,
 	signAccessToken,
@@ -126,6 +127,13 @@ export async function refreshSession(
 	// A token from before families existed gets a family now.
 	const familyId = row.familyId ?? crypto.randomUUID();
 	if (!row.familyId) await store.setFamily(row.id, familyId);
+
+	// An app that an admin suspended, or that is not approved yet, gets no new token for other readers.
+	const access = await store.appAccess(row.appId);
+	if (!access || !canUseApp(access, row.userId)) {
+		await store.deleteFamily(familyId);
+		return refused("This app is not open. Please sign in again later.");
+	}
 
 	// The reader can change or remove what this app can do. A refresh follows that at once.
 	const scopes = await store.consentedScopes(row.userId, row.appId);

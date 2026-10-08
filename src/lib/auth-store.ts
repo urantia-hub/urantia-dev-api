@@ -1,6 +1,7 @@
 import { and, eq, isNotNull, isNull, lt } from "drizzle-orm";
 import type { getDb } from "../db/client.ts";
-import { refreshTokens, userConsents, users } from "../db/schema.ts";
+import { apps, refreshTokens, userConsents, users } from "../db/schema.ts";
+import { type AppStatus, isAppStatus } from "./app-status.ts";
 
 // What the session rules need from the database. Tests use a version in memory.
 
@@ -34,6 +35,8 @@ export interface AuthStore {
 	deleteRefreshToken(id: string): Promise<void>;
 	// Used tokens of one family that are older than the moment given.
 	deleteConsumedBefore(familyId: string, before: Date): Promise<void>;
+	// The review status of the app and its owner, or null if the app is gone.
+	appAccess(appId: string): Promise<{ status: AppStatus; ownerId: string | null } | null>;
 	// The scopes that the reader allows this app now, or null if the reader removed the app.
 	consentedScopes(userId: string, appId: string): Promise<string[] | null>;
 	userEmail(userId: string): Promise<string | null>;
@@ -99,6 +102,15 @@ export function createAuthStore(db: Db): AuthStore {
 						lt(refreshTokens.consumed, before),
 					),
 				);
+		},
+		async appAccess(appId) {
+			const [row] = await db
+				.select({ status: apps.status, ownerId: apps.ownerId })
+				.from(apps)
+				.where(eq(apps.id, appId))
+				.limit(1);
+			if (!row || !isAppStatus(row.status)) return null;
+			return { status: row.status, ownerId: row.ownerId };
 		},
 		async consentedScopes(userId, appId) {
 			const [row] = await db
