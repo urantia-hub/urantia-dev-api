@@ -193,3 +193,33 @@ describe("publicJwks", () => {
 		expect(await publicJwks({})).toEqual({ keys: [] });
 	});
 });
+
+// The message of a JSON error quotes the text that it could not read. Here that text is the private key,
+// and the middleware logs the message of a failed check.
+describe("a private key setting that is not valid JSON", () => {
+	const broken = { APP_JWT_PRIVATE_JWK: '{"kty":"EC","d":"SECRET-PART-OF-THE-KEY' };
+	const messageOf = async (run: () => Promise<unknown>) => {
+		try {
+			await run();
+			return "no error";
+		} catch (err) {
+			return `${(err as Error).message} ${String((err as Error).cause ?? "")} ${(err as Error).stack ?? ""}`;
+		}
+	};
+
+	it("gives an error with no part of the key, for sign, verify, and the key file", async () => {
+		const good = await signAccessToken(claims, env, NOW);
+		for (const run of [
+			() => signAccessToken(claims, broken, NOW),
+			() => verifyAccessToken(good.token, broken, NOW),
+			() => publicJwks(broken),
+		]) {
+			const message = await messageOf(run);
+			expect(message).not.toBe("no error");
+			// Bun's JSON error does not quote the text, but the Workers runtime (V8) does. So check our own message.
+			expect(message).toContain("The signing key setting is not valid JSON.");
+			expect(message).not.toContain("SECRET-PART");
+			expect(message).not.toContain('"d"');
+		}
+	});
+});
