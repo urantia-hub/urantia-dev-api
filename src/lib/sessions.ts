@@ -52,7 +52,11 @@ async function makePair(
 		now,
 	);
 	// The database keeps only a hash. The token itself is given one time, here.
-	const refreshToken = `${crypto.randomUUID()}${crypto.randomUUID()}`.replaceAll("-", "");
+	// The token names its family. So a used token that returns is seen as that, also after its own row is removed.
+	const refreshToken = `${input.familyId}.${crypto.randomUUID()}${crypto.randomUUID()}`.replaceAll(
+		"-",
+		"",
+	);
 	await store.insertRefreshToken({
 		userId: input.userId,
 		appId: input.appId,
@@ -82,6 +86,13 @@ export function issueSession(
 
 const refused = (detail: string): RefreshResult => ({ ok: false, status: 401, detail });
 
+// The family that a token names, or null for a token from before families existed.
+function familyOf(refreshToken: string): string | null {
+	const hex = refreshToken.split(".")[0] ?? "";
+	if (!refreshToken.includes(".") || !/^[0-9a-f]{32}$/.test(hex)) return null;
+	return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
+}
+
 export async function refreshSession(
 	store: AuthStore,
 	env: TokenEnv,
@@ -89,11 +100,13 @@ export async function refreshSession(
 	now: Date = new Date(),
 ): Promise<RefreshResult> {
 	const row = await store.findRefreshToken(await sha256(input.refreshToken), input.appId);
-	if (!row) return refused("Invalid refresh token.");
-
-	// A token from before families existed gets one now, so the rules below hold for it too.
-	const familyId = row.familyId ?? crypto.randomUUID();
-	if (!row.familyId) await store.setFamily(row.id, familyId);
+	if (!row) {
+		// Not known, but it names a family: an old token of that family, used again. End that sign-in.
+		// The family id is a random secret that only its own tokens hold, and the app must match too.
+		const family = familyOf(input.refreshToken);
+		if (family) await store.deleteFamilyOfApp(family, input.appId);
+		return refused("Invalid refresh token.");
+	}
 
 	if (row.expiresAt < now) {
 		await store.deleteRefreshToken(row.id);
@@ -103,9 +116,16 @@ export async function refreshSession(
 	// A used token that returns late is a sign of theft: end the whole sign-in.
 	const usedAt = row.consumed ?? ((await store.markConsumed(row.id, now)) ? null : now);
 	if (usedAt && now.getTime() - usedAt.getTime() > REUSE_GRACE_MS) {
-		await store.deleteFamily(familyId);
+		// A token from before families existed has no family to end. End each sign-in of this reader in
+		// this app, as the old code did.
+		if (row.familyId) await store.deleteFamily(row.familyId);
+		else await store.deleteForUserAndApp(row.userId, row.appId);
 		return refused("Refresh token has already been used. This sign-in has ended.");
 	}
+
+	// A token from before families existed gets a family now.
+	const familyId = row.familyId ?? crypto.randomUUID();
+	if (!row.familyId) await store.setFamily(row.id, familyId);
 
 	// The reader can change or remove what this app can do. A refresh follows that at once.
 	const scopes = await store.consentedScopes(row.userId, row.appId);
@@ -130,7 +150,7 @@ export async function refreshSession(
 	return { ok: true, tokens };
 }
 
-// Ends one sign-in. The answer is the same for a token that is not known, so it tells nothing.
+// Ends one sign-in. A token that is not known ends nothing and gets no sign-out token.
 export async function revokeSession(
 	store: AuthStore,
 	env: TokenEnv,
