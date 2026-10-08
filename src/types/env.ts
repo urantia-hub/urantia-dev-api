@@ -24,6 +24,8 @@ export type Env = {
 		// POST /feedback delivery — each one is optional, the row is saved regardless
 		RESEND_API_KEY?: string;
 		FEEDBACK_FROM?: string;
+		// Sender of the app review notices (wrangler.toml [vars]). Falls back to FEEDBACK_FROM.
+		APP_REVIEW_FROM?: string;
 		FEEDBACK_TO?: string;
 		SLACK_FEEDBACK_WEBHOOK_URL?: string;
 		FEEDBACK_IP_PEPPER?: string;
