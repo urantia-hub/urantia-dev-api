@@ -8,6 +8,12 @@ export type Env = {
 		SUPABASE_URL?: string;
 		ADMIN_USER_IDS?: string;
 		APP_JWT_SECRET?: string;
+		// ES256 private key for app tokens, as a JWK in JSON (secret). See src/lib/app-tokens.ts.
+		APP_JWT_PRIVATE_JWK?: string;
+		// Last moment at which an old HS256 app token is accepted (wrangler.toml [vars], ISO date).
+		HS256_ACCEPT_UNTIL?: string;
+		// Life of an app access token in seconds (wrangler.toml [vars]). Absent means 15 minutes.
+		ACCESS_TOKEN_SECONDS?: string;
 		// Comma-separated ids of our own apps (wrangler.toml [vars]). Not a secret.
 		FIRST_PARTY_APP_IDS?: string;
 		APP_LOGOS?: R2Bucket;
