@@ -35,3 +35,36 @@ export function appTokenProblem(
 	if (!scope) return "A token of an app cannot use this route.";
 	return scopes.includes(scope) ? null : `This token does not have the "${scope}" scope.`;
 }
+
+// The apps that are ours. A reader does not see the consent screen for them.
+export function firstPartyIds(setting: string | undefined): string[] {
+	return (setting ?? "")
+		.split(",")
+		.map((id) => id.trim())
+		.filter(Boolean);
+}
+
+// Can the accounts site issue a code for these scopes now?
+// "grant" is true only when the reader pressed Allow on the consent screen.
+export function canIssueCode(input: {
+	requested: readonly string[];
+	consented: readonly string[];
+	firstParty: boolean;
+	grant: boolean;
+}): boolean {
+	if (input.firstParty || input.grant) return true;
+	return input.requested.every((scope) => input.consented.includes(scope));
+}
+
+// Is this app one of ours? Any reader can register an app and pick its id,
+// so the id must be in the list AND an admin must own the app.
+export function isFirstPartyApp(
+	app: { id: string; ownerId: string | null },
+	idsSetting: string | undefined,
+	adminsSetting: string | undefined,
+): boolean {
+	if (!app.ownerId) return false;
+	return (
+		firstPartyIds(idsSetting).includes(app.id) && firstPartyIds(adminsSetting).includes(app.ownerId)
+	);
+}

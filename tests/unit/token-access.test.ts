@@ -1,5 +1,10 @@
 import { describe, expect, it } from "bun:test";
-import { appTokenProblem } from "../../src/lib/token-access.ts";
+import {
+	appTokenProblem,
+	canIssueCode,
+	firstPartyIds,
+	isFirstPartyApp,
+} from "../../src/lib/token-access.ts";
 
 describe("what a token of an app can reach", () => {
 	it.each([
@@ -66,5 +71,59 @@ describe("what a token of an app can reach", () => {
 		expect(appTokenProblem("/me", ["profile"], "PUT")).not.toBeNull();
 		expect(appTokenProblem("/me", ["profile"], "DELETE")).not.toBeNull();
 		expect(appTokenProblem("/me/bookmarks", ["bookmarks"], "POST")).toBeNull();
+	});
+});
+
+describe("canIssueCode", () => {
+	const base = {
+		requested: ["profile", "notes"],
+		consented: ["profile"],
+		firstParty: false,
+		grant: false,
+	};
+	it("refuses a new permission with no press on Allow", () =>
+		expect(canIssueCode(base)).toBe(false));
+	it("allows it after a press on Allow", () =>
+		expect(canIssueCode({ ...base, grant: true })).toBe(true));
+	it("allows what the reader already allowed", () =>
+		expect(canIssueCode({ ...base, requested: ["profile"] })).toBe(true));
+	it("allows a first-party app", () =>
+		expect(canIssueCode({ ...base, firstParty: true })).toBe(true));
+	it("refuses a reader with no consent at all", () =>
+		expect(canIssueCode({ ...base, consented: [] })).toBe(false));
+});
+
+describe("firstPartyIds", () => {
+	it("reads a list, and ignores spaces and empty items", () => {
+		expect(firstPartyIds(" urantiahub-app, ,demo ")).toEqual(["urantiahub-app", "demo"]);
+	});
+	it("is empty with no setting, so no app skips the consent screen by default", () => {
+		expect(firstPartyIds(undefined)).toEqual([]);
+	});
+});
+
+// Any reader can register an app and pick its id. So an id alone must never make an app ours.
+describe("isFirstPartyApp", () => {
+	const ids = "urantiahub-app";
+	const admins = "admin-1, admin-2";
+	it("is true for a listed app that an admin owns", () => {
+		expect(isFirstPartyApp({ id: "urantiahub-app", ownerId: "admin-1" }, ids, admins)).toBe(true);
+	});
+	it("is false for a listed id that another reader owns", () => {
+		expect(isFirstPartyApp({ id: "urantiahub-app", ownerId: "reader-9" }, ids, admins)).toBe(false);
+	});
+	it("is false for a listed id with no owner", () => {
+		expect(isFirstPartyApp({ id: "urantiahub-app", ownerId: null }, ids, admins)).toBe(false);
+	});
+	it("is false for an app of an admin that is not in the list", () => {
+		expect(isFirstPartyApp({ id: "other", ownerId: "admin-1" }, ids, admins)).toBe(false);
+	});
+	it("is false when either setting is absent", () => {
+		expect(isFirstPartyApp({ id: "urantiahub-app", ownerId: "admin-1" }, undefined, admins)).toBe(
+			false,
+		);
+		expect(isFirstPartyApp({ id: "urantiahub-app", ownerId: "admin-1" }, ids, undefined)).toBe(
+			false,
+		);
 	});
 });
