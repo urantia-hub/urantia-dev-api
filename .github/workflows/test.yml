@@ -11,5 +11,6 @@ jobs:
       - uses: oven-sh/setup-bun@v2
       - run: bun install --frozen-lockfile
       # The suites that need no database. The others write to production and stay manual.
-      - run: bun test tests/unit tests/integration/token-access.test.ts
+      # usfm-parser.test.ts reads Bible source files that are not in this repo.
+      - run: bun test $(ls tests/unit/*.test.ts | grep -v usfm-parser) tests/integration/token-access.test.ts
       - run: bunx biome check src/lib/token-access.ts src/middleware/auth.ts
