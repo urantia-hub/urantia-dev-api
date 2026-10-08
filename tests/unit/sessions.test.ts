@@ -36,6 +36,16 @@ function memoryStore(consents: Record<string, string[] | null> = { [APP]: ["prof
 			for (let i = rows.length - 1; i >= 0; i--)
 				if (rows[i]?.familyId === familyId) rows.splice(i, 1);
 		},
+		async deleteFamilyOfApp(familyId, appId) {
+			for (let i = rows.length - 1; i >= 0; i--) {
+				if (rows[i]?.familyId === familyId && rows[i]?.appId === appId) rows.splice(i, 1);
+			}
+		},
+		async deleteForUserAndApp(userId, appId) {
+			for (let i = rows.length - 1; i >= 0; i--) {
+				if (rows[i]?.userId === userId && rows[i]?.appId === appId) rows.splice(i, 1);
+			}
+		},
 		async deleteRefreshToken(id) {
 			const i = rows.findIndex((r) => r.id === id);
 			if (i >= 0) rows.splice(i, 1);
@@ -282,6 +292,102 @@ describe("refreshSession", () => {
 		}
 		// Left: the live token, and the one used at the last refresh.
 		expect(rows).toHaveLength(2);
+	});
+});
+
+// Findings of the commit scan, 2026-10-08.
+describe("a used token that returns", () => {
+	// The used rows are removed after one hour. The token still names its family, so the theft is seen.
+	it("ends the family also when its own row is long gone", async () => {
+		const { store, rows } = memoryStore();
+		const first = await start(store);
+		// A thief uses the stolen first token and keeps the session alive for hours.
+		let thief = first.refreshToken;
+		for (const at of [60, 2 * 3600, 4 * 3600, 6 * 3600]) {
+			const result = await refreshSession(
+				store,
+				env,
+				{ appId: APP, refreshToken: thief },
+				after(at),
+			);
+			if (!result.ok) throw new Error("setup");
+			thief = result.tokens.refreshToken;
+		}
+		expect(rows.some((r) => r.consumed === null)).toBe(true);
+		// The reader returns with the first token. Its row is removed, so the hash is not known.
+		const reader = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: first.refreshToken },
+			after(7 * 3600),
+		);
+		expect(reader).toMatchObject({ ok: false, status: 401 });
+		expect(rows).toHaveLength(0);
+		expect(
+			(await refreshSession(store, env, { appId: APP, refreshToken: thief }, after(7 * 3600 + 5)))
+				.ok,
+		).toBe(false);
+	});
+
+	it("does not let a made-up token end the session of another app or of an unknown family", async () => {
+		const { store, rows } = memoryStore({ [APP]: ["profile"], other: ["profile"] });
+		await start(store);
+		// The form in which a token carries its family: no hyphens.
+		const family = (rows[0]?.familyId as string).replaceAll("-", "");
+		// The family is right, but the app is not the one that owns it.
+		await refreshSession(
+			store,
+			env,
+			{ appId: "other", refreshToken: `${family}.made-up` },
+			after(60),
+		);
+		await revokeSession(
+			store,
+			env,
+			{ appId: "other", refreshToken: `${family}.made-up` },
+			after(60),
+		);
+		await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: "0000000000004000800000000000beef.made-up" },
+			after(60),
+		);
+		expect(rows).toHaveLength(1);
+		// The same made-up token with the right app does end it: only a holder of a real token knows the family.
+		await refreshSession(store, env, { appId: APP, refreshToken: `${family}.made-up` }, after(60));
+		expect(rows).toHaveLength(0);
+	});
+
+	// A chain from before families existed: the old code ended each session of the reader in that app.
+	it("ends each session of the reader in the app when the token is from before families", async () => {
+		const { store, rows } = memoryStore();
+		rows.push({
+			id: "old-used",
+			userId: USER,
+			appId: APP,
+			familyId: null,
+			consumed: after(-3600),
+			expiresAt: after(DAY),
+			tokenHash: await sha256("old-used-token"),
+		});
+		rows.push({
+			id: "old-live",
+			userId: USER,
+			appId: APP,
+			familyId: null,
+			consumed: null,
+			expiresAt: after(DAY),
+			tokenHash: await sha256("old-live-token"),
+		});
+		const replay = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: "old-used-token" },
+			NOW,
+		);
+		expect(replay).toMatchObject({ ok: false, status: 401 });
+		expect(rows).toHaveLength(0);
 	});
 });
 

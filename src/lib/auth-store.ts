@@ -27,6 +27,10 @@ export interface AuthStore {
 	markConsumed(id: string, at: Date): Promise<boolean>;
 	setFamily(id: string, familyId: string): Promise<void>;
 	deleteFamily(familyId: string): Promise<void>;
+	// The same, but only if the family belongs to this app. For a token whose own row is gone.
+	deleteFamilyOfApp(familyId: string, appId: string): Promise<void>;
+	// Each sign-in of this reader in this app. For a token from before families existed.
+	deleteForUserAndApp(userId: string, appId: string): Promise<void>;
 	deleteRefreshToken(id: string): Promise<void>;
 	// Used tokens of one family that are older than the moment given.
 	deleteConsumedBefore(familyId: string, before: Date): Promise<void>;
@@ -71,6 +75,16 @@ export function createAuthStore(db: Db): AuthStore {
 		},
 		async deleteFamily(familyId) {
 			await db.delete(refreshTokens).where(eq(refreshTokens.familyId, familyId));
+		},
+		async deleteFamilyOfApp(familyId, appId) {
+			await db
+				.delete(refreshTokens)
+				.where(and(eq(refreshTokens.familyId, familyId), eq(refreshTokens.appId, appId)));
+		},
+		async deleteForUserAndApp(userId, appId) {
+			await db
+				.delete(refreshTokens)
+				.where(and(eq(refreshTokens.userId, userId), eq(refreshTokens.appId, appId)));
 		},
 		async deleteRefreshToken(id) {
 			await db.delete(refreshTokens).where(eq(refreshTokens.id, id));

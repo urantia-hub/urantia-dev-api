@@ -706,7 +706,7 @@ const revokeRoute = createRoute({
 	responses: {
 		200: {
 			description:
-				"Done. The answer is the same for a token that is not known. signOutToken lets the accounts site end its own session.",
+				"Done. signOutToken lets the accounts site end its own session. It is null for a token that is not known.",
 			content: {
 				"application/json": {
 					schema: z.object({ data: z.object({ signOutToken: z.string().nullable() }) }),
