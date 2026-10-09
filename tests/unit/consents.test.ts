@@ -361,20 +361,38 @@ describe("the account of an admin", () => {
 			},
 		});
 		expect(result).toEqual({ ok: false, reason: "admin" });
+	});
+
+	// The message about the apps comes first: it tells the admin what to do.
+	it("gets the message about the apps when other people use an app of the admin", async () => {
+		const m = memory();
+		m.apps.push({
+			id: "mine",
+			name: "My App",
+			ownerId: ME,
+			status: "approved",
+			logoUrl: null,
+			primaryColor: null,
+		});
+		m.consents.push({ userId: OTHER, appId: "mine", scopes: ["profile"], grantedAt: new Date() });
+		const result = await deleteAccount(m.store, {
+			userId: ME,
+			email: "reader@example.com",
+			typedEmail: "reader@example.com",
+			isAdmin: true,
+			removeSignIn: async () => {},
+		});
+		expect(result).toEqual({ ok: false, reason: "apps", apps: ["My App"] });
 		expect(m.calls).toEqual([]);
 		expect(m.deleted.has(ME)).toBe(false);
 	});
 });
 
 describe("what the reader is told after a refusal", () => {
-	it("names the apps that other people use, so the reader knows which to delete", () => {
-		expect(
-			refusalText({ ok: false, reason: "apps", apps: ["Our Paper Voices", "Study Circle"] }),
-		).toBe(
-			"Other people use these apps of yours: Our Paper Voices, Study Circle. Delete them first, or write to team@urantiahub.com.",
-		);
-		expect(refusalText({ ok: false, reason: "apps", apps: ["Voices"] })).toBe(
-			"Other people use this app of yours: Voices. Delete it first, or write to team@urantiahub.com.",
+	// Kelson's words on 2026-10-08: this message is right as it is. Do not change it.
+	it("tells the owner of an app that other people use to delete the apps first", () => {
+		expect(refusalText({ ok: false, reason: "apps", apps: ["Our Paper Voices"] })).toBe(
+			"You own an app that other people use. Delete your apps first, or write to team@urantiahub.com.",
 		);
 	});
 	it("says that an admin account is not deleted here", () => {
@@ -386,11 +404,6 @@ describe("what the reader is told after a refusal", () => {
 		expect(refusalText({ ok: false, reason: "email" })).toBe(
 			"The email does not match your account.",
 		);
-	});
-	it("keeps a name of an app on one line, and not too long", () => {
-		const text = refusalText({ ok: false, reason: "apps", apps: [`A\nB${"x".repeat(200)}`] });
-		expect(text).not.toContain("\n");
-		expect(text.length).toBeLessThan(260);
 	});
 });
 

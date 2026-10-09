@@ -89,11 +89,11 @@ export async function deleteAccount(
 	},
 ): Promise<DeleteResult> {
 	if (!input.email || !same(input.email, input.typedEmail)) return { ok: false, reason: "email" };
-	if (input.isAdmin) return { ok: false, reason: "admin" };
 
 	const owned = await store.ownedApps(input.userId);
 	const inUse = owned.filter((app) => app.status === "approved" && app.otherUsers > 0);
 	if (inUse.length > 0) return { ok: false, reason: "apps", apps: inUse.map((app) => app.name) };
+	if (input.isAdmin) return { ok: false, reason: "admin" };
 
 	// The marker comes first and stays. A token that is still good cannot make the reader's row again,
 	// and cannot add a row behind the delete.
@@ -115,22 +115,11 @@ export function deletedAccountAllows(request: {
 	return !request.fromApp && request.method === "DELETE" && request.path === "/auth/account";
 }
 
-// What the reader reads after a refused delete. A name of an app is the reader's own word.
+// What the reader reads after a refused delete.
 export function refusalText(result: Exclude<DeleteResult, { ok: true }>): string {
 	if (result.reason === "email") return "The email does not match your account.";
 	if (result.reason === "admin") {
 		return "This account reviews apps for UrantiaHub, so it cannot be deleted here. Write to team@urantiahub.com.";
 	}
-	const names = result.apps
-		.slice(0, 5)
-		.map((name) =>
-			name
-				.replace(/\p{Cc}+/gu, " ")
-				.trim()
-				.slice(0, 40),
-		)
-		.join(", ");
-	return result.apps.length === 1
-		? `Other people use this app of yours: ${names}. Delete it first, or write to team@urantiahub.com.`
-		: `Other people use these apps of yours: ${names}. Delete them first, or write to team@urantiahub.com.`;
+	return "You own an app that other people use. Delete your apps first, or write to team@urantiahub.com.";
 }
