@@ -62,13 +62,47 @@ suite("an edit and a review, on a real database", () => {
 			expect(written).toEqual({ status: "approved", pendingChange: REQUEST });
 			const app = await row();
 			expect(app?.name).toBe("Study Circle");
-			// The removed address is gone now. The new address is not there yet.
-			expect(app?.redirectUris).toEqual(["https://sc.example/cb"]);
+			// The list gets a new address, so it waits as a whole: nothing of it changes yet.
+			expect(app?.redirectUris).toEqual(LIVE.redirectUris);
 			expect(app?.scopes).toEqual(LIVE.scopes);
 			expect(app?.status).toBe("approved");
 			expect(app?.pendingChange).toEqual(REQUEST);
 			// The old note was about another version.
 			expect(app?.reviewNote).toBeNull();
+		});
+
+		// "Your app keeps working as it is." A list that gets a new item waits as a whole: the old items
+		// stay live until a reviewer approves, or the app has no address to return to.
+		it("keeps each live address when the edit replaces one, so the app still works", async () => {
+			const swap = ["https://new.sc.example/cb"];
+			const request: ChangeRequest = {
+				id: "req-swap",
+				requestedAt: "2026-10-08T12:00:00.000Z",
+				redirectUris: swap,
+			};
+			await writeEdit(d, "sc", { wanted: { redirectUris: swap }, request, byAdmin: false });
+			const app = await row();
+			expect(app?.redirectUris).toEqual(LIVE.redirectUris);
+			expect((app?.pendingChange as ChangeRequest).redirectUris).toEqual(swap);
+		});
+
+		it("keeps each live permission when the edit replaces one", async () => {
+			const request: ChangeRequest = {
+				id: "req-scope",
+				requestedAt: "2026-10-08T12:00:00.000Z",
+				scopes: ["notes"],
+			};
+			await writeEdit(d, "sc", { wanted: { scopes: ["notes"] }, request, byAdmin: false });
+			expect((await row())?.scopes).toEqual(LIVE.scopes);
+		});
+
+		it("applies a removal at once when nothing is added to that list", async () => {
+			await writeEdit(d, "sc", {
+				wanted: { redirectUris: ["https://sc.example/cb"] },
+				request: null,
+				byAdmin: false,
+			});
+			expect((await row())?.redirectUris).toEqual(["https://sc.example/cb"]);
 		});
 
 		it("drops the request when the edit has nothing for a reviewer", async () => {
@@ -95,7 +129,7 @@ suite("an edit and a review, on a real database", () => {
 			expect(app?.accentColor).toBe("#112233");
 			expect(app?.pendingChange).toEqual(REQUEST);
 			expect(app?.name).toBe("Study Circle");
-			expect(app?.redirectUris).toEqual(["https://sc.example/cb"]);
+			expect(app?.redirectUris).toEqual(LIVE.redirectUris);
 		});
 
 		it("removes a permission at once, in the order that the app had", async () => {

@@ -71,6 +71,7 @@ export function createAccountStore(db: Db): AccountStore {
 			);
 			return owned.map((app) => ({ ...app, otherUsers: counts.get(app.id) ?? 0 }));
 		},
+		isMarked: (userId) => isDeleted(db, userId),
 		async markDeleted(userId) {
 			await db.insert(deletedUsers).values({ id: userId }).onConflictDoNothing();
 		},

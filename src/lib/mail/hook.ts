@@ -117,10 +117,19 @@ export async function handleSendEmail(
 	const redirectTo = typeof data?.redirect_to === "string" ? data.redirect_to : undefined;
 	try {
 		const appId = requestOf(redirectTo);
+		// The name is one line of the email. A fault in its lookup must not stop a sign-in.
+		let appName: string | null = null;
+		if (appId) {
+			try {
+				appName = await deps.appName(appId);
+			} catch {
+				deps.log("send-email hook: the name of the app was not read", { kind });
+			}
+		}
 		const mail = signInMail({
 			code: token,
 			link: signInLink(redirectTo, tokenHash),
-			appName: appId ? await deps.appName(appId) : null,
+			appName,
 		});
 		if (await deps.send(email, mail)) return { status: 200, body: {} };
 		deps.log("send-email hook: the email was not sent", { kind });
