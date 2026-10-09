@@ -183,13 +183,13 @@ The HNSW indexes declare `with` values as strings (`m: "16"`). Number values
 never match what Postgres reports, so each push dropped and rebuilt both
 indexes. A push against an up-to-date database must print "No changes detected".
 
-## Auth Layer (on `auth` branch)
+## Auth Layer
 
 The API includes a unified auth layer for the Urantia ecosystem:
 
 - **Identity**: Supabase Auth (GoTrue) with ECC P-256 JWT signing
-- **JWT validation**: Dual path — Supabase JWKS (ECC P-256) for session tokens, HS256 via `APP_JWT_SECRET` for app-scoped tokens
-- **Token exchange**: `POST /auth/token` returns a signed HS256 JWT (7-day expiry) with claims: `sub`, `email`, `scopes`, `app_id`, `iss`, `aud`
+- **JWT validation**: Supabase JWKS (ECC P-256) for session tokens of the accounts site; our own ES256 key for app tokens. HS256 via `APP_JWT_SECRET` is still accepted for old tokens; remove it after 2026-10-17, and ask Kelson before the secret is deleted
+- **Token exchange**: `POST /auth/token` returns an ES256 access token (15 minutes) and a refresh token (90 days from last use, one use each), with claims: `sub`, `email`, `scopes`, `app_id`, `iss`, `aud`
 - **Login page**: accounts.urantiahub.com (separate Next.js app in `urantia-accounts/`)
 - **User data tables**: users, bookmarks, notes, reading_progress, user_preferences, apps, app_user_data, auth_codes
 - **Authenticated endpoints**: `/me/*` (bookmarks, notes, reading progress, preferences)
@@ -209,8 +209,10 @@ The API includes a unified auth layer for the Urantia ecosystem:
 
 ### Change requests (2026-10-08)
 
-- An approved app keeps its reviewed values (name, logo, return addresses, permissions). An edit that adds or changes one of them is kept in `apps.pending_change` until a reviewer decides, and the app works as before. A removal of an address or a permission, and a change of a color, apply at once. An app that is not approved has no request: its edit is live for its owner at once.
+- An approved app keeps its reviewed values (name, logo, return addresses, permissions). An edit that adds or changes one of them is kept in `apps.pending_change` until a reviewer decides, and the app works as before. A removal of an address or a permission, and a change of a color, apply at once, also when the same edit adds an item. One exception: an edit that would leave a list empty leaves that list as it is until the review, so the app does not stop. An edit keeps each field of a waiting request that it does not name (a logo upload keeps a waiting name). An app that is not approved has no request: its edit is live for its owner at once.
 - The rules are in `src/lib/change-request.ts` (pure). The statements are in `src/lib/change-store.ts`, and each decides from the row as it is at the moment of the write: a route reads the app first, and an admin can approve or suspend it between the read and the write. Do not move a status or a reviewed value back into a plain update in a route.
+- `tests/db/auth-routes.test.ts` runs the routes with a real sign-in check (a local key set) and Postgres: owner and admin checks, the logo rule, `seen` for an approval, and the deleted-account marker. A new route under `/auth` gets a case there.
+- A delete of an account that started (the marker exists) is never refused for an app in use or for an admin: after the marker each other request answers 401, so the delete must be able to finish.
 - A request gets a new id when its content changes. A reviewer decides with that id (`POST /auth/apps/{id}/change/{changeId}/decision`), and gets 409 when the request changed. The developer withdraws with `DELETE /auth/apps/{id}/change/{changeId}`.
 - `PATCH /auth/apps/{id}/status`: a note of 10 characters or more is needed for `declined` and `suspended`. An approval needs `seen` (what the reviewer's screen showed) and gets 409 when the app is not that now.
 - Each logo upload gets a key of its own (`<app>/logo-<uuid>.<ext>`, served at `/auth/apps/{id}/logo/{file}`). A logo of an approved app waits in the request, and an approval points `logo_url` at it in the same statement. The old `/auth/apps/{id}/logo` route still serves a logo from before. Both logo routes are public only for the live logo of an approved app (`canLoadLogo`). The logo of an app that is not approved, and a logo that waits, need the sign-in of the owner or of an admin: the accounts site loads them with the token, not with a plain image tag.
