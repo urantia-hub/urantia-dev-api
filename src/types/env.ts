@@ -25,6 +25,9 @@ export type Env = {
 		CF_ZONE_TAG?: string;
 		// POST /feedback delivery — each one is optional, the row is saved regardless
 		RESEND_API_KEY?: string;
+		// The Resend key with sending access for accounts.urantiahub.com (secret). For the sign-in email
+		// and the review notices. See accountsMailKey.
+		ACCOUNTS_RESEND_API_KEY?: string;
 		FEEDBACK_FROM?: string;
 		// Sender of the app review notices (wrangler.toml [vars]). Falls back to FEEDBACK_FROM.
 		APP_REVIEW_FROM?: string;

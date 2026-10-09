@@ -34,6 +34,7 @@ import {
 import { canIssueCode, firstPartyIds, isFirstPartyApp } from "../lib/token-access.ts";
 import { ALLOWED_SCOPES, AppCreateBody, HexColor } from "../validators/app-schemas.ts";
 import { createAccountStore } from "../lib/account-store.ts";
+import { accountsMailKey } from "../lib/mail/hook.ts";
 import {
 	applyRequest,
 	canLoadLogo,
@@ -148,7 +149,12 @@ const NOT_OPEN = "This app is not open yet. Its developer waits for a review.";
 
 type MailEnv = { RESEND_API_KEY?: string; FEEDBACK_FROM?: string; FEEDBACK_TO?: string };
 const mailEnv = (c: { env?: Record<string, unknown> }): MailEnv => ({
-	RESEND_API_KEY: (c.env?.RESEND_API_KEY as string | undefined) ?? process.env.RESEND_API_KEY,
+	// The review notices come from accounts.urantiahub.com, which has a Resend key of its own.
+	RESEND_API_KEY: accountsMailKey({
+		ACCOUNTS_RESEND_API_KEY:
+			(c.env?.ACCOUNTS_RESEND_API_KEY as string | undefined) ?? process.env.ACCOUNTS_RESEND_API_KEY,
+		RESEND_API_KEY: (c.env?.RESEND_API_KEY as string | undefined) ?? process.env.RESEND_API_KEY,
+	}),
 	// The review notices have their own sender, with a name. See reviewSender.
 	FEEDBACK_FROM: reviewSender({
 		APP_REVIEW_FROM: (c.env?.APP_REVIEW_FROM as string | undefined) ?? process.env.APP_REVIEW_FROM,
