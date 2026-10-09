@@ -31,8 +31,7 @@ const sameContent = (a: ChangeRequest, b: Omit<ChangeRequest, "id" | "requestedA
 	sameList(a.scopes, b.scopes);
 
 // The request for this edit, or null when nothing needs a review. A removal of an address or of a
-// permission needs none, and applies at once, when nothing is added to that list. A list that gets a
-// new item waits as a whole: its old items stay live until a reviewer approves.
+// permission needs none: the store applies it at once, also when the same edit adds an item.
 export function requestFor(
 	live: Reviewed,
 	wanted: {
