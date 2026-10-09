@@ -62,8 +62,8 @@ suite("an edit and a review, on a real database", () => {
 			expect(written).toEqual({ status: "approved", pendingChange: REQUEST });
 			const app = await row();
 			expect(app?.name).toBe("Study Circle");
-			// The list gets a new address, so it waits as a whole: nothing of it changes yet.
-			expect(app?.redirectUris).toEqual(LIVE.redirectUris);
+			// The removed address is gone now. The new address is not there yet.
+			expect(app?.redirectUris).toEqual(["https://sc.example/cb"]);
 			expect(app?.scopes).toEqual(LIVE.scopes);
 			expect(app?.status).toBe("approved");
 			expect(app?.pendingChange).toEqual(REQUEST);
@@ -71,8 +71,9 @@ suite("an edit and a review, on a real database", () => {
 			expect(app?.reviewNote).toBeNull();
 		});
 
-		// "Your app keeps working as it is." A list that gets a new item waits as a whole: the old items
-		// stay live until a reviewer approves, or the app has no address to return to.
+		// A removal holds at once, also when the same edit adds an item: a developer who removes a bad
+		// address must see it gone. The one exception: an edit that would leave nothing. Then the list
+		// stays until a reviewer approves, or the app has no address to return to.
 		it("keeps each live address when the edit replaces one, so the app still works", async () => {
 			const swap = ["https://new.sc.example/cb"];
 			const request: ChangeRequest = {
@@ -129,7 +130,7 @@ suite("an edit and a review, on a real database", () => {
 			expect(app?.accentColor).toBe("#112233");
 			expect(app?.pendingChange).toEqual(REQUEST);
 			expect(app?.name).toBe("Study Circle");
-			expect(app?.redirectUris).toEqual(LIVE.redirectUris);
+			expect(app?.redirectUris).toEqual(["https://sc.example/cb"]);
 		});
 
 		it("removes a permission at once, in the order that the app had", async () => {
