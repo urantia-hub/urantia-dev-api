@@ -736,6 +736,8 @@ export const apps = pgTable("apps", {
 	// The admin's note to the developer, and when the admin last decided.
 	reviewNote: text("review_note"),
 	reviewedAt: timestamp("reviewed_at"),
+	// What the developer of an approved app wants to change, until a reviewer decides. See src/lib/change-request.ts.
+	pendingChange: pgJsonb("pending_change"),
 	createdAt: timestamp("created_at").notNull().defaultNow(),
 }).enableRLS();
 

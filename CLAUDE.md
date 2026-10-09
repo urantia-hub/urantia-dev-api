@@ -207,6 +207,14 @@ The API includes a unified auth layer for the Urantia ecosystem:
 - `tests/db/` runs the real queries on a Postgres of this machine: `TEST_DATABASE_URL=postgres://…@127.0.0.1/… bun test tests/db`, after `DATABASE_URL=<the same> bunx drizzle-kit push --force`. It never uses `DATABASE_URL` for the tests, and it skips for a host that is not this machine. CI runs it on a database of the job.
 - An app can register only the scopes in `ALLOWED_SCOPES` (`src/validators/app-schemas.ts`). The consent screen has words for each of them and refuses any other name. Add a scope in both places together.
 
+### Change requests (2026-10-08)
+
+- An approved app keeps its reviewed values (name, logo, return addresses, permissions). An edit that adds or changes one of them is kept in `apps.pending_change` until a reviewer decides, and the app works as before. A removal of an address or a permission, and a change of a color, apply at once. An app that is not approved has no request: its edit is live for its owner at once.
+- The rules are in `src/lib/change-request.ts` (pure). The statements are in `src/lib/change-store.ts`, and each decides from the row as it is at the moment of the write: a route reads the app first, and an admin can approve or suspend it between the read and the write. Do not move a status or a reviewed value back into a plain update in a route.
+- A request gets a new id when its content changes. A reviewer decides with that id (`POST /auth/apps/{id}/change/{changeId}/decision`), and gets 409 when the request changed. The developer withdraws with `DELETE /auth/apps/{id}/change/{changeId}`.
+- `PATCH /auth/apps/{id}/status`: a note of 10 characters or more is needed for `declined` and `suspended`. An approval needs `seen` (what the reviewer's screen showed) and gets 409 when the app is not that now.
+- Each logo upload gets a key of its own (`<app>/logo-<uuid>.<ext>`, served at `/auth/apps/{id}/logo/{file}`). A logo of an approved app waits in the request, and an approval points `logo_url` at it in the same statement. The old `/auth/apps/{id}/logo` route still serves a logo from before.
+
 ## Audio
 
 Audio lives on `cdn.urantia.dev`, not on `audio.urantia.dev`.

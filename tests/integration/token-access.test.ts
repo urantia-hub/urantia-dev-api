@@ -179,11 +179,15 @@ describe("a token signed with the new key", () => {
 });
 
 // The account routes act for the reader on the accounts site. No app can call them.
-describe("the reader's account routes", () => {
+describe("the routes of the accounts site", () => {
 	const routes: Array<[method: string, path: string]> = [
 		["GET", "/auth/consents"],
 		["DELETE", "/auth/consents/some-app"],
 		["DELETE", "/auth/account"],
+		// A change request: only its developer withdraws it, and only an admin decides.
+		["DELETE", "/auth/apps/some-app/change/req-1"],
+		["POST", "/auth/apps/some-app/change/req-1/decision"],
+		["PATCH", "/auth/apps/some-app/status"],
 	];
 	it.each(routes)("%s %s refuses a token of an app, with each scope", async (method, path) => {
 		const token = await appToken({
