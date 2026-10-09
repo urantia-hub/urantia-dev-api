@@ -72,3 +72,19 @@ export function signInMail(input: {
 		].join("\n"),
 	};
 }
+
+// The name that the email gives for the app, or null for no name. Anyone can register an app, give
+// it any name, and ask for a sign-in email to any address. So the email names an app only after a
+// reviewer approved that name, and never an app of ours (UrantiaHub's own sign-in has no such line).
+export function nameForMail(
+	app: { name: string; status: string } | undefined,
+	firstParty: boolean,
+): string | null {
+	if (!app || firstParty || app.status !== "approved") return null;
+	return (
+		app.name
+			.replace(/\p{Cc}+/gu, " ")
+			.trim()
+			.slice(0, 100) || null
+	);
+}

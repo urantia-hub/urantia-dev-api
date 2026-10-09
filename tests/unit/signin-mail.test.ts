@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { requestOf, signInLink, signInMail } from "../../src/lib/mail/signin.ts";
+import { nameForMail, requestOf, signInLink, signInMail } from "../../src/lib/mail/signin.ts";
 
 const CALLBACK =
 	"https://accounts.urantiahub.com/callback?app_id=voices&redirect_uri=https%3A%2F%2Fv.example%2Fcb&state=s1";
@@ -116,5 +116,26 @@ describe("the link in the email", () => {
 		expect(requestOf("https://accounts.urantiahub.com/callback")).toBeNull();
 		expect(requestOf("https://evil.example/callback?app_id=voices")).toBeNull();
 		expect(requestOf(undefined)).toBeNull();
+	});
+});
+
+// Anyone can register an app, give it any name, and ask for a sign-in email to any address.
+// So the email names an app only after a reviewer approved that name.
+describe("the app that the email names", () => {
+	const app = { name: "Our Paper Voices", status: "approved" };
+	it("is an approved app of another developer", () => {
+		expect(nameForMail(app, false)).toBe("Our Paper Voices");
+	});
+	it.each(["pending", "declined", "suspended", "other"])("is not an app that is %s", (status) => {
+		expect(nameForMail({ ...app, status }, false)).toBeNull();
+	});
+	it("is not an app of ours, and not an app that is not there", () => {
+		expect(nameForMail(app, true)).toBeNull();
+		expect(nameForMail(undefined, false)).toBeNull();
+	});
+	it("is one line, with no control character", () => {
+		expect(nameForMail({ name: "Voices\r\nBcc: x@evil.example", status: "approved" }, false)).toBe(
+			"Voices Bcc: x@evil.example",
+		);
 	});
 });
