@@ -6,6 +6,8 @@ export type Env = {
 		// PostHog project token (phc_). The logger sends to PostHog Logs when it is set.
 		POSTHOG_KEY?: string;
 		SUPABASE_URL?: string;
+		// The service key of Supabase (secret). Used only to remove a sign-in when a reader deletes the account.
+		SUPABASE_SERVICE_ROLE_KEY?: string;
 		ADMIN_USER_IDS?: string;
 		APP_JWT_SECRET?: string;
 		// ES256 private key for app tokens, as a JWK in JSON (secret). See src/lib/app-tokens.ts.

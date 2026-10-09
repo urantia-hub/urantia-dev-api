@@ -626,6 +626,15 @@ export const users = pgTable("users", {
 	updatedAt: timestamp("updated_at").notNull().defaultNow(),
 }).enableRLS();
 
+// --- deleted_users (the marker of a deleted account) ---
+// A token stays good for a time after its reader deleted the account. A row here stops it:
+// the auth middleware makes no users row, and accepts no request, for an id in this table.
+// It holds no personal data: the id only, and when.
+export const deletedUsers = pgTable("deleted_users", {
+	id: uuid("id").primaryKey(),
+	deletedAt: timestamp("deleted_at").notNull().defaultNow(),
+}).enableRLS();
+
 // --- bookmarks (paragraph-level, one per user + paragraph + app) ---
 export const bookmarks = pgTable(
 	"bookmarks",

@@ -3,10 +3,12 @@ import type { MiddlewareHandler } from "hono";
 import { createRemoteJWKSet, jwtVerify } from "jose";
 import { getDb } from "../db/client.ts";
 import { apps, users } from "../db/schema.ts";
+import { consentNow, createUserRow, isDeleted } from "../lib/account-store.ts";
 import { canUseApp, isAppStatus } from "../lib/app-status.ts";
 import { tokenEnv, verifyAccessToken } from "../lib/app-tokens.ts";
+import { deletedAccountAllows } from "../lib/consents.ts";
 import { problemJson } from "../lib/errors.ts";
-import { appTokenProblem } from "../lib/token-access.ts";
+import { appTokenProblem, liveTokenProblem } from "../lib/token-access.ts";
 
 export type AuthUser = {
 	id: string;
@@ -91,6 +93,7 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 	let reader: AuthUser;
 	// The app of an app token. Null for a session token of the accounts site.
 	let tokenAppId: string | null = null;
+	let tokenScopes: string[] = [];
 	try {
 		let payload: Record<string, unknown>;
 		let fromApp = false;
@@ -121,6 +124,7 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 			if (!requiresAuth) return next();
 			const problem = appTokenProblem(path, scopes, c.req.method);
 			if (problem) return problemJson(c, 403, problem);
+			tokenScopes = scopes;
 		}
 
 		const userId = payload.sub as string;
@@ -161,23 +165,31 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 				.from(apps)
 				.where(eq(apps.id, tokenAppId))
 				.limit(1);
-			const open =
-				app &&
-				isAppStatus(app.status) &&
-				canUseApp({ status: app.status, ownerId: app.ownerId }, userId);
-			if (!open) return problemJson(c, 403, "This app is not open.");
+			// The reader can take the access back on the accounts site. That must hold from that moment.
+			const problem = liveTokenProblem({
+				app: app && isAppStatus(app.status) ? { status: app.status, ownerId: app.ownerId } : null,
+				consented: await consentNow(appDb, userId, tokenAppId),
+				userId,
+				scopes: tokenScopes,
+			});
+			if (problem) return problemJson(c, problem.status, problem.detail);
 		}
 		// Lazy user creation: ensure user exists in our DB
 		const { db } = getDb(c.env?.HYPERDRIVE);
-		const existing = await db.select().from(users).where(eq(users.id, userId)).limit(1);
+		const [existing, deleted] = await Promise.all([
+			db.select().from(users).where(eq(users.id, userId)).limit(1),
+			isDeleted(db, userId),
+		]);
 
-		if (existing.length === 0) {
-			await db.insert(users).values({
-				id: userId,
-				email,
-				name,
-				avatarUrl,
-			});
+		// A token stays good for a time after its reader deleted the account. From the moment of the mark
+		// it is no sign-in, also while the delete is not finished: so no request adds a row behind it, and
+		// none brings the reader's row back. The reader can still finish a delete that failed halfway.
+		if (deleted) {
+			if (!deletedAccountAllows({ method: c.req.method, path, fromApp: tokenAppId !== null })) {
+				return problemJson(c, 401, "This account is deleted.");
+			}
+		} else if (existing.length === 0) {
+			await createUserRow(db, { id: userId, email, name, avatarUrl });
 		} else {
 			// Sync profile fields from JWT if the DB record is missing them
 			const row = existing[0];

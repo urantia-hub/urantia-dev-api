@@ -20,6 +20,7 @@ import { tokenEnv } from "../lib/app-tokens.ts";
 import { createAuthStore } from "../lib/auth-store.ts";
 import { problemJson } from "../lib/errors.ts";
 import {
+	AccessRemoved,
 	issueSession,
 	type RefreshResult,
 	refreshSession,
@@ -27,6 +28,10 @@ import {
 	type Tokens,
 } from "../lib/sessions.ts";
 import { canIssueCode, firstPartyIds, isFirstPartyApp } from "../lib/token-access.ts";
+import { ALLOWED_SCOPES, AppCreateBody, HexColor } from "../validators/app-schemas.ts";
+import { createAccountStore } from "../lib/account-store.ts";
+import { deleteAccount, listAccess, removeAccess } from "../lib/consents.ts";
+import { adminSettings, removeSignIn } from "../lib/supabase-admin.ts";
 import type { AuthUser } from "../middleware/auth.ts";
 import { rateLimiter } from "../middleware/rate-limit.ts";
 import { ErrorResponse } from "../validators/schemas.ts";
@@ -97,6 +102,12 @@ function isFirstParty(
 	return isFirstPartyApp(app, firstPartySetting(c), admins);
 }
 
+// Each form of an app's logo. Used when the app, or its owner's account, is deleted.
+async function removeLogos(bucket: R2Bucket | undefined, appId: string): Promise<void> {
+	if (!bucket) return;
+	await Promise.all(["png", "jpg", "webp"].map((ext) => bucket.delete(`${appId}/logo.${ext}`)));
+}
+
 // The review status of an app row. A value that is not known counts as suspended: no one can use the app.
 const statusOf = (app: { status: string }): AppStatus =>
 	isAppStatus(app.status) ? app.status : "suspended";
@@ -143,7 +154,7 @@ async function sendToReview(
 	return moved.length > 0;
 }
 
-const ALLOWED_SCOPES = ["profile", "bookmarks", "notes", "reading-progress", "preferences", "app-data"];
+
 
 
 
@@ -196,7 +207,7 @@ function validateRedirectUris(uris: string[]): string | null {
 // Schemas
 // ============================================================
 
-const HexColor = z.string().regex(/^#[0-9a-fA-F]{6}$/, "Must be a hex color like #6366f1");
+
 
 const AppPublicSchema = z.object({
 	id: z.string(),
@@ -209,23 +220,6 @@ const AppPublicSchema = z.object({
 	firstParty: z.boolean(),
 	// pending, approved, declined, or suspended. Only an approved app is open to each reader.
 	status: z.string(),
-});
-
-const AppCreateBody = z.object({
-	id: z.string().min(3).max(40).regex(/^[a-z0-9][a-z0-9-]*[a-z0-9]$/, "Must be lowercase alphanumeric with hyphens, 3-40 chars"),
-	name: z.string().min(1),
-	redirectUris: z.array(z.string().min(1)).min(1),
-	scopes: z.array(z.string()).min(1),
-	primaryColor: HexColor.optional(),
-	accentColor: HexColor.optional(),
-	// For the admin's review: what the app does, and where it is.
-	description: z.string().trim().max(1000).optional(),
-	websiteUrl: z
-		.string()
-		.trim()
-		.max(300)
-		.refine(isWebLink, "Must be an https address.")
-		.optional(),
 });
 
 const AppUpdateBody = z.object({
@@ -514,6 +508,116 @@ authRoute.openapi(consentCheckRoute, async (c) => {
 });
 
 // ============================================================
+// 2c. The reader's account: the apps with access, remove one, delete the account
+// ============================================================
+
+const accessListRoute = createRoute({
+	operationId: "listAppAccess",
+	method: "get",
+	path: "/consents",
+	tags: ["Auth"],
+	summary: "The other apps that the reader allowed",
+	responses: {
+		200: {
+			description: "Apps with access",
+			content: {
+				"application/json": {
+					schema: z.object({
+						data: z.array(
+							z.object({
+								appId: z.string(),
+								name: z.string(),
+								logoUrl: z.string().nullable(),
+								primaryColor: z.string().nullable(),
+								scopes: z.array(z.string()),
+								grantedAt: z.string(),
+							}),
+						),
+					}),
+				},
+			},
+		},
+	},
+});
+
+authRoute.openapi(accessListRoute, async (c) => {
+	const user = getUser(c);
+	const { db } = getDb(c.env?.HYPERDRIVE);
+	const data = await listAccess(createAccountStore(db), user.id, (app) => isFirstParty(c, app));
+	return c.json({ data }, 200);
+});
+
+const accessRemoveRoute = createRoute({
+	operationId: "removeAppAccess",
+	method: "delete",
+	path: "/consents/{appId}",
+	tags: ["Auth"],
+	summary: "Remove the access of one app",
+	request: { params: z.object({ appId: z.string().min(1).max(60) }) },
+	responses: { 204: { description: "Removed" } },
+});
+
+authRoute.openapi(accessRemoveRoute, async (c) => {
+	const user = getUser(c);
+	const { appId } = c.req.valid("param");
+	const { db } = getDb(c.env?.HYPERDRIVE);
+	await removeAccess(createAccountStore(db), user.id, appId);
+	return c.body(null, 204);
+});
+
+const accountDeleteRoute = createRoute({
+	operationId: "deleteAccount",
+	method: "delete",
+	path: "/account",
+	tags: ["Auth"],
+	summary: "Delete the reader's account and data",
+	request: {
+		body: {
+			required: true,
+			content: { "application/json": { schema: z.object({ email: z.string().max(320) }) } },
+		},
+	},
+	responses: {
+		204: { description: "Deleted" },
+		400: { description: "The email does not match", content: { "application/json": { schema: ErrorResponse } } },
+		409: { description: "The reader owns an app that other people use", content: { "application/json": { schema: ErrorResponse } } },
+		503: { description: "Not ready", content: { "application/json": { schema: ErrorResponse } } },
+	},
+});
+
+authRoute.openapi(accountDeleteRoute, async (c) => {
+	const user = getUser(c);
+	const body = c.req.valid("json");
+	// Without the key the sign-in itself cannot be removed. Stop before anything is deleted.
+	const admin = adminSettings(c.env ?? process.env);
+	if (!admin) return problemJson(c, 503, "Account deletion is not ready. Write to team@urantiahub.com.");
+
+	const { db } = getDb(c.env?.HYPERDRIVE);
+	const store = createAccountStore(db);
+	const owned = await store.ownedApps(user.id);
+	const result = await deleteAccount(store, {
+		userId: user.id,
+		email: user.email,
+		typedEmail: body.email,
+		removeSignIn: (id) => removeSignIn(admin, id),
+	});
+	if (!result.ok && result.reason === "email") {
+		return problemJson(c, 400, "The email does not match your account.");
+	}
+	if (!result.ok) {
+		return problemJson(
+			c,
+			409,
+			"You own an app that other people use. Delete your apps first, or write to team@urantiahub.com.",
+		);
+	}
+	// The logos of the reader's own apps. A file that stays is not a reason to fail the delete.
+	await Promise.all(owned.map((app) => removeLogos(c.env?.APP_LOGOS, app.id))).catch(() => {});
+	c.get("logger")?.info("account deleted");
+	return c.body(null, 204);
+});
+
+// ============================================================
 // 3. POST /authorize — Create authorization code
 // ============================================================
 
@@ -765,7 +869,10 @@ authRoute.openapi(tokenRoute, async (c) => {
 			scopes: authCode.scopes,
 			email: user?.email ?? null,
 		});
-	} catch {
+	} catch (error) {
+		if (error instanceof AccessRemoved) {
+			return problemJson(c, 400, "The reader removed the access of this app.");
+		}
 		return problemJson(c, 500, "JWT signing key not configured.");
 	}
 
@@ -947,6 +1054,7 @@ authRoute.openapi(deleteAppRoute, async (c) => {
 	}
 
 	await db.delete(apps).where(eq(apps.id, id));
+	await removeLogos(c.env?.APP_LOGOS, id).catch(() => {});
 	return c.body(null, 204);
 });
 

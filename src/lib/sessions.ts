@@ -28,6 +28,14 @@ export type RefreshResult =
 	| { ok: true; tokens: Tokens }
 	| { ok: false; status: 401; detail: string };
 
+// The reader does not allow this app now, so no token can be made for it.
+export class AccessRemoved extends Error {
+	constructor() {
+		super("The reader removed this app.");
+		this.name = "AccessRemoved";
+	}
+}
+
 export async function sha256(input: string): Promise<string> {
 	const hash = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(input));
 	return Array.from(new Uint8Array(hash))
@@ -58,13 +66,16 @@ async function makePair(
 		"-",
 		"",
 	);
-	await store.insertRefreshToken({
+	// The store keeps the token only if the reader allows the app at that moment. A removal that runs
+	// at the same time must not leave a token behind: a later "Allow" would bring it back to life.
+	const kept = await store.insertRefreshToken({
 		userId: input.userId,
 		appId: input.appId,
 		tokenHash: await sha256(refreshToken),
 		familyId: input.familyId,
 		expiresAt: new Date(now.getTime() + REFRESH_TOKEN_MS),
 	});
+	if (!kept) throw new AccessRemoved();
 	return {
 		accessToken,
 		refreshToken,
@@ -142,18 +153,25 @@ export async function refreshSession(
 		return refused("The reader removed this app. Please sign in again.");
 	}
 
-	const tokens = await makePair(
-		store,
-		env,
-		{
-			userId: row.userId,
-			appId: row.appId,
-			scopes,
-			email: await store.userEmail(row.userId),
-			familyId,
-		},
-		now,
-	);
+	let tokens: Tokens;
+	try {
+		tokens = await makePair(
+			store,
+			env,
+			{
+				userId: row.userId,
+				appId: row.appId,
+				scopes,
+				email: await store.userEmail(row.userId),
+				familyId,
+			},
+			now,
+		);
+	} catch (error) {
+		if (!(error instanceof AccessRemoved)) throw error;
+		await store.deleteFamily(familyId);
+		return refused("The reader removed this app. Please sign in again.");
+	}
 	await store.deleteConsumedBefore(familyId, new Date(now.getTime() - KEEP_CONSUMED_MS));
 	return { ok: true, tokens };
 }
