@@ -111,6 +111,18 @@ describe("the link in the email", () => {
 		]);
 	});
 
+	// An address in a link stays in logs and in the history of a browser.
+	it("has no email address in it", () => {
+		expect(signInLink(`${CALLBACK}&email=reader%40example.com`, "hash-1")).not.toContain(
+			"example.com%2F",
+		);
+		expect(
+			new URL(signInLink(`${CALLBACK}&email=reader%40example.com`, "hash-1")).searchParams.has(
+				"email",
+			),
+		).toBe(false);
+	});
+
 	it("gives the app that the reader signs in to, or nothing", () => {
 		expect(requestOf(CALLBACK)).toBe("voices");
 		expect(requestOf("https://accounts.urantiahub.com/callback")).toBeNull();
