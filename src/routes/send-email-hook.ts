@@ -26,6 +26,13 @@ sendEmailHookRoute.post("/", async (c) => {
 	if (body === undefined) return tooLarge();
 	const env = { ...process.env, ...(c.env ?? {}) } as Record<string, string | undefined>;
 
+	// A failure here stops each sign-in by email. So it goes to the log of the service and to the
+	// console, where "wrangler tail" shows it.
+	const log = (message: string, fields?: Record<string, unknown>) => {
+		console.warn(message, JSON.stringify(fields ?? {}));
+		c.get("logger")?.warn(message, fields);
+	};
+
 	const answer = await handleSendEmail(
 		{ body, header: (name) => c.req.header(name) },
 		{
@@ -43,8 +50,11 @@ sendEmailHookRoute.post("/", async (c) => {
 					!!app && isFirstPartyApp(app, env.FIRST_PARTY_APP_IDS, env.ADMIN_USER_IDS),
 				);
 			},
-			send: (to, mail) => sendHtmlMail(env, env.SIGNIN_FROM || DEFAULT_FROM, to, mail),
-			log: (message, fields) => c.get("logger")?.warn(message, fields),
+			send: (to, mail) =>
+				sendHtmlMail(env, env.SIGNIN_FROM || DEFAULT_FROM, to, mail, fetch, (reason) =>
+					log("send-email hook: the mail service did not take the email", { reason }),
+				),
+			log,
 		},
 	);
 	return c.json(answer.body, answer.status);
