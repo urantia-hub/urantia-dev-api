@@ -15,15 +15,22 @@ function ownCallback(redirectTo: string | undefined): URL | null {
 	}
 }
 
-// The link in the email. It goes to our own callback, which checks the proof. It works on any device,
-// and it keeps the request of the app, so the reader lands where the sign-in started.
+// The parts of a sign-in request. Only these go from "redirect_to" into the link.
+const REQUEST_PARTS = ["app_id", "redirect_uri", "scope", "code_challenge", "state", "redirect_to"];
+const LINK_PAGE = "https://accounts.urantiahub.com/login/link";
+
+// The link in the email. It opens a page of the accounts site with a "Sign in" button, and that page
+// checks the proof. So a mail scanner that opens each link does not use the proof up, and the link
+// works on any device. It keeps the request of the app, so the reader lands where the sign-in started.
 export function signInLink(redirectTo: string | undefined, tokenHash: string): string {
-	const url = ownCallback(redirectTo) ?? new URL(CALLBACK);
-	url.searchParams.delete("token_hash");
-	url.searchParams.delete("type");
-	url.searchParams.set("token_hash", tokenHash);
-	url.searchParams.set("type", "email");
-	return url.toString();
+	const link = new URL(LINK_PAGE);
+	link.searchParams.set("token_hash", tokenHash);
+	const from = ownCallback(redirectTo);
+	for (const part of REQUEST_PARTS) {
+		const value = from?.searchParams.get(part);
+		if (value) link.searchParams.set(part, value);
+	}
+	return link.toString();
 }
 
 // The id of the app that the reader signs in to, or null for UrantiaHub's own sign-in.

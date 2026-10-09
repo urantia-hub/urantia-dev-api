@@ -7,7 +7,7 @@ const CALLBACK =
 describe("the sign-in email", () => {
 	const mail = signInMail({
 		code: "481920",
-		link: "https://accounts.urantiahub.com/callback?token_hash=abc&type=email",
+		link: "https://accounts.urantiahub.com/login/link?token_hash=abc",
 		appName: "Our Paper Voices",
 	});
 
@@ -64,36 +64,51 @@ describe("the sign-in email", () => {
 });
 
 describe("the link in the email", () => {
-	it("is our own callback with the proof on it, and the request of the app kept", () => {
+	// The link opens a page with a "Sign in" button. A mail scanner that opens each link does not use up
+	// the proof, and the page works on any device.
+	it("is our own link page with the proof on it, and the request of the app kept", () => {
 		const link = new URL(signInLink(CALLBACK, "hash-1"));
-		expect(link.origin + link.pathname).toBe("https://accounts.urantiahub.com/callback");
+		expect(link.origin + link.pathname).toBe("https://accounts.urantiahub.com/login/link");
 		expect(link.searchParams.get("token_hash")).toBe("hash-1");
-		expect(link.searchParams.get("type")).toBe("email");
 		expect(link.searchParams.get("app_id")).toBe("voices");
+		expect(link.searchParams.get("redirect_uri")).toBe("https://v.example/cb");
 		expect(link.searchParams.get("state")).toBe("s1");
 	});
 
 	// redirect_to comes with the request for the email. The proof must never go to another site.
-	it("never sends the proof to another site, or to another path", () => {
+	it("never sends the proof to another site, and keeps nothing of an address that is not ours", () => {
 		for (const to of [
-			"https://evil.example/callback",
+			"https://evil.example/callback?app_id=x",
 			"https://accounts.urantiahub.com.evil.example/callback",
-			"https://accounts.urantiahub.com/other",
+			"https://accounts.urantiahub.com/other?app_id=x",
 			"http://accounts.urantiahub.com/callback",
 			"not a url",
 			"",
 			undefined,
 		]) {
 			expect(signInLink(to, "hash-1")).toBe(
-				"https://accounts.urantiahub.com/callback?token_hash=hash-1&type=email",
+				"https://accounts.urantiahub.com/login/link?token_hash=hash-1",
 			);
 		}
 	});
 
-	it("does not keep a proof or a type that came with the address", () => {
-		const link = new URL(signInLink(`${CALLBACK}&token_hash=old&type=recovery`, "hash-1"));
+	it("keeps only the parts of a sign-in request, and not a proof that came with the address", () => {
+		const link = new URL(
+			signInLink(
+				`${CALLBACK}&token_hash=old&type=recovery&other=1&scope=profile&code_challenge=c&redirect_to=%2Fapps`,
+				"hash-1",
+			),
+		);
 		expect(link.searchParams.getAll("token_hash")).toEqual(["hash-1"]);
-		expect(link.searchParams.getAll("type")).toEqual(["email"]);
+		expect([...link.searchParams.keys()].sort()).toEqual([
+			"app_id",
+			"code_challenge",
+			"redirect_to",
+			"redirect_uri",
+			"scope",
+			"state",
+			"token_hash",
+		]);
 	});
 
 	it("gives the app that the reader signs in to, or nothing", () => {
