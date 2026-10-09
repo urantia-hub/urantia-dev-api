@@ -55,7 +55,8 @@ export function signInMail(input: {
 			"Your sign-in code",
 			`<p style="margin:0 0 14px;font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:30px;letter-spacing:6px;font-weight:600;color:#26221c;background-color:#fbf8f2;border-radius:10px;padding:14px 18px;text-align:center;">${input.code}</p>
 <p style="${P}">Enter this code on the sign-in page. It works for 10 minutes.</p>
-<p style="${P}"><a href="${esc(input.link)}" style="color:#4f46e5;">Or sign in with this link</a></p>
+<p style="${P}">Or press the button, in the same browser where you started.</p>
+<p style="margin:0 0 18px;"><a href="${esc(input.link)}" style="display:inline-block;background-color:#26221c;color:#ffffff;text-decoration:none;border-radius:10px;padding:11px 18px;font-weight:500;font-size:14.5px;">Sign in</a></p>
 <p style="${FINE}">${askedHtml}${ignore}</p>`,
 		),
 		text: [
@@ -63,7 +64,7 @@ export function signInMail(input: {
 			"",
 			"Enter this code on the sign-in page. It works for 10 minutes.",
 			"",
-			"Or sign in with this link:",
+			"Or open this link, in the same browser where you started:",
 			input.link,
 			"",
 			`${asked}${ignore}`,
