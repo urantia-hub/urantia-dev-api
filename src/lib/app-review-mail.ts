@@ -313,11 +313,14 @@ export function reviewSender(env: {
 type Fetch = (url: string, init: RequestInit) => Promise<Response>;
 
 // Sends one notice. True if Resend took it. It never throws: a notice must not stop a request.
+// A failure is reported with the status of the mail service, so that it leaves a trace.
 export async function sendMail(
 	env: { RESEND_API_KEY?: string; FEEDBACK_FROM?: string },
 	to: string | null | undefined,
 	mail: Mail,
 	doFetch: Fetch = fetch,
+	report: (reason: string) => void = (reason) =>
+		console.warn("review notice: the mail service did not take it", reason),
 ): Promise<boolean> {
 	if (!env.RESEND_API_KEY || !env.FEEDBACK_FROM || !to) return false;
 	try {
@@ -335,8 +338,10 @@ export async function sendMail(
 				...(mail.html ? { html: mail.html } : {}),
 			}),
 		});
+		if (!res.ok) report(`status ${res.status}`);
 		return res.ok;
 	} catch {
+		report("network");
 		return false;
 	}
 }

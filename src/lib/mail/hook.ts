@@ -8,14 +8,20 @@ import { requestOf, signInLink, signInMail } from "./signin.ts";
 type Fetch = (url: string, init: RequestInit) => Promise<Response>;
 
 // Sends one email with an HTML part and a text part. True if Resend took it. It never throws.
+// "report" gets the reason for a failure: the status of the mail service, never its words, which can
+// hold an address.
 export async function sendHtmlMail(
 	env: { RESEND_API_KEY?: string },
 	from: string,
 	to: string,
 	mail: HtmlMail,
 	doFetch: Fetch = fetch,
+	report: (reason: string) => void = () => {},
 ): Promise<boolean> {
-	if (!env.RESEND_API_KEY) return false;
+	if (!env.RESEND_API_KEY) {
+		report("no key");
+		return false;
+	}
 	try {
 		const res = await doFetch("https://api.resend.com/emails", {
 			method: "POST",
@@ -31,8 +37,10 @@ export async function sendHtmlMail(
 				text: mail.text,
 			}),
 		});
+		if (!res.ok) report(`status ${res.status}`);
 		return res.ok;
 	} catch {
+		report("network");
 		return false;
 	}
 }
