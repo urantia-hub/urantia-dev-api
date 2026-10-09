@@ -166,6 +166,26 @@ describe("the Send Email hook", () => {
 		expect(res.status).toBe(401);
 		expect(((await res.json()) as { error: { http_code: number } }).error.http_code).toBe(401);
 	});
+	// The call has no sign-in, so its size is checked as it is read, before anything else.
+	it("refuses a body that is too large, with or without a length header", async () => {
+		const big = "x".repeat(40_000);
+		const headers = { "content-type": "application/json", "cf-connecting-ip": "token-access-test" };
+		expect(
+			(await app.request("/hooks/send-email", { method: "POST", headers, body: big })).status,
+		).toBe(413);
+		const lied = await app.request("/hooks/send-email", {
+			method: "POST",
+			headers: { ...headers, "content-length": "10" },
+			body: new ReadableStream({
+				start(controller) {
+					controller.enqueue(new TextEncoder().encode(big));
+					controller.close();
+				},
+			}),
+			duplex: "half",
+		});
+		expect(lied.status).toBe(413);
+	});
 	it("is not in the public spec", async () => {
 		const spec = (await (await app.request("/openapi.json")).json()) as {
 			paths: Record<string, unknown>;
