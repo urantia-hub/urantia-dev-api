@@ -28,8 +28,9 @@ export type Edit = {
 	accentColor?: string | null;
 };
 
-// Writes an edit. For an approved app the reviewed values stay as they are, a removal of an address
-// or a permission is applied at once, and "request" is kept for a reviewer. For any other app the
+// Writes an edit. For an approved app the reviewed values stay as they are, and "request" is kept
+// for a reviewer. A list that the request names (it gets a new item) stays as it is, so the app keeps
+// working; a list with a removal only is cut at once. For any other app the
 // values are live at once, and a declined app goes to review again.
 // "request": the request for this edit, null for none, or undefined when the edit touches no reviewed
 // field (the colors only), so a request that waits is left alone.
@@ -53,12 +54,12 @@ export async function writeEdit(
 	}
 	if (wanted.redirectUris !== undefined) {
 		sets.push(
-			sql`redirect_uris = case when ${held} then ${kept(apps.redirectUris, wanted.redirectUris)} else ${textArray(wanted.redirectUris)} end`,
+			sql`redirect_uris = case when ${held} then ${request?.redirectUris ? sql`${apps.redirectUris}` : kept(apps.redirectUris, wanted.redirectUris)} else ${textArray(wanted.redirectUris)} end`,
 		);
 	}
 	if (wanted.scopes !== undefined) {
 		sets.push(
-			sql`scopes = case when ${held} then ${kept(apps.scopes, wanted.scopes)} else ${textArray(wanted.scopes)} end`,
+			sql`scopes = case when ${held} then ${request?.scopes ? sql`${apps.scopes}` : kept(apps.scopes, wanted.scopes)} else ${textArray(wanted.scopes)} end`,
 		);
 	}
 	if (wanted.logoUrl !== undefined) {

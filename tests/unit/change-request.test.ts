@@ -90,6 +90,22 @@ describe("a second request", () => {
 		expect(request({ name: "Study Circle" }, first)).toBeNull();
 	});
 
+	// A logo upload names the logo only. A name, an address, or a permission that waits must stay.
+	it("keeps each field that waits when the edit does not name that field", () => {
+		const waiting: ChangeRequest = {
+			id: "req-0",
+			requestedAt: "2026-10-07T00:00:00.000Z",
+			name: "Old Idea",
+			scopes: ["profile", "notes"],
+		};
+		const made = request({ logoUrl: "https://api.example/logo/a.png" }, waiting);
+		expect(made?.name).toBe("Old Idea");
+		expect(made?.scopes).toEqual(["profile", "notes"]);
+		expect(made?.logoUrl).toBe("https://api.example/logo/a.png");
+		// An edit of the name only keeps the permissions that wait.
+		expect(request({ name: "New Idea" }, waiting)?.scopes).toEqual(["profile", "notes"]);
+	});
+
 	it("keeps a waiting logo when the other fields change, and drops it only with a new logo", () => {
 		const withLogo: ChangeRequest = { ...first, logoUrl: "https://api.example/logo/a.png" };
 		expect(request({ name: "New Idea" }, withLogo)?.logoUrl).toBe("https://api.example/logo/a.png");
