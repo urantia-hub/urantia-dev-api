@@ -13,6 +13,8 @@ routes = [
 FIRST_PARTY_APP_IDS = "urantiahub-app"
 # The sender of the app review notices. The accounts sending domain is verified in Resend.
 APP_REVIEW_FROM = "UrantiaHub <developers@accounts.urantiahub.com>"
+# The sender of the sign-in email, which our own code sends when Supabase calls /hooks/send-email.
+SIGNIN_FROM = "UrantiaHub <signin@accounts.urantiahub.com>"
 # Old HS256 app tokens are accepted until this moment. It matters from the day the ES256 key is set.
 # After this date: remove the line, the HS256 branch in src/lib/app-tokens.ts, and the APP_JWT_SECRET secret.
 HS256_ACCEPT_UNTIL = "2026-10-17T00:00:00Z"
