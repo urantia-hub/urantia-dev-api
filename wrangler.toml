@@ -13,9 +13,6 @@ routes = [
 FIRST_PARTY_APP_IDS = "urantiahub-app"
 # The sender of the app review notices. The accounts sending domain is verified in Resend.
 APP_REVIEW_FROM = "UrantiaHub <developers@accounts.urantiahub.com>"
-# The life of an app access token. 7 days until each client has @urantia/auth 0.3.0:
-# 0.2.0 drops a session whose access token is past its end. Remove this line then (the default is 15 minutes).
-ACCESS_TOKEN_SECONDS = "604800"
 # Old HS256 app tokens are accepted until this moment. It matters from the day the ES256 key is set.
 # After this date: remove the line, the HS256 branch in src/lib/app-tokens.ts, and the APP_JWT_SECRET secret.
 HS256_ACCEPT_UNTIL = "2026-10-17T00:00:00Z"

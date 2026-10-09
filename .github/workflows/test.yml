@@ -6,6 +6,18 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    # A database of the job's own, for tests/db. It holds no real data and ends with the job.
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+          POSTGRES_DB: apitest
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U test" --health-interval 5s --health-timeout 5s --health-retries 10
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
@@ -13,4 +25,14 @@ jobs:
       # The suites that need no database. The others write to production and stay manual.
       # usfm-parser.test.ts reads Bible source files that are not in this repo.
       - run: bun test $(ls tests/unit/*.test.ts | grep -v usfm-parser) tests/integration/token-access.test.ts
-      - run: bunx biome check src/lib/token-access.ts src/lib/app-tokens.ts src/lib/sessions.ts src/lib/auth-store.ts src/lib/app-status.ts src/lib/app-review-mail.ts src/middleware/auth.ts
+      # The real queries of the account rules, on the job's own Postgres with the schema of this commit.
+      - run: psql "$TEST_DATABASE_URL" -c 'create extension if not exists vector'
+        env:
+          TEST_DATABASE_URL: postgres://test:test@127.0.0.1:5432/apitest
+      - run: bunx drizzle-kit push --force
+        env:
+          DATABASE_URL: postgres://test:test@127.0.0.1:5432/apitest
+      - run: bun test tests/db
+        env:
+          TEST_DATABASE_URL: postgres://test:test@127.0.0.1:5432/apitest
+      - run: bunx biome check src/lib/token-access.ts src/lib/app-tokens.ts src/lib/sessions.ts src/lib/auth-store.ts src/lib/app-status.ts src/lib/app-review-mail.ts src/lib/consents.ts src/lib/account-store.ts src/lib/supabase-admin.ts src/validators/app-schemas.ts src/middleware/auth.ts tests/db/account-store.test.ts
