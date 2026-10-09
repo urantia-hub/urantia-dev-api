@@ -51,7 +51,7 @@ import {
 	withdrawChange,
 	writeEdit,
 } from "../lib/change-store.ts";
-import { deleteAccount, listAccess, removeAccess } from "../lib/consents.ts";
+import { deleteAccount, listAccess, refusalText, removeAccess } from "../lib/consents.ts";
 import { adminSettings, removeSignIn } from "../lib/supabase-admin.ts";
 import type { AuthUser } from "../middleware/auth.ts";
 import { rateLimiter } from "../middleware/rate-limit.ts";
@@ -638,17 +638,11 @@ authRoute.openapi(accountDeleteRoute, async (c) => {
 		userId: user.id,
 		email: user.email,
 		typedEmail: body.email,
+		isAdmin: isAdmin(c, user.id),
 		removeSignIn: (id) => removeSignIn(admin, id),
 	});
-	if (!result.ok && result.reason === "email") {
-		return problemJson(c, 400, "The email does not match your account.");
-	}
 	if (!result.ok) {
-		return problemJson(
-			c,
-			409,
-			"You own an app that other people use. Delete your apps first, or write to team@urantiahub.com.",
-		);
+		return problemJson(c, result.reason === "email" ? 400 : 409, refusalText(result));
 	}
 	// The logos of the reader's own apps. A file that stays is not a reason to fail the delete.
 	await Promise.all(owned.map((app) => removeLogos(c.env?.APP_LOGOS, app.id))).catch(() => {});
@@ -1053,6 +1047,7 @@ authRoute.openapi(listAppsRoute, async (c) => {
 			primaryColor: app.primaryColor ?? null,
 			accentColor: app.accentColor ?? null,
 			pendingChange: parseRequest(app.pendingChange),
+			firstParty: isFirstParty(c, { id: app.id, ownerId: user.id }),
 			createdAt: app.createdAt.toISOString(),
 		})),
 	}, 200);
@@ -1704,6 +1699,7 @@ authRoute.openapi(adminListAppsRoute, async (c) => {
 			primaryColor: row.primaryColor ?? null,
 			accentColor: row.accentColor ?? null,
 			ownerEmail: row.ownerEmail ?? null,
+			firstParty: isFirstParty(c, { id: row.id, ownerId: row.ownerId }),
 			pendingChange: parseRequest(row.pendingChange),
 			reviewedAt: row.reviewedAt?.toISOString() ?? null,
 			createdAt: row.createdAt.toISOString(),

@@ -5,6 +5,7 @@ import {
 	deletedAccountAllows,
 	listAccess,
 	READER_TABLES,
+	refusalText,
 	removeAccess,
 } from "../../src/lib/consents.ts";
 
@@ -345,6 +346,54 @@ describe("delete the account", () => {
 
 // A session token stays good for up to an hour after a delete, and a token of an app for its own life.
 // The marker is what stops them: without it, the next request would make the reader's row again.
+// An admin reviews each app and owns the apps of UrantiaHub itself. A press on Delete must not take
+// those away: an admin account is removed by hand, on purpose.
+describe("the account of an admin", () => {
+	it("is not deleted here, and nothing is removed", async () => {
+		const m = memory();
+		const result = await deleteAccount(m.store, {
+			userId: ME,
+			email: "reader@example.com",
+			typedEmail: "reader@example.com",
+			isAdmin: true,
+			removeSignIn: async () => {
+				throw new Error("must not run");
+			},
+		});
+		expect(result).toEqual({ ok: false, reason: "admin" });
+		expect(m.calls).toEqual([]);
+		expect(m.deleted.has(ME)).toBe(false);
+	});
+});
+
+describe("what the reader is told after a refusal", () => {
+	it("names the apps that other people use, so the reader knows which to delete", () => {
+		expect(
+			refusalText({ ok: false, reason: "apps", apps: ["Our Paper Voices", "Study Circle"] }),
+		).toBe(
+			"Other people use these apps of yours: Our Paper Voices, Study Circle. Delete them first, or write to team@urantiahub.com.",
+		);
+		expect(refusalText({ ok: false, reason: "apps", apps: ["Voices"] })).toBe(
+			"Other people use this app of yours: Voices. Delete it first, or write to team@urantiahub.com.",
+		);
+	});
+	it("says that an admin account is not deleted here", () => {
+		expect(refusalText({ ok: false, reason: "admin" })).toBe(
+			"This account reviews apps for UrantiaHub, so it cannot be deleted here. Write to team@urantiahub.com.",
+		);
+	});
+	it("says that the email does not match", () => {
+		expect(refusalText({ ok: false, reason: "email" })).toBe(
+			"The email does not match your account.",
+		);
+	});
+	it("keeps a name of an app on one line, and not too long", () => {
+		const text = refusalText({ ok: false, reason: "apps", apps: [`A\nB${"x".repeat(200)}`] });
+		expect(text).not.toContain("\n");
+		expect(text.length).toBeLessThan(260);
+	});
+});
+
 describe("the marker of a deleted account", () => {
 	it("is set before anything is removed, and is not set when the delete is refused", async () => {
 		const refusedEmail = memory();
