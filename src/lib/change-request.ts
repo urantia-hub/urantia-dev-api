@@ -30,8 +30,9 @@ const sameContent = (a: ChangeRequest, b: Omit<ChangeRequest, "id" | "requestedA
 	sameList(a.redirectUris, b.redirectUris) &&
 	sameList(a.scopes, b.scopes);
 
-// The request for this edit, or null when nothing needs a review. A removed address or permission
-// needs none: the route applies it at once. A logo that waits stays until a new logo replaces it.
+// The request for this edit, or null when nothing needs a review. A removal of an address or of a
+// permission needs none, and applies at once, when nothing is added to that list. A list that gets a
+// new item waits as a whole: its old items stay live until a reviewer approves.
 export function requestFor(
 	live: Reviewed,
 	wanted: {
@@ -44,14 +45,14 @@ export function requestFor(
 	make: { id: string; now: Date },
 ): ChangeRequest | null {
 	const content: Omit<ChangeRequest, "id" | "requestedAt"> = {};
-	const name = wanted.name?.trim();
+	// A field that the edit does not name stays as the request has it. A logo upload names the logo
+	// only, and must not drop a name or an address that waits.
+	const name = wanted.name !== undefined ? wanted.name.trim() : existing?.name;
 	if (name !== undefined && name !== live.name) content.name = name;
-	if (wanted.redirectUris?.some((uri) => !live.redirectUris.includes(uri))) {
-		content.redirectUris = [...wanted.redirectUris];
-	}
-	if (wanted.scopes?.some((scope) => !live.scopes.includes(scope))) {
-		content.scopes = [...wanted.scopes];
-	}
+	const uris = wanted.redirectUris ?? existing?.redirectUris;
+	if (uris?.some((uri) => !live.redirectUris.includes(uri))) content.redirectUris = [...uris];
+	const scopes = wanted.scopes ?? existing?.scopes;
+	if (scopes?.some((scope) => !live.scopes.includes(scope))) content.scopes = [...scopes];
 	const logoUrl = wanted.logoUrl ?? existing?.logoUrl;
 	if (logoUrl !== undefined && logoUrl !== live.logoUrl) content.logoUrl = logoUrl;
 
