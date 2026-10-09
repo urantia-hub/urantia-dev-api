@@ -1,5 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import {
+	changeMail,
 	decisionMail,
 	requestMail,
 	reviewSender,
@@ -143,5 +144,50 @@ describe("sendMail", () => {
 				throw new Error("down");
 			}),
 		).toBe(false);
+	});
+});
+
+// A change request: the app is approved and stays open while the reviewer decides.
+describe("the notices of a change request", () => {
+	it("tells the admin that the app works as before, and shows what is asked", () => {
+		const mail = requestMail({ ...app, name: "My App Online" }, "request");
+		expect(mail.subject).toBe("Change to review: My App Online");
+		expect(mail.text).toContain("The app works as before until you decide.");
+		expect(mail.text).not.toContain("pending again");
+		expect(mail.text).toContain("> My App Online");
+		expect(mail.text.indexOf("accounts.urantiahub.com/apps/admin")).toBeLessThan(
+			mail.text.indexOf("> My App Online"),
+		);
+	});
+
+	it("says for a declined app that changed that it is in review again", () => {
+		const mail = requestMail(app, "changed");
+		expect(mail.text).toContain("It is in review again.");
+		expect(mail.text).not.toContain("approved app");
+	});
+
+	it("tells the developer that the change is live", () => {
+		const mail = changeMail(app, "approve", null);
+		expect(mail.subject).toBe("The change to My App is approved");
+		expect(mail.text).toContain("The change is live now.");
+		expect(mail.text).toContain("https://accounts.urantiahub.com/apps/my-app");
+	});
+
+	it("tells the developer why a change was not approved, and that the app still works", () => {
+		const mail = changeMail(
+			app,
+			"decline",
+			"The new name is the name of another site.\nhttps://evil.example",
+		);
+		expect(mail.subject).toBe("The change to My App was not approved");
+		expect(mail.text).toContain("Your app works as before.");
+		expect(mail.text).toContain("> The new name is the name of another site.");
+		expect(mail.text).toContain("> https://evil.example");
+	});
+
+	it("keeps a name with a new line in it on one line of the subject", () => {
+		expect(
+			changeMail({ ...app, name: "My App\nBcc: x@evil.example" }, "approve", null).subject,
+		).not.toContain("\n");
 	});
 });
