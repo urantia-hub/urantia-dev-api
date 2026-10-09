@@ -182,6 +182,32 @@ describe("sendHtmlMail", () => {
 		});
 		expect(new Headers(calls[0]?.init.headers).get("authorization")).toBe("Bearer re_test");
 	});
+	// Without this, a refusal of the mail service leaves no trace, and the cause cannot be found.
+	it("reports why an email was not sent: the status of the mail service, and never its words", async () => {
+		const seen: string[] = [];
+		const report = (reason: string) => seen.push(reason);
+		await sendHtmlMail({}, "a@b.c", "r@e.x", mail, async () => new Response("{}"), report);
+		await sendHtmlMail(
+			{ RESEND_API_KEY: "k" },
+			"a@b.c",
+			"r@e.x",
+			mail,
+			async () => new Response('{"message":"reader@example.com is not allowed"}', { status: 403 }),
+			report,
+		);
+		await sendHtmlMail(
+			{ RESEND_API_KEY: "k" },
+			"a@b.c",
+			"r@e.x",
+			mail,
+			async () => {
+				throw new Error("down for reader@example.com");
+			},
+			report,
+		);
+		expect(seen).toEqual(["no key", "status 403", "network"]);
+	});
+
 	it("is false, and does not throw, with no key, for a refusal, and for a network error", async () => {
 		expect(await sendHtmlMail({}, "a@b.c", "r@e.x", mail, async () => new Response("{}"))).toBe(
 			false,
