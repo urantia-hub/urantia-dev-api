@@ -29,14 +29,29 @@ const quoted = (value: string | null, max: number) =>
 		.split(/\r?\n/)
 		.map((l) => `> ${line(l, 300)}`);
 
-export function requestMail(app: ReviewedApp, kind: "new" | "changed"): Mail {
+// "new": a new app. "changed": a declined app that its developer changed. "request": a change request
+// for an approved app, which stays open while the reviewer decides.
+const REQUEST = {
+	new: [
+		"App to review",
+		"A developer registered an app. Other readers cannot use it until you approve it.",
+	],
+	changed: [
+		"App changed, review again",
+		"An app that was declined changed. It is in review again.",
+	],
+	request: [
+		"Change to review",
+		"The developer of an approved app asks for a change. The app works as before until you decide. Below is the app as it would be.",
+	],
+} as const;
+
+export function requestMail(app: ReviewedApp, kind: keyof typeof REQUEST): Mail {
 	const name = line(app.name);
 	return {
-		subject: kind === "new" ? `App to review: ${name}` : `App changed, review again: ${name}`,
+		subject: `${REQUEST[kind][0]}: ${name}`,
 		text: [
-			kind === "new"
-				? "A developer registered an app. Other readers cannot use it until you approve it."
-				: "An approved app changed its name, its logo, a return address, or a permission. It is pending again.",
+			REQUEST[kind][1],
 			"",
 			// Our own link comes first. Everything below the next line is from the developer.
 			`Decide here: ${ACCOUNTS}/apps/admin`,
@@ -85,6 +100,31 @@ export function decisionMail(
 		text: [
 			`Your app ${name} ${verb}.`,
 			meaning,
+			...(note?.trim() ? ["", "Note from the reviewer:", ...quoted(note, 1000)] : []),
+			"",
+			`${ACCOUNTS}/apps/${encodeURIComponent(app.id)}`,
+			"",
+			"This address does not take replies. Write to team@urantiahub.com.",
+		].join("\n"),
+	};
+}
+
+// The decision on a change request, for the developer.
+export function changeMail(
+	app: Pick<ReviewedApp, "id" | "name">,
+	decision: "approve" | "decline",
+	note: string | null,
+): Mail {
+	const name = line(app.name);
+	const approved = decision === "approve";
+	return {
+		subject: approved
+			? `The change to ${name} is approved`
+			: `The change to ${name} was not approved`,
+		text: [
+			approved
+				? `The change that you asked for ${name} is approved. The change is live now.`
+				: `The change that you asked for ${name} was not approved. Your app works as before.`,
 			...(note?.trim() ? ["", "Note from the reviewer:", ...quoted(note, 1000)] : []),
 			"",
 			`${ACCOUNTS}/apps/${encodeURIComponent(app.id)}`,
