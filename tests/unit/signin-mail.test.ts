@@ -23,7 +23,18 @@ describe("the sign-in email", () => {
 			expect(part).toContain("If you did not ask for this, you can ignore this email.");
 			expect(part).toContain("team@urantiahub.com");
 		}
-		expect(mail.html).toContain("Or sign in with this link");
+	});
+
+	// The link signs a reader in only in the browser that asked for it. The email must say so, or a
+	// reader who opens it on another device gets a page that they do not expect.
+	it("has a Sign in button, and says that it is for the browser where the reader started", () => {
+		expect(mail.html).toMatch(
+			/<a href="https:\/\/accounts\.urantiahub\.com\/login\/link\?token_hash=abc"[^>]*background-color:#26221c[^>]*>Sign in<\/a>/,
+		);
+		for (const part of [mail.html, mail.text]) {
+			expect(part).toContain("in the same browser where you started");
+		}
+		expect(mail.html).not.toContain("Or sign in with this link");
 	});
 
 	it("names the app that the reader signs in to", () => {
