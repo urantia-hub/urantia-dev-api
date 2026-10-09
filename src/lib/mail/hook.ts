@@ -5,6 +5,16 @@ import { requestOf, signInLink, signInMail } from "./signin.ts";
 // The "Send Email" hook of Supabase Auth: Supabase calls it for each auth email, and this code writes
 // and sends the email. With the hook on, Supabase sends nothing by itself.
 
+// The Resend key for the emails of the accounts site (the sign-in email and the review notices).
+// A Resend key can be limited to one sending domain, and these emails come from
+// accounts.urantiahub.com, so they have a key of their own. The shared key is the fallback.
+export function accountsMailKey(env: {
+	ACCOUNTS_RESEND_API_KEY?: string;
+	RESEND_API_KEY?: string;
+}): string | undefined {
+	return env.ACCOUNTS_RESEND_API_KEY?.trim() || env.RESEND_API_KEY?.trim() || undefined;
+}
+
 type Fetch = (url: string, init: RequestInit) => Promise<Response>;
 
 // Sends one email with an HTML part and a text part. True if Resend took it. It never throws.

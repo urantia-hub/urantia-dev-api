@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { createHmac } from "node:crypto";
-import { handleSendEmail, sendHtmlMail } from "../../src/lib/mail/hook.ts";
+import { accountsMailKey, handleSendEmail, sendHtmlMail } from "../../src/lib/mail/hook.ts";
 
 const KEY = Buffer.from("a-test-key-of-thirty-two-bytes!!").toString("base64");
 const SECRET = `v1,whsec_${KEY}`;
@@ -226,5 +226,25 @@ describe("sendHtmlMail", () => {
 				throw new Error("down");
 			}),
 		).toBe(false);
+	});
+});
+
+// A Resend key can be limited to one sending domain. The emails of the accounts site come from
+// accounts.urantiahub.com, and the feedback emails from another domain, so each has its own key.
+// On 2026-10-08 the one shared key refused each accounts email with 403.
+describe("the key for the emails of the accounts site", () => {
+	it("is its own key when that is set", () => {
+		expect(
+			accountsMailKey({ ACCOUNTS_RESEND_API_KEY: "re_accounts", RESEND_API_KEY: "re_feedback" }),
+		).toBe("re_accounts");
+	});
+	it("falls back to the shared key, so a setup with one key for each domain still works", () => {
+		expect(accountsMailKey({ RESEND_API_KEY: "re_feedback" })).toBe("re_feedback");
+		expect(accountsMailKey({ ACCOUNTS_RESEND_API_KEY: "  ", RESEND_API_KEY: "re_feedback" })).toBe(
+			"re_feedback",
+		);
+	});
+	it("is nothing with no key at all", () => {
+		expect(accountsMailKey({})).toBeUndefined();
 	});
 });
