@@ -28,6 +28,10 @@ export type Env = {
 		FEEDBACK_FROM?: string;
 		// Sender of the app review notices (wrangler.toml [vars]). Falls back to FEEDBACK_FROM.
 		APP_REVIEW_FROM?: string;
+		// The secret of the Supabase "Send Email" hook (secret, "v1,whsec_…"). See src/routes/send-email-hook.ts.
+		SEND_EMAIL_HOOK_SECRET?: string;
+		// The sender of the sign-in email (wrangler.toml [vars]).
+		SIGNIN_FROM?: string;
 		FEEDBACK_TO?: string;
 		SLACK_FEEDBACK_WEBHOOK_URL?: string;
 		FEEDBACK_IP_PEPPER?: string;

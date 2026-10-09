@@ -141,6 +141,59 @@ describe("a logo file", () => {
 	});
 });
 
+// Supabase signs each call of the Send Email hook. Without a good signature nothing is sent.
+describe("the Send Email hook", () => {
+	const post = (headers: Record<string, string> = {}) =>
+		app.request("/hooks/send-email", {
+			method: "POST",
+			headers: {
+				"content-type": "application/json",
+				"cf-connecting-ip": "token-access-test",
+				...headers,
+			},
+			body: JSON.stringify({
+				user: { email: "reader@example.com" },
+				email_data: { token: "481920", token_hash: "h", email_action_type: "magiclink" },
+			}),
+		});
+	it("refuses a call with no signature, and one with a made-up signature", async () => {
+		expect((await post()).status).toBe(401);
+		const res = await post({
+			"webhook-id": "msg_1",
+			"webhook-timestamp": String(Math.floor(Date.now() / 1000)),
+			"webhook-signature": "v1,AAAA",
+		});
+		expect(res.status).toBe(401);
+		expect(((await res.json()) as { error: { http_code: number } }).error.http_code).toBe(401);
+	});
+	// The call has no sign-in, so its size is checked as it is read, before anything else.
+	it("refuses a body that is too large, with or without a length header", async () => {
+		const big = "x".repeat(40_000);
+		const headers = { "content-type": "application/json", "cf-connecting-ip": "token-access-test" };
+		expect(
+			(await app.request("/hooks/send-email", { method: "POST", headers, body: big })).status,
+		).toBe(413);
+		const lied = await app.request("/hooks/send-email", {
+			method: "POST",
+			headers: { ...headers, "content-length": "10" },
+			body: new ReadableStream({
+				start(controller) {
+					controller.enqueue(new TextEncoder().encode(big));
+					controller.close();
+				},
+			}),
+			duplex: "half",
+		});
+		expect(lied.status).toBe(413);
+	});
+	it("is not in the public spec", async () => {
+		const spec = (await (await app.request("/openapi.json")).json()) as {
+			paths: Record<string, unknown>;
+		};
+		expect(Object.keys(spec.paths).filter((path) => path.startsWith("/hooks"))).toEqual([]);
+	});
+});
+
 describe("the path rule", () => {
 	// "/meaning" starts with "/me" but is not under it.
 	it("does not treat a path that only starts with /me as a signed-in route", async () => {

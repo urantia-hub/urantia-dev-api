@@ -215,6 +215,14 @@ The API includes a unified auth layer for the Urantia ecosystem:
 - `PATCH /auth/apps/{id}/status`: a note of 10 characters or more is needed for `declined` and `suspended`. An approval needs `seen` (what the reviewer's screen showed) and gets 409 when the app is not that now.
 - Each logo upload gets a key of its own (`<app>/logo-<uuid>.<ext>`, served at `/auth/apps/{id}/logo/{file}`). A logo of an approved app waits in the request, and an approval points `logo_url` at it in the same statement. The old `/auth/apps/{id}/logo` route still serves a logo from before. Both logo routes are public only for the live logo of an approved app (`canLoadLogo`). The logo of an app that is not approved, and a logo that waits, need the sign-in of the owner or of an admin: the accounts site loads them with the token, not with a plain image tag.
 
+### The sign-in email (2026-10-08)
+
+- Supabase Auth calls `POST /hooks/send-email` for each auth email (its "Send Email" hook), and our code writes and sends the email through Resend: `src/routes/send-email-hook.ts`, `src/lib/mail/`. With the hook on, Supabase sends nothing by itself, and its dashboard templates are not used.
+- The call is checked by its Standard Webhooks signature (`src/lib/webhook.ts`) with the secret `SEND_EMAIL_HOOK_SECRET`. Without the secret, each call gets 401.
+- Only the kinds `magiclink` and `signup` are sent (the email code). Any other kind answers 200, sends nothing, and logs "send-email hook: not sent". A failure to send answers 500, so the sign-in page tells the reader to try again.
+- The subject carries the 6-digit code. The link goes to `https://accounts.urantiahub.com/login/link?token_hash=…`, a page with a "Sign in" button that checks the proof, so a mail scanner does not use the proof up and the link works on any device. The page signs a reader in only in the browser that started the sign-in; on another device the reader uses the code. The link holds no email address. It never goes to another host: `redirect_to` is checked, and only the parts of a sign-in request are kept from it. No log line gets an email address, a code, or a proof.
+- To turn it off: switch the hook off in Supabase (Authentication, Auth Hooks). Supabase then sends its own templates again.
+
 ## Audio
 
 Audio lives on `cdn.urantia.dev`, not on `audio.urantia.dev`.
