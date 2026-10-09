@@ -105,6 +105,9 @@ function memory() {
 					otherUsers: consents.filter((c) => c.appId === a.id && c.userId !== userId).length,
 				}));
 		},
+		async isMarked(userId) {
+			return deleted.has(userId);
+		},
 		async markDeleted(userId) {
 			step("marker");
 			deleted.add(userId);
@@ -385,6 +388,51 @@ describe("the account of an admin", () => {
 		expect(result).toEqual({ ok: false, reason: "apps", apps: ["My App"] });
 		expect(m.calls).toEqual([]);
 		expect(m.deleted.has(ME)).toBe(false);
+	});
+});
+
+// After the marker, each other request of the reader is refused. So a delete that started must be able
+// to finish, also when something changed that would refuse a new delete.
+describe("a delete that started and did not finish", () => {
+	const args = {
+		userId: ME,
+		email: "reader@example.com",
+		typedEmail: "reader@example.com",
+		removeSignIn: async () => {},
+	};
+
+	it("finishes when another reader allowed the reader's app in the time between", async () => {
+		const m = memory();
+		m.apps.push({
+			id: "mine",
+			name: "My App",
+			ownerId: ME,
+			status: "approved",
+			logoUrl: null,
+			primaryColor: null,
+		});
+		m.fail.at = "notes";
+		await expect(deleteAccount(m.store, args)).rejects.toThrow();
+		m.consents.push({ userId: OTHER, appId: "mine", scopes: ["profile"], grantedAt: new Date() });
+		expect(await deleteAccount(m.store, args)).toEqual({ ok: true });
+		expect(m.users.has(ME)).toBe(false);
+	});
+
+	it("finishes when the reader is an admin now", async () => {
+		const m = memory();
+		m.fail.at = "notes";
+		await expect(deleteAccount(m.store, args)).rejects.toThrow();
+		expect(await deleteAccount(m.store, { ...args, isAdmin: true })).toEqual({ ok: true });
+	});
+
+	it("still refuses a wrong email", async () => {
+		const m = memory();
+		m.fail.at = "notes";
+		await expect(deleteAccount(m.store, args)).rejects.toThrow();
+		expect(await deleteAccount(m.store, { ...args, typedEmail: "x@y.z" })).toEqual({
+			ok: false,
+			reason: "email",
+		});
 	});
 });
 

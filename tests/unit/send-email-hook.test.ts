@@ -73,6 +73,21 @@ describe("the Send Email hook", () => {
 		expect(d.mails[0]?.subject).toBe("481920 is your UrantiaHub code");
 	});
 
+	// The name is one line of the email. A fault in its lookup must not stop a sign-in.
+	it("sends the email with no name when the lookup of the app fails", async () => {
+		const d = deps();
+		const res = await handleSendEmail(request(JSON.stringify(payload())), {
+			...d.deps,
+			appName: async () => {
+				throw new Error("database is down");
+			},
+		});
+		expect(res.status).toBe(200);
+		expect(d.mails).toHaveLength(1);
+		expect(d.mails[0]?.html).not.toContain("You asked to sign in to");
+		expect(d.logs.join("\n")).toContain("the name of the app");
+	});
+
 	it("names no app for the sign-in of UrantiaHub itself", async () => {
 		const d = deps();
 		await handleSendEmail(

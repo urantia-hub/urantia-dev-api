@@ -33,6 +33,8 @@ export interface AccountStore {
 	ownedApps(
 		userId: string,
 	): Promise<Array<{ id: string; name: string; status: string; otherUsers: number }>>;
+	// Did a delete of this account start already?
+	isMarked(userId: string): Promise<boolean>;
 	// Records that this account is deleted. From that moment no token of the reader is a sign-in.
 	markDeleted(userId: string): Promise<void>;
 	deleteRows(table: ReaderTable, userId: string): Promise<void>;
@@ -91,9 +93,13 @@ export async function deleteAccount(
 	if (!input.email || !same(input.email, input.typedEmail)) return { ok: false, reason: "email" };
 
 	const owned = await store.ownedApps(input.userId);
-	const inUse = owned.filter((app) => app.status === "approved" && app.otherUsers > 0);
-	if (inUse.length > 0) return { ok: false, reason: "apps", apps: inUse.map((app) => app.name) };
-	if (input.isAdmin) return { ok: false, reason: "admin" };
+	// A delete that started must be able to finish: after the marker, each other request of the reader
+	// is refused, so a refusal here would leave the reader with no way on.
+	if (!(await store.isMarked(input.userId))) {
+		const inUse = owned.filter((app) => app.status === "approved" && app.otherUsers > 0);
+		if (inUse.length > 0) return { ok: false, reason: "apps", apps: inUse.map((app) => app.name) };
+		if (input.isAdmin) return { ok: false, reason: "admin" };
+	}
 
 	// The marker comes first and stays. A token that is still good cannot make the reader's row again,
 	// and cannot add a row behind the delete.
