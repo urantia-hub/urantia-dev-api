@@ -5,8 +5,6 @@ import {
 	canUseApp,
 	isAppStatus,
 	isWebLink,
-	needsReview,
-	reviewStatusChange,
 } from "../../src/lib/app-status.ts";
 
 const OWNER = "owner-1";
@@ -35,63 +33,6 @@ describe("canUseApp", () => {
 
 	it("lets no one use an app with a status that is not known", () => {
 		expect(canUseApp({ status: "open" as AppStatus, ownerId: OWNER }, OWNER)).toBe(false);
-	});
-});
-
-describe("needsReview", () => {
-	const before = {
-		name: "My App",
-		logoUrl: "https://x/logo.png",
-		redirectUris: ["https://a/cb", "https://b/cb"],
-		scopes: ["profile", "bookmarks"],
-	};
-
-	it("is false when nothing that a reader trusts changed", () => {
-		expect(needsReview(before, { ...before })).toBe(false);
-		expect(needsReview(before, { ...before, redirectUris: ["https://b/cb", "https://a/cb"] })).toBe(
-			false,
-		);
-	});
-
-	// An approved app must not turn into another app after the review.
-	it.each([
-		["the name", { name: "UrantiaHub" }],
-		["the logo", { logoUrl: "https://x/other.png" }],
-		["a removed logo", { logoUrl: null }],
-		[
-			"a new return address",
-			{ redirectUris: ["https://a/cb", "https://b/cb", "https://evil.example/cb"] },
-		],
-		["a changed return address", { redirectUris: ["https://a/cb", "https://evil.example/cb"] }],
-		// Approved for the profile, then asks for the notes of each reader.
-		["a new permission", { scopes: ["profile", "bookmarks", "notes"] }],
-	])("is true for %s", (_name, change) => {
-		expect(needsReview(before, { ...before, ...change })).toBe(true);
-	});
-
-	it("is false when a return address or a permission is only removed", () => {
-		expect(needsReview(before, { ...before, redirectUris: ["https://a/cb"] })).toBe(false);
-		expect(needsReview(before, { ...before, scopes: ["profile"] })).toBe(false);
-	});
-});
-
-// The route reads the app, then writes. An admin can suspend the app between the two.
-// So an edit never writes a status that it read: it only names the statuses that it moves to pending.
-describe("reviewStatusChange", () => {
-	it("moves an approved or a declined app to pending when the edit needs a review", () => {
-		expect(reviewStatusChange(true, false)).toEqual({
-			from: ["approved", "declined"],
-			to: "pending",
-		});
-	});
-	it("changes nothing for another edit, or for an edit by an admin", () => {
-		expect(reviewStatusChange(false, false)).toBeNull();
-		expect(reviewStatusChange(true, true)).toBeNull();
-	});
-	it("can never lift a suspension or approve an app", () => {
-		const change = reviewStatusChange(true, false);
-		expect(change?.to).toBe("pending");
-		expect(change?.from).not.toContain("suspended");
 	});
 });
 

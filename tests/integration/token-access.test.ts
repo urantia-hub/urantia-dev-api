@@ -126,6 +126,21 @@ describe("a request with no token", () => {
 	});
 });
 
+// A logo is an image on the sign-in page, which a visitor with no sign-in sees.
+describe("a logo file", () => {
+	const get = (path: string) =>
+		app.request(path, { headers: { "cf-connecting-ip": "token-access-test" } });
+	it("needs no sign-in", async () => {
+		const res = await get("/auth/apps/some-app/logo/3f2c1e52-77ab-4d0e-9c21-5b6f0a4d91e7.png");
+		// 404: there is no file store in this test. 401 would mean that the route asks for a sign-in.
+		expect(res.status).toBe(404);
+	});
+	it("opens nothing else under that path", async () => {
+		expect((await get("/auth/apps/some-app/logo/x/y")).status).toBe(401);
+		expect((await get("/auth/apps/some-app/change/x")).status).toBe(401);
+	});
+});
+
 describe("the path rule", () => {
 	// "/meaning" starts with "/me" but is not under it.
 	it("does not treat a path that only starts with /me as a signed-in route", async () => {
@@ -179,11 +194,15 @@ describe("a token signed with the new key", () => {
 });
 
 // The account routes act for the reader on the accounts site. No app can call them.
-describe("the reader's account routes", () => {
+describe("the routes of the accounts site", () => {
 	const routes: Array<[method: string, path: string]> = [
 		["GET", "/auth/consents"],
 		["DELETE", "/auth/consents/some-app"],
 		["DELETE", "/auth/account"],
+		// A change request: only its developer withdraws it, and only an admin decides.
+		["DELETE", "/auth/apps/some-app/change/req-1"],
+		["POST", "/auth/apps/some-app/change/req-1/decision"],
+		["PATCH", "/auth/apps/some-app/status"],
 	];
 	it.each(routes)("%s %s refuses a token of an app, with each scope", async (method, path) => {
 		const token = await appToken({

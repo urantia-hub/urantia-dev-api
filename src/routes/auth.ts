@@ -1,11 +1,17 @@
 import { createRoute } from "@hono/zod-openapi";
-import { and, eq, inArray, sql } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 import { z } from "zod";
 import { getDb } from "../db/client.ts";
 import { apps, authCodes, refreshTokens, userConsents, users } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
-import { decisionMail, requestMail, reviewSender, sendMail } from "../lib/app-review-mail.ts";
+import {
+	changeMail,
+	decisionMail,
+	requestMail,
+	reviewSender,
+	sendMail,
+} from "../lib/app-review-mail.ts";
 import {
 	type AppStatus,
 	canRegisterAnother,
@@ -13,8 +19,6 @@ import {
 	isAppStatus,
 	isWebLink,
 	MAX_PENDING_APPS,
-	needsReview,
-	reviewStatusChange,
 } from "../lib/app-status.ts";
 import { tokenEnv } from "../lib/app-tokens.ts";
 import { createAuthStore } from "../lib/auth-store.ts";
@@ -30,6 +34,23 @@ import {
 import { canIssueCode, firstPartyIds, isFirstPartyApp } from "../lib/token-access.ts";
 import { ALLOWED_SCOPES, AppCreateBody, HexColor } from "../validators/app-schemas.ts";
 import { createAccountStore } from "../lib/account-store.ts";
+import {
+	applyRequest,
+	canLoadLogo,
+	isLogoFile,
+	logoKeys,
+	newLogo,
+	noteProblem,
+	parseRequest,
+	requestFor,
+	sameAsSeen,
+} from "../lib/change-request.ts";
+import {
+	decideChange,
+	setReviewStatus,
+	withdrawChange,
+	writeEdit,
+} from "../lib/change-store.ts";
 import { deleteAccount, listAccess, removeAccess } from "../lib/consents.ts";
 import { adminSettings, removeSignIn } from "../lib/supabase-admin.ts";
 import type { AuthUser } from "../middleware/auth.ts";
@@ -102,10 +123,21 @@ function isFirstParty(
 	return isFirstPartyApp(app, firstPartySetting(c), admins);
 }
 
-// Each form of an app's logo. Used when the app, or its owner's account, is deleted.
+// The files of an app's logo. Used when the app, or its owner's account, is deleted.
 async function removeLogos(bucket: R2Bucket | undefined, appId: string): Promise<void> {
 	if (!bucket) return;
-	await Promise.all(["png", "jpg", "webp"].map((ext) => bucket.delete(`${appId}/logo.${ext}`)));
+	const listed = await bucket.list({ prefix: `${appId}/` });
+	await Promise.all(listed.objects.map((object) => bucket.delete(object.key)));
+}
+
+// The file behind one stored logo address. A file that stays is not a reason to fail a request.
+async function removeLogoFile(
+	bucket: R2Bucket | undefined,
+	appId: string,
+	url: string | null | undefined,
+): Promise<void> {
+	if (!bucket) return;
+	await Promise.all(logoKeys(appId, url).map((key) => bucket.delete(key))).catch(() => {});
 }
 
 // The review status of an app row. A value that is not known counts as suspended: no one can use the app.
@@ -129,7 +161,7 @@ const mailEnv = (c: { env?: Record<string, unknown> }): MailEnv => ({
 async function notifyAdmins(
 	c: { env?: Record<string, unknown> },
 	app: Parameters<typeof requestMail>[0],
-	kind: "new" | "changed",
+	kind: "new" | "changed" | "request",
 ): Promise<void> {
 	const env = mailEnv(c);
 	const to = (env.FEEDBACK_TO ?? "").split(",").map((a) => a.trim()).filter(Boolean);
@@ -138,21 +170,6 @@ async function notifyAdmins(
 
 // Moves the app to pending if the edit needs a review. The database applies it to the row as it is now,
 // so an edit cannot undo a suspension that an admin made a moment ago. True if the app moved.
-async function sendToReview(
-	db: ReturnType<typeof getDb>["db"],
-	appId: string,
-	editNeedsReview: boolean,
-	byAdmin: boolean,
-): Promise<boolean> {
-	const change = reviewStatusChange(editNeedsReview, byAdmin);
-	if (!change) return false;
-	const moved = await db
-		.update(apps)
-		.set({ status: change.to, reviewNote: null })
-		.where(and(eq(apps.id, appId), inArray(apps.status, change.from)))
-		.returning({ id: apps.id });
-	return moved.length > 0;
-}
 
 
 
@@ -221,6 +238,27 @@ const AppPublicSchema = z.object({
 	// pending, approved, declined, or suspended. Only an approved app is open to each reader.
 	status: z.string(),
 });
+
+// A change request, as the owner and the admins see it. Only the fields that are new.
+const PendingChange = z
+	.object({
+		id: z.string(),
+		requestedAt: z.string(),
+		name: z.string().optional(),
+		redirectUris: z.array(z.string()).optional(),
+		scopes: z.array(z.string()).optional(),
+		logoUrl: z.string().optional(),
+	})
+	.nullable();
+
+const Conflict = {
+	description: "The app changed since the reviewer looked",
+	content: { "application/json": { schema: ErrorResponse } },
+};
+const BadRequest = {
+	description: "A note is needed",
+	content: { "application/json": { schema: ErrorResponse } },
+};
 
 const AppUpdateBody = z.object({
 	name: z.string().min(1).max(100).optional(),
@@ -333,6 +371,7 @@ authRoute.openapi(getAppRoute, async (c) => {
 					description: app.description ?? null,
 					websiteUrl: app.websiteUrl ?? null,
 					reviewNote: app.reviewNote ?? null,
+					pendingChange: parseRequest(app.pendingChange),
 				}
 			: {};
 
@@ -1001,6 +1040,7 @@ authRoute.openapi(listAppsRoute, async (c) => {
 			description: apps.description,
 			websiteUrl: apps.websiteUrl,
 			reviewNote: apps.reviewNote,
+			pendingChange: apps.pendingChange,
 			createdAt: apps.createdAt,
 		})
 		.from(apps)
@@ -1012,6 +1052,7 @@ authRoute.openapi(listAppsRoute, async (c) => {
 			logoUrl: app.logoUrl ?? null,
 			primaryColor: app.primaryColor ?? null,
 			accentColor: app.accentColor ?? null,
+			pendingChange: parseRequest(app.pendingChange),
 			createdAt: app.createdAt.toISOString(),
 		})),
 	}, 200);
@@ -1167,61 +1208,67 @@ authRoute.openapi(updateAppRoute, async (c) => {
 		}
 	}
 
-	// Build the update payload (only fields that were provided)
-	const updates: Partial<{ name: string; redirectUris: string[]; scopes: string[]; primaryColor: string | null; accentColor: string | null }> = {};
-	if (body.name !== undefined) updates.name = body.name;
-	if (body.redirectUris !== undefined) updates.redirectUris = body.redirectUris;
-	if (body.scopes !== undefined) updates.scopes = body.scopes;
-	if (body.primaryColor !== undefined) updates.primaryColor = body.primaryColor;
-	if (body.accentColor !== undefined) updates.accentColor = body.accentColor;
+	logger?.info(`[auth] PATCH /apps/${id}`, { userId: user.id });
 
-	// Log the before/after
-	const before = { name: app.name, redirectUris: app.redirectUris, scopes: app.scopes };
-	logger?.info(`[auth] PATCH /apps/${id}`, { before, after: updates, userId: user.id });
+	const admin = isAdmin(c, user.id);
+	const live = {
+		name: app.name,
+		redirectUris: app.redirectUris,
+		scopes: app.scopes,
+		logoUrl: app.logoUrl ?? null,
+	};
+	const existing = parseRequest(app.pendingChange);
+	// What a reviewer must see: a new name, a new address, a new permission. An edit of the colors only
+	// touches none of them, and leaves a request that waits alone.
+	const touchesReviewed =
+		body.name !== undefined || body.redirectUris !== undefined || body.scopes !== undefined;
+	const request = touchesReviewed
+		? requestFor(
+				live,
+				{ name: body.name, redirectUris: body.redirectUris, scopes: body.scopes },
+				existing,
+				{ id: crypto.randomUUID(), now: new Date() },
+			)
+		: undefined;
 
-	// A change to what the admin approved sends the app to review again.
-	const changed = needsReview(
-		{ name: app.name, logoUrl: app.logoUrl, redirectUris: app.redirectUris, scopes: app.scopes },
-		{
-			name: updates.name ?? app.name,
-			logoUrl: app.logoUrl,
-			redirectUris: updates.redirectUris ?? app.redirectUris,
-			scopes: updates.scopes ?? app.scopes,
+	// One statement, which decides from the row as it is now. An approved app keeps its reviewed values
+	// and holds the request. Any other app takes the values at once. So an approved app never has a
+	// name or an address that no reviewer saw, and an edit cannot undo a suspension.
+	const written = await writeEdit(db, id, {
+		wanted: {
+			name: body.name?.trim(),
+			redirectUris: body.redirectUris,
+			scopes: body.scopes,
+			primaryColor: body.primaryColor,
+			accentColor: body.accentColor,
 		},
-	);
-	const review = reviewStatusChange(changed, isAdmin(c, user.id));
+		request,
+		byAdmin: admin,
+	});
+	if (!written) return problemJson(c, 404, `App "${id}" not found.`);
 
-	// One statement writes the new values and the new status together. So there is no moment in which
-	// an approved app has a name or an address that no admin saw. The status is computed by the database
-	// from the row as it is now, so an edit cannot undo a suspension that an admin made a moment ago.
-	const [written] = await db
-		.update(apps)
-		.set({
-			...updates,
-			...(review
-				? {
-						status: sql<string>`CASE WHEN ${apps.status} IN ('approved', 'declined') THEN 'pending' ELSE ${apps.status} END`,
-						// The reviewer's note was about the version before this edit.
-						reviewNote: sql<string | null>`CASE WHEN ${apps.status} IN ('approved', 'declined') THEN NULL ELSE ${apps.reviewNote} END`,
-					}
-				: {}),
-		})
-		.where(eq(apps.id, id))
-		.returning({ status: apps.status });
+	// A logo that waited, and that no request holds now.
+	if (existing?.logoUrl && written.pendingChange?.logoUrl !== existing.logoUrl) {
+		await removeLogoFile(c.env?.APP_LOGOS, id, existing.logoUrl);
+	}
 
-	if (review && written?.status === "pending" && statusOf(app) !== "pending") {
+	const asked = written.pendingChange;
+	const newRequest = written.status === "approved" && asked && asked.id !== existing?.id;
+	const backInReview = statusOf(app) === "declined" && written.status === "pending";
+	if (newRequest || backInReview) {
+		const shown = asked ? applyRequest(live, asked) : null;
 		await notifyAdmins(
 			c,
 			{
 				id,
-				name: updates.name ?? app.name,
+				name: shown?.name ?? body.name ?? app.name,
 				description: app.description,
 				websiteUrl: app.websiteUrl,
-				redirectUris: updates.redirectUris ?? app.redirectUris,
-				scopes: updates.scopes ?? app.scopes,
+				redirectUris: shown?.redirectUris ?? body.redirectUris ?? app.redirectUris,
+				scopes: shown?.scopes ?? body.scopes ?? app.scopes,
 				ownerEmail: user.email,
 			},
-			"changed",
+			newRequest ? "request" : "changed",
 		);
 	}
 
@@ -1249,6 +1296,7 @@ authRoute.openapi(updateAppRoute, async (c) => {
 				accentColor: updated!.accentColor ?? null,
 				ownerId: updated!.ownerId,
 				status: statusOf(updated!),
+				pendingChange: parseRequest(updated!.pendingChange),
 				createdAt: updated!.createdAt.toISOString(),
 			},
 		},
@@ -1276,7 +1324,13 @@ const uploadLogoRoute = createRoute({
 	responses: {
 		200: {
 			description: "Logo uploaded",
-			content: { "application/json": { schema: z.object({ data: z.object({ logoUrl: z.string() }) }) } },
+			content: {
+				"application/json": {
+					schema: z.object({
+						data: z.object({ logoUrl: z.string().nullable(), pendingChange: PendingChange }),
+					}),
+				},
+			},
 		},
 		400: {
 			description: "Invalid file",
@@ -1331,27 +1385,63 @@ authRoute.openapi(uploadLogoRoute, async (c) => {
 		return problemJson(c, 400, `File too large (${(file.size / 1024 / 1024).toFixed(1)}MB). Max: 2MB.`);
 	}
 
-	// Determine extension from MIME type
+	// Each upload gets a key of its own. So a logo that waits for a review never replaces the live one.
 	const ext = file.type === "image/png" ? "png" : file.type === "image/webp" ? "webp" : "jpg";
-	const key = `${id}/logo.${ext}`;
-
-	// Upload to R2
-	const arrayBuffer = await file.arrayBuffer();
-	// A new logo is a new face for the sign-in screen: the app goes to review again.
-	// This is done before the image is stored, so an approved app never shows an image that no admin saw.
-	await sendToReview(db, id, true, isAdmin(c, user.id));
-
-	await bucket.put(key, arrayBuffer, {
-		httpMetadata: { contentType: file.type, cacheControl: "public, max-age=86400" },
+	const logo = newLogo(id, ext, crypto.randomUUID());
+	await bucket.put(logo.key, await file.arrayBuffer(), {
+		httpMetadata: { contentType: file.type, cacheControl: "public, max-age=31536000, immutable" },
 	});
 
-	// Build the public URL (served via GET /auth/apps/:id/logo)
-	const logoUrl = `https://api.urantia.dev/auth/apps/${id}/logo`;
+	// A new logo is a new face on the sign-in screen. On an approved app it waits for a reviewer;
+	// on any other app it is live at once. The database decides, from the app as it is now.
+	const live = {
+		name: app.name,
+		redirectUris: app.redirectUris,
+		scopes: app.scopes,
+		logoUrl: app.logoUrl ?? null,
+	};
+	const existing = parseRequest(app.pendingChange);
+	const request = requestFor(live, { logoUrl: logo.url }, existing, {
+		id: crypto.randomUUID(),
+		now: new Date(),
+	});
+	const written = await writeEdit(db, id, {
+		wanted: { logoUrl: logo.url },
+		request,
+		byAdmin: isAdmin(c, user.id),
+	});
+	const [after] = await db
+		.select({ logoUrl: apps.logoUrl })
+		.from(apps)
+		.where(eq(apps.id, id))
+		.limit(1);
 
-	// Update the database
-	await db.update(apps).set({ logoUrl }).where(eq(apps.id, id));
+	// The files that nothing points at now: the old live logo, and an older logo that waited.
+	const kept = [after?.logoUrl ?? null, written?.pendingChange?.logoUrl ?? null];
+	for (const old of [app.logoUrl, existing?.logoUrl]) {
+		if (old && !kept.includes(old)) await removeLogoFile(bucket, id, old);
+	}
 
-	return c.json({ data: { logoUrl } }, 200);
+	if (written?.status === "approved" && written.pendingChange?.id !== existing?.id) {
+		await notifyAdmins(
+			c,
+			{
+				id,
+				name: app.name,
+				description: app.description,
+				websiteUrl: app.websiteUrl,
+				redirectUris: app.redirectUris,
+				scopes: app.scopes,
+				ownerEmail: user.email,
+			},
+			"request",
+		);
+	}
+
+	return c.json(
+		{ data: { logoUrl: after?.logoUrl ?? null, pendingChange: written?.pendingChange ?? null } },
+		200,
+	);
 });
 
 // ============================================================
@@ -1389,18 +1479,10 @@ authRoute.openapi(deleteLogoRoute, async (c) => {
 		return problemJson(c, 403, "You do not own this app.");
 	}
 
-	const bucket = c.env?.APP_LOGOS;
-	if (bucket) {
-		// Delete all possible extensions
-		await Promise.all([
-			bucket.delete(`${id}/logo.png`),
-			bucket.delete(`${id}/logo.jpg`),
-			bucket.delete(`${id}/logo.webp`),
-		]);
-	}
-
-	await sendToReview(db, id, app.logoUrl !== null, isAdmin(c, user.id));
+	// Less is safe: an app with no logo shows a letter. So a removal needs no review.
 	await db.update(apps).set({ logoUrl: null }).where(eq(apps.id, id));
+	await removeLogoFile(c.env?.APP_LOGOS, id, app.logoUrl);
+
 	return c.body(null, 204);
 });
 
@@ -1429,19 +1511,101 @@ authRoute.openapi(getLogoRoute, async (c) => {
 	const bucket = c.env?.APP_LOGOS;
 	if (!bucket) return problemJson(c, 404, "No logo found.");
 
+	// The same rule as for a logo file: public for an approved app only.
+	const { db } = getDb(c.env?.HYPERDRIVE);
+	const [app] = await db
+		.select({ status: apps.status, ownerId: apps.ownerId })
+		.from(apps)
+		.where(eq(apps.id, id))
+		.limit(1);
+	const viewer = c.get("user");
+	const ownerOrAdmin = !!viewer && !!app && (viewer.id === app.ownerId || isAdmin(c, viewer.id));
+	if (!app || (statusOf(app) !== "approved" && !ownerOrAdmin)) {
+		return problemJson(c, 404, "No logo found.");
+	}
+
 	// Try each extension
 	for (const ext of ["png", "jpg", "webp"]) {
 		const object = await bucket.get(`${id}/logo.${ext}`);
 		if (object) {
 			const headers = new Headers();
 			headers.set("Content-Type", object.httpMetadata?.contentType ?? "image/png");
-			headers.set("Cache-Control", "public, max-age=86400");
+			headers.set(
+				"Cache-Control",
+				statusOf(app) === "approved" ? "public, max-age=86400" : "private, no-store",
+			);
+			headers.set("X-Content-Type-Options", "nosniff");
 			headers.set("ETag", object.httpEtag);
 			return new Response(object.body as ReadableStream, { status: 200, headers });
 		}
 	}
 
 	return problemJson(c, 404, "No logo found.");
+});
+
+const getLogoFileRoute = createRoute({
+	operationId: "getAppLogoFile",
+	method: "get",
+	path: "/apps/{id}/logo/{file}",
+	tags: ["Auth"],
+	summary: "Get one logo file of an app (public)",
+	request: { params: z.object({ id: z.string(), file: z.string() }) },
+	responses: {
+		200: { description: "Logo image" },
+		404: {
+			description: "No logo found",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+	},
+});
+
+// Each person can load the live logo of an approved app. The logo of an app that is not approved, and
+// a logo that waits for a review, are for the owner and for an admin only: the page of the accounts
+// site loads them with the reader's sign-in.
+authRoute.openapi(getLogoFileRoute, async (c) => {
+	const { id, file } = c.req.valid("param");
+	const bucket = c.env?.APP_LOGOS;
+	if (!bucket || !isLogoFile(file)) return problemJson(c, 404, "No logo found.");
+
+	const { db } = getDb(c.env?.HYPERDRIVE);
+	const [app] = await db
+		.select({
+			status: apps.status,
+			ownerId: apps.ownerId,
+			logoUrl: apps.logoUrl,
+			pendingChange: apps.pendingChange,
+		})
+		.from(apps)
+		.where(eq(apps.id, id))
+		.limit(1);
+	const viewer = c.get("user");
+	const ownerOrAdmin = !!viewer && !!app && (viewer.id === app.ownerId || isAdmin(c, viewer.id));
+	const url = `https://api.urantia.dev/auth/apps/${id}/logo/${file}`;
+	const open =
+		!!app &&
+		canLoadLogo(
+			{
+				status: statusOf(app),
+				logoUrl: app.logoUrl ?? null,
+				waitingLogoUrl: parseRequest(app.pendingChange)?.logoUrl ?? null,
+			},
+			url,
+			ownerOrAdmin,
+		);
+	if (!open) return problemJson(c, 404, "No logo found.");
+
+	const object = await bucket.get(`${id}/logo-${file}`);
+	if (!object) return problemJson(c, 404, "No logo found.");
+	const headers = new Headers();
+	// The type comes from the name that we gave the file, never from what was uploaded with it.
+	const ext = file.slice(file.lastIndexOf(".") + 1);
+	headers.set("Content-Type", ext === "png" ? "image/png" : ext === "webp" ? "image/webp" : "image/jpeg");
+	// Only the public case can be kept by a cache that other people share.
+	const isPublic = statusOf(app) === "approved" && url === app.logoUrl;
+	headers.set("Cache-Control", isPublic ? "public, max-age=31536000, immutable" : "private, no-store");
+	headers.set("X-Content-Type-Options", "nosniff");
+	headers.set("ETag", object.httpEtag);
+	return new Response(object.body as ReadableStream, { status: 200, headers });
 });
 
 // ============================================================
@@ -1526,6 +1690,7 @@ authRoute.openapi(adminListAppsRoute, async (c) => {
 			websiteUrl: apps.websiteUrl,
 			reviewNote: apps.reviewNote,
 			reviewedAt: apps.reviewedAt,
+			pendingChange: apps.pendingChange,
 			createdAt: apps.createdAt,
 		})
 		.from(apps)
@@ -1539,10 +1704,140 @@ authRoute.openapi(adminListAppsRoute, async (c) => {
 			primaryColor: row.primaryColor ?? null,
 			accentColor: row.accentColor ?? null,
 			ownerEmail: row.ownerEmail ?? null,
+			pendingChange: parseRequest(row.pendingChange),
 			reviewedAt: row.reviewedAt?.toISOString() ?? null,
 			createdAt: row.createdAt.toISOString(),
 		})),
 	}, 200);
+});
+
+// ============================================================
+// A change request: the developer withdraws it, or a reviewer decides
+// ============================================================
+
+const CHANGE_GONE = "The request changed. Look again.";
+
+const withdrawChangeRoute = createRoute({
+	operationId: "withdrawAppChange",
+	method: "delete",
+	path: "/apps/{id}/change/{changeId}",
+	tags: ["Auth"],
+	summary: "Withdraw a change request (owner)",
+	request: { params: z.object({ id: z.string(), changeId: z.string().max(64) }) },
+	responses: {
+		204: { description: "Withdrawn" },
+		403: { description: "Not the owner", content: { "application/json": { schema: ErrorResponse } } },
+		404: { description: "App not found", content: { "application/json": { schema: ErrorResponse } } },
+		409: Conflict,
+	},
+});
+
+authRoute.openapi(withdrawChangeRoute, async (c) => {
+	const user = getUser(c);
+	const { id, changeId } = c.req.valid("param");
+	const { db } = getDb(c.env?.HYPERDRIVE);
+
+	const [app] = await db.select().from(apps).where(eq(apps.id, id)).limit(1);
+	if (!app) return problemJson(c, 404, `App "${id}" not found.`);
+	if (app.ownerId !== user.id && !isAdmin(c, user.id)) {
+		return problemJson(c, 403, "You do not own this app.");
+	}
+	const request = parseRequest(app.pendingChange);
+	if (!(await withdrawChange(db, id, changeId))) return problemJson(c, 409, CHANGE_GONE);
+	if (request?.id === changeId) await removeLogoFile(c.env?.APP_LOGOS, id, request.logoUrl);
+	return c.body(null, 204);
+});
+
+const decideChangeRoute = createRoute({
+	operationId: "adminDecideAppChange",
+	method: "post",
+	path: "/apps/{id}/change/{changeId}/decision",
+	tags: ["Auth"],
+	summary: "Approve or decline a change request (admin-only)",
+	request: {
+		params: z.object({ id: z.string(), changeId: z.string().max(64) }),
+		body: {
+			required: true,
+			content: {
+				"application/json": {
+					schema: z.object({
+						decision: z.enum(["approve", "decline"]),
+						note: z.string().trim().max(1000).optional(),
+					}),
+				},
+			},
+		},
+	},
+	responses: {
+		200: {
+			description: "Decided",
+			content: {
+				"application/json": {
+					schema: z.object({ data: z.object({ id: z.string(), decision: z.string() }) }),
+				},
+			},
+		},
+		400: BadRequest,
+		403: { description: "Admin access required", content: { "application/json": { schema: ErrorResponse } } },
+		404: { description: "App not found", content: { "application/json": { schema: ErrorResponse } } },
+		409: Conflict,
+	},
+});
+
+authRoute.openapi(decideChangeRoute, async (c) => {
+	const user = getUser(c);
+	if (!isAdmin(c, user.id)) return problemJson(c, 403, "Admin access required.");
+	const { id, changeId } = c.req.valid("param");
+	const body = c.req.valid("json");
+	const needsNote = noteProblem(body.decision, body.note);
+	if (needsNote) return problemJson(c, 400, needsNote);
+
+	const { db } = getDb(c.env?.HYPERDRIVE);
+	const [app] = await db.select().from(apps).where(eq(apps.id, id)).limit(1);
+	if (!app) return problemJson(c, 404, `App "${id}" not found.`);
+
+	// The reviewer decides on the request that the screen showed. The id of a request is new for each
+	// change of its content, so the statement below applies exactly what was read here, or nothing.
+	const request = parseRequest(app.pendingChange);
+	if (!request || request.id !== changeId) return problemJson(c, 409, CHANGE_GONE);
+	const live = {
+		name: app.name,
+		redirectUris: app.redirectUris,
+		scopes: app.scopes,
+		logoUrl: app.logoUrl ?? null,
+	};
+	const done =
+		body.decision === "approve"
+			? await decideChange(db, id, changeId, {
+					decision: "approve",
+					values: applyRequest(live, request),
+				})
+			: await decideChange(db, id, changeId, { decision: "decline", note: body.note ?? "" });
+	if (!done) return problemJson(c, 409, CHANGE_GONE);
+
+	if (body.decision === "approve") {
+		// The old logo, when the approval put a new one in its place.
+		if (request.logoUrl && request.logoUrl !== app.logoUrl) {
+			await removeLogoFile(c.env?.APP_LOGOS, id, app.logoUrl);
+		}
+		// A code that waits was made for the old permissions.
+		if (request.scopes) await db.delete(authCodes).where(eq(authCodes.appId, id));
+	} else {
+		await removeLogoFile(c.env?.APP_LOGOS, id, request.logoUrl);
+	}
+
+	c.get("logger")?.info(`[auth] change of app "${id}": ${body.decision}`, { adminId: user.id });
+
+	if (app.ownerId && app.ownerId !== user.id) {
+		const [owner] = await db
+			.select({ email: users.email })
+			.from(users)
+			.where(eq(users.id, app.ownerId))
+			.limit(1);
+		await sendMail(mailEnv(c), owner?.email, changeMail(app, body.decision, body.note ?? null));
+	}
+
+	return c.json({ data: { id, decision: body.decision } }, 200);
 });
 
 // ============================================================
@@ -1553,6 +1848,16 @@ const AppStatusBody = z.object({
 	status: z.enum(["approved", "declined", "suspended", "pending"]),
 	// A note to the developer.
 	note: z.string().trim().max(1000).optional(),
+	// What the reviewer's screen showed. Needed for an approval: an app in review is live for its owner
+	// at once, so its owner can change it while the reviewer reads.
+	seen: z
+		.object({
+			name: z.string(),
+			redirectUris: z.array(z.string()),
+			scopes: z.array(z.string()),
+			logoUrl: z.string().nullable(),
+		})
+		.optional(),
 });
 
 const setAppStatusRoute = createRoute({
@@ -1574,6 +1879,8 @@ const setAppStatusRoute = createRoute({
 				},
 			},
 		},
+		400: BadRequest,
+		409: Conflict,
 		403: {
 			description: "Admin access required",
 			content: { "application/json": { schema: ErrorResponse } },
@@ -1596,12 +1903,27 @@ authRoute.openapi(setAppStatusRoute, async (c) => {
 	const [app] = await db.select().from(apps).where(eq(apps.id, id)).limit(1);
 	if (!app) return problemJson(c, 404, `App "${id}" not found.`);
 
+	// A developer who is declined or suspended must be told why.
+	const needsNote = noteProblem(body.status, body.note);
+	if (needsNote) return problemJson(c, 400, needsNote);
+
+	// The reviewer approves what the screen showed, or is told that the app changed.
+	const CHANGED = "The app changed since you looked. Look again.";
+	if (body.status === "approved") {
+		if (!body.seen) return problemJson(c, 400, "Say what the screen showed (seen).");
+		const now = { name: app.name, redirectUris: app.redirectUris, scopes: app.scopes, logoUrl: app.logoUrl ?? null };
+		if (!sameAsSeen(now, body.seen)) return problemJson(c, 409, CHANGED);
+	}
+
 	// The status first. Each request of the app, each refresh, and each sign-in reads it, so the app
 	// stops with this one statement. The two deletes after it only clean up.
-	await db
-		.update(apps)
-		.set({ status: body.status, reviewNote: body.note || null, reviewedAt: new Date() })
-		.where(eq(apps.id, id));
+	// An approval holds only if the row is still what the reviewer saw at the moment of the write.
+	const written = await setReviewStatus(db, id, {
+		status: body.status,
+		note: body.note || null,
+		seen: body.seen,
+	});
+	if (!written) return problemJson(c, 409, CHANGED);
 
 	if (body.status === "suspended") {
 		await db.delete(refreshTokens).where(eq(refreshTokens.appId, id));

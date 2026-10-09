@@ -30,7 +30,7 @@ const AUTH_PUBLIC_PATHS = new Set(["/.well-known/openid-configuration", "/.well-
 // Auth routes that are public (no JWT required)
 const AUTH_PUBLIC_POSTS = new Set(["/auth/token", "/auth/refresh", "/auth/revoke"]);
 // The public record of an app and its logo. A change to an app needs a sign-in.
-const AUTH_PUBLIC_APP_GET = /^\/auth\/apps\/[^/]+(\/logo)?$/;
+const AUTH_PUBLIC_APP_GET = /^\/auth\/apps\/[^/]+(\/logo(\/[^/]+)?)?$/;
 
 // Cache the JWKS keyset per Supabase URL to avoid re-fetching on every request
 const jwksCache = new Map<string, ReturnType<typeof createRemoteJWKSet>>();
