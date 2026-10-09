@@ -5,6 +5,7 @@ import {
 	deletedAccountAllows,
 	listAccess,
 	READER_TABLES,
+	refusalText,
 	removeAccess,
 } from "../../src/lib/consents.ts";
 
@@ -345,6 +346,67 @@ describe("delete the account", () => {
 
 // A session token stays good for up to an hour after a delete, and a token of an app for its own life.
 // The marker is what stops them: without it, the next request would make the reader's row again.
+// An admin reviews each app and owns the apps of UrantiaHub itself. A press on Delete must not take
+// those away: an admin account is removed by hand, on purpose.
+describe("the account of an admin", () => {
+	it("is not deleted here, and nothing is removed", async () => {
+		const m = memory();
+		const result = await deleteAccount(m.store, {
+			userId: ME,
+			email: "reader@example.com",
+			typedEmail: "reader@example.com",
+			isAdmin: true,
+			removeSignIn: async () => {
+				throw new Error("must not run");
+			},
+		});
+		expect(result).toEqual({ ok: false, reason: "admin" });
+	});
+
+	// The message about the apps comes first: it tells the admin what to do.
+	it("gets the message about the apps when other people use an app of the admin", async () => {
+		const m = memory();
+		m.apps.push({
+			id: "mine",
+			name: "My App",
+			ownerId: ME,
+			status: "approved",
+			logoUrl: null,
+			primaryColor: null,
+		});
+		m.consents.push({ userId: OTHER, appId: "mine", scopes: ["profile"], grantedAt: new Date() });
+		const result = await deleteAccount(m.store, {
+			userId: ME,
+			email: "reader@example.com",
+			typedEmail: "reader@example.com",
+			isAdmin: true,
+			removeSignIn: async () => {},
+		});
+		expect(result).toEqual({ ok: false, reason: "apps", apps: ["My App"] });
+		expect(m.calls).toEqual([]);
+		expect(m.deleted.has(ME)).toBe(false);
+	});
+});
+
+describe("what the reader is told after a refusal", () => {
+	// Kelson's words on 2026-10-08: this message is right as it is. Do not change it.
+	it("tells the owner of an app that other people use to delete the apps first", () => {
+		expect(refusalText({ ok: false, reason: "apps", apps: ["Our Paper Voices"] })).toBe(
+			"You own an app that other people use. Delete your apps first, or write to team@urantiahub.com.",
+		);
+	});
+	it("says that an admin account is not deleted here", () => {
+		expect(refusalText({ ok: false, reason: "admin" })).toBe(
+			"This account reviews apps for UrantiaHub, so it cannot be deleted here. Write to team@urantiahub.com.",
+		);
+	});
+	it("says that the email does not match", () => {
+		expect(refusalText({ ok: false, reason: "email" })).toBe(
+			"The email does not match your account.",
+		);
+	});
+});
+
 describe("the marker of a deleted account", () => {
 	it("is set before anything is removed, and is not set when the delete is refused", async () => {
 		const refusedEmail = memory();

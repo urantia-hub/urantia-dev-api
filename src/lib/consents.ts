@@ -68,6 +68,8 @@ export type DeleteResult =
 	| { ok: true }
 	// The typed email is not the reader's.
 	| { ok: false; reason: "email" }
+	// An admin reviews apps and owns the apps of UrantiaHub itself. That account is removed by hand.
+	| { ok: false; reason: "admin" }
 	// The reader owns an open app that other people use. A delete would sign them out with no warning.
 	| { ok: false; reason: "apps"; apps: string[] };
 
@@ -82,6 +84,7 @@ export async function deleteAccount(
 		userId: string;
 		email: string | null;
 		typedEmail: string;
+		isAdmin?: boolean;
 		removeSignIn: (userId: string) => Promise<void>;
 	},
 ): Promise<DeleteResult> {
@@ -90,6 +93,7 @@ export async function deleteAccount(
 	const owned = await store.ownedApps(input.userId);
 	const inUse = owned.filter((app) => app.status === "approved" && app.otherUsers > 0);
 	if (inUse.length > 0) return { ok: false, reason: "apps", apps: inUse.map((app) => app.name) };
+	if (input.isAdmin) return { ok: false, reason: "admin" };
 
 	// The marker comes first and stays. A token that is still good cannot make the reader's row again,
 	// and cannot add a row behind the delete.
@@ -109,4 +113,13 @@ export function deletedAccountAllows(request: {
 	fromApp: boolean;
 }): boolean {
 	return !request.fromApp && request.method === "DELETE" && request.path === "/auth/account";
+}
+
+// What the reader reads after a refused delete.
+export function refusalText(result: Exclude<DeleteResult, { ok: true }>): string {
+	if (result.reason === "email") return "The email does not match your account.";
+	if (result.reason === "admin") {
+		return "This account reviews apps for UrantiaHub, so it cannot be deleted here. Write to team@urantiahub.com.";
+	}
+	return "You own an app that other people use. Delete your apps first, or write to team@urantiahub.com.";
 }
