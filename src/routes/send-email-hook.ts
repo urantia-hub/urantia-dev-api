@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm";
 import { Hono } from "hono";
 import { getDb } from "../db/client.ts";
 import { apps } from "../db/schema.ts";
-import { handleSendEmail, sendHtmlMail } from "../lib/mail/hook.ts";
+import { accountsMailKey, handleSendEmail, sendHtmlMail } from "../lib/mail/hook.ts";
 import { nameForMail } from "../lib/mail/signin.ts";
 import { readCapped } from "../lib/request-log.ts";
 import { isFirstPartyApp } from "../lib/token-access.ts";
@@ -51,8 +51,13 @@ sendEmailHookRoute.post("/", async (c) => {
 				);
 			},
 			send: (to, mail) =>
-				sendHtmlMail(env, env.SIGNIN_FROM || DEFAULT_FROM, to, mail, fetch, (reason) =>
-					log("send-email hook: the mail service did not take the email", { reason }),
+				sendHtmlMail(
+					{ RESEND_API_KEY: accountsMailKey(env) },
+					env.SIGNIN_FROM || DEFAULT_FROM,
+					to,
+					mail,
+					fetch,
+					(reason) => log("send-email hook: the mail service did not take the email", { reason }),
 				),
 			log,
 		},
