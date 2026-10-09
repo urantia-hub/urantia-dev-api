@@ -2,6 +2,7 @@ import { describe, expect, it } from "bun:test";
 import {
 	applyRequest,
 	type ChangeRequest,
+	canLoadLogo,
 	isLogoFile,
 	logoKeys,
 	newLogo,
@@ -240,5 +241,39 @@ describe("what the reviewer saw", () => {
 		expect(sameAsSeen(app, { ...app, redirectUris: ["https://a/cb", "https://b/cb"] })).toBe(false);
 		expect(sameAsSeen(app, { ...app, scopes: ["profile", "notes"] })).toBe(false);
 		expect(sameAsSeen(app, { ...app, logoUrl: "https://x/l.png" })).toBe(false);
+	});
+});
+
+// An image that no reviewer saw must not be public on our address.
+describe("who can load a logo file", () => {
+	const live = "https://api.urantia.dev/auth/apps/sc/logo/3f2c1e52-77ab-4d0e-9c21-5b6f0a4d91e7.png";
+	const waiting =
+		"https://api.urantia.dev/auth/apps/sc/logo/aaaaaaaa-77ab-4d0e-9c21-5b6f0a4d91e7.png";
+	const app = { status: "approved", logoUrl: live, waitingLogoUrl: waiting };
+
+	it("is each person, for the live logo of an approved app", () => {
+		expect(canLoadLogo(app, live, false)).toBe(true);
+	});
+	it("is the owner and an admin only, for a logo that waits", () => {
+		expect(canLoadLogo(app, waiting, false)).toBe(false);
+		expect(canLoadLogo(app, waiting, true)).toBe(true);
+	});
+	it.each([
+		"pending",
+		"declined",
+		"suspended",
+		"other",
+	])("is the owner and an admin only, for an app that is %s", (status) => {
+		expect(canLoadLogo({ ...app, status }, live, false)).toBe(false);
+		expect(canLoadLogo({ ...app, status }, live, true)).toBe(true);
+	});
+	it("is no one, for a file that the app does not point at now", () => {
+		const old =
+			"https://api.urantia.dev/auth/apps/sc/logo/bbbbbbbb-77ab-4d0e-9c21-5b6f0a4d91e7.png";
+		expect(canLoadLogo(app, old, false)).toBe(false);
+		expect(canLoadLogo(app, old, true)).toBe(false);
+		expect(
+			canLoadLogo({ status: "approved", logoUrl: null, waitingLogoUrl: null }, live, true),
+		).toBe(false);
 	});
 });
