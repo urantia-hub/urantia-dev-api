@@ -67,11 +67,9 @@ describe("the link in the email", () => {
 	// The link opens a page with a "Sign in" button. A mail scanner that opens each link does not use up
 	// the proof, and the page works on any device.
 	it("is our own link page with the proof on it, and the request of the app kept", () => {
-		const link = new URL(signInLink(CALLBACK, "hash-1", "Reader@Example.com"));
+		const link = new URL(signInLink(CALLBACK, "hash-1"));
 		expect(link.origin + link.pathname).toBe("https://accounts.urantiahub.com/login/link");
 		expect(link.searchParams.get("token_hash")).toBe("hash-1");
-		// The page says which account the link signs in, and refuses a proof for another account.
-		expect(link.searchParams.get("email")).toBe("reader@example.com");
 		expect(link.searchParams.get("app_id")).toBe("voices");
 		expect(link.searchParams.get("redirect_uri")).toBe("https://v.example/cb");
 		expect(link.searchParams.get("state")).toBe("s1");
@@ -88,8 +86,8 @@ describe("the link in the email", () => {
 			"",
 			undefined,
 		]) {
-			expect(signInLink(to, "hash-1", "Reader@Example.com")).toBe(
-				"https://accounts.urantiahub.com/login/link?token_hash=hash-1&email=reader%40example.com",
+			expect(signInLink(to, "hash-1")).toBe(
+				"https://accounts.urantiahub.com/login/link?token_hash=hash-1",
 			);
 		}
 	});
@@ -97,13 +95,11 @@ describe("the link in the email", () => {
 	it("keeps only the parts of a sign-in request, and not a proof that came with the address", () => {
 		const link = new URL(
 			signInLink(
-				`${CALLBACK}&token_hash=old&type=recovery&email=victim%40example.com&other=1&scope=profile&code_challenge=c&redirect_to=%2Fapps`,
+				`${CALLBACK}&token_hash=old&type=recovery&other=1&scope=profile&code_challenge=c&redirect_to=%2Fapps`,
 				"hash-1",
-				"Reader@Example.com",
 			),
 		);
 		expect(link.searchParams.getAll("token_hash")).toEqual(["hash-1"]);
-		expect(link.searchParams.getAll("email")).toEqual(["reader@example.com"]);
 		expect([...link.searchParams.keys()].sort()).toEqual([
 			"app_id",
 			"code_challenge",
