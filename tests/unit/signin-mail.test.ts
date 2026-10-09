@@ -107,6 +107,7 @@ describe("the link in the email", () => {
 		expect([...link.searchParams.keys()].sort()).toEqual([
 			"app_id",
 			"code_challenge",
+			"email",
 			"redirect_to",
 			"redirect_uri",
 			"scope",
