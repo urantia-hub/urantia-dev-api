@@ -68,6 +68,8 @@ export type DeleteResult =
 	| { ok: true }
 	// The typed email is not the reader's.
 	| { ok: false; reason: "email" }
+	// An admin reviews apps and owns the apps of UrantiaHub itself. That account is removed by hand.
+	| { ok: false; reason: "admin" }
 	// The reader owns an open app that other people use. A delete would sign them out with no warning.
 	| { ok: false; reason: "apps"; apps: string[] };
 
@@ -82,10 +84,12 @@ export async function deleteAccount(
 		userId: string;
 		email: string | null;
 		typedEmail: string;
+		isAdmin?: boolean;
 		removeSignIn: (userId: string) => Promise<void>;
 	},
 ): Promise<DeleteResult> {
 	if (!input.email || !same(input.email, input.typedEmail)) return { ok: false, reason: "email" };
+	if (input.isAdmin) return { ok: false, reason: "admin" };
 
 	const owned = await store.ownedApps(input.userId);
 	const inUse = owned.filter((app) => app.status === "approved" && app.otherUsers > 0);
@@ -109,4 +113,24 @@ export function deletedAccountAllows(request: {
 	fromApp: boolean;
 }): boolean {
 	return !request.fromApp && request.method === "DELETE" && request.path === "/auth/account";
+}
+
+// What the reader reads after a refused delete. A name of an app is the reader's own word.
+export function refusalText(result: Exclude<DeleteResult, { ok: true }>): string {
+	if (result.reason === "email") return "The email does not match your account.";
+	if (result.reason === "admin") {
+		return "This account reviews apps for UrantiaHub, so it cannot be deleted here. Write to team@urantiahub.com.";
+	}
+	const names = result.apps
+		.slice(0, 5)
+		.map((name) =>
+			name
+				.replace(/\p{Cc}+/gu, " ")
+				.trim()
+				.slice(0, 40),
+		)
+		.join(", ");
+	return result.apps.length === 1
+		? `Other people use this app of yours: ${names}. Delete it first, or write to team@urantiahub.com.`
+		: `Other people use these apps of yours: ${names}. Delete them first, or write to team@urantiahub.com.`;
 }
