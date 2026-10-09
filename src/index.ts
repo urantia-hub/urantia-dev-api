@@ -16,6 +16,7 @@ import { rateLimiter } from "./middleware/rate-limit.ts";
 import { scannerBlock } from "./middleware/security.ts";
 import { adminRoute } from "./routes/admin.ts";
 import { alertWebhookRoute } from "./routes/alert-webhook.ts";
+import { sendEmailHookRoute } from "./routes/send-email-hook.ts";
 import { audioRoute } from "./routes/audio.ts";
 import { authRoute } from "./routes/auth.ts";
 import { bibleRoute } from "./routes/bible.ts";
@@ -212,6 +213,7 @@ app.route("/embeddings", embeddingsRoute);
 app.route("/tools", toolsRoute);
 app.route("/feedback", feedbackRoute);
 app.route("/hooks/posthog-alerts", alertWebhookRoute);
+app.route("/hooks/send-email", sendEmailHookRoute);
 
 // OpenAPI spec
 const OPENAPI_CONFIG = {

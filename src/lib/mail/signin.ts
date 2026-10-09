@@ -1,0 +1,67 @@
+import { esc, FINE, frame, type HtmlMail, P } from "./layout.ts";
+
+// The sign-in email: a 6-digit code, and a link that does the same.
+
+const CALLBACK = "https://accounts.urantiahub.com/callback";
+
+// Our own callback, or null. "redirect_to" comes with the request for the email, so it is checked:
+// the proof of the sign-in must never go to another site.
+function ownCallback(redirectTo: string | undefined): URL | null {
+	try {
+		const url = new URL(redirectTo ?? "");
+		return url.origin + url.pathname === CALLBACK ? url : null;
+	} catch {
+		return null;
+	}
+}
+
+// The link in the email. It goes to our own callback, which checks the proof. It works on any device,
+// and it keeps the request of the app, so the reader lands where the sign-in started.
+export function signInLink(redirectTo: string | undefined, tokenHash: string): string {
+	const url = ownCallback(redirectTo) ?? new URL(CALLBACK);
+	url.searchParams.delete("token_hash");
+	url.searchParams.delete("type");
+	url.searchParams.set("token_hash", tokenHash);
+	url.searchParams.set("type", "email");
+	return url.toString();
+}
+
+// The id of the app that the reader signs in to, or null for UrantiaHub's own sign-in.
+export function requestOf(redirectTo: string | undefined): string | null {
+	return ownCallback(redirectTo)?.searchParams.get("app_id") || null;
+}
+
+// "appName": the name of another app, or null for UrantiaHub itself and for an app that is not known.
+export function signInMail(input: {
+	code: string;
+	link: string;
+	appName: string | null;
+}): HtmlMail {
+	// Only six digits go into the subject.
+	if (!/^\d{6}$/.test(input.code)) throw new Error("sign-in mail: the code is not six digits");
+	const asked = input.appName ? `You asked to sign in to ${input.appName}. ` : "";
+	const askedHtml = input.appName ? `You asked to sign in to <b>${esc(input.appName)}</b>. ` : "";
+	const ignore = "If you did not ask for this, you can ignore this email.";
+	return {
+		subject: `${input.code} is your UrantiaHub code`,
+		html: frame(
+			"Your sign-in code",
+			`<p style="margin:0 0 14px;font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:30px;letter-spacing:6px;font-weight:600;color:#26221c;background-color:#fbf8f2;border-radius:10px;padding:14px 18px;text-align:center;">${input.code}</p>
+<p style="${P}">Enter this code on the sign-in page. It works for 10 minutes.</p>
+<p style="${P}"><a href="${esc(input.link)}" style="color:#4f46e5;">Or sign in with this link</a></p>
+<p style="${FINE}">${askedHtml}${ignore}</p>`,
+		),
+		text: [
+			`Your sign-in code: ${input.code}`,
+			"",
+			"Enter this code on the sign-in page. It works for 10 minutes.",
+			"",
+			"Or sign in with this link:",
+			input.link,
+			"",
+			`${asked}${ignore}`,
+			"",
+			"This address does not take replies. Write to team@urantiahub.com.",
+		].join("\n"),
+	};
+}

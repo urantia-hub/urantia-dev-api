@@ -141,6 +141,39 @@ describe("a logo file", () => {
 	});
 });
 
+// Supabase signs each call of the Send Email hook. Without a good signature nothing is sent.
+describe("the Send Email hook", () => {
+	const post = (headers: Record<string, string> = {}) =>
+		app.request("/hooks/send-email", {
+			method: "POST",
+			headers: {
+				"content-type": "application/json",
+				"cf-connecting-ip": "token-access-test",
+				...headers,
+			},
+			body: JSON.stringify({
+				user: { email: "reader@example.com" },
+				email_data: { token: "481920", token_hash: "h", email_action_type: "magiclink" },
+			}),
+		});
+	it("refuses a call with no signature, and one with a made-up signature", async () => {
+		expect((await post()).status).toBe(401);
+		const res = await post({
+			"webhook-id": "msg_1",
+			"webhook-timestamp": String(Math.floor(Date.now() / 1000)),
+			"webhook-signature": "v1,AAAA",
+		});
+		expect(res.status).toBe(401);
+		expect(((await res.json()) as { error: { http_code: number } }).error.http_code).toBe(401);
+	});
+	it("is not in the public spec", async () => {
+		const spec = (await (await app.request("/openapi.json")).json()) as {
+			paths: Record<string, unknown>;
+		};
+		expect(Object.keys(spec.paths).filter((path) => path.startsWith("/hooks"))).toEqual([]);
+	});
+});
+
 describe("the path rule", () => {
 	// "/meaning" starts with "/me" but is not under it.
 	it("does not treat a path that only starts with /me as a signed-in route", async () => {
