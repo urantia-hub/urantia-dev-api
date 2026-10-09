@@ -216,6 +216,28 @@ describe("sendMail", () => {
 		expect(JSON.parse(calls[0]?.[1].body as string).html).toBe("<p>h</p>");
 	});
 
+	// A notice that the mail service refuses must leave a trace, or no one learns that notices stopped.
+	it("reports the status when the mail service refuses a notice", async () => {
+		const seen: string[] = [];
+		await sendMail(
+			env,
+			"to@example.com",
+			mail,
+			async () => new Response("no", { status: 403 }),
+			(reason) => seen.push(reason),
+		);
+		await sendMail(
+			env,
+			"to@example.com",
+			mail,
+			async () => {
+				throw new Error("down");
+			},
+			(reason) => seen.push(reason),
+		);
+		expect(seen).toEqual(["status 403", "network"]);
+	});
+
 	// A mail is a notice. A failure must never stop the request that caused it.
 	it("answers false, and does not throw, with no key, no address, a refusal, or a failed request", async () => {
 		const ok = async () => new Response("{}", { status: 200 });
