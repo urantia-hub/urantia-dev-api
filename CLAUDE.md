@@ -213,7 +213,7 @@ The API includes a unified auth layer for the Urantia ecosystem:
 - The rules are in `src/lib/change-request.ts` (pure). The statements are in `src/lib/change-store.ts`, and each decides from the row as it is at the moment of the write: a route reads the app first, and an admin can approve or suspend it between the read and the write. Do not move a status or a reviewed value back into a plain update in a route.
 - A request gets a new id when its content changes. A reviewer decides with that id (`POST /auth/apps/{id}/change/{changeId}/decision`), and gets 409 when the request changed. The developer withdraws with `DELETE /auth/apps/{id}/change/{changeId}`.
 - `PATCH /auth/apps/{id}/status`: a note of 10 characters or more is needed for `declined` and `suspended`. An approval needs `seen` (what the reviewer's screen showed) and gets 409 when the app is not that now.
-- Each logo upload gets a key of its own (`<app>/logo-<uuid>.<ext>`, served at `/auth/apps/{id}/logo/{file}`). A logo of an approved app waits in the request, and an approval points `logo_url` at it in the same statement. The old `/auth/apps/{id}/logo` route still serves a logo from before.
+- Each logo upload gets a key of its own (`<app>/logo-<uuid>.<ext>`, served at `/auth/apps/{id}/logo/{file}`). A logo of an approved app waits in the request, and an approval points `logo_url` at it in the same statement. The old `/auth/apps/{id}/logo` route still serves a logo from before. Both logo routes are public only for the live logo of an approved app (`canLoadLogo`). The logo of an app that is not approved, and a logo that waits, need the sign-in of the owner or of an admin: the accounts site loads them with the token, not with a plain image tag.
 
 ## Audio
 

@@ -36,6 +36,7 @@ import { ALLOWED_SCOPES, AppCreateBody, HexColor } from "../validators/app-schem
 import { createAccountStore } from "../lib/account-store.ts";
 import {
 	applyRequest,
+	canLoadLogo,
 	isLogoFile,
 	logoKeys,
 	newLogo,
@@ -1510,13 +1511,30 @@ authRoute.openapi(getLogoRoute, async (c) => {
 	const bucket = c.env?.APP_LOGOS;
 	if (!bucket) return problemJson(c, 404, "No logo found.");
 
+	// The same rule as for a logo file: public for an approved app only.
+	const { db } = getDb(c.env?.HYPERDRIVE);
+	const [app] = await db
+		.select({ status: apps.status, ownerId: apps.ownerId })
+		.from(apps)
+		.where(eq(apps.id, id))
+		.limit(1);
+	const viewer = c.get("user");
+	const ownerOrAdmin = !!viewer && !!app && (viewer.id === app.ownerId || isAdmin(c, viewer.id));
+	if (!app || (statusOf(app) !== "approved" && !ownerOrAdmin)) {
+		return problemJson(c, 404, "No logo found.");
+	}
+
 	// Try each extension
 	for (const ext of ["png", "jpg", "webp"]) {
 		const object = await bucket.get(`${id}/logo.${ext}`);
 		if (object) {
 			const headers = new Headers();
 			headers.set("Content-Type", object.httpMetadata?.contentType ?? "image/png");
-			headers.set("Cache-Control", "public, max-age=86400");
+			headers.set(
+				"Cache-Control",
+				statusOf(app) === "approved" ? "public, max-age=86400" : "private, no-store",
+			);
+			headers.set("X-Content-Type-Options", "nosniff");
 			headers.set("ETag", object.httpEtag);
 			return new Response(object.body as ReadableStream, { status: 200, headers });
 		}
@@ -1541,21 +1559,50 @@ const getLogoFileRoute = createRoute({
 	},
 });
 
-// The name of the file is random and is known only from the app's record. A logo that waits for a
-// review is in the record that the owner and the admins get, and in no public one.
+// Each person can load the live logo of an approved app. The logo of an app that is not approved, and
+// a logo that waits for a review, are for the owner and for an admin only: the page of the accounts
+// site loads them with the reader's sign-in.
 authRoute.openapi(getLogoFileRoute, async (c) => {
 	const { id, file } = c.req.valid("param");
 	const bucket = c.env?.APP_LOGOS;
-	if (!bucket || !isLogoFile(file) || !/^[a-z0-9][a-z0-9-]*[a-z0-9]$/.test(id)) {
-		return problemJson(c, 404, "No logo found.");
-	}
+	if (!bucket || !isLogoFile(file)) return problemJson(c, 404, "No logo found.");
+
+	const { db } = getDb(c.env?.HYPERDRIVE);
+	const [app] = await db
+		.select({
+			status: apps.status,
+			ownerId: apps.ownerId,
+			logoUrl: apps.logoUrl,
+			pendingChange: apps.pendingChange,
+		})
+		.from(apps)
+		.where(eq(apps.id, id))
+		.limit(1);
+	const viewer = c.get("user");
+	const ownerOrAdmin = !!viewer && !!app && (viewer.id === app.ownerId || isAdmin(c, viewer.id));
+	const url = `https://api.urantia.dev/auth/apps/${id}/logo/${file}`;
+	const open =
+		!!app &&
+		canLoadLogo(
+			{
+				status: statusOf(app),
+				logoUrl: app.logoUrl ?? null,
+				waitingLogoUrl: parseRequest(app.pendingChange)?.logoUrl ?? null,
+			},
+			url,
+			ownerOrAdmin,
+		);
+	if (!open) return problemJson(c, 404, "No logo found.");
+
 	const object = await bucket.get(`${id}/logo-${file}`);
 	if (!object) return problemJson(c, 404, "No logo found.");
 	const headers = new Headers();
 	// The type comes from the name that we gave the file, never from what was uploaded with it.
 	const ext = file.slice(file.lastIndexOf(".") + 1);
 	headers.set("Content-Type", ext === "png" ? "image/png" : ext === "webp" ? "image/webp" : "image/jpeg");
-	headers.set("Cache-Control", "public, max-age=31536000, immutable");
+	// Only the public case can be kept by a cache that other people share.
+	const isPublic = statusOf(app) === "approved" && url === app.logoUrl;
+	headers.set("Cache-Control", isPublic ? "public, max-age=31536000, immutable" : "private, no-store");
 	headers.set("X-Content-Type-Options", "nosniff");
 	headers.set("ETag", object.httpEtag);
 	return new Response(object.body as ReadableStream, { status: 200, headers });

@@ -134,3 +134,16 @@ export function logoKeys(appId: string, url: string | null | undefined): string[
 	const file = url.startsWith(`${own}/`) ? url.slice(own.length + 1) : "";
 	return isLogoFile(file) ? [`${appId}/logo-${file}`] : [];
 }
+
+// Who can load a logo file. An image that no reviewer saw must not be public on our address: each
+// person can load the live logo of an approved app, and only the owner and an admin can load the logo
+// of an app that is not approved, or a logo that waits. A file that the app does not point at is for no one.
+export function canLoadLogo(
+	app: { status: string; logoUrl: string | null; waitingLogoUrl: string | null },
+	url: string,
+	ownerOrAdmin: boolean,
+): boolean {
+	if (url === app.logoUrl) return app.status === "approved" || ownerOrAdmin;
+	if (url === app.waitingLogoUrl) return ownerOrAdmin;
+	return false;
+}
