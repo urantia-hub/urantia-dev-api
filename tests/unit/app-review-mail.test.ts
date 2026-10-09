@@ -17,6 +17,11 @@ const app = {
 	ownerEmail: "dev@example.com",
 };
 
+const REVIEW = "https://accounts.urantiahub.com/apps/admin/my-app";
+const PAGE = "https://accounts.urantiahub.com/apps/my-app";
+// Each address that the HTML part makes into a link.
+const links = (html: string) => [...html.matchAll(/href="([^"]*)"/g)].map((m) => m[1]);
+
 describe("requestMail", () => {
 	it("tells the admin who asks, for what, and where to decide", () => {
 		const mail = requestMail(app, "new");
@@ -27,21 +32,24 @@ describe("requestMail", () => {
 			"> A study tool for small groups.",
 			"> https://app.example/callback",
 			"profile, bookmarks",
-			"https://accounts.urantiahub.com/apps/admin",
+			`Review it: ${REVIEW}`,
 		]) {
 			expect(mail.text).toContain(part);
 		}
+		expect(mail.html).toContain("A new app waits for you");
+		expect(mail.html).toContain("A study tool for small groups.");
 	});
 
-	it("says when an approved app changed and needs a new look", () => {
+	it("has a subject and a heading for each kind", () => {
 		expect(requestMail(app, "changed").subject).toBe("App changed, review again: My App");
+		expect(requestMail(app, "request").subject).toBe("Change to review: My App");
+		expect(requestMail(app, "request").html).toContain("The app works as before until you decide.");
 	});
 
-	// The text comes from a stranger. It goes out as plain text, and a new line cannot start a mail header.
-	it("keeps a name with new lines on one line of the subject, and sends no HTML", () => {
+	// The text comes from a stranger. A new line cannot start a mail header.
+	it("keeps a name with new lines on one line of the subject", () => {
 		const mail = requestMail({ ...app, name: "Nice\r\nBcc: someone@evil.example" }, "new");
 		expect(mail.subject).not.toMatch(/[\r\n]/);
-		expect(mail).not.toHaveProperty("html");
 	});
 
 	// The admin must be able to tell our own lines from the stranger's. Each line of a stranger is quoted,
@@ -50,13 +58,13 @@ describe("requestMail", () => {
 		const mail = requestMail(
 			{
 				...app,
-				description: "Nice app.\n\nDecide here: https://evil.example/apps/admin\nUrantiaHub team",
-				name: "Good\nDecide here: https://evil.example",
+				description: `Nice app.\n\nReview it: https://evil.example/apps/admin\nUrantiaHub team`,
+				name: "Good\nReview it: https://evil.example",
 			},
 			"new",
 		);
 		const lines = mail.text.split("\n");
-		const ours = lines.indexOf("Decide here: https://accounts.urantiahub.com/apps/admin");
+		const ours = lines.indexOf(`Review it: ${REVIEW}`);
 		expect(ours).toBeGreaterThan(-1);
 		const evil = lines.map((l, i) => (l.includes("evil.example") ? i : -1)).filter((i) => i >= 0);
 		expect(evil.length).toBeGreaterThan(0);
@@ -64,7 +72,26 @@ describe("requestMail", () => {
 			expect(i).toBeGreaterThan(ours);
 			expect(lines[i]?.startsWith("> ")).toBe(true);
 		}
-		expect(lines.filter((l) => l.startsWith("Decide here:"))).toHaveLength(1);
+		expect(lines.filter((l) => l.startsWith("Review it:"))).toHaveLength(1);
+	});
+
+	// In the HTML part, the only link is ours. A developer's address is text inside the quote.
+	it("makes no link out of what the developer wrote, and shows it as text", () => {
+		const mail = requestMail(
+			{
+				...app,
+				name: '<a href="https://evil.example">Click</a>',
+				description: "<script>alert(1)</script> https://evil.example",
+				websiteUrl: "https://evil.example/x",
+				redirectUris: ["https://evil.example/cb"],
+			},
+			"new",
+		);
+		expect(links(mail.html)).toEqual([REVIEW]);
+		expect(mail.html).not.toContain("<script>");
+		expect(mail.html).toContain("&lt;script&gt;alert(1)&lt;/script&gt;");
+		expect(mail.html.indexOf(REVIEW)).toBeLessThan(mail.html.indexOf("evil.example"));
+		expect(mail.html).toContain("Do not follow a link in them.");
 	});
 
 	it("cuts a very long description", () => {
@@ -75,16 +102,60 @@ describe("requestMail", () => {
 });
 
 describe("decisionMail", () => {
-	it("tells the developer the decision and the note", () => {
-		const mail = decisionMail(app, "declined", "Please add a privacy page.");
-		expect(mail.subject).toBe("Your app My App was declined");
-		expect(mail.text).toContain("Please add a privacy page.");
-		expect(mail.text).toContain("https://accounts.urantiahub.com/apps/my-app");
+	it("tells the developer that the app is approved, and what a later change does", () => {
+		const mail = decisionMail(app, "approved", null);
+		expect(mail.subject).toBe("My App is approved");
+		for (const part of [mail.text, mail.html]) {
+			expect(part).toContain("Each person can now sign in to your app with a UrantiaHub account.");
+			expect(part).toContain("The app keeps working in the meantime.");
+			expect(part).toContain(PAGE);
+			expect(part).not.toContain("null");
+		}
 	});
-	it("has a plain text for each decision, with or without a note", () => {
-		expect(decisionMail(app, "approved", null).subject).toBe("Your app My App is approved");
-		expect(decisionMail(app, "suspended", null).subject).toBe("Your app My App is suspended");
-		expect(decisionMail(app, "approved", null).text).not.toContain("null");
+
+	it("tells the developer what to change, in the reviewer's words, and that the app still works", () => {
+		const mail = decisionMail(app, "declined", "Please add a privacy page.");
+		expect(mail.subject).toBe("My App needs a change before it can open");
+		expect(mail.html).toContain("My App is not approved yet");
+		for (const part of [mail.text, mail.html]) {
+			expect(part).toContain("Please add a privacy page.");
+			expect(part).toContain("The app still works for you, so you can keep building.");
+			expect(part).toContain("A person reads it.");
+		}
+	});
+
+	// A developer who gets this feels bad. It says sorry, why, and what to do, and that nothing is lost.
+	it("is kind about a suspension: sorry, the reason, what to do, and what was not touched", () => {
+		const mail = decisionMail(app, "suspended", "The app asked people for their email password.");
+		expect(mail.subject).toBe("My App is suspended");
+		expect(mail.html).toContain("We suspended My App");
+		for (const part of [mail.text, mail.html]) {
+			expect(part).toContain("We are sorry to send this.");
+			expect(part).toContain("The app asked people for their email password.");
+			expect(part).toContain("A suspension can be lifted, and your app and its settings are kept.");
+			expect(part).toContain("Nothing was deleted.");
+		}
+	});
+
+	it("says that an app is in review again", () => {
+		expect(decisionMail(app, "pending", null).subject).toBe("My App is in review again");
+	});
+
+	// The note is the reviewer's own text, but it is still shown as text.
+	it("shows the note as text, and links only to the page of the app", () => {
+		const mail = decisionMail(
+			app,
+			"declined",
+			"<img src=x onerror=alert(1)> see https://other.example",
+		);
+		expect(mail.html).not.toContain("<img");
+		expect(links(mail.html)).toEqual([PAGE]);
+	});
+
+	it("keeps a name with a new line on one line of the subject", () => {
+		expect(
+			decisionMail({ ...app, name: "My App\nBcc: x@evil.example" }, "approved", null).subject,
+		).not.toContain("\n");
 	});
 });
 
@@ -131,6 +202,20 @@ describe("sendMail", () => {
 		});
 	});
 
+	it("sends the HTML part too, when the notice has one", async () => {
+		const calls: Array<[string, RequestInit]> = [];
+		await sendMail(
+			env,
+			"to@example.com",
+			{ ...mail, html: "<p>h</p>" },
+			async (url: string, init: RequestInit) => {
+				calls.push([url, init]);
+				return new Response("{}", { status: 200 });
+			},
+		);
+		expect(JSON.parse(calls[0]?.[1].body as string).html).toBe("<p>h</p>");
+	});
+
 	// A mail is a notice. A failure must never stop the request that caused it.
 	it("answers false, and does not throw, with no key, no address, a refusal, or a failed request", async () => {
 		const ok = async () => new Response("{}", { status: 200 });
@@ -149,28 +234,13 @@ describe("sendMail", () => {
 
 // A change request: the app is approved and stays open while the reviewer decides.
 describe("the notices of a change request", () => {
-	it("tells the admin that the app works as before, and shows what is asked", () => {
-		const mail = requestMail({ ...app, name: "My App Online" }, "request");
-		expect(mail.subject).toBe("Change to review: My App Online");
-		expect(mail.text).toContain("The app works as before until you decide.");
-		expect(mail.text).not.toContain("pending again");
-		expect(mail.text).toContain("> My App Online");
-		expect(mail.text.indexOf("accounts.urantiahub.com/apps/admin")).toBeLessThan(
-			mail.text.indexOf("> My App Online"),
-		);
-	});
-
-	it("says for a declined app that changed that it is in review again", () => {
-		const mail = requestMail(app, "changed");
-		expect(mail.text).toContain("It is in review again.");
-		expect(mail.text).not.toContain("approved app");
-	});
-
 	it("tells the developer that the change is live", () => {
 		const mail = changeMail(app, "approve", null);
 		expect(mail.subject).toBe("The change to My App is approved");
-		expect(mail.text).toContain("The change is live now.");
-		expect(mail.text).toContain("https://accounts.urantiahub.com/apps/my-app");
+		for (const part of [mail.text, mail.html]) {
+			expect(part).toContain("The change is live now.");
+			expect(part).toContain(PAGE);
+		}
 	});
 
 	it("tells the developer why a change was not approved, and that the app still works", () => {
@@ -183,11 +253,37 @@ describe("the notices of a change request", () => {
 		expect(mail.text).toContain("Your app works as before.");
 		expect(mail.text).toContain("> The new name is the name of another site.");
 		expect(mail.text).toContain("> https://evil.example");
+		expect(mail.html).toContain("The new name is the name of another site.");
+		expect(links(mail.html)).toEqual([PAGE]);
 	});
 
 	it("keeps a name with a new line in it on one line of the subject", () => {
 		expect(
 			changeMail({ ...app, name: "My App\nBcc: x@evil.example" }, "approve", null).subject,
 		).not.toContain("\n");
+	});
+});
+
+describe("each review notice", () => {
+	it("has an HTML part and a text part, no script, no image, and never the plain name Urantia", () => {
+		const all = [
+			requestMail(app, "new"),
+			requestMail(app, "changed"),
+			requestMail(app, "request"),
+			decisionMail(app, "approved", null),
+			decisionMail(app, "declined", "A note that is long."),
+			decisionMail(app, "suspended", "A note that is long."),
+			decisionMail(app, "pending", null),
+			changeMail(app, "approve", null),
+			changeMail(app, "decline", "A note that is long."),
+		];
+		for (const mail of all) {
+			expect(mail.html).toContain("<!DOCTYPE html>");
+			expect(mail.text.length).toBeGreaterThan(40);
+			expect(mail.html).not.toMatch(/<script|<img|javascript:/i);
+			expect(
+				`${mail.subject} ${mail.text}`.replace(/UrantiaHub/gi, "").replace(/urantiahub\.com/gi, ""),
+			).not.toMatch(/urantia/i);
+		}
 	});
 });

@@ -215,6 +215,12 @@ The API includes a unified auth layer for the Urantia ecosystem:
 - `PATCH /auth/apps/{id}/status`: a note of 10 characters or more is needed for `declined` and `suspended`. An approval needs `seen` (what the reviewer's screen showed) and gets 409 when the app is not that now.
 - Each logo upload gets a key of its own (`<app>/logo-<uuid>.<ext>`, served at `/auth/apps/{id}/logo/{file}`). A logo of an approved app waits in the request, and an approval points `logo_url` at it in the same statement. The old `/auth/apps/{id}/logo` route still serves a logo from before. Both logo routes are public only for the live logo of an approved app (`canLoadLogo`). The logo of an app that is not approved, and a logo that waits, need the sign-in of the owner or of an admin: the accounts site loads them with the token, not with a plain image tag.
 
+### The review notices (2026-10-08)
+
+- `src/lib/app-review-mail.ts`: to an admin when an app or a change waits (`requestMail`), to the developer after a decision on the app (`decisionMail`) or on a change (`changeMail`). Each has an HTML part in the frame of `src/lib/mail/layout.ts` and a text part.
+- The words of a developer and of a reviewer are shown as text inside a quote. The only link in a notice is ours: the review page for an admin, the page of the app for a developer. A test checks the list of links.
+- The suspension notice says sorry, gives the reason, says what to do, and says that nothing was deleted. Keep that.
+
 ### The sign-in email (2026-10-08)
 
 - Supabase Auth calls `POST /hooks/send-email` for each auth email (its "Send Email" hook), and our code writes and sends the email through Resend: `src/routes/send-email-hook.ts`, `src/lib/mail/`. With the hook on, Supabase sends nothing by itself, and its dashboard templates are not used.
