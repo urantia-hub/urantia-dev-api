@@ -61,6 +61,7 @@ describe("the Send Email hook", () => {
 		expect(d.mails[0]?.to).toBe("reader@example.com");
 		expect(d.mails[0]?.subject).toBe("481920 is your UrantiaHub code");
 		expect(d.mails[0]?.html).toContain("token_hash=hash-1");
+		expect(d.mails[0]?.html).toContain("email=reader%40example.com");
 		expect(d.mails[0]?.html).toContain("Our Paper Voices");
 	});
 

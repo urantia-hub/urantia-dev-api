@@ -101,7 +101,7 @@ export async function handleSendEmail(
 		const appId = requestOf(redirectTo);
 		const mail = signInMail({
 			code: token,
-			link: signInLink(redirectTo, tokenHash),
+			link: signInLink(redirectTo, tokenHash, email),
 			appName: appId ? await deps.appName(appId) : null,
 		});
 		if (await deps.send(email, mail)) return { status: 200, body: {} };

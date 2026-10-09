@@ -22,9 +22,17 @@ const LINK_PAGE = "https://accounts.urantiahub.com/login/link";
 // The link in the email. It opens a page of the accounts site with a "Sign in" button, and that page
 // checks the proof. So a mail scanner that opens each link does not use the proof up, and the link
 // works on any device. It keeps the request of the app, so the reader lands where the sign-in started.
-export function signInLink(redirectTo: string | undefined, tokenHash: string): string {
+// The link names the account that it signs in. The page shows that name before the press, and
+// refuses a proof that is for another account: so a link that another person sent cannot sign a
+// reader in to that person's account without the page saying so.
+export function signInLink(
+	redirectTo: string | undefined,
+	tokenHash: string,
+	email: string,
+): string {
 	const link = new URL(LINK_PAGE);
 	link.searchParams.set("token_hash", tokenHash);
+	link.searchParams.set("email", email.trim().toLowerCase());
 	const from = ownCallback(redirectTo);
 	for (const part of REQUEST_PARTS) {
 		const value = from?.searchParams.get(part);
