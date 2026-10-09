@@ -29,8 +29,8 @@ export type Edit = {
 };
 
 // Writes an edit. For an approved app the reviewed values stay as they are, and "request" is kept
-// for a reviewer. A list that the request names (it gets a new item) stays as it is, so the app keeps
-// working; a list with a removal only is cut at once. For any other app the
+// for a reviewer. A removal of an address or a permission holds at once; only an edit that would leave
+// a list empty leaves that list as it is, so the app keeps working. For any other app the
 // values are live at once, and a declined app goes to review again.
 // "request": the request for this edit, null for none, or undefined when the edit touches no reviewed
 // field (the colors only), so a request that waits is left alone.
@@ -48,18 +48,22 @@ export async function writeEdit(
 	const kept = (column: SQLWrapper, values: readonly string[]) =>
 		sql`array(select item from unnest(${column}) with ordinality as had(item, place) where item = any(${textArray(values)}) order by place)`;
 
+	// A removal holds at once. If nothing of the list would stay, the list stays, so the app still works.
+	const cut = (column: SQLWrapper, values: readonly string[]) =>
+		sql`case when cardinality(${kept(column, values)}) = 0 then ${column} else ${kept(column, values)} end`;
+
 	const sets: SQL[] = [];
 	if (wanted.name !== undefined) {
 		sets.push(sql`name = case when ${held} then ${apps.name} else ${wanted.name} end`);
 	}
 	if (wanted.redirectUris !== undefined) {
 		sets.push(
-			sql`redirect_uris = case when ${held} then ${request?.redirectUris ? sql`${apps.redirectUris}` : kept(apps.redirectUris, wanted.redirectUris)} else ${textArray(wanted.redirectUris)} end`,
+			sql`redirect_uris = case when ${held} then ${cut(apps.redirectUris, wanted.redirectUris)} else ${textArray(wanted.redirectUris)} end`,
 		);
 	}
 	if (wanted.scopes !== undefined) {
 		sets.push(
-			sql`scopes = case when ${held} then ${request?.scopes ? sql`${apps.scopes}` : kept(apps.scopes, wanted.scopes)} else ${textArray(wanted.scopes)} end`,
+			sql`scopes = case when ${held} then ${cut(apps.scopes, wanted.scopes)} else ${textArray(wanted.scopes)} end`,
 		);
 	}
 	if (wanted.logoUrl !== undefined) {
