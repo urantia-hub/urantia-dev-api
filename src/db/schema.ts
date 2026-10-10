@@ -489,6 +489,7 @@ export const scriptureChunks = pgTable(
 		sortStart: integer("sort_start").notNull(),
 		sortEnd: integer("sort_end").notNull(),
 		text: text("text").notNull(),
+		anchor: text("anchor"), // words in one place of the public page; scripts/scriptures/anchors.ts
 		embedding: vector3072("embedding"), // text-embedding-3-large, for parallels
 		embeddingSmall: vector("embedding_small"), // text-embedding-3-small, for live search
 		embeddingModel: text("embedding_model"),

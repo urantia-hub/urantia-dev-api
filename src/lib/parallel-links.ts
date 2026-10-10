@@ -84,10 +84,25 @@ const WORKS: Record<string, Work> = {
 	"dhammapada-muller-1881": { page: gutenberg(2017), words: 0 },
 };
 
-/** The page of the work that holds the passage, with the words that take a browser to it. */
-export function scriptureUrl(corpusId: string, reference: string, text: string): string | null {
+/** The page that holds a passage of a work, or null. */
+export function workPage(corpusId: string, reference: string): string | null {
+	return WORKS[corpusId]?.page(reference) ?? null;
+}
+
+/**
+ * The page of the work that holds the passage, with the words that take a browser to it. `anchor` is
+ * the stored run of words that is in one place of that page (`scripture_chunks.anchor`). Without it,
+ * the rule of the work applies: its first words, or the page only.
+ */
+export function scriptureUrl(
+	corpusId: string,
+	reference: string,
+	text: string,
+	anchor?: string | null,
+): string | null {
 	const work = WORKS[corpusId];
 	const url = work?.page(reference);
 	if (!work || !url) return null;
+	if (anchor) return `${url}#:~:text=${encodeURIComponent(anchor).replace(/-/g, "%2D")}`;
 	return work.words > 0 ? `${url}${textFragment(text, work.words, work.exact)}` : url;
 }

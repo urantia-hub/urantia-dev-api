@@ -512,11 +512,12 @@ that passage (`src/lib/parallel-links.ts`). An app shows it as "Open".
   download page with no text.
 - A browser goes to the FIRST place that has the words of a fragment. Five words are in many places of
   a page that holds a whole book ("Lord of the heavens and" is 36 times in the Koran), and the browser
-  then marks another verse. So each work has its own number of words (`WORKS`): the smallest that put
-  no sample passage in two places. The Koran and the Analects need 24, and a shorter passage gets the
-  page only. No number was sure for the Dhammapada, so it gets the page only. About half of the Koran
-  and Analects links open the page at its top for that reason. An exact anchor for each passage needs
-  a field in the database, computed when a work is loaded: not done.
+  then marks another verse. So each passage has an anchor: `scripture_chunks.anchor`, a run of 4 to 14
+  plain words of the passage that is in ONE place of its page (`scripts/scriptures/anchor.ts`).
+  `bun scripts/scriptures/anchors.ts` fills it from the real pages; run it after a work is loaded or a
+  page address changes (it is the last step of the pipeline). On 2026-10-10 each of the 2,973 passages
+  got one. The column came from `scripts/scriptures/alter-anchors.sql` (Kelson approved). A passage
+  with no anchor falls back to the rule of its work in `WORKS`: its first words, or the page only.
 - A wrong link costs more trust than no link (Kelson, 2026-10-10). A function answers null when it
   does not know the book or the work. A new work gets its page in `PAGES` in the same change.
 - `bun scripts/check-parallel-links.ts` reads the real pages for a sample of passages, and fails when

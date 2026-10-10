@@ -79,6 +79,7 @@ export async function enrichWithScriptureParallels<T extends ParagraphRow>(
 			chunkId: scriptureChunks.id,
 			label: scriptureChunks.label,
 			text: scriptureChunks.text,
+			anchor: scriptureChunks.anchor,
 			similarity: scriptureParallels.similarity,
 			rank: scriptureParallels.rank,
 			source: scriptureParallels.source,
@@ -113,7 +114,7 @@ export async function enrichWithScriptureParallels<T extends ParagraphRow>(
 			rank: r.rank,
 			source: r.source,
 			embeddingModel: r.embeddingModel,
-			url: scriptureUrl(corpus.id, r.label, r.text),
+			url: scriptureUrl(corpus.id, r.label, r.text, r.anchor),
 		});
 		byParagraph.set(r.paragraphId, list);
 	}
