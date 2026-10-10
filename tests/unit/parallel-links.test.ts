@@ -145,3 +145,32 @@ describe("the address of a passage of another work", () => {
 		}
 	});
 });
+
+describe("a stored anchor", () => {
+	it("is the words of the link, in place of the rule of the work", () => {
+		expect(
+			scriptureUrl(
+				"dhammapada-muller-1881",
+				"Dhp 122-123",
+				"Let no man think lightly of good",
+				"Let no man think lightly of good,",
+			),
+		).toBe(
+			"https://www.gutenberg.org/cache/epub/2017/pg2017-images.html#:~:text=Let%20no%20man%20think%20lightly%20of%20good%2C",
+		);
+		expect(
+			scriptureUrl(
+				"japji-macauliffe-1909",
+				"Japji 28",
+				"Make contentment and modesty thine earrings",
+				"well-made words",
+			),
+		).toContain("#:~:text=well%2Dmade%20words");
+	});
+
+	it("changes nothing when it is absent", () => {
+		expect(scriptureUrl("dhammapada-muller-1881", "Dhp 1", "All that we are", null)).toBe(
+			"https://www.gutenberg.org/cache/epub/2017/pg2017-images.html",
+		);
+	});
+});

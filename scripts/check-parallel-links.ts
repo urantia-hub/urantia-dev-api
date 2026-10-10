@@ -1,7 +1,8 @@
 // Reads the real page behind the address of a sample of parallel passages, and says for each work how
 // many pages opened and how many hold the first words of the passage. Run it after a change to
 // `src/lib/parallel-links.ts`, and when a work is added:  bun scripts/check-parallel-links.ts
-// It asks the live API for the passages and builds each address with the code of this checkout.
+// It asks the live API for the passages. A Bible address is built by this checkout; the address of
+// another work is the one that the API serves, which holds the stored anchor of the passage.
 import { bibleUrl, scriptureUrl } from "../src/lib/parallel-links.ts";
 
 const API = process.env.API_BASE_URL ?? "https://api.urantia.dev";
@@ -61,7 +62,8 @@ for (const ref of REFS) {
 			work: s.corpus.id,
 			reference: s.reference,
 			text: s.text,
-			url: scriptureUrl(s.corpus.id, s.reference, s.text),
+			// The API has the stored anchor of the passage. This checkout builds the address without it.
+			url: s.url ?? scriptureUrl(s.corpus.id, s.reference, s.text),
 		});
 }
 
