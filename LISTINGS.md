@@ -28,28 +28,28 @@ Say "the Urantia Papers" for the text. "The Urantia Book" is the title of the 19
 
 | Where | Link | Notes | Checked |
 |---|---|---|---|
-| Official MCP Registry | `dev.urantia/urantia-papers` at https://registry.modelcontextprotocol.io | Version 1.1.0. Namespace is DNS-authenticated. Republish rules are in `CLAUDE.md` | 2026-10-03 |
-| Glama, connector | https://glama.ai/mcp/connectors/dev.urantia/urantia-papers | A grades. `/.well-known/glama.json` claims the maintainer | 2026-10-03 |
+| Official MCP Registry | `dev.urantia/urantia-papers` at https://registry.modelcontextprotocol.io | Version 1.1.0. Namespace is DNS-authenticated. Republish rules are in `CLAUDE.md` | 2026-10-10 |
+| Glama, connector | https://glama.ai/mcp/connectors/dev.urantia/urantia-papers | A grades. `/.well-known/glama.json` claims the maintainer | 2026-10-10 |
 | Glama, server | https://glama.ai/mcp/servers/urantia-hub/urantia-dev-api | Grade C, capped: hosted only, no local install. Do not add a stdio mode for the grade | 2026-10-03 |
-| Smithery | https://smithery.ai/servers/urantiahub/urantia-papers | Badge is in `README.md` | 2026-10-03 |
+| Smithery | https://smithery.ai/servers/urantiahub/urantia-papers | Badge is in `README.md` | 2026-10-10 |
 | cursor.directory | https://cursor.directory/plugins/urantia-papers | Published from the plugin repo: MCP server plus the `urantia-research` skill. Verification badge requested | 2026-10-03 |
-| Free Public APIs | https://www.freepublicapis.com/urantia-papers-api | A robot writes the description from the docs and tests the endpoints daily | 2026-10-03 |
+| Free Public APIs | https://www.freepublicapis.com/urantia-papers-api | A robot writes the description from the docs and tests the endpoints daily | 2026-10-10 |
 | public-apis | https://github.com/public-apis/public-apis (Books) | Merged | 2026-10-03 |
 | public-api-lists | https://github.com/public-api-lists/public-api-lists | PR #427, merged 2026-05-19 | 2026-10-03 |
-| PulseMCP | https://www.pulsemcp.com/servers?q=urantia | Listed with old text ("The Urantia Book", author "Urantia Hub"). PulseMCP paused all changes on 2026-09-03 and re-reads the Registry when it reopens | 2026-10-03 |
+| PulseMCP | https://www.pulsemcp.com/servers?q=urantia | Listed with old text ("The Urantia Book", author "Urantia Hub"). PulseMCP paused all changes on 2026-09-03 and re-reads the Registry when it reopens | 2026-10-10 |
 | Postman Public API Network | https://www.postman.com/urantia-dev/urantia-papers (publisher: https://www.postman.com/urantia-dev) | Public workspace with 28 read-only requests in 12 folders, built from the OpenAPI spec. Publisher verification requested 2026-10-04 | 2026-10-04 |
 | mcpservers.org | https://mcpservers.org/servers/docs-urantia-dev-mcp-servers | Approved from the free submission of 2026-10-03. The listing links to docs.urantia.dev/mcp-servers | 2026-10-04 |
-| APIs.io | https://apis.io/providers/urantia-papers/ | Live. Built from the public repo `api-evangelist/urantia-papers`. On 2026-10-05 the maintainer applied our correction by hand (their commit dced7ce) and closed PR #1 without a merge, which is their normal process: the spec (27 paths, 29 operations), the docs links, the MCP server with 19 tools, the catalog, and the robots line. The update goes live with their Friday build (2026-10-09) and the re-score runs after it. Not applied: the Postman link, because no main docs page linked it; the docs home page and the API introduction link it now (docs #29). To ask for a change, open an issue on that repo | 2026-10-05 |
+| APIs.io | https://apis.io/providers/urantia-papers/ | Live. Built from the public repo `api-evangelist/urantia-papers`. On 2026-10-05 the maintainer applied our correction by hand (their commit dced7ce) and closed PR #1 without a merge, which is their normal process: the spec (27 paths, 29 operations), the docs links, the MCP server with 19 tools, the catalog, and the robots line. The update was due with their Friday build (2026-10-09). On 2026-10-10 the page still shows the score 6.1, so the re-score did not run yet. Not applied: the Postman link, because no main docs page linked it; the docs home page and the API introduction link it now (docs #29). To ask for a change, open an issue on that repo | 2026-10-10 |
+| awesome-remote-mcp-servers | https://github.com/punkpeye/awesome-remote-mcp-servers | PR #1026, merged 2026-10-08. The entry uses the standard listing text and the Glama connector badge | 2026-10-10 |
 | npm | `@urantia/api`, `@urantia/auth` | TypeScript SDKs, from the `urantia-dev-sdks` repo | 2026-10-03 |
 
 ## In review
 
 | Where | Link | State | Since |
 |---|---|---|---|
-| Claude Connectors Directory | Manage at https://claude.ai/directory/manage, slug `urantia-papers` | In review. Questions go to mcp-review@anthropic.com | 2026-10-02 |
-| awesome-remote-mcp-servers | https://github.com/punkpeye/awesome-remote-mcp-servers/pull/1026 | Open, CI green (`endpoint-ok`, `has-connector`), waits for a maintainer | 2026-10-03 |
-| OpenAI plugin directory (ChatGPT and Codex) | Manage at https://platform.openai.com/plugins | Package 1.2.2 in review. Published under a verified individual identity. Domain verified through `/.well-known/openai-apps-challenge`; tool scan found no issues. Demo video (unlisted): https://youtu.be/-2WJRON0ZOE. Feedback comes by email | 2026-10-04 |
-| Gemini CLI extensions gallery | https://geminicli.com/extensions/browse/ | No form. `gemini-extension.json` is at the root of the plugin repo and the repo has the topic `gemini-cli-extension` (plugin #6). Google's crawler runs daily and lists it if it passes validation. Passed `gemini extensions validate` locally | 2026-10-04 |
+| Claude Connectors Directory | Manage at https://claude.ai/directory/manage, slug `urantia-papers` | In review on 2026-10-10: "Nothing to do until a reviewer decides". Questions go to mcp-review@anthropic.com | 2026-10-02 |
+| OpenAI plugin directory (ChatGPT and Codex) | Manage at https://platform.openai.com/plugins | Package 1.2.2 in review, not published, no findings on 2026-10-10. Published under a verified individual identity. Domain verified through `/.well-known/openai-apps-challenge`; tool scan found no issues. Demo video (unlisted): https://youtu.be/-2WJRON0ZOE. Feedback comes by email | 2026-10-04 |
+| Gemini CLI extensions gallery | https://geminicli.com/extensions/browse/ | No form. `gemini-extension.json` is at the root of the plugin repo and the repo has the topic `gemini-cli-extension` (plugin #6). Google's crawler lists it if it passes validation. Passed `gemini extensions validate` locally. Not listed on 2026-10-10. The repo meets the three listing rules (public, topic, manifest at the root). The gallery data file (`https://geminicli.com/extensions.json`) was last built on 2026-10-07, and many other repos tagged in the same weeks are also absent, so the delay is on the crawler side. To check: search that file for `urantia` | 2026-10-04 |
 | mcp.so | https://mcp.so | Free-listing support ticket open. The paid path ($39) was skipped | 2026-10-02 |
 
 ## Stalled or closed
