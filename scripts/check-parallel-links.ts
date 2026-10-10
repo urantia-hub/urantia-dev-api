@@ -5,7 +5,10 @@
 import { bibleUrl, scriptureUrl, textFragment } from "../src/lib/parallel-links.ts";
 
 const API = process.env.API_BASE_URL ?? "https://api.urantia.dev";
-const REFS = (process.env.REFS ?? "1:0.3,2:5.1,3:1.4,5:1.6,12:4.3,34:6.11,48:6.33,74:6.3,100:4.3,111:4.5,121:8.3,131:3.2,131:8.3,140:5.7,159:5.2,170:2.6,195:9.3,196:0.5").split(",");
+const REFS = (
+	process.env.REFS ??
+	"1:0.3,2:5.1,3:1.4,5:1.6,12:4.3,34:6.11,48:6.33,74:6.3,100:4.3,111:4.5,121:8.3,131:3.2,131:8.3,140:5.7,159:5.2,170:2.6,195:9.3,196:0.5"
+).split(",");
 const AGENT = { "user-agent": "Mozilla/5.0 (urantia.dev link check)" };
 
 type Passage = { work: string; reference: string; text: string; url: string | null };
@@ -39,14 +42,33 @@ function page(url: string): Promise<string | null> {
 
 const passages: Passage[] = [];
 for (const ref of REFS) {
-	const res = await fetch(`${API}/paragraphs/${ref}?include=bibleParallels,scriptureParallels`, { headers: AGENT });
+	const res = await fetch(`${API}/paragraphs/${ref}?include=bibleParallels,scriptureParallels`, {
+		headers: AGENT,
+	});
 	if (!res.ok) throw new Error(`${ref}: the API answered ${res.status}`);
-	const data = ((await res.json()) as { data: { bibleParallels?: any[]; scriptureParallels?: any[] } }).data;
-	for (const b of data.bibleParallels ?? []) passages.push({ work: "bible", reference: b.reference, text: b.text, url: bibleUrl(b.bookCode, b.chapter, b.verseStart) });
-	for (const s of data.scriptureParallels ?? []) passages.push({ work: s.corpus.id, reference: s.reference, text: s.text, url: scriptureUrl(s.corpus.id, s.reference, s.text) });
+	const data = (
+		(await res.json()) as { data: { bibleParallels?: any[]; scriptureParallels?: any[] } }
+	).data;
+	for (const b of data.bibleParallels ?? [])
+		passages.push({
+			work: "bible",
+			reference: b.reference,
+			text: b.text,
+			url: bibleUrl(b.bookCode, b.chapter, b.verseStart),
+		});
+	for (const s of data.scriptureParallels ?? [])
+		passages.push({
+			work: s.corpus.id,
+			reference: s.reference,
+			text: s.text,
+			url: scriptureUrl(s.corpus.id, s.reference, s.text),
+		});
 }
 
-const results = new Map<string, { all: number; noUrl: number; noPage: number; found: number; missed: string[] }>();
+const results = new Map<
+	string,
+	{ all: number; noUrl: number; noPage: number; found: number; missed: string[] }
+>();
 const seen = new Set<string>();
 for (const p of passages) {
 	const key = `${p.work} ${p.reference}`;
@@ -72,7 +94,9 @@ for (const p of passages) {
 
 let bad = false;
 for (const [work, r] of results) {
-	console.log(`${work}: ${r.all} passages, ${r.noUrl} with no address, ${r.noPage} with no page, ${r.found} with the words on the page`);
+	console.log(
+		`${work}: ${r.all} passages, ${r.noUrl} with no address, ${r.noPage} with no page, ${r.found} with the words on the page`,
+	);
 	for (const line of r.missed.slice(0, 6)) console.log(`    ${line}`);
 	if (r.noPage > 0) bad = true;
 }
