@@ -8,6 +8,7 @@ import { and, asc, eq, inArray } from "drizzle-orm";
 import type { getDb } from "../db/client.ts";
 import { bibleChunks, bibleParallels } from "../db/schema.ts";
 import { formatBibleReference } from "./bible-canonicalizer.ts";
+import { bibleUrl } from "./parallel-links.ts";
 
 type Db = ReturnType<typeof getDb>["db"];
 type ParagraphRow = { id: string; [key: string]: unknown };
@@ -24,6 +25,8 @@ export type BibleParallel = {
 	rank: number;
 	source: string;
 	embeddingModel: string;
+	/** The public page that holds the passage, at its first verse. Null when there is none. */
+	url: string | null;
 };
 
 /** Check if `include` query param contains "bibleParallels" */
@@ -78,8 +81,7 @@ export async function enrichWithBibleParallels<T extends ParagraphRow>(
 		const reference =
 			formatBibleReference(row.bookCode, row.chapter, row.verseStart) ??
 			`${row.bookCode} ${row.chapter}:${row.verseStart}`;
-		const fullRef =
-			row.verseEnd === row.verseStart ? reference : `${reference}-${row.verseEnd}`;
+		const fullRef = row.verseEnd === row.verseStart ? reference : `${reference}-${row.verseEnd}`;
 		list.push({
 			chunkId: row.chunkId,
 			reference: fullRef,
@@ -92,6 +94,7 @@ export async function enrichWithBibleParallels<T extends ParagraphRow>(
 			rank: row.rank,
 			source: row.source,
 			embeddingModel: row.embeddingModel,
+			url: bibleUrl(row.bookCode, row.chapter, row.verseStart),
 		});
 		byParagraph.set(row.paragraphId, list);
 	}
