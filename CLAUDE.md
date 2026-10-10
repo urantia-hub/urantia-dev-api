@@ -499,3 +499,19 @@ and joins each result against `bible_parallels` (direction='bible_to_ub') so
 Bible hits arrive with the relevant Urantia paragraphs already attached.
 This is the urantia.dev API — Bible search without UB content would miss the
 point. Filters: `canon`, `bookCode`, `paragraphLimit` (0-10).
+
+## Parallel passage addresses
+
+Each Bible parallel and each scripture parallel on a paragraph has `url`: the public page that holds
+that passage (`src/lib/parallel-links.ts`). An app shows it as "Open".
+
+- Bible: the chapter page of the World English Bible at ebible.org, at the first verse (`#V4`).
+- The other works: the page that holds the text, with a text fragment of the first five words, so a
+  browser scrolls to the passage. The Bhagavad Gita has one page for each discourse. The four Project
+  Gutenberg works use the reading page, not the `sourceUrl` of the corpus, which is a download page
+  with no text.
+- A wrong link costs more trust than no link (Kelson, 2026-10-10). A function answers null when it
+  does not know the book or the work. A new work gets its page in `PAGES` in the same change.
+- `bun scripts/check-parallel-links.ts` reads the real pages for a sample of passages. Run it after
+  a change there. On 2026-10-10: 433 passages, each page opened, 424 held the first words. The
+  misses are words with a footnote mark between them; the page is still the right one.

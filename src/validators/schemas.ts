@@ -127,6 +127,7 @@ export const ParagraphBibleParallelSchema = z.object({
 	rank: z.number().int(),
 	source: z.string(),
 	embeddingModel: z.string(),
+	url: z.string().nullable().openapi({ description: "The public page of the World English Bible that holds the passage, at its first verse. Null when there is none.", example: "https://ebible.org/eng-web/JHN17.htm#V1" }),
 });
 
 // --- Urantia parallel (inline on paragraph when include=urantiaParallels) ---
@@ -173,6 +174,7 @@ export const ScriptureParallelSchema = z.object({
 	rank: z.number().int(),
 	source: z.string(),
 	embeddingModel: z.string(),
+	url: z.string().nullable().openapi({ description: "The public page that holds the passage in this translation, with a text fragment that takes a browser to its first words. Null when there is none.", example: "https://en.wikisource.org/wiki/The_Sikh_Religion/Volume_1/Japji#:~:text=Make%20contentment%20and%20modesty%20thine" }),
 });
 
 // --- Paragraph ---

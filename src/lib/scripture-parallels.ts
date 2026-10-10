@@ -4,6 +4,7 @@
 import { and, asc, eq, inArray, lte } from "drizzle-orm";
 import type { getDb } from "../db/client.ts";
 import { scriptureChunks, scriptureCorpora, scriptureParallels } from "../db/schema.ts";
+import { scriptureUrl } from "./parallel-links.ts";
 
 type Db = ReturnType<typeof getDb>["db"];
 type ParagraphRow = { id: string; [key: string]: unknown };
@@ -52,6 +53,8 @@ export type ScriptureParallel = {
 	rank: number;
 	source: string;
 	embeddingModel: string;
+	/** The public page that holds the passage, with the words that take a browser to it. Null when there is none. */
+	url: string | null;
 };
 
 export function wantsScriptureParallels(include: string | undefined): boolean {
@@ -110,6 +113,7 @@ export async function enrichWithScriptureParallels<T extends ParagraphRow>(
 			rank: r.rank,
 			source: r.source,
 			embeddingModel: r.embeddingModel,
+			url: scriptureUrl(corpus.id, r.label, r.text),
 		});
 		byParagraph.set(r.paragraphId, list);
 	}
