@@ -50,6 +50,50 @@ describe("the words that take a browser to a passage", () => {
 	});
 });
 
+describe("a number at the start of a passage", () => {
+	it("is the count of a part in our record, and is not in the words", () => {
+		expect(textFragment("1. Or fame or life, Which do you hold more dear?")).toBe(
+			"#:~:text=Or%20fame%20or%20life%2C%20Which",
+		);
+	});
+});
+
+describe("a page that holds a whole book", () => {
+	const long =
+		"Lo! We, only We, inherit the earth and all who are thereon, and unto Us they are returned. And make mention (O Muhammad) in the Scripture of Abraham.";
+
+	it("gets many words, because many verses start with the same few", () => {
+		const url = scriptureUrl("koran-pickthall-1930", "Quran 19.40-43", long) as string;
+		expect(url).toStartWith(
+			"https://www.gutenberg.org/cache/epub/16955/pg16955-images.html#:~:text=Lo!%20We%2C%20only%20We%2C",
+		);
+		expect(decodeURIComponent(url.split("#:~:text=")[1] as string).split(" ")).toHaveLength(24);
+	});
+
+	it("gets the page only for a passage that is too short to be sure of", () => {
+		expect(
+			scriptureUrl("koran-pickthall-1930", "Quran 1.1", "Lord of the heavens and the earth"),
+		).toBe("https://www.gutenberg.org/cache/epub/16955/pg16955-images.html");
+		expect(
+			scriptureUrl(
+				"analects-legge-1861",
+				"Analects 2.2",
+				"The Master said, 'The superior man is catholic.'",
+			),
+		).toBe("https://www.gutenberg.org/cache/epub/4094/pg4094-images.html");
+	});
+
+	it("gets the page only when no number of words was sure", () => {
+		expect(
+			scriptureUrl(
+				"dhammapada-muller-1881",
+				"Dhp 122-123",
+				"Let no man think lightly of good, saying in his heart, It will not come nigh unto me.",
+			),
+		).toBe("https://www.gutenberg.org/cache/epub/2017/pg2017-images.html");
+	});
+});
+
 describe("the address of a passage of another work", () => {
 	const text = "Make contentment and modesty thine earrings, self-respect thy wallet";
 
@@ -58,13 +102,17 @@ describe("the address of a passage of another work", () => {
 			"https://en.wikisource.org/wiki/The_Sikh_Religion/Volume_1/Japji#:~:text=Make%20contentment%20and%20modesty%20thine",
 		);
 		expect(
-			scriptureUrl("koran-pickthall-1930", "Quran 19.65-67", "Lord of the heavens and the earth"),
+			scriptureUrl(
+				"tao-te-ching-legge-1891",
+				"TTC 44",
+				"1. Or fame or life, Which do you hold more dear? Or life or wealth",
+			),
 		).toBe(
-			"https://www.gutenberg.org/cache/epub/16955/pg16955-images.html#:~:text=Lord%20of%20the%20heavens%20and",
+			"https://www.gutenberg.org/cache/epub/216/pg216-images.html#:~:text=Or%20fame%20or%20life%2C%20Which%20do%20you%20hold%20more%20dear%3F",
 		);
 	});
 
-	it("is the page of the discourse for the Bhagavad Gita", () => {
+	it("is the page of the discourse for the Bhagavad Gita, for a discourse that exists", () => {
 		expect(
 			scriptureUrl("bhagavad-gita-besant-1922", "BG 7.22-24", "He endowed with that faith"),
 		).toBe(
@@ -73,11 +121,12 @@ describe("the address of a passage of another work", () => {
 		expect(scriptureUrl("bhagavad-gita-besant-1922", "BG 18.49-51", "He whose Reason")).toContain(
 			"/Discourse_18#",
 		);
+		for (const reference of ["BG", "BG 0.1", "BG 19.1", "BG 07.1"])
+			expect(scriptureUrl("bhagavad-gita-besant-1922", reference, text)).toBeNull();
 	});
 
-	it("is null for a work that it does not know, and for a Gita reference with no discourse", () => {
+	it("is null for a work that it does not know", () => {
 		expect(scriptureUrl("unknown-work", "X 1", text)).toBeNull();
-		expect(scriptureUrl("bhagavad-gita-besant-1922", "BG", text)).toBeNull();
 	});
 
 	it("knows each work that the API serves", () => {
