@@ -2,7 +2,7 @@
 // many pages opened and how many hold the first words of the passage. Run it after a change to
 // `src/lib/parallel-links.ts`, and when a work is added:  bun scripts/check-parallel-links.ts
 // It asks the live API for the passages and builds each address with the code of this checkout.
-import { bibleUrl, scriptureUrl, textFragment } from "../src/lib/parallel-links.ts";
+import { bibleUrl, scriptureUrl } from "../src/lib/parallel-links.ts";
 
 const API = process.env.API_BASE_URL ?? "https://api.urantia.dev";
 const REFS = (
@@ -65,16 +65,32 @@ for (const ref of REFS) {
 		});
 }
 
-const results = new Map<
-	string,
-	{ all: number; noUrl: number; noPage: number; found: number; missed: string[] }
->();
+type Count = {
+	all: number;
+	noUrl: number;
+	noPage: number;
+	plain: number;
+	one: number;
+	none: number;
+	many: number;
+	notes: string[];
+};
+const results = new Map<string, Count>();
 const seen = new Set<string>();
 for (const p of passages) {
 	const key = `${p.work} ${p.reference}`;
 	if (seen.has(key)) continue;
 	seen.add(key);
-	const r = results.get(p.work) ?? { all: 0, noUrl: 0, noPage: 0, found: 0, missed: [] };
+	const r = results.get(p.work) ?? {
+		all: 0,
+		noUrl: 0,
+		noPage: 0,
+		plain: 0,
+		one: 0,
+		none: 0,
+		many: 0,
+		notes: [],
+	};
 	results.set(p.work, r);
 	r.all += 1;
 	if (!p.url) {
@@ -84,21 +100,36 @@ for (const p of passages) {
 	const text = await page(p.url);
 	if (text === null) {
 		r.noPage += 1;
-		r.missed.push(`${p.reference}: no page at ${p.url.split("#")[0]}`);
+		r.notes.push(`${p.reference}: no page at ${p.url.split("#")[0]}`);
 		continue;
 	}
-	const words = same(decodeURIComponent(textFragment(p.text).replace("#:~:text=", "")));
-	if (words && text.includes(words)) r.found += 1;
-	else r.missed.push(`${p.reference}: "${words}"`);
+	const fragment = p.url.split("#:~:text=")[1];
+	if (fragment === undefined) {
+		r.plain += 1;
+		continue;
+	}
+	// A browser goes to the first place that has the words. More than one place means that it can mark
+	// another passage, and that is a wrong link.
+	const words = same(decodeURIComponent(fragment));
+	const places = text.split(words).length - 1;
+	if (places === 1) r.one += 1;
+	else if (places === 0) {
+		r.none += 1;
+		r.notes.push(`${p.reference}: not on the page: "${words}"`);
+	} else {
+		r.many += 1;
+		r.notes.push(`${p.reference}: ${places} places: "${words}"`);
+	}
 }
 
 let bad = false;
 for (const [work, r] of results) {
 	console.log(
-		`${work}: ${r.all} passages, ${r.noUrl} with no address, ${r.noPage} with no page, ${r.found} with the words on the page`,
+		`${work}: ${r.all} passages | no address ${r.noUrl} | no page ${r.noPage} | page or verse only ${r.plain} | words in one place ${r.one} | words not found ${r.none} | words in more places ${r.many}`,
 	);
-	for (const line of r.missed.slice(0, 6)) console.log(`    ${line}`);
-	if (r.noPage > 0) bad = true;
+	for (const line of r.notes.slice(0, Number(process.env.NOTES ?? 6))) console.log(`    ${line}`);
+	if (r.noPage > 0 || r.many > 0) bad = true;
 }
-// A page that does not open is a wrong link. Words that differ only cost the scroll to the passage.
+// A page that does not open, or words that are in more than one place, is a wrong link. Words that are
+// not on the page cost only the scroll to the passage: the page opens at its top.
 process.exit(bad ? 1 : 0);

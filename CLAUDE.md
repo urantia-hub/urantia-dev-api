@@ -506,12 +506,20 @@ Each Bible parallel and each scripture parallel on a paragraph has `url`: the pu
 that passage (`src/lib/parallel-links.ts`). An app shows it as "Open".
 
 - Bible: the chapter page of the World English Bible at ebible.org, at the first verse (`#V4`).
-- The other works: the page that holds the text, with a text fragment of the first five words, so a
-  browser scrolls to the passage. The Bhagavad Gita has one page for each discourse. The four Project
-  Gutenberg works use the reading page, not the `sourceUrl` of the corpus, which is a download page
-  with no text.
+- The other works: the page that holds the text, and for most of them a text fragment of the first
+  words, so a browser scrolls to the passage. The Bhagavad Gita has one page for each discourse. The
+  four Project Gutenberg works use the reading page, not the `sourceUrl` of the corpus, which is a
+  download page with no text.
+- A browser goes to the FIRST place that has the words of a fragment. Five words are in many places of
+  a page that holds a whole book ("Lord of the heavens and" is 36 times in the Koran), and the browser
+  then marks another verse. So each work has its own number of words (`WORKS`): the smallest that put
+  no sample passage in two places. The Koran and the Analects need 24, and a shorter passage gets the
+  page only. No number was sure for the Dhammapada, so it gets the page only. About half of the Koran
+  and Analects links open the page at its top for that reason. An exact anchor for each passage needs
+  a field in the database, computed when a work is loaded: not done.
 - A wrong link costs more trust than no link (Kelson, 2026-10-10). A function answers null when it
   does not know the book or the work. A new work gets its page in `PAGES` in the same change.
-- `bun scripts/check-parallel-links.ts` reads the real pages for a sample of passages. Run it after
-  a change there. On 2026-10-10: 433 passages, each page opened, 424 held the first words. The
-  misses are words with a footnote mark between them; the page is still the right one.
+- `bun scripts/check-parallel-links.ts` reads the real pages for a sample of passages, and fails when
+  a page does not open or when the words of a fragment are in more than one place. Run it after a
+  change there. On 2026-10-10, for 35 paragraphs: 706 passages, each page opened, no fragment was in
+  two places, and 80 fragments were not on the page in that form (the page then opens at its top).
