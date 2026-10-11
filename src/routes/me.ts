@@ -3,6 +3,7 @@ import { and, count, eq, sql } from "drizzle-orm";
 import { z } from "zod";
 import { getDb } from "../db/client.ts";
 import { bookmarks, notes, paragraphs, readingProgress, userPreferences, users } from "../db/schema.ts";
+import { savePreferences } from "../lib/account-store.ts";
 import { createApp } from "../lib/app.ts";
 import { problemJson } from "../lib/errors.ts";
 import { preferenceSpace } from "../lib/preference-space.ts";
@@ -685,14 +686,10 @@ meRoute.openapi(updatePreferencesRoute, async (c) => {
 	const body = space.patch(c.req.valid("json") as Record<string, unknown>);
 	const { db } = getDb(c.env?.HYPERDRIVE);
 
-	const [existing] = await db.select().from(userPreferences).where(eq(userPreferences.userId, user.id)).limit(1);
-	const merged = { ...((existing?.preferences as Record<string, unknown>) ?? {}), ...body };
-
-	if (existing) {
-		await db.update(userPreferences).set({ preferences: merged, updatedAt: new Date() }).where(eq(userPreferences.userId, user.id));
-	} else {
-		await db.insert(userPreferences).values({ userId: user.id, preferences: merged });
-	}
+	// One statement, so a change of another key at the same moment is not lost, and an app that was
+	// deleted at this moment writes nothing.
+	const merged = await savePreferences(db, user.id, body, c.get("tokenApp")?.id ?? null);
+	if (!merged) return problemJson(c, 401, "This app is not open.");
 
 	return c.json({ data: space.visible(merged) }, 200);
 });

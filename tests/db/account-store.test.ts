@@ -8,6 +8,7 @@ import {
 	createAccountStore,
 	createUserRow,
 	isDeleted,
+	savePreferences,
 } from "../../src/lib/account-store.ts";
 import { createAuthStore } from "../../src/lib/auth-store.ts";
 import { deleteAccount, READER_TABLES, removeAccess } from "../../src/lib/consents.ts";
@@ -106,6 +107,48 @@ suite("the account queries, on a real database", () => {
 		expect(await db.execute(sql`select 1 from apps where id = 'voices'`)).toHaveLength(0);
 		// A second run changes nothing and does not fail.
 		await account.deleteApp("voices");
+	});
+
+	it("writes a change of the preferences in one statement, and nothing for an app that is gone", async () => {
+		expect(await savePreferences(db as never, ME, { "hub.place": 1 }, null)).toEqual({
+			"hub.place": 1,
+		});
+		expect(
+			await savePreferences(db as never, ME, { "app:voices:theme": "dark" }, "voices"),
+		).toEqual({
+			"hub.place": 1,
+			"app:voices:theme": "dark",
+		});
+		await account.deleteApp("voices");
+		expect(
+			await savePreferences(db as never, ME, { "app:voices:theme": "late" }, "voices"),
+		).toBeNull();
+		const rows = await db.execute(
+			sql`select preferences from user_preferences where user_id = ${ME}::uuid`,
+		);
+		expect(rows[0]?.preferences).toEqual({ "hub.place": 1 });
+	});
+
+	// A write of the app that runs at the moment of the delete holds the app's row. The delete waits
+	// for it, and then removes what it wrote.
+	it("leaves nothing of an app behind when a write and the delete run at the same moment", async () => {
+		let deleted = false;
+		let pending: Promise<void> = Promise.resolve();
+		await second.begin(async (tx) => {
+			await tx`select id from apps where id = 'voices' for share`;
+			pending = account.deleteApp("voices").then(() => {
+				deleted = true;
+			});
+			await new Promise((resolve) => setTimeout(resolve, 300));
+			expect(deleted).toBe(false);
+			await tx`insert into user_preferences (user_id, preferences) values (${ME}, '{"app:voices:late": 1}'::jsonb)`;
+		});
+		await pending;
+		expect(deleted).toBe(true);
+		const rows = await db.execute(
+			sql`select preferences from user_preferences where user_id = ${ME}::uuid`,
+		);
+		expect(rows[0]?.preferences).toEqual({});
 	});
 
 	describe("a refresh token", () => {
