@@ -81,8 +81,7 @@ export function createNoticeStore(db: Db): NoticeStore & { prune(before: Date): 
 					auth: pushSubscriptions.auth,
 					kinds: pushSubscriptions.kinds,
 				})
-				.from(pushSubscriptions)
-				.where(sql`cardinality(${pushSubscriptions.kinds}) > 0`);
+				.from(pushSubscriptions);
 			const withSettings = await db
 				.select({ userId: userPreferences.userId })
 				.from(userPreferences)

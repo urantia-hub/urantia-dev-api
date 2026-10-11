@@ -49,6 +49,7 @@ describe("the stored settings", () => {
 		};
 		expect(parseSettings(stored)).toEqual({
 			email: { ...OFF, daily: true },
+			push: OFF,
 			hour: 6,
 			zone: "Europe/Berlin",
 			asked: true,
@@ -61,6 +62,7 @@ describe("a change of the settings", () => {
 	it("starts from all off, hour 7, and UTC", () => {
 		expect(mergeSettings(null, { asked: true }, NOW)).toEqual({
 			email: OFF,
+			push: OFF,
 			hour: DEFAULT_HOUR,
 			zone: "UTC",
 			asked: true,
@@ -70,8 +72,9 @@ describe("a change of the settings", () => {
 
 	it("changes only the fields that it names", () => {
 		const was = mergeSettings(null, { email: { daily: true }, hour: 21, zone: "Asia/Kolkata" }, 1);
-		expect(mergeSettings(was, { email: { releases: true } }, NOW)).toEqual({
+		expect(mergeSettings(was, { email: { releases: true }, push: { daily: true } }, NOW)).toEqual({
 			email: { daily: true, reminder: false, releases: true },
+			push: { ...OFF, daily: true },
 			hour: 21,
 			zone: "Asia/Kolkata",
 			asked: false,
@@ -85,6 +88,8 @@ describe("a change of the settings", () => {
 		expect(mergeSettings(null, { zone: "Nowhere/Land" }, NOW)).toBeNull();
 		expect(mergeSettings(null, { email: { daily: "yes" } }, NOW)).toBeNull();
 		expect(mergeSettings(null, { email: { weekly: true } }, NOW)).toBeNull();
+		expect(mergeSettings(null, { push: { daily: 1 } }, NOW)).toBeNull();
+		expect(mergeSettings(null, { push: "all" }, NOW)).toBeNull();
 		expect(mergeSettings(null, "x", NOW)).toBeNull();
 		const asked = mergeSettings(null, { asked: true }, 1);
 		expect(mergeSettings(asked, { asked: false }, NOW)?.asked).toBe(true);
@@ -139,6 +144,8 @@ describe("a device", () => {
 
 	it("is refused for a kind that does not exist, a missing key, or text that is too long", () => {
 		expect(parseDevice({ ...device, kinds: ["weekly"] })).toBeNull();
+		const { kinds: _kinds, ...bare } = device;
+		expect(parseDevice(bare)?.kinds).toEqual([]);
 		expect(parseDevice({ ...device, auth: "" })).toBeNull();
 		expect(parseDevice({ ...device, p256dh: "has spaces" })).toBeNull();
 		expect(parseDevice({ ...device, label: "x".repeat(61) })).toBeNull();
@@ -173,56 +180,60 @@ describe("the readers that the Hub gets", () => {
 		devices: [],
 		...over,
 	});
-	it("are only those with an email notice on, or a device with a notice", () => {
-		const on = {
-			"hub.notices": { email: { daily: true }, hour: 7, zone: "UTC", asked: true, at: 1 },
-		};
-		const off = { "hub.notices": { email: {}, hour: 7, zone: "UTC", asked: true, at: 1 } };
+	const settings = (over: object) => ({
+		"hub.notices": { email: {}, push: {}, hour: 7, zone: "UTC", asked: true, at: 1, ...over },
+	});
+
+	it("are those with an email notice on, or a push on and a device", () => {
 		const out = dueReaders([
-			row({ preferences: on }),
-			row({ userId: "b", preferences: off }),
-			row({ userId: "c", preferences: off, devices: [{ ...device, kinds: [] }] }),
-			row({ userId: "d", preferences: {}, devices: [device] }),
-			row({ userId: "e", email: null, preferences: on }),
+			row({ preferences: settings({ email: { daily: true } }) }),
+			row({ userId: "b", preferences: settings({}) }),
+			row({ userId: "c", preferences: settings({ push: { daily: true } }) }),
+			row({ userId: "d", preferences: settings({ push: { daily: true } }), devices: [device] }),
+			row({ userId: "e", preferences: {}, devices: [device] }),
+			row({ userId: "f", email: null, preferences: settings({ email: { daily: true } }) }),
 		]);
 		expect(out.map((r) => r.userId)).toEqual([ME, "d"]);
 	});
 
-	it("carry the settings, the place, and only the devices that get a notice", () => {
+	it("carry the settings, the place, and each device of a reader with a push on", () => {
 		const preferences = {
-			"hub.notices": {
+			...settings({
 				email: { reminder: true },
+				push: { daily: true },
 				hour: 9,
 				zone: "Europe/Paris",
-				asked: true,
-				at: 1,
-			},
+			}),
 			"hub.place": { paperId: "2", sectionId: "1", at: 777 },
 			"other.app": { secret: 1 },
 		};
-		const [reader] = dueReaders([
-			row({
-				preferences,
-				devices: [
-					device,
-					{ ...device, endpoint: "https://fcm.googleapis.com/fcm/send/zzz", kinds: [] },
-				],
-			}),
-		]);
+		const second = { ...device, endpoint: "https://fcm.googleapis.com/fcm/send/zzz", kinds: [] };
+		const [reader] = dueReaders([row({ preferences, devices: [device, second] })]);
 		expect(reader).toEqual({
 			userId: ME,
 			email: "reader@example.com",
 			settings: {
 				email: { ...OFF, reminder: true },
+				push: { ...OFF, daily: true },
 				hour: 9,
 				zone: "Europe/Paris",
 				asked: true,
 				at: 1,
 			},
 			place: { paperId: "2", sectionId: "1", at: 777 },
-			devices: [
-				{ endpoint: device.endpoint, p256dh: device.p256dh, auth: device.auth, kinds: ["daily"] },
-			],
+			devices: [device, second].map(({ endpoint, p256dh, auth }) => ({
+				endpoint,
+				p256dh,
+				auth,
+				kinds: [],
+			})),
 		});
+	});
+
+	it("carry no device of a reader with no push on", () => {
+		const [reader] = dueReaders([
+			row({ preferences: settings({ email: { daily: true } }), devices: [device] }),
+		]);
+		expect(reader?.devices).toEqual([]);
 	});
 });
