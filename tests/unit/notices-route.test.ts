@@ -152,6 +152,7 @@ describe("the reader's notice settings", () => {
 		};
 		expect(data.settings).toEqual({
 			email: { daily: true, reminder: false, releases: false },
+			push: { daily: false, reminder: false, releases: false },
 			hour: 7,
 			zone: "Asia/Kolkata",
 			asked: false,

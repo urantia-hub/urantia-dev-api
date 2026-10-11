@@ -112,17 +112,21 @@ suite("the notice queries, on a real database", () => {
 		expect(await store.claim([claim({ key: "old" })])).toHaveLength(1);
 	});
 
-	it("lists the readers with settings or with a device, with the email and the devices of each", async () => {
+	it("lists the readers with settings or with a device, with the email and each device", async () => {
 		await store.savePreference(ME, NOTICES_KEY, { email: { daily: true }, hour: 7, zone: "UTC" });
+		await store.savePreference(OTHER, NOTICES_KEY, { email: {}, push: { daily: true } });
 		await store.saveDevice(OTHER, device(3), 10);
 		await store.saveDevice(OTHER, device(4, []), 10);
 		const rows = await store.readers();
 		expect(rows.map((r) => r.userId).sort()).toEqual([ME, OTHER]);
 		const due = dueReaders(rows);
 		expect(due.find((r) => r.userId === ME)?.email).toBe("me@example.com");
-		expect(due.find((r) => r.userId === OTHER)?.devices.map((d) => d.endpoint)).toEqual([
-			device(3).endpoint,
-		]);
+		expect(
+			due
+				.find((r) => r.userId === OTHER)
+				?.devices.map((d) => d.endpoint)
+				.sort(),
+		).toEqual([device(3).endpoint, device(4).endpoint]);
 	});
 
 	it("removes the devices that are gone, and notes the ones that took a message", async () => {
