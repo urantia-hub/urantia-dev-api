@@ -440,12 +440,12 @@ describe("what the reader is told after a refusal", () => {
 	// Kelson's words on 2026-10-08: this message is right as it is. Do not change it.
 	it("tells the owner of an app that other people use to delete the apps first", () => {
 		expect(refusalText({ ok: false, reason: "apps", apps: ["Our Paper Voices"] })).toBe(
-			"You own an app that other people use. Delete your apps first, or write to team@urantiahub.com.",
+			"You own an app that other people use. Delete your apps first, or write to hi@urantiahub.com.",
 		);
 	});
 	it("says that an admin account is not deleted here", () => {
 		expect(refusalText({ ok: false, reason: "admin" })).toBe(
-			"This account reviews apps for UrantiaHub, so it cannot be deleted here. Write to team@urantiahub.com.",
+			"This account reviews apps for UrantiaHub, so it cannot be deleted here. Write to hi@urantiahub.com.",
 		);
 	});
 	it("says that the email does not match", () => {
