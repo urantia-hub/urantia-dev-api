@@ -225,7 +225,7 @@ const OPENAPI_CONFIG = {
 		title: "Urantia Papers API",
 		version: "1.0.0",
 		description:
-			"An API and MCP server for the Urantia Papers. Structured access to all 197 papers and more than 14,500 paragraphs, with full-text and semantic search, named entities, cross-references to the Bible and to the texts of other world religions, and audio. No key needed. Docs: https://docs.urantia.dev",
+			"An API and MCP server for the Urantia Papers. Structured access to all 197 papers and more than 14,500 paragraphs, with full-text and semantic search, named entities, cross-references to public domain texts of the world's religions, and audio. No key needed. Docs: https://docs.urantia.dev",
 		termsOfService: "https://docs.urantia.dev/terms-of-service",
 		contact: {
 			name: "urantia.dev",

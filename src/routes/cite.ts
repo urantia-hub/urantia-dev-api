@@ -73,7 +73,7 @@ const getCiteRoute = createRoute({
 	path: "/",
 	tags: ["Citation"],
 	summary: "Format a citation for a passage",
-	description: `Generate a formatted citation for any Urantia Book passage. Supports APA, MLA, Chicago, and BibTeX styles.
+	description: `Generate a formatted citation for any passage of the Urantia Papers. Supports APA, MLA, Chicago, and BibTeX styles.
 
 Reference formats accepted:
 - **standardReferenceId**: "196:2.1" (paperId:sectionId.paragraphId)

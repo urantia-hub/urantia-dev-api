@@ -29,7 +29,7 @@ const listPapersRoute = createRoute({
 	tags: ["Papers"],
 	summary: "List all 197 papers",
 	description:
-		"Returns metadata for all papers in the Urantia Book, ordered by paper number.\n\nUse `?include=topEntities` to attach a per-paper aggregate of the most-referenced named entities (beings, places, concepts, etc.) sorted by citation frequency.",
+		"Returns metadata for all of the Urantia Papers, ordered by paper number.\n\nUse `?include=topEntities` to attach a per-paper aggregate of the most-referenced named entities (beings, places, concepts, etc.) sorted by citation frequency.",
 	request: {
 		query: IncludeQuery,
 	},

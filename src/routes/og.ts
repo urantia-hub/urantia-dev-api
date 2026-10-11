@@ -68,7 +68,7 @@ const getOgRoute = createRoute({
   path: "/{ref}",
   tags: ["OG Images"],
   summary: "Generate a dynamic Open Graph image for a passage",
-  description: `Returns a 1200×630 PNG Open Graph image for a Urantia Book passage. Designed for social media previews.
+  description: `Returns a 1200×630 PNG Open Graph image for a passage of the Urantia Papers. Designed for social media previews.
 
 Optional \`?theme=\` parameter: \`default\` (blue), \`warm\` (amber), \`purple\`, \`minimal\` (no glow).
 
