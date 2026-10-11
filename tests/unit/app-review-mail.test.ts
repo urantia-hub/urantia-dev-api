@@ -183,7 +183,7 @@ describe("the sender of a review notice", () => {
 });
 
 describe("sendMail", () => {
-	const env = { RESEND_API_KEY: "key", FEEDBACK_FROM: "UrantiaHub <team@urantiahub.com>" };
+	const env = { RESEND_API_KEY: "key", FEEDBACK_FROM: "UrantiaHub <hi@urantiahub.com>" };
 	const mail = { subject: "s", text: "t" };
 
 	it("sends through Resend, as plain text", async () => {

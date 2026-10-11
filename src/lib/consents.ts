@@ -125,7 +125,7 @@ export function deletedAccountAllows(request: {
 export function refusalText(result: Exclude<DeleteResult, { ok: true }>): string {
 	if (result.reason === "email") return "The email does not match your account.";
 	if (result.reason === "admin") {
-		return "This account reviews apps for UrantiaHub, so it cannot be deleted here. Write to team@urantiahub.com.";
+		return "This account reviews apps for UrantiaHub, so it cannot be deleted here. Write to hi@urantiahub.com.";
 	}
-	return "You own an app that other people use. Delete your apps first, or write to team@urantiahub.com.";
+	return "You own an app that other people use. Delete your apps first, or write to hi@urantiahub.com.";
 }

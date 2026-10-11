@@ -48,7 +48,7 @@ const noteLines = (note: string | null) =>
 		.split(/\r?\n/)
 		.map((l) => line(l, 300));
 
-const NO_REPLY = "This address does not take replies. Write to team@urantiahub.com.";
+const NO_REPLY = "This address does not take replies. Write to hi@urantiahub.com.";
 const appPage = (id: string) => `${ACCOUNTS}/apps/${encodeURIComponent(id)}`;
 
 // "new": a new app. "changed": a declined app that its developer changed. "request": a change request
@@ -174,7 +174,7 @@ export function decisionMail(
 		const lead = "A reviewer looked at your app and asks for a change first:";
 		const next =
 			"The app still works for you, so you can keep building. When you change it, it goes to review again by itself.";
-		const help = "Questions? Write to team@urantiahub.com. A person reads it.";
+		const help = "Questions? Write to hi@urantiahub.com. A person reads it.";
 		return {
 			subject: `${name} needs a change before it can open`,
 			text: [
@@ -201,7 +201,7 @@ export function decisionMail(
 	if (status === "suspended") {
 		const lead = `We are sorry to send this. From now on no one can sign in to ${name} with a UrantiaHub account, and the people who were signed in are signed out.`;
 		const todo =
-			"What you can do. If this is a mistake, or when the problem is fixed, write to team@urantiahub.com. A person reads it and answers. A suspension can be lifted, and your app and its settings are kept.";
+			"What you can do. If this is a mistake, or when the problem is fixed, write to hi@urantiahub.com. A person reads it and answers. A suspension can be lifted, and your app and its settings are kept.";
 		const kept = "Nothing was deleted. The data of your users in your own systems is not touched.";
 		return {
 			subject: `${name} is suspended`,

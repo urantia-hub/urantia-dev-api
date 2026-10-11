@@ -69,7 +69,7 @@ export function signInMail(input: {
 			"",
 			`${asked}${ignore}`,
 			"",
-			"This address does not take replies. Write to team@urantiahub.com.",
+			"This address does not take replies. Write to hi@urantiahub.com.",
 		].join("\n"),
 	};
 }

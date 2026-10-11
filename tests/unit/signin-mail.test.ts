@@ -21,7 +21,7 @@ describe("the sign-in email", () => {
 			expect(part).toContain("It works for 10 minutes.");
 			expect(part).toContain("token_hash=abc");
 			expect(part).toContain("If you did not ask for this, you can ignore this email.");
-			expect(part).toContain("team@urantiahub.com");
+			expect(part).toContain("hi@urantiahub.com");
 		}
 	});
 
