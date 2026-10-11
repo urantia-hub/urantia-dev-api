@@ -31,7 +31,7 @@ export function frame(title: string, inner: string): string {
 <p style="margin:0 0 18px;font-family:${SERIF};font-size:17px;color:#26221c;">UrantiaHub</p>
 <h1 style="margin:0 0 10px;font-family:${SERIF};font-weight:500;font-size:21px;line-height:1.3;color:#26221c;">${esc(title)}</h1>
 ${inner}
-<p style="${FINE}margin-bottom:0;">This address does not take replies. Write to team@urantiahub.com.</p>
+<p style="${FINE}margin-bottom:0;">This address does not take replies. Write to hi@urantiahub.com.</p>
 </td></tr>
 </table>
 </td></tr>

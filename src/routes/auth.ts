@@ -635,7 +635,7 @@ authRoute.openapi(accountDeleteRoute, async (c) => {
 	const body = c.req.valid("json");
 	// Without the key the sign-in itself cannot be removed. Stop before anything is deleted.
 	const admin = adminSettings(c.env ?? process.env);
-	if (!admin) return problemJson(c, 503, "Account deletion is not ready. Write to team@urantiahub.com.");
+	if (!admin) return problemJson(c, 503, "Account deletion is not ready. Write to hi@urantiahub.com.");
 
 	const { db } = getDb(c.env?.HYPERDRIVE);
 	const store = createAccountStore(db);
