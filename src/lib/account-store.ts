@@ -7,6 +7,8 @@ import {
 	bookmarks,
 	deletedUsers,
 	notes,
+	noticeLog,
+	pushSubscriptions,
 	readingProgress,
 	refreshTokens,
 	userConsents,
@@ -27,6 +29,8 @@ const TABLES = {
 	user_consents: [userConsents, userConsents.userId],
 	refresh_tokens: [refreshTokens, refreshTokens.userId],
 	auth_codes: [authCodes, authCodes.userId],
+	push_subscriptions: [pushSubscriptions, pushSubscriptions.userId],
+	notice_log: [noticeLog, noticeLog.userId],
 } as const satisfies Record<ReaderTable, readonly [unknown, unknown]>;
 
 export function createAccountStore(db: Db): AccountStore {

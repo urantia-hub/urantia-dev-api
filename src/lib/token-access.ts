@@ -10,6 +10,9 @@ const ME_SCOPES: Array<[prefix: string, scope: string]> = [
 	["/me/notes", "notes"],
 	["/me/reading-progress", "reading-progress"],
 	["/me/preferences", "preferences"],
+	// The notices of UrantiaHub are settings of the reader.
+	["/me/notices", "preferences"],
+	["/me/push-subscriptions", "preferences"],
 ];
 
 const isAt = (path: string, prefix: string) => path === prefix || path.startsWith(`${prefix}/`);
