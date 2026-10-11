@@ -11,6 +11,8 @@ export const READER_TABLES = [
 	"user_consents",
 	"refresh_tokens",
 	"auth_codes",
+	"push_subscriptions",
+	"notice_log",
 ] as const;
 export type ReaderTable = (typeof READER_TABLES)[number];
 

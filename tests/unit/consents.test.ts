@@ -252,6 +252,8 @@ describe("delete the account", () => {
 			"user_consents",
 			"refresh_tokens",
 			"auth_codes",
+			"push_subscriptions",
+			"notice_log",
 		]);
 	});
 
