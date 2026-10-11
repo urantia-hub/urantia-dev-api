@@ -89,7 +89,7 @@ const getRandomRoute = createRoute({
 	tags: ["Paragraphs"],
 	summary: "Get a random paragraph",
 	description:
-		"Returns a single random paragraph from the Urantia Book. Useful for daily quotes or exploration.\n\nResponse includes a `navigation` envelope with the previous and next paragraph refs (within the same paper, ordered by sortId). Refs are `null` at paper boundaries.\n\nUse `?include=entities` to include typed entity mentions in the response.\n\nUse `?minLength=N` and/or `?maxLength=N` to filter by character count of the paragraph text.",
+		"Returns a single random paragraph from the Urantia Papers. Useful for daily quotes or exploration.\n\nResponse includes a `navigation` envelope with the previous and next paragraph refs (within the same paper, ordered by sortId). Refs are `null` at paper boundaries.\n\nUse `?include=entities` to include typed entity mentions in the response.\n\nUse `?minLength=N` and/or `?maxLength=N` to filter by character count of the paragraph text.",
 	request: {
 		query: RandomQuery,
 	},

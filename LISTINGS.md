@@ -11,7 +11,8 @@ Use the same words everywhere, so the listings agree.
 | Field | Value |
 |---|---|
 | Name | Urantia Papers (add "API" only where a directory needs it) |
-| One line | Read and search the Urantia Papers by reference, keyword, or meaning, with named entities and Bible cross-references. |
+| One line | Read and search the Urantia Papers by reference, keyword, or meaning, with named entities and cross-references to texts of the world's religions. |
+| One line, MCP-only listing | Read and search the Urantia Papers by reference, keyword, or meaning, with named entities and Bible cross-references. (Use this until the MCP server has tools for the other texts.) |
 | Short (80 characters) | Read and search the Urantia Papers by reference, keyword, or meaning. No key. |
 | Author / company | Urantia.dev. Legal entity, when a form asks: Adams Technologies LLC |
 | MCP server | `https://api.urantia.dev/mcp` (Streamable HTTP, no auth, 19 read-only tools) |
