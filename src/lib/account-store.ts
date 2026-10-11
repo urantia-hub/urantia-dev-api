@@ -34,20 +34,54 @@ const TABLES = {
 	notice_log: [noticeLog, noticeLog.userId],
 } as const satisfies Record<ReaderTable, readonly [unknown, unknown]>;
 
-// Removes an app, and first the preferences that readers have for it. An id can be registered again
-// after a delete, and the new app must not get what readers gave to the old one. Safe to run again.
+// Removes an app, and then the preferences that readers have for it, as one change. An id can be
+// registered again after a delete, and the new app must not get what readers gave to the old one.
+// The order matters: a write of the app holds the app's row (savePreferences), so it ends before the
+// delete, and the removal after the delete sees it. After the delete no write of the app starts.
 export async function deleteAppRow(db: Db, appId: string): Promise<void> {
 	const prefix = appPreferencePrefix(appId);
-	await db.execute(sql`
-		update user_preferences
-		set preferences = coalesce(
-				(select jsonb_object_agg(e.key, e.value) from jsonb_each(preferences) e where not starts_with(e.key, ${prefix})),
-				'{}'::jsonb
-			),
-			updated_at = now()
-		where exists (select 1 from jsonb_object_keys(preferences) k where starts_with(k, ${prefix}))
-	`);
-	await db.delete(apps).where(eq(apps.id, appId));
+	await db.transaction(async (tx) => {
+		await tx.delete(apps).where(eq(apps.id, appId));
+		await tx.execute(sql`
+			update user_preferences
+			set preferences = coalesce(
+					(select jsonb_object_agg(e.key, e.value) from jsonb_each(preferences) e where not starts_with(e.key, ${prefix})),
+					'{}'::jsonb
+				),
+				updated_at = now()
+			where exists (select 1 from jsonb_object_keys(preferences) k where starts_with(k, ${prefix}))
+		`);
+	});
+}
+
+// Writes a change of the preferences in one statement, and answers the record after it.
+// For a token of an app, the app must still be there at that moment: the statement holds the app's
+// row while it writes. Null when the app is gone, and nothing is written then.
+export async function savePreferences(
+	db: Db,
+	userId: string,
+	patch: Record<string, unknown>,
+	appId: string | null,
+): Promise<Record<string, unknown> | null> {
+	const text = JSON.stringify(patch);
+	const rows = appId
+		? await db.execute(sql`
+				with open as (select id from apps where id = ${appId} for share)
+				insert into user_preferences (user_id, preferences)
+				select ${userId}::uuid, ${text}::jsonb where exists (select 1 from open)
+				on conflict (user_id) do update
+					set preferences = user_preferences.preferences || excluded.preferences, updated_at = now()
+				returning preferences
+			`)
+		: await db.execute(sql`
+				insert into user_preferences (user_id, preferences)
+				values (${userId}::uuid, ${text}::jsonb)
+				on conflict (user_id) do update
+					set preferences = user_preferences.preferences || excluded.preferences, updated_at = now()
+				returning preferences
+			`);
+	const row = rows[0] as { preferences?: Record<string, unknown> } | undefined;
+	return row?.preferences ?? null;
 }
 
 export function createAccountStore(db: Db): AccountStore {
