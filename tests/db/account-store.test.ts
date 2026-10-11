@@ -82,6 +82,32 @@ suite("the account queries, on a real database", () => {
 		await second.end();
 	});
 
+	// An id can be registered again after a delete. The new app must not get the old app's data.
+	it("removes what readers stored for an app when the app is deleted, and nothing else", async () => {
+		await db.insert(schema.userPreferences).values([
+			{
+				userId: ME,
+				preferences: {
+					"app:voices:theme": "dark",
+					"app:voices2:theme": "light",
+					"hub.place": { paperId: "2" },
+				},
+			},
+			{ userId: OTHER, preferences: { "app:voices:only": 1 } },
+		]);
+		await account.deleteApp("voices");
+		const rows = await db.execute(
+			sql`select user_id, preferences from user_preferences order by user_id`,
+		);
+		expect(rows.map((row) => row.preferences)).toEqual([
+			{ "app:voices2:theme": "light", "hub.place": { paperId: "2" } },
+			{},
+		]);
+		expect(await db.execute(sql`select 1 from apps where id = 'voices'`)).toHaveLength(0);
+		// A second run changes nothing and does not fail.
+		await account.deleteApp("voices");
+	});
+
 	describe("a refresh token", () => {
 		it("is stored when the reader allows the app, with the moment that was given", async () => {
 			expect(await auth.insertRefreshToken(token(ME, "voices", "h1"))).toBe(true);

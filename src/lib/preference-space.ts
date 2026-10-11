@@ -12,6 +12,9 @@ const HUB = "hub.";
 const pick = (all: Preferences, keep: (key: string) => boolean): Preferences =>
 	Object.fromEntries(Object.entries(all).filter(([key]) => keep(key)));
 
+// The start of each stored key of an app that is not ours.
+export const appPreferencePrefix = (appId: string): string => `app:${appId}:`;
+
 export function preferenceSpace(app: TokenApp | null): {
 	// What the caller sees of the stored record.
 	visible(stored: Preferences): Preferences;
@@ -30,7 +33,7 @@ export function preferenceSpace(app: TokenApp | null): {
 	}
 	// Another app: its keys are stored under its id, and it sees them under their plain names.
 	// An app id has no ":", so no id is the start of the part of another app.
-	const prefix = `app:${app.id}:`;
+	const prefix = appPreferencePrefix(app.id);
 	return {
 		visible: (stored) =>
 			Object.fromEntries(

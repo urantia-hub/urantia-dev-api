@@ -33,7 +33,7 @@ import {
 } from "../lib/sessions.ts";
 import { canIssueCode, firstPartyIds, isFirstPartyApp } from "../lib/token-access.ts";
 import { ALLOWED_SCOPES, AppCreateBody, HexColor } from "../validators/app-schemas.ts";
-import { createAccountStore } from "../lib/account-store.ts";
+import { createAccountStore, deleteAppRow } from "../lib/account-store.ts";
 import { accountsMailKey } from "../lib/mail/hook.ts";
 import {
 	applyRequest,
@@ -1095,7 +1095,7 @@ authRoute.openapi(deleteAppRoute, async (c) => {
 		return problemJson(c, 403, "You do not own this app.");
 	}
 
-	await db.delete(apps).where(eq(apps.id, id));
+	await deleteAppRow(db, id);
 	await removeLogos(c.env?.APP_LOGOS, id).catch(() => {});
 	return c.body(null, 204);
 });
