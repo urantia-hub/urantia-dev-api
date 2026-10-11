@@ -17,6 +17,12 @@ const ME_SCOPES: Array<[prefix: string, scope: string]> = [
 
 const isAt = (path: string, prefix: string) => path === prefix || path.startsWith(`${prefix}/`);
 
+// These parts of /me are for our own apps only. The scope is shared by all apps, and another app
+// with it must not turn on emails for a reader, add a device of its own, or read the settings.
+const FIRST_PARTY_ONLY = ["/me/notices", "/me/push-subscriptions"];
+export const firstPartyOnly = (path: string): boolean =>
+	FIRST_PARTY_ONLY.some((prefix) => isAt(path, prefix));
+
 // Why a token of an app with these scopes cannot make this request, or null if it can.
 // Call it only for a path that needs a sign-in. On any other path a token of an app is not a sign-in at all.
 export function appTokenProblem(

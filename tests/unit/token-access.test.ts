@@ -168,3 +168,14 @@ describe("liveTokenProblem", () => {
 		expect(liveTokenProblem({ ...base, app: null, consented: null })?.status).toBe(403);
 	});
 });
+
+describe("the routes for our own apps only", () => {
+	it("are the notice settings and the devices of a reader", async () => {
+		const { firstPartyOnly } = await import("../../src/lib/token-access.ts");
+		expect(firstPartyOnly("/me/notices")).toBe(true);
+		expect(firstPartyOnly("/me/push-subscriptions")).toBe(true);
+		expect(firstPartyOnly("/me/push-subscriptions/x")).toBe(true);
+		expect(firstPartyOnly("/me/preferences")).toBe(false);
+		expect(firstPartyOnly("/me/noticesx")).toBe(false);
+	});
+});

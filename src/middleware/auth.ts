@@ -8,7 +8,12 @@ import { canUseApp, isAppStatus } from "../lib/app-status.ts";
 import { tokenEnv, verifyAccessToken } from "../lib/app-tokens.ts";
 import { deletedAccountAllows } from "../lib/consents.ts";
 import { problemJson } from "../lib/errors.ts";
-import { appTokenProblem, liveTokenProblem } from "../lib/token-access.ts";
+import {
+	appTokenProblem,
+	firstPartyOnly,
+	isFirstPartyApp,
+	liveTokenProblem,
+} from "../lib/token-access.ts";
 
 export type AuthUser = {
 	id: string;
@@ -173,6 +178,17 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 				scopes: tokenScopes,
 			});
 			if (problem) return problemJson(c, problem.status, problem.detail);
+			const env = (name: "FIRST_PARTY_APP_IDS" | "ADMIN_USER_IDS") =>
+				(c.env?.[name] as string | undefined) ?? process.env[name];
+			if (
+				firstPartyOnly(path) &&
+				!isFirstPartyApp(
+					{ id: tokenAppId, ownerId: app?.ownerId ?? null },
+					env("FIRST_PARTY_APP_IDS"),
+					env("ADMIN_USER_IDS"),
+				)
+			)
+				return problemJson(c, 403, "This app cannot use this route.");
 		}
 		// Lazy user creation: ensure user exists in our DB
 		const { db } = getDb(c.env?.HYPERDRIVE);
