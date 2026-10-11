@@ -113,6 +113,30 @@ describe("a device", () => {
 		}
 	});
 
+	// Another program can read an odd address in another way than this one does.
+	it("is refused for an address that two parsers can read in two ways", () => {
+		for (const endpoint of [
+			"https://fcm.googleapis.com\\@evil.example/x",
+			"https://evil.example\\.fcm.googleapis.com/x",
+			"https://fcm.googleapis.com\t/x",
+			" https://fcm.googleapis.com/x",
+			"https://fcm.googleapis.com/x\n",
+			"https://fcm.googleapis.com./x",
+			"https://user@fcm.googleapis.com/x",
+			"https://fcm.googleapis.com:443@evil.example/x",
+			"https://fcm.googleapis.com/x#@evil.example",
+		]) {
+			expect(parseDevice({ ...device, endpoint })).toBeNull();
+		}
+	});
+
+	it("is stored in the one form that the parser gives", () => {
+		const odd = "HTTPS://FCM.googleapis.com/fcm/send/AbC";
+		expect(parseDevice({ ...device, endpoint: odd })?.endpoint).toBe(
+			"https://fcm.googleapis.com/fcm/send/AbC",
+		);
+	});
+
 	it("is refused for a kind that does not exist, a missing key, or text that is too long", () => {
 		expect(parseDevice({ ...device, kinds: ["weekly"] })).toBeNull();
 		expect(parseDevice({ ...device, auth: "" })).toBeNull();

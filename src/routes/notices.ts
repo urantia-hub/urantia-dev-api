@@ -116,7 +116,8 @@ export function createNoticesRoute(deps: Deps = live) {
 		const given = (await body(c)) as { endpoint?: unknown; all?: unknown } | null;
 		const store = deps.store(c);
 		if (given?.all === true) await store.removeDevices(userId);
-		else if (typeof given?.endpoint === "string") await store.removeDevice(userId, given.endpoint);
+		else if (pushEndpoint(given?.endpoint))
+			await store.removeDevice(userId, pushEndpoint(given?.endpoint) as string);
 		else return problemJson(c, 400, "Name the device, or all devices.");
 		return c.body(null, 204);
 	});
@@ -181,7 +182,8 @@ export function createNoticesRoute(deps: Deps = live) {
 		const list = (value: unknown): string[] | null => {
 			if (value === undefined) return [];
 			if (!Array.isArray(value) || value.length > MAX_ENDPOINTS) return null;
-			return value.every((item) => pushEndpoint(item) !== null) ? (value as string[]) : null;
+			const plain = value.map(pushEndpoint);
+			return plain.every((item): item is string => item !== null) ? plain : null;
 		};
 		const gone = list(given?.gone);
 		const ok = list(given?.ok);
