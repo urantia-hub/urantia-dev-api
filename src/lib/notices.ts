@@ -15,6 +15,8 @@ const MAX_CLAIMS = 500;
 
 export type NoticeSettings = {
 	email: Record<NoticeKind, boolean>;
+	// Which notices go as a push, to each device of the reader that allows it.
+	push: Record<NoticeKind, boolean>;
 	// The local hour of the daily passage, 0 to 23.
 	hour: number;
 	// An IANA time zone name.
@@ -44,13 +46,17 @@ export function validZone(zone: unknown): zone is string {
 // What is stored, with the known fields only. Null when it is not there or not of the right form.
 export function parseSettings(value: unknown): NoticeSettings | null {
 	if (!isRecord(value) || !isRecord(value.email)) return null;
-	const email = value.email;
+	const flags = (given: unknown): Record<NoticeKind, boolean> => {
+		const of = isRecord(given) ? given : {};
+		return {
+			daily: of.daily === true,
+			reminder: of.reminder === true,
+			releases: of.releases === true,
+		};
+	};
 	return {
-		email: {
-			daily: email.daily === true,
-			reminder: email.reminder === true,
-			releases: email.releases === true,
-		},
+		email: flags(value.email),
+		push: flags(value.push),
 		hour: isHour(value.hour) ? value.hour : DEFAULT_HOUR,
 		zone: validZone(value.zone) ? value.zone : "UTC",
 		asked: value.asked === true,
@@ -67,19 +73,22 @@ export function mergeSettings(
 ): NoticeSettings | null {
 	if (!isRecord(patch)) return null;
 	const next: NoticeSettings = stored
-		? { ...stored, email: { ...stored.email } }
+		? { ...stored, email: { ...stored.email }, push: { ...stored.push } }
 		: {
 				email: { daily: false, reminder: false, releases: false },
+				push: { daily: false, reminder: false, releases: false },
 				hour: DEFAULT_HOUR,
 				zone: "UTC",
 				asked: false,
 				at: now,
 			};
-	if (patch.email !== undefined) {
-		if (!isRecord(patch.email)) return null;
-		for (const [kind, on] of Object.entries(patch.email)) {
+	for (const channel of ["email", "push"] as const) {
+		const given = patch[channel];
+		if (given === undefined) continue;
+		if (!isRecord(given)) return null;
+		for (const [kind, on] of Object.entries(given)) {
 			if (!isKind(kind) || typeof on !== "boolean") return null;
-			next.email[kind] = on;
+			next[channel][kind] = on;
 		}
 	}
 	if (patch.hour !== undefined) {
@@ -138,14 +147,17 @@ export function parseDevice(value: unknown): Device | null {
 	if (!endpoint) return null;
 	if (typeof value.p256dh !== "string" || !KEY_TEXT.test(value.p256dh)) return null;
 	if (typeof value.auth !== "string" || !KEY_TEXT.test(value.auth)) return null;
-	if (!Array.isArray(value.kinds) || !value.kinds.every(isKind)) return null;
+	// A device gets each push that the reader turned on. The list of notices of one device is from an
+	// earlier form, and is kept empty.
+	const kinds = value.kinds ?? [];
+	if (!Array.isArray(kinds) || !kinds.every(isKind)) return null;
 	const label = value.label ?? "";
 	if (typeof label !== "string" || label.length > 60) return null;
 	return {
 		endpoint,
 		p256dh: value.p256dh,
 		auth: value.auth,
-		kinds: [...new Set(value.kinds)],
+		kinds: [...new Set(kinds)],
 		label,
 	};
 }
@@ -185,27 +197,23 @@ export type DueReader = {
 };
 
 // What the Hub's job gets: each reader who can get a notice now, and nothing else of the record.
+// A push goes to each device of the reader, so each device is listed.
 export function dueReaders(rows: ReaderRow[]): DueReader[] {
 	const out: DueReader[] = [];
 	for (const row of rows) {
 		const settings = parseSettings(row.preferences[NOTICES_KEY]);
-		const devices = row.devices
-			.map(({ endpoint, p256dh, auth, kinds }) => ({
-				endpoint,
-				p256dh,
-				auth,
-				kinds: kinds.filter(isKind),
-			}))
-			.filter((device) => device.kinds.length > 0);
-		const byEmail =
-			row.email !== null && settings !== null && Object.values(settings.email).some(Boolean);
-		if (!byEmail && devices.length === 0) continue;
+		if (!settings) continue;
+		const byEmail = row.email !== null && Object.values(settings.email).some(Boolean);
+		const byPush = row.devices.length > 0 && Object.values(settings.push).some(Boolean);
+		if (!byEmail && !byPush) continue;
 		out.push({
 			userId: row.userId,
 			email: row.email,
 			settings,
 			place: row.preferences[PLACE_KEY] ?? null,
-			devices,
+			devices: byPush
+				? row.devices.map(({ endpoint, p256dh, auth }) => ({ endpoint, p256dh, auth, kinds: [] }))
+				: [],
 		});
 	}
 	return out;
