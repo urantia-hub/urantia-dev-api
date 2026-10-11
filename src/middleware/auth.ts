@@ -8,6 +8,7 @@ import { canUseApp, isAppStatus } from "../lib/app-status.ts";
 import { tokenEnv, verifyAccessToken } from "../lib/app-tokens.ts";
 import { deletedAccountAllows } from "../lib/consents.ts";
 import { problemJson } from "../lib/errors.ts";
+import type { TokenApp } from "../lib/preference-space.ts";
 import {
 	appTokenProblem,
 	firstPartyOnly,
@@ -25,6 +26,8 @@ export type AuthUser = {
 declare module "hono" {
 	interface ContextVariableMap {
 		user: AuthUser | null;
+		// The app of an app token, and if it is one of ours. Null for a session of the accounts site.
+		tokenApp: TokenApp | null;
 	}
 }
 
@@ -53,6 +56,7 @@ function getJwks(supabaseUrl: string) {
 export const authMiddleware: MiddlewareHandler = async (c, next) => {
 	// Default: no user
 	c.set("user", null);
+	c.set("tokenApp", null);
 
 	const path = c.req.path;
 
@@ -99,6 +103,7 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 	// The app of an app token. Null for a session token of the accounts site.
 	let tokenAppId: string | null = null;
 	let tokenScopes: string[] = [];
+	let tokenApp: TokenApp | null = null;
 	try {
 		let payload: Record<string, unknown>;
 		let fromApp = false;
@@ -180,15 +185,14 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 			if (problem) return problemJson(c, problem.status, problem.detail);
 			const env = (name: "FIRST_PARTY_APP_IDS" | "ADMIN_USER_IDS") =>
 				(c.env?.[name] as string | undefined) ?? process.env[name];
-			if (
-				firstPartyOnly(path) &&
-				!isFirstPartyApp(
-					{ id: tokenAppId, ownerId: app?.ownerId ?? null },
-					env("FIRST_PARTY_APP_IDS"),
-					env("ADMIN_USER_IDS"),
-				)
-			)
+			const firstParty = isFirstPartyApp(
+				{ id: tokenAppId, ownerId: app?.ownerId ?? null },
+				env("FIRST_PARTY_APP_IDS"),
+				env("ADMIN_USER_IDS"),
+			);
+			if (firstPartyOnly(path) && !firstParty)
 				return problemJson(c, 403, "This app cannot use this route.");
+			tokenApp = { id: tokenAppId, firstParty };
 		}
 		// Lazy user creation: ensure user exists in our DB
 		const { db } = getDb(c.env?.HYPERDRIVE);
@@ -219,6 +223,7 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 		}
 
 		c.set("user", reader);
+		c.set("tokenApp", tokenApp);
 	} catch (err) {
 		// The kind of error only. The message of a database error can hold the reader's email or a host name.
 		c.get("logger")?.error("auth: the lookup of the reader failed", {

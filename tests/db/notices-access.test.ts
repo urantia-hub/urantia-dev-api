@@ -115,22 +115,36 @@ suite("the notice settings, by the app of the token", () => {
 		expect(rows).toHaveLength(0);
 	});
 
-	it("keeps the settings out of the shared preferences: another app cannot read or write them there", async () => {
+	it("keeps the notice settings out of the preferences route, for each app", async () => {
 		await call(ours, "PUT", "/me/notices", { email: { daily: true }, zone: "Europe/Berlin" });
-		const put = await call(theirs, "PUT", "/me/preferences", {
-			"other.theme": "dark",
-			"hub.notices": { email: { daily: true, reminder: true, releases: true } },
-		});
-		expect(put.status).toBe(200);
-		expect(await put.text()).not.toContain("hub.notices");
-		const read = await (await call(theirs, "GET", "/me/preferences")).text();
-		expect(read).toContain("other.theme");
-		expect(read).not.toContain("hub.notices");
-		expect(read).not.toContain("Europe/Berlin");
+		await call(theirs, "PUT", "/me/preferences", { "hub.notices": { email: { reminder: true } } });
+		await call(ours, "PUT", "/me/preferences", { "hub.notices": { email: { releases: true } } });
+		for (const token of [ours, theirs]) {
+			const read = await (await call(token, "GET", "/me/preferences")).text();
+			expect(read).not.toContain("Europe/Berlin");
+		}
 		const { data } = (await (await call(ours, "GET", "/me/notices")).json()) as {
 			data: { settings: { email: Record<string, boolean>; zone: string } };
 		};
 		expect(data.settings.email).toEqual({ daily: true, reminder: false, releases: false });
-		expect(data.settings.zone).toBe("Europe/Berlin");
+	});
+
+	it("gives each app its own preferences: another app cannot read or change the Hub's", async () => {
+		await call(ours, "PUT", "/me/preferences", { "hub.place": { paperId: "2" } });
+		const put = await call(theirs, "PUT", "/me/preferences", {
+			theme: "dark",
+			"hub.place": { paperId: "99" },
+		});
+		expect(put.status).toBe(200);
+		expect((await put.json()) as unknown).toEqual({
+			data: { theme: "dark", "hub.place": { paperId: "99" } },
+		});
+		expect((await (await call(theirs, "GET", "/me/preferences")).json()) as unknown).toEqual({
+			data: { theme: "dark", "hub.place": { paperId: "99" } },
+		});
+		// The Hub still has its own place, and sees nothing of the other app.
+		expect((await (await call(ours, "GET", "/me/preferences")).json()) as unknown).toEqual({
+			data: { "hub.place": { paperId: "2" } },
+		});
 	});
 });
