@@ -26,7 +26,6 @@ EXPOSE 3000
 # Sensible dummies for env vars that are read at handler time (not boot time).
 # Glama can override these in its build admin if it wants real introspection.
 ENV DATABASE_URL=postgresql://dummy:dummy@localhost:5432/dummy
-ENV APP_JWT_SECRET=glama-introspection-dummy-secret
 ENV ADMIN_USER_IDS=
 
 CMD ["bun", "run", "start"]

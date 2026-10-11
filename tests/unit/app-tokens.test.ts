@@ -1,5 +1,12 @@
 import { beforeAll, describe, expect, it } from "bun:test";
-import { decodeJwt, decodeProtectedHeader, exportJWK, generateKeyPair, SignJWT } from "jose";
+import {
+	decodeJwt,
+	decodeProtectedHeader,
+	exportJWK,
+	generateKeyPair,
+	importJWK,
+	SignJWT,
+} from "jose";
 import {
 	ACCESS_TOKEN_SECONDS,
 	type AppClaims,
@@ -41,6 +48,19 @@ const hs256 = (overrides: Record<string, unknown> = {}, secret = SECRET) =>
 		.setExpirationTime(Math.floor(later(60).getTime() / 1000))
 		.sign(new TextEncoder().encode(secret));
 
+// A token signed with our key, with claims that our own signer never writes.
+const es256 = async (
+	overrides: Record<string, unknown> = {},
+	issuer = "https://accounts.urantiahub.com",
+) =>
+	new SignJWT({ ...claims, ...overrides })
+		.setProtectedHeader({ alg: "ES256" })
+		.setIssuer(issuer)
+		.setAudience("authenticated")
+		.setIssuedAt(Math.floor(NOW.getTime() / 1000))
+		.setExpirationTime(Math.floor(later(60).getTime() / 1000))
+		.sign(await importJWK(JSON.parse(env.APP_JWT_PRIVATE_JWK as string), "ES256"));
+
 describe("signAccessToken", () => {
 	it("signs with ES256, for 15 minutes, with the key id in the header", async () => {
 		const { token, expiresAt } = await signAccessToken(claims, env, NOW);
@@ -54,15 +74,10 @@ describe("signAccessToken", () => {
 		expect(expiresAt.toISOString()).toBe("2026-10-08T12:15:00.000Z");
 	});
 
-	it("falls back to HS256 when no private key is set, so a deploy before the key is safe", async () => {
-		const { token } = await signAccessToken(claims, { APP_JWT_SECRET: SECRET }, NOW);
-		expect(decodeProtectedHeader(token).alg).toBe("HS256");
-		const payload = decodeJwt(token);
-		expect((payload.exp ?? 0) - (payload.iat ?? 0)).toBe(900);
-	});
-
-	it("throws with no key at all", async () => {
+	it("throws with no private key, also when the old shared secret is set", async () => {
 		await expect(signAccessToken(claims, {}, NOW)).rejects.toThrow();
+		const old = { APP_JWT_SECRET: SECRET } as TokenEnv;
+		await expect(signAccessToken(claims, old, NOW)).rejects.toThrow();
 	});
 });
 
@@ -116,64 +131,30 @@ describe("verifyAccessToken", () => {
 	// A known attack: sign with HS256 and use the public key text as the secret.
 	it("refuses an HS256 token signed with the public key as the secret", async () => {
 		const pub = JSON.stringify((await publicJwks(env)).keys[0]);
-		const token = await hs256({}, pub);
-		const withWindow = {
-			...env,
-			APP_JWT_SECRET: SECRET,
-			HS256_ACCEPT_UNTIL: later(600).toISOString(),
-		};
-		await expect(verifyAccessToken(token, withWindow, later(1))).rejects.toThrow();
+		await expect(verifyAccessToken(await hs256({}, pub), env, later(1))).rejects.toThrow();
 	});
 
-	it("accepts an old HS256 token before HS256_ACCEPT_UNTIL, and refuses it after", async () => {
+	it("refuses each HS256 token, with or without a key, also when the old settings are there", async () => {
 		const token = await hs256();
-		const oldEnv = { ...env, APP_JWT_SECRET: SECRET, HS256_ACCEPT_UNTIL: later(30).toISOString() };
-		expect(await verifyAccessToken(token, oldEnv, later(1))).toEqual(claims);
-		await expect(verifyAccessToken(token, oldEnv, later(31))).rejects.toThrow();
+		const old = { APP_JWT_SECRET: SECRET, HS256_ACCEPT_UNTIL: later(600).toISOString() };
+		await expect(verifyAccessToken(token, env, later(1))).rejects.toThrow();
+		await expect(verifyAccessToken(token, { ...env, ...old } as TokenEnv, later(1))).rejects.toThrow();
+		await expect(verifyAccessToken(token, old as TokenEnv, later(1))).rejects.toThrow();
 	});
 
-	it("accepts HS256 while no ES256 key is set, and refuses it with a key and no date", async () => {
-		const token = await hs256();
-		expect(await verifyAccessToken(token, { APP_JWT_SECRET: SECRET }, later(1))).toEqual(claims);
-		await expect(
-			verifyAccessToken(token, { ...env, APP_JWT_SECRET: SECRET }, later(1)),
-		).rejects.toThrow();
-		await expect(
-			verifyAccessToken(
-				token,
-				{ ...env, APP_JWT_SECRET: SECRET, HS256_ACCEPT_UNTIL: "not a date" },
-				later(1),
-			),
-		).rejects.toThrow();
-	});
-
-	it("refuses a token whose issuer or audience is not ours", async () => {
-		const wrongIssuer = await new SignJWT({ ...claims })
-			.setProtectedHeader({ alg: "HS256" })
-			.setIssuer("https://evil.example")
-			.setAudience("authenticated")
-			.setExpirationTime(Math.floor(later(60).getTime() / 1000))
-			.sign(new TextEncoder().encode(SECRET));
-		await expect(
-			verifyAccessToken(wrongIssuer, { APP_JWT_SECRET: SECRET }, later(1)),
-		).rejects.toThrow();
+	it("refuses a token whose issuer is not ours", async () => {
+		const wrongIssuer = await es256({}, "https://evil.example");
+		await expect(verifyAccessToken(wrongIssuer, env, later(1))).rejects.toThrow();
+		expect(await verifyAccessToken(await es256(), env, later(1))).toEqual(claims);
 	});
 
 	it("refuses a token with no reader or no app, and drops scopes that are not text", async () => {
 		await expect(
-			verifyAccessToken(await hs256({ app_id: undefined }), { APP_JWT_SECRET: SECRET }, later(1)),
+			verifyAccessToken(await es256({ app_id: undefined }), env, later(1)),
 		).rejects.toThrow();
-		const odd = await verifyAccessToken(
-			await hs256({ scopes: ["notes", 7, null] }),
-			{ APP_JWT_SECRET: SECRET },
-			later(1),
-		);
+		const odd = await verifyAccessToken(await es256({ scopes: ["notes", 7, null] }), env, later(1));
 		expect(odd.scopes).toEqual(["notes"]);
-		const none = await verifyAccessToken(
-			await hs256({ scopes: "profile notes" }),
-			{ APP_JWT_SECRET: SECRET },
-			later(1),
-		);
+		const none = await verifyAccessToken(await es256({ scopes: "profile notes" }), env, later(1));
 		expect(none.scopes).toEqual([]);
 	});
 
