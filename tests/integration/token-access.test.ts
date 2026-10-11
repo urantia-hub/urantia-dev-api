@@ -1,14 +1,14 @@
 import { afterAll, beforeAll, describe, expect, it } from "bun:test";
-import { exportJWK, generateKeyPair, SignJWT } from "jose";
+import { exportJWK, generateKeyPair, importJWK, SignJWT } from "jose";
 import { app } from "../../src/index.ts";
-import { signAccessToken } from "../../src/lib/app-tokens.ts";
 
 // These requests stop in the auth middleware, before the database. So they are safe with any .env.
 const SECRET = "test-secret-for-app-tokens-0123456789";
-const saved = { secret: process.env.APP_JWT_SECRET, supabase: process.env.SUPABASE_URL };
+const saved = { key: process.env.APP_JWT_PRIVATE_JWK, supabase: process.env.SUPABASE_URL };
 
-beforeAll(() => {
-	process.env.APP_JWT_SECRET = SECRET;
+beforeAll(async () => {
+	const { privateKey } = await generateKeyPair("ES256", { extractable: true });
+	process.env.APP_JWT_PRIVATE_JWK = JSON.stringify(await exportJWK(privateKey));
 	// Nothing listens here, so the check against the Supabase keys fails at once.
 	process.env.SUPABASE_URL = "http://127.0.0.1:9";
 });
@@ -18,11 +18,11 @@ function restore(name: string, value: string | undefined) {
 	else process.env[name] = value;
 }
 afterAll(() => {
-	restore("APP_JWT_SECRET", saved.secret);
+	restore("APP_JWT_PRIVATE_JWK", saved.key);
 	restore("SUPABASE_URL", saved.supabase);
 });
 
-const appToken = (claims: Record<string, unknown>) =>
+const appToken = async (claims: Record<string, unknown>) =>
 	new SignJWT({
 		sub: "00000000-0000-4000-8000-000000000001",
 		email: null,
@@ -31,10 +31,10 @@ const appToken = (claims: Record<string, unknown>) =>
 		aud: "authenticated",
 		...claims,
 	})
-		.setProtectedHeader({ alg: "HS256" })
+		.setProtectedHeader({ alg: "ES256" })
 		.setIssuedAt()
 		.setExpirationTime("5m")
-		.sign(new TextEncoder().encode(SECRET));
+		.sign(await importJWK(JSON.parse(process.env.APP_JWT_PRIVATE_JWK as string), "ES256"));
 
 const call = async (path: string, token: string, method = "GET") =>
 	app.request(path, {
@@ -224,24 +224,28 @@ describe("a database that is down", () => {
 	});
 });
 
-describe("a token signed with the new key", () => {
-	const reader = { sub: "00000000-0000-4000-8000-000000000001", email: null, app_id: "some-app" };
-
-	it("is checked by the middleware: the scope rule applies to it", async () => {
-		const saved = process.env.APP_JWT_PRIVATE_JWK;
-		const { privateKey } = await generateKeyPair("ES256", { extractable: true });
-		process.env.APP_JWT_PRIVATE_JWK = JSON.stringify(await exportJWK(privateKey));
+describe("a token of the old form", () => {
+	it("is refused, also when the old shared secret is still set", async () => {
+		const savedSecret = process.env.APP_JWT_SECRET;
+		process.env.APP_JWT_SECRET = SECRET;
 		try {
-			const env = { APP_JWT_PRIVATE_JWK: process.env.APP_JWT_PRIVATE_JWK };
-			const { token } = await signAccessToken({ ...reader, scopes: ["profile"] }, env);
-			// 403 proves that the token was accepted and its scopes were read. A bad token gets 401.
-			expect((await call("/me/bookmarks", token)).status).toBe(403);
-			// With the key in place and no date for old tokens, an HS256 token is refused.
-			expect((await call("/me/bookmarks", await appToken({ scopes: ["profile"] }))).status).toBe(
-				401,
-			);
+			const old = await new SignJWT({
+				sub: "00000000-0000-4000-8000-000000000001",
+				email: null,
+				app_id: "some-app",
+				scopes: ["profile"],
+				iss: "https://accounts.urantiahub.com",
+				aud: "authenticated",
+			})
+				.setProtectedHeader({ alg: "HS256" })
+				.setIssuedAt()
+				.setExpirationTime("5m")
+				.sign(new TextEncoder().encode(SECRET));
+			expect((await call("/me/bookmarks", old)).status).toBe(401);
+			// 403 proves that a token of the new form is accepted and its scopes are read.
+			expect((await call("/me/bookmarks", await appToken({ scopes: ["profile"] }))).status).toBe(403);
 		} finally {
-			restore("APP_JWT_PRIVATE_JWK", saved);
+			restore("APP_JWT_SECRET", savedSecret);
 		}
 	});
 });

@@ -153,7 +153,7 @@ Public endpoints require no auth. User endpoints (`/me/*`) require a JWT. OAuth 
 3. Exchange authorization code for access token via `POST /auth/token`
 4. Pass token as `Authorization: Bearer <token>`
 
-Access tokens are HS256 JWTs with 7-day expiry. PKCE is supported for browser-based apps.
+Access tokens are ES256 JWTs that last 15 minutes, with a refresh token. PKCE is supported for browser-based apps.
 
 ## Observability
 
@@ -207,8 +207,8 @@ npx wrangler login
 npx wrangler secret put DATABASE_URL
 # paste your Supabase connection string (use pooler port 6543)
 
-npx wrangler secret put APP_JWT_SECRET
-# paste a 64-byte hex secret: node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
+npx wrangler secret put APP_JWT_PRIVATE_JWK
+# paste an ES256 private key as a JWK in JSON
 
 npx wrangler secret put ADMIN_USER_IDS
 # comma-separated Supabase user UUIDs for admin access

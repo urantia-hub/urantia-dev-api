@@ -107,7 +107,7 @@ what rebuilds the hot set after the rollout.
   - `cite.ts`, `og.ts`, `embeddings.ts`, `mcp.ts` — Utility routes
   - `feedback.ts` — Public `POST /feedback` (see Feedback)
 - `src/middleware/` — CORS, structured logging, rate limiting, cache control, JWT auth
-  - `auth.ts` — Dual JWT validation: Supabase JWKS (ECC P-256) + app tokens (HS256 via APP_JWT_SECRET), lazy user creation
+  - `auth.ts` — Dual JWT validation: Supabase JWKS (ECC P-256) + app tokens (ES256 with our own key), lazy user creation
 - `src/validators/` — Zod schemas for request/response
   - `schemas.ts` — Public endpoint schemas
   - `me-schemas.ts` — Authenticated endpoint schemas
@@ -126,7 +126,7 @@ Official TypeScript SDKs published on npm (`urantia-dev-sdks/` repo):
 
 - `DATABASE_URL` — Supabase Postgres connection string
 - `SUPABASE_URL` — Supabase project URL (for JWKS endpoint)
-- `APP_JWT_SECRET` — HS256 secret for signing app-scoped access tokens (generated, not from Supabase)
+- `APP_JWT_PRIVATE_JWK` — ES256 private key for app tokens, as a JWK in JSON (secret)
 - `ADMIN_USER_IDS` — Comma-separated Supabase user UUIDs that can register OAuth apps
 - `OPENAI_API_KEY` — For semantic search embeddings
 - `POSTHOG_KEY` — PostHog project token (phc_) for logs. Unset means console logs
@@ -188,7 +188,7 @@ indexes. A push against an up-to-date database must print "No changes detected".
 The API includes a unified auth layer for the Urantia ecosystem:
 
 - **Identity**: Supabase Auth (GoTrue) with ECC P-256 JWT signing
-- **JWT validation**: Supabase JWKS (ECC P-256) for session tokens of the accounts site; our own ES256 key for app tokens. HS256 via `APP_JWT_SECRET` is still accepted for old tokens; remove it after 2026-10-17, and ask Kelson before the secret is deleted
+- **JWT validation**: Supabase JWKS (ECC P-256) for session tokens of the accounts site; our own ES256 key for app tokens. A token of the old form (HS256) is refused since 2026-10-10. The secret `APP_JWT_SECRET` is no longer read; ask Kelson before it is deleted
 - **Token exchange**: `POST /auth/token` returns an ES256 access token (15 minutes) and a refresh token (90 days from last use, one use each), with claims: `sub`, `email`, `scopes`, `app_id`, `iss`, `aud`
 - **Login page**: accounts.urantiahub.com (separate Next.js app in `urantia-accounts/`)
 - **User data tables**: users, bookmarks, notes, reading_progress, user_preferences, apps, app_user_data, auth_codes
