@@ -114,16 +114,22 @@ const PUSH_HOSTS = [
 ];
 const KEY_TEXT = /^[A-Za-z0-9_-]{8,200}={0,2}$/;
 
+// Only the characters of a plain address. A backslash, a space, an "@", or a control character can
+// make two programs read one address in two ways.
+const PLAIN_ADDRESS = /^[A-Za-z0-9\-._~:/?&=%+!$'()*,;]+$/;
+
+// The address in the one form that the parser gives, or null. Store and call that form only.
 export function pushEndpoint(value: unknown): string | null {
-	if (typeof value !== "string" || value.length > 1000) return null;
+	if (typeof value !== "string" || value.length > 1000 || !PLAIN_ADDRESS.test(value)) return null;
 	let url: URL;
 	try {
 		url = new URL(value);
 	} catch {
 		return null;
 	}
-	if (url.protocol !== "https:" || url.port !== "" || url.username || url.password) return null;
-	return PUSH_HOSTS.some((host) => host.test(url.hostname)) ? value : null;
+	if (url.protocol !== "https:" || url.port !== "" || url.username || url.password || url.hash)
+		return null;
+	return PUSH_HOSTS.some((host) => host.test(url.hostname)) ? url.href : null;
 }
 
 export function parseDevice(value: unknown): Device | null {
