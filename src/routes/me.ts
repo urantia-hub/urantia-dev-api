@@ -5,7 +5,7 @@ import { getDb } from "../db/client.ts";
 import { bookmarks, notes, paragraphs, readingProgress, userPreferences, users } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
 import { problemJson } from "../lib/errors.ts";
-import { NOTICES_KEY } from "../lib/notices.ts";
+import { preferenceSpace } from "../lib/preference-space.ts";
 import { lookupParagraphs, resolveParagraphRef } from "../lib/paragraph-lookup.ts";
 import type { AuthUser } from "../middleware/auth.ts";
 import { ErrorResponse, ParagraphSchema } from "../validators/schemas.ts";
@@ -25,12 +25,6 @@ import {
 
 export const meRoute = createApp();
 
-// The preferences are shared by each app that has the scope. The notice settings are not: they
-// have routes of their own, for our own apps. So this route never reads or writes that key.
-function shared(preferences: Record<string, unknown>): Record<string, unknown> {
-	const { [NOTICES_KEY]: _notices, ...rest } = preferences;
-	return rest;
-}
 
 function getUser(c: { get: (key: "user") => AuthUser | null }): AuthUser {
 	const user = c.get("user");
@@ -667,7 +661,8 @@ meRoute.openapi(getPreferencesRoute, async (c) => {
 	const user = getUser(c);
 	const { db } = getDb(c.env?.HYPERDRIVE);
 	const [row] = await db.select().from(userPreferences).where(eq(userPreferences.userId, user.id)).limit(1);
-	return c.json({ data: shared((row?.preferences as Record<string, unknown>) ?? {}) }, 200);
+	const space = preferenceSpace(c.get("tokenApp"));
+	return c.json({ data: space.visible((row?.preferences as Record<string, unknown>) ?? {}) }, 200);
 });
 
 const updatePreferencesRoute = createRoute({
@@ -685,7 +680,9 @@ const updatePreferencesRoute = createRoute({
 
 meRoute.openapi(updatePreferencesRoute, async (c) => {
 	const user = getUser(c);
-	const body = shared(c.req.valid("json") as Record<string, unknown>);
+	// Each app reads and writes its own part of the record only.
+	const space = preferenceSpace(c.get("tokenApp"));
+	const body = space.patch(c.req.valid("json") as Record<string, unknown>);
 	const { db } = getDb(c.env?.HYPERDRIVE);
 
 	const [existing] = await db.select().from(userPreferences).where(eq(userPreferences.userId, user.id)).limit(1);
@@ -697,5 +694,5 @@ meRoute.openapi(updatePreferencesRoute, async (c) => {
 		await db.insert(userPreferences).values({ userId: user.id, preferences: merged });
 	}
 
-	return c.json({ data: shared(merged) }, 200);
+	return c.json({ data: space.visible(merged) }, 200);
 });
