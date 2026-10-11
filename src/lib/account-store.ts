@@ -16,6 +16,7 @@ import {
 	users,
 } from "../db/schema.ts";
 import type { AccountStore, ReaderTable } from "./consents.ts";
+import { appPreferencePrefix } from "./preference-space.ts";
 
 type Db = ReturnType<typeof getDb>["db"];
 
@@ -32,6 +33,22 @@ const TABLES = {
 	push_subscriptions: [pushSubscriptions, pushSubscriptions.userId],
 	notice_log: [noticeLog, noticeLog.userId],
 } as const satisfies Record<ReaderTable, readonly [unknown, unknown]>;
+
+// Removes an app, and first the preferences that readers have for it. An id can be registered again
+// after a delete, and the new app must not get what readers gave to the old one. Safe to run again.
+export async function deleteAppRow(db: Db, appId: string): Promise<void> {
+	const prefix = appPreferencePrefix(appId);
+	await db.execute(sql`
+		update user_preferences
+		set preferences = coalesce(
+				(select jsonb_object_agg(e.key, e.value) from jsonb_each(preferences) e where not starts_with(e.key, ${prefix})),
+				'{}'::jsonb
+			),
+			updated_at = now()
+		where exists (select 1 from jsonb_object_keys(preferences) k where starts_with(k, ${prefix}))
+	`);
+	await db.delete(apps).where(eq(apps.id, appId));
+}
 
 export function createAccountStore(db: Db): AccountStore {
 	return {
@@ -84,7 +101,7 @@ export function createAccountStore(db: Db): AccountStore {
 			await db.delete(target).where(eq(column, userId));
 		},
 		async deleteApp(appId) {
-			await db.delete(apps).where(eq(apps.id, appId));
+			await deleteAppRow(db, appId);
 		},
 		async deleteUser(userId) {
 			await db.delete(users).where(eq(users.id, userId));
