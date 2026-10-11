@@ -98,7 +98,7 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 		let payload: Record<string, unknown>;
 		let fromApp = false;
 
-		// Try Supabase JWKS first (ECC P-256), then fall back to app JWT (HS256)
+		// Try Supabase JWKS first (ECC P-256), then our own key for an app token (ES256)
 		try {
 			const jwks = getJwks(supabaseUrl);
 			const result = await jwtVerify(token, jwks, {

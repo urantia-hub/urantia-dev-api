@@ -28,10 +28,6 @@ const AUDIENCE = "authenticated";
 export type TokenEnv = {
 	// The ES256 private key, as a JWK in JSON. A secret.
 	APP_JWT_PRIVATE_JWK?: string;
-	// The old shared secret (HS256). In use until the private key is set, then for old tokens only.
-	APP_JWT_SECRET?: string;
-	// After the private key is set: the last moment at which an old HS256 token is accepted. ISO date.
-	HS256_ACCEPT_UNTIL?: string;
 	// The life of an access token in seconds. Absent means 15 minutes. Never more than 7 days.
 	ACCESS_TOKEN_SECONDS?: string;
 };
@@ -93,17 +89,10 @@ export async function signAccessToken(
 
 	const jwk = privateJwk(env);
 	const pub = await publicKey(env);
-	if (jwk && pub) {
-		const token = await jwt
-			.setProtectedHeader({ alg: "ES256", kid: pub.kid })
-			.sign(await importJWK(jwk, "ES256"));
-		return { token, expiresAt };
-	}
-	// Before the key is set, sign as before.
-	if (!env.APP_JWT_SECRET) throw new Error("No signing key is set.");
+	if (!jwk || !pub) throw new Error("No signing key is set.");
 	const token = await jwt
-		.setProtectedHeader({ alg: "HS256" })
-		.sign(new TextEncoder().encode(env.APP_JWT_SECRET));
+		.setProtectedHeader({ alg: "ES256", kid: pub.kid })
+		.sign(await importJWK(jwk, "ES256"));
 	return { token, expiresAt };
 }
 
@@ -113,36 +102,19 @@ export async function verifyAccessToken(
 	env: TokenEnv,
 	now: Date = new Date(),
 ): Promise<AppClaims> {
-	const { alg } = decodeProtectedHeader(token);
-	const checks = { issuer: ISSUER, audience: AUDIENCE, currentDate: now };
+	// Only ES256, with our key. A token of the old form (HS256) is refused.
+	if (decodeProtectedHeader(token).alg !== "ES256") {
+		throw new Error("This kind of token is not accepted.");
+	}
 	const pub = await publicKey(env);
-
-	if (alg === "ES256") {
-		if (!pub) throw new Error("No key to check this token.");
-		const { payload } = await jwtVerify(token, await importJWK(pub, "ES256"), {
-			...checks,
-			algorithms: ["ES256"],
-		});
-		return toClaims(payload);
-	}
-
-	if (alg === "HS256") {
-		if (!env.APP_JWT_SECRET) throw new Error("This kind of token is not accepted.");
-		// With an ES256 key in place, HS256 is for old tokens only, until the date.
-		if (pub) {
-			const until = env.HS256_ACCEPT_UNTIL ? new Date(env.HS256_ACCEPT_UNTIL) : null;
-			if (!until || Number.isNaN(until.getTime()) || now > until) {
-				throw new Error("This kind of token is no longer accepted.");
-			}
-		}
-		const { payload } = await jwtVerify(token, new TextEncoder().encode(env.APP_JWT_SECRET), {
-			...checks,
-			algorithms: ["HS256"],
-		});
-		return toClaims(payload);
-	}
-
-	throw new Error("This kind of token is not accepted.");
+	if (!pub) throw new Error("No key to check this token.");
+	const { payload } = await jwtVerify(token, await importJWK(pub, "ES256"), {
+		issuer: ISSUER,
+		audience: AUDIENCE,
+		currentDate: now,
+		algorithms: ["ES256"],
+	});
+	return toClaims(payload);
 }
 
 export const SIGN_OUT_TOKEN_SECONDS = 60;
@@ -193,8 +165,6 @@ export function tokenEnv(c: { env?: Record<string, unknown> }): TokenEnv {
 		(c.env?.[name] as string | undefined) ?? process.env[name] ?? undefined;
 	return {
 		APP_JWT_PRIVATE_JWK: read("APP_JWT_PRIVATE_JWK"),
-		APP_JWT_SECRET: read("APP_JWT_SECRET"),
-		HS256_ACCEPT_UNTIL: read("HS256_ACCEPT_UNTIL"),
 		ACCESS_TOKEN_SECONDS: read("ACCESS_TOKEN_SECONDS"),
 	};
 }
