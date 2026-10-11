@@ -27,6 +27,7 @@ import { feedbackRoute } from "./routes/feedback.ts";
 import { languagesRoute } from "./routes/languages.ts";
 import { mcpRoute } from "./routes/mcp.ts";
 import { meRoute } from "./routes/me.ts";
+import { noticesRoute } from "./routes/notices.ts";
 import { ogRoute } from "./routes/og.ts";
 import { papersRoute } from "./routes/papers.ts";
 import { paragraphsRoute } from "./routes/paragraphs.ts";
@@ -187,6 +188,8 @@ app.route("/mcp", mcpRoute);
 app.route("/admin", adminRoute);
 
 // Authenticated routes
+// Before /me: the reader's notice settings are routes of their own.
+app.route("/", noticesRoute);
 app.route("/me", meRoute);
 app.route("/auth", authRoute);
 

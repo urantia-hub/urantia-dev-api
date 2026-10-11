@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import {
 	customType,
 	index,
@@ -717,6 +718,45 @@ export const userPreferences = pgTable("user_preferences", {
 	preferences: pgJsonb("preferences").default({}).notNull(),
 	updatedAt: timestamp("updated_at").notNull().defaultNow(),
 }).enableRLS();
+
+// --- push_subscriptions (the devices of a reader, for the notices of UrantiaHub) ---
+// Created by scripts/setup-notices.sql. The endpoint is a secret of the device.
+export const pushSubscriptions = pgTable(
+	"push_subscriptions",
+	{
+		id: uuid("id").primaryKey().defaultRandom(),
+		userId: uuid("user_id")
+			.notNull()
+			.references(() => users.id, { onDelete: "cascade" }),
+		endpoint: text("endpoint").notNull().unique(),
+		p256dh: text("p256dh").notNull(),
+		auth: text("auth").notNull(),
+		// Which notices go to this device: daily, reminder, releases.
+		kinds: text("kinds").array().notNull().default(sql`'{}'::text[]`),
+		label: text("label").notNull().default(""),
+		createdAt: timestamp("created_at").notNull().defaultNow(),
+		lastOkAt: timestamp("last_ok_at"),
+	},
+	(t) => [index("push_subscriptions_user_id_idx").on(t.userId)],
+).enableRLS();
+
+// --- notice_log (each notice that was sent; the primary key makes a send happen one time) ---
+export const noticeLog = pgTable(
+	"notice_log",
+	{
+		userId: uuid("user_id")
+			.notNull()
+			.references(() => users.id, { onDelete: "cascade" }),
+		kind: text("kind").notNull(),
+		key: text("key").notNull(),
+		channel: text("channel").notNull(),
+		sentAt: timestamp("sent_at").notNull().defaultNow(),
+	},
+	(t) => [
+		primaryKey({ columns: [t.userId, t.kind, t.key, t.channel] }),
+		index("notice_log_sent_at_idx").on(t.sentAt),
+	],
+).enableRLS();
 
 // --- apps (OAuth client registry) ---
 export const apps = pgTable("apps", {
