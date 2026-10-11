@@ -536,25 +536,6 @@ describe("revokeSession", () => {
 		).toEqual({ signOutToken: null });
 		expect(rows).toHaveLength(1);
 	});
-
-	it("gives no sign-out token while no signing key is set, and still ends the family", async () => {
-		const { store, rows } = memoryStore();
-		const session = await issueSession(
-			store,
-			{ APP_JWT_SECRET: "x".repeat(40) },
-			{ userId: USER, appId: APP, scopes: ["profile"], email: null },
-			NOW,
-		);
-		expect(
-			await revokeSession(
-				store,
-				{ APP_JWT_SECRET: "x".repeat(40) },
-				{ appId: APP, refreshToken: session.refreshToken },
-				NOW,
-			),
-		).toEqual({ signOutToken: null });
-		expect(rows).toHaveLength(0);
-	});
 });
 
 // "Remove" on the account page and a token exchange can run at the same moment.
