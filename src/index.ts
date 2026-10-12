@@ -68,7 +68,7 @@ app.onError((err, c) => {
 app.use("*", scannerBlock);
 app.use("*", corsMiddleware);
 app.use("*", loggerMiddleware);
-app.use("*", rateLimiter({ windowMs: 60_000, max: 200, ownAppsPass: true }));
+app.use("*", rateLimiter({ windowMs: 60_000, max: 200, ownAppsMax: 3000 }));
 app.use("*", authMiddleware);
 app.use("*", ownAppGate);
 app.use("*", cacheControl());
