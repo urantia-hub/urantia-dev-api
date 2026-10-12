@@ -9,7 +9,7 @@ function build(max = 2) {
 	const app = new Hono();
 	let handled = 0;
 	let checked = 0;
-	app.use("*", rateLimiter({ windowMs: 60_000, max, ownAppsPass: true }));
+	app.use("*", rateLimiter({ windowMs: 60_000, max, ownAppsMax: 6 }));
 	app.use("*", async (c, next) => {
 		c.set("tokenApp", null);
 		const token = c.req.header("authorization")?.slice(7);
@@ -35,7 +35,7 @@ const statuses = async (asks: Promise<Response>[]) =>
 	(await Promise.all(asks)).map((r) => r.status);
 
 describe("the limit for an address, and the pass of our own apps", () => {
-	it("lets the server of our own app go on past the limit", async () => {
+	it("lets the server of our own app go on past the limit of an address", async () => {
 		const { ask, handled } = build();
 		const ip = "10.1.0.1";
 		expect(
@@ -64,28 +64,28 @@ describe("the limit for an address, and the pass of our own apps", () => {
 		expect(handled()).toBe(2);
 	});
 
-	it("looks at twenty bad tokens past the limit, and then at no more from that address", async () => {
+	it("stops our own app at its own, higher limit", async () => {
+		const { ask, handled } = build();
+		const ip = "10.1.0.9";
+		for (const want of [200, 200, 200, 200, 200, 200, 429, 429])
+			expect((await ask(ip, "hub")).status).toBe(want);
+		expect(handled()).toBe(6);
+	});
+
+	it("checks a bounded number of made-up tokens, and then stops each request before the check", async () => {
 		const { ask, checked } = build();
 		const ip = "10.1.0.4";
-		for (let i = 0; i < 2 + 20; i += 1) expect((await ask(ip, "made-up")).status).toBe(401);
-		for (let i = 0; i < 5; i += 1) expect((await ask(ip, "made-up")).status).toBe(429);
-		expect(checked()).toBe(22);
+		for (const want of [401, 401, 401, 401, 401, 401, 429, 429, 429])
+			expect((await ask(ip, "made-up")).status).toBe(want);
+		expect(checked()).toBe(6);
 	});
 
-	it("still lets our own app through after a token of it was at its end", async () => {
+	it("still lets our own app through after other tokens from the same address were refused", async () => {
 		const { ask } = build();
 		const ip = "10.1.0.5";
-		for (const want of [200, 200, 200]) expect((await ask(ip, "hub")).status).toBe(want);
+		for (const want of [200, 200, 429]) expect((await ask(ip, "other")).status).toBe(want);
 		expect((await ask(ip, "made-up")).status).toBe(401);
 		expect((await ask(ip, "hub")).status).toBe(200);
-	});
-
-	it("counts each refusal of another app one time", async () => {
-		const { ask, checked } = build();
-		const ip = "10.1.0.8";
-		for (let i = 0; i < 2; i += 1) expect((await ask(ip, "other")).status).toBe(200);
-		for (let i = 0; i < 25; i += 1) expect((await ask(ip, "other")).status).toBe(429);
-		expect(checked()).toBe(22);
 	});
 
 	it("keeps the count of each address apart", async () => {
