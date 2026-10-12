@@ -525,3 +525,12 @@ that passage (`src/lib/parallel-links.ts`). An app shows it as "Open".
   a page does not open or when the words of a fragment are in more than one place. Run it after a
   change there. On 2026-10-10, for 35 paragraphs: 706 passages, each page opened, no fragment was in
   two places, and 80 fragments were not on the page in that form (the page then opens at its top).
+
+## Rate limit: our own apps (2026-10-12)
+
+The global limit is 200 requests a minute for each caller address, kept in the memory of each Worker
+instance. The server of UrantiaHub calls for all its readers from a few addresses, so a request over
+200 that carries a Bearer token goes on to the auth middleware, and `ownAppGate` lets it through only
+for a token of a first-party app, up to `ownAppsMax` (3,000). Above that, each request stops with no
+look at its token. Do not add a counter that shuts an address out after refused tokens: the Hub shares
+its addresses with other sites, so a stranger could shut the Hub out. Tests: `tests/unit/own-app-pass.test.ts`.
