@@ -12,11 +12,10 @@ import { authMiddleware } from "./middleware/auth.ts";
 import { cacheControl } from "./middleware/cache.ts";
 import { corsMiddleware } from "./middleware/cors.ts";
 import { loggerMiddleware } from "./middleware/logger.ts";
-import { rateLimiter } from "./middleware/rate-limit.ts";
+import { ownAppGate, rateLimiter } from "./middleware/rate-limit.ts";
 import { scannerBlock } from "./middleware/security.ts";
 import { adminRoute } from "./routes/admin.ts";
 import { alertWebhookRoute } from "./routes/alert-webhook.ts";
-import { sendEmailHookRoute } from "./routes/send-email-hook.ts";
 import { audioRoute } from "./routes/audio.ts";
 import { authRoute } from "./routes/auth.ts";
 import { bibleRoute } from "./routes/bible.ts";
@@ -35,6 +34,7 @@ import { quotesRoute } from "./routes/quotes.ts";
 import { scriptureInsightsRoute } from "./routes/scripture-insights.ts";
 import { scripturesRoute } from "./routes/scriptures.ts";
 import { searchRoute } from "./routes/search.ts";
+import { sendEmailHookRoute } from "./routes/send-email-hook.ts";
 import { tocRoute } from "./routes/toc.ts";
 import { toolsRoute } from "./routes/tools.ts";
 import type { Env } from "./types/env.ts";
@@ -68,8 +68,9 @@ app.onError((err, c) => {
 app.use("*", scannerBlock);
 app.use("*", corsMiddleware);
 app.use("*", loggerMiddleware);
-app.use("*", rateLimiter({ windowMs: 60_000, max: 200 }));
+app.use("*", rateLimiter({ windowMs: 60_000, max: 200, ownAppsPass: true }));
 app.use("*", authMiddleware);
+app.use("*", ownAppGate);
 app.use("*", cacheControl());
 
 // Health check
