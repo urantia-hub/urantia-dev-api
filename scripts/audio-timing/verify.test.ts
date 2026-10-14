@@ -44,6 +44,11 @@ describe("the words heard at a start against the text", () => {
 		).toBe(true);
 	});
 
+	it("takes a short title where the model dropped its first word, when the rest is exact", () => {
+		expect(heardMatches("density. The mass of your sun is slight.", "Solar Density")).toBe(true);
+		expect(heardMatches("density. The mass of your sun is slight.", "Solar Mass")).toBe(false);
+	});
+
 	it("refuses the words of another paragraph", () => {
 		expect(heardMatches("at the present time", "The Evangels of Light")).toBe(false);
 		expect(heardMatches("1 000 years of", "All celestial artisans are")).toBe(false);
