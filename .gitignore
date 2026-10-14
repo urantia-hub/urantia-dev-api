@@ -45,3 +45,8 @@ data/embeddings.json
 # Wrangler local state (dev server, local Durable Object storage)
 .wrangler
 postman-collection.json
+
+# Full paper audio downloads and the time map (data/paper-audio-timing*.json is published, not committed)
+.cache/
+data/paper-audio-timing.json
+data/paper-audio-timing-report.txt
