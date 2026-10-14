@@ -52,12 +52,14 @@ export function heardMatches(heard: string, text: string): boolean {
 function close(got: string[], want: string, strict: boolean): boolean {
 	// A short text (a list item) is compared with as much as it holds: the model also hears the next item.
 	const head = got.slice(0, 4).join("").slice(0, want.length);
-	if (!head || (strict && head.length < 10)) return false;
+	if (!head) return false;
 	let best = Number.POSITIVE_INFINITY;
 	for (let len = Math.max(1, head.length - 3); len <= head.length + 3; len++) {
 		best = Math.min(best, distance(head, want.slice(0, len)));
 	}
-	return best <= (strict ? head.length * 0.3 : Math.max(2, head.length * 0.4));
+	if (!strict) return best <= Math.max(2, head.length * 0.4);
+	// After a skip: near for 10 letters or more, or exact for 5 or more (a short title: "Solar Density").
+	return head.length >= 10 ? best <= head.length * 0.3 : head.length >= 5 && best === 0;
 }
 
 /**
