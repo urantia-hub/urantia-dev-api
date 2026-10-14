@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { type Item, type Pause, place, placeSentences, sentences } from "./place";
+import { type Item, leadIn, type Pause, place, placeSentences, sentences } from "./place";
 
 // A file made of items with a pause after each: [speech, pause, speech, pause, ...].
 function file(lengths: number[], gap = 0.8, inner: number[][] = []) {
@@ -96,5 +96,22 @@ describe("the sentences of a paragraph (the rule of the Hub)", () => {
 			["1. The Gospel by Mark.", "John Mark wrote it in A.D. 68.", "It is short."],
 		);
 		expect(sentences("  ")).toEqual([]);
+	});
+});
+
+describe("the lead-in before a start", () => {
+	const pauses: Pause[] = [
+		{ start: 9.1, end: 10 },
+		{ start: 19.9, end: 20 },
+	];
+
+	it("moves a start back into the pause that ends there, by up to the lead", () => {
+		expect(leadIn(10, pauses)).toBe(9.7);
+		expect(leadIn(20, pauses)).toBe(19.9);
+	});
+
+	it("keeps a start that no pause ends at", () => {
+		expect(leadIn(0, pauses)).toBe(0);
+		expect(leadIn(15, pauses)).toBe(15);
 	});
 });

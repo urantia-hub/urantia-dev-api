@@ -13,17 +13,13 @@
 //   BIBLE_SOURCE_VERSION The label stored on every row (e.g., "web-2026-04-23").
 //                        Defaults to the directory's modification date.
 
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
-import { drizzle } from "drizzle-orm/postgres-js";
 import { sql } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import { bibleVerses } from "../src/db/schema.ts";
-import {
-	BIBLE_BOOKS,
-	bibleVerseId,
-	osisFromUsfm,
-} from "../src/lib/bible-canonicalizer.ts";
+import { BIBLE_BOOKS, bibleVerseId, osisFromUsfm } from "../src/lib/bible-canonicalizer.ts";
 import { parseUsfm } from "../src/lib/usfm-parser.ts";
 
 const DATABASE_URL = process.env.DATABASE_URL;
@@ -67,10 +63,7 @@ async function seed() {
 
 	// Find all .usfm files except FRT (preface) and GLO (glossary).
 	const files = readdirSync(USFM_DIR)
-		.filter(
-			(f) =>
-				f.endsWith(".usfm") && !f.startsWith("00-FRT") && !f.startsWith("106-GLO"),
-		)
+		.filter((f) => f.endsWith(".usfm") && !f.startsWith("00-FRT") && !f.startsWith("106-GLO"))
 		.sort();
 
 	console.log(`Found ${files.length} book files`);

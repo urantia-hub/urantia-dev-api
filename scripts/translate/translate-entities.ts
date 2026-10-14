@@ -12,8 +12,8 @@
  * Idempotent: resumes from existing output file, skips already-translated entities.
  */
 
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import Anthropic from "@anthropic-ai/sdk";
 
 const ROOT = join(import.meta.dir, "../..");
@@ -25,14 +25,21 @@ const MAX_PARAGRAPHS = 2;
 const BATCH_SIZE = 10;
 
 const LANG_NAMES: Record<string, string> = {
-	nl: "Dutch", es: "Spanish", fr: "French", pt: "Portuguese", de: "German", ko: "Korean",
+	nl: "Dutch",
+	es: "Spanish",
+	fr: "French",
+	pt: "Portuguese",
+	de: "German",
+	ko: "Korean",
 };
 
 // --- Parse args ---
 const langArg = process.argv.find((a) => a.startsWith("--lang="));
 const LANG = langArg ? langArg.split("=")[1]! : "";
 if (!LANG || !Object.keys(LANG_NAMES).includes(LANG)) {
-	console.error(`Usage: bun scripts/translate/translate-entities.ts --lang=${Object.keys(LANG_NAMES).join("|")} [--entity=ID] [--limit=N] [--dry-run]`);
+	console.error(
+		`Usage: bun scripts/translate/translate-entities.ts --lang=${Object.keys(LANG_NAMES).join("|")} [--entity=ID] [--limit=N] [--dry-run]`,
+	);
 	process.exit(1);
 }
 
@@ -60,13 +67,13 @@ async function callWithRetry<T>(fn: () => Promise<T>, maxRetries = 5): Promise<T
 		try {
 			return await fn();
 		} catch (err: unknown) {
-			const isRateLimit = err instanceof Error && (
-				err.message.includes("rate_limit") ||
-				err.message.includes("429") ||
-				err.message.includes("overloaded")
-			);
+			const isRateLimit =
+				err instanceof Error &&
+				(err.message.includes("rate_limit") ||
+					err.message.includes("429") ||
+					err.message.includes("overloaded"));
 			if (!isRateLimit || attempt === maxRetries) throw err;
-			const waitSec = Math.min(30 * Math.pow(2, attempt), 300);
+			const waitSec = Math.min(30 * 2 ** attempt, 300);
 			console.log(`  Rate limited, waiting ${waitSec}s (attempt ${attempt + 1}/${maxRetries})...`);
 			await new Promise((r) => setTimeout(r, waitSec * 1000));
 		}
@@ -108,7 +115,9 @@ function loadPaper(lang: string, paperIndex: number): UrantiapediaPaper | null {
 	if (paperCache.has(key)) return paperCache.get(key)!;
 	const padded = String(paperIndex).padStart(3, "0");
 	try {
-		const data = JSON.parse(readFileSync(join(URANTIAPEDIA, `book-${lang}`, `Doc${padded}.json`), "utf-8"));
+		const data = JSON.parse(
+			readFileSync(join(URANTIAPEDIA, `book-${lang}`, `Doc${padded}.json`), "utf-8"),
+		);
 		paperCache.set(key, data);
 		return data;
 	} catch {
@@ -117,11 +126,15 @@ function loadPaper(lang: string, paperIndex: number): UrantiapediaPaper | null {
 }
 
 function findParagraph(paper: UrantiapediaPaper, ref: string): string | null {
-	for (const s of paper.sections) for (const p of s.pars) if (p.par_ref === ref) return p.par_content;
+	for (const s of paper.sections)
+		for (const p of s.pars) if (p.par_ref === ref) return p.par_content;
 	return null;
 }
 
-function findFirstInSection(paper: UrantiapediaPaper, sectionIndex: number): { ref: string; content: string } | null {
+function findFirstInSection(
+	paper: UrantiapediaPaper,
+	sectionIndex: number,
+): { ref: string; content: string } | null {
 	for (const s of paper.sections) {
 		if (s.section_index === sectionIndex && s.pars.length > 0) {
 			return { ref: s.pars[0]!.par_ref, content: s.pars[0]!.par_content };
@@ -132,7 +145,8 @@ function findFirstInSection(paper: UrantiapediaPaper, sectionIndex: number): { r
 
 function parseCitation(ref: string) {
 	const exact = ref.match(/^(\d+):(\d+)\.(\d+)$/);
-	if (exact) return { paper: Number(exact[1]), section: Number(exact[2]), paragraph: Number(exact[3]) };
+	if (exact)
+		return { paper: Number(exact[1]), section: Number(exact[2]), paragraph: Number(exact[3]) };
 	const sec = ref.match(/^(\d+):(\d+)$/);
 	if (sec) return { paper: Number(sec[1]), section: Number(sec[2]) };
 	return null;
@@ -165,7 +179,8 @@ function getEntityParagraphPairs(entity: SeedEntity): ParagraphPair[] {
 		} else {
 			const enFirst = findFirstInSection(enPaper, parsed.section);
 			const targetFirst = findFirstInSection(targetPaper, parsed.section);
-			if (enFirst && targetFirst) pairs.push({ ref: enFirst.ref, en: enFirst.content, target: targetFirst.content });
+			if (enFirst && targetFirst)
+				pairs.push({ ref: enFirst.ref, en: enFirst.content, target: targetFirst.content });
 		}
 	}
 	return pairs;
@@ -174,26 +189,33 @@ function getEntityParagraphPairs(entity: SeedEntity): ParagraphPair[] {
 // --- Claude translation ---
 
 async function translateBatch(batch: SeedEntity[]): Promise<TranslationEntry[]> {
-	const context = batch.map((entity, i) => {
-		const pairs = getEntityParagraphPairs(entity);
-		const pairsText = pairs.length > 0
-			? pairs.map((p, j) =>
-				`  [${j + 1}] (${p.ref})\n    EN: "${p.en}"\n    ${LANG_NAMES[LANG]} (Foundation, reference only): "${p.target}"`
-			).join("\n\n")
-			: "  (no paragraph pairs available)";
+	const context = batch
+		.map((entity, i) => {
+			const pairs = getEntityParagraphPairs(entity);
+			const pairsText =
+				pairs.length > 0
+					? pairs
+							.map(
+								(p, j) =>
+									`  [${j + 1}] (${p.ref})\n    EN: "${p.en}"\n    ${LANG_NAMES[LANG]} (Foundation, reference only): "${p.target}"`,
+							)
+							.join("\n\n")
+					: "  (no paragraph pairs available)";
 
-		return `[${i + 1}] Entity: "${entity.name}" (id: ${entity.id}, type: ${entity.type})
+			return `[${i + 1}] Entity: "${entity.name}" (id: ${entity.id}, type: ${entity.type})
 Aliases: ${entity.aliases.length > 0 ? entity.aliases.join(", ") : "(none)"}
 Description: "${entity.description || "(empty)"}"
 
 Paragraph pairs (EN + Foundation ${LANG_NAMES[LANG]} for reference):
 ${pairsText}`;
-	}).join("\n\n===\n\n");
+		})
+		.join("\n\n===\n\n");
 
-	const response = await callWithRetry(() => client!.messages.create({
-		model: MODEL,
-		max_tokens: 16384,
-		system: `You are translating Urantia Book entities from English to ${LANG_NAMES[LANG]}. You must produce a single high-quality, independent translation for each entity.
+	const response = await callWithRetry(() =>
+		client!.messages.create({
+			model: MODEL,
+			max_tokens: 16384,
+			system: `You are translating Urantia Book entities from English to ${LANG_NAMES[LANG]}. You must produce a single high-quality, independent translation for each entity.
 
 The Foundation ${LANG_NAMES[LANG]} translations are provided as REFERENCE CONTEXT only — they help you understand how terms are used in context. However, your translation must be INDEPENDENT and SUPERIOR:
 - More natural and readable to a modern ${LANG_NAMES[LANG]} speaker
@@ -223,11 +245,14 @@ Respond with ONLY valid JSON array — no markdown fences:
     "confidence": "high"
   }
 ]`,
-		messages: [{
-			role: "user",
-			content: `Translate these ${batch.length} entities to ${LANG_NAMES[LANG]}:\n\n${context}`,
-		}],
-	}));
+			messages: [
+				{
+					role: "user",
+					content: `Translate these ${batch.length} entities to ${LANG_NAMES[LANG]}:\n\n${context}`,
+				},
+			],
+		}),
+	);
 
 	const rawText = response.content[0]?.type === "text" ? response.content[0].text : "";
 	const text = rawText.replace(/^```(?:json)?\s*\n?/m, "").replace(/\n?```\s*$/m, "");
@@ -245,9 +270,15 @@ Respond with ONLY valid JSON array — no markdown fences:
 		} catch {
 			// Fallback: try to extract individual JSON objects
 			const objects: typeof parsed = [];
-			const objectMatches = text.matchAll(/\{[^{}]*"id"\s*:\s*"([^"]+)"[^]*?"confidence"\s*:\s*"[^"]*"\s*\}/g);
+			const objectMatches = text.matchAll(
+				/\{[^{}]*"id"\s*:\s*"([^"]+)"[^]*?"confidence"\s*:\s*"[^"]*"\s*\}/g,
+			);
 			for (const match of objectMatches) {
-				try { objects.push(JSON.parse(match[0])); } catch { /* skip */ }
+				try {
+					objects.push(JSON.parse(match[0]));
+				} catch {
+					/* skip */
+				}
 			}
 			if (objects.length === 0) throw new Error("No valid objects found");
 			parsed = objects;
@@ -304,12 +335,18 @@ const allEntities: SeedEntity[] = JSON.parse(readFileSync(SEED_PATH, "utf-8"));
 // Filter by entity ID if specified
 let entitiesToProcess: SeedEntity[];
 if (ENTITY_FILTER) {
-	entitiesToProcess = allEntities.filter((e) =>
-		e.id === ENTITY_FILTER || e.id.includes(ENTITY_FILTER)
+	entitiesToProcess = allEntities.filter(
+		(e) => e.id === ENTITY_FILTER || e.id.includes(ENTITY_FILTER),
 	);
 	if (entitiesToProcess.length === 0) {
 		console.error(`No entities found matching "${ENTITY_FILTER}"`);
-		console.error(`Try one of: ${allEntities.filter((e) => e.id.includes(ENTITY_FILTER.split("-")[0] ?? "")).slice(0, 5).map((e) => e.id).join(", ")}`);
+		console.error(
+			`Try one of: ${allEntities
+				.filter((e) => e.id.includes(ENTITY_FILTER.split("-")[0] ?? ""))
+				.slice(0, 5)
+				.map((e) => e.id)
+				.join(", ")}`,
+		);
 		process.exit(1);
 	}
 } else {
@@ -318,7 +355,9 @@ if (ENTITY_FILTER) {
 
 console.log(`\n=== Translate Entities to ${LANG_NAMES[LANG]} (${LANG}) ===`);
 console.log(`Model: ${MODEL}`);
-console.log(`Processing ${entitiesToProcess.length} entities${LIMIT ? ` (limited from ${allEntities.length})` : ""}${ENTITY_FILTER ? ` (filter: ${ENTITY_FILTER})` : ""}`);
+console.log(
+	`Processing ${entitiesToProcess.length} entities${LIMIT ? ` (limited from ${allEntities.length})` : ""}${ENTITY_FILTER ? ` (filter: ${ENTITY_FILTER})` : ""}`,
+);
 if (DRY_RUN) console.log("DRY RUN — no API calls will be made");
 console.log();
 
@@ -348,7 +387,9 @@ if (DRY_RUN) {
 	console.log("Entities that would be translated:");
 	for (const e of unprocessed) {
 		const pairs = getEntityParagraphPairs(e);
-		console.log(`  ${e.id} — "${e.name}" (${e.type}, ${e.citations.length} citations, ${pairs.length} paragraph pairs)`);
+		console.log(
+			`  ${e.id} — "${e.name}" (${e.type}, ${e.citations.length} citations, ${pairs.length} paragraph pairs)`,
+		);
 	}
 	console.log(`\nEstimated batches: ${Math.ceil(unprocessed.length / BATCH_SIZE)}`);
 	process.exit(0);
@@ -369,7 +410,9 @@ async function main() {
 		// Brief progress
 		const highCount = results.filter((r) => r.confidence === "high").length;
 		const needsManualCount = results.filter((r) => r.confidence === "needs_manual").length;
-		console.log(`  → ${results.length} translated (${highCount} high, ${needsManualCount} needs_manual)\n`);
+		console.log(
+			`  → ${results.length} translated (${highCount} high, ${needsManualCount} needs_manual)\n`,
+		);
 	}
 
 	// Summary

@@ -108,7 +108,9 @@ async function fetchEmbeddings(
 		ids.push(r.id);
 		vectors.push(parseVector(r.v));
 	}
-	console.log(`  Loaded ${ids.length} vectors (${(ids.length * DIMS * 4 / 1024 / 1024).toFixed(0)} MB)`);
+	console.log(
+		`  Loaded ${ids.length} vectors (${((ids.length * DIMS * 4) / 1024 / 1024).toFixed(0)} MB)`,
+	);
 	return { ids, vectors };
 }
 

@@ -57,7 +57,9 @@ for (let i = 0; i < toEmbed.length; i += BATCH_SIZE) {
 	writeFileSync(EMBEDDINGS_PATH, JSON.stringify(embeddings));
 }
 
-console.log(`\nPhase A complete. ${Object.keys(embeddings).length} embeddings saved to ${EMBEDDINGS_PATH}\n`);
+console.log(
+	`\nPhase A complete. ${Object.keys(embeddings).length} embeddings saved to ${EMBEDDINGS_PATH}\n`,
+);
 
 // ── Phase B: Insert embeddings into database ──
 

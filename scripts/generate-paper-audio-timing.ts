@@ -7,6 +7,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import {
 	type Item,
+	leadIn,
 	type Pause,
 	place,
 	placeSentences,
@@ -190,9 +191,10 @@ async function one(id: string) {
 		const to = next === undefined ? total : (short.find((g) => g.end === next)?.start ?? next);
 		const text = texts.get(s.key);
 		const parts = text ? placeSentences(sentences(text), at, to, gaps) : null;
-		if (!parts) return { key: s.key, at };
+		const from = leadIn(at, short);
+		if (!parts) return { key: s.key, at: from };
 		withSentences++;
-		return { key: s.key, at, sentences: parts };
+		return { key: s.key, at: from, sentences: [from, ...parts.slice(1)] };
 	});
 	return {
 		id,
