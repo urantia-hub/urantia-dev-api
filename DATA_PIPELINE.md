@@ -96,6 +96,21 @@ behind. It sat 19 days stale in August 2026 for exactly this reason. Check it wi
 curl -s https://cdn.urantia.dev/manifests/audio-manifest.json | head -c 400
 ```
 
+### Paper audio time map
+
+Each paper also has one full audio file (`cdn.urantia.dev/audio/eng/papers/{id}.mp3`). The time map
+gives the start of each title, section title, paragraph, and sentence in that file:
+
+```bash
+python3 -m venv .cache/hear && .cache/hear/bin/pip install faster-whisper
+HEAR_PYTHON=.cache/hear/bin/python bun scripts/generate-paper-audio-timing.ts   # about 2.5 hours
+```
+
+It downloads the 197 files (1.6 GB, into `.cache/`) and places each item at a pause (ffmpeg). Then a
+speech model hears the first words at each start. A start with the wrong words moves to a nearby pause
+where the right words start. A paper with a start that the model cannot confirm gets no map; the Hub
+then plays its paragraph files. `data/paper-audio-timing-report.txt` lists each paper.
+
 ### Embeddings
 
 Regenerate via OpenAI API (costs ~$5):
