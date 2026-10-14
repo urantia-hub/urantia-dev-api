@@ -29,6 +29,21 @@ describe("the words heard at a start against the text", () => {
 		expect(heardMatches("The Trinities. The Trinities", "XII. The Trinities")).toBe(true);
 	});
 
+	it("takes a start where the model dropped the first word or two", () => {
+		expect(
+			heardMatches(
+				"by a divine councillor of U Versa",
+				"[Presented by a Divine Counselor of Uversa.]",
+			),
+		).toBe(true);
+		expect(
+			heardMatches(
+				"Spia universal sensor from U Versa.",
+				"[Presented by a Universal Censor from Uversa.]",
+			),
+		).toBe(true);
+	});
+
 	it("refuses the words of another paragraph", () => {
 		expect(heardMatches("at the present time", "The Evangels of Light")).toBe(false);
 		expect(heardMatches("1 000 years of", "All celestial artisans are")).toBe(false);

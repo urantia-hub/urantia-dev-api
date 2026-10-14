@@ -14,6 +14,10 @@ from faster_whisper import WhisperModel
 RATE = 16000
 SECONDS = 4
 model = WhisperModel("base.en", device="cpu", compute_type="int8")
+# Names of the Papers that the model mishears ("your own ship" for Urantia). A prompt of names only:
+# never the text that is expected, which the model could then repeat.
+NAMES = ("Urantia, Uversa, Havona, Nebadon, Orvonton, Salvington, Jerusem, Satania, Edentia, Melchizedek, "
+         "Machiventa, Adjuster, morontia, seraphim, Nodites, Andites, Caligastia, Lucifer, Gabriel, Michael.")
 loaded = {"path": None, "pcm": None}
 
 
@@ -35,6 +39,6 @@ for line in sys.stdin:
     for at in ask["ats"]:
         start = max(0, int((at - 0.05) * RATE))
         segments, _ = model.transcribe(audio[start:start + SECONDS * RATE], language="en", beam_size=1,
-                                       without_timestamps=True)
+                                       without_timestamps=True, initial_prompt=NAMES)
         said.append(" ".join(s.text for s in segments).strip())
     print(json.dumps(said), flush=True)
