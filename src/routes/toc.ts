@@ -29,13 +29,10 @@ const getTocRoute = createRoute({
 tocRoute.openapi(getTocRoute, async (c) => {
 	const { db } = getDb(c.env?.HYPERDRIVE);
 
-	const allParts = await db
-		.select()
-		.from(parts)
-		.orderBy(parts.sortId);
+	const allParts = await db.select().from(parts).orderBy(parts.sortId);
 
 	const allPapers = await db
-		.select()
+		.select({ id: papers.id, partId: papers.partId, title: papers.title, labels: papers.labels })
 		.from(papers)
 		.orderBy(papers.sortId);
 

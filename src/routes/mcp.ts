@@ -304,7 +304,15 @@ function createMcpServer() {
 		async () => {
 			const { db } = getDb();
 			const allParts = await db.select().from(parts).orderBy(parts.sortId);
-			const allPapers = await db.select().from(papers).orderBy(papers.sortId);
+			const allPapers = await db
+				.select({
+					id: papers.id,
+					partId: papers.partId,
+					title: papers.title,
+					labels: papers.labels,
+				})
+				.from(papers)
+				.orderBy(papers.sortId);
 			const tocParts = allParts.map((part) => ({
 				id: part.id,
 				title: part.title,
@@ -360,7 +368,7 @@ function createMcpServer() {
 		{
 			title: "Get Paper",
 			description:
-				"Get a single paper with all its paragraphs. Paper IDs range from 0 (Foreword) to 196. Each paragraph has its reference, section, and plain text, so a whole paper fits in one call. Optionally include entity mentions.",
+				"Get a single paper with all its paragraphs. Paper IDs range from 0 (Foreword) to 196. Each paragraph has its reference, section, and plain text, so a whole paper fits in one call. `paper.audio` is one audio file of the whole paper (null when there is none). Optionally include entity mentions.",
 			inputSchema: {
 				paper_id: z.string().describe("Paper ID (0-196). Example: '1'"),
 				include_entities: z
@@ -375,6 +383,7 @@ function createMcpServer() {
 					title: z.string(),
 					sortId: z.string(),
 					labels: z.array(z.string()).nullable(),
+					audio: z.object({ url: z.string(), duration: z.number() }).nullable(),
 				}),
 				paragraphs: z.array(paragraphTextSchema),
 			},
@@ -389,13 +398,17 @@ function createMcpServer() {
 					title: papers.title,
 					sortId: papers.sortId,
 					labels: papers.labels,
+					audio: papers.audio,
 				})
 				.from(papers)
 				.where(eq(papers.id, paper_id))
 				.limit(1);
 
-			const [found] = paper;
-			if (!found) return errorResult(`Paper ${paper_id} not found`);
+			const [row] = paper;
+			if (!row) return errorResult(`Paper ${paper_id} not found`);
+			// The file and its length only: the start times are for players, and long.
+			const voice = row.audio?.["tts-1-hd"]?.nova;
+			const found = { ...row, audio: voice ? { url: voice.url, duration: voice.duration } : null };
 
 			const paperParagraphs = await db
 				.select(mcpParagraphFields)
@@ -444,7 +457,11 @@ function createMcpServer() {
 		},
 		async ({ paper_id }) => {
 			const { db } = getDb();
-			const paper = await db.select().from(papers).where(eq(papers.id, paper_id)).limit(1);
+			const paper = await db
+				.select({ id: papers.id })
+				.from(papers)
+				.where(eq(papers.id, paper_id))
+				.limit(1);
 			if (paper.length === 0) return errorResult(`Paper ${paper_id} not found`);
 
 			const paperSections = await db
