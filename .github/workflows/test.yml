@@ -24,7 +24,7 @@ jobs:
       - run: bun install --frozen-lockfile
       # The suites that need no database. The others write to production and stay manual.
       # usfm-parser.test.ts reads Bible source files that are not in this repo.
-      - run: bun test $(ls tests/unit/*.test.ts | grep -v usfm-parser) tests/integration/token-access.test.ts
+      - run: bun test $(ls tests/unit/*.test.ts | grep -v usfm-parser) tests/integration/token-access.test.ts scripts/audio-timing
       # The real queries of the account rules, on the job's own Postgres with the schema of this commit.
       - run: psql "$TEST_DATABASE_URL" -c 'create extension if not exists vector'
         env:
