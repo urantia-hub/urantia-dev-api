@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import type { Pause } from "./place";
-import { heardMatches, repair } from "./verify";
+import { heardMatches, matchCost, repair } from "./verify";
 
 describe("the words heard at a start against the text", () => {
 	it("takes a near spelling of a name", () => {
@@ -107,5 +107,64 @@ describe("the repair of a start the voice does not confirm", () => {
 		const { hear } = voice(truth, texts);
 		const fixed = await repair(texts, [0, 10, 20, 30, 40], ends([10, 20, 30, 40]), hear);
 		expect(fixed.missed).toEqual([2]);
+	});
+});
+
+describe("the cost of a match: the words dropped to make it", () => {
+	it("is 0 when the start is exact, and counts the words dropped on either side", () => {
+		const text = "[Presented by a Divine Counselor of Uversa.]";
+		expect(matchCost("Presented by a divine counselor of Uversa", text)).toBe(0);
+		expect(matchCost("by a divine counselor of U Versa", text)).toBe(1);
+		// A start one word later can also match: its cost is higher, so the start before it wins.
+		expect(matchCost("a divine counselor of U Versa", text)).toBeGreaterThan(1);
+		expect(
+			matchCost(
+				"of destiny. When the mortal intellect attempts",
+				"When the mortal intellect attempts to grasp",
+			),
+		).toBe(2);
+		expect(matchCost("the formation of all matter", "The Evangels of Light")).toBeNull();
+	});
+
+	it("is 0 for the list number alone at the start of a list item, and null for another number", () => {
+		expect(matchCost("Number 6.", "6. The Recorders. These personalities are")).toBe(0);
+		expect(matchCost("Number six.", "6. The Recorders.")).toBe(0);
+		expect(matchCost("Number 5.", "6. The Recorders.")).toBeNull();
+	});
+});
+
+describe("the refine of a start that matched only with dropped words", () => {
+	const texts = [
+		"Alpha title words here",
+		"Presented by a Divine Counselor of Uversa",
+		"When the mortal intellect attempts to grasp",
+	];
+
+	it("moves a late start back to the pause before the dropped words", async () => {
+		// The voice says "Presented by" at 10 and pauses; the start sits at 11.2, after "by".
+		const said: Record<number, string> = {
+			0: texts[0],
+			10: texts[1],
+			11.2: "a Divine Counselor of Uversa",
+			20: texts[2],
+		};
+		const hear = async (ats: number[]) => ats.map((t) => said[t] ?? "something else entirely");
+		const pauses: Pause[] = [10, 11.2, 20].map((t) => ({ start: t - 0.3, end: t }));
+		const fixed = await repair(texts, [0, 11.2, 20], pauses, hear);
+		expect(fixed.at).toEqual([0, 10, 20]);
+		expect(fixed.missed).toEqual([]);
+	});
+
+	it("moves an early start on to the pause after the words of the item before", async () => {
+		const said: Record<number, string> = {
+			0: texts[0],
+			10: texts[1],
+			18.4: `of Uversa. ${texts[2]}`,
+			20: texts[2],
+		};
+		const hear = async (ats: number[]) => ats.map((t) => said[t] ?? "something else entirely");
+		const pauses: Pause[] = [10, 18.4, 20].map((t) => ({ start: t - 0.3, end: t }));
+		const fixed = await repair(texts, [0, 10, 18.4], pauses, hear);
+		expect(fixed.at).toEqual([0, 10, 20]);
 	});
 });
