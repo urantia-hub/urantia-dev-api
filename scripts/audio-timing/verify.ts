@@ -31,7 +31,8 @@ function distance(a: string, b: string): number {
  * The voice says "Paper 44" before a paper title.
  */
 export function heardMatches(heard: string, text: string): boolean {
-	const want = words(text).join("");
+	// The voice does not read the Roman number of a section title ("II. God").
+	const want = words(text.replace(/^[IVXLC]+\.\s+/, "")).join("");
 	if (!want) return true;
 	let got = words(heard);
 	if (got[0] === "paper") got = got.slice(1);
