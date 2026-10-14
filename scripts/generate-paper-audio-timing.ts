@@ -99,8 +99,9 @@ const lines = (async function* () {
 	}
 })();
 
-async function hear(path: string, ats: number[]): Promise<string[]> {
-	hearer.stdin.write(`${JSON.stringify({ path, ats })}\n`);
+// The words in the seconds after each time, or with `before`, in the seconds before it.
+async function hear(path: string, ats: number[], before = false): Promise<string[]> {
+	hearer.stdin.write(`${JSON.stringify({ path, ats, before })}\n`);
 	hearer.stdin.flush();
 	const { value, done } = await lines.next();
 	if (done) throw new Error("the speech model stopped");
@@ -178,7 +179,7 @@ async function one(id: string) {
 		items.map((item) => item.text ?? ""),
 		placed.starts.map((s) => s.at),
 		short,
-		(ats) => hear(path, ats),
+		(ats, before) => hear(path, ats, before),
 	);
 	const ok = heard.missed.length === 0;
 	let withSentences = 0;
