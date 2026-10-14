@@ -24,6 +24,11 @@ describe("the words heard at a start against the text", () => {
 		).toBe(true);
 	});
 
+	it("takes a section title without its Roman number, which the voice does not read", () => {
+		expect(heardMatches("God. Evolving mortal creatures", "II. God")).toBe(true);
+		expect(heardMatches("The Trinities. The Trinities", "XII. The Trinities")).toBe(true);
+	});
+
 	it("refuses the words of another paragraph", () => {
 		expect(heardMatches("at the present time", "The Evangels of Light")).toBe(false);
 		expect(heardMatches("1 000 years of", "All celestial artisans are")).toBe(false);
