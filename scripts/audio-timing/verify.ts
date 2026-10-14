@@ -10,6 +10,31 @@ function words(text: string): string[] {
 	return (text.toLowerCase().match(/[a-z0-9]+/g) ?? []).filter((w) => !NUMBER.test(w));
 }
 
+const SPOKEN = [
+	"zero",
+	"one",
+	"two",
+	"three",
+	"four",
+	"five",
+	"six",
+	"seven",
+	"eight",
+	"nine",
+	"ten",
+	"eleven",
+	"twelve",
+];
+
+// The first number in the heard words, as digits.
+function firstNumber(heard: string): string | null {
+	for (const w of heard.toLowerCase().match(/[a-z0-9]+/g) ?? []) {
+		if (/^\d+$/.test(w)) return w;
+		if (SPOKEN.includes(w)) return String(SPOKEN.indexOf(w));
+	}
+	return null;
+}
+
 function distance(a: string, b: string): number {
 	let row = Array.from({ length: b.length + 1 }, (_, j) => j);
 	for (let i = 1; i <= a.length; i++) {
@@ -31,35 +56,55 @@ function distance(a: string, b: string): number {
  * The voice says "Paper 44" before a paper title.
  */
 export function heardMatches(heard: string, text: string): boolean {
-	// The voice does not read the Roman number of a section title ("II. God").
-	const want = words(text.replace(/^[IVXLC]+\.\s+/, ""));
-	if (want.length === 0) return true;
-	let got = words(heard);
-	if (got[0] === "paper") got = got.slice(1);
-	if (close(got, want.join(""), false)) return true;
-	// The model can drop the first word or two of a start ("Presented by"), or add one. After a skip
-	// the compare is stricter, and needs more letters.
-	const skips: [number, number][] = [
-		[1, 0],
-		[2, 0],
-		[0, 1],
-		[0, 2],
-		[1, 1],
-	];
-	return skips.some(([h, w]) => close(got.slice(h), want.slice(w).join(""), true));
+	return matchCost(heard, text) !== null;
 }
 
-function close(got: string[], want: string, strict: boolean): boolean {
+// The skips that a match can use: words of the model dropped first, then words of the text, in order of cost.
+const SKIPS: [number, number][] = [
+	[0, 0],
+	[1, 0],
+	[0, 1],
+	[2, 0],
+	[0, 2],
+	[1, 1],
+];
+
+/**
+ * The words dropped to make the heard words match the start of the text: 0 for an exact start, null for none.
+ * The model can drop the first word or two of a start ("Presented by"), or hear the end of the item before.
+ * After a skip the compare is stricter, and needs more letters.
+ */
+export function matchCost(heard: string, text: string): number | null {
+	// The voice does not read the Roman number of a section title ("II. God").
+	const want = words(text.replace(/^[IVXLC]+\.\s+/, ""));
+	if (want.length === 0) return 0;
+	let got = words(heard);
+	if (got[0] === "paper") got = got.slice(1);
+	// A list item ("6. The Recorders"): the model can hear its number alone, before the pause after it.
+	const listNumber = text.match(/^\s*\[?(\d+)\.\s/)?.[1];
+	if (listNumber && got.length === 0 && firstNumber(heard) === listNumber) return 0;
+	for (const [h, w] of SKIPS) {
+		const off = close(got.slice(h), want.slice(w).join(""), h + w > 0);
+		if (off !== null) return h + w + off;
+	}
+	return null;
+}
+
+// How far the heard words are from the start of the text, as a share of their letters below 1; null when too far.
+function close(got: string[], want: string, strict: boolean): number | null {
 	// A short text (a list item) is compared with as much as it holds: the model also hears the next item.
 	const head = got.slice(0, 4).join("").slice(0, want.length);
-	if (!head) return false;
+	if (!head) return null;
 	let best = Number.POSITIVE_INFINITY;
 	for (let len = Math.max(1, head.length - 3); len <= head.length + 3; len++) {
 		best = Math.min(best, distance(head, want.slice(0, len)));
 	}
-	if (!strict) return best <= Math.max(2, head.length * 0.4);
+	const off = Math.min(0.99, best / head.length);
+	if (!strict) return best <= Math.max(2, head.length * 0.4) ? off : null;
 	// After a skip: near for 10 letters or more, or exact for 5 or more (a short title: "Solar Density").
-	return head.length >= 10 ? best <= head.length * 0.3 : head.length >= 5 && best === 0;
+	return (head.length >= 10 ? best <= head.length * 0.3 : head.length >= 5 && best === 0)
+		? off
+		: null;
 }
 
 /**
@@ -83,18 +128,39 @@ export async function repair(
 		const here = at[i] ?? 0;
 		const prev = i === 0 ? Number.NEGATIVE_INFINITY : (out[i - 1] ?? 0);
 		const text = texts[i] ?? "";
-		if (here > prev && heardMatches(heard[i] ?? "", text)) continue;
-		const near = marks
-			.filter((t) => t > prev && t !== here && Math.abs(t - here) <= reach)
-			.sort((a, b) => Math.abs(a - here) - Math.abs(b - here));
-		const said = near.length ? await hear(near) : [];
-		const k = said.findIndex((w) => heardMatches(w, text));
-		if (k === -1) {
-			missed.push(i);
-			continue;
+		let cost = here > prev ? matchCost(heard[i] ?? "", text) : null;
+		if (cost === null) {
+			const near = marks
+				.filter((t) => t > prev && t !== here && Math.abs(t - here) <= reach)
+				.sort((a, b) => Math.abs(a - here) - Math.abs(b - here));
+			const said = near.length ? await hear(near) : [];
+			const k = said.findIndex((w) => heardMatches(w, text));
+			if (k === -1) {
+				missed.push(i);
+				continue;
+			}
+			out[i] = near[k] ?? here;
+			cost = matchCost(said[k] ?? "", text);
+			moved++;
 		}
-		out[i] = near[k] ?? here;
-		moved++;
+		// A match with dropped words can be a word or two late or early: a pause near it can need fewer.
+		if (cost !== null && cost >= 1) {
+			const placed = out[i] ?? here;
+			const next = at[i + 1] ?? Number.POSITIVE_INFINITY;
+			const near = marks.filter(
+				(t) => t > prev && t < next && t !== placed && Math.abs(t - placed) <= 3,
+			);
+			const said = near.length ? await hear(near) : [];
+			let best = cost;
+			said.forEach((w, k) => {
+				const c = matchCost(w, text);
+				if (c !== null && c < best) {
+					best = c;
+					out[i] = near[k] ?? placed;
+				}
+			});
+			if (out[i] !== placed && out[i] !== here) moved++;
+		}
 	}
 	return { at: out, missed, moved };
 }
