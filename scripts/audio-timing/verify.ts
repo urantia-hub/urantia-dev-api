@@ -32,18 +32,32 @@ function distance(a: string, b: string): number {
  */
 export function heardMatches(heard: string, text: string): boolean {
 	// The voice does not read the Roman number of a section title ("II. God").
-	const want = words(text.replace(/^[IVXLC]+\.\s+/, "")).join("");
-	if (!want) return true;
+	const want = words(text.replace(/^[IVXLC]+\.\s+/, ""));
+	if (want.length === 0) return true;
 	let got = words(heard);
 	if (got[0] === "paper") got = got.slice(1);
+	if (close(got, want.join(""), false)) return true;
+	// The model can drop the first word or two of a start ("Presented by"), or add one. After a skip
+	// the compare is stricter, and needs more letters.
+	const skips: [number, number][] = [
+		[1, 0],
+		[2, 0],
+		[0, 1],
+		[0, 2],
+		[1, 1],
+	];
+	return skips.some(([h, w]) => close(got.slice(h), want.slice(w).join(""), true));
+}
+
+function close(got: string[], want: string, strict: boolean): boolean {
 	// A short text (a list item) is compared with as much as it holds: the model also hears the next item.
 	const head = got.slice(0, 4).join("").slice(0, want.length);
-	if (!head) return false;
+	if (!head || (strict && head.length < 10)) return false;
 	let best = Number.POSITIVE_INFINITY;
 	for (let len = Math.max(1, head.length - 3); len <= head.length + 3; len++) {
 		best = Math.min(best, distance(head, want.slice(0, len)));
 	}
-	return best <= Math.max(2, head.length * 0.4);
+	return best <= (strict ? head.length * 0.3 : Math.max(2, head.length * 0.4));
 }
 
 /**
