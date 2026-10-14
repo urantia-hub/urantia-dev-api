@@ -132,13 +132,13 @@ papersRoute.openapi(getPaperRoute, async (c) => {
 			sortId: papers.sortId,
 			labels: papers.labels,
 			video: papers.video,
+			audio: papers.audio,
 		})
 		.from(papers)
 		.where(eq(papers.id, id))
 		.limit(1);
 
 	if (paper.length === 0) {
-	
 		return problemJson(c, 404, `Paper ${id} not found`);
 	}
 
@@ -176,9 +176,7 @@ papersRoute.openapi(getPaperRoute, async (c) => {
 		const enriched = await enrichWithEntities(db, paperParagraphs);
 		const topEntities = aggregateTopEntities(enriched);
 
-		const responseParagraphs = needEntities
-			? enriched
-			: paperParagraphs;
+		const responseParagraphs = needEntities ? enriched : paperParagraphs;
 
 		return c.json(
 			{
@@ -233,10 +231,9 @@ papersRoute.openapi(getPaperSectionsRoute, async (c) => {
 	const { db } = getDb(c.env?.HYPERDRIVE);
 	const { id } = c.req.valid("param");
 
-	const paper = await db.select().from(papers).where(eq(papers.id, id)).limit(1);
+	const paper = await db.select({ id: papers.id }).from(papers).where(eq(papers.id, id)).limit(1);
 
 	if (paper.length === 0) {
-	
 		return problemJson(c, 404, `Paper ${id} not found`);
 	}
 
@@ -245,7 +242,6 @@ papersRoute.openapi(getPaperSectionsRoute, async (c) => {
 		.from(sections)
 		.where(eq(sections.paperId, id))
 		.orderBy(sections.sortId);
-
 
 	return c.json({ data: paperSections }, 200);
 });

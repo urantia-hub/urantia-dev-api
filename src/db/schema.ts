@@ -54,6 +54,30 @@ const videoJsonb = customType<{ data: VideoData }>({
 	},
 });
 
+// The full audio file of a paper, with the start of each title, paragraph, and sentence in it.
+export type PaperAudioStart = { key: string; at: number; sentences?: number[] };
+type PaperAudioVariant = {
+	url: string;
+	format: string;
+	bitrate: number;
+	duration: number;
+	starts: PaperAudioStart[];
+};
+export type PaperAudioData = Record<string, Record<string, PaperAudioVariant>> | null;
+
+const paperAudioJsonb = customType<{ data: PaperAudioData }>({
+	dataType() {
+		return "jsonb";
+	},
+	toDriver(value: PaperAudioData) {
+		return value === null ? null : JSON.stringify(value);
+	},
+	fromDriver(value: unknown) {
+		if (typeof value === "string") return JSON.parse(value) as PaperAudioData;
+		return value as PaperAudioData;
+	},
+});
+
 const jsonb = customType<{ data: AudioData }>({
 	dataType() {
 		return "jsonb";
@@ -88,6 +112,7 @@ export const papers = pgTable(
 		sortId: text("sort_id").notNull(),
 		labels: text("labels").array(),
 		video: videoJsonb("video"),
+		audio: paperAudioJsonb("audio"),
 	},
 	(t) => [index("papers_part_id_idx").on(t.partId)],
 ).enableRLS();
@@ -250,11 +275,7 @@ export const paragraphTranslations = pgTable(
 		createdAt: timestamp("created_at").notNull().defaultNow(),
 	},
 	(t) => [
-		uniqueIndex("pt_paragraph_lang_version_idx").on(
-			t.paragraphId,
-			t.language,
-			t.version,
-		),
+		uniqueIndex("pt_paragraph_lang_version_idx").on(t.paragraphId, t.language, t.version),
 		index("pt_language_idx").on(t.language),
 		index("pt_paragraph_id_idx").on(t.paragraphId),
 	],
@@ -796,9 +817,7 @@ export const userConsents = pgTable(
 		scopes: text("scopes").array().notNull(),
 		grantedAt: timestamp("granted_at").notNull().defaultNow(),
 	},
-	(t) => [
-		uniqueIndex("user_consents_user_app_idx").on(t.userId, t.appId),
-	],
+	(t) => [uniqueIndex("user_consents_user_app_idx").on(t.userId, t.appId)],
 ).enableRLS();
 
 // --- app_user_data (sandboxed key-value per app per user) ---

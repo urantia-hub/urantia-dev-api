@@ -77,6 +77,44 @@ export const PaperSchema = z.object({
 	topEntities: z.array(TopEntitySchema).optional(),
 });
 
+// --- The full audio file of a paper, with the start of each part in it ---
+
+const PaperAudioStartSchema = z.object({
+	key: z
+		.string()
+		.describe(
+			'"title" for the paper title, "section:{sectionId}" for a section title, or a paragraph reference such as "99:1.1".',
+		),
+	at: z.number().describe("Seconds from the start of the file."),
+	sentences: z
+		.array(z.number())
+		.optional()
+		.describe(
+			"The start of each sentence of the paragraph, in seconds. Absent when the sentences could not be placed.",
+		),
+});
+
+const PaperAudioSchema = z
+	.record(
+		z.string(),
+		z.record(
+			z.string(),
+			z.object({
+				url: z.string(),
+				format: z.string(),
+				bitrate: z.number(),
+				duration: z.number(),
+				starts: z.array(PaperAudioStartSchema),
+			}),
+		),
+	)
+	.nullable()
+	.describe(
+		"One audio file for the whole paper, by model and voice, with the start time of each title, section title, and paragraph. Null when the paper has no time map.",
+	);
+
+export const PaperDetailSchema = PaperSchema.extend({ audio: PaperAudioSchema });
+
 // --- Section ---
 
 export const SectionSchema = z.object({
@@ -98,12 +136,7 @@ const AudioVariantSchema = z.object({
 	fileSize: z.number().optional(),
 });
 
-const AudioSchema = z
-	.record(
-		z.string(),
-		z.record(z.string(), AudioVariantSchema),
-	)
-	.nullable();
+const AudioSchema = z.record(z.string(), z.record(z.string(), AudioVariantSchema)).nullable();
 
 // --- Paragraph Entity (inline on paragraph when include=entities) ---
 
@@ -127,7 +160,11 @@ export const ParagraphBibleParallelSchema = z.object({
 	rank: z.number().int(),
 	source: z.string(),
 	embeddingModel: z.string(),
-	url: z.string().nullable().openapi({ description: "The public page of the World English Bible that holds the passage, at its first verse. Null when there is none.", example: "https://ebible.org/eng-web/JHN17.htm#V1" }),
+	url: z.string().nullable().openapi({
+		description:
+			"The public page of the World English Bible that holds the passage, at its first verse. Null when there is none.",
+		example: "https://ebible.org/eng-web/JHN17.htm#V1",
+	}),
 });
 
 // --- Urantia parallel (inline on paragraph when include=urantiaParallels) ---
@@ -174,7 +211,12 @@ export const ScriptureParallelSchema = z.object({
 	rank: z.number().int(),
 	source: z.string(),
 	embeddingModel: z.string(),
-	url: z.string().nullable().openapi({ description: "The public page that holds the passage in this translation, with a text fragment that takes a browser to its first words. Null when there is none.", example: "https://en.wikisource.org/wiki/The_Sikh_Religion/Volume_1/Japji#:~:text=Make%20contentment%20and%20modesty%20thine" }),
+	url: z.string().nullable().openapi({
+		description:
+			"The public page that holds the passage in this translation, with a text fragment that takes a browser to its first words. Null when there is none.",
+		example:
+			"https://en.wikisource.org/wiki/The_Sikh_Religion/Volume_1/Japji#:~:text=Make%20contentment%20and%20modesty%20thine",
+	}),
 });
 
 // --- Paragraph ---
@@ -235,7 +277,7 @@ export const PapersListResponse = z.object({
 
 export const PaperDetailResponse = z.object({
 	data: z.object({
-		paper: PaperSchema,
+		paper: PaperDetailSchema,
 		paragraphs: z.array(ParagraphSchema),
 	}),
 });
@@ -740,7 +782,9 @@ export const InsightsQuery = z.object({
 		.min(0)
 		.max(2000)
 		.default(200)
-		.describe("Leave out paragraphs shorter than this many characters. Headings and fragments score unreliably"),
+		.describe(
+			"Leave out paragraphs shorter than this many characters. Headings and fragments score unreliably",
+		),
 	page: z.coerce.number().int().min(0).default(0),
 	limit: z.coerce.number().int().min(1).max(50).default(20),
 });
@@ -762,7 +806,9 @@ export const InsightsCorpusQuery = z.object({
 		.min(0)
 		.max(2000)
 		.default(200)
-		.describe("Leave out paragraphs shorter than this many characters. Headings and fragments score unreliably"),
+		.describe(
+			"Leave out paragraphs shorter than this many characters. Headings and fragments score unreliably",
+		),
 	page: z.coerce.number().int().min(0).default(0),
 	limit: z.coerce.number().int().min(1).max(50).default(20),
 });
