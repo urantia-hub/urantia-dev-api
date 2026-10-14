@@ -1,10 +1,9 @@
-import { existsSync, mkdirSync, readdirSync, writeFileSync, statSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { parseFile } from "music-metadata";
 
 const AUDIO_BASE =
-	process.env.MP3_DIR ??
-	join(import.meta.dir, "../../urantia-data-sources/data/audio/eng");
+	process.env.MP3_DIR ?? join(import.meta.dir, "../../urantia-data-sources/data/audio/eng");
 
 const CDN_BASE = "https://cdn.urantia.dev/audio/eng/paragraphs";
 const LEGACY_CDN_BASE = "https://cdn.urantia.dev/audio/eng";
@@ -25,12 +24,16 @@ type AudioEntry = {
 	fileSize?: number;
 };
 
-async function getAudioMetadata(filePath: string): Promise<{ duration?: number; bitrate?: number; fileSize?: number }> {
+async function getAudioMetadata(
+	filePath: string,
+): Promise<{ duration?: number; bitrate?: number; fileSize?: number }> {
 	try {
 		const stat = statSync(filePath);
 		const metadata = await parseFile(filePath);
 		return {
-			duration: metadata.format.duration ? Math.round(metadata.format.duration * 10) / 10 : undefined,
+			duration: metadata.format.duration
+				? Math.round(metadata.format.duration * 10) / 10
+				: undefined,
 			bitrate: metadata.format.bitrate ? Math.round(metadata.format.bitrate / 1000) : undefined,
 			fileSize: stat.size,
 		};
@@ -187,9 +190,7 @@ async function generateManifest(): Promise<void> {
 	mkdirSync(publishDir, { recursive: true });
 	writeFileSync(PUBLISH_PATH, json);
 	console.log(`Written to: ${PUBLISH_PATH}`);
-	console.log(
-		"Publish it: cd ../urantia-data-sources && bun run upload manifests",
-	);
+	console.log("Publish it: cd ../urantia-data-sources && bun run upload manifests");
 }
 
 generateManifest().catch(console.error);

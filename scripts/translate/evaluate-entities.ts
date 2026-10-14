@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import Anthropic from "@anthropic-ai/sdk";
 
@@ -25,13 +25,13 @@ async function callWithRetry<T>(fn: () => Promise<T>, maxRetries = 5): Promise<T
 		try {
 			return await fn();
 		} catch (err: unknown) {
-			const isRateLimit = err instanceof Error && (
-				err.message.includes("rate_limit") ||
-				err.message.includes("429") ||
-				err.message.includes("overloaded")
-			);
+			const isRateLimit =
+				err instanceof Error &&
+				(err.message.includes("rate_limit") ||
+					err.message.includes("429") ||
+					err.message.includes("overloaded"));
 			if (!isRateLimit || attempt === maxRetries) throw err;
-			const waitSec = Math.min(30 * Math.pow(2, attempt), 300);
+			const waitSec = Math.min(30 * 2 ** attempt, 300);
 			console.log(`  Rate limited, waiting ${waitSec}s (attempt ${attempt + 1}/${maxRetries})...`);
 			await new Promise((r) => setTimeout(r, waitSec * 1000));
 		}
@@ -113,7 +113,8 @@ function findFirstInSection(paper: UrantiapediaPaper, sectionIndex: number): str
 
 function parseCitation(ref: string) {
 	const exact = ref.match(/^(\d+):(\d+)\.(\d+)$/);
-	if (exact) return { paper: Number(exact[1]), section: Number(exact[2]), paragraph: Number(exact[3]) };
+	if (exact)
+		return { paper: Number(exact[1]), section: Number(exact[2]), paragraph: Number(exact[3]) };
 	const sec = ref.match(/^(\d+):(\d+)$/);
 	if (sec) return { paper: Number(sec[1]), section: Number(sec[2]) };
 	return null;
@@ -154,13 +155,15 @@ function getEntityParagraphs(entity: SeedEntity): string[] {
 // --- Claude evaluation ---
 
 async function evaluateBatch(batch: SeedEntity[]): Promise<EntityEval[]> {
-	const context = batch.map((entity, i) => {
-		const paragraphs = getEntityParagraphs(entity);
-		const paraText = paragraphs.length > 0
-			? paragraphs.map((p, j) => `  Paragraph ${j + 1}: "${p}"`).join("\n")
-			: "  (no paragraphs available)";
+	const context = batch
+		.map((entity, i) => {
+			const paragraphs = getEntityParagraphs(entity);
+			const paraText =
+				paragraphs.length > 0
+					? paragraphs.map((p, j) => `  Paragraph ${j + 1}: "${p}"`).join("\n")
+					: "  (no paragraphs available)";
 
-		return `[${i + 1}] Entity: "${entity.name}" (id: ${entity.id}, type: ${entity.type})
+			return `[${i + 1}] Entity: "${entity.name}" (id: ${entity.id}, type: ${entity.type})
 Aliases: ${entity.aliases.length > 0 ? entity.aliases.join(", ") : "(none)"}
 SeeAlso: ${entity.seeAlso.length > 0 ? entity.seeAlso.join(", ") : "(none)"}
 Citations: ${entity.citations.length}
@@ -168,12 +171,14 @@ Current description: "${entity.description || "(empty)"}"
 
 Context paragraphs from The Urantia Book:
 ${paraText}`;
-	}).join("\n\n===\n\n");
+		})
+		.join("\n\n===\n\n");
 
-	const response = await callWithRetry(() => client.messages.create({
-		model: "claude-sonnet-4-20250514",
-		max_tokens: 16384,
-		system: `You are improving entity descriptions from The Urantia Book. Every entity is kept — your job is to write the best possible description.
+	const response = await callWithRetry(() =>
+		client.messages.create({
+			model: "claude-sonnet-4-20250514",
+			max_tokens: 16384,
+			system: `You are improving entity descriptions from The Urantia Book. Every entity is kept — your job is to write the best possible description.
 
 For each entity, write an improved English description:
 - Remove inline citation references like "(77:9.4-5)" — these don't belong in prose descriptions
@@ -192,11 +197,14 @@ Respond with ONLY valid JSON array — no markdown, no explanation:
     "improvedDescription": "Cleaned up description text"
   }
 ]`,
-		messages: [{
-			role: "user",
-			content: `Evaluate these ${batch.length} entities:\n\n${context}`,
-		}],
-	}));
+			messages: [
+				{
+					role: "user",
+					content: `Evaluate these ${batch.length} entities:\n\n${context}`,
+				},
+			],
+		}),
+	);
 
 	const rawText = response.content[0]?.type === "text" ? response.content[0].text : "";
 	const text = rawText.replace(/^```(?:json)?\s*\n?/m, "").replace(/\n?```\s*$/m, "");
@@ -258,7 +266,9 @@ const allEntities: SeedEntity[] = JSON.parse(readFileSync(SEED_PATH, "utf-8"));
 const entities = limit ? allEntities.slice(0, limit) : allEntities;
 
 console.log("=== Entity Quality Evaluation ===\n");
-console.log(`Processing ${entities.length} entities${limit ? ` (limited from ${allEntities.length})` : ""}\n`);
+console.log(
+	`Processing ${entities.length} entities${limit ? ` (limited from ${allEntities.length})` : ""}\n`,
+);
 
 // Load existing evaluation for resumability
 let evaluations: EntityEval[] = [];
@@ -304,7 +314,9 @@ async function main() {
 	const lines: string[] = [];
 	lines.push("# Entity Description Improvements");
 	lines.push("");
-	lines.push(`${evaluations.length} entities evaluated | ${changed.length} descriptions improved | ${unchanged.length} unchanged | ${fallbacks.length} fallbacks`);
+	lines.push(
+		`${evaluations.length} entities evaluated | ${changed.length} descriptions improved | ${unchanged.length} unchanged | ${fallbacks.length} fallbacks`,
+	);
 	lines.push("");
 
 	if (changed.length > 0) {

@@ -65,20 +65,16 @@ if (suspiciousSameAsEnglish.length > 0) {
 }
 
 // --- Suspicious: foundation extraction looks wrong (too short or too long) ---
-const suspiciousFoundation = entries.filter(
-	([name, v]) => {
-		const ratio = v.foundation.length / Math.max(name.length, 1);
-		return ratio > 5 || (v.foundation.length < 3 && name.length > 3);
-	},
-);
+const suspiciousFoundation = entries.filter(([name, v]) => {
+	const ratio = v.foundation.length / Math.max(name.length, 1);
+	return ratio > 5 || (v.foundation.length < 3 && name.length > 3);
+});
 if (suspiciousFoundation.length > 0) {
 	console.log(
 		`\n--- Suspicious: Foundation translations with unusual length (${suspiciousFoundation.length}) ---`,
 	);
 	for (const [name, v] of suspiciousFoundation) {
-		console.log(
-			`  "${name}" → foundation="${v.foundation}" [${v.confidence}]`,
-		);
+		console.log(`  "${name}" → foundation="${v.foundation}" [${v.confidence}]`);
 	}
 }
 

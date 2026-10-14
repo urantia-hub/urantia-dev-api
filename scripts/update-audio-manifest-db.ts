@@ -8,9 +8,9 @@
 
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { eq } from "drizzle-orm";
 import { getDb } from "../src/db/client";
 import { paragraphs } from "../src/db/schema";
-import { eq } from "drizzle-orm";
 
 const { db } = getDb();
 
@@ -22,15 +22,13 @@ type AudioManifest = Record<
 >;
 
 async function main() {
-	const manifest: AudioManifest = JSON.parse(
-		readFileSync(MANIFEST_PATH, "utf-8"),
-	);
+	const manifest: AudioManifest = JSON.parse(readFileSync(MANIFEST_PATH, "utf-8"));
 
 	const globalIds = Object.keys(manifest);
 	console.log(`Audio manifest loaded: ${globalIds.length} entries`);
 
 	let updated = 0;
-	let skipped = 0;
+	const skipped = 0;
 	const batchSize = 100;
 
 	for (let i = 0; i < globalIds.length; i += batchSize) {
@@ -38,10 +36,7 @@ async function main() {
 
 		const updates = batch.map((globalId) => {
 			const audio = manifest[globalId];
-			return db
-				.update(paragraphs)
-				.set({ audio })
-				.where(eq(paragraphs.globalId, globalId));
+			return db.update(paragraphs).set({ audio }).where(eq(paragraphs.globalId, globalId));
 		});
 
 		const results = await Promise.all(updates);

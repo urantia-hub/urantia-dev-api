@@ -15,9 +15,7 @@ type GlossaryEntry = {
 	source_ref: string | null;
 };
 
-const glossary: Record<string, GlossaryEntry> = JSON.parse(
-	readFileSync(GLOSSARY_PATH, "utf-8"),
-);
+const glossary: Record<string, GlossaryEntry> = JSON.parse(readFileSync(GLOSSARY_PATH, "utf-8"));
 
 const entries = Object.entries(glossary);
 const identical = entries.filter(([, v]) => v.foundation === v.urantia_dev);
@@ -28,7 +26,9 @@ const lines: string[] = [];
 
 lines.push("# Dutch Entity Translation Review");
 lines.push("");
-lines.push(`${entries.length} entities total | ${identical.length} identical | ${different.length} different | ${needsManual.length} need review`);
+lines.push(
+	`${entries.length} entities total | ${identical.length} identical | ${different.length} different | ${needsManual.length} need review`,
+);
 lines.push("");
 
 // Section 1: Needs manual review

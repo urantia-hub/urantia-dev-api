@@ -11,17 +11,22 @@
  * Idempotent via ON CONFLICT DO UPDATE.
  */
 
-import { readFileSync, existsSync, readdirSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import { paragraphTranslations, titleTranslations } from "../src/db/schema.ts";
-import { sql } from "drizzle-orm";
 
 const ROOT = join(import.meta.dir, "..");
 
 const LANG_NAMES: Record<string, string> = {
-	nl: "Dutch", es: "Spanish", fr: "French", pt: "Portuguese", de: "German", ko: "Korean",
+	nl: "Dutch",
+	es: "Spanish",
+	fr: "French",
+	pt: "Portuguese",
+	de: "German",
+	ko: "Korean",
 };
 
 // --- Parse args ---
@@ -77,7 +82,9 @@ for (const lang of languages) {
 		const files = readdirSync(paraDir).filter((f) => f.endsWith(".json"));
 		let langParaCount = 0;
 		for (const file of files) {
-			const entries: ParagraphTranslation[] = JSON.parse(readFileSync(join(paraDir, file), "utf-8"));
+			const entries: ParagraphTranslation[] = JSON.parse(
+				readFileSync(join(paraDir, file), "utf-8"),
+			);
 			const valid = entries.filter((e) => e.text && e.htmlText); // skip empty/failed translations
 			allParagraphTranslations.push(...valid);
 			langParaCount += valid.length;
@@ -135,14 +142,17 @@ async function main() {
 				confidence: entry.confidence,
 			}));
 
-			await db.insert(paragraphTranslations).values(values).onConflictDoUpdate({
-				target: paragraphTranslations.id,
-				set: {
-					text: sql`excluded.text`,
-					htmlText: sql`excluded.html_text`,
-					confidence: sql`excluded.confidence`,
-				},
-			});
+			await db
+				.insert(paragraphTranslations)
+				.values(values)
+				.onConflictDoUpdate({
+					target: paragraphTranslations.id,
+					set: {
+						text: sql`excluded.text`,
+						htmlText: sql`excluded.html_text`,
+						confidence: sql`excluded.confidence`,
+					},
+				});
 
 			upsertedParas += batch.length;
 			if ((i + BATCH_SIZE) % 1000 === 0 || i + BATCH_SIZE >= allParagraphTranslations.length) {
@@ -168,19 +178,24 @@ async function main() {
 				confidence: entry.confidence,
 			}));
 
-			await db.insert(titleTranslations).values(values).onConflictDoUpdate({
-				target: titleTranslations.id,
-				set: {
-					title: sql`excluded.title`,
-					confidence: sql`excluded.confidence`,
-				},
-			});
+			await db
+				.insert(titleTranslations)
+				.values(values)
+				.onConflictDoUpdate({
+					target: titleTranslations.id,
+					set: {
+						title: sql`excluded.title`,
+						confidence: sql`excluded.confidence`,
+					},
+				});
 
 			upsertedTitles += batch.length;
 		}
 	}
 
-	console.log(`\nSeeded ${upsertedParas} paragraph translations + ${upsertedTitles} title translations.`);
+	console.log(
+		`\nSeeded ${upsertedParas} paragraph translations + ${upsertedTitles} title translations.`,
+	);
 	await client.end();
 }
 

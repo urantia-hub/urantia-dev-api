@@ -11,21 +11,28 @@
  * No API calls — purely local transformation.
  */
 
-import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 
 const ROOT = join(import.meta.dir, "../..");
 const SEED_PATH = join(ROOT, "data/entities/seed-entities.json");
 
 const LANG_NAMES: Record<string, string> = {
-	nl: "Dutch", es: "Spanish", fr: "French", pt: "Portuguese", de: "German", ko: "Korean",
+	nl: "Dutch",
+	es: "Spanish",
+	fr: "French",
+	pt: "Portuguese",
+	de: "German",
+	ko: "Korean",
 };
 
 // --- Parse args ---
 const langArg = process.argv.find((a) => a.startsWith("--lang="));
 const LANG = langArg ? langArg.split("=")[1]! : "";
 if (!LANG || !Object.keys(LANG_NAMES).includes(LANG)) {
-	console.error(`Usage: bun scripts/translate/build-term-glossary.ts --lang=${Object.keys(LANG_NAMES).join("|")}`);
+	console.error(
+		`Usage: bun scripts/translate/build-term-glossary.ts --lang=${Object.keys(LANG_NAMES).join("|")}`,
+	);
 	process.exit(1);
 }
 

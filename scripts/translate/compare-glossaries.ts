@@ -57,13 +57,9 @@ for (const key of allKeys) {
 }
 
 // Only urantia.dev changed
-const urantiaDevChanged = diffs.filter(
-	(d) => d.urantiaDevV1 !== d.urantiaDevV2,
-);
+const urantiaDevChanged = diffs.filter((d) => d.urantiaDevV1 !== d.urantiaDevV2);
 // Only foundation changed
-const foundationChanged = diffs.filter(
-	(d) => d.foundationV1 !== d.foundationV2,
-);
+const foundationChanged = diffs.filter((d) => d.foundationV1 !== d.foundationV2);
 
 lines.push("# Glossary Comparison: V1 (single paragraph) vs V2 (multi-paragraph)");
 lines.push("");
@@ -97,16 +93,14 @@ if (urantiaDevChanged.length > 0) {
 	lines.push("");
 	lines.push("## urantia.dev Translation Changes");
 	lines.push("");
-	lines.push("These are entities where the multi-paragraph context produced a different urantia.dev translation.");
+	lines.push(
+		"These are entities where the multi-paragraph context produced a different urantia.dev translation.",
+	);
 	lines.push("");
 	lines.push("| English | V1 (1 paragraph) | V2 (multi-paragraph) | Foundation |");
 	lines.push("|---------|-----------------|---------------------|------------|");
-	for (const d of urantiaDevChanged.sort((a, b) =>
-		a.entity.localeCompare(b.entity),
-	)) {
-		lines.push(
-			`| ${d.entity} | ${d.urantiaDevV1} | ${d.urantiaDevV2} | ${d.foundationV2} |`,
-		);
+	for (const d of urantiaDevChanged.sort((a, b) => a.entity.localeCompare(b.entity))) {
+		lines.push(`| ${d.entity} | ${d.urantiaDevV1} | ${d.urantiaDevV2} | ${d.foundationV2} |`);
 	}
 	lines.push("");
 }
@@ -117,13 +111,13 @@ if (foundationChanged.length > 0) {
 	lines.push("");
 	lines.push("## Foundation Extraction Changes");
 	lines.push("");
-	lines.push("These are entities where multi-paragraph context changed the Foundation translation extraction.");
+	lines.push(
+		"These are entities where multi-paragraph context changed the Foundation translation extraction.",
+	);
 	lines.push("");
 	lines.push("| English | Foundation V1 | Foundation V2 |");
 	lines.push("|---------|--------------|--------------|");
-	for (const d of foundationChanged.sort((a, b) =>
-		a.entity.localeCompare(b.entity),
-	)) {
+	for (const d of foundationChanged.sort((a, b) => a.entity.localeCompare(b.entity))) {
 		lines.push(`| ${d.entity} | ${d.foundationV1} | ${d.foundationV2} |`);
 	}
 	lines.push("");
@@ -144,4 +138,6 @@ lines.push("");
 
 writeFileSync(OUTPUT_PATH, lines.join("\n"));
 console.log(`Comparison written to: ${OUTPUT_PATH}`);
-console.log(`\n  Same: ${same.length} | Different: ${diffs.length} (urantia.dev changed: ${urantiaDevChanged.length}, foundation changed: ${foundationChanged.length})`);
+console.log(
+	`\n  Same: ${same.length} | Different: ${diffs.length} (urantia.dev changed: ${urantiaDevChanged.length}, foundation changed: ${foundationChanged.length})`,
+);

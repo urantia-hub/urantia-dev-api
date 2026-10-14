@@ -4,9 +4,9 @@
  */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
-import { eq } from "drizzle-orm";
 import { paragraphs } from "../src/db/schema.ts";
 
 const DATABASE_URL = process.env.DATABASE_URL;
