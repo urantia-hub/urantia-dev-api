@@ -147,10 +147,12 @@ function close(got: string[], want: string, strict: boolean): number | null {
 }
 
 /**
- * Hears each start, and the seconds before it. A start fits when its words match its text and the words
- * before it match the end of the item before. A start that does not fit moves to the nearest pause end
- * (within `reach` seconds, after the start before it) where it does. Starts stay in order.
- * `missed` holds the index of each item with no fit near.
+ * Hears each start, and the seconds before it. A start fits when its words match its text, and fits fully
+ * when the words before it also match the end of the item before. A start that does not fit moves to the
+ * nearest pause end (within `reach` seconds, after the start before it) where it fits, fully if one does.
+ * A start that fits but not fully moves to a pause within 3 seconds that fits fully, if one does: the
+ * model can drop the last words before a start, so the end check alone never fails an item.
+ * Starts stay in order. `missed` holds the index of each item with no fit near.
  */
 export async function repair(
 	texts: string[],
@@ -159,17 +161,18 @@ export async function repair(
 	hear: (ats: number[], before?: boolean) => Promise<string[]>,
 	reach = 20,
 ): Promise<{ at: number[]; missed: number[]; moved: number }> {
-	// The cost of a start for item i: its words match, and before it the item before ends. Null when not.
-	// The seconds before are heard only for the times whose start words match.
-	const fits = async (i: number, ats: number[], after?: string[]): Promise<(number | null)[]> => {
+	type Fit = { cost: number; full: boolean } | null;
+	// How each time fits item i. The seconds before are heard only for the times whose start words match.
+	const fits = async (i: number, ats: number[], after?: string[]): Promise<Fit[]> => {
 		const said = after ?? (ats.length ? await hear(ats) : []);
 		const costs = ats.map((_, n) => matchCost(said[n] ?? "", texts[i] ?? ""));
 		const check = i === 0 ? [] : ats.filter((_, n) => costs[n] !== null);
 		const before = check.length ? await hear(check, true) : [];
 		return costs.map((cost, n) => {
-			if (cost === null || i === 0) return cost;
+			if (cost === null) return null;
+			if (i === 0) return { cost, full: true };
 			const end = endCost(before[check.indexOf(ats[n] ?? 0)] ?? "", texts[i - 1] ?? "");
-			return end === null ? null : cost;
+			return { cost, full: end !== null };
 		});
 	};
 	const heard = await hear(at);
@@ -180,36 +183,48 @@ export async function repair(
 	for (let i = 0; i < at.length; i++) {
 		const here = at[i] ?? 0;
 		const prev = i === 0 ? Number.NEGATIVE_INFINITY : (out[i - 1] ?? 0);
-		let cost = here > prev ? ((await fits(i, [here], [heard[i] ?? ""]))[0] ?? null) : null;
-		if (cost === null) {
+		const next = at[i + 1] ?? Number.POSITIVE_INFINITY;
+		let fit: Fit = here > prev ? ((await fits(i, [here], [heard[i] ?? ""]))[0] ?? null) : null;
+		if (fit === null) {
 			const near = marks
 				.filter((t) => t > prev && t !== here && Math.abs(t - here) <= reach)
 				.sort((a, b) => Math.abs(a - here) - Math.abs(b - here));
-			const costs = await fits(i, near);
-			const k = costs.findIndex((c) => c !== null);
+			const all = await fits(i, near);
+			let k = all.findIndex((f) => f?.full);
+			if (k === -1) k = all.findIndex((f) => f !== null);
 			if (k === -1) {
 				missed.push(i);
 				continue;
 			}
 			out[i] = near[k] ?? here;
-			cost = costs[k] ?? null;
+			fit = all[k] ?? null;
 			moved++;
+		} else if (!fit.full) {
+			const near = marks
+				.filter((t) => t > prev && t < next && t !== here && Math.abs(t - here) <= 3)
+				.sort((a, b) => Math.abs(a - here) - Math.abs(b - here));
+			const all = await fits(i, near);
+			const k = all.findIndex((f) => f?.full);
+			if (k !== -1) {
+				out[i] = near[k] ?? here;
+				fit = all[k] ?? null;
+				moved++;
+			}
 		}
 		// A match with dropped words can be a word or two late or early: a pause near it can need fewer.
-		if (cost !== null && cost >= 1) {
+		if (fit?.full && fit.cost >= 1) {
 			const placed = out[i] ?? here;
-			const next = at[i + 1] ?? Number.POSITIVE_INFINITY;
 			const near = marks.filter(
 				(t) => t > prev && t < next && t !== placed && Math.abs(t - placed) <= 3,
 			);
-			let best = cost;
-			(await fits(i, near)).forEach((c, n) => {
-				if (c !== null && c < best) {
-					best = c;
+			let best = fit.cost;
+			(await fits(i, near)).forEach((f, n) => {
+				if (f?.full && f.cost < best) {
+					best = f.cost;
 					out[i] = near[n] ?? placed;
 				}
 			});
-			if (out[i] !== placed && out[i] !== here) moved++;
+			if (out[i] !== placed && placed === here) moved++;
 		}
 	}
 	return { at: out, missed, moved };

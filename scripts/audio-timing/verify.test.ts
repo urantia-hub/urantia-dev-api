@@ -243,13 +243,24 @@ describe("the end check at each start", () => {
 		expect(fixed).toEqual({ at: [0, 10, 20], missed: [], moved: 1 });
 	});
 
-	it("names the item when no pause near has both its start and the end before it", async () => {
+	it("keeps a start whose words match when no pause near also has the end before it", async () => {
+		// The model can drop or mishear the last words before a start: that alone never fails a paper.
 		const hear = sayer(
 			{ 0: texts[0], 10: texts[1], 18.5: texts[2] },
 			{ 10: texts[0], 18.5: "Bravo begins and ends with" },
 		);
 		const pauses: Pause[] = [10, 18.5].map((t) => ({ start: t - 0.3, end: t }));
 		const fixed = await repair(texts, [0, 10, 18.5], pauses, hear);
-		expect(fixed.missed).toEqual([2]);
+		expect(fixed).toEqual({ at: [0, 10, 18.5], missed: [], moved: 0 });
+	});
+
+	it("prefers, for a start that moves, the pause that also has the end before it", async () => {
+		const hear = sayer(
+			{ 0: texts[0], 10: texts[1], 18.5: texts[2], 20: texts[2] },
+			{ 10: texts[0], 18.5: "Bravo begins and ends with", 20: texts[1] },
+		);
+		const pauses: Pause[] = [10, 15, 18.5, 20].map((t) => ({ start: t - 0.3, end: t }));
+		const fixed = await repair(texts, [0, 10, 15], pauses, hear);
+		expect(fixed).toEqual({ at: [0, 10, 20], missed: [], moved: 1 });
 	});
 });
