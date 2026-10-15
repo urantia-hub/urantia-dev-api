@@ -300,3 +300,33 @@ describe("a start that a person checked by ear", () => {
 		expect(fixed).toEqual({ at: [0, 10, 20, 30, 40], missed: [], moved: 1 });
 	});
 });
+
+describe("a list item whose start is after its spoken number", () => {
+	const texts = ["Alpha title words", "1. Bravo item.", "2. Charlie item."];
+
+	it("moves back to the pause before the number", async () => {
+		// The end check takes "Number one," at the end of the words before 11 as extra words.
+		const hear = sayer(
+			{
+				0: texts[0],
+				10: "Number one, Bravo item.",
+				11: "Bravo item. Number two,",
+				13: "Number two, Charlie item.",
+			},
+			{ 10: texts[0], 11: "Alpha title words. Number one,", 13: "Bravo item." },
+		);
+		const pauses: Pause[] = [10, 11, 13].map((t) => ({ start: t - 0.3, end: t }));
+		const fixed = await repair(texts, [0, 11, 13], pauses, hear);
+		expect(fixed).toEqual({ at: [0, 10, 13], missed: [], moved: 1 });
+	});
+
+	it("keeps the start when the voice says no number before it", async () => {
+		const hear = sayer(
+			{ 0: texts[0], 10: "words here", 11: "Bravo item.", 13: "Number two, Charlie item." },
+			{ 10: "Alpha title", 11: texts[0], 13: "Bravo item." },
+		);
+		const pauses: Pause[] = [10, 11, 13].map((t) => ({ start: t - 0.3, end: t }));
+		const fixed = await repair(texts, [0, 11, 13], pauses, hear);
+		expect(fixed).toEqual({ at: [0, 11, 13], missed: [], moved: 0 });
+	});
+});
