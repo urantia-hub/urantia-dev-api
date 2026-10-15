@@ -249,10 +249,32 @@ Only `tts-1-hd`/`nova` covers all 16,220 paragraphs. `gpt-4o-mini-tts`/`cedar`
 covers 3,438, `tts-1-hd`/`onyx` 231, and the rest are under a dozen samples each.
 Read the `audio` object on the paragraph. Do not build a URL for a non-nova voice.
 
-The manifest has two copies and both are gitignored. `generate-audio-manifest.ts`
-writes `data/audio-manifest.json` for `seed.ts` and a second copy into
-`../urantia-data-sources/data/manifests/`, which is what `bun run upload manifests`
-publishes. Generating does not publish. See `DATA_PIPELINE.md`.
+The manifest has two copies. `generate-audio-manifest.ts` writes `data/audio-manifest.json`
+(in git here, for `seed.ts`) and a second copy into `../urantia-data-sources/data/manifests/`,
+which is what `bun run upload manifests` publishes. Generating does not publish. From a
+worktree, set `MP3_DIR` to the data-sources audio folder: the default path is wrong there.
+See `DATA_PIPELINE.md`.
+
+### Changing an audio file (learned 2026-10-15)
+
+- The CDN caches each GET at the edge for 4 hours (`cache-control: max-age=14400`). A HEAD
+  answers `cf-cache-status: DYNAMIC`, so it does not show this. After an upload, some readers
+  get the old file for up to 4 hours unless the URLs are purged in Cloudflare. Check an upload
+  with a query that skips the cache (`?v=...`), and never GET a URL just before its upload.
+- A paper title and a section title have their own nova file in the paragraphs folder
+  (`{part}:{paper}.-.-` and `{part}:{paper}.{section}.-`). The paper files were most likely built from
+  these item files. They are not in the database, only in the manifest.
+- `tts-1-hd` drops words at the start of a text in brackets (`[Presented by ...]`) and often
+  fails on a one-word title. Send the text without brackets, and give a short title a form
+  like "Taxation...". Make several takes and check each one by ear or with a speech model.
+- To change one item inside a paper file, cut the paper file at the old item and splice in
+  the new item (encoded at 32 kbps, 24 kHz, mono), with no new encoding of the rest. Then
+  regenerate the manifest, update `paragraphs.audio` for a paragraph, run
+  `generate-paper-audio-timing.ts` for the paper, and write the maps.
+- The time maps: `scripts/generate-paper-audio-timing.ts` writes them, and
+  `scripts/update-paper-audio-timing.ts` puts them in `papers.audio`. A start that the speech
+  model cannot confirm can be set by ear in `scripts/audio-timing/by-ear.json`. The Hub stores
+  each paper page, so it must be rebuilt (a deploy) to show new maps.
 
 ## Documentation
 
