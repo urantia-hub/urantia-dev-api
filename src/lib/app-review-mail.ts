@@ -2,7 +2,7 @@
 // Each has an HTML part and a text part. The name and the description come from a stranger: they are
 // shown as text, marked as theirs, and the only link in a notice is ours.
 
-import { esc, FINE, frame, P } from "./mail/layout.ts";
+import { BUTTON, esc, FINE, frame, P } from "./mail/layout.ts";
 
 const RESEND_URL = "https://api.resend.com/emails";
 const ACCOUNTS = "https://accounts.urantiahub.com";
@@ -42,7 +42,7 @@ const quote = (lines: string[]) =>
 	`<blockquote style="${QUOTE}">${lines.map((l) => esc(l)).join("<br>")}</blockquote>`;
 // The one link of a notice: ours.
 const button = (label: string, href: string) =>
-	`<p style="${P}"><a href="${esc(href)}" style="display:inline-block;background-color:#26221c;color:#ffffff;text-decoration:none;border-radius:10px;padding:11px 18px;font-weight:500;font-size:14.5px;">${esc(label)}</a></p>`;
+	`<p style="${P}"><a href="${esc(href)}" style="${BUTTON}">${esc(label)}</a></p>`;
 const noteLines = (note: string | null) =>
 	block(note, 1000)
 		.split(/\r?\n/)

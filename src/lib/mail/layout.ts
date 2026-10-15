@@ -17,12 +17,16 @@ const SERIF = "Georgia,'Times New Roman',serif";
 
 export const P = `margin:0 0 13px;font-size:15px;line-height:1.55;color:#4a463f;`;
 export const FINE = `margin:0 0 8px;font-size:12.5px;line-height:1.5;color:#8b8375;`;
+// A mail app with a dark theme can change the colors: the frame asks for light only, and the button
+// has an edge for the apps that do not obey, so it stays a button.
+export const BUTTON = `display:inline-block;background-color:#26221c;border:1px solid #8d8676;color:#ffffff;text-decoration:none;border-radius:10px;padding:11px 18px;font-weight:500;font-size:14.5px;`;
 
 // "inner" is HTML that the caller made, with each outside value passed through esc().
 export function frame(title: string, inner: string): string {
 	return `<!DOCTYPE html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${esc(title)}</title></head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="color-scheme" content="light only"><meta name="supported-color-schemes" content="light only"><title>${esc(title)}</title>
+<style>:root{color-scheme:light only;}</style></head>
 <body style="margin:0;padding:0;font-family:${FONT};" bgcolor="#fbf8f2">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" bgcolor="#fbf8f2" style="padding:32px 16px;">
 <tr><td align="center">
