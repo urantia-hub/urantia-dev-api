@@ -21598,9 +21598,9 @@
       "nova": {
         "format": "mp3",
         "url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-1:16.9.16.mp3",
-        "duration": 2.9,
-        "bitrate": 160,
-        "fileSize": 58080
+        "duration": 2.8,
+        "bitrate": 128,
+        "fileSize": 44928
       }
     }
   },
@@ -38636,9 +38636,9 @@
       "nova": {
         "format": "mp3",
         "url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-1:26.11.9.mp3",
-        "duration": 2.4,
-        "bitrate": 160,
-        "fileSize": 48000
+        "duration": 2.9,
+        "bitrate": 128,
+        "fileSize": 46080
       }
     }
   },
@@ -78608,9 +78608,9 @@
       "nova": {
         "format": "mp3",
         "url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-2:43.9.6.mp3",
-        "duration": 2.4,
-        "bitrate": 160,
-        "fileSize": 47520
+        "duration": 2.1,
+        "bitrate": 128,
+        "fileSize": 34176
       }
     }
   },
@@ -116679,9 +116679,9 @@
       "nova": {
         "format": "mp3",
         "url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-3:61.7.20.mp3",
-        "duration": 2.4,
-        "bitrate": 160,
-        "fileSize": 47520
+        "duration": 2.3,
+        "bitrate": 128,
+        "fileSize": 36480
       }
     }
   },
@@ -132871,9 +132871,9 @@
       "nova": {
         "format": "mp3",
         "url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-3:77.9.13.mp3",
-        "duration": 2.5,
-        "bitrate": 160,
-        "fileSize": 49920
+        "duration": 2.2,
+        "bitrate": 128,
+        "fileSize": 35712
       }
     }
   },
@@ -135720,9 +135720,9 @@
       "nova": {
         "format": "mp3",
         "url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-3:80.9.17.mp3",
-        "duration": 2.5,
-        "bitrate": 160,
-        "fileSize": 49920
+        "duration": 2.3,
+        "bitrate": 128,
+        "fileSize": 36864
       }
     }
   },
@@ -146050,8 +146050,8 @@
         "format": "mp3",
         "url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-3:92.7.16.mp3",
         "duration": 2.4,
-        "bitrate": 160,
-        "fileSize": 48000
+        "bitrate": 128,
+        "fileSize": 38016
       }
     }
   },
@@ -146269,9 +146269,9 @@
       "nova": {
         "format": "mp3",
         "url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-3:93.10.12.mp3",
-        "duration": 2.2,
-        "bitrate": 160,
-        "fileSize": 43200
+        "duration": 2.4,
+        "bitrate": 128,
+        "fileSize": 38784
       }
     }
   },
@@ -149360,9 +149360,9 @@
       "nova": {
         "format": "mp3",
         "url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-3:95.7.7.mp3",
-        "duration": 2.4,
-        "bitrate": 160,
-        "fileSize": 47040
+        "duration": 2.5,
+        "bitrate": 128,
+        "fileSize": 39936
       }
     }
   },
@@ -150493,9 +150493,9 @@
       "nova": {
         "format": "mp3",
         "url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-3:97.4.-.mp3",
-        "duration": 0.9,
-        "bitrate": 160,
-        "fileSize": 18240
+        "duration": 1,
+        "bitrate": 128,
+        "fileSize": 16128
       }
     }
   },
@@ -162297,8 +162297,8 @@
         "format": "mp3",
         "url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-4:131.4.-.mp3",
         "duration": 0.6,
-        "bitrate": 160,
-        "fileSize": 11040
+        "bitrate": 128,
+        "fileSize": 9984
       }
     }
   },
@@ -210454,9 +210454,9 @@
       "nova": {
         "format": "mp3",
         "url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-4:196.1.-.mp3",
-        "duration": 0.7,
-        "bitrate": 160,
-        "fileSize": 14400
+        "duration": 1,
+        "bitrate": 128,
+        "fileSize": 16512
       }
     }
   },
