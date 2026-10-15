@@ -26,6 +26,7 @@
 - **Text-to-speech narration** for every paragraph
 - **Multiple voices** — 7 voices across 3 TTS models (tts-1-hd, gpt-4o-mini-tts, tts-1)
 - **Hosted on `cdn.urantia.dev/audio/eng/`** — direct MP3 URLs in every paragraph response
+- **One file for a whole paper** — `GET /papers/{id}` has `paper.audio`: the file of the paper and the start of each title, paragraph, and sentence in it (`scripts/generate-paper-audio-timing.ts`)
 
 ## AI & Developer Tools
 
