@@ -82,10 +82,7 @@ function parseCitation(ref: string): {
 	return null;
 }
 
-function findParagraph(
-	paper: UrantiapediaPaper,
-	targetRef: string,
-): string | null {
+function findParagraph(paper: UrantiapediaPaper, targetRef: string): string | null {
 	for (const section of paper.sections) {
 		for (const par of section.pars) {
 			if (par.par_ref === targetRef) {

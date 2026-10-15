@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { drizzle } from "drizzle-orm/postgres-js";
 import { inArray, like, sql } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import { entities, paragraphEntities, paragraphs } from "../src/db/schema.ts";
 
@@ -12,8 +12,7 @@ if (!DATABASE_URL) {
 }
 
 const SEED_PATH =
-	process.env.SEED_ENTITIES_PATH ??
-	join(import.meta.dir, "../data/entities/seed-entities.json");
+	process.env.SEED_ENTITIES_PATH ?? join(import.meta.dir, "../data/entities/seed-entities.json");
 
 type SeedEntity = {
 	id: string;

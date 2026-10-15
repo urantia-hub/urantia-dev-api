@@ -26,7 +26,9 @@ const check = await sql`
          count(search_vector) as with_sv
   FROM paragraphs
 `;
-console.log(`\nVerification: ${check[0]?.total} paragraphs, ${check[0]?.with_sv} with search_vector populated`);
+console.log(
+	`\nVerification: ${check[0]?.total} paragraphs, ${check[0]?.with_sv} with search_vector populated`,
+);
 
 await sql.end();
 console.log("FTS setup complete.");

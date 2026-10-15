@@ -77,10 +77,7 @@ function parseCitation(ref: string): {
 }
 
 // Find a paragraph in a Urantiapedia paper JSON by par_ref
-function findParagraph(
-	paper: UrantiapediaPaper,
-	targetRef: string,
-): string | null {
+function findParagraph(paper: UrantiapediaPaper, targetRef: string): string | null {
 	for (const section of paper.sections) {
 		for (const par of section.pars) {
 			if (par.par_ref === targetRef) {
@@ -189,9 +186,7 @@ for (const entity of entities) {
 	}
 
 	if (!enText || !nlText) {
-		console.warn(
-			`  Skipping "${entity.name}": paragraph "${firstCitation}" not found in EN or NL`,
-		);
+		console.warn(`  Skipping "${entity.name}": paragraph "${firstCitation}" not found in EN or NL`);
 		skipped++;
 		continue;
 	}

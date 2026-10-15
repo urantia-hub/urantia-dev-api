@@ -13,8 +13,8 @@
  * Idempotent: resumes from output files, skips already-translated paragraphs.
  */
 
-import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import Anthropic from "@anthropic-ai/sdk";
 
 const ROOT = join(import.meta.dir, "../..");
@@ -25,14 +25,21 @@ const MODEL = "claude-haiku-4-5-20251001";
 const BATCH_SIZE = 20; // paragraphs per API call
 
 const LANG_NAMES: Record<string, string> = {
-	nl: "Dutch", es: "Spanish", fr: "French", pt: "Portuguese", de: "German", ko: "Korean",
+	nl: "Dutch",
+	es: "Spanish",
+	fr: "French",
+	pt: "Portuguese",
+	de: "German",
+	ko: "Korean",
 };
 
 // --- Parse args ---
 const langArg = process.argv.find((a) => a.startsWith("--lang="));
 const LANG = langArg ? langArg.split("=")[1]! : "";
 if (!LANG || !Object.keys(LANG_NAMES).includes(LANG)) {
-	console.error(`Usage: bun scripts/translate/translate-paragraphs.ts --lang=${Object.keys(LANG_NAMES).join("|")} [--paper=N] [--limit=N] [--dry-run]`);
+	console.error(
+		`Usage: bun scripts/translate/translate-paragraphs.ts --lang=${Object.keys(LANG_NAMES).join("|")} [--paper=N] [--limit=N] [--dry-run]`,
+	);
 	process.exit(1);
 }
 
@@ -61,13 +68,13 @@ async function callWithRetry<T>(fn: () => Promise<T>, maxRetries = 5): Promise<T
 		try {
 			return await fn();
 		} catch (err: unknown) {
-			const isRateLimit = err instanceof Error && (
-				err.message.includes("rate_limit") ||
-				err.message.includes("429") ||
-				err.message.includes("overloaded")
-			);
+			const isRateLimit =
+				err instanceof Error &&
+				(err.message.includes("rate_limit") ||
+					err.message.includes("429") ||
+					err.message.includes("overloaded"));
 			if (!isRateLimit || attempt === maxRetries) throw err;
-			const waitSec = Math.min(30 * Math.pow(2, attempt), 300);
+			const waitSec = Math.min(30 * 2 ** attempt, 300);
 			console.log(`  Rate limited, waiting ${waitSec}s (attempt ${attempt + 1}/${maxRetries})...`);
 			await new Promise((r) => setTimeout(r, waitSec * 1000));
 		}
@@ -117,9 +124,10 @@ if (existsSync(GLOSSARY_PATH)) {
 
 // Build a concise glossary string for the prompt (only translated terms)
 const glossaryEntries = Object.entries(glossary).filter(([en, tr]) => en !== tr);
-const glossaryText = glossaryEntries.length > 0
-	? glossaryEntries.map(([en, tr]) => `"${en}" → "${tr}"`).join("\n")
-	: "(no translated terms)";
+const glossaryText =
+	glossaryEntries.length > 0
+		? glossaryEntries.map(([en, tr]) => `"${en}" → "${tr}"`).join("\n")
+		: "(no translated terms)";
 
 // --- Load Urantiapedia paper (Foundation reference) ---
 const urantiapediaCache = new Map<number, UrantiapediaPaper>();
@@ -128,7 +136,9 @@ function loadUrantiapediaPaper(paperNum: number): UrantiapediaPaper | null {
 	if (urantiapediaCache.has(paperNum)) return urantiapediaCache.get(paperNum)!;
 	const padded = String(paperNum).padStart(3, "0");
 	try {
-		const data = JSON.parse(readFileSync(join(URANTIAPEDIA, `book-${LANG}`, `Doc${padded}.json`), "utf-8"));
+		const data = JSON.parse(
+			readFileSync(join(URANTIAPEDIA, `book-${LANG}`, `Doc${padded}.json`), "utf-8"),
+		);
 		urantiapediaCache.set(paperNum, data);
 		return data;
 	} catch {
@@ -155,7 +165,9 @@ function loadPaperParagraphs(paperNum: number): RawJsonNode[] {
 }
 
 function getPaperNumbers(): number[] {
-	const files = readdirSync(DATA_DIR).filter((f) => f.endsWith(".json")).sort();
+	const files = readdirSync(DATA_DIR)
+		.filter((f) => f.endsWith(".json"))
+		.sort();
 	return files.map((f) => Number(f.replace(".json", "")));
 }
 
@@ -210,32 +222,38 @@ async function translateBatch(
 ): Promise<ParagraphTranslation[]> {
 	const urantiapediaPaper = loadUrantiapediaPaper(paperNum);
 
-	const paragraphsContext = batch.map((para, i) => {
-		const ref = para.standardReferenceId!;
-		const foundationText = urantiapediaPaper
-			? findUrantiapediaParagraph(urantiapediaPaper, ref)
-			: null;
+	const paragraphsContext = batch
+		.map((para, i) => {
+			const ref = para.standardReferenceId!;
+			const foundationText = urantiapediaPaper
+				? findUrantiapediaParagraph(urantiapediaPaper, ref)
+				: null;
 
-		let ctx = `[${i + 1}] ref: "${ref}"
+			let ctx = `[${i + 1}] ref: "${ref}"
 English text: "${para.text}"
 English htmlText: "${para.htmlText}"`;
 
-		if (foundationText) {
-			ctx += `\nFoundation ${LANG_NAMES[LANG]} (reference only — do NOT copy): "${foundationText}"`;
-		}
+			if (foundationText) {
+				ctx += `\nFoundation ${LANG_NAMES[LANG]} (reference only — do NOT copy): "${foundationText}"`;
+			}
 
-		return ctx;
-	}).join("\n\n---\n\n");
+			return ctx;
+		})
+		.join("\n\n---\n\n");
 
-	const response = await callWithRetry(() => client!.messages.create({
-		model: MODEL,
-		max_tokens: 16384,
-		system: systemPrompt,
-		messages: [{
-			role: "user",
-			content: `Translate these ${batch.length} paragraphs to ${LANG_NAMES[LANG]}:\n\n${paragraphsContext}`,
-		}],
-	}));
+	const response = await callWithRetry(() =>
+		client!.messages.create({
+			model: MODEL,
+			max_tokens: 16384,
+			system: systemPrompt,
+			messages: [
+				{
+					role: "user",
+					content: `Translate these ${batch.length} paragraphs to ${LANG_NAMES[LANG]}:\n\n${paragraphsContext}`,
+				},
+			],
+		}),
+	);
 
 	const rawText = response.content[0]?.type === "text" ? response.content[0].text : "";
 	const text = rawText.replace(/^```(?:json)?\s*\n?/m, "").replace(/\n?```\s*$/m, "");
@@ -247,9 +265,15 @@ English htmlText: "${para.htmlText}"`;
 		} catch {
 			// Try to extract individual objects
 			const objects: typeof parsed = [];
-			const matches = text.matchAll(/\{[^{}]*"ref"\s*:\s*"([^"]+)"[^]*?"htmlText"\s*:\s*"[^"]*"\s*\}/g);
+			const matches = text.matchAll(
+				/\{[^{}]*"ref"\s*:\s*"([^"]+)"[^]*?"htmlText"\s*:\s*"[^"]*"\s*\}/g,
+			);
 			for (const match of matches) {
-				try { objects.push(JSON.parse(match[0])); } catch { /* skip */ }
+				try {
+					objects.push(JSON.parse(match[0]));
+				} catch {
+					/* skip */
+				}
 			}
 			if (objects.length === 0) throw new Error("No valid objects found in response");
 			parsed = objects;
@@ -341,13 +365,17 @@ async function main() {
 		totalSkipped += existing.size;
 
 		if (DRY_RUN) {
-			console.log(`Paper ${paperNum}: ${toProcess.length} to translate (${existing.size} already done, ${paragraphs.length} total)`);
+			console.log(
+				`Paper ${paperNum}: ${toProcess.length} to translate (${existing.size} already done, ${paragraphs.length} total)`,
+			);
 			totalTranslated += toProcess.length;
 			if (LIMIT && totalTranslated >= LIMIT) break;
 			continue;
 		}
 
-		console.log(`Paper ${paperNum}: translating ${toProcess.length} paragraphs (${existing.size} already done)`);
+		console.log(
+			`Paper ${paperNum}: translating ${toProcess.length} paragraphs (${existing.size} already done)`,
+		);
 
 		// Translate in batches
 		const allTranslations = [...existing.values()];
