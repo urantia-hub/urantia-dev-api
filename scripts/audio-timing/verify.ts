@@ -155,6 +155,9 @@ function close(got: string[], want: string, strict: boolean): number | null {
  * Starts stay in order. `missed` holds the index of each item with no fit near. A start heard by ear
  * (`fixed`, index to time) is kept as it is, and no other start moves past it.
  */
+const LIST_ITEM = /^\d+\.\s/;
+const SAYS_NUMBER = /^\W*(number|\d)/i;
+
 export async function repair(
 	texts: string[],
 	at: number[],
@@ -235,6 +238,25 @@ export async function repair(
 				}
 			});
 			if (out[i] !== placed && placed === here) moved++;
+		}
+		// A list item ("3. ...") starts at its spoken number. The end check can take "Number three," as
+		// extra words at the end of the item before, so a start just after the number also fits.
+		if (LIST_ITEM.test(texts[i] ?? "")) {
+			const placed = out[i] ?? here;
+			const said = placed === here ? (heard[i] ?? "") : ((await hear([placed]))[0] ?? "");
+			if (!SAYS_NUMBER.test(said)) {
+				const near = marks
+					.filter((t) => t > prev && t < placed && placed - t <= 2.5)
+					.sort((a, b) => b - a);
+				const heardNear = near.length ? await hear(near) : [];
+				const k = heardNear.findIndex(
+					(h) => SAYS_NUMBER.test(h) && matchCost(h, texts[i] ?? "") !== null,
+				);
+				if (k !== -1) {
+					out[i] = near[k] ?? placed;
+					if (placed === here) moved++;
+				}
+			}
 		}
 	}
 	return { at: out, missed, moved };
