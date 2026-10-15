@@ -65,6 +65,11 @@ export const authMiddleware: MiddlewareHandler = async (c, next) => {
 		return next();
 	}
 
+	// The MCP server is open with no key: a token sent to it is ignored, never refused.
+	if (path === "/mcp" || path.startsWith("/mcp/")) {
+		return next();
+	}
+
 	// Check if this is a public auth endpoint (no JWT needed)
 	const isPublicAuthPath =
 		AUTH_PUBLIC_POSTS.has(path) || (c.req.method === "GET" && AUTH_PUBLIC_APP_GET.test(path));
