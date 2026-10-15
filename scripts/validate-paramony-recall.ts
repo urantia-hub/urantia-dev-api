@@ -63,7 +63,9 @@ function normalizePar(ref: string): string | null {
 }
 
 // Parse Paramony's "chapter:verse" cell. Verse can be "1", "1-3", "1,3", "1ff".
-function parseChapterVerse(cell: string): { chapter: number; verseStart: number; verseEnd: number } | null {
+function parseChapterVerse(
+	cell: string,
+): { chapter: number; verseStart: number; verseEnd: number } | null {
 	const m = cell.match(/^(\d+):(\d+)/);
 	if (!m) return null;
 	const chapter = parseInt(m[1]!, 10);
@@ -146,9 +148,7 @@ async function main() {
 			  AND verse_end >= ${row.verseStart}
 			  AND verse_start <= ${row.verseEnd}
 		`);
-		const targetChunkIds = new Set(
-			(chunkRows as unknown as { id: string }[]).map((r) => r.id),
-		);
+		const targetChunkIds = new Set((chunkRows as unknown as { id: string }[]).map((r) => r.id));
 		if (targetChunkIds.size === 0) continue;
 
 		// Get our top-K Bible parallels for this paragraph.
@@ -160,9 +160,7 @@ async function main() {
 			ORDER BY rank
 			LIMIT ${TOP_K}
 		`);
-		const ourTop = new Set(
-			(topRows as unknown as { chunk_id: string }[]).map((r) => r.chunk_id),
-		);
+		const ourTop = new Set((topRows as unknown as { chunk_id: string }[]).map((r) => r.chunk_id));
 
 		const hit = [...targetChunkIds].some((id) => ourTop.has(id));
 		if (hit) {
@@ -180,7 +178,9 @@ async function main() {
 	}
 
 	console.log(`Results:`);
-	console.log(`  Resolved:   ${resolved} / ${sampled.length} (Faw rows that mapped to existing UB paragraphs and Bible chunks)`);
+	console.log(
+		`  Resolved:   ${resolved} / ${sampled.length} (Faw rows that mapped to existing UB paragraphs and Bible chunks)`,
+	);
 	console.log(`  Unresolved: ${unresolved}`);
 	console.log(`  Hits:       ${hits} / ${resolved}`);
 	const recall = resolved > 0 ? (hits / resolved) * 100 : 0;
@@ -196,11 +196,17 @@ async function main() {
 	console.log();
 	const gate = 60;
 	if (recall >= gate) {
-		console.log(`✓ Recall@${TOP_K} (${recall.toFixed(1)}%) meets the ${gate}% gate. Phase 3 is shippable.`);
+		console.log(
+			`✓ Recall@${TOP_K} (${recall.toFixed(1)}%) meets the ${gate}% gate. Phase 3 is shippable.`,
+		);
 	} else if (recall >= 50) {
-		console.log(`~ Recall@${TOP_K} (${recall.toFixed(1)}%) is below the ${gate}% target but above 50%. Consider shipping with caveats; investigate chunking before next iteration.`);
+		console.log(
+			`~ Recall@${TOP_K} (${recall.toFixed(1)}%) is below the ${gate}% target but above 50%. Consider shipping with caveats; investigate chunking before next iteration.`,
+		);
 	} else {
-		console.log(`✗ Recall@${TOP_K} (${recall.toFixed(1)}%) is below 50%. Investigate chunking strategy or embedding model before shipping.`);
+		console.log(
+			`✗ Recall@${TOP_K} (${recall.toFixed(1)}%) is below 50%. Investigate chunking strategy or embedding model before shipping.`,
+		);
 	}
 
 	await client.end();

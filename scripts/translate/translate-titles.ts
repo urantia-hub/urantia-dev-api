@@ -10,8 +10,8 @@
  * Idempotent: resumes from output file.
  */
 
-import { readFileSync, writeFileSync, existsSync, mkdirSync, readdirSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import Anthropic from "@anthropic-ai/sdk";
 
 const ROOT = join(import.meta.dir, "../..");
@@ -21,14 +21,21 @@ const MODEL = "claude-haiku-4-5-20251001";
 const BATCH_SIZE = 50; // titles per API call
 
 const LANG_NAMES: Record<string, string> = {
-	nl: "Dutch", es: "Spanish", fr: "French", pt: "Portuguese", de: "German", ko: "Korean",
+	nl: "Dutch",
+	es: "Spanish",
+	fr: "French",
+	pt: "Portuguese",
+	de: "German",
+	ko: "Korean",
 };
 
 // --- Parse args ---
 const langArg = process.argv.find((a) => a.startsWith("--lang="));
 const LANG = langArg ? langArg.split("=")[1]! : "";
 if (!LANG || !Object.keys(LANG_NAMES).includes(LANG)) {
-	console.error(`Usage: bun scripts/translate/translate-titles.ts --lang=${Object.keys(LANG_NAMES).join("|")} [--dry-run]`);
+	console.error(
+		`Usage: bun scripts/translate/translate-titles.ts --lang=${Object.keys(LANG_NAMES).join("|")} [--dry-run]`,
+	);
 	process.exit(1);
 }
 
@@ -51,13 +58,13 @@ async function callWithRetry<T>(fn: () => Promise<T>, maxRetries = 5): Promise<T
 		try {
 			return await fn();
 		} catch (err: unknown) {
-			const isRateLimit = err instanceof Error && (
-				err.message.includes("rate_limit") ||
-				err.message.includes("429") ||
-				err.message.includes("overloaded")
-			);
+			const isRateLimit =
+				err instanceof Error &&
+				(err.message.includes("rate_limit") ||
+					err.message.includes("429") ||
+					err.message.includes("overloaded"));
 			if (!isRateLimit || attempt === maxRetries) throw err;
-			const waitSec = Math.min(30 * Math.pow(2, attempt), 300);
+			const waitSec = Math.min(30 * 2 ** attempt, 300);
 			console.log(`  Rate limited, waiting ${waitSec}s (attempt ${attempt + 1}/${maxRetries})...`);
 			await new Promise((r) => setTimeout(r, waitSec * 1000));
 		}
@@ -93,9 +100,10 @@ if (existsSync(GLOSSARY_PATH)) {
 }
 
 const glossaryEntries = Object.entries(glossary).filter(([en, tr]) => en !== tr);
-const glossaryText = glossaryEntries.length > 0
-	? glossaryEntries.map(([en, tr]) => `"${en}" → "${tr}"`).join("\n")
-	: "";
+const glossaryText =
+	glossaryEntries.length > 0
+		? glossaryEntries.map(([en, tr]) => `"${en}" → "${tr}"`).join("\n")
+		: "";
 
 // --- Extract titles from source data ---
 type TitleEntry = { type: "paper" | "section"; id: string; title: string };
@@ -105,16 +113,28 @@ function extractTitles(): TitleEntry[] {
 	const seenPapers = new Set<string>();
 	const seenSections = new Set<string>();
 
-	const files = readdirSync(DATA_DIR).filter((f) => f.endsWith(".json")).sort();
+	const files = readdirSync(DATA_DIR)
+		.filter((f) => f.endsWith(".json"))
+		.sort();
 	for (const file of files) {
 		const nodes: RawJsonNode[] = JSON.parse(readFileSync(join(DATA_DIR, file), "utf-8"));
 
 		for (const node of nodes) {
-			if (node.type === "paper" && node.paperTitle && node.paperId && !seenPapers.has(node.paperId)) {
+			if (
+				node.type === "paper" &&
+				node.paperTitle &&
+				node.paperId &&
+				!seenPapers.has(node.paperId)
+			) {
 				seenPapers.add(node.paperId);
 				titles.push({ type: "paper", id: node.paperId, title: node.paperTitle });
 			}
-			if (node.type === "section" && node.sectionTitle && node.sectionId && !seenSections.has(node.sectionId)) {
+			if (
+				node.type === "section" &&
+				node.sectionTitle &&
+				node.sectionId &&
+				!seenSections.has(node.sectionId)
+			) {
 				seenSections.add(node.sectionId);
 				titles.push({ type: "section", id: node.sectionId, title: node.sectionTitle });
 			}
@@ -126,9 +146,9 @@ function extractTitles(): TitleEntry[] {
 
 // --- Translate batch ---
 async function translateTitleBatch(batch: TitleEntry[]): Promise<TitleTranslation[]> {
-	const context = batch.map((t, i) =>
-		`[${i + 1}] ${t.type}: id="${t.id}" title="${t.title}"`
-	).join("\n");
+	const context = batch
+		.map((t, i) => `[${i + 1}] ${t.type}: id="${t.id}" title="${t.title}"`)
+		.join("\n");
 
 	let systemPrompt = `You are translating Urantia Book paper and section titles from English to ${LANG_NAMES[LANG]}.
 
@@ -146,12 +166,16 @@ ${glossaryText}`;
 Respond with ONLY a JSON array — no markdown:
 [{ "id": "source-id", "title": "translated title" }]`;
 
-	const response = await callWithRetry(() => client!.messages.create({
-		model: MODEL,
-		max_tokens: 8192,
-		system: systemPrompt,
-		messages: [{ role: "user", content: `Translate these ${batch.length} titles:\n\n${context}` }],
-	}));
+	const response = await callWithRetry(() =>
+		client!.messages.create({
+			model: MODEL,
+			max_tokens: 8192,
+			system: systemPrompt,
+			messages: [
+				{ role: "user", content: `Translate these ${batch.length} titles:\n\n${context}` },
+			],
+		}),
+	);
 
 	const rawText = response.content[0]?.type === "text" ? response.content[0].text : "";
 	const text = rawText.replace(/^```(?:json)?\s*\n?/m, "").replace(/\n?```\s*$/m, "");
@@ -194,7 +218,9 @@ if (DRY_RUN) console.log("DRY RUN — no API calls\n");
 const allTitles = extractTitles();
 const paperTitles = allTitles.filter((t) => t.type === "paper");
 const sectionTitles = allTitles.filter((t) => t.type === "section");
-console.log(`Found ${paperTitles.length} paper titles + ${sectionTitles.length} section titles = ${allTitles.length} total\n`);
+console.log(
+	`Found ${paperTitles.length} paper titles + ${sectionTitles.length} section titles = ${allTitles.length} total\n`,
+);
 
 // Load existing translations for resumability
 let translations: TitleTranslation[] = [];
@@ -218,7 +244,9 @@ if (unprocessed.length === 0) {
 console.log(`${unprocessed.length} titles to translate\n`);
 
 if (DRY_RUN) {
-	console.log(`Would translate ${unprocessed.length} titles in ${Math.ceil(unprocessed.length / BATCH_SIZE)} batches.`);
+	console.log(
+		`Would translate ${unprocessed.length} titles in ${Math.ceil(unprocessed.length / BATCH_SIZE)} batches.`,
+	);
 	process.exit(0);
 }
 

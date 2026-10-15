@@ -26,12 +26,17 @@ const MODELS = {
 
 // Pricing per million tokens (as of March 2026)
 const PRICING: Record<string, { input: number; output: number }> = {
-	haiku: { input: 0.80, output: 4.00 },
-	sonnet: { input: 3.00, output: 15.00 },
+	haiku: { input: 0.8, output: 4.0 },
+	sonnet: { input: 3.0, output: 15.0 },
 };
 
 const LANG_NAMES: Record<string, string> = {
-	nl: "Dutch", es: "Spanish", fr: "French", pt: "Portuguese", de: "German", ko: "Korean",
+	nl: "Dutch",
+	es: "Spanish",
+	fr: "French",
+	pt: "Portuguese",
+	de: "German",
+	ko: "Korean",
 };
 
 // --- Parse args ---
@@ -75,7 +80,9 @@ type SeedEntity = {
 function loadPaper(lang: string, paperIndex: number): UrantiapediaPaper | null {
 	const padded = String(paperIndex).padStart(3, "0");
 	try {
-		return JSON.parse(readFileSync(join(URANTIAPEDIA, `book-${lang}`, `Doc${padded}.json`), "utf-8"));
+		return JSON.parse(
+			readFileSync(join(URANTIAPEDIA, `book-${lang}`, `Doc${padded}.json`), "utf-8"),
+		);
 	} catch {
 		return null;
 	}
@@ -94,15 +101,25 @@ function parsePaperNumber(ref: string): number {
 	return Number(ref.split(":")[0]);
 }
 
-function estimateCost(model: "haiku" | "sonnet", inputTokens: number, outputTokens: number): string {
+function estimateCost(
+	model: "haiku" | "sonnet",
+	inputTokens: number,
+	outputTokens: number,
+): string {
 	const pricing = PRICING[model]!;
 	const cost = (inputTokens * pricing.input + outputTokens * pricing.output) / 1_000_000;
 	return `$${cost.toFixed(4)}`;
 }
 
-function estimateFullCost(model: "haiku" | "sonnet", inputTokens: number, outputTokens: number, totalParagraphs: number): string {
+function estimateFullCost(
+	model: "haiku" | "sonnet",
+	inputTokens: number,
+	outputTokens: number,
+	totalParagraphs: number,
+): string {
 	const pricing = PRICING[model]!;
-	const costPerParagraph = (inputTokens * pricing.input + outputTokens * pricing.output) / 1_000_000;
+	const costPerParagraph =
+		(inputTokens * pricing.input + outputTokens * pricing.output) / 1_000_000;
 	const totalCost = costPerParagraph * totalParagraphs;
 	return `$${totalCost.toFixed(2)}`;
 }
@@ -237,11 +254,15 @@ async function main() {
 
 	console.log(`--- Haiku Translation ---`);
 	console.log(haikuPara.text);
-	console.log(`\n  Tokens: ${haikuPara.inputTokens} in / ${haikuPara.outputTokens} out | Cost: ${haikuPara.cost} | Time: ${haikuPara.durationMs}ms\n`);
+	console.log(
+		`\n  Tokens: ${haikuPara.inputTokens} in / ${haikuPara.outputTokens} out | Cost: ${haikuPara.cost} | Time: ${haikuPara.durationMs}ms\n`,
+	);
 
 	console.log(`--- Sonnet Translation ---`);
 	console.log(sonnetPara.text);
-	console.log(`\n  Tokens: ${sonnetPara.inputTokens} in / ${sonnetPara.outputTokens} out | Cost: ${sonnetPara.cost} | Time: ${sonnetPara.durationMs}ms\n`);
+	console.log(
+		`\n  Tokens: ${sonnetPara.inputTokens} in / ${sonnetPara.outputTokens} out | Cost: ${sonnetPara.cost} | Time: ${sonnetPara.durationMs}ms\n`,
+	);
 
 	// --- Entity translation ---
 	if (entity) {
@@ -264,11 +285,15 @@ async function main() {
 
 		console.log(`--- Haiku Entity ---`);
 		console.log(haikuEntity.text);
-		console.log(`\n  Tokens: ${haikuEntity.inputTokens} in / ${haikuEntity.outputTokens} out | Cost: ${haikuEntity.cost} | Time: ${haikuEntity.durationMs}ms\n`);
+		console.log(
+			`\n  Tokens: ${haikuEntity.inputTokens} in / ${haikuEntity.outputTokens} out | Cost: ${haikuEntity.cost} | Time: ${haikuEntity.durationMs}ms\n`,
+		);
 
 		console.log(`--- Sonnet Entity ---`);
 		console.log(sonnetEntity.text);
-		console.log(`\n  Tokens: ${sonnetEntity.inputTokens} in / ${sonnetEntity.outputTokens} out | Cost: ${sonnetEntity.cost} | Time: ${sonnetEntity.durationMs}ms\n`);
+		console.log(
+			`\n  Tokens: ${sonnetEntity.inputTokens} in / ${sonnetEntity.outputTokens} out | Cost: ${sonnetEntity.cost} | Time: ${sonnetEntity.durationMs}ms\n`,
+		);
 	}
 
 	// --- Cost projection ---
@@ -280,27 +305,52 @@ async function main() {
 	const TOTAL_ENTITIES = 3_000;
 	const LANGUAGES = 5;
 
-	console.log(`  Paragraphs: ~${TOTAL_PARAGRAPHS.toLocaleString()} × ${LANGUAGES} languages = ${(TOTAL_PARAGRAPHS * LANGUAGES).toLocaleString()} translations`);
-	console.log(`  Entities:   ~${TOTAL_ENTITIES.toLocaleString()} × ${LANGUAGES} languages = ${(TOTAL_ENTITIES * LANGUAGES).toLocaleString()} translations\n`);
+	console.log(
+		`  Paragraphs: ~${TOTAL_PARAGRAPHS.toLocaleString()} × ${LANGUAGES} languages = ${(TOTAL_PARAGRAPHS * LANGUAGES).toLocaleString()} translations`,
+	);
+	console.log(
+		`  Entities:   ~${TOTAL_ENTITIES.toLocaleString()} × ${LANGUAGES} languages = ${(TOTAL_ENTITIES * LANGUAGES).toLocaleString()} translations\n`,
+	);
 
-	console.log(`  ${"Model".padEnd(10)} ${"Paragraphs".padEnd(15)} ${"Entities".padEnd(15)} ${"Total".padEnd(15)}`);
+	console.log(
+		`  ${"Model".padEnd(10)} ${"Paragraphs".padEnd(15)} ${"Entities".padEnd(15)} ${"Total".padEnd(15)}`,
+	);
 	console.log(`  ${"-".repeat(55)}`);
 
 	for (const modelKey of ["haiku", "sonnet"] as const) {
 		const paraResult = modelKey === "haiku" ? haikuPara : sonnetPara;
-		const paraCost = estimateFullCost(modelKey, paraResult.inputTokens, paraResult.outputTokens, TOTAL_PARAGRAPHS * LANGUAGES);
+		const paraCost = estimateFullCost(
+			modelKey,
+			paraResult.inputTokens,
+			paraResult.outputTokens,
+			TOTAL_PARAGRAPHS * LANGUAGES,
+		);
 
 		// Entity cost estimate (entities are shorter, use roughly 1/3 the tokens)
 		const entityInputEst = Math.round(paraResult.inputTokens * 0.4);
 		const entityOutputEst = Math.round(paraResult.outputTokens * 0.3);
-		const entityCost = estimateFullCost(modelKey, entityInputEst, entityOutputEst, TOTAL_ENTITIES * LANGUAGES);
+		const entityCost = estimateFullCost(
+			modelKey,
+			entityInputEst,
+			entityOutputEst,
+			TOTAL_ENTITIES * LANGUAGES,
+		);
 
 		const pricing = PRICING[modelKey]!;
-		const totalParaCost = (paraResult.inputTokens * pricing.input + paraResult.outputTokens * pricing.output) / 1_000_000 * TOTAL_PARAGRAPHS * LANGUAGES;
-		const totalEntityCost = (entityInputEst * pricing.input + entityOutputEst * pricing.output) / 1_000_000 * TOTAL_ENTITIES * LANGUAGES;
+		const totalParaCost =
+			((paraResult.inputTokens * pricing.input + paraResult.outputTokens * pricing.output) /
+				1_000_000) *
+			TOTAL_PARAGRAPHS *
+			LANGUAGES;
+		const totalEntityCost =
+			((entityInputEst * pricing.input + entityOutputEst * pricing.output) / 1_000_000) *
+			TOTAL_ENTITIES *
+			LANGUAGES;
 		const total = `$${(totalParaCost + totalEntityCost).toFixed(2)}`;
 
-		console.log(`  ${modelKey.padEnd(10)} ${paraCost.padEnd(15)} ${entityCost.padEnd(15)} ${total.padEnd(15)}`);
+		console.log(
+			`  ${modelKey.padEnd(10)} ${paraCost.padEnd(15)} ${entityCost.padEnd(15)} ${total.padEnd(15)}`,
+		);
 	}
 
 	console.log(`\n  Note: These are rough estimates based on a single paragraph's token usage.`);

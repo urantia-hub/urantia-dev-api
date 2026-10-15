@@ -10,17 +10,22 @@
  * entity_translations table. Idempotent via ON CONFLICT DO UPDATE.
  */
 
-import { readFileSync, existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import { entityTranslations } from "../src/db/schema.ts";
-import { sql } from "drizzle-orm";
 
 const ROOT = join(import.meta.dir, "..");
 
 const LANG_NAMES: Record<string, string> = {
-	nl: "Dutch", es: "Spanish", fr: "French", pt: "Portuguese", de: "German", ko: "Korean",
+	nl: "Dutch",
+	es: "Spanish",
+	fr: "French",
+	pt: "Portuguese",
+	de: "German",
+	ko: "Korean",
 };
 
 // --- Parse args ---
@@ -29,7 +34,9 @@ const LANG_FILTER = langArg?.split("=")[1] ?? null;
 const DRY_RUN = process.argv.includes("--dry-run");
 
 if (LANG_FILTER && !Object.keys(LANG_NAMES).includes(LANG_FILTER)) {
-	console.error(`Invalid language: ${LANG_FILTER}. Supported: ${Object.keys(LANG_NAMES).join(", ")}`);
+	console.error(
+		`Invalid language: ${LANG_FILTER}. Supported: ${Object.keys(LANG_NAMES).join(", ")}`,
+	);
 	process.exit(1);
 }
 
@@ -105,15 +112,18 @@ async function main() {
 			confidence: entry.confidence,
 		}));
 
-		await db.insert(entityTranslations).values(values).onConflictDoUpdate({
-			target: entityTranslations.id,
-			set: {
-				name: sql`excluded.name`,
-				aliases: sql`excluded.aliases`,
-				description: sql`excluded.description`,
-				confidence: sql`excluded.confidence`,
-			},
-		});
+		await db
+			.insert(entityTranslations)
+			.values(values)
+			.onConflictDoUpdate({
+				target: entityTranslations.id,
+				set: {
+					name: sql`excluded.name`,
+					aliases: sql`excluded.aliases`,
+					description: sql`excluded.description`,
+					confidence: sql`excluded.confidence`,
+				},
+			});
 
 		upserted += batch.length;
 	}

@@ -4,10 +4,10 @@
  * Outputs data/entities/seed-entities.json
  */
 
-import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { CATEGORY_MAP, TOPIC_INDEX_DIR, extractCitations, slugify } from "./config.ts";
 import type { EntityType, SeedEntity } from "./config.ts";
+import { CATEGORY_MAP, extractCitations, slugify, TOPIC_INDEX_DIR } from "./config.ts";
 
 const topicDir = join(import.meta.dir, TOPIC_INDEX_DIR);
 const outputDir = join(import.meta.dir, "../../data/entities");
@@ -22,7 +22,9 @@ if (!existsSync(outputDir)) {
 	mkdirSync(outputDir, { recursive: true });
 }
 
-const files = readdirSync(topicDir).filter((f) => f.endsWith(".txt")).sort();
+const files = readdirSync(topicDir)
+	.filter((f) => f.endsWith(".txt"))
+	.sort();
 console.log(`Found ${files.length} topic index files`);
 
 const entities: SeedEntity[] = [];
@@ -72,7 +74,10 @@ function parseEntry(lines: string[]): SeedEntity | null {
 
 	// Field 0: Name; Alias1; Alias2
 	const nameField = parts[0];
-	const names = nameField.split(";").map((n) => n.trim()).filter(Boolean);
+	const names = nameField
+		.split(";")
+		.map((n) => n.trim())
+		.filter(Boolean);
 	if (names.length === 0) return null;
 
 	const name = names[0];

@@ -10,10 +10,7 @@ if (!DATABASE_URL) {
 
 const sql = postgres(DATABASE_URL);
 
-const setupSql = readFileSync(
-	join(import.meta.dir, "setup-rls.sql"),
-	"utf-8",
-);
+const setupSql = readFileSync(join(import.meta.dir, "setup-rls.sql"), "utf-8");
 
 console.log("Enabling RLS on all public tables...");
 await sql.unsafe(setupSql);
