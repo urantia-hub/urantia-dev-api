@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import type { Pause } from "./place";
-import { endCost, heardMatches, matchCost, repair } from "./verify";
+import { earTimes, endCost, heardMatches, matchCost, repair } from "./verify";
 
 describe("the words heard at a start against the text", () => {
 	it("takes a near spelling of a name", () => {
@@ -262,5 +262,41 @@ describe("the end check at each start", () => {
 		const pauses: Pause[] = [10, 15, 18.5, 20].map((t) => ({ start: t - 0.3, end: t }));
 		const fixed = await repair(texts, [0, 10, 15], pauses, hear);
 		expect(fixed).toEqual({ at: [0, 10, 20], missed: [], moved: 1 });
+	});
+});
+
+describe("a start that a person checked by ear", () => {
+	const keys = ["title", "section:1", "1:1.1", "1:1.2"];
+
+	it("gives the index of each item with its time", () => {
+		expect(earTimes(keys, { "1:1.1": 9.4, "section:1": 6.2 })).toEqual(
+			new Map([
+				[1, 6.2],
+				[2, 9.4],
+			]),
+		);
+	});
+
+	it("refuses a key that is not in the paper, and times out of order", () => {
+		expect(() => earTimes(keys, { "1:9.9": 3 })).toThrow("1:9.9");
+		expect(() => earTimes(keys, { "section:1": 9, "1:1.1": 8 })).toThrow("1:1.1");
+	});
+
+	it("keeps the time heard by ear in the repair, and no other start moves past it", async () => {
+		const texts = ["Alpha title", "Bravo begins", "Charlie comes", "Delta does", "Echo ends"];
+		// The voice says item 1 at 10. At 24 it says the same words again, nearer to the wrong start at 22.
+		const hear = sayer(
+			{ 0: texts[0], 10: texts[1], 24: texts[1], 30: texts[3], 40: texts[4] },
+			{ 10: texts[0], 24: texts[1], 30: texts[2], 40: texts[3] },
+		);
+		const fixed = await repair(
+			texts,
+			[0, 22, 26, 30, 40],
+			ends([10, 20, 24, 30, 40]),
+			hear,
+			20,
+			new Map([[2, 20]]),
+		);
+		expect(fixed).toEqual({ at: [0, 10, 20, 30, 40], missed: [], moved: 1 });
 	});
 });

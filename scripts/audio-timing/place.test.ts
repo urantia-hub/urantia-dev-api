@@ -114,4 +114,9 @@ describe("the lead-in before a start", () => {
 		expect(leadIn(0, pauses)).toBe(0);
 		expect(leadIn(15, pauses)).toBe(15);
 	});
+
+	it("stays after the start before it", () => {
+		expect(leadIn(10, pauses, 9.8)).toBe(9.85);
+		expect(leadIn(10, pauses, 9.99)).toBe(10);
+	});
 });
