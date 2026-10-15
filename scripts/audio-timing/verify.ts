@@ -152,7 +152,8 @@ function close(got: string[], want: string, strict: boolean): number | null {
  * nearest pause end (within `reach` seconds, after the start before it) where it fits, fully if one does.
  * A start that fits but not fully moves to a pause within 3 seconds that fits fully, if one does: the
  * model can drop the last words before a start, so the end check alone never fails an item.
- * Starts stay in order. `missed` holds the index of each item with no fit near.
+ * Starts stay in order. `missed` holds the index of each item with no fit near. A start heard by ear
+ * (`fixed`, index to time) is kept as it is, and no other start moves past it.
  */
 export async function repair(
 	texts: string[],
@@ -160,6 +161,7 @@ export async function repair(
 	pauses: Pause[],
 	hear: (ats: number[], before?: boolean) => Promise<string[]>,
 	reach = 20,
+	fixed: Map<number, number> = new Map(),
 ): Promise<{ at: number[]; missed: number[]; moved: number }> {
 	type Fit = { cost: number; full: boolean } | null;
 	// How each time fits item i. The seconds before are heard only for the times whose start words match.
@@ -181,13 +183,21 @@ export async function repair(
 	const missed: number[] = [];
 	let moved = 0;
 	for (let i = 0; i < at.length; i++) {
+		const ear = fixed.get(i);
+		if (ear !== undefined) {
+			out[i] = ear;
+			continue;
+		}
 		const here = at[i] ?? 0;
 		const prev = i === 0 ? Number.NEGATIVE_INFINITY : (out[i - 1] ?? 0);
+		// The first start heard by ear after this item: no search goes past it.
+		const bound = Math.min(...[...fixed].filter(([j]) => j > i).map(([, t]) => t));
 		const next = at[i + 1] ?? Number.POSITIVE_INFINITY;
-		let fit: Fit = here > prev ? ((await fits(i, [here], [heard[i] ?? ""]))[0] ?? null) : null;
+		let fit: Fit =
+			here > prev && here < bound ? ((await fits(i, [here], [heard[i] ?? ""]))[0] ?? null) : null;
 		if (fit === null) {
 			const near = marks
-				.filter((t) => t > prev && t !== here && Math.abs(t - here) <= reach)
+				.filter((t) => t > prev && t < bound && t !== here && Math.abs(t - here) <= reach)
 				.sort((a, b) => Math.abs(a - here) - Math.abs(b - here));
 			const all = await fits(i, near);
 			let k = all.findIndex((f) => f?.full);
@@ -201,7 +211,7 @@ export async function repair(
 			moved++;
 		} else if (!fit.full) {
 			const near = marks
-				.filter((t) => t > prev && t < next && t !== here && Math.abs(t - here) <= 3)
+				.filter((t) => t > prev && t < next && t < bound && t !== here && Math.abs(t - here) <= 3)
 				.sort((a, b) => Math.abs(a - here) - Math.abs(b - here));
 			const all = await fits(i, near);
 			const k = all.findIndex((f) => f?.full);
@@ -215,7 +225,7 @@ export async function repair(
 		if (fit?.full && fit.cost >= 1) {
 			const placed = out[i] ?? here;
 			const near = marks.filter(
-				(t) => t > prev && t < next && t !== placed && Math.abs(t - placed) <= 3,
+				(t) => t > prev && t < next && t < bound && t !== placed && Math.abs(t - placed) <= 3,
 			);
 			let best = fit.cost;
 			(await fits(i, near)).forEach((f, n) => {
@@ -228,4 +238,20 @@ export async function repair(
 		}
 	}
 	return { at: out, missed, moved };
+}
+
+// The starts that a person checked by ear (key to time), as item index to time.
+export function earTimes(keys: string[], heard: Record<string, number>): Map<number, number> {
+	const out = new Map<number, number>();
+	for (const [key, time] of Object.entries(heard)) {
+		const i = keys.indexOf(key);
+		if (i === -1) throw new Error(`the time heard by ear for ${key}: no such item`);
+		out.set(i, time);
+	}
+	const sorted = [...out].sort((a, b) => a[0] - b[0]);
+	sorted.forEach(([i, time], n) => {
+		if (n > 0 && time <= (sorted[n - 1]?.[1] ?? 0))
+			throw new Error(`the time heard by ear for ${keys[i]} is out of order`);
+	});
+	return out;
 }

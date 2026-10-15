@@ -14,7 +14,7 @@ import {
 	sentences,
 	titleLength,
 } from "./audio-timing/place";
-import { repair } from "./audio-timing/verify";
+import { earTimes, repair } from "./audio-timing/verify";
 
 const API = "https://api.urantia.dev";
 const CDN = "https://cdn.urantia.dev/audio/eng/papers";
@@ -27,6 +27,12 @@ const PUBLISH_PATH = join(
 );
 
 const HEAR = join(import.meta.dir, "audio-timing/hear.py");
+// Starts that a person checked by ear, for items the speech model cannot confirm: paper id to key to time.
+const BY_EAR: Record<string, Record<string, number>> = JSON.parse(
+	readFileSync(join(import.meta.dir, "audio-timing/by-ear.json"), "utf-8"),
+);
+// The maps of the papers that fail, with the missed keys, for a check by ear.
+const UNCONFIRMED_PATH = join(import.meta.dir, "../data/paper-audio-timing-unconfirmed.json");
 
 type Paragraph = {
 	standardReferenceId: string;
@@ -181,9 +187,15 @@ async function one(id: string) {
 		placed.starts.map((s) => s.at),
 		short,
 		(ats, before) => hear(path, ats, before),
+		20,
+		earTimes(
+			items.map((item) => item.key),
+			BY_EAR[id] ?? {},
+		),
 	);
 	const ok = heard.missed.length === 0;
 	let withSentences = 0;
+	let last = Number.NEGATIVE_INFINITY;
 	const starts = placed.starts.map((s, i) => {
 		const at = heard.at[i] ?? s.at;
 		const next = heard.at[i + 1];
@@ -191,7 +203,8 @@ async function one(id: string) {
 		const to = next === undefined ? total : (short.find((g) => g.end === next)?.start ?? next);
 		const text = texts.get(s.key);
 		const parts = text ? placeSentences(sentences(text), at, to, gaps) : null;
-		const from = leadIn(at, short);
+		const from = leadIn(at, short, last);
+		last = from;
 		if (!parts) return { key: s.key, at: from };
 		withSentences++;
 		return { key: s.key, at: from, sentences: [from, ...parts.slice(1)] };
@@ -199,6 +212,7 @@ async function one(id: string) {
 	return {
 		id,
 		ok,
+		missedKeys: heard.missed.map((i) => items[i]?.key ?? ""),
 		worst: placed.worst,
 		offset: placed.offset,
 		moved: heard.moved,
@@ -221,6 +235,8 @@ const some = process.argv.slice(2);
 const ids = some.length ? some : Array.from({ length: 197 }, (_, i) => String(i));
 const keep = some.length && existsSync(OUTPUT_PATH);
 const out: Record<string, unknown> = keep ? JSON.parse(readFileSync(OUTPUT_PATH, "utf-8")) : {};
+const unconfirmed: Record<string, unknown> =
+	keep && existsSync(UNCONFIRMED_PATH) ? JSON.parse(readFileSync(UNCONFIRMED_PATH, "utf-8")) : {};
 const report: string[] =
 	keep && existsSync(REPORT_PATH)
 		? readFileSync(REPORT_PATH, "utf-8")
@@ -229,9 +245,11 @@ const report: string[] =
 		: [];
 for (const id of ids) {
 	delete out[id];
+	delete unconfirmed[id];
 	try {
 		const r = await one(id);
 		if (r.ok && "value" in r) out[id] = { "tts-1-hd": { nova: r.value } };
+		if (!r.ok && "value" in r) unconfirmed[id] = { missed: r.missedKeys, nova: r.value };
 		const line =
 			"value" in r
 				? `paper ${id}: ${r.ok ? "PASS" : `FAIL missed ${(r.missed ?? []).slice(0, 5).join(" | ")}`} moved ${r.moved} worst ${r.worst}s offset ${r.offset}s items ${r.items} sentences ${r.withSentences}/${r.paras}`
@@ -244,6 +262,7 @@ for (const id of ids) {
 	}
 }
 writeFileSync(OUTPUT_PATH, JSON.stringify(out));
+writeFileSync(UNCONFIRMED_PATH, JSON.stringify(unconfirmed));
 const order = (line: string) => Number(line.match(/^paper (\d+):/)?.[1] ?? 999);
 writeFileSync(REPORT_PATH, `${report.sort((a, b) => order(a) - order(b)).join("\n")}\n`);
 if (existsSync(join(PUBLISH_PATH, ".."))) writeFileSync(PUBLISH_PATH, JSON.stringify(out));

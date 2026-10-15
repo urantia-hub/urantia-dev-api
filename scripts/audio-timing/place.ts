@@ -170,8 +170,15 @@ export function sentences(text: string): string[] {
  * A start moved back into the pause that ends at it, by up to `lead` seconds. A soft first word ("The")
  * begins before the pause end that the detector finds, and a seek in an MP3 can land a little late.
  */
-export function leadIn(at: number, pauses: Pause[], lead = 0.3): number {
+export function leadIn(
+	at: number,
+	pauses: Pause[],
+	after = Number.NEGATIVE_INFINITY,
+	lead = 0.3,
+): number {
 	const pause = pauses.find((p) => Math.abs(p.end - at) < 0.01);
 	if (!pause) return at;
-	return Math.round(Math.max(pause.start, at - lead) * 1000) / 1000;
+	// It stays 50 ms after the start before it, and never moves later than `at`.
+	const from = Math.min(at, Math.max(pause.start, at - lead, after + 0.05));
+	return Math.round(from * 1000) / 1000;
 }
