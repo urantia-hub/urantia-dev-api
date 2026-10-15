@@ -83,11 +83,7 @@ async function fetchParagraphEmbeddings(): Promise<{ ids: string[]; vectors: Flo
 		vectors.push(parseVector(r.v));
 	}
 	console.log(
-		`  Loaded ${ids.length} vectors (${(
-			(ids.length * DIMS * 4) /
-			1024 /
-			1024
-		).toFixed(0)} MB)`,
+		`  Loaded ${ids.length} vectors (${((ids.length * DIMS * 4) / 1024 / 1024).toFixed(0)} MB)`,
 	);
 	return { ids, vectors };
 }

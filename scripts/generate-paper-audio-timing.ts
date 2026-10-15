@@ -7,6 +7,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import {
 	type Item,
+	leadIn,
 	type Pause,
 	place,
 	placeSentences,
@@ -99,8 +100,9 @@ const lines = (async function* () {
 	}
 })();
 
-async function hear(path: string, ats: number[]): Promise<string[]> {
-	hearer.stdin.write(`${JSON.stringify({ path, ats })}\n`);
+// The words in the seconds after each time, or with `before`, in the seconds before it.
+async function hear(path: string, ats: number[], before = false): Promise<string[]> {
+	hearer.stdin.write(`${JSON.stringify({ path, ats, before })}\n`);
 	hearer.stdin.flush();
 	const { value, done } = await lines.next();
 	if (done) throw new Error("the speech model stopped");
@@ -178,7 +180,7 @@ async function one(id: string) {
 		items.map((item) => item.text ?? ""),
 		placed.starts.map((s) => s.at),
 		short,
-		(ats) => hear(path, ats),
+		(ats, before) => hear(path, ats, before),
 	);
 	const ok = heard.missed.length === 0;
 	let withSentences = 0;
@@ -189,9 +191,10 @@ async function one(id: string) {
 		const to = next === undefined ? total : (short.find((g) => g.end === next)?.start ?? next);
 		const text = texts.get(s.key);
 		const parts = text ? placeSentences(sentences(text), at, to, gaps) : null;
-		if (!parts) return { key: s.key, at };
+		const from = leadIn(at, short);
+		if (!parts) return { key: s.key, at: from };
 		withSentences++;
-		return { key: s.key, at, sentences: parts };
+		return { key: s.key, at: from, sentences: [from, ...parts.slice(1)] };
 	});
 	return {
 		id,

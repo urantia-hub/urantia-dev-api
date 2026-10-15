@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import Anthropic from "@anthropic-ai/sdk";
 
@@ -71,9 +71,7 @@ console.log(
 let glossary: Glossary = {};
 if (existsSync(OUTPUT_PATH)) {
 	glossary = JSON.parse(readFileSync(OUTPUT_PATH, "utf-8"));
-	console.log(
-		`Resuming: ${Object.keys(glossary).length} entries already in glossary`,
-	);
+	console.log(`Resuming: ${Object.keys(glossary).length} entries already in glossary`);
 }
 
 const BATCH_SIZE = 10; // Smaller batches since each entity has more context
@@ -129,8 +127,7 @@ Respond with ONLY valid JSON — no markdown, no explanation. Format:
 		],
 	});
 
-	const rawText =
-		response.content[0]?.type === "text" ? response.content[0].text : "";
+	const rawText = response.content[0]?.type === "text" ? response.content[0].text : "";
 	// Strip markdown code fences if present
 	const text = rawText.replace(/^```(?:json)?\s*\n?/m, "").replace(/\n?```\s*$/m, "");
 
@@ -183,9 +180,7 @@ Respond with ONLY valid JSON — no markdown, no explanation. Format:
 	}
 }
 
-async function processNoCitationBatch(
-	batch: EntityNoCitation[],
-): Promise<Glossary> {
+async function processNoCitationBatch(batch: EntityNoCitation[]): Promise<Glossary> {
 	const entitiesContext = batch
 		.map(
 			(e, i) =>
@@ -220,8 +215,7 @@ Respond with ONLY valid JSON — no markdown, no explanation.
 		],
 	});
 
-	const text =
-		response.content[0]?.type === "text" ? response.content[0].text : "";
+	const text = response.content[0]?.type === "text" ? response.content[0].text : "";
 
 	try {
 		const parsed = JSON.parse(text);
@@ -277,9 +271,7 @@ function saveGlossary() {
 }
 
 async function main() {
-	const unprocessed = pairsData.entities.filter(
-		(e) => !(e.entityName in glossary),
-	);
+	const unprocessed = pairsData.entities.filter((e) => !(e.entityName in glossary));
 	console.log(`\n--- Processing ${unprocessed.length} entities ---`);
 
 	for (let i = 0; i < unprocessed.length; i += BATCH_SIZE) {
@@ -295,19 +287,13 @@ async function main() {
 		saveGlossary();
 	}
 
-	const unprocessedNoCitation = pairsData.noCitations.filter(
-		(e) => !(e.entityName in glossary),
-	);
+	const unprocessedNoCitation = pairsData.noCitations.filter((e) => !(e.entityName in glossary));
 	if (unprocessedNoCitation.length > 0) {
-		console.log(
-			`\n--- Processing ${unprocessedNoCitation.length} no-citation entities ---`,
-		);
+		console.log(`\n--- Processing ${unprocessedNoCitation.length} no-citation entities ---`);
 		for (let i = 0; i < unprocessedNoCitation.length; i += BATCH_SIZE) {
 			const batch = unprocessedNoCitation.slice(i, i + BATCH_SIZE);
 			const batchNum = Math.floor(i / BATCH_SIZE) + 1;
-			const totalBatches = Math.ceil(
-				unprocessedNoCitation.length / BATCH_SIZE,
-			);
+			const totalBatches = Math.ceil(unprocessedNoCitation.length / BATCH_SIZE);
 			console.log(
 				`  Batch ${batchNum}/${totalBatches}: ${batch.map((b) => b.entityName).join(", ")}`,
 			);
@@ -321,15 +307,9 @@ async function main() {
 	const entries = Object.values(glossary);
 	const high = entries.filter((e) => e.confidence === "high").length;
 	const medium = entries.filter((e) => e.confidence === "medium").length;
-	const needsManual = entries.filter(
-		(e) => e.confidence === "needs_manual",
-	).length;
-	const identical = entries.filter(
-		(e) => e.foundation === e.urantia_dev,
-	).length;
-	const different = entries.filter(
-		(e) => e.foundation !== e.urantia_dev,
-	).length;
+	const needsManual = entries.filter((e) => e.confidence === "needs_manual").length;
+	const identical = entries.filter((e) => e.foundation === e.urantia_dev).length;
+	const different = entries.filter((e) => e.foundation !== e.urantia_dev).length;
 
 	console.log(`\n--- Glossary V2 Complete ---`);
 	console.log(`  Total entries:     ${entries.length}`);

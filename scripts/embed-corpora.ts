@@ -145,7 +145,9 @@ async function buildChunks() {
 				target: bibleChunks.id,
 				set: { text: sql`excluded.text` },
 			});
-		console.log(`  Inserted chunks ${i + 1}–${Math.min(i + 500, chunkRows.length)} / ${chunkRows.length}`);
+		console.log(
+			`  Inserted chunks ${i + 1}–${Math.min(i + 500, chunkRows.length)} / ${chunkRows.length}`,
+		);
 	}
 
 	// Bulk-update bible_verses.chunkId by joining against a values table.
@@ -205,7 +207,9 @@ async function embedBibleChunks() {
 	const pending = await db
 		.select({ id: bibleChunks.id, text: bibleChunks.text })
 		.from(bibleChunks)
-		.where(sql`embedding IS NULL OR embedding_model IS NULL OR embedding_model <> ${EMBEDDING_MODEL}`);
+		.where(
+			sql`embedding IS NULL OR embedding_model IS NULL OR embedding_model <> ${EMBEDDING_MODEL}`,
+		);
 
 	console.log(`  ${pending.length} chunks need embedding`);
 	if (pending.length === 0) return;

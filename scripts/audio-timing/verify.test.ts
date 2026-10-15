@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import type { Pause } from "./place";
-import { heardMatches, matchCost, repair } from "./verify";
+import { endCost, heardMatches, matchCost, repair } from "./verify";
 
 describe("the words heard at a start against the text", () => {
 	it("takes a near spelling of a name", () => {
@@ -64,16 +64,24 @@ describe("the words heard at a start against the text", () => {
 	});
 });
 
-// A fake voice: at each true start it says the words of that item, elsewhere other words.
+// A fake voice: at each true start it says the words of that item, and before it the end of the item
+// before. Elsewhere it says other words.
 function voice(truth: number[], texts: string[]) {
 	const asked: number[] = [];
-	const hear = async (ats: number[]) =>
+	const hear = async (ats: number[], before = false) =>
 		ats.map((t) => {
 			asked.push(t);
 			const i = truth.findIndex((s) => Math.abs(s - t) < 0.01);
-			return i === -1 ? "something else entirely" : (texts[i] ?? "");
+			if (i === -1) return "something else entirely";
+			return (before ? texts[i - 1] : texts[i]) ?? "";
 		});
 	return { hear, asked };
+}
+
+// A fake voice from what it says after each time, and before it.
+function sayer(after: Record<number, string>, before: Record<number, string>) {
+	return async (ats: number[], back = false) =>
+		ats.map((t) => (back ? before[t] : after[t]) ?? "something else entirely");
 }
 
 const ends = (ats: number[]): Pause[] => ats.map((t) => ({ start: t - 0.6, end: t }));
@@ -126,6 +134,21 @@ describe("the cost of a match: the words dropped to make it", () => {
 		expect(matchCost("the formation of all matter", "The Evangels of Light")).toBeNull();
 	});
 
+	it("leaves out a number said in words, with its 'and' and 'million'", () => {
+		expect(
+			matchCost(
+				"Two hundred and eighty million years ago, the continents had largely emerged.",
+				"280,000,000 years ago the continents had largely emerged from the second",
+			),
+		).toBe(0);
+		expect(
+			matchCost(
+				"Four billion, 500 million years ago, the enormous Angona system",
+				"4,500,000,000 years ago the enormous Angona system began its approach",
+			),
+		).toBe(0);
+	});
+
 	it("is 0 for the list number alone at the start of a list item, and null for another number", () => {
 		expect(matchCost("Number 6.", "6. The Recorders. These personalities are")).toBe(0);
 		expect(matchCost("Number six.", "6. The Recorders.")).toBe(0);
@@ -142,13 +165,10 @@ describe("the refine of a start that matched only with dropped words", () => {
 
 	it("moves a late start back to the pause before the dropped words", async () => {
 		// The voice says "Presented by" at 10 and pauses; the start sits at 11.2, after "by".
-		const said: Record<number, string> = {
-			0: texts[0],
-			10: texts[1],
-			11.2: "a Divine Counselor of Uversa",
-			20: texts[2],
-		};
-		const hear = async (ats: number[]) => ats.map((t) => said[t] ?? "something else entirely");
+		const hear = sayer(
+			{ 0: texts[0], 10: texts[1], 11.2: "a Divine Counselor of Uversa", 20: texts[2] },
+			{ 10: texts[0], 11.2: "words here. Presented by", 20: texts[1] },
+		);
 		const pauses: Pause[] = [10, 11.2, 20].map((t) => ({ start: t - 0.3, end: t }));
 		const fixed = await repair(texts, [0, 11.2, 20], pauses, hear);
 		expect(fixed.at).toEqual([0, 10, 20]);
@@ -156,15 +176,91 @@ describe("the refine of a start that matched only with dropped words", () => {
 	});
 
 	it("moves an early start on to the pause after the words of the item before", async () => {
-		const said: Record<number, string> = {
-			0: texts[0],
-			10: texts[1],
-			18.4: `of Uversa. ${texts[2]}`,
-			20: texts[2],
-		};
-		const hear = async (ats: number[]) => ats.map((t) => said[t] ?? "something else entirely");
+		const hear = sayer(
+			{ 0: texts[0], 10: texts[1], 18.4: `of Uversa. ${texts[2]}`, 20: texts[2] },
+			{ 10: texts[0], 18.4: "a Divine Counselor", 20: texts[1] },
+		);
 		const pauses: Pause[] = [10, 18.4, 20].map((t) => ({ start: t - 0.3, end: t }));
 		const fixed = await repair(texts, [0, 10, 18.4], pauses, hear);
 		expect(fixed.at).toEqual([0, 10, 20]);
+	});
+});
+
+describe("the words heard just before a start against the end of the item before", () => {
+	const text = "It is of so little practical significance to the mortal mind.";
+
+	it("is 0 when the item before ends there, and takes a word of the next item heard at the end", () => {
+		expect(endCost("of little practical significance to the mortal mind.", text)).toBe(0);
+		expect(endCost("significance to the mortal mind. Your", text)).not.toBeNull();
+		expect(endCost("Paper 15. The Seven Superuniverses", "The Seven Superuniverses")).toBe(0);
+	});
+
+	it("refuses an end where the last words of the item before are still to come", () => {
+		expect(endCost("of so little practical significance to the", text)).toBeNull();
+		expect(
+			endCost(
+				"And on, into the far away and inconceivable stretches of absolutes.",
+				"and on into the faraway and inconceivable stretches of absolute infinity.",
+			),
+		).toBeNull();
+	});
+
+	it("takes a misheard name at the end", () => {
+		expect(
+			endCost("Period, the Brachia Pot Age.", "The Coral Period—The Brachiopod Age"),
+		).not.toBeNull();
+		expect(endCost("Super-universes 7, Major Sector 70.", "Major sectors 70")).not.toBeNull();
+		expect(
+			endCost("I am as tri-union as sevenfold.", "The I AM as Triune and as Sevenfold"),
+		).not.toBeNull();
+	});
+
+	it("leaves out the numbers, as at a start", () => {
+		expect(
+			endCost(
+				"by singing, all together, the 118th Psalm.",
+				"by singing, all together, the one hundred and eighteenth Psalm.",
+			),
+		).toBe(0);
+	});
+});
+
+describe("the end check at each start", () => {
+	const texts = [
+		"Alpha title words",
+		"Bravo begins and ends with the mortal mind.",
+		"Your planet is a member",
+	];
+
+	it("moves a start that sits in the last words of the item before, though its own words match", async () => {
+		// The model drops "the mortal mind." at the start of its window, so the start alone looks right.
+		const hear = sayer(
+			{ 0: texts[0], 10: texts[1], 18.5: texts[2], 20: texts[2] },
+			{ 10: texts[0], 18.5: "Bravo begins and ends with", 20: texts[1] },
+		);
+		const pauses: Pause[] = [10, 18.5, 20].map((t) => ({ start: t - 0.3, end: t }));
+		const fixed = await repair(texts, [0, 10, 18.5], pauses, hear);
+		expect(fixed).toEqual({ at: [0, 10, 20], missed: [], moved: 1 });
+	});
+
+	it("keeps a start whose words match when no pause near also has the end before it", async () => {
+		// The model can drop or mishear the last words before a start: that alone never fails a paper.
+		const hear = sayer(
+			{ 0: texts[0], 10: texts[1], 18.5: texts[2] },
+			{ 10: texts[0], 18.5: "Bravo begins and ends with" },
+		);
+		const pauses: Pause[] = [10, 18.5].map((t) => ({ start: t - 0.3, end: t }));
+		const fixed = await repair(texts, [0, 10, 18.5], pauses, hear);
+		expect(fixed).toEqual({ at: [0, 10, 18.5], missed: [], moved: 0 });
+	});
+
+	it("prefers, for a start that moves, the pause that also has the end before it", async () => {
+		const hear = sayer(
+			{ 0: texts[0], 10: texts[1], 18.5: texts[2], 20: texts[2] },
+			{ 10: texts[0], 18.5: "Bravo begins and ends with", 20: texts[1] },
+		);
+		const pauses: Pause[] = [10, 15, 18.5, 20].map((t) => ({ start: t - 0.3, end: t }));
+		const fixed = await repair(texts, [0, 10, 15], pauses, hear);
+		expect(fixed).toEqual({ at: [0, 10, 20], missed: [], moved: 1 });
 	});
 });
