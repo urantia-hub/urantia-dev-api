@@ -35,6 +35,7 @@ import { scriptureInsightsRoute } from "./routes/scripture-insights.ts";
 import { scripturesRoute } from "./routes/scriptures.ts";
 import { searchRoute } from "./routes/search.ts";
 import { sendEmailHookRoute } from "./routes/send-email-hook.ts";
+import { streakRoute } from "./routes/streak.ts";
 import { tocRoute } from "./routes/toc.ts";
 import { toolsRoute } from "./routes/tools.ts";
 import type { Env } from "./types/env.ts";
@@ -191,6 +192,7 @@ app.route("/admin", adminRoute);
 // Authenticated routes
 // Before /me: the reader's notice settings are routes of their own.
 app.route("/", noticesRoute);
+app.route("/", streakRoute);
 app.route("/me", meRoute);
 app.route("/auth", authRoute);
 

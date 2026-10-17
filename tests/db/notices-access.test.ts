@@ -126,7 +126,12 @@ suite("the notice settings, by the app of the token", () => {
 		const { data } = (await (await call(ours, "GET", "/me/notices")).json()) as {
 			data: { settings: { email: Record<string, boolean>; zone: string } };
 		};
-		expect(data.settings.email).toEqual({ daily: true, reminder: false, releases: false });
+		expect(data.settings.email).toEqual({
+			daily: true,
+			reminder: false,
+			releases: false,
+			streak: false,
+		});
 	});
 
 	it("gives each app its own preferences: another app cannot read or change the Hub's", async () => {
