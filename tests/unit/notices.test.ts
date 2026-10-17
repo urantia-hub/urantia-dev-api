@@ -11,7 +11,7 @@ import {
 } from "../../src/lib/notices.ts";
 
 const NOW = 1_791_000_000_000;
-const OFF = { daily: false, reminder: false, releases: false };
+const OFF = { daily: false, reminder: false, releases: false, streak: false };
 const ME = "00000000-0000-4000-8000-0000000000a1";
 const device = {
 	endpoint: "https://fcm.googleapis.com/fcm/send/abc123",
@@ -73,7 +73,7 @@ describe("a change of the settings", () => {
 	it("changes only the fields that it names", () => {
 		const was = mergeSettings(null, { email: { daily: true }, hour: 21, zone: "Asia/Kolkata" }, 1);
 		expect(mergeSettings(was, { email: { releases: true }, push: { daily: true } }, NOW)).toEqual({
-			email: { daily: true, reminder: false, releases: true },
+			email: { daily: true, reminder: false, releases: true, streak: false },
 			push: { ...OFF, daily: true },
 			hour: 21,
 			zone: "Asia/Kolkata",
@@ -221,6 +221,9 @@ describe("the readers that the Hub gets", () => {
 				at: 1,
 			},
 			place: { paperId: "2", sectionId: "1", at: 777 },
+			streak: null,
+			sectionDays: [],
+			lastSection: null,
 			devices: [device, second].map(({ endpoint, p256dh, auth }) => ({
 				endpoint,
 				p256dh,
@@ -228,6 +231,29 @@ describe("the readers that the Hub gets", () => {
 				kinds: [],
 			})),
 		});
+	});
+
+	it("carry the streak settings and the recent finished sections", () => {
+		const streak = { on: true, goal: 1, hour: 23, zone: "America/Chicago" };
+		const sectionDays = [{ day: "2026-10-16", count: 2 }];
+		const [reader] = dueReaders([
+			row({
+				preferences: { ...settings({ push: { streak: true } }), "hub.streak": streak },
+				devices: [device],
+				sectionDays,
+				lastSection: { day: "2026-10-16", paperId: "3", sectionId: "4" },
+			}),
+		]);
+		expect(reader?.settings?.push.streak).toBe(true);
+		expect(reader?.streak).toEqual(streak);
+		expect(reader?.sectionDays).toEqual(sectionDays);
+		expect(reader?.lastSection).toEqual({ day: "2026-10-16", paperId: "3", sectionId: "4" });
+	});
+
+	it("never send the streak by email", () => {
+		expect(mergeSettings(null, { email: { streak: true } }, NOW)).toBeNull();
+		expect(mergeSettings(null, { email: { streak: false } }, NOW)?.email.streak).toBe(false);
+		expect(mergeSettings(null, { push: { streak: true } }, NOW)?.push.streak).toBe(true);
 	});
 
 	it("carry no device of a reader with no push on", () => {

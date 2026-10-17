@@ -151,8 +151,8 @@ describe("the reader's notice settings", () => {
 			data: { settings: unknown };
 		};
 		expect(data.settings).toEqual({
-			email: { daily: true, reminder: false, releases: false },
-			push: { daily: false, reminder: false, releases: false },
+			email: { daily: true, reminder: false, releases: false, streak: false },
+			push: { daily: false, reminder: false, releases: false, streak: false },
 			hour: 7,
 			zone: "Asia/Kolkata",
 			asked: false,
@@ -288,7 +288,7 @@ describe("the routes for the Hub's server", () => {
 		const settings = world.state.preferences.get(ME)?.[NOTICES_KEY] as {
 			email: Record<string, boolean>;
 		};
-		expect(settings.email).toEqual({ daily: false, reminder: false, releases: true });
+		expect(settings.email).toEqual({ daily: false, reminder: false, releases: true, streak: false });
 		expect(
 			(await off({ userId: "00000000-0000-4000-8000-0000000000b2", kind: "daily" })).status,
 		).toBe(204);

@@ -1,7 +1,13 @@
-import { and, desc, eq, inArray, lt, notInArray, sql } from "drizzle-orm";
+import { and, desc, eq, gte, inArray, lt, notInArray, sql } from "drizzle-orm";
 import type { getDb } from "../db/client.ts";
-import { noticeLog, pushSubscriptions, userPreferences, users } from "../db/schema.ts";
-import { NOTICES_KEY, type NoticeStore, type ReaderRow } from "./notices.ts";
+import { noticeLog, pushSubscriptions, sectionDays, userPreferences, users } from "../db/schema.ts";
+import {
+	NOTICES_KEY,
+	type NoticeStore,
+	type ReaderRow,
+	STREAK_DAYS,
+	STREAK_KEY,
+} from "./notices.ts";
 
 type Db = ReturnType<typeof getDb>["db"];
 
@@ -95,11 +101,58 @@ export function createNoticeStore(db: Db): NoticeStore & { prune(before: Date): 
 				.from(users)
 				.leftJoin(userPreferences, eq(userPreferences.userId, users.id))
 				.where(inArray(users.id, ids));
+			// The finished sections of the recent days, for each reader who keeps a streak.
+			const keeping = rows
+				.filter((row) => (row.preferences as Record<string, unknown> | null)?.[STREAK_KEY])
+				.map((row) => row.userId);
+			const since = new Date(Date.now() - (STREAK_DAYS + 1) * 86_400_000)
+				.toISOString()
+				.slice(0, 10);
+			const counts =
+				keeping.length === 0
+					? []
+					: await db
+							.select({
+								userId: sectionDays.userId,
+								day: sectionDays.day,
+								count: sql<number>`count(*)::int`,
+							})
+							.from(sectionDays)
+							.where(and(inArray(sectionDays.userId, keeping), gte(sectionDays.day, since)))
+							.groupBy(sectionDays.userId, sectionDays.day);
+			// The last finished section of each such reader: the newest day, and in it the furthest one in the book.
+			const lasts =
+				keeping.length === 0
+					? []
+					: await db
+							.selectDistinctOn([sectionDays.userId], {
+								userId: sectionDays.userId,
+								day: sectionDays.day,
+								paperId: sectionDays.paperId,
+								sectionId: sectionDays.sectionId,
+							})
+							.from(sectionDays)
+							.where(inArray(sectionDays.userId, keeping))
+							.orderBy(
+								sectionDays.userId,
+								desc(sectionDays.day),
+								sql`${sectionDays.paperId}::int desc`,
+								sql`${sectionDays.sectionId}::int desc`,
+							);
 			return rows.map(
 				(row): ReaderRow => ({
 					userId: row.userId,
 					email: row.email,
 					preferences: (row.preferences as Record<string, unknown>) ?? {},
+					sectionDays: counts
+						.filter((count) => count.userId === row.userId)
+						.map(({ day, count }) => ({ day, count })),
+					lastSection: (() => {
+						const last = lasts.find((item) => item.userId === row.userId);
+						return last
+							? { day: last.day, paperId: last.paperId, sectionId: last.sectionId }
+							: null;
+					})(),
 					devices: devices.filter((device) => device.userId === row.userId),
 				}),
 			);

@@ -43,6 +43,7 @@ ALTER TABLE refresh_tokens           ENABLE ROW LEVEL SECURITY;
 ALTER TABLE auth_codes               ENABLE ROW LEVEL SECURITY;
 ALTER TABLE push_subscriptions       ENABLE ROW LEVEL SECURITY;
 ALTER TABLE notice_log               ENABLE ROW LEVEL SECURITY;
+ALTER TABLE section_days             ENABLE ROW LEVEL SECURITY;
 
 -- Public feedback (holds optional contact details)
 ALTER TABLE feedback                 ENABLE ROW LEVEL SECURITY;

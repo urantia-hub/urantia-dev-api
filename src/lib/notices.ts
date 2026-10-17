@@ -1,7 +1,8 @@
 // The notices of UrantiaHub: the reader's settings, the devices, and the log of what was sent.
 // The API only stores them. UrantiaHub decides what to send and sends it.
 
-export const NOTICE_KINDS = ["daily", "reminder", "releases"] as const;
+// `streak` goes as a push only, at the hour of the streak (`hub.streak.hour`).
+export const NOTICE_KINDS = ["daily", "reminder", "releases", "streak"] as const;
 export type NoticeKind = (typeof NOTICE_KINDS)[number];
 export const NOTICE_CHANNELS = ["email", "push"] as const;
 export type NoticeChannel = (typeof NOTICE_CHANNELS)[number];
@@ -9,6 +10,9 @@ export type NoticeChannel = (typeof NOTICE_CHANNELS)[number];
 // The settings are one value in the reader's preferences, beside the place and the reader settings.
 export const NOTICES_KEY = "hub.notices";
 const PLACE_KEY = "hub.place";
+export const STREAK_KEY = "hub.streak";
+// The reading days that the job gets for each reader who keeps a streak.
+export const STREAK_DAYS = 21;
 export const DEFAULT_HOUR = 7;
 export const MAX_DEVICES = 10;
 const MAX_CLAIMS = 500;
@@ -52,6 +56,7 @@ export function parseSettings(value: unknown): NoticeSettings | null {
 			daily: of.daily === true,
 			reminder: of.reminder === true,
 			releases: of.releases === true,
+			streak: of.streak === true,
 		};
 	};
 	return {
@@ -75,8 +80,8 @@ export function mergeSettings(
 	const next: NoticeSettings = stored
 		? { ...stored, email: { ...stored.email }, push: { ...stored.push } }
 		: {
-				email: { daily: false, reminder: false, releases: false },
-				push: { daily: false, reminder: false, releases: false },
+				email: { daily: false, reminder: false, releases: false, streak: false },
+				push: { daily: false, reminder: false, releases: false, streak: false },
 				hour: DEFAULT_HOUR,
 				zone: "UTC",
 				asked: false,
@@ -88,6 +93,7 @@ export function mergeSettings(
 		if (!isRecord(given)) return null;
 		for (const [kind, on] of Object.entries(given)) {
 			if (!isKind(kind) || typeof on !== "boolean") return null;
+			if (channel === "email" && kind === "streak" && on) return null;
 			next[channel][kind] = on;
 		}
 	}
@@ -186,6 +192,10 @@ export type ReaderRow = {
 	userId: string;
 	email: string | null;
 	preferences: Record<string, unknown>;
+	// The count of finished sections of each recent reading day, for a reader who keeps a streak.
+	sectionDays?: Array<{ day: string; count: number }>;
+	// The last section that the reader finished, so the push can name the next one.
+	lastSection?: { day: string; paperId: string; sectionId: string } | null;
 	devices: Array<{ endpoint: string; p256dh: string; auth: string; kinds: string[] }>;
 };
 export type DueReader = {
@@ -193,6 +203,10 @@ export type DueReader = {
 	email: string | null;
 	settings: NoticeSettings | null;
 	place: unknown;
+	// The streak settings of the reader as stored (`hub.streak`), and the recent finished sections.
+	streak: unknown;
+	sectionDays: Array<{ day: string; count: number }>;
+	lastSection: { day: string; paperId: string; sectionId: string } | null;
 	devices: Array<{ endpoint: string; p256dh: string; auth: string; kinds: NoticeKind[] }>;
 };
 
@@ -211,6 +225,9 @@ export function dueReaders(rows: ReaderRow[]): DueReader[] {
 			email: row.email,
 			settings,
 			place: row.preferences[PLACE_KEY] ?? null,
+			streak: row.preferences[STREAK_KEY] ?? null,
+			sectionDays: row.sectionDays ?? [],
+			lastSection: row.lastSection ?? null,
 			devices: byPush
 				? row.devices.map(({ endpoint, p256dh, auth }) => ({ endpoint, p256dh, auth, kinds: [] }))
 				: [],
