@@ -17,6 +17,7 @@ describe("what a token of an app can reach", () => {
 		["/me/notes/abc", "notes"],
 		["/me/reading-progress", "reading-progress"],
 		["/me/preferences", "preferences"],
+		["/me/section-days", "reading-progress"],
 	])("%s needs the scope %s", (path, scope) => {
 		expect(appTokenProblem(path, [scope])).toBeNull();
 		expect(appTokenProblem(path, ["app-data"])).toContain(`"${scope}"`);
@@ -175,6 +176,7 @@ describe("the routes for our own apps only", () => {
 		expect(firstPartyOnly("/me/notices")).toBe(true);
 		expect(firstPartyOnly("/me/push-subscriptions")).toBe(true);
 		expect(firstPartyOnly("/me/push-subscriptions/x")).toBe(true);
+		expect(firstPartyOnly("/me/section-days")).toBe(true);
 		expect(firstPartyOnly("/me/preferences")).toBe(false);
 		expect(firstPartyOnly("/me/noticesx")).toBe(false);
 	});

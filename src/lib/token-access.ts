@@ -13,13 +13,15 @@ const ME_SCOPES: Array<[prefix: string, scope: string]> = [
 	// The notices of UrantiaHub are settings of the reader.
 	["/me/notices", "preferences"],
 	["/me/push-subscriptions", "preferences"],
+	// The finished sections of the Hub's streak are reading progress.
+	["/me/section-days", "reading-progress"],
 ];
 
 const isAt = (path: string, prefix: string) => path === prefix || path.startsWith(`${prefix}/`);
 
 // These parts of /me are for our own apps only. The scope is shared by all apps, and another app
 // with it must not turn on emails for a reader, add a device of its own, or read the settings.
-const FIRST_PARTY_ONLY = ["/me/notices", "/me/push-subscriptions"];
+const FIRST_PARTY_ONLY = ["/me/notices", "/me/push-subscriptions", "/me/section-days"];
 export const firstPartyOnly = (path: string): boolean =>
 	FIRST_PARTY_ONLY.some((prefix) => isAt(path, prefix));
 
