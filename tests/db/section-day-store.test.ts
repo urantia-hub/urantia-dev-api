@@ -80,13 +80,15 @@ suite("the section_days queries, on a real database", () => {
 			auth: "authSecret_012345",
 		});
 		await store.add(ME, [
-			row({ day: day(1) }),
+			row({ day: day(1), sectionId: "10" }),
 			row({ day: day(1), sectionId: "5" }),
-			row({ day: day(40) }),
+			row({ day: day(40), paperId: "100" }),
 		]);
 		const [reader] = dueReaders(await createNoticeStore(db as never).readers());
 		expect(reader?.userId).toBe(ME);
 		expect(reader?.streak).toEqual({ on: true, hour: 23 });
 		expect(reader?.sectionDays).toEqual([{ day: day(1), count: 2 }]);
+		// Section 10 is after section 5 in the book, though "10" is before "5" as text.
+		expect(reader?.lastSection).toEqual({ day: day(1), paperId: "3", sectionId: "10" });
 	});
 });

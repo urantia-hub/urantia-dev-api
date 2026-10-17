@@ -194,6 +194,8 @@ export type ReaderRow = {
 	preferences: Record<string, unknown>;
 	// The count of finished sections of each recent reading day, for a reader who keeps a streak.
 	sectionDays?: Array<{ day: string; count: number }>;
+	// The last section that the reader finished, so the push can name the next one.
+	lastSection?: { day: string; paperId: string; sectionId: string } | null;
 	devices: Array<{ endpoint: string; p256dh: string; auth: string; kinds: string[] }>;
 };
 export type DueReader = {
@@ -204,6 +206,7 @@ export type DueReader = {
 	// The streak settings of the reader as stored (`hub.streak`), and the recent finished sections.
 	streak: unknown;
 	sectionDays: Array<{ day: string; count: number }>;
+	lastSection: { day: string; paperId: string; sectionId: string } | null;
 	devices: Array<{ endpoint: string; p256dh: string; auth: string; kinds: NoticeKind[] }>;
 };
 
@@ -224,6 +227,7 @@ export function dueReaders(rows: ReaderRow[]): DueReader[] {
 			place: row.preferences[PLACE_KEY] ?? null,
 			streak: row.preferences[STREAK_KEY] ?? null,
 			sectionDays: row.sectionDays ?? [],
+			lastSection: row.lastSection ?? null,
 			devices: byPush
 				? row.devices.map(({ endpoint, p256dh, auth }) => ({ endpoint, p256dh, auth, kinds: [] }))
 				: [],
