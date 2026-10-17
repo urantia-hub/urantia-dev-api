@@ -1,5 +1,4 @@
-import { afterAll, beforeEach, expect, it } from "bun:test";
-import { describe } from "bun:test";
+import { afterAll, beforeEach, describe, expect, it } from "bun:test";
 import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
