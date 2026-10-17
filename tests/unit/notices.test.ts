@@ -223,6 +223,7 @@ describe("the readers that the Hub gets", () => {
 			place: { paperId: "2", sectionId: "1", at: 777 },
 			streak: null,
 			sectionDays: [],
+			lastSection: null,
 			devices: [device, second].map(({ endpoint, p256dh, auth }) => ({
 				endpoint,
 				p256dh,
@@ -240,11 +241,13 @@ describe("the readers that the Hub gets", () => {
 				preferences: { ...settings({ push: { streak: true } }), "hub.streak": streak },
 				devices: [device],
 				sectionDays,
+				lastSection: { day: "2026-10-16", paperId: "3", sectionId: "4" },
 			}),
 		]);
 		expect(reader?.settings?.push.streak).toBe(true);
 		expect(reader?.streak).toEqual(streak);
 		expect(reader?.sectionDays).toEqual(sectionDays);
+		expect(reader?.lastSection).toEqual({ day: "2026-10-16", paperId: "3", sectionId: "4" });
 	});
 
 	it("never send the streak by email", () => {

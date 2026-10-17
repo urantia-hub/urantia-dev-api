@@ -120,6 +120,25 @@ export function createNoticeStore(db: Db): NoticeStore & { prune(before: Date): 
 							.from(sectionDays)
 							.where(and(inArray(sectionDays.userId, keeping), gte(sectionDays.day, since)))
 							.groupBy(sectionDays.userId, sectionDays.day);
+			// The last finished section of each such reader: the newest day, and in it the furthest one in the book.
+			const lasts =
+				keeping.length === 0
+					? []
+					: await db
+							.selectDistinctOn([sectionDays.userId], {
+								userId: sectionDays.userId,
+								day: sectionDays.day,
+								paperId: sectionDays.paperId,
+								sectionId: sectionDays.sectionId,
+							})
+							.from(sectionDays)
+							.where(inArray(sectionDays.userId, keeping))
+							.orderBy(
+								sectionDays.userId,
+								desc(sectionDays.day),
+								sql`${sectionDays.paperId}::int desc`,
+								sql`${sectionDays.sectionId}::int desc`,
+							);
 			return rows.map(
 				(row): ReaderRow => ({
 					userId: row.userId,
@@ -128,6 +147,12 @@ export function createNoticeStore(db: Db): NoticeStore & { prune(before: Date): 
 					sectionDays: counts
 						.filter((count) => count.userId === row.userId)
 						.map(({ day, count }) => ({ day, count })),
+					lastSection: (() => {
+						const last = lasts.find((item) => item.userId === row.userId);
+						return last
+							? { day: last.day, paperId: last.paperId, sectionId: last.sectionId }
+							: null;
+					})(),
 					devices: devices.filter((device) => device.userId === row.userId),
 				}),
 			);
