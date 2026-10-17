@@ -254,6 +254,7 @@ describe("delete the account", () => {
 			"auth_codes",
 			"push_subscriptions",
 			"notice_log",
+			"section_days",
 		]);
 	});
 

@@ -13,6 +13,7 @@ export const READER_TABLES = [
 	"auth_codes",
 	"push_subscriptions",
 	"notice_log",
+	"section_days",
 ] as const;
 export type ReaderTable = (typeof READER_TABLES)[number];
 

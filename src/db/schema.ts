@@ -1,6 +1,7 @@
 import { sql } from "drizzle-orm";
 import {
 	customType,
+	date,
 	index,
 	integer,
 	jsonb as pgJsonb,
@@ -776,6 +777,27 @@ export const noticeLog = pgTable(
 	(t) => [
 		primaryKey({ columns: [t.userId, t.kind, t.key, t.channel] }),
 		index("notice_log_sent_at_idx").on(t.sentAt),
+	],
+).enableRLS();
+
+// --- section_days (the sections that a reader finished on each reading day, for the streak of UrantiaHub) ---
+// Created by scripts/setup-streaks.sql. The Hub decides when a section is finished and which day it is.
+export const sectionDays = pgTable(
+	"section_days",
+	{
+		userId: uuid("user_id")
+			.notNull()
+			.references(() => users.id, { onDelete: "cascade" }),
+		day: date("day", { mode: "string" }).notNull(),
+		paperId: text("paper_id").notNull(),
+		sectionId: text("section_id").notNull(),
+		// "read" or "heard". Heard wins when both.
+		how: text("how").notNull(),
+		at: timestamp("at").notNull().defaultNow(),
+	},
+	(t) => [
+		primaryKey({ columns: [t.userId, t.day, t.paperId, t.sectionId] }),
+		index("section_days_user_day_idx").on(t.userId, t.day),
 	],
 ).enableRLS();
 

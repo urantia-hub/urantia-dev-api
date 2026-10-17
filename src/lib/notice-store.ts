@@ -1,7 +1,13 @@
-import { and, desc, eq, inArray, lt, notInArray, sql } from "drizzle-orm";
+import { and, desc, eq, gte, inArray, lt, notInArray, sql } from "drizzle-orm";
 import type { getDb } from "../db/client.ts";
-import { noticeLog, pushSubscriptions, userPreferences, users } from "../db/schema.ts";
-import { NOTICES_KEY, type NoticeStore, type ReaderRow } from "./notices.ts";
+import { noticeLog, pushSubscriptions, sectionDays, userPreferences, users } from "../db/schema.ts";
+import {
+	NOTICES_KEY,
+	type NoticeStore,
+	type ReaderRow,
+	STREAK_DAYS,
+	STREAK_KEY,
+} from "./notices.ts";
 
 type Db = ReturnType<typeof getDb>["db"];
 
@@ -95,11 +101,33 @@ export function createNoticeStore(db: Db): NoticeStore & { prune(before: Date): 
 				.from(users)
 				.leftJoin(userPreferences, eq(userPreferences.userId, users.id))
 				.where(inArray(users.id, ids));
+			// The finished sections of the recent days, for each reader who keeps a streak.
+			const keeping = rows
+				.filter((row) => (row.preferences as Record<string, unknown> | null)?.[STREAK_KEY])
+				.map((row) => row.userId);
+			const since = new Date(Date.now() - (STREAK_DAYS + 1) * 86_400_000)
+				.toISOString()
+				.slice(0, 10);
+			const counts =
+				keeping.length === 0
+					? []
+					: await db
+							.select({
+								userId: sectionDays.userId,
+								day: sectionDays.day,
+								count: sql<number>`count(*)::int`,
+							})
+							.from(sectionDays)
+							.where(and(inArray(sectionDays.userId, keeping), gte(sectionDays.day, since)))
+							.groupBy(sectionDays.userId, sectionDays.day);
 			return rows.map(
 				(row): ReaderRow => ({
 					userId: row.userId,
 					email: row.email,
 					preferences: (row.preferences as Record<string, unknown>) ?? {},
+					sectionDays: counts
+						.filter((count) => count.userId === row.userId)
+						.map(({ day, count }) => ({ day, count })),
 					devices: devices.filter((device) => device.userId === row.userId),
 				}),
 			);
