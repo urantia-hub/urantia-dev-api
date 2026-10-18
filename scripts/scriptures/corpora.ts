@@ -17,6 +17,13 @@ export type Corpus = {
 	chunkBy: "size" | "division"; // "division": one chunk per chapter
 	refLevels: 1 | 2 | 3; // numbers in a full ref: "Dhp 183" 1, "BG 2.47" 2, "Epictetus 3.22.5" 3
 	notes: string | null; // how the text is numbered or selected, shown with the corpus
+	// "scripture": read as sacred by its tradition; "classic": a story, history, or teaching that is not
+	// read as scripture; "recorded": an oral tradition that an outside observer wrote down.
+	kind: "scripture" | "classic" | "recorded";
+	summary: string; // one plain sentence on what the text is (approved copy)
+	linked: boolean; // false when no page on the three link sites holds the text
+	divisionNames?: string[]; // names that stand for division 1, 2, ... in a ref ("1 Nephi 3:7")
+	divisionAliases?: Record<string, number>; // other spellings of a name, normalized, to its index
 };
 
 // Ordered by Paper 131 section, then the texts with no Paper 131 heading.
@@ -32,6 +39,9 @@ export const CORPORA: Corpus[] = [
 		urantiaSection: "131:1",
 		refPrefix: "DL",
 		slug: "diogenes-laertius-6",
+		kind: "classic",
+		summary: "The lives and sayings of Diogenes and the other Cynic philosophers.",
+		linked: true,
 		divisionLabel: "book",
 		unitLabel: "section",
 		chunkBy: "size",
@@ -51,6 +61,9 @@ export const CORPORA: Corpus[] = [
 		urantiaSection: "131:1",
 		refPrefix: "Epictetus",
 		slug: "epictetus-cynic",
+		kind: "classic",
+		summary: "Epictetus on the life and calling of a Cynic philosopher.",
+		linked: true,
 		divisionLabel: "book",
 		unitLabel: "section",
 		chunkBy: "size",
@@ -69,6 +82,9 @@ export const CORPORA: Corpus[] = [
 		urantiaSection: "131:3",
 		refPrefix: "Dhp",
 		slug: "dhammapada",
+		kind: "scripture",
+		summary: "A collection of the Buddha's sayings in verse.",
+		linked: true,
 		divisionLabel: "chapter",
 		unitLabel: "verse",
 		chunkBy: "size",
@@ -86,6 +102,9 @@ export const CORPORA: Corpus[] = [
 		urantiaSection: "131:4",
 		refPrefix: "BG",
 		slug: "bhagavad-gita",
+		kind: "scripture",
+		summary: "Krishna's teaching to the warrior Arjuna, from the Mahabharata.",
+		linked: true,
 		divisionLabel: "chapter",
 		unitLabel: "verse",
 		chunkBy: "size",
@@ -103,6 +122,9 @@ export const CORPORA: Corpus[] = [
 		urantiaSection: "131:7",
 		refPrefix: "Oracle",
 		slug: "shinto-oracles",
+		kind: "classic",
+		summary: "Oracles of the Shinto gods, from Aston's study of Shinto.",
+		linked: true,
 		divisionLabel: "collection",
 		unitLabel: "oracle",
 		chunkBy: "size",
@@ -121,6 +143,9 @@ export const CORPORA: Corpus[] = [
 		urantiaSection: "131:8",
 		refPrefix: "TTC",
 		slug: "tao-te-ching",
+		kind: "classic",
+		summary: "The short classic of the Tao, attributed to Laozi.",
+		linked: true,
 		divisionLabel: "chapter",
 		unitLabel: "paragraph",
 		chunkBy: "division",
@@ -138,6 +163,9 @@ export const CORPORA: Corpus[] = [
 		urantiaSection: "131:9",
 		refPrefix: "Analects",
 		slug: "analects",
+		kind: "classic",
+		summary: "The sayings of Confucius, recorded by his students.",
+		linked: true,
 		divisionLabel: "book",
 		unitLabel: "chapter",
 		chunkBy: "size",
@@ -155,6 +183,9 @@ export const CORPORA: Corpus[] = [
 		urantiaSection: null,
 		refPrefix: "Quran",
 		slug: "quran",
+		kind: "scripture",
+		summary: "The scripture of Islam.",
+		linked: true,
 		divisionLabel: "surah",
 		unitLabel: "verse",
 		chunkBy: "size",
@@ -173,6 +204,9 @@ export const CORPORA: Corpus[] = [
 		urantiaSection: null,
 		refPrefix: "Japji",
 		slug: "japji",
+		kind: "scripture",
+		summary: "The opening hymn of the Sikh scripture, by Guru Nanak.",
+		linked: true,
 		divisionLabel: "composition",
 		unitLabel: "pauri",
 		chunkBy: "size",

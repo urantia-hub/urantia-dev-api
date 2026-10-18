@@ -45,6 +45,10 @@ for (const [order, corpus] of CORPORA.entries()) {
 				sort_order: order + 1,
 				ref_levels: corpus.refLevels,
 				notes: corpus.notes,
+				kind: corpus.kind,
+				summary: corpus.summary,
+				division_names: corpus.divisionNames ?? null,
+				linked: corpus.linked,
 			})}
 			ON CONFLICT (id) DO UPDATE SET
 				slug = EXCLUDED.slug, ref_prefix = EXCLUDED.ref_prefix, religion = EXCLUDED.religion,
@@ -52,7 +56,9 @@ for (const [order, corpus] of CORPORA.entries()) {
 				source_url = EXCLUDED.source_url, license = EXCLUDED.license,
 				urantia_section = EXCLUDED.urantia_section, division_label = EXCLUDED.division_label,
 				unit_label = EXCLUDED.unit_label, passage_count = EXCLUDED.passage_count,
-				sort_order = EXCLUDED.sort_order, ref_levels = EXCLUDED.ref_levels, notes = EXCLUDED.notes`;
+				sort_order = EXCLUDED.sort_order, ref_levels = EXCLUDED.ref_levels, notes = EXCLUDED.notes,
+				kind = EXCLUDED.kind, summary = EXCLUDED.summary, division_names = EXCLUDED.division_names,
+				linked = EXCLUDED.linked`;
 
 		const chunkRows = chunks.map((c) => ({
 			id: `${corpus.id}:${c.refs[0]}`,
