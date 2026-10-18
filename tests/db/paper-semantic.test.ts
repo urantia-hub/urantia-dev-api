@@ -55,7 +55,9 @@ suite("semanticSearchPapers on the Papers", () => {
 		const first = await semanticSearchPapers(db as never, { q: "love", page: 0, limit: 20, embed });
 		expect(first?.data[0]?.standardReferenceId).toBe("56:10.21");
 		expect(first?.data[0]?.match).toBe("similar");
-		expect(first?.meta.total).toBeLessThanOrEqual(MAX_RESULTS);
+		expect(first?.meta.total).toBe(MAX_RESULTS);
+		expect(first?.meta.totalPages).toBe(MAX_RESULTS / 20);
+		expect(first?.meta.related).toBeLessThanOrEqual(MAX_RESULTS);
 		const seen = new Set<string>();
 		for (let page = 0; page < 6; page++) {
 			const r = await semanticSearchPapers(db as never, { q: "love", page, limit: 20, embed });
@@ -78,7 +80,7 @@ suite("semanticSearchPapers on the Papers", () => {
 		expect(r?.data[0]?.standardReferenceId).toBe("111:7.5");
 		expect(r?.data[0]?.match).toBe("exact");
 		expect(r?.data[1]?.standardReferenceId).toBe("1:0.1");
-		expect(r?.meta.total).toBeGreaterThanOrEqual(1);
+		expect(r?.meta.related).toBeGreaterThanOrEqual(1);
 	});
 
 	it("is null when there is no vector", async () => {

@@ -16,6 +16,10 @@ import {
 } from "drizzle-orm/pg-core";
 import { normalizedSql } from "../lib/search-text.ts";
 
+// A trigram index on the normalized text (`matchText` in src/lib/search-words.ts), for exact phrases.
+// An index on the expression, not a column: it is built CONCURRENTLY, with no rewrite of the table.
+const MATCH_TEXT_TRGM = sql.raw(`(${normalizedSql("text")}) gin_trgm_ops`);
+
 const tsvector = customType<{ data: string }>({
 	dataType() {
 		return "tsvector";
@@ -168,9 +172,6 @@ export const paragraphs = pgTable(
 		searchVector: tsvector("search_vector").generatedAlwaysAs(
 			sql`to_tsvector('english'::regconfig, COALESCE(text, ''::text))`,
 		),
-		// Normalized text with a space at each end, for exact phrases (setup-search.sql). The rule is
-		// `normalizedSql` in src/lib/search-text.ts.
-		matchText: text("match_text").generatedAlwaysAs(sql.raw(normalizedSql("text"))),
 
 		// Semantic search — populated later via generate-embeddings script
 		embedding: vector("embedding"),
@@ -201,7 +202,7 @@ export const paragraphs = pgTable(
 			.with({ m: "16", ef_construction: "64" }),
 		// Declared so that a push keeps them: scripts/setup-fts.sql and scripts/setup-search.sql.
 		index("paragraphs_fts_gin_idx").using("gin", t.searchVector),
-		index("paragraphs_match_text_trgm_idx").using("gin", t.matchText.op("gin_trgm_ops")),
+		index("paragraphs_match_text_trgm_idx").using("gin", MATCH_TEXT_TRGM),
 	],
 ).enableRLS();
 
@@ -404,12 +405,11 @@ export const bibleVerses = pgTable(
 		searchVector: tsvector("search_vector").generatedAlwaysAs(
 			sql`to_tsvector('english'::regconfig, COALESCE(text, ''::text))`,
 		),
-		matchText: text("match_text").generatedAlwaysAs(sql.raw(normalizedSql("text"))),
 	},
 	(t) => [
 		index("bv_book_chapter_verse_idx").on(t.bookCode, t.chapter, t.verse),
 		index("bv_fts_gin_idx").using("gin", t.searchVector),
-		index("bv_match_text_trgm_idx").using("gin", t.matchText.op("gin_trgm_ops")),
+		index("bv_match_text_trgm_idx").using("gin", MATCH_TEXT_TRGM),
 		index("bv_book_order_idx").on(t.bookOrder),
 		index("bv_canon_idx").on(t.canon),
 		index("bv_chunk_id_idx").on(t.chunkId),
@@ -577,12 +577,11 @@ export const scripturePassages = pgTable(
 		searchVector: tsvector("search_vector").generatedAlwaysAs(
 			sql`to_tsvector('english'::regconfig, COALESCE(text, ''::text))`,
 		),
-		matchText: text("match_text").generatedAlwaysAs(sql.raw(normalizedSql("text"))),
 	},
 	(t) => [
 		uniqueIndex("sp_corpus_sort_idx").on(t.corpusId, t.sort),
 		index("sp_fts_gin_idx").using("gin", t.searchVector),
-		index("sp_match_text_trgm_idx").using("gin", t.matchText.op("gin_trgm_ops")),
+		index("sp_match_text_trgm_idx").using("gin", MATCH_TEXT_TRGM),
 		index("sp_corpus_division_idx").on(t.corpusId, t.division),
 		index("sp_chunk_id_idx").on(t.chunkId),
 	],

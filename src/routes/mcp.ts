@@ -28,11 +28,13 @@ import { enrichWithUrantiaParallels } from "../lib/urantia-parallels.ts";
 import {
 	listWorks,
 	readWork,
+	resolveWork,
 	searchWorks,
 	semanticSearchWorks,
 	workParallels,
 } from "../lib/works.ts";
 import { detectRefFormat } from "../types/node.ts";
+import { verseColumns } from "./bible.ts";
 import { CitationStyleEnum, citeParagraph } from "./cite.ts";
 import { paragraphFields } from "./paragraphs.ts";
 import { verifyQuote } from "./quotes.ts";
@@ -251,6 +253,7 @@ const workMetaSchema = z.object({
 	total: z.number().int(),
 	totalPages: z.number().int(),
 	didYouMean: z.string().optional(),
+	related: z.number().int().optional(),
 });
 
 const paginationMetaSchema = z.object({
@@ -699,10 +702,10 @@ function createMcpServer() {
 		{
 			title: "Full-Text Search",
 			description:
-				'Keyword search across all paragraphs of the Urantia Papers. Mode "auto" (default): a reference such as "68:6.3", "103:2", or "Paper 68" gives those paragraphs; otherwise the exact phrase first, then every word, then (when few) typo fixes and most of the words. Each result has `match` (reference, exact, all, near, most); `meta.didYouMean` gives the fixed query and `meta.see` names another work the query names. Other modes: "and" (all words), "or" (any word), "phrase" (exact phrase).',
+				'Keyword search across all paragraphs of the Urantia Papers. Mode "auto" (default): a reference such as "68:6.3", "103:2", "Paper 68", or a bare number such as "68" (0 to 196) gives those paragraphs; otherwise the exact phrase first, then every word, then (when few) typo fixes and most of the words. Each result has `match` (reference, exact, all, near, most); `meta.didYouMean` gives the fixed query and `meta.see` names another work the query names. Other modes: "and" (all words), "or" (any word), "phrase" (exact phrase).',
 			inputSchema: {
-				query: z.string().optional().describe('Search query. Example: "nature of God"'),
-				q: z.string().optional().describe("Alias for `query` (REST compatibility)."),
+				query: z.string().max(500).optional().describe('Search query. Example: "nature of God"'),
+				q: z.string().max(500).optional().describe("Alias for `query` (REST compatibility)."),
 				type: z
 					.enum(["auto", "phrase", "and", "or"])
 					.default("auto")
@@ -771,13 +774,14 @@ function createMcpServer() {
 		{
 			title: "Semantic Search",
 			description:
-				'Search the Urantia Papers using semantic similarity (vector embeddings). Returns conceptually related results even without exact keyword matches. A reference such as "99:1.1" gives those paragraphs; a pasted paragraph gives itself first. Each result has `strength` (strong, related, weak) and `match` (reference, exact, similar). The list holds the 100 nearest; `meta.total` counts the related or better.',
+				'Search the Urantia Papers using semantic similarity (vector embeddings). Returns conceptually related results even without exact keyword matches. A reference such as "99:1.1" gives those paragraphs; a pasted paragraph gives itself first. Each result has `strength` (strong, related, weak) and `match` (reference, exact, similar). The list holds the 100 nearest; `meta.total` is the length of that list, and `meta.related` counts the related or better.',
 			inputSchema: {
 				query: z
 					.string()
+					.max(2000)
 					.optional()
 					.describe('Natural language query. Example: "What is the meaning of life?"'),
-				q: z.string().optional().describe("Alias for `query` (REST compatibility)."),
+				q: z.string().max(2000).optional().describe("Alias for `query` (REST compatibility)."),
 				paper_id: z.string().optional().describe("Filter to a specific paper ID"),
 				part_id: z.string().optional().describe("Filter to a specific part ID (1-4)"),
 				page: z.number().int().min(0).default(0).describe("Page number (0-indexed)"),
@@ -796,7 +800,7 @@ function createMcpServer() {
 			},
 			outputSchema: {
 				data: z.array(semanticResultSchema),
-				meta: paginationMetaSchema,
+				meta: paginationMetaSchema.extend({ related: z.number().int() }),
 			},
 			annotations: { title: "Semantic Search", ...READ_ONLY_OPEN_WORLD },
 		},
@@ -851,8 +855,8 @@ function createMcpServer() {
 				"Browse the entity catalog: beings, places, orders, races, religions, and concepts mentioned in the Urantia Papers. Supports filtering by type and searching by name.",
 			inputSchema: {
 				type: entityTypeEnum.optional().describe("Filter by entity type"),
-				query: z.string().optional().describe("Search entities by name or alias"),
-				q: z.string().optional().describe("Alias for `query` (REST compatibility)."),
+				query: z.string().max(200).optional().describe("Search entities by name or alias"),
+				q: z.string().max(200).optional().describe("Alias for `query` (REST compatibility)."),
 				page: z.number().int().min(0).default(0).describe("Page number (0-indexed)"),
 				limit: z.number().int().min(1).max(100).default(20).describe("Results per page (1-100)"),
 			},
@@ -1139,7 +1143,7 @@ function createMcpServer() {
 
 			const { db } = getDb();
 			const rows = await db
-				.select()
+				.select(verseColumns)
 				.from(bibleVerses)
 				.where(and(eq(bibleVerses.bookCode, meta.osis), eq(bibleVerses.chapter, chapter)))
 				.orderBy(bibleVerses.verse);
@@ -1194,7 +1198,7 @@ function createMcpServer() {
 
 			const { db } = getDb();
 			const rows = await db
-				.select()
+				.select(verseColumns)
 				.from(bibleVerses)
 				.where(
 					and(
@@ -1376,9 +1380,10 @@ function createMcpServer() {
 			inputSchema: {
 				query: z
 					.string()
+					.max(2000)
 					.optional()
 					.describe('Natural language query. Example: "blessed are the poor"'),
-				q: z.string().optional().describe("Alias for `query` (REST compatibility)."),
+				q: z.string().max(2000).optional().describe("Alias for `query` (REST compatibility)."),
 				canon: bibleCanonEnum.optional().describe("Filter by canon: ot, deuterocanon, nt"),
 				book_code: z
 					.string()
@@ -1662,7 +1667,7 @@ function createMcpServer() {
 		{
 			title: "Semantic Search of the Works",
 			description:
-				"Natural-language search across the Bible and the other works, or one work with `work`. The list holds the 100 nearest chunks (a few verses each); each has `similarity` and `strength` (strong, related, weak), and `meta.total` counts the related or better. Each result has `url` and its nearest Urantia paragraphs (semantic parallels, not curated ones).",
+				"Natural-language search across the Bible and the other works, or one work with `work`. The list holds the 100 nearest chunks (a few verses each); each has `similarity` and `strength` (strong, related, weak), and `meta.total` is the length of that list, and `meta.related` counts the related or better. Each result has `url` and its nearest Urantia paragraphs (semantic parallels, not curated ones).",
 			inputSchema: workQueryInput,
 			outputSchema: { data: z.array(workResultSchema), meta: workMetaSchema },
 			annotations: { title: "Semantic Search of the Works", ...READ_ONLY_OPEN_WORLD },
@@ -1704,6 +1709,7 @@ function createMcpServer() {
 		},
 		async ({ work, ref }) => {
 			const { db } = getDb();
+			if (!(await resolveWork(db, work))) return errorResult(`Work "${work}" not found`);
 			const units = await readWork(db, ref, work);
 			if (!units) return errorResult(`Invalid reference "${ref}" for "${work}"`);
 			if (units.length === 0) return errorResult(`${ref} not found in "${work}"`);
@@ -1725,6 +1731,7 @@ function createMcpServer() {
 		},
 		async ({ work, ref }) => {
 			const { db } = getDb();
+			if (!(await resolveWork(db, work))) return errorResult(`Work "${work}" not found`);
 			const found = await workParallels(db, work, ref);
 			if (found === "many") return errorResult(`${ref} names more than one unit. Ask for one.`);
 			if (!found) return errorResult(`${ref} not found in "${work}"`);

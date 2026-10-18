@@ -197,7 +197,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 	{
 		name: "search",
 		description:
-			'Keyword search across all paragraphs in the Urantia Papers. Mode "auto" (default): a reference such as "68:6.3", "103:2", or "Paper 68" gives those paragraphs; otherwise the exact phrase first, then every word, then (when few) typo fixes and most of the words. Each result has `match` (reference, exact, all, near, most); `meta.didYouMean` gives the fixed query and `meta.see` names another work the query names. Other modes: "and" (all words), "or" (any word), "phrase" (exact phrase). Provide the search string as either `query` (preferred) or `q` (REST alias) — exactly one is required.',
+			'Keyword search across all paragraphs in the Urantia Papers. Mode "auto" (default): a reference such as "68:6.3", "103:2", "Paper 68", or a bare number such as "68" (0 to 196) gives those paragraphs; otherwise the exact phrase first, then every word, then (when few) typo fixes and most of the words. Each result has `match` (reference, exact, all, near, most); `meta.didYouMean` gives the fixed query and `meta.see` names another work the query names. Other modes: "and" (all words), "or" (any word), "phrase" (exact phrase). Provide the search string as either `query` (preferred) or `q` (REST alias) — exactly one is required.',
 		parameters: {
 			type: "object",
 			properties: {
@@ -222,7 +222,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 	{
 		name: "semantic_search",
 		description:
-			'Search the Urantia Papers using semantic similarity (vector embeddings). Returns conceptually related results even without exact keyword matches. A reference such as "99:1.1" gives those paragraphs; a pasted paragraph gives itself first. Each result has `strength` (strong, related, weak) and `match` (reference, exact, similar). The list holds the 100 nearest; `meta.total` counts the related or better. Provide the search string as either `query` (preferred) or `q` (REST alias) — exactly one is required.',
+			'Search the Urantia Papers using semantic similarity (vector embeddings). Returns conceptually related results even without exact keyword matches. A reference such as "99:1.1" gives those paragraphs; a pasted paragraph gives itself first. Each result has `strength` (strong, related, weak) and `match` (reference, exact, similar). The list holds the 100 nearest; `meta.total` is the length of that list, and `meta.related` counts the related or better. Provide the search string as either `query` (preferred) or `q` (REST alias) — exactly one is required.',
 		parameters: {
 			type: "object",
 			properties: {
@@ -407,7 +407,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 	{
 		name: "works_semantic_search",
 		description:
-			"Natural-language search across the Bible and the other works, or one work with `work`. The list holds the 100 nearest chunks; each has `similarity` and `strength` (strong, related, weak), and `meta.total` counts the related or better. Each result has `url` and its nearest Urantia paragraphs. Provide `query` or `q`.",
+			"Natural-language search across the Bible and the other works, or one work with `work`. The list holds the 100 nearest chunks; each has `similarity` and `strength` (strong, related, weak), and `meta.total` is the length of that list, and `meta.related` counts the related or better. Each result has `url` and its nearest Urantia paragraphs. Provide `query` or `q`.",
 		parameters: { type: "object", properties: workQueryProps },
 	},
 	{
