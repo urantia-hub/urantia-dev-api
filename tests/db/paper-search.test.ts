@@ -22,6 +22,7 @@ const seeded =
 		)[0]?.n ?? 0,
 	) > 14000;
 const suite = seeded ? describe : describe.skip;
+if (!seeded) await client?.end();
 
 const search = (q: string, more: Partial<PaperSearchOptions> = {}) =>
 	searchPapers(db as never, { q, type: "auto", page: 0, limit: 20, ...more });
