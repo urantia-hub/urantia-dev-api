@@ -5,8 +5,8 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { CORPORA } from "./corpora.ts";
 import {
-	PROSE_EDDA_PARTS,
 	type Passage,
+	PROSE_EDDA_PARTS,
 	parseAnalects,
 	parseAstonOracles,
 	parseBellowsEdda,
