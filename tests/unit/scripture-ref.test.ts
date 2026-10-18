@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import { CORPORA } from "../../scripts/scriptures/corpora.ts";
 import { MAX_RANGE, namesDivision, parseScriptureRef } from "../../src/lib/scripture-ref.ts";
 
 describe("parseScriptureRef", () => {
@@ -110,5 +111,35 @@ describe("a ref that names its work by a division name", () => {
 		expect(namesDivision("hel 5:12", BOM)).toBe(false);
 		expect(namesDivision("John 3:16", BOM)).toBe(false);
 		expect(namesDivision("Alma 32:21", null)).toBe(false);
+	});
+});
+
+describe("the named poems of batch 2", () => {
+	const poems = CORPORA.find((c) => c.id === "poetic-edda-bellows-1923")?.divisionNames ?? [];
+	const hesiod = CORPORA.find((c) => c.id === "hesiod-evelyn-white-1914")?.divisionNames ?? [];
+
+	test("reads a poem of the Edda by Bellows's name or the usual spelling", () => {
+		expect(parseScriptureRef("Voluspo 3", "Edda", 2, poems)?.path).toEqual([1, 3]);
+		expect(parseScriptureRef("Völuspá 3", "Edda", 2, poems)?.path).toEqual([1, 3]);
+		expect(parseScriptureRef("Havamal 77", "Edda", 2, poems)?.path).toEqual([2, 77]);
+	});
+
+	test("tells the first and the second lay of a name apart", () => {
+		expect(parseScriptureRef("Helgakvitha Hundingsbana I 3", "Edda", 2, poems)?.path).toEqual([
+			17, 3,
+		]);
+		expect(parseScriptureRef("Helgakvitha Hundingsbana II 3", "Edda", 2, poems)?.path).toEqual([
+			18, 3,
+		]);
+		expect(parseScriptureRef("Guthrunarkvitha III 3", "Edda", 2, poems)?.path).toEqual([30, 3]);
+	});
+
+	test("reads a line of Hesiod by the name of its poem", () => {
+		expect(parseScriptureRef("Theogony 116-138", "Hesiod", 2, hesiod)).toEqual({
+			path: [1, 116],
+			end: 138,
+			full: true,
+		});
+		expect(parseScriptureRef("Works and Days 120", "Hesiod", 2, hesiod)?.path).toEqual([2, 120]);
 	});
 });
