@@ -4,6 +4,7 @@ import { and, eq, type SQL, sql } from "drizzle-orm";
 import { paragraphs } from "../db/schema.ts";
 import {
 	normalizeQuery,
+	type PaperRef,
 	parsePaperRef,
 	toTsQuery,
 	type WorkHint,
@@ -31,7 +32,7 @@ const HIGHLIGHT =
 
 const tsq = (query: string) => sql`to_tsquery('english', ${query})`;
 
-const columns = (highlight: SQL | null) => ({
+export const columns = (highlight: SQL | null) => ({
 	id: paragraphs.id,
 	standardReferenceId: paragraphs.standardReferenceId,
 	sortId: paragraphs.sortId,
@@ -104,6 +105,14 @@ export async function contentWords(db: Db, words: string[]): Promise<Set<string>
 	return new Set(rows.map((r) => r.w));
 }
 
+/** The paragraphs that a reference names: one paragraph, a section, or a paper. */
+export const referenceWhere = (ref: PaperRef): SQL =>
+	ref.paragraphId
+		? eq(paragraphs.standardReferenceId, `${ref.paperId}:${ref.sectionId}.${ref.paragraphId}`)
+		: ref.sectionId
+			? sql`${paragraphs.standardReferenceId} like ${`${ref.paperId}:${ref.sectionId}.%`}`
+			: eq(paragraphs.paperId, ref.paperId);
+
 export async function searchPapers(db: Db, opts: PaperSearchOptions): Promise<PaperSearchResult> {
 	const { q, type, page, limit } = opts;
 	const filters: SQL[] = [];
@@ -135,12 +144,7 @@ export async function searchPapers(db: Db, opts: PaperSearchOptions): Promise<Pa
 	if (type === "auto") {
 		const ref = parsePaperRef(q);
 		if (ref) {
-			const where = ref.paragraphId
-				? eq(paragraphs.standardReferenceId, `${ref.paperId}:${ref.sectionId}.${ref.paragraphId}`)
-				: ref.sectionId
-					? sql`${paragraphs.standardReferenceId} like ${`${ref.paperId}:${ref.sectionId}.%`}`
-					: eq(paragraphs.paperId, ref.paperId);
-			return result(where, sql`0`, [sql`${paragraphs.sortId}`], null);
+			return result(referenceWhere(ref), sql`0`, [sql`${paragraphs.sortId}`], null);
 		}
 	}
 

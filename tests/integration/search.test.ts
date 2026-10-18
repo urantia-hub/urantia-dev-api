@@ -116,6 +116,16 @@ describe.skipIf(!hasOpenAI)("POST /search/semantic", () => {
 		assertMetaShape(meta);
 	});
 
+	it("puts a pasted paragraph first, and counts at most 100", async () => {
+		const ip = { "cf-connecting-ip": "203.0.113.43" };
+		const ref = await (await post("/search", { q: "111:7.5" }, ip)).json();
+		const res = await post("/search/semantic", { q: ref.data[0].text, limit: 5 }, ip);
+		const { data, meta } = await res.json();
+		expect(data[0].standardReferenceId).toBe("111:7.5");
+		expect(data[0].match).toBe("exact");
+		expect(meta.total).toBeLessThanOrEqual(100);
+	}, 30_000);
+
 	it("respects paperId filter", async () => {
 		const res = await post("/search/semantic", {
 			q: "God",
@@ -127,6 +137,22 @@ describe.skipIf(!hasOpenAI)("POST /search/semantic", () => {
 		for (const r of data) {
 			expect(r.paperId).toBe("2");
 		}
+	});
+});
+
+describe("POST /search/semantic (reference)", () => {
+	it("gives the paragraph of a reference with no vector", async () => {
+		const res = await post(
+			"/search/semantic",
+			{ q: "99:1.1" },
+			{ "cf-connecting-ip": "203.0.113.44" },
+		);
+		const { data, meta } = await res.json();
+		expect(data.map((r: { standardReferenceId: string }) => r.standardReferenceId)).toEqual([
+			"99:1.1",
+		]);
+		expect(data[0].match).toBe("reference");
+		expect(meta.total).toBe(1);
 	});
 });
 

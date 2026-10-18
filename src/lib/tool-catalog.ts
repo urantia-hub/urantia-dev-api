@@ -194,7 +194,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 	{
 		name: "semantic_search",
 		description:
-			"Search the Urantia Papers using semantic similarity (vector embeddings). Returns conceptually related results even without exact keyword matches. Provide the search string as either `query` (preferred) or `q` (REST alias) — exactly one is required.",
+			'Search the Urantia Papers using semantic similarity (vector embeddings). Returns conceptually related results even without exact keyword matches. A reference such as "99:1.1" gives those paragraphs; a pasted paragraph gives itself first. Each result has `strength` (strong, related, weak) and `match` (reference, exact, similar). The list holds the 100 nearest; `meta.total` counts the related or better. Provide the search string as either `query` (preferred) or `q` (REST alias) — exactly one is required.',
 		parameters: {
 			type: "object",
 			properties: {

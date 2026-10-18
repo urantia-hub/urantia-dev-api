@@ -21,6 +21,7 @@ import { enrichWithBibleParallels } from "../lib/bible-parallels.ts";
 import { MCP_ICONS } from "../lib/brand-icon.ts";
 import { enrichWithEntities } from "../lib/entities.ts";
 import { searchPapers } from "../lib/paper-search.ts";
+import { semanticSearchPapers } from "../lib/paper-semantic.ts";
 import { normalizeQuery } from "../lib/search-text.ts";
 import { enrichWithUrantiaParallels } from "../lib/urantia-parallels.ts";
 import { detectRefFormat } from "../types/node.ts";
@@ -178,7 +179,11 @@ const searchMetaSchema = z.object({
 	didYouMean: z.string().optional(),
 	see: z.object({ work: z.string(), title: z.string() }).optional(),
 });
-const semanticResultSchema = paragraphResultSchema.extend({ similarity: z.number() });
+const semanticResultSchema = paragraphResultSchema.extend({
+	similarity: z.number(),
+	strength: z.enum(["strong", "related", "weak"]),
+	match: z.enum(["reference", "exact", "similar"]),
+});
 
 const entityResultSchema = z.object({
 	id: z.string(),
@@ -718,7 +723,7 @@ function createMcpServer() {
 		{
 			title: "Semantic Search",
 			description:
-				"Search the Urantia Papers using semantic similarity (vector embeddings). Returns conceptually related results even without exact keyword matches.",
+				'Search the Urantia Papers using semantic similarity (vector embeddings). Returns conceptually related results even without exact keyword matches. A reference such as "99:1.1" gives those paragraphs; a pasted paragraph gives itself first. Each result has `strength` (strong, related, weak) and `match` (reference, exact, similar). The list holds the 100 nearest; `meta.total` counts the related or better.',
 			inputSchema: {
 				query: z
 					.string()
@@ -761,37 +766,23 @@ function createMcpServer() {
 			const searchQuery = query ?? q;
 			if (!searchQuery) return errorResult("Either 'query' or 'q' is required");
 			const { db } = getDb();
-			const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-			const embeddingResponse = await openai.embeddings.create({
-				model: "text-embedding-3-small",
-				input: searchQuery,
+			const found = await semanticSearchPapers(db, {
+				q: searchQuery,
+				page,
+				limit,
+				paperId: paper_id,
+				partId: part_id,
+				embed: async () => {
+					const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+					const res = await openai.embeddings.create({
+						model: "text-embedding-3-small",
+						input: searchQuery,
+					});
+					return res.data[0]?.embedding ?? null;
+				},
 			});
-			const queryVector = embeddingResponse.data[0]?.embedding;
-			if (!queryVector) return errorResult("Failed to generate embedding");
-			const vectorStr = `[${queryVector.join(",")}]`;
-
-			const offset = page * limit;
-			const conditions = [sql`embedding IS NOT NULL`];
-			if (paper_id) conditions.push(eq(paragraphs.paperId, paper_id));
-			if (part_id) conditions.push(eq(paragraphs.partId, part_id));
-			const whereClause = and(...conditions);
-
-			const countResult = await db
-				.select({ count: sql<number>`count(*)` })
-				.from(paragraphs)
-				.where(whereClause);
-			const total = Number(countResult[0]?.count ?? 0);
-
-			const results = await db
-				.select({
-					...searchParagraphFields,
-					similarity: sql<number>`1 - (embedding <=> ${vectorStr}::vector)`,
-				})
-				.from(paragraphs)
-				.where(whereClause)
-				.orderBy(sql`embedding <=> ${vectorStr}::vector`)
-				.limit(limit)
-				.offset(offset);
+			if (!found) return errorResult("Failed to generate embedding");
+			const { data: results, meta } = found;
 
 			const enrichedResults = await enrichParagraphs(db, results, {
 				entities: include_entities,
@@ -799,10 +790,7 @@ function createMcpServer() {
 				urantiaParallels: include_urantia_parallels,
 			});
 
-			return structured({
-				data: enrichedResults,
-				meta: { page, limit, total, totalPages: Math.ceil(total / limit) },
-			});
+			return structured({ data: enrichedResults, meta });
 		},
 	);
 

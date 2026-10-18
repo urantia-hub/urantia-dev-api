@@ -81,15 +81,15 @@ with 429. See `tests/integration/openapi.test.ts` for the pattern.
 then hits `/health` and `/search/semantic?q=warmup&limit=1`.
 
 The warmup hit is load-bearing, not cosmetic. `/search/semantic` uses a KV
-cache (`SEARCH_CACHE` binding) for query embeddings and filter-tuple counts.
-Without the warmup, the first real user query after a deploy eats the cold
-path: fresh Worker isolate, cold Hyperdrive pool, no cached `count(*)` —
-roughly 2s. With the warmup, the unfiltered count cache is populated and the
-steady-state floor is ~300ms.
+cache (`SEARCH_CACHE` binding) for query embeddings. Without the warmup, the
+first real user query after a deploy eats the cold path: fresh Worker isolate,
+cold Hyperdrive pool, roughly 2s. Do not strip the warmup from the deploy script.
 
-Do not strip the warmup from the deploy script. If you change the cache key
-scheme in `src/lib/search-cache.ts` (bump `COUNT_KEY_VERSION`), the warmup is
-what rebuilds the hot set after the rollout.
+Since 2026-10-18 `/search/semantic` reads no `count(*)`: its list is the 100
+nearest paragraphs (`src/lib/paper-semantic.ts`, `hnsw.ef_search` 100 in the
+query's transaction; the default of 40 gave 40 results with a total of 14,593),
+and `meta.total` counts those that are `related` or better. The cut points of
+`strength` are in `src/lib/search-strength.ts`, from `bun scripts/calibrate-strength.ts`.
 
 ## Project Structure
 
