@@ -143,3 +143,35 @@ describe("the named poems of batch 2", () => {
 		expect(parseScriptureRef("Works and Days 120", "Hesiod", 2, hesiod)?.path).toEqual([2, 120]);
 	});
 });
+
+describe("the named parts of the Wikisource works of batch 2", () => {
+	const names = (id: string) => CORPORA.find((c) => c.id === id)?.divisionNames ?? [];
+
+	test("reads a chapter and a paragraph of the Prose Edda, with or without its accents", () => {
+		const parts = names("prose-edda-brodeur-1916");
+		expect(parseScriptureRef("Gylfaginning 34.2", "Prose Edda", 3, parts)?.path).toEqual([
+			2, 34, 2,
+		]);
+		expect(parseScriptureRef("Gylfaginning 34", "Prose Edda", 3, parts)).toEqual({
+			path: [2, 34],
+			end: 34,
+			full: false,
+		});
+		expect(parseScriptureRef("Skaldskaparmal 3.1", "Prose Edda", 3, parts)?.path).toEqual([
+			3, 3, 1,
+		]);
+	});
+
+	test("reads each Upanishad by its own numbers and its other names", () => {
+		const ups = names("upanishads-muller-1879");
+		expect(parseScriptureRef("Khandogya 6.8", "Upanishad", 3, ups)?.path).toEqual([1, 6, 8]);
+		expect(parseScriptureRef("Chandogya 6.8", "Upanishad", 3, ups)?.path).toEqual([1, 6, 8]);
+		expect(parseScriptureRef("Kena 1.3", "Upanishad", 3, ups)?.path).toEqual([2, 1, 3]);
+		// "Isa 6" names the subdivision that holds verse 6 alone.
+		expect(parseScriptureRef("Isa 6", "Upanishad", 3, ups)).toEqual({
+			path: [3, 6],
+			end: 6,
+			full: false,
+		});
+	});
+});

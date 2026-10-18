@@ -1,6 +1,12 @@
 // The texts of the world religions layer. Each one is in the US public domain.
 
-import { BELLOWS_POEMS, BOOK_OF_MORMON_BOOKS, HESIOD_POEMS } from "./parsers.ts";
+import {
+	BELLOWS_POEMS,
+	BOOK_OF_MORMON_BOOKS,
+	HESIOD_POEMS,
+	PROSE_EDDA_PARTS,
+	UPANISHADS,
+} from "./parsers.ts";
 
 export type Corpus = {
 	id: string;
@@ -385,5 +391,92 @@ export const CORPORA: Corpus[] = [
 		refLevels: 2,
 		notes:
 			"Chapter and paragraph (Zhuangzi 2.5): Giles's paragraphs have no numbers, so they are numbered in order. His notes and remarks are not here.",
+	},
+	{
+		id: "prose-edda-brodeur-1916",
+		religion: "Norse",
+		title: "The Prose Edda",
+		translator: "Arthur Gilchrist Brodeur",
+		year: 1916,
+		source:
+			"https://en.wikisource.org/wiki/The_Prose_Edda_(1916_translation_by_Arthur_Gilchrist_Brodeur)",
+		license: "Public domain in the United States",
+		urantiaSection: null,
+		refPrefix: "Prose Edda",
+		slug: "prose-edda",
+		kind: "classic",
+		summary: "Snorri Sturluson's prose account of the Norse gods, about 1220.",
+		linked: true,
+		divisionLabel: "part",
+		unitLabel: "paragraph",
+		chunkBy: "size",
+		refLevels: 3,
+		divisionNames: PROSE_EDDA_PARTS,
+		notes:
+			"Part, chapter, and paragraph (Gylfaginning 34.2): the chapters are Brodeur's, and their paragraphs are numbered in order, with each verse in the paragraph before it. Gylfaginning 34 is the whole chapter. Brodeur's introduction and notes are not here; his brackets are kept.",
+	},
+	{
+		id: "kojiki-chamberlain-1882",
+		religion: "Japanese (Shinto)",
+		title: "Kojiki: Records of Ancient Matters",
+		translator: "Basil Hall Chamberlain",
+		year: 1882,
+		source: "https://en.wikisource.org/wiki/Kojiki_(Chamberlain,_1882)",
+		license: "Public domain in the United States",
+		urantiaSection: null,
+		refPrefix: "Kojiki",
+		slug: "kojiki",
+		kind: "classic",
+		summary: "The oldest Japanese chronicle, from the creation to the early rulers, 712.",
+		linked: true,
+		divisionLabel: "section",
+		unitLabel: "paragraph",
+		chunkBy: "size",
+		refLevels: 2,
+		notes:
+			"Section and paragraph (Kojiki 4.2): the 180 sections are Chamberlain's, and their paragraphs are numbered in order, with each song in the paragraph that leads into it. The passages that he gave in Latin are kept so. His introduction and notes are not here.",
+	},
+	{
+		id: "upanishads-muller-1879",
+		religion: "Hindu",
+		title: "The Upanishads, Part 1",
+		translator: "F. Max Muller",
+		year: 1879,
+		source: "https://en.wikisource.org/wiki/Sacred_Books_of_the_East/Volume_1",
+		license: "Public domain in the United States",
+		urantiaSection: null,
+		refPrefix: "Upanishad",
+		slug: "upanishads",
+		kind: "scripture",
+		summary: "Teachings of the Vedas on the self and Brahman.",
+		linked: true,
+		divisionLabel: "upanishad",
+		unitLabel: "section",
+		chunkBy: "size",
+		refLevels: 3,
+		divisionNames: UPANISHADS,
+		notes:
+			"The three Upanishads of Sacred Books of the East 1 that are on Wikisource: the Khândogya, by book and Khanda (Khandogya 6.8, one passage for each Khanda, with Müller's verse numbers); the Kena or Talavakâra, by Khanda and verse (Kena 1.3); and the Îsâ, by verse (Isa 6). The Aitareya and the Kaushîtaki of that volume are not on Wikisource, so they are not here.",
+	},
+	{
+		id: "shu-king-legge-1879",
+		religion: "Confucian",
+		title: "The Shû King (Book of Documents)",
+		translator: "James Legge",
+		year: 1879,
+		source: "https://en.wikisource.org/wiki/Sacred_Books_of_the_East/Volume_3/The_Shu",
+		license: "Public domain in the United States",
+		urantiaSection: null,
+		refPrefix: "Shu",
+		slug: "shu-king",
+		kind: "classic",
+		summary: "The Book of Documents: speeches and records of the early Chinese kings.",
+		linked: true,
+		divisionLabel: "part",
+		unitLabel: "paragraph",
+		chunkBy: "size",
+		refLevels: 3,
+		notes:
+			"Part, book, and paragraph (Shu 2.1.3). Legge numbers the chapters of each book, but the Wikisource pages show his numbers for some books only, so the paragraphs are numbered in order through each book, and through the sections of a book with sections. His introduction and notes are not here.",
 	},
 ];

@@ -1069,3 +1069,269 @@ export function parseGilesChuangTzu(raw: string): Passage[] {
 			}));
 	});
 }
+
+type WsBlock = { text: string; verse: boolean; indent: boolean; center: boolean };
+
+/**
+ * The text blocks of a Wikisource page, from its first page number to its footnote list: one for
+ * each paragraph, line of verse, or heading. A block in smaller type (an editor's note) is left out.
+ */
+function wsBlocks(html: string): WsBlock[] {
+	let h = beforeNotes(html).replace(/<(script|style)[^>]*>[\s\S]*?<\/\1>/g, "");
+	const first = h.search(/<span[^>]*class="pagenum/);
+	if (first > 0) h = h.slice(first);
+	// An inline tag can sit inside a word ("Kha<i>nd</i>a"), so it goes with no space.
+	h = h
+		.replace(/<sup[^>]*class="reference"[^>]*>[\s\S]*?<\/sup>/g, "")
+		.replace(/<span[^>]*class="pagenum[^"]*"[^>]*>[\s\S]*?<\/span><\/span>/g, "")
+		.replace(/<br\s*\/?>/g, " ")
+		.replace(/<\/?(?:i|b|em|strong|span|a|small|big|abbr|u|s|sub|sup|link)\b[^>]*>/g, "");
+	const blocks: WsBlock[] = [];
+	const open: string[] = []; // the class of each open div, or "dl"
+	let buf = "";
+	const flush = () => {
+		const text = wikisourceText(buf);
+		buf = "";
+		// A heading of the editor's apparatus: "Footnotes", "Vol. II." (of the printed book).
+		if (
+			!text ||
+			/^(Footnotes|Vol\. [IVX]+\.)$/.test(text) ||
+			open.some((c) => /wst-smaller/.test(c))
+		)
+			return;
+		blocks.push({
+			text,
+			verse: open.some((c) => c === "dl" || /\bpoem\b|wst-block-center/.test(c)),
+			indent: open.some((c) => /hanging-indent/.test(c)),
+			center: open.some((c) => /wst-center/.test(c)),
+		});
+	};
+	for (const t of h.split(/(<\/?(?:p|div|dl|dd|h[1-6]|li|ol|ul|table|tr|td)\b[^>]*>)/)) {
+		const m = t.match(/^<(\/?)(\w+)([^>]*)>$/);
+		if (!m) {
+			buf += t;
+			continue;
+		}
+		flush();
+		const [, close, tag, attrs] = m as unknown as [string, string, string, string];
+		if (tag !== "div" && tag !== "dl") continue;
+		if (close) open.pop();
+		else if (!attrs.endsWith("/"))
+			open.push(tag === "dl" ? "dl" : (attrs.match(/class="([^"]*)"/)?.[1] ?? ""));
+	}
+	flush();
+	return blocks;
+}
+
+const hasLower = (s: string) => /\p{Ll}/u.test(s);
+
+/**
+ * Kojiki (Chamberlain, 1882, Wikisource), one page for each of the 180 sections, keyed by the section
+ * number. A passage is a paragraph, numbered in order ("Kojiki 4.2"). The notes of the original, which
+ * Chamberlain indents, stay with the paragraph before them. The passages that he gave in Latin stay so.
+ */
+export function parseChamberlainKojiki(htmlBySection: Record<string, string>): Passage[] {
+	const passages: Passage[] = [];
+	for (const [key, html] of Object.entries(htmlBySection)) {
+		const section = Number(key);
+		let title: string | null = null;
+		const paras: string[] = [];
+		for (const b of wsBlocks(html)) {
+			const head = b.text.match(/^\[?\s*Sect\. [IVXLC]+\.\s*—\s*(.+?)\.?\s*\]?$/);
+			if (head) {
+				title = head[1] as string;
+				continue;
+			}
+			if (!hasLower(b.text) || b.text === "The End.") continue;
+			// A note of the original (indented) and a song stay with the paragraph before them.
+			if ((b.indent || b.verse) && paras.length) paras[paras.length - 1] += ` ${b.text}`;
+			else paras.push(b.text);
+		}
+		paras.forEach((text, i) => {
+			passages.push({
+				ref: `Kojiki ${section}.${i + 1}`,
+				sort: section * 1000 + i + 1,
+				division: String(section),
+				divisionTitle: title,
+				text: clean(text),
+			});
+		});
+	}
+	return passages.sort((a, b) => a.sort - b.sort);
+}
+
+export const PROSE_EDDA_PARTS = ["Prologue", "Gylfaginning", "Skáldskaparmál"];
+
+/**
+ * The Prose Edda (Brodeur, 1916, Wikisource), one page for each part, keyed by its name. A passage is
+ * a paragraph of a chapter ("Gylfaginning 34.2"), numbered in order; a verse stays in the paragraph
+ * before it. The Prologue's first chapter has no number.
+ */
+export function parseBrodeurProseEdda(htmlByPart: Record<string, string>): Passage[] {
+	const passages: Passage[] = [];
+	for (const [name, html] of Object.entries(htmlByPart)) {
+		const part = PROSE_EDDA_PARTS.indexOf(name) + 1;
+		if (part === 0) throw new Error(`Prose Edda: no part ${name}`);
+		let chapter = name === "Prologue" ? 1 : 0;
+		let paras: string[] = [];
+		const done = () => {
+			paras.forEach((text, i) => {
+				passages.push({
+					ref: `${name} ${chapter}.${i + 1}`,
+					sort: part * 1_000_000 + chapter * 1000 + i + 1,
+					division: String(part),
+					subdivision: chapter,
+					divisionTitle: null,
+					text: clean(text),
+				});
+			});
+			paras = [];
+		};
+		for (const b of wsBlocks(html)) {
+			const alone = b.text.match(/^([IVXL]+)\.?$/);
+			const lead = b.text.match(/^\[?([IVXL]+)\.\s+([\s\S]*)$/);
+			if (alone || lead) {
+				done();
+				chapter = romanToInt(((alone ?? lead) as RegExpMatchArray)[1] as string);
+				if (lead) paras.push(`${b.text.startsWith("[") ? "[" : ""}${lead[2]}`);
+				continue;
+			}
+			if (!hasLower(b.text) || chapter === 0) continue;
+			if (b.verse && paras.length) paras[paras.length - 1] += ` ${b.text}`;
+			else paras.push(b.text);
+		}
+		done();
+	}
+	return passages.sort((a, b) => a.sort - b.sort);
+}
+
+export const UPANISHADS = [
+	"Khandogya|Chandogya|Chhandogya",
+	"Kena|Talavakara",
+	"Isa|Isavasya|Vajasaneyi",
+];
+
+const ORDINALS =
+	"first second third fourth fifth sixth seventh eighth ninth tenth eleventh twelfth thirteenth fourteenth fifteenth sixteenth seventeenth eighteenth nineteenth".split(
+		" ",
+	);
+const TENS: Record<string, number> = { twentieth: 20, twenty: 20, thirtieth: 30, thirty: 30 };
+/** "Sixth" is 6, "Twenty-fourth" is 24. */
+function ordinal(word: string): number {
+	const [a, b] = word.toLowerCase().split("-") as [string, string | undefined];
+	if (b) return (TENS[a] ?? Number.NaN) + ORDINALS.indexOf(b) + 1;
+	return TENS[a] ?? ORDINALS.indexOf(a) + 1;
+}
+
+/**
+ * The Upanishads of Sacred Books of the East 1 (Müller, 1879, Wikisource): the Khândogya, the Kena
+ * (Talavakâra), and the Îsâ (Vâgasaneyi). Pages are keyed "Khandogya 6" (one for each Prapâthaka),
+ * "Kena", and "Isa". The Khândogya is cited by Prapâthaka and Khanda, one passage for each Khanda
+ * with its verse numbers ("Khandogya 6.8"); the Kena by Khanda and verse ("Kena 1.3"); the Îsâ by verse
+ * ("Isa 6", the verse as its subdivision too, so that the ref names it).
+ */
+export function parseMullerUpanishads(htmlByPage: Record<string, string>): Passage[] {
+	const passages: Passage[] = [];
+	for (const [key, html] of Object.entries(htmlByPage)) {
+		const [name, book] = key.split(" ") as [string, string | undefined];
+		const index = UPANISHADS.findIndex((u) => u.startsWith(`${name}|`)) + 1;
+		if (index === 0) throw new Error(`Upanishads: no ${name}`);
+		let khanda = name === "Isa" ? 1 : 0;
+		const verses: { khanda: number; n: number; label: string; text: string }[] = [];
+		// The anchor of a Khanda heading holds its number; the heading's word can be misspelled ("Elventh").
+		const marked = html.replace(
+			/<span id="Khanda(\d+)"[^>]*class="wst-anchor"[^>]*>[\s\S]*?<\/span>/g,
+			"\uE004$1\uE004",
+		);
+		for (const b of wsBlocks(marked)) {
+			const anchor = b.text.match(/^\uE004(\d+)\uE004/);
+			const head = b.text.match(/^([A-Z][a-z]+(?:-[a-z]+)?) Khanda\.?$/);
+			if (anchor || head) {
+				khanda = anchor ? Number(anchor[1]) : ordinal((head as RegExpMatchArray)[1] as string);
+				continue;
+			}
+			// "1, 2." is two verses that Müller gives together.
+			const v = b.text.match(/^((\d+)(?:,\s*\d+)*)\.\s+([\s\S]*)$/);
+			if (v && khanda)
+				verses.push({ khanda, n: Number(v[2]), label: v[1] as string, text: v[3] as string });
+			else if (verses.length && hasLower(b.text))
+				(verses.at(-1) as { text: string }).text += ` ${b.text}`;
+		}
+		const at = (sub: number, n: number) => index * 1_000_000 + sub * 1000 + n;
+		if (name === "Khandogya") {
+			const p = Number(book);
+			for (const k of [...new Set(verses.map((v) => v.khanda))])
+				passages.push({
+					ref: `Khandogya ${p}.${k}`,
+					sort: at(p, k),
+					division: String(index),
+					subdivision: p,
+					divisionTitle: null,
+					text: clean(
+						verses
+							.filter((v) => v.khanda === k)
+							.map((v) => `${v.label}. ${v.text}`)
+							.join(" "),
+					),
+				});
+		} else
+			for (const v of verses)
+				passages.push({
+					ref: name === "Isa" ? `Isa ${v.n}` : `${name} ${v.khanda}.${v.n}`,
+					sort: name === "Isa" ? at(v.n, v.n) : at(v.khanda, v.n),
+					division: String(index),
+					subdivision: name === "Isa" ? v.n : v.khanda,
+					divisionTitle: null,
+					text: clean(v.text),
+				});
+	}
+	return passages.sort((a, b) => a.sort - b.sort);
+}
+
+/**
+ * The Shû King (Legge, Sacred Books of the East 3, 1879, Wikisource), one page for each book, or for
+ * each section of a book with sections, keyed "part.book" or "part.book.section". The pages carry
+ * Legge's chapter numbers for some books only, so a passage is a paragraph, numbered in order through
+ * the book ("Shu 2.1.3"). His introduction and notes (in smaller type), the headings, and the index page
+ * of a book with sections are out.
+ */
+export function parseLeggeShuKing(htmlByPage: Record<string, string>): Passage[] {
+	const passages: Passage[] = [];
+	const keys = Object.keys(htmlByPage);
+	const ran: Record<string, number> = {}; // paragraphs already numbered in the earlier sections of a book
+	const order = (k: string) => k.split(".").map(Number).concat(0) as [number, number, number];
+	for (const key of keys.sort((a, b) => {
+		const [x, y] = [order(a), order(b)];
+		return x[0] - y[0] || x[1] - y[1] || x[2] - y[2];
+	})) {
+		if (keys.some((k) => k.startsWith(`${key}.`))) continue;
+		const html = htmlByPage[key] as string;
+		const [part, book] = order(key);
+		const header = html.match(/class="header-section-text">([\s\S]*?)<\/div>/);
+		const title = header
+			? wikisourceText(header[1] as string).replace(/^Part [IVX]+, Book [IVXL]+:\s*/, "")
+			: null;
+		const paras: string[] = [];
+		for (const b of wsBlocks(html)) {
+			if (b.center || !hasLower(b.text) || /^(Book [IVXL]+\.|Section \d+\.$)/.test(b.text))
+				continue;
+			const text = b.text.replace(/^\d+\.\s+/, "").replace(/\*\s*/g, " ");
+			if (b.verse && paras.length) paras[paras.length - 1] += ` ${text}`;
+			else paras.push(text);
+		}
+		const offset = ran[`${part}.${book}`] ?? 0;
+		paras.forEach((text, i) => {
+			const n = offset + i + 1;
+			passages.push({
+				ref: `Shu ${part}.${book}.${n}`,
+				sort: part * 1_000_000 + book * 1000 + n,
+				division: String(part),
+				subdivision: book,
+				divisionTitle: title,
+				text: clean(text),
+			});
+		});
+		ran[`${part}.${book}`] = offset + paras.length;
+	}
+	return passages.sort((a, b) => a.sort - b.sort);
+}
