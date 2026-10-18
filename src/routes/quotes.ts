@@ -100,13 +100,51 @@ function toMatch({ candidate, score }: Scored) {
 	};
 }
 
+/** The result of a quote check, shared by POST /quotes/verify and the MCP tool `quotes.verify`. Null for a quote under 4 words. */
+export async function verifyQuote(candidates: CandidateSource, text: string, ref?: string) {
+	if (tokenize(text).length < MIN_QUOTE_WORDS) return null;
+	const found = await candidates.search(candidateQuery(text), CANDIDATES);
+	const claimed = ref ? await candidates.byRef(ref) : null;
+	const pool =
+		claimed && !found.some((f) => f.standardReferenceId === claimed.standardReferenceId)
+			? [...found, claimed]
+			: found;
+	const scored = pool.map((candidate) => ({
+		candidate,
+		score: scoreQuote(text, candidate.text),
+	}));
+	const best = scored.reduce<Scored | null>(
+		(top, s) => (!top || better(s, top) > 0 ? s : top),
+		null,
+	);
+	const verdict = best?.score.verdict ?? "not_found";
+	// A not_found result names the nearest paragraph only when it is somewhat near.
+	const match =
+		best && (verdict !== "not_found" || best.score.similarity >= 0.4) ? toMatch(best) : null;
+	const claimedScore = claimed
+		? scored.find((s) => s.candidate.standardReferenceId === claimed.standardReferenceId)?.score
+		: undefined;
+	return {
+		verdict,
+		match,
+		claimedReference: ref
+			? { ref, exists: !!claimed, verdict: claimedScore?.verdict ?? null }
+			: null,
+		alsoFoundAt: scored
+			.filter((s) => s.score.verdict === "exact" && s !== best)
+			.map((s) => s.candidate.standardReferenceId),
+	};
+}
+
 export function createQuotesRoute(
 	source?: (hyperdrive: Hyperdrive | undefined) => CandidateSource,
 ) {
 	const route = createApp();
+
 	route.openapi(verifyRoute, async (c) => {
 		const { text, ref } = c.req.valid("json");
-		if (tokenize(text).length < MIN_QUOTE_WORDS) {
+		const data = await verifyQuote((source ?? databaseCandidates)(c.env?.HYPERDRIVE), text, ref);
+		if (!data) {
 			return problemJson(
 				c,
 				400,
@@ -114,47 +152,9 @@ export function createQuotesRoute(
 				"quote-too-short",
 			);
 		}
-		const candidates = (source ?? databaseCandidates)(c.env?.HYPERDRIVE);
-
-		const found = await candidates.search(candidateQuery(text), CANDIDATES);
-		const claimed = ref ? await candidates.byRef(ref) : null;
-		const pool =
-			claimed && !found.some((f) => f.standardReferenceId === claimed.standardReferenceId)
-				? [...found, claimed]
-				: found;
-
-		const scored = pool.map((candidate) => ({
-			candidate,
-			score: scoreQuote(text, candidate.text),
-		}));
-		const best = scored.reduce<Scored | null>(
-			(top, s) => (!top || better(s, top) > 0 ? s : top),
-			null,
-		);
-		const verdict = best?.score.verdict ?? "not_found";
-		// A not_found result names the nearest paragraph only when it is somewhat near.
-		const match =
-			best && (verdict !== "not_found" || best.score.similarity >= 0.4) ? toMatch(best) : null;
-		const claimedScore = claimed
-			? scored.find((s) => s.candidate.standardReferenceId === claimed.standardReferenceId)?.score
-			: undefined;
-
-		return c.json(
-			{
-				data: {
-					verdict,
-					match,
-					claimedReference: ref
-						? { ref, exists: !!claimed, verdict: claimedScore?.verdict ?? null }
-						: null,
-					alsoFoundAt: scored
-						.filter((s) => s.score.verdict === "exact" && s !== best)
-						.map((s) => s.candidate.standardReferenceId),
-				},
-			},
-			200,
-		);
+		return c.json({ data }, 200);
 	});
+
 	return route;
 }
 

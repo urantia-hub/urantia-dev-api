@@ -1,25 +1,12 @@
 import { createRoute } from "@hono/zod-openapi";
-import { and, asc, eq, inArray, sql } from "drizzle-orm";
+import { and, asc, eq, getTableColumns, inArray, sql } from "drizzle-orm";
 import OpenAI from "openai";
 import { getDb } from "../db/client.ts";
-import {
-	bibleChunks,
-	bibleParallels,
-	bibleVerses,
-	paragraphs,
-} from "../db/schema.ts";
+import { bibleChunks, bibleParallels, bibleVerses, paragraphs } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
-import {
-	BIBLE_BOOKS,
-	formatBibleReference,
-	resolveBibleBook,
-} from "../lib/bible-canonicalizer.ts";
+import { BIBLE_BOOKS, formatBibleReference, resolveBibleBook } from "../lib/bible-canonicalizer.ts";
 import { problemJson } from "../lib/errors.ts";
-import {
-	getCachedEmbedding,
-	runAfter,
-	setCachedEmbedding,
-} from "../lib/search-cache.ts";
+import { getCachedEmbedding, runAfter, setCachedEmbedding } from "../lib/search-cache.ts";
 import {
 	BibleBookParam,
 	BibleBookResponse,
@@ -33,6 +20,10 @@ import {
 	BibleVerseResponse,
 	ErrorResponse,
 } from "../validators/schemas.ts";
+
+// Each column of a verse but its search vector: the routes do not need it, and it is not on a database before setup-works-search.sql.
+const { searchVector: _searchVector, ...columns } = getTableColumns(bibleVerses);
+export const verseColumns = columns;
 
 export const bibleRoute = createApp();
 
@@ -187,22 +178,20 @@ bibleRoute.openapi(getChapterRoute, async (c) => {
 	}
 
 	const rows = await db
-		.select()
+		.select(verseColumns)
 		.from(bibleVerses)
 		.where(and(eq(bibleVerses.bookCode, meta.osis), eq(bibleVerses.chapter, chapter)))
 		.orderBy(bibleVerses.verse);
 
 	if (rows.length === 0) {
-		return problemJson(
-			c,
-			404,
-			`${meta.name} has no chapter ${chapter}`,
-		);
+		return problemJson(c, 404, `${meta.name} has no chapter ${chapter}`);
 	}
 
 	const verses = rows.map((r) => ({
 		id: r.id,
-		reference: formatBibleReference(r.bookCode, r.chapter, r.verse) ?? `${r.bookName} ${r.chapter}:${r.verse}`,
+		reference:
+			formatBibleReference(r.bookCode, r.chapter, r.verse) ??
+			`${r.bookName} ${r.chapter}:${r.verse}`,
 		bookCode: r.bookCode,
 		bookName: r.bookName,
 		bookOrder: r.bookOrder,
@@ -263,7 +252,7 @@ bibleRoute.openapi(getVerseRoute, async (c) => {
 	}
 
 	const rows = await db
-		.select()
+		.select(verseColumns)
 		.from(bibleVerses)
 		.where(
 			and(
@@ -276,18 +265,16 @@ bibleRoute.openapi(getVerseRoute, async (c) => {
 
 	const row = rows[0];
 	if (!row) {
-		return problemJson(
-			c,
-			404,
-			`${meta.name} ${chapter}:${verse} not found`,
-		);
+		return problemJson(c, 404, `${meta.name} ${chapter}:${verse} not found`);
 	}
 
 	return c.json(
 		{
 			data: {
 				id: row.id,
-				reference: formatBibleReference(row.bookCode, row.chapter, row.verse) ?? `${row.bookName} ${row.chapter}:${row.verse}`,
+				reference:
+					formatBibleReference(row.bookCode, row.chapter, row.verse) ??
+					`${row.bookName} ${row.chapter}:${row.verse}`,
 				bookCode: row.bookCode,
 				bookName: row.bookName,
 				bookOrder: row.bookOrder,
@@ -368,11 +355,7 @@ bibleRoute.openapi(getVerseParagraphsRoute, async (c) => {
 		return problemJson(c, 404, `${meta.name} ${chapter}:${verse} not found`);
 	}
 	if (!v.chunkId) {
-		return problemJson(
-			c,
-			404,
-			`${meta.name} ${chapter}:${verse} has no embedding chunk yet`,
-		);
+		return problemJson(c, 404, `${meta.name} ${chapter}:${verse} has no embedding chunk yet`);
 	}
 
 	const chunkRows = await db
@@ -394,9 +377,7 @@ bibleRoute.openapi(getVerseParagraphsRoute, async (c) => {
 		formatBibleReference(v.bookCode, v.chapter, chunk.verseStart) ??
 		`${v.bookName} ${v.chapter}:${chunk.verseStart}`;
 	const chunkReference =
-		chunk.verseEnd === chunk.verseStart
-			? reference
-			: `${reference}-${chunk.verseEnd}`;
+		chunk.verseEnd === chunk.verseStart ? reference : `${reference}-${chunk.verseEnd}`;
 
 	const top = await db
 		.select({
@@ -415,10 +396,7 @@ bibleRoute.openapi(getVerseParagraphsRoute, async (c) => {
 		.from(bibleParallels)
 		.innerJoin(paragraphs, eq(bibleParallels.paragraphId, paragraphs.id))
 		.where(
-			and(
-				eq(bibleParallels.bibleChunkId, v.chunkId),
-				eq(bibleParallels.direction, "bible_to_ub"),
-			),
+			and(eq(bibleParallels.bibleChunkId, v.chunkId), eq(bibleParallels.direction, "bible_to_ub")),
 		)
 		.orderBy(asc(bibleParallels.rank));
 
@@ -599,7 +577,7 @@ bibleRoute.openapi(semanticSearchRoute, async (c) => {
 	}[];
 
 	// 4. Look up the top-N UB paragraphs for each chunk in one batch query.
-	let paragraphsByChunk = new Map<
+	const paragraphsByChunk = new Map<
 		string,
 		{
 			id: string;
@@ -661,8 +639,7 @@ bibleRoute.openapi(semanticSearchRoute, async (c) => {
 		const reference =
 			formatBibleReference(c.book_code, c.chapter, c.verse_start) ??
 			`${meta?.name ?? c.book_code} ${c.chapter}:${c.verse_start}`;
-		const fullRef =
-			c.verse_end === c.verse_start ? reference : `${reference}-${c.verse_end}`;
+		const fullRef = c.verse_end === c.verse_start ? reference : `${reference}-${c.verse_end}`;
 		return {
 			id: c.id,
 			reference: fullRef,

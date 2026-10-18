@@ -153,6 +153,7 @@ describe("POST /search/semantic (reference)", () => {
 		]);
 		expect(data[0].match).toBe("reference");
 		expect(meta.total).toBe(1);
+		expect(meta.related).toBe(1);
 	});
 });
 
