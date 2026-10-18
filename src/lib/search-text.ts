@@ -19,7 +19,7 @@ export function normalizeQuery(q: string): NormalQuery {
 	return { text, words: text ? text.split(" ") : [], quoted };
 }
 
-/** The same rule as `normalizeQuery`, for a generated column. Only immutable functions. */
+/** The same rule as `normalizeQuery`, in SQL. Only immutable functions, so an index can hold it. */
 export const normalizedSql = (column: string) =>
 	`(' ' || btrim(regexp_replace(regexp_replace(regexp_replace(lower(${column}), '[''‘’ʼ]', '', 'g'), '([0-9]),(?=[0-9]{3})', '\\1', 'g'), '[^a-z0-9]+', ' ', 'g')) || ' ')`;
 

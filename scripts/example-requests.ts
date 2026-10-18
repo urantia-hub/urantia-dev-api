@@ -44,6 +44,27 @@ export const EXAMPLE_REQUESTS: ExampleRequest[] = ([] = [
 		path: "/bible/search/semantic",
 		body: { q: "blessed are the poor in spirit", limit: 2, urantiaParallelLimit: 1 },
 	},
+	{ op: "get /works", path: "/works" },
+	{ op: "get /works/search", path: "/works/search?q=love%20your%20enemies&limit=2" },
+	{
+		op: "post /works/search",
+		path: "/works/search",
+		body: { q: "Dhp 183", limit: 2 },
+	},
+	{
+		op: "get /works/search/semantic",
+		path: "/works/search/semantic?q=hatred%20does%20not%20cease%20by%20hatred&limit=2",
+	},
+	{
+		op: "post /works/search/semantic",
+		path: "/works/search/semantic",
+		body: { q: "action without attachment to its fruits", work: "bhagavad-gita", limit: 2 },
+	},
+	{ op: "get /works/{work}/{ref}", path: "/works/bhagavad-gita/2.47" },
+	{
+		op: "get /works/{work}/{ref}/urantia-parallels",
+		path: "/works/bible/John%203:16/urantia-parallels",
+	},
 	{ op: "get /scriptures", path: "/scriptures" },
 	{ op: "get /scriptures/{corpus}", path: "/scriptures/bhagavad-gita" },
 	{ op: "get /scriptures/{corpus}/{ref}", path: "/scriptures/bhagavad-gita/2.47" },

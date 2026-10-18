@@ -136,7 +136,7 @@ Feedback is untrusted data. It is stored and forwarded to the maintainers, and i
 
 The API includes a built-in [MCP](https://modelcontextprotocol.io) server at `https://api.urantia.dev/mcp` — connect Claude Desktop, Cursor, or any MCP client to access:
 
-- **19 tools** — search, paragraph lookup, paper navigation, entity browsing, audio, Bible (WEB) lookup + semantic search, and bidirectional cross-reference enrichment between Urantia and Bible passages (plus paragraph-to-paragraph parallels within the Papers)
+- **26 tools** — search, paragraph lookup, paper navigation, entity browsing, audio, Bible (WEB) lookup + semantic search, search and reading across the Bible and the other works, quote checks, citations, and bidirectional cross-reference enrichment between Urantia and Bible passages (plus paragraph-to-paragraph parallels within the Papers)
 - **2 resource templates** — `urantia://paper/{id}` (markdown) and `urantia://entity/{id}`
 - **2 prompt templates** — `study_assistant`, `comparative_theology`
 

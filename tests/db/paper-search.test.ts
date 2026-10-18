@@ -68,6 +68,33 @@ suite("searchPapers on the Papers", () => {
 		expect(r.meta.didYouMean).toBe("the universal father is the god of all creation");
 	});
 
+	it("labels a paragraph with only some words as most in or mode", async () => {
+		const r = await searchPapers(db as never, {
+			q: "melchizedek salem",
+			type: "or",
+			page: 0,
+			limit: 100,
+		});
+		for (const p of r.data) {
+			const text = p.text.toLowerCase();
+			const both = text.includes("melchizedek") && text.includes("salem");
+			if (p.match === "all") expect(both).toBe(true);
+		}
+		expect(r.data.some((p) => p.match === "most")).toBe(true);
+	});
+
+	it("marks the start of the last word after a typo fix", async () => {
+		const r = await search("spirt grav");
+		expect(r.meta.didYouMean).toBe("spirit grav");
+		expect(r.data[0]?.htmlText).toMatch(/urantia-dev-highlighted>[Gg]ravity/);
+	});
+
+	it("checks only the first 12 long words for a typo", async () => {
+		const long = Array.from({ length: 14 }, (_, i) => `qqqq${String.fromCharCode(97 + i)}`);
+		const r = await search([...long, "fahter"].join(" "));
+		expect(r.meta.didYouMean ?? "").not.toContain("father");
+	});
+
 	it("finds a word from its first letters", async () => {
 		const r = await search("agondon");
 		expect(r.meta.total).toBeGreaterThan(0);

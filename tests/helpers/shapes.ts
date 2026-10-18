@@ -90,7 +90,9 @@ export function assertSearchResultShape(r: Record<string, unknown>) {
 }
 
 export function assertSemanticResultShape(r: Record<string, unknown>) {
-	expect(Object.keys(r).sort()).toEqual([...PARAGRAPH_KEYS, "similarity"].sort());
+	expect(Object.keys(r).sort()).toEqual(
+		[...PARAGRAPH_KEYS, "similarity", "strength", "match"].sort(),
+	);
 }
 
 export function assertEntityShape(e: Record<string, unknown>) {
