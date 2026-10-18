@@ -6,7 +6,7 @@ import { ErrorResponse } from "../validators/schemas.ts";
 
 export const citeRoute = createApp();
 
-const CitationStyleEnum = z.enum(["apa", "mla", "chicago", "bibtex"]);
+export const CitationStyleEnum = z.enum(["apa", "mla", "chicago", "bibtex"]);
 
 const CiteQuery = z.object({
 	ref: z.string().min(1),
@@ -93,6 +93,17 @@ Reference formats accepted:
 		},
 	},
 });
+
+/** A citation of one paragraph, or null for a ref that is not one. Shared with the MCP tool `cite.get`. */
+export function citeParagraph(
+	ref: string,
+	style: z.infer<typeof CitationStyleEnum>,
+): string | null {
+	const parsed = parseRef(ref);
+	return parsed
+		? formatCitation(style, parsed.paperId, parsed.sectionId, parsed.paragraphId)
+		: null;
+}
 
 citeRoute.openapi(getCiteRoute, async (c) => {
 	const { ref, style } = c.req.valid("query");

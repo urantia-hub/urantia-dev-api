@@ -400,9 +400,16 @@ export const bibleVerses = pgTable(
 		chunkId: text("chunk_id"),
 		translation: text("translation").notNull().default("web"),
 		sourceVersion: text("source_version").notNull(),
+		// Keyword search (scripts/setup-works-search.sql), the same rules as on `paragraphs`.
+		searchVector: tsvector("search_vector").generatedAlwaysAs(
+			sql`to_tsvector('english'::regconfig, COALESCE(text, ''::text))`,
+		),
+		matchText: text("match_text").generatedAlwaysAs(sql.raw(normalizedSql("text"))),
 	},
 	(t) => [
 		index("bv_book_chapter_verse_idx").on(t.bookCode, t.chapter, t.verse),
+		index("bv_fts_gin_idx").using("gin", t.searchVector),
+		index("bv_match_text_trgm_idx").using("gin", t.matchText.op("gin_trgm_ops")),
 		index("bv_book_order_idx").on(t.bookOrder),
 		index("bv_canon_idx").on(t.canon),
 		index("bv_chunk_id_idx").on(t.chunkId),
@@ -566,9 +573,16 @@ export const scripturePassages = pgTable(
 		numberEnd: integer("number_end").notNull(),
 		text: text("text").notNull(),
 		chunkId: text("chunk_id").references(() => scriptureChunks.id),
+		// Keyword search (scripts/setup-works-search.sql), the same rules as on `paragraphs`.
+		searchVector: tsvector("search_vector").generatedAlwaysAs(
+			sql`to_tsvector('english'::regconfig, COALESCE(text, ''::text))`,
+		),
+		matchText: text("match_text").generatedAlwaysAs(sql.raw(normalizedSql("text"))),
 	},
 	(t) => [
 		uniqueIndex("sp_corpus_sort_idx").on(t.corpusId, t.sort),
+		index("sp_fts_gin_idx").using("gin", t.searchVector),
+		index("sp_match_text_trgm_idx").using("gin", t.matchText.op("gin_trgm_ops")),
 		index("sp_corpus_division_idx").on(t.corpusId, t.division),
 		index("sp_chunk_id_idx").on(t.chunkId),
 	],
