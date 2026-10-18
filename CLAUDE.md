@@ -124,10 +124,14 @@ the two give the same results. Mode `auto` (the default) goes in tiers: a whole 
 phrase, all words, near words (a typo fixed, `meta.didYouMean`), and most words. The last two run
 only when the first ones give fewer than 10.
 
-- `paragraphs.match_text` is a generated column. Its rule is `normalizedSql` in `src/lib/search-text.ts`,
-  and it must give the same text as `normalizeQuery`. Change both together.
-- `search_vector` and `match_text` are declared as generated in `schema.ts`. Before that, a push
-  dropped the expression of `search_vector`.
+- The normalized text is no column: `matchText` (`src/lib/search-words.ts`) gives the SQL of
+  `normalizedSql` in `src/lib/search-text.ts`, and each table has a trigram index on that expression
+  (`paragraphs_match_text_trgm_idx`, built CONCURRENTLY, so no rewrite of a table with vectors). It
+  must give the same text as `normalizeQuery`, and the query must use the same expression as the
+  index. Change them together.
+- `search_vector` is declared as generated in `schema.ts`. Before that, a push dropped its expression.
+- Do not deploy before `setup-search.sql` (and `setup-works-search.sql` for `/works`) runs: the
+  search queries need the indexes, `search_words`, and `fuzzystrmatch`.
 - `search_words` holds the words of each text with their counts. Run
   `bun scripts/fill-search-words.ts papers` after a reseed.
 - Query text reaches Postgres only as a parameter. The tsquery is built from normalized words
