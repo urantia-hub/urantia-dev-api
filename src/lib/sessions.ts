@@ -125,6 +125,11 @@ export async function refreshSession(
 	}
 
 	if (row.expiresAt < now) {
+		// A used token that ended (a recovered one) and returns is a late used token: end the sign-in.
+		if (row.consumed && row.familyId) {
+			await store.deleteFamily(row.familyId);
+			return refused("Refresh token has already been used. This sign-in has ended.");
+		}
 		await store.deleteRefreshToken(row.id);
 		return refused("Refresh token has expired. Please sign in again.");
 	}

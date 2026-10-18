@@ -510,6 +510,8 @@ describe("the limits of a recovery", () => {
 			after(600),
 		);
 		expect(twice).toMatchObject({ ok: false, status: 401 });
+		// The second return of a recovered token ends the whole sign-in, as any late used token does.
+		expect(rows).toHaveLength(0);
 		const third = await refreshSession(
 			store,
 			env,
