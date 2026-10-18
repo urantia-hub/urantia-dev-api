@@ -31,12 +31,23 @@ async function gutenberg(id: number): Promise<string> {
 	return res.text();
 }
 
-async function wikisource(page: string): Promise<string> {
-	const url = `https://en.wikisource.org/w/api.php?${new URLSearchParams({ action: "parse", page, prop: "text", format: "json", formatversion: "2" })}`;
+async function wikisource(page: string, oldid?: number): Promise<string> {
+	const which: Record<string, string> = oldid ? { oldid: String(oldid) } : { page };
+	const url = `https://en.wikisource.org/w/api.php?${new URLSearchParams({ action: "parse", ...which, prop: "text", format: "json", formatversion: "2" })}`;
 	const res = await fetch(url, { headers: HEADERS });
 	if (!res.ok) throw new Error(`Wikisource ${page}: HTTP ${res.status}`);
 	return ((await res.json()) as { parse: { text: string } }).parse.text;
 }
+
+// Hymn pages whose text today is not Griffith's, read at the last revision before that edit
+// (each found by a comparison with the 2005 import, 2026-10-18): 10.34 holds a translation revised
+// after Macdonell (2006), 10.58.3 "four-eyed" (2023), 10.86.13-14 other text (2022), 10.97.6 added words (2021).
+const RIG_VEDA_PINNED: Record<string, number> = {
+	"10.34": 54741,
+	"10.58": 12150713,
+	"10.86": 3747414,
+	"10.97": 3747426,
+};
 
 async function besantChapters(): Promise<Record<string, string>> {
 	const chapters: Record<string, string> = {};
@@ -83,7 +94,8 @@ async function rigVedaHymns(): Promise<Record<string, string>> {
 	for (const title of titles) {
 		const m = /\/Book (\d+)\/Hymn (\d+)$/.exec(title);
 		if (!m) continue;
-		hymns[`${m[1]}.${m[2]}`] = await wikisource(title);
+		const key = `${m[1]}.${m[2]}`;
+		hymns[key] = await wikisource(title, RIG_VEDA_PINNED[key]);
 		await new Promise((r) => setTimeout(r, 500));
 	}
 	if (Object.keys(hymns).length !== 1028)
