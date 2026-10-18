@@ -8,14 +8,20 @@ import {
 	type Passage,
 	parseAnalects,
 	parseAstonOracles,
+	parseBellowsEdda,
 	parseBesantGita,
 	parseBookOfMormon,
+	parseBrintonHymns,
 	parseDhammapada,
+	parseGilesChuangTzu,
 	parseGriffithRigVeda,
+	parseHesiod,
 	parseHicksBook6,
+	parseHomericHymns,
 	parseJapji,
 	parseOldfatherChapter,
 	parsePickthall,
+	parseRenoufBookOfTheDead,
 	parseTaoTeChing,
 } from "./parsers.ts";
 
@@ -103,6 +109,13 @@ async function rigVedaHymns(): Promise<Record<string, string>> {
 	return hymns;
 }
 
+/** Stops the build when a source does not give the count of hymns, poems, or chapters that it has. */
+function parts(passages: Passage[], count: number, name: string): Passage[] {
+	const found = new Set(passages.map((p) => p.division)).size;
+	if (found !== count) throw new Error(`${name}: ${found} parts, not ${count}`);
+	return passages;
+}
+
 const PARSE: Record<string, () => Promise<Passage[]>> = {
 	"dhammapada-muller-1881": async () => parseDhammapada(await gutenberg(2017)),
 	"tao-te-ching-legge-1891": async () => parseTaoTeChing(await gutenberg(216)),
@@ -119,6 +132,18 @@ const PARSE: Record<string, () => Promise<Passage[]>> = {
 		return passages;
 	},
 	"rig-veda-griffith-1896": async () => parseGriffithRigVeda(await rigVedaHymns()),
+	// 186 chapters, less the 17 that are only a picture, a repeat, a part of another, or a description.
+	"book-of-the-dead-renouf-1904": async () =>
+		parts(parseRenoufBookOfTheDead(await gutenberg(69566)), 169, "Book of the Dead"),
+	"hesiod-evelyn-white-1914": async () => parts(parseHesiod(await gutenberg(348)), 2, "Hesiod"),
+	"homeric-hymns-evelyn-white-1914": async () =>
+		parts(parseHomericHymns(await gutenberg(348)), 33, "Homeric Hymns"),
+	"poetic-edda-bellows-1923": async () =>
+		parts(parseBellowsEdda(await gutenberg(73533)), 35, "Poetic Edda"),
+	"aztec-hymns-brinton-1890": async () =>
+		parts(parseBrintonHymns(await gutenberg(14993)), 20, "Aztec hymns"),
+	"chuang-tzu-giles-1889": async () =>
+		parts(parseGilesChuangTzu(await gutenberg(59709)), 33, "Chuang Tzu"),
 	"japji-macauliffe-1909": async () =>
 		parseJapji(await wikisource("The Sikh Religion/Volume 1/Japji")),
 	"diogenes-laertius-6-hicks-1925": async () =>

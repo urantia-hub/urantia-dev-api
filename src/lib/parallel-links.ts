@@ -93,6 +93,13 @@ const WORKS: Record<string, Work> = {
 	"koran-pickthall-1930": { page: gutenberg(16955), words: 24, exact: true },
 	"dhammapada-muller-1881": { page: gutenberg(2017), words: 0 },
 	"book-of-mormon-1830": { page: gutenberg(17), words: 24, exact: true },
+	// Repeated chapters: 24 first words were in two places for 13 passages, so no fragment.
+	"book-of-the-dead-renouf-1904": { page: gutenberg(69566), words: 0 },
+	"hesiod-evelyn-white-1914": { page: gutenberg(348), words: 24, exact: true },
+	"homeric-hymns-evelyn-white-1914": { page: gutenberg(348), words: 24, exact: true },
+	"poetic-edda-bellows-1923": { page: gutenberg(73533), words: 24, exact: true },
+	"aztec-hymns-brinton-1890": { page: gutenberg(14993), words: 24, exact: true },
+	"chuang-tzu-giles-1889": { page: gutenberg(59709), words: 24, exact: true },
 };
 
 /** The page that holds a passage of a work, or null. */

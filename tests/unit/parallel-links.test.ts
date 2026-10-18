@@ -84,6 +84,16 @@ describe("a page that holds a whole book", () => {
 		).toBe("https://www.gutenberg.org/cache/epub/4094/pg4094-images.html");
 	});
 
+	it("gets the page only for the Book of the Dead, whose repeated chapters share their words", () => {
+		expect(
+			scriptureUrl(
+				"book-of-the-dead-renouf-1904",
+				"BD 64.5",
+				"Oh Râ, who smileth cheerfully, and whose heart is delighted with the perfect order of this day, as thou enterest into Heaven and comest forth in the East, the Ancients and those who are gone before acclaim thee.",
+			),
+		).toBe("https://www.gutenberg.org/cache/epub/69566/pg69566-images.html");
+	});
+
 	it("gets the page only when no number of words was sure", () => {
 		expect(
 			scriptureUrl(
@@ -134,6 +144,21 @@ describe("the address of a passage of another work", () => {
 		);
 		for (const reference of ["RV 10", "RV 11.1.1", "RV 1.0.1"])
 			expect(scriptureUrl("rig-veda-griffith-1896", reference, "x")).toBeNull();
+	});
+
+	it("is the reading page of Project Gutenberg for the works of batch 2", () => {
+		for (const [id, pg] of [
+			["book-of-the-dead-renouf-1904", 69566],
+			["hesiod-evelyn-white-1914", 348],
+			["homeric-hymns-evelyn-white-1914", 348],
+			["poetic-edda-bellows-1923", 73533],
+			["aztec-hymns-brinton-1890", 14993],
+			["chuang-tzu-giles-1889", 59709],
+		] as const) {
+			expect(workPage(id, "X 1.1")).toBe(
+				`https://www.gutenberg.org/cache/epub/${pg}/pg${pg}-images.html`,
+			);
+		}
 	});
 
 	it("has a page for each work with a link, and none for a work with no link", () => {
