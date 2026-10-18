@@ -134,6 +134,10 @@ only when the first ones give fewer than 10.
   search queries need the indexes, `search_words`, and `fuzzystrmatch`.
 - `search_words` holds the words of each text with their counts. Run
   `bun scripts/fill-search-words.ts papers` after a reseed.
+- Older words (`src/lib/older-words.ts`): in `auto` mode a listed modern word also matches the older
+  word that the Papers use ("pigs" finds "swine" in 151:6), in the exact and all-word tiers, and the
+  older word is marked. The explicit modes stay literal. Each pair is approved by Kelson; build the
+  list from what readers search, but no search text from the logs goes in the repo.
 - Query text reaches Postgres only as a parameter. The tsquery is built from normalized words
   (`[a-z0-9]` only).
 - `tests/db/paper-search.test.ts` runs on a local copy of the Papers: seed, `setup-fts.sql`,
