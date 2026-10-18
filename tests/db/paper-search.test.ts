@@ -38,6 +38,21 @@ suite("searchPapers on the Papers", () => {
 		expect((await search('"103:2.1"')).data[0]?.standardReferenceId).toBe("103:2.1");
 	});
 
+	it("finds the older word of a listed word, and marks it: pigs finds the swine of 151:6", async () => {
+		const r = await search("pigs", { limit: 5 });
+		expect(refs(r)[0]).toBe("151:6.6");
+		expect(r.data[0]?.htmlText).toContain("<span class=urantia-dev-highlighted>swine</span>");
+		expect(refs(r)).toContain("61:1.9");
+		const story = refs(await search("jesus pigs", { limit: 4 }));
+		expect([...story].sort()).toEqual(["151:6.5", "151:6.6", "151:6.7", "151:6.8"]);
+	});
+
+	it("keeps an explicit mode literal: no older word", async () => {
+		const r = await search("pigs", { type: "and", limit: 50 });
+		expect(refs(r)).not.toContain("151:6.6");
+		expect(refs(r)).toContain("61:3.5");
+	});
+
 	it("gives the paragraphs of a section in order", async () => {
 		const r = await search("103:2");
 		expect(r.meta.total).toBe(10);

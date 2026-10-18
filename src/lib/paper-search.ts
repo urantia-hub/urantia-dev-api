@@ -2,6 +2,7 @@
 // `auto` tiers: a reference, the exact phrase, all words, near words (a typo fixed), most words.
 import { and, eq, type SQL, sql } from "drizzle-orm";
 import { paragraphs } from "../db/schema.ts";
+import { olderTsQuery, olderWords, phraseVariants } from "./older-words.ts";
 import {
 	normalizeQuery,
 	type PaperRef,
@@ -154,7 +155,12 @@ export async function searchPapers(db: Db, opts: PaperSearchOptions): Promise<Pa
 	if (nq.words.length === 0) return empty();
 	const content = await contentWords(db, nq.words);
 	const keep = (words: string[]) => words.filter((w) => content.has(w));
-	const exact = sql`${MATCH_TEXT} like ${`% ${nq.text} %`}`;
+	const like = (phrase: string) => sql`${MATCH_TEXT} like ${`% ${phrase} %`}`;
+	// In auto mode a listed word also matches its older word (`OLDER_WORDS`): "pigs" finds "swine".
+	const exact =
+		type === "auto"
+			? sql`(${sql.join(phraseVariants(nq.words).map(like), sql` or `)})`
+			: like(nq.text);
 	const rankBy = (query: SQL) => sql`ts_rank(${paragraphs.searchVector}, ${query}) desc`;
 
 	if (type !== "auto") {
@@ -183,7 +189,8 @@ export async function searchPapers(db: Db, opts: PaperSearchOptions): Promise<Pa
 	const prefix = !nq.quoted;
 	const lastIsPrefix = prefix && content.has(nq.words.at(-1) as string);
 	const words = keep(nq.words);
-	const allQuery = words.length > 0 && !nq.quoted ? tsq(toTsQuery(words, "&", lastIsPrefix)) : null;
+	const allQuery =
+		words.length > 0 && !nq.quoted ? tsq(olderTsQuery(words, "&", lastIsPrefix)) : null;
 	const all = allQuery ? sql`${paragraphs.searchVector} @@ ${allQuery}` : sql`false`;
 	const base = sql`(${exact} or ${all})`;
 
@@ -192,7 +199,10 @@ export async function searchPapers(db: Db, opts: PaperSearchOptions): Promise<Pa
 	let most: SQL = sql`false`;
 	let mostCount: SQL | null = null;
 	let didYouMean: string | undefined;
-	let highlightWords = words;
+	// The older words are marked too. The query's last word stays last, for its prefix mark.
+	const older = olderWords(words);
+	let highlightWords =
+		older.length > 0 ? [...words.slice(0, -1), ...older, ...words.slice(-1)] : words;
 	let mostWords = words;
 	let mostPrefix = lastIsPrefix;
 	if ((await count(db, and(base, ...filters) as SQL)) < ENOUGH) {
@@ -209,7 +219,7 @@ export async function searchPapers(db: Db, opts: PaperSearchOptions): Promise<Pa
 			}
 			// The query's last word stays last, so a prefix mark goes on it and not on a fixed word.
 			const last = words.at(-1);
-			highlightWords = [...new Set([...words, ...fixedWords])].filter((w) => w !== last);
+			highlightWords = [...new Set([...words, ...older, ...fixedWords])].filter((w) => w !== last);
 			if (last) highlightWords.push(last);
 			mostWords = fixedWords;
 			mostPrefix = fixedPrefix && fixedContent.has(fixed.at(-1) as string);
