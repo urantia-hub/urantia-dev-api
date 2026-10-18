@@ -34,8 +34,14 @@ export interface AuthStore {
 	// Each sign-in of this reader in this app. For a token from before families existed.
 	deleteForUserAndApp(userId: string, appId: string): Promise<void>;
 	deleteRefreshToken(id: string): Promise<void>;
-	// Used tokens of one family that are older than the moment given.
+	// Used tokens of one family that are older than the moment given. The newest used token stays.
 	deleteConsumedBefore(familyId: string, before: Date): Promise<void>;
+	// True if a token of the family was used after the moment given.
+	usedSince(familyId: string, at: Date): Promise<boolean>;
+	// Claims the recovery of a used token: only if it is still marked as used at `from`. The token is then
+	// used at `at` and ends at `endsAt`, so it cannot be recovered a second time. False if another request
+	// claimed it first.
+	reclaimConsumed(id: string, from: Date, at: Date, endsAt: Date): Promise<boolean>;
 	// The review status of the app and its owner, or null if the app is gone.
 	appAccess(appId: string): Promise<{ status: AppStatus; ownerId: string | null } | null>;
 	// The scopes that the reader allows this app now, or null if the reader removed the app.
@@ -115,8 +121,31 @@ export function createAuthStore(db: Db): AuthStore {
 						eq(refreshTokens.familyId, familyId),
 						isNotNull(refreshTokens.consumed),
 						lt(refreshTokens.consumed, before),
+						sql`${refreshTokens.consumed} < (select max(consumed) from refresh_tokens where family_id = ${familyId}::uuid)`,
 					),
 				);
+		},
+		async usedSince(familyId, at) {
+			const [row] = await db
+				.select({ id: refreshTokens.id })
+				.from(refreshTokens)
+				.where(
+					and(
+						eq(refreshTokens.familyId, familyId),
+						isNotNull(refreshTokens.consumed),
+						sql`${refreshTokens.consumed} > ${at.toISOString()}::timestamptz at time zone 'UTC'`,
+					),
+				)
+				.limit(1);
+			return row !== undefined;
+		},
+		async reclaimConsumed(id, from, at, endsAt) {
+			const done = await db
+				.update(refreshTokens)
+				.set({ consumed: at, expiresAt: endsAt })
+				.where(and(eq(refreshTokens.id, id), eq(refreshTokens.consumed, from)))
+				.returning({ id: refreshTokens.id });
+			return done.length > 0;
 		},
 		async appAccess(appId) {
 			const [row] = await db

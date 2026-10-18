@@ -190,6 +190,7 @@ The API includes a unified auth layer for the Urantia ecosystem:
 - **Identity**: Supabase Auth (GoTrue) with ECC P-256 JWT signing
 - **JWT validation**: Supabase JWKS (ECC P-256) for session tokens of the accounts site; our own ES256 key for app tokens. A token of the old form (HS256) is refused since 2026-10-10. The secret `APP_JWT_SECRET` is no longer read; ask Kelson before it is deleted
 - **Token exchange**: `POST /auth/token` returns an ES256 access token (15 minutes) and a refresh token (90 days from last use, one use each), with claims: `sub`, `email`, `scopes`, `app_id`, `iss`, `aud`
+- **A used refresh token that returns** (`src/lib/sessions.ts`): inside 10 seconds it gets a pair (two tabs). Later, it ends the sign-in only if a newer token of the family was used. If none was, the answer of its refresh was lost (a closed page, a reload, a sleep), and it gets a new pair: one time for each token (`reclaimConsumed` claims it in one statement and ends the token 10 seconds later), and only up to 7 days after the token was used. The newest used token of a family is kept past the one hour, so this also works the next morning. Before 2026-10-18 a lost answer signed the reader out at the next refresh, about once a day.
 - **Login page**: accounts.urantiahub.com (separate Next.js app in `urantia-accounts/`)
 - **User data tables**: users, bookmarks, notes, reading_progress, user_preferences, apps, app_user_data, auth_codes
 - **Authenticated endpoints**: `/me/*` (bookmarks, notes, reading progress, preferences)

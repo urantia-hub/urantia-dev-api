@@ -12,8 +12,11 @@ import type { AuthStore } from "./auth-store.ts";
 
 // Two tabs can refresh with one token at the same moment. Inside this time a used token is not a theft.
 const REUSE_GRACE_MS = 10_000;
-// Used tokens are kept this long, so that a late return of one can end the family.
+// Used tokens are kept this long, so that a late return of one can end the family. The newest used
+// token of a family stays longer, so a lost answer can be recovered (see refreshSession).
 const KEEP_CONSUMED_MS = 60 * 60 * 1000;
+// A lost answer can be recovered this long after the token was used: a night, or a week away.
+const RECOVER_MS = 7 * 24 * 60 * 60 * 1000;
 
 export type Tokens = {
 	accessToken: string;
@@ -111,7 +114,8 @@ export async function refreshSession(
 	input: { appId: string; refreshToken: string },
 	now: Date = new Date(),
 ): Promise<RefreshResult> {
-	const row = await store.findRefreshToken(await sha256(input.refreshToken), input.appId);
+	const tokenHash = await sha256(input.refreshToken);
+	const row = await store.findRefreshToken(tokenHash, input.appId);
 	if (!row) {
 		// Not known, but it names a family: an old token of that family, used again. End that sign-in.
 		// The family id is a random secret that only its own tokens hold, and the app must match too.
@@ -125,9 +129,29 @@ export async function refreshSession(
 		return refused("Refresh token has expired. Please sign in again.");
 	}
 
-	// A used token that returns late is a sign of theft: end the whole sign-in.
+	// A used token that returns late is a sign of theft: end the whole sign-in. But when no token of the
+	// family was used after it, the answer of its refresh never reached the app (a closed page, a sleep):
+	// the app still holds this token and nothing else, so it gets a new pair. Once per token, and only
+	// inside RECOVER_MS. The claim is one statement, so replays at the same moment start one recovery;
+	// the others arrive inside the grace time of the claim, as two tabs do.
 	const usedAt = row.consumed ?? ((await store.markConsumed(row.id, now)) ? null : now);
-	if (usedAt && now.getTime() - usedAt.getTime() > REUSE_GRACE_MS) {
+	const late = usedAt !== null && now.getTime() - usedAt.getTime() > REUSE_GRACE_MS;
+	const recoverable =
+		late &&
+		row.familyId !== null &&
+		now.getTime() - usedAt.getTime() < RECOVER_MS &&
+		!(await store.usedSince(row.familyId, usedAt));
+	let recovered = false;
+	if (recoverable) {
+		const ends = new Date(now.getTime() + REUSE_GRACE_MS);
+		recovered = await store.reclaimConsumed(row.id, usedAt, now, ends);
+		if (!recovered) {
+			// Another request claimed it a moment ago. Inside the grace time of that claim, this is a second tab.
+			const again = await store.findRefreshToken(tokenHash, input.appId);
+			recovered = !!again?.consumed && now.getTime() - again.consumed.getTime() <= REUSE_GRACE_MS;
+		}
+	}
+	if (late && !recovered) {
 		// A token from before families existed has no family to end. End each sign-in of this reader in
 		// this app, as the old code did.
 		if (row.familyId) await store.deleteFamily(row.familyId);

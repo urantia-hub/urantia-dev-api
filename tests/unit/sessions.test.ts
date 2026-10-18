@@ -67,10 +67,28 @@ function memoryStore(consents: Record<string, string[] | null> = { [APP]: ["prof
 			if (i >= 0) rows.splice(i, 1);
 		},
 		async deleteConsumedBefore(familyId, before) {
+			const used = rows.filter((r) => r.familyId === familyId && r.consumed);
+			const newest = Math.max(...used.map((r) => (r.consumed as Date).getTime()));
 			for (let i = rows.length - 1; i >= 0; i--) {
 				const row = rows[i];
-				if (row?.familyId === familyId && row.consumed && row.consumed < before) rows.splice(i, 1);
+				if (
+					row?.familyId === familyId &&
+					row.consumed &&
+					row.consumed < before &&
+					row.consumed.getTime() < newest
+				)
+					rows.splice(i, 1);
 			}
+		},
+		async usedSince(familyId, at) {
+			return rows.some((r) => r.familyId === familyId && r.consumed && r.consumed > at);
+		},
+		async reclaimConsumed(id, from, at, endsAt) {
+			const row = rows.find((r) => r.id === id);
+			if (!row || row.consumed?.getTime() !== from.getTime()) return false;
+			row.consumed = at;
+			row.expiresAt = endsAt;
+			return true;
 		},
 		async appAccess() {
 			return access;
@@ -164,7 +182,7 @@ describe("refreshSession", () => {
 		expect(rows).toHaveLength(0);
 	});
 
-	it("ends the whole family when a used token comes back after the grace time", async () => {
+	it("ends the whole family when a used token comes back after the next token was used", async () => {
 		const { store, rows } = memoryStore();
 		const first = await start(store);
 		const second = await refreshSession(
@@ -174,6 +192,14 @@ describe("refreshSession", () => {
 			after(60),
 		);
 		if (!second.ok) throw new Error("setup");
+		// The holder of the second token uses it, so the first token's answer was not lost.
+		const third = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: second.tokens.refreshToken },
+			after(90),
+		);
+		if (!third.ok) throw new Error("setup");
 		const replay = await refreshSession(
 			store,
 			env,
@@ -182,11 +208,11 @@ describe("refreshSession", () => {
 		);
 		expect(replay).toMatchObject({ ok: false, status: 401 });
 		expect(rows).toHaveLength(0);
-		// The pair that the thief or the reader got from the first use is dead too.
+		// The pair that the thief or the reader got after the first use is dead too.
 		const dead = await refreshSession(
 			store,
 			env,
-			{ appId: APP, refreshToken: second.tokens.refreshToken },
+			{ appId: APP, refreshToken: third.tokens.refreshToken },
 			after(130),
 		);
 		expect(dead.ok).toBe(false);
@@ -370,6 +396,151 @@ describe("an app that other readers cannot use", () => {
 });
 
 // Findings of the commit scan, 2026-10-08.
+describe("a refresh whose answer never reached the app", () => {
+	// The page closed, or the computer slept, after the API used the token and before the answer came.
+	it("gives a new pair when the used token comes back and nothing used its answer", async () => {
+		const { store } = memoryStore();
+		const first = await start(store);
+		const lost = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: first.refreshToken },
+			after(60),
+		);
+		if (!lost.ok) throw new Error("setup");
+		const again = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: first.refreshToken },
+			after(108),
+		);
+		expect(again.ok).toBe(true);
+		if (!again.ok) return;
+		const next = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: again.tokens.refreshToken },
+			after(1000),
+		);
+		expect(next.ok).toBe(true);
+	});
+
+	it("does the same the next morning, after the one hour that used tokens are kept", async () => {
+		const { store } = memoryStore();
+		let token = (await start(store)).refreshToken;
+		for (const at of [60, 2 * 3600]) {
+			const result = await refreshSession(
+				store,
+				env,
+				{ appId: APP, refreshToken: token },
+				after(at),
+			);
+			if (!result.ok) throw new Error("setup");
+			token = result.tokens.refreshToken;
+		}
+		// This answer is lost at night.
+		const lost = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: token },
+			after(4 * 3600),
+		);
+		if (!lost.ok) throw new Error("setup");
+		const morning = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: token },
+			after(14 * 3600),
+		);
+		expect(morning.ok).toBe(true);
+	});
+
+	it("gives a pair to each request that comes back with the lost token at once", async () => {
+		const { store } = memoryStore();
+		const first = await start(store);
+		const lost = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: first.refreshToken },
+			after(60),
+		);
+		if (!lost.ok) throw new Error("setup");
+		const all = await Promise.all(
+			[0, 1, 2, 3].map(() =>
+				refreshSession(store, env, { appId: APP, refreshToken: first.refreshToken }, after(1200)),
+			),
+		);
+		expect(all.every((r) => r.ok)).toBe(true);
+		// The app keeps the last answer that arrives. Each one must still work.
+		for (const r of all) {
+			if (!r.ok) continue;
+			const next = await refreshSession(
+				store,
+				env,
+				{ appId: APP, refreshToken: r.tokens.refreshToken },
+				after(2100),
+			);
+			expect(next.ok).toBe(true);
+		}
+	});
+});
+
+describe("the limits of a recovery", () => {
+	it("recovers a lost token one time only", async () => {
+		const { store, rows } = memoryStore();
+		const first = await start(store);
+		const lost = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: first.refreshToken },
+			after(60),
+		);
+		if (!lost.ok) throw new Error("setup");
+		const once = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: first.refreshToken },
+			after(120),
+		);
+		expect(once.ok).toBe(true);
+		const twice = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: first.refreshToken },
+			after(600),
+		);
+		expect(twice).toMatchObject({ ok: false, status: 401 });
+		const third = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: first.refreshToken },
+			after(700),
+		);
+		expect(third).toMatchObject({ ok: false, status: 401 });
+		expect(rows).toHaveLength(0);
+	});
+
+	it("does not recover a token used more than 7 days ago, and ends the sign-in", async () => {
+		const { store, rows } = memoryStore();
+		const first = await start(store);
+		const lost = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: first.refreshToken },
+			after(60),
+		);
+		if (!lost.ok) throw new Error("setup");
+		const late = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: first.refreshToken },
+			after(8 * DAY),
+		);
+		expect(late).toMatchObject({ ok: false, status: 401 });
+		expect(rows).toHaveLength(0);
+	});
+});
+
 describe("a used token that returns", () => {
 	// The used rows are removed after one hour. The token still names its family, so the theft is seen.
 	it("ends the family also when its own row is long gone", async () => {
