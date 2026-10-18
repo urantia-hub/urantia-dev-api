@@ -166,13 +166,12 @@ export async function searchPapers(db: Db, opts: PaperSearchOptions): Promise<Pa
 		);
 	}
 
-	// auto: the last word is a prefix unless the query is in quotes.
+	// auto: the last word of the query is a prefix, unless the query is in quotes or that word is a
+	// stopword (then no word is a prefix).
 	const prefix = !nq.quoted;
+	const lastIsPrefix = prefix && content.has(nq.words.at(-1) as string);
 	const words = keep(nq.words);
-	const allQuery =
-		words.length > 0 && !nq.quoted
-			? tsq(toTsQuery(words, "&", prefix && content.has(nq.words.at(-1) as string)))
-			: null;
+	const allQuery = words.length > 0 && !nq.quoted ? tsq(toTsQuery(words, "&", lastIsPrefix)) : null;
 	const all = allQuery ? sql`${paragraphs.searchVector} @@ ${allQuery}` : sql`false`;
 	const base = sql`(${exact} or ${all})`;
 
@@ -182,30 +181,35 @@ export async function searchPapers(db: Db, opts: PaperSearchOptions): Promise<Pa
 	let didYouMean: string | undefined;
 	let highlightWords = words;
 	let mostWords = words;
+	let mostPrefix = lastIsPrefix;
 	if ((await count(db, and(base, ...filters) as SQL)) < ENOUGH) {
 		const fixed = await correctWords(db, "papers", nq.words, prefix);
 		if (fixed) {
 			didYouMean = fixed.join(" ");
 			const fixedContent = await contentWords(db, fixed);
 			const fixedWords = fixed.filter((w) => fixedContent.has(w));
+			// A fixed last word is a whole word; an unchanged one keeps its prefix.
+			const fixedPrefix = lastIsPrefix && fixed.at(-1) === nq.words.at(-1);
 			near = sql`${paragraphs.matchText} like ${`% ${didYouMean} %`}`;
 			if (fixedWords.length > 0 && !nq.quoted) {
-				near = sql`(${near} or ${paragraphs.searchVector} @@ ${tsq(toTsQuery(fixedWords, "&", false))})`;
+				near = sql`(${near} or ${paragraphs.searchVector} @@ ${tsq(toTsQuery(fixedWords, "&", fixedPrefix))})`;
 			}
 			highlightWords = [...new Set([...words, ...fixedWords])];
 			mostWords = fixedWords;
+			mostPrefix = fixedPrefix && fixedContent.has(fixed.at(-1) as string);
 		}
 		// Most words: 3 or more words that a search vector can hold, and at least two thirds of them.
 		if (!nq.quoted && mostWords.length >= 3) {
 			const parts = mostWords.map((w, i) =>
-				tsq(i === mostWords.length - 1 && prefix ? `${w}:*` : w),
+				tsq(i === mostWords.length - 1 && mostPrefix ? `${w}:*` : w),
 			);
 			mostCount = sql`(select count(*) from unnest(array[${sql.join(parts, sql`, `)}]) as t where ${paragraphs.searchVector} @@ t)`;
-			most = sql`(${paragraphs.searchVector} @@ ${tsq(toTsQuery(mostWords, "|", prefix))} and ${mostCount} >= ${Math.ceil((mostWords.length * 2) / 3)})`;
+			most = sql`(${paragraphs.searchVector} @@ ${tsq(toTsQuery(mostWords, "|", mostPrefix))} and ${mostCount} >= ${Math.ceil((mostWords.length * 2) / 3)})`;
 		}
 	}
 
-	const highlight = highlightWords.length > 0 ? tsq(toTsQuery(highlightWords, "|", prefix)) : null;
+	const highlight =
+		highlightWords.length > 0 ? tsq(toTsQuery(highlightWords, "|", lastIsPrefix)) : null;
 	const tier = sql`case when ${exact} then 1 when ${all} then 2 when ${near} then 3 else 4 end`;
 	const order = mostCount ? [tier, sql`${mostCount} desc`] : [tier];
 	if (highlight) order.push(sql`ts_rank_cd(${paragraphs.searchVector}, ${highlight}) desc`);
