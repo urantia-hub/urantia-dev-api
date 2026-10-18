@@ -38,6 +38,7 @@ import { sendEmailHookRoute } from "./routes/send-email-hook.ts";
 import { streakRoute } from "./routes/streak.ts";
 import { tocRoute } from "./routes/toc.ts";
 import { toolsRoute } from "./routes/tools.ts";
+import { worksRoute } from "./routes/works.ts";
 import type { Env } from "./types/env.ts";
 
 const app = createApp<Env>();
@@ -212,6 +213,7 @@ app.route("/bible", bibleRoute);
 // Before /scriptures, so "insights" is not read as a corpus name.
 app.route("/scriptures/insights", scriptureInsightsRoute);
 app.route("/scriptures", scripturesRoute);
+app.route("/works", worksRoute);
 app.route("/cite", citeRoute);
 app.route("/quotes", quotesRoute);
 app.route("/og", ogRoute);

@@ -14,7 +14,7 @@ import { MCP_ICONS } from "./brand-icon.ts";
 const MCP_URL = "https://api.urantia.dev/mcp";
 const TRANSPORT = "streamable-http";
 // Keep in step with `version` in server.json (the MCP Registry entry).
-const VERSION = "1.1.0";
+const VERSION = "1.2.0";
 
 const NAME = "Urantia Papers";
 const DESCRIPTION =
