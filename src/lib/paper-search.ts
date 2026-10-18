@@ -24,7 +24,8 @@ export type PaperSearchOptions = {
 
 // `most` and `near` run only when the exact and all-word tiers give fewer results than this.
 const ENOUGH = 10;
-const TIERS: Match[] = ["reference", "exact", "all", "near", "most"];
+// Tier numbers: 1 exact, 2 all, 3 near phrase, 4 near words, 5 most. 0 is a reference.
+const TIERS: Match[] = ["reference", "exact", "all", "near", "near", "most"];
 const HIGHLIGHT =
 	'StartSel="<span class=urantia-dev-highlighted>", StopSel="</span>", MaxFragments=0, HighlightAll=true';
 
@@ -95,7 +96,7 @@ async function count(db: Db, where: SQL): Promise<number> {
 }
 
 /** The words that a search vector can hold: not a stopword of the English configuration. */
-async function contentWords(db: Db, words: string[]): Promise<Set<string>> {
+export async function contentWords(db: Db, words: string[]): Promise<Set<string>> {
 	if (words.length === 0) return new Set();
 	const rows = (await db.execute(
 		sql`select w from unnest(${textArray(words)}) as w where length(to_tsvector('english', w)) > 0`,
@@ -175,6 +176,7 @@ export async function searchPapers(db: Db, opts: PaperSearchOptions): Promise<Pa
 	const all = allQuery ? sql`${paragraphs.searchVector} @@ ${allQuery}` : sql`false`;
 	const base = sql`(${exact} or ${all})`;
 
+	let nearPhrase: SQL = sql`false`;
 	let near: SQL = sql`false`;
 	let most: SQL = sql`false`;
 	let mostCount: SQL | null = null;
@@ -190,9 +192,9 @@ export async function searchPapers(db: Db, opts: PaperSearchOptions): Promise<Pa
 			const fixedWords = fixed.filter((w) => fixedContent.has(w));
 			// A fixed last word is a whole word; an unchanged one keeps its prefix.
 			const fixedPrefix = lastIsPrefix && fixed.at(-1) === nq.words.at(-1);
-			near = sql`${paragraphs.matchText} like ${`% ${didYouMean} %`}`;
+			nearPhrase = sql`${paragraphs.matchText} like ${`% ${didYouMean} %`}`;
 			if (fixedWords.length > 0 && !nq.quoted) {
-				near = sql`(${near} or ${paragraphs.searchVector} @@ ${tsq(toTsQuery(fixedWords, "&", fixedPrefix))})`;
+				near = sql`${paragraphs.searchVector} @@ ${tsq(toTsQuery(fixedWords, "&", fixedPrefix))}`;
 			}
 			highlightWords = [...new Set([...words, ...fixedWords])];
 			mostWords = fixedWords;
@@ -210,11 +212,17 @@ export async function searchPapers(db: Db, opts: PaperSearchOptions): Promise<Pa
 
 	const highlight =
 		highlightWords.length > 0 ? tsq(toTsQuery(highlightWords, "|", lastIsPrefix)) : null;
-	const tier = sql`case when ${exact} then 1 when ${all} then 2 when ${near} then 3 else 4 end`;
+	const tier = sql`case when ${exact} then 1 when ${all} then 2 when ${nearPhrase} then 3 when ${near} then 4 else 5 end`;
 	const order = mostCount ? [tier, sql`${mostCount} desc`] : [tier];
 	if (highlight) order.push(sql`ts_rank_cd(${paragraphs.searchVector}, ${highlight}) desc`);
 	order.push(sql`${paragraphs.sortId}`);
-	return result(sql`(${base} or ${near} or ${most})`, tier, order, highlight, didYouMean);
+	return result(
+		sql`(${base} or ${nearPhrase} or ${near} or ${most})`,
+		tier,
+		order,
+		highlight,
+		didYouMean,
+	);
 }
 
 /** The number of results of each kind on one page, for the request log. */
