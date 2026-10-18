@@ -177,7 +177,12 @@ scripturesRoute.openapi(passagesRoute, async (c) => {
 	const params = c.req.valid("param");
 	const corpus = await resolveCorpus(db, params.corpus);
 	if (!corpus) return problemJson(c, 404, `Scripture "${params.corpus}" not found`);
-	const ref = parseScriptureRef(params.ref, corpus.refPrefix, corpus.refLevels);
+	const ref = parseScriptureRef(
+		params.ref,
+		corpus.refPrefix,
+		corpus.refLevels,
+		corpus.divisionNames,
+	);
 	if (!ref)
 		return problemJson(
 			c,
@@ -225,7 +230,12 @@ scripturesRoute.openapi(parallelsRoute, async (c) => {
 	const params = c.req.valid("param");
 	const corpus = await resolveCorpus(db, params.corpus);
 	if (!corpus) return problemJson(c, 404, `Scripture "${params.corpus}" not found`);
-	const ref = parseScriptureRef(params.ref, corpus.refPrefix, corpus.refLevels);
+	const ref = parseScriptureRef(
+		params.ref,
+		corpus.refPrefix,
+		corpus.refLevels,
+		corpus.divisionNames,
+	);
 	if (!ref)
 		return problemJson(
 			c,

@@ -78,10 +78,21 @@ const WORKS: Record<string, Work> = {
 		},
 		words: 5,
 	},
+	"rig-veda-griffith-1896": {
+		// One page for each hymn: "RV 10.129.1" is on Book 10, Hymn 129.
+		page: (reference) => {
+			const m = /^RV (10|[1-9])\.([1-9]\d{0,2})\./.exec(reference);
+			return m
+				? `https://en.wikisource.org/wiki/The_Hymns_of_the_Rigveda/Book_${m[1]}/Hymn_${m[2]}`
+				: null;
+		},
+		words: 5,
+	},
 	"tao-te-ching-legge-1891": { page: gutenberg(216), words: 10 },
 	"analects-legge-1861": { page: gutenberg(4094), words: 24, exact: true },
 	"koran-pickthall-1930": { page: gutenberg(16955), words: 24, exact: true },
 	"dhammapada-muller-1881": { page: gutenberg(2017), words: 0 },
+	"book-of-mormon-1830": { page: gutenberg(17), words: 24, exact: true },
 };
 
 /** The page that holds a passage of a work, or null. */

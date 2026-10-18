@@ -1,5 +1,6 @@
 import { describe, expect, it } from "bun:test";
-import { bibleUrl, scriptureUrl, textFragment } from "../../src/lib/parallel-links.ts";
+import { CORPORA } from "../../scripts/scriptures/corpora.ts";
+import { bibleUrl, scriptureUrl, textFragment, workPage } from "../../src/lib/parallel-links.ts";
 
 describe("the address of a Bible passage", () => {
 	it("is the chapter page of the World English Bible, at the verse", () => {
@@ -123,6 +124,20 @@ describe("the address of a passage of another work", () => {
 		);
 		for (const reference of ["BG", "BG 0.1", "BG 19.1", "BG 07.1"])
 			expect(scriptureUrl("bhagavad-gita-besant-1922", reference, text)).toBeNull();
+	});
+
+	it("is the page of the hymn for the Rig Veda", () => {
+		expect(
+			scriptureUrl("rig-veda-griffith-1896", "RV 10.129.1-3", "THEN was not non-existent"),
+		).toBe(
+			"https://en.wikisource.org/wiki/The_Hymns_of_the_Rigveda/Book_10/Hymn_129#:~:text=THEN%20was%20not%20non%2Dexistent",
+		);
+		for (const reference of ["RV 10", "RV 11.1.1", "RV 1.0.1"])
+			expect(scriptureUrl("rig-veda-griffith-1896", reference, "x")).toBeNull();
+	});
+
+	it("has a page for each work with a link, and none for a work with no link", () => {
+		for (const c of CORPORA) expect(workPage(c.id, `${c.refPrefix} 1.1.1`) !== null).toBe(c.linked);
 	});
 
 	it("is null for a work that it does not know", () => {

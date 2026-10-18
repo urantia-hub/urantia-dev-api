@@ -1,5 +1,7 @@
 // The texts of the world religions layer. Each one is in the US public domain.
 
+import { BOOK_OF_MORMON_BOOKS } from "./parsers.ts";
+
 export type Corpus = {
 	id: string;
 	religion: string;
@@ -17,6 +19,12 @@ export type Corpus = {
 	chunkBy: "size" | "division"; // "division": one chunk per chapter
 	refLevels: 1 | 2 | 3; // numbers in a full ref: "Dhp 183" 1, "BG 2.47" 2, "Epictetus 3.22.5" 3
 	notes: string | null; // how the text is numbered or selected, shown with the corpus
+	// "scripture": read as sacred by its tradition; "classic": a story, history, or teaching that is not
+	// read as scripture; "recorded": an oral tradition that an outside observer wrote down.
+	kind: "scripture" | "classic" | "recorded";
+	summary: string; // one plain sentence on what the text is (approved copy)
+	linked: boolean; // false when no page on the three link sites holds the text
+	divisionNames?: string[]; // names for division 1, 2, ... in a ref ("1 Nephi 3:7"); "A|B" adds spelling B
 };
 
 // Ordered by Paper 131 section, then the texts with no Paper 131 heading.
@@ -32,6 +40,9 @@ export const CORPORA: Corpus[] = [
 		urantiaSection: "131:1",
 		refPrefix: "DL",
 		slug: "diogenes-laertius-6",
+		kind: "classic",
+		summary: "The lives and sayings of Diogenes and the other Cynic philosophers.",
+		linked: true,
 		divisionLabel: "book",
 		unitLabel: "section",
 		chunkBy: "size",
@@ -51,6 +62,9 @@ export const CORPORA: Corpus[] = [
 		urantiaSection: "131:1",
 		refPrefix: "Epictetus",
 		slug: "epictetus-cynic",
+		kind: "classic",
+		summary: "Epictetus on the life and calling of a Cynic philosopher.",
+		linked: true,
 		divisionLabel: "book",
 		unitLabel: "section",
 		chunkBy: "size",
@@ -69,6 +83,9 @@ export const CORPORA: Corpus[] = [
 		urantiaSection: "131:3",
 		refPrefix: "Dhp",
 		slug: "dhammapada",
+		kind: "scripture",
+		summary: "A collection of the Buddha's sayings in verse.",
+		linked: true,
 		divisionLabel: "chapter",
 		unitLabel: "verse",
 		chunkBy: "size",
@@ -86,6 +103,9 @@ export const CORPORA: Corpus[] = [
 		urantiaSection: "131:4",
 		refPrefix: "BG",
 		slug: "bhagavad-gita",
+		kind: "scripture",
+		summary: "Krishna's teaching to the warrior Arjuna, from the Mahabharata.",
+		linked: true,
 		divisionLabel: "chapter",
 		unitLabel: "verse",
 		chunkBy: "size",
@@ -103,6 +123,9 @@ export const CORPORA: Corpus[] = [
 		urantiaSection: "131:7",
 		refPrefix: "Oracle",
 		slug: "shinto-oracles",
+		kind: "classic",
+		summary: "Oracles of the Shinto gods, from Aston's study of Shinto.",
+		linked: true,
 		divisionLabel: "collection",
 		unitLabel: "oracle",
 		chunkBy: "size",
@@ -121,6 +144,9 @@ export const CORPORA: Corpus[] = [
 		urantiaSection: "131:8",
 		refPrefix: "TTC",
 		slug: "tao-te-ching",
+		kind: "classic",
+		summary: "The short classic of the Tao, attributed to Laozi.",
+		linked: true,
 		divisionLabel: "chapter",
 		unitLabel: "paragraph",
 		chunkBy: "division",
@@ -138,6 +164,9 @@ export const CORPORA: Corpus[] = [
 		urantiaSection: "131:9",
 		refPrefix: "Analects",
 		slug: "analects",
+		kind: "classic",
+		summary: "The sayings of Confucius, recorded by his students.",
+		linked: true,
 		divisionLabel: "book",
 		unitLabel: "chapter",
 		chunkBy: "size",
@@ -155,6 +184,9 @@ export const CORPORA: Corpus[] = [
 		urantiaSection: null,
 		refPrefix: "Quran",
 		slug: "quran",
+		kind: "scripture",
+		summary: "The scripture of Islam.",
+		linked: true,
 		divisionLabel: "surah",
 		unitLabel: "verse",
 		chunkBy: "size",
@@ -173,11 +205,57 @@ export const CORPORA: Corpus[] = [
 		urantiaSection: null,
 		refPrefix: "Japji",
 		slug: "japji",
+		kind: "scripture",
+		summary: "The opening hymn of the Sikh scripture, by Guru Nanak.",
+		linked: true,
 		divisionLabel: "composition",
 		unitLabel: "pauri",
 		chunkBy: "size",
 		refLevels: 1,
 		notes:
 			"From The Sikh Religion, volume 1. Japji 0 is the opening (the Mul Mantar), Japji 1 to 38 are the pauris, and Japji 39 is the closing slok.",
+	},
+	{
+		id: "book-of-mormon-1830",
+		religion: "Latter Day Saint",
+		title: "The Book of Mormon",
+		translator: "Joseph Smith",
+		year: 1830,
+		source: "https://www.gutenberg.org/ebooks/17",
+		license: "Public domain in the United States",
+		urantiaSection: null,
+		refPrefix: "BoM",
+		slug: "book-of-mormon",
+		kind: "scripture",
+		summary: "The scripture of the Latter Day Saint movement, published in 1830.",
+		linked: true,
+		divisionLabel: "book",
+		unitLabel: "verse",
+		chunkBy: "size",
+		refLevels: 3,
+		divisionNames: BOOK_OF_MORMON_BOOKS,
+		notes:
+			"The text of Project Gutenberg #17, which follows a later LDS edition. Verse numbers as printed. Its title page names Joseph Smith, Jun. as translator.",
+	},
+	{
+		id: "rig-veda-griffith-1896",
+		religion: "Hindu",
+		title: "The Hymns of the Rigveda",
+		translator: "Ralph T. H. Griffith",
+		year: 1896,
+		source: "https://en.wikisource.org/wiki/The_Hymns_of_the_Rigveda",
+		license: "Public domain in the United States",
+		urantiaSection: null,
+		refPrefix: "RV",
+		slug: "rig-veda",
+		kind: "scripture",
+		summary: "The oldest Vedic hymns.",
+		linked: true,
+		divisionLabel: "book",
+		unitLabel: "verse",
+		chunkBy: "size",
+		refLevels: 3,
+		notes:
+			"From Wikisource: book, hymn, verse (RV 10.129.1). The hymns that he gave only in his appendix or in Latin are not on those pages, so they are not here.",
 	},
 ];

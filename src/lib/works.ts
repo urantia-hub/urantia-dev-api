@@ -15,7 +15,7 @@ import { formatBibleReference, resolveBibleBook } from "./bible-canonicalizer.ts
 import { contentWords } from "./paper-search.ts";
 import { bibleUrl, scriptureUrl, workPage } from "./parallel-links.ts";
 import { listCorpora, type ScriptureCorpus } from "./scripture-parallels.ts";
-import { MAX_RANGE, parseScriptureRef } from "./scripture-ref.ts";
+import { MAX_RANGE, namesDivision, parseScriptureRef } from "./scripture-ref.ts";
 import { type Strength, strengthOf } from "./search-strength.ts";
 import { normalizeQuery, toTsQuery } from "./search-text.ts";
 import { correctWords, type Db, matchText } from "./search-words.ts";
@@ -29,6 +29,9 @@ export type Work = {
 	id: string;
 	title: string;
 	religion: string;
+	tradition: string;
+	kind: "scripture" | "classic" | "recorded";
+	summary: string;
 	translator: string;
 	year: number | null;
 	refPrefix: string | null;
@@ -46,7 +49,7 @@ export type UrantiaParallel = {
 	rank: number;
 };
 export type WorkResult = {
-	work: { id: string; title: string };
+	work: { id: string; title: string; tradition: string };
 	reference: string;
 	text: string;
 	url: string | null;
@@ -67,7 +70,12 @@ type Meta = {
 // A unit is one Bible verse or one passage of a work, with the chunk that holds its parallels.
 type Unit = Omit<WorkResult, "urantiaParallels"> & { chunk: { bible: boolean; id: string } | null };
 
-const BIBLE_WORK = { id: BIBLE, title: "The Bible (World English Bible)" };
+const BIBLE_TRADITION = "Judaism and Christianity";
+const BIBLE_WORK = {
+	id: BIBLE,
+	title: "The Bible (World English Bible)",
+	tradition: BIBLE_TRADITION,
+};
 
 let bibleVerseCount: number | undefined;
 
@@ -79,7 +87,9 @@ export async function listWorks(db: Db): Promise<Work[]> {
 	return [
 		{
 			...BIBLE_WORK,
-			religion: "Judaism and Christianity",
+			religion: BIBLE_TRADITION,
+			kind: "scripture",
+			summary: "The Hebrew Bible, the deuterocanon, and the New Testament.",
 			translator: "World English Bible",
 			year: null,
 			refPrefix: null,
@@ -91,6 +101,9 @@ export async function listWorks(db: Db): Promise<Work[]> {
 			id: c.slug,
 			title: c.title,
 			religion: c.religion,
+			tradition: c.religion,
+			kind: c.kind as Work["kind"],
+			summary: c.summary ?? "",
 			translator: c.translator,
 			year: c.year,
 			refPrefix: c.refPrefix,
@@ -153,7 +166,7 @@ const passageUnit = (
 	corpus: ScriptureCorpus,
 	p: { ref: string; text: string; chunkId: string | null; anchor: string | null },
 ): Unit => ({
-	work: { id: corpus.slug, title: corpus.title },
+	work: { id: corpus.slug, title: corpus.title, tradition: corpus.religion },
 	reference: p.ref,
 	text: p.text,
 	url:
@@ -220,9 +233,11 @@ export async function readWork(db: Db, input: string, work?: string): Promise<Un
 	}
 	const corpora = target && !target.bible ? [target.corpus] : await listCorpora(db);
 	for (const corpus of corpora) {
-		const named = input.trim().toLowerCase().startsWith(corpus.refPrefix.toLowerCase());
+		const named =
+			input.trim().toLowerCase().startsWith(corpus.refPrefix.toLowerCase()) ||
+			namesDivision(input, corpus.divisionNames);
 		if (!target && !named) continue;
-		const ref = parseScriptureRef(input, corpus.refPrefix, corpus.refLevels);
+		const ref = parseScriptureRef(input, corpus.refPrefix, corpus.refLevels, corpus.divisionNames);
 		if (!ref) continue;
 		const rows = await db
 			.select(passageColumns)
@@ -585,7 +600,7 @@ async function chunksById(db: Db, hits: { kind: "bible" | "works"; id: string }[
 		const corpus = corpora.get(c.corpusId);
 		if (!corpus) continue;
 		out.set(c.id, {
-			work: { id: corpus.slug, title: corpus.title },
+			work: { id: corpus.slug, title: corpus.title, tradition: corpus.religion },
 			reference: c.label,
 			text: c.text,
 			url: scriptureUrl(corpus.id, c.label, c.text, c.anchor),
