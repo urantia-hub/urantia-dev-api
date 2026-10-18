@@ -401,13 +401,30 @@ export const SemanticSearchQueryParams = z.object({
 	include: z.string().optional(),
 });
 
+export const SemanticStrength = z
+	.enum(["strong", "related", "weak"])
+	.describe(
+		"How close the result is: strong (most right answers score this), related, or weak (likely off the topic).",
+	);
+
 export const SemanticSearchResultSchema = ParagraphSchema.extend({
 	similarity: z.number(),
+	strength: SemanticStrength,
+	match: z
+		.enum(["reference", "exact", "similar"])
+		.describe("reference (the query named it), exact (the query is its text), or similar."),
 });
 
 export const SemanticSearchResponse = z.object({
 	data: z.array(SemanticSearchResultSchema),
-	meta: PaginationMeta,
+	meta: PaginationMeta.extend({
+		total: z
+			.number()
+			.int()
+			.describe(
+				"The results that are related or better, at most 100. The list can go on with weak ones.",
+			),
+	}),
 });
 
 // --- Audio ---
