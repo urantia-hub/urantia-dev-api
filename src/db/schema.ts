@@ -214,10 +214,7 @@ export const searchWords = pgTable(
 		word: text("word").notNull(),
 		n: integer("n").notNull(),
 	},
-	(t) => [
-		primaryKey({ name: "search_words_pkey", columns: [t.source, t.word] }),
-		index("search_words_word_trgm_idx").using("gin", t.word.op("gin_trgm_ops")),
-	],
+	(t) => [primaryKey({ name: "search_words_pkey", columns: [t.source, t.word] })],
 ).enableRLS();
 
 // --- entities ---
