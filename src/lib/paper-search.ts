@@ -4,14 +4,17 @@ import { and, eq, type SQL, sql } from "drizzle-orm";
 import { paragraphs } from "../db/schema.ts";
 import {
 	normalizeQuery,
+	type PaperRef,
 	parsePaperRef,
 	toTsQuery,
 	type WorkHint,
 	workHint,
 } from "./search-text.ts";
-import { correctWords, type Db, textArray } from "./search-words.ts";
+import { correctWords, type Db, matchText, textArray } from "./search-words.ts";
 
 export type SearchType = "auto" | "and" | "or" | "phrase";
+
+const MATCH_TEXT = matchText('"paragraphs"."text"');
 export type Match = "reference" | "exact" | "all" | "near" | "most";
 export type PaperSearchOptions = {
 	q: string;
@@ -31,7 +34,7 @@ const HIGHLIGHT =
 
 const tsq = (query: string) => sql`to_tsquery('english', ${query})`;
 
-const columns = (highlight: SQL | null) => ({
+export const columns = (highlight: SQL | null) => ({
 	id: paragraphs.id,
 	standardReferenceId: paragraphs.standardReferenceId,
 	sortId: paragraphs.sortId,
@@ -104,6 +107,14 @@ export async function contentWords(db: Db, words: string[]): Promise<Set<string>
 	return new Set(rows.map((r) => r.w));
 }
 
+/** The paragraphs that a reference names: one paragraph, a section, or a paper. */
+export const referenceWhere = (ref: PaperRef): SQL =>
+	ref.paragraphId
+		? eq(paragraphs.standardReferenceId, `${ref.paperId}:${ref.sectionId}.${ref.paragraphId}`)
+		: ref.sectionId
+			? sql`${paragraphs.standardReferenceId} like ${`${ref.paperId}:${ref.sectionId}.%`}`
+			: eq(paragraphs.paperId, ref.paperId);
+
 export async function searchPapers(db: Db, opts: PaperSearchOptions): Promise<PaperSearchResult> {
 	const { q, type, page, limit } = opts;
 	const filters: SQL[] = [];
@@ -135,12 +146,7 @@ export async function searchPapers(db: Db, opts: PaperSearchOptions): Promise<Pa
 	if (type === "auto") {
 		const ref = parsePaperRef(q);
 		if (ref) {
-			const where = ref.paragraphId
-				? eq(paragraphs.standardReferenceId, `${ref.paperId}:${ref.sectionId}.${ref.paragraphId}`)
-				: ref.sectionId
-					? sql`${paragraphs.standardReferenceId} like ${`${ref.paperId}:${ref.sectionId}.%`}`
-					: eq(paragraphs.paperId, ref.paperId);
-			return result(where, sql`0`, [sql`${paragraphs.sortId}`], null);
+			return result(referenceWhere(ref), sql`0`, [sql`${paragraphs.sortId}`], null);
 		}
 	}
 
@@ -148,7 +154,7 @@ export async function searchPapers(db: Db, opts: PaperSearchOptions): Promise<Pa
 	if (nq.words.length === 0) return empty();
 	const content = await contentWords(db, nq.words);
 	const keep = (words: string[]) => words.filter((w) => content.has(w));
-	const exact = sql`${paragraphs.matchText} like ${`% ${nq.text} %`}`;
+	const exact = sql`${MATCH_TEXT} like ${`% ${nq.text} %`}`;
 	const rankBy = (query: SQL) => sql`ts_rank(${paragraphs.searchVector}, ${query}) desc`;
 
 	if (type !== "auto") {
@@ -158,7 +164,12 @@ export async function searchPapers(db: Db, opts: PaperSearchOptions): Promise<Pa
 			type === "phrase"
 				? sql`phraseto_tsquery('english', ${nq.text})`
 				: tsq(toTsQuery(words, type === "and" ? "&" : "|", false));
-		const tier = sql`case when ${exact} then 1 else 2 end`;
+		// In `or` mode a paragraph with only some of the words is `most`, not `all`.
+		const every =
+			type === "or"
+				? sql`${paragraphs.searchVector} @@ ${tsq(toTsQuery(words, "&", false))}`
+				: sql`true`;
+		const tier = sql`case when ${exact} then 1 when ${every} then 2 else 5 end`;
 		return result(
 			sql`${paragraphs.searchVector} @@ ${query}`,
 			tier,
@@ -192,11 +203,14 @@ export async function searchPapers(db: Db, opts: PaperSearchOptions): Promise<Pa
 			const fixedWords = fixed.filter((w) => fixedContent.has(w));
 			// A fixed last word is a whole word; an unchanged one keeps its prefix.
 			const fixedPrefix = lastIsPrefix && fixed.at(-1) === nq.words.at(-1);
-			nearPhrase = sql`${paragraphs.matchText} like ${`% ${didYouMean} %`}`;
+			nearPhrase = sql`${MATCH_TEXT} like ${`% ${didYouMean} %`}`;
 			if (fixedWords.length > 0 && !nq.quoted) {
 				near = sql`${paragraphs.searchVector} @@ ${tsq(toTsQuery(fixedWords, "&", fixedPrefix))}`;
 			}
-			highlightWords = [...new Set([...words, ...fixedWords])];
+			// The query's last word stays last, so a prefix mark goes on it and not on a fixed word.
+			const last = words.at(-1);
+			highlightWords = [...new Set([...words, ...fixedWords])].filter((w) => w !== last);
+			if (last) highlightWords.push(last);
 			mostWords = fixedWords;
 			mostPrefix = fixedPrefix && fixedContent.has(fixed.at(-1) as string);
 		}

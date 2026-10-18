@@ -2,6 +2,7 @@
 // Usage: DATABASE_URL=... bun scripts/fill-search-words.ts papers|bible|works
 // Re-runnable: it replaces the words of that source in one transaction. Run it after a reseed.
 import postgres from "postgres";
+import { normalizedSql } from "../src/lib/search-text.ts";
 
 const DATABASE_URL = process.env.DATABASE_URL;
 if (!DATABASE_URL) {
@@ -9,11 +10,13 @@ if (!DATABASE_URL) {
 	process.exit(1);
 }
 
-// The normalized text of each source (a generated column), so the words match a normalized query.
+// The normalized text of each source, so the words match a normalized query.
+const words = (table: string) =>
+	`select to_tsvector('simple', ${normalizedSql("text")}) from ${table}`;
 const SOURCES: Record<string, string> = {
-	papers: "select to_tsvector('simple', match_text) from paragraphs",
-	bible: "select to_tsvector('simple', match_text) from bible_verses",
-	works: "select to_tsvector('simple', match_text) from scripture_passages",
+	papers: words("paragraphs"),
+	bible: words("bible_verses"),
+	works: words("scripture_passages"),
 };
 
 const source = process.argv[2] ?? "";
