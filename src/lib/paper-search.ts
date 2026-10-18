@@ -53,7 +53,7 @@ const columns = (highlight: SQL | null) => ({
 });
 
 export type PaperSearchResult = {
-	data: (Awaited<ReturnType<typeof selectPage>>[number] & { match: Match })[];
+	data: (Omit<Awaited<ReturnType<typeof selectPage>>[number], "tier"> & { match: Match })[];
 	meta: {
 		page: number;
 		limit: number;
@@ -74,7 +74,14 @@ function selectPage(
 	limit: number,
 ) {
 	return db
-		.select({ ...columns(highlight), tier: sql<number>`${tier}` })
+		.select({
+			...columns(highlight),
+			// The rank of the words (as before 2026-10-18); a reference has none.
+			rank: highlight
+				? sql<number>`ts_rank(${paragraphs.searchVector}, ${highlight})`
+				: sql<number>`0::real`,
+			tier: sql<number>`${tier}`,
+		})
 		.from(paragraphs)
 		.where(where)
 		.orderBy(...order)
@@ -205,3 +212,10 @@ export async function searchPapers(db: Db, opts: PaperSearchOptions): Promise<Pa
 	order.push(sql`${paragraphs.sortId}`);
 	return result(sql`(${base} or ${near} or ${most})`, tier, order, highlight, didYouMean);
 }
+
+/** The number of results of each kind on one page, for the request log. */
+export const tierCounts = (rows: { match: Match }[]) =>
+	rows.reduce<Partial<Record<Match, number>>>((n, r) => {
+		n[r.match] = (n[r.match] ?? 0) + 1;
+		return n;
+	}, {});

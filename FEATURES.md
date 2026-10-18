@@ -17,7 +17,7 @@
 
 ## Search
 
-- **Full-text search** — AND, OR, and phrase modes with headline highlighting
+- **Full-text search** — `auto` (default): a reference such as `68:6.3` gives that paragraph, then the exact phrase, all words, typo fixes (`meta.didYouMean`), and most words, each result marked with `match`. Also AND, OR, and phrase modes, with headline highlighting
 - **Semantic search** — vector similarity via OpenAI `text-embedding-3-small` (1536-dim) embeddings
 - **Filterable** by paper or part
 

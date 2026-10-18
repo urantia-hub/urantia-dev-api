@@ -20,6 +20,8 @@ import { BIBLE_BOOKS, formatBibleReference, resolveBibleBook } from "../lib/bibl
 import { enrichWithBibleParallels } from "../lib/bible-parallels.ts";
 import { MCP_ICONS } from "../lib/brand-icon.ts";
 import { enrichWithEntities } from "../lib/entities.ts";
+import { searchPapers } from "../lib/paper-search.ts";
+import { normalizeQuery } from "../lib/search-text.ts";
 import { enrichWithUrantiaParallels } from "../lib/urantia-parallels.ts";
 import { detectRefFormat } from "../types/node.ts";
 import { paragraphFields } from "./paragraphs.ts";
@@ -48,21 +50,6 @@ const searchParagraphFields = {
 	text: paragraphs.text,
 	labels: paragraphs.labels,
 } as const;
-
-function buildTsQuery(sanitized: string, type: "phrase" | "and" | "or"): string {
-	switch (type) {
-		case "phrase":
-			return `phraseto_tsquery('english', '${sanitized}')`;
-		case "and": {
-			const words = sanitized.split(/\s+/).filter(Boolean);
-			return `to_tsquery('english', '${words.join(" & ")}')`;
-		}
-		case "or": {
-			const words = sanitized.split(/\s+/).filter(Boolean);
-			return `to_tsquery('english', '${words.join(" | ")}')`;
-		}
-	}
-}
 
 async function findParagraphByRef(db: ReturnType<typeof getDb>["db"], ref: string) {
 	const format = detectRefFormat(ref);
@@ -179,7 +166,18 @@ const bibleBookSchema = z.object({
 	verseCount: z.number().int(),
 });
 
-const searchResultSchema = paragraphResultSchema.extend({ rank: z.number() });
+const searchResultSchema = paragraphResultSchema.extend({
+	rank: z.number(),
+	match: z.enum(["reference", "exact", "all", "near", "most"]),
+});
+const searchMetaSchema = z.object({
+	page: z.number().int(),
+	limit: z.number().int(),
+	total: z.number().int(),
+	totalPages: z.number().int(),
+	didYouMean: z.string().optional(),
+	see: z.object({ work: z.string(), title: z.string() }).optional(),
+});
 const semanticResultSchema = paragraphResultSchema.extend({ similarity: z.number() });
 
 const entityResultSchema = z.object({
@@ -648,14 +646,14 @@ function createMcpServer() {
 		{
 			title: "Full-Text Search",
 			description:
-				'Full-text search across all paragraphs of the Urantia Papers. Supports three modes: "and" (all words must appear, default), "or" (any word), "phrase" (exact phrase). Results ranked by relevance.',
+				'Keyword search across all paragraphs of the Urantia Papers. Mode "auto" (default): a reference such as "68:6.3", "103:2", or "Paper 68" gives those paragraphs; otherwise the exact phrase first, then every word, then (when few) typo fixes and most of the words. Each result has `match` (reference, exact, all, near, most); `meta.didYouMean` gives the fixed query and `meta.see` names another work the query names. Other modes: "and" (all words), "or" (any word), "phrase" (exact phrase).',
 			inputSchema: {
 				query: z.string().optional().describe('Search query. Example: "nature of God"'),
 				q: z.string().optional().describe("Alias for `query` (REST compatibility)."),
 				type: z
-					.enum(["phrase", "and", "or"])
-					.default("and")
-					.describe("Search mode: phrase, and, or"),
+					.enum(["auto", "phrase", "and", "or"])
+					.default("auto")
+					.describe("Search mode: auto, phrase, and, or"),
 				paper_id: z.string().optional().describe("Filter to a specific paper ID"),
 				part_id: z.string().optional().describe("Filter to a specific part ID (1-4)"),
 				page: z.number().int().min(0).default(0).describe("Page number (0-indexed)"),
@@ -674,7 +672,7 @@ function createMcpServer() {
 			},
 			outputSchema: {
 				data: z.array(searchResultSchema),
-				meta: paginationMetaSchema,
+				meta: searchMetaSchema,
 			},
 			annotations: { title: "Full-Text Search", ...READ_ONLY_LOCAL },
 		},
@@ -693,33 +691,16 @@ function createMcpServer() {
 			const searchQuery = query ?? q;
 			if (!searchQuery) return errorResult("Either 'query' or 'q' is required");
 			const { db } = getDb();
-			const sanitized = searchQuery.replace(/[^\w\s]/g, " ").trim();
-			if (!sanitized) return errorResult("Search query cannot be empty");
-
-			const tsQuery = buildTsQuery(sanitized, type);
-			const offset = page * limit;
-
-			const conditions = [sql`search_vector @@ ${sql.raw(tsQuery)}`];
-			if (paper_id) conditions.push(eq(paragraphs.paperId, paper_id));
-			if (part_id) conditions.push(eq(paragraphs.partId, part_id));
-			const whereClause = and(...conditions);
-
-			const countResult = await db
-				.select({ count: sql<number>`count(*)` })
-				.from(paragraphs)
-				.where(whereClause);
-			const total = Number(countResult[0]?.count ?? 0);
-
-			const results = await db
-				.select({
-					...searchParagraphFields,
-					rank: sql<number>`ts_rank(search_vector, ${sql.raw(tsQuery)})`,
-				})
-				.from(paragraphs)
-				.where(whereClause)
-				.orderBy(sql`ts_rank(search_vector, ${sql.raw(tsQuery)}) DESC`)
-				.limit(limit)
-				.offset(offset);
+			if (normalizeQuery(searchQuery).words.length === 0)
+				return errorResult("Search query cannot be empty");
+			const { data: results, meta } = await searchPapers(db, {
+				q: searchQuery,
+				type,
+				page,
+				limit,
+				paperId: paper_id,
+				partId: part_id,
+			});
 
 			const enrichedResults = await enrichParagraphs(db, results, {
 				entities: include_entities,
@@ -727,10 +708,7 @@ function createMcpServer() {
 				urantiaParallels: include_urantia_parallels,
 			});
 
-			return structured({
-				data: enrichedResults,
-				meta: { page, limit, total, totalPages: Math.ceil(total / limit) },
-			});
+			return structured({ data: enrichedResults, meta });
 		},
 	);
 

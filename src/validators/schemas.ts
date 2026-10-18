@@ -342,7 +342,7 @@ export const SearchRequest = z.object({
 	limit: z.number().int().min(1).max(100).default(20),
 	paperId: z.string().optional(),
 	partId: z.string().optional(),
-	type: z.enum(["phrase", "and", "or"]).default("and"),
+	type: z.enum(["auto", "phrase", "and", "or"]).default("auto"),
 	include: z.string().optional(),
 });
 
@@ -352,17 +352,33 @@ export const SearchQueryParams = z.object({
 	limit: z.coerce.number().int().min(1).max(100).default(20),
 	paperId: z.string().optional(),
 	partId: z.string().optional(),
-	type: z.enum(["phrase", "and", "or"]).default("and"),
+	type: z.enum(["auto", "phrase", "and", "or"]).default("auto"),
 	include: z.string().optional(),
 });
 
+export const SearchMatch = z
+	.enum(["reference", "exact", "all", "near", "most"])
+	.describe(
+		"How the paragraph matched: reference (the query named it), exact (the whole phrase), all (every word), near (every word after a typo fix, see meta.didYouMean), most (two thirds of the words or more).",
+	);
+
 export const SearchResultSchema = ParagraphSchema.extend({
 	rank: z.number(),
+	match: SearchMatch,
 });
 
 export const SearchResponse = z.object({
 	data: z.array(SearchResultSchema),
-	meta: PaginationMeta,
+	meta: PaginationMeta.extend({
+		didYouMean: z
+			.string()
+			.optional()
+			.describe("The query with typos fixed, when near results are in the list."),
+		see: z
+			.object({ work: z.string(), title: z.string() })
+			.optional()
+			.describe("Another work that the query names, such as the Bible or the Dhammapada."),
+	}),
 });
 
 // --- Semantic Search ---
