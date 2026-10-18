@@ -177,6 +177,8 @@ const ALIASES: ReadonlyMap<string, string> = new Map([
 	["mark", "Mark"],
 	["luke", "Luke"],
 	["john", "John"],
+	// The short names of the Gospels in common use.
+	["mt", "Matt"], ["mk", "Mark"], ["lk", "Luke"], ["jn", "John"],
 	["actsoftheapostles", "Acts"],
 	["romans", "Rom"],
 	["1corinthians", "1Cor"], ["i corinthians", "1Cor"],

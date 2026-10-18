@@ -21,24 +21,9 @@ const PAPER_WITH_ENTITIES_KEYS = [...PAPER_KEYS, "topEntities"].sort();
 
 const TOP_ENTITY_KEYS = ["count", "id", "name", "type"];
 
-const SECTION_KEYS = [
-	"globalId",
-	"id",
-	"paperId",
-	"sectionId",
-	"sortId",
-	"title",
-];
+const SECTION_KEYS = ["globalId", "id", "paperId", "sectionId", "sortId", "title"];
 
-const ENTITY_KEYS = [
-	"aliases",
-	"citationCount",
-	"description",
-	"id",
-	"name",
-	"seeAlso",
-	"type",
-];
+const ENTITY_KEYS = ["aliases", "citationCount", "description", "id", "name", "seeAlso", "type"];
 
 const META_KEYS = ["limit", "page", "total", "totalPages"];
 
@@ -101,12 +86,12 @@ export function assertSectionShape(s: Record<string, unknown>) {
 }
 
 export function assertSearchResultShape(r: Record<string, unknown>) {
-	expect(Object.keys(r).sort()).toEqual([...PARAGRAPH_KEYS, "rank"].sort());
+	expect(Object.keys(r).sort()).toEqual([...PARAGRAPH_KEYS, "rank", "match"].sort());
 }
 
 export function assertSemanticResultShape(r: Record<string, unknown>) {
 	expect(Object.keys(r).sort()).toEqual(
-		[...PARAGRAPH_KEYS, "similarity"].sort(),
+		[...PARAGRAPH_KEYS, "similarity", "strength", "match"].sort(),
 	);
 }
 

@@ -14,6 +14,7 @@ ALTER TABLE parts                    ENABLE ROW LEVEL SECURITY;
 ALTER TABLE papers                   ENABLE ROW LEVEL SECURITY;
 ALTER TABLE sections                 ENABLE ROW LEVEL SECURITY;
 ALTER TABLE paragraphs               ENABLE ROW LEVEL SECURITY;
+ALTER TABLE search_words             ENABLE ROW LEVEL SECURITY;
 ALTER TABLE entities                 ENABLE ROW LEVEL SECURITY;
 ALTER TABLE entity_translations      ENABLE ROW LEVEL SECURITY;
 ALTER TABLE paragraph_entities       ENABLE ROW LEVEL SECURITY;

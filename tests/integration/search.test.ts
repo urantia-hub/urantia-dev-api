@@ -116,6 +116,16 @@ describe.skipIf(!hasOpenAI)("POST /search/semantic", () => {
 		assertMetaShape(meta);
 	});
 
+	it("puts a pasted paragraph first, and counts at most 100", async () => {
+		const ip = { "cf-connecting-ip": "203.0.113.43" };
+		const ref = await (await post("/search", { q: "111:7.5" }, ip)).json();
+		const res = await post("/search/semantic", { q: ref.data[0].text, limit: 5 }, ip);
+		const { data, meta } = await res.json();
+		expect(data[0].standardReferenceId).toBe("111:7.5");
+		expect(data[0].match).toBe("exact");
+		expect(meta.total).toBeLessThanOrEqual(100);
+	}, 30_000);
+
 	it("respects paperId filter", async () => {
 		const res = await post("/search/semantic", {
 			q: "God",
@@ -126,6 +136,53 @@ describe.skipIf(!hasOpenAI)("POST /search/semantic", () => {
 		const { data } = await res.json();
 		for (const r of data) {
 			expect(r.paperId).toBe("2");
+		}
+	});
+});
+
+describe("POST /search/semantic (reference)", () => {
+	it("gives the paragraph of a reference with no vector", async () => {
+		const res = await post(
+			"/search/semantic",
+			{ q: "99:1.1" },
+			{ "cf-connecting-ip": "203.0.113.44" },
+		);
+		const { data, meta } = await res.json();
+		expect(data.map((r: { standardReferenceId: string }) => r.standardReferenceId)).toEqual([
+			"99:1.1",
+		]);
+		expect(data[0].match).toBe("reference");
+		expect(meta.total).toBe(1);
+		expect(meta.related).toBe(1);
+	});
+});
+
+describe("POST /search (auto)", () => {
+	// Its own caller address, so these requests do not count against the shared limit.
+	const ip = { "cf-connecting-ip": "203.0.113.42" };
+	it("gives the paragraph of a reference first", async () => {
+		const { data } = await (await post("/search", { q: "68:6.3" }, ip)).json();
+		expect(data[0].standardReferenceId).toBe("68:6.3");
+		expect(data[0].match).toBe("reference");
+	});
+
+	it("puts the exact phrase first", async () => {
+		const { data } = await (
+			await post("/search", { q: "such a life on such a planet" }, ip)
+		).json();
+		expect(data[0].standardReferenceId).toBe("111:7.5");
+		expect(data[0].match).toBe("exact");
+	});
+
+	it("fixes a typo and says so", async () => {
+		const { data, meta } = await (await post("/search", { q: "universal fahter" }, ip)).json();
+		expect(meta.didYouMean).toBe("universal father");
+		expect(data[0].match).toBe("near");
+	});
+
+	it("answers 200 for common words, syntax, and a paper that does not exist", async () => {
+		for (const q of ["the of and", "a & b | !c:* 'd' \\e (f)", "197:1.1", "68:99.1"]) {
+			expect((await post("/search", { q }, ip)).status).toBe(200);
 		}
 	});
 });

@@ -1,12 +1,15 @@
 import { describe, expect, it } from "bun:test";
 import { app } from "../../src/index.ts";
+import { post } from "../helpers/app.ts";
 
-function mcpRequest(body: unknown) {
+// `ip`: a caller address of its own, so a test with many calls does not use up the shared limit.
+function mcpRequest(body: unknown, ip?: string) {
 	return app.request("/mcp", {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
 			Accept: "application/json, text/event-stream",
+			...(ip ? { "cf-connecting-ip": ip } : {}),
 		},
 		body: JSON.stringify({
 			jsonrpc: "2.0",
@@ -23,27 +26,33 @@ async function parseMcpResponse(res: Response) {
 	return results;
 }
 
-async function initialize() {
-	const initRes = await mcpRequest({
-		id: 1,
-		method: "initialize",
-		params: {
-			protocolVersion: "2025-03-26",
-			capabilities: {},
-			clientInfo: { name: "test", version: "1.0.0" },
+async function initialize(ip?: string) {
+	const initRes = await mcpRequest(
+		{
+			id: 1,
+			method: "initialize",
+			params: {
+				protocolVersion: "2025-03-26",
+				capabilities: {},
+				clientInfo: { name: "test", version: "1.0.0" },
+			},
 		},
-	});
+		ip,
+	);
 	const initResults = await parseMcpResponse(initRes);
 	expect(initResults.length).toBeGreaterThan(0);
 }
 
-async function callTool(name: string, args: Record<string, unknown> = {}) {
-	await initialize();
-	const toolRes = await mcpRequest({
-		id: 2,
-		method: "tools/call",
-		params: { name, arguments: args },
-	});
+async function callTool(name: string, args: Record<string, unknown> = {}, ip?: string) {
+	await initialize(ip);
+	const toolRes = await mcpRequest(
+		{
+			id: 2,
+			method: "tools/call",
+			params: { name, arguments: args },
+		},
+		ip,
+	);
 	return parseMcpResponse(toolRes);
 }
 
@@ -75,6 +84,7 @@ const EXPECTED_TOOL_NAMES = [
 	"bible.search.semantic",
 	"bible.verse",
 	"bible.verse.urantia_parallels",
+	"cite.get",
 	"entities.get",
 	"entities.list",
 	"entities.paragraphs",
@@ -84,9 +94,15 @@ const EXPECTED_TOOL_NAMES = [
 	"paragraphs.context",
 	"paragraphs.get",
 	"paragraphs.random",
+	"quotes.verify",
 	"search.fulltext",
 	"search.semantic",
 	"toc.get",
+	"works.list",
+	"works.read",
+	"works.search",
+	"works.search.semantic",
+	"works.urantia_parallels",
 ];
 
 describe("MCP Server", () => {
@@ -143,14 +159,14 @@ describe("MCP Server", () => {
 		]);
 	});
 
-	it("lists all 19 tools with dot-notation names", async () => {
+	it("lists all 26 tools with dot-notation names", async () => {
 		await initialize();
 		const res = await mcpRequest({ id: 2, method: "tools/list" });
 		expect(res.status).toBe(200);
 		const results = await parseMcpResponse(res);
 		expect(results.length).toBeGreaterThan(0);
 		const tools = results[0].result.tools;
-		expect(tools.length).toBe(19);
+		expect(tools.length).toBe(26);
 
 		const toolNames = tools.map((t: { name: string }) => t.name).sort();
 		expect(toolNames).toEqual(EXPECTED_TOOL_NAMES);
@@ -249,6 +265,33 @@ describe("MCP Server", () => {
 		const { structuredContent } = results[0].result;
 		expect(structuredContent.data).toBeArray();
 		expect(structuredContent.data.length).toBeGreaterThan(0);
+	});
+
+	it("search.fulltext gives the same results as POST /search", async () => {
+		for (const q of ["68:6.3", "such a life on such a planet", "universal fahter", "faith hope"]) {
+			const rest = await (
+				await post("/search", { q, limit: 10 }, { "cf-connecting-ip": "203.0.113.41" })
+			).json();
+			const [tool] = await callTool("search.fulltext", { q, limit: 10 }, "203.0.113.41");
+			const mcp = tool.result.structuredContent;
+			const pick = (d: { id: string; match: string }[]) => d.map((r) => [r.id, r.match]);
+			expect(pick(mcp.data)).toEqual(pick(rest.data));
+			expect(mcp.meta).toEqual(rest.meta);
+		}
+	});
+
+	it("works.search gives a Bible reference first", async () => {
+		const [tool] = await callTool("works.search", { q: "John 3:16", limit: 3 }, "203.0.113.45");
+		const { data } = tool.result.structuredContent;
+		expect(data[0].reference).toBe("John 3:16");
+		expect(data[0].match).toBe("reference");
+	});
+
+	it("cite.get formats a citation", async () => {
+		const [tool] = await callTool("cite.get", { ref: "196:2.1", style: "mla" }, "203.0.113.45");
+		expect(tool.result.structuredContent.data.citation).toContain(
+			"Paper 196, Section 2, Paragraph 1",
+		);
 	});
 
 	it("search.fulltext errors when neither `query` nor `q` is provided", async () => {

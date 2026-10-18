@@ -1,7 +1,7 @@
 /**
  * Provider-neutral catalog of the API's AI-callable tools.
  *
- * The same 19 tools are exposed via the MCP server (src/routes/mcp.ts) and
+ * The same 26 tools are exposed via the MCP server (src/routes/mcp.ts) and
  * via /tools/openai and /tools/anthropic for direct use with the OpenAI and
  * Anthropic SDKs. The catalog here is the source of truth for the function-
  * calling schemas; MCP keeps its own zod definitions because it also owns
@@ -67,6 +67,11 @@ const paperIdProp: JSONSchemaProperty = {
 	description: "Paper ID (0-196). Example: '1'",
 };
 
+const workProp: JSONSchemaProperty = {
+	type: "string",
+	description: 'One work: "bible" or a work id from list_works, such as "dhammapada".',
+};
+
 const pageProp: JSONSchemaProperty = {
 	type: "integer",
 	description: "Page number (0-indexed)",
@@ -80,6 +85,29 @@ const limitProp: JSONSchemaProperty = {
 	default: 20,
 	minimum: 1,
 	maximum: 100,
+};
+
+const workQueryProps: Record<string, JSONSchemaProperty> = {
+	query: { type: "string", description: 'Search query. Example: "love your enemies"' },
+	q: { type: "string", description: "Alias for `query` (REST compatibility)." },
+	work: workProp,
+	page: pageProp,
+	limit: limitProp,
+	urantia_parallel_limit: {
+		type: "integer",
+		description: "How many Urantia paragraphs to attach to each result (0-10).",
+		default: 3,
+		minimum: 0,
+		maximum: 10,
+	},
+};
+
+const workRefProps: Record<string, JSONSchemaProperty> = {
+	work: workProp,
+	ref: {
+		type: "string",
+		description: 'A unit, a short range, or a chapter: "John 3:16", "2.47", "Dhp 183", "John 3".',
+	},
 };
 
 export const TOOL_CATALOG: readonly ToolSpec[] = [
@@ -169,7 +197,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 	{
 		name: "search",
 		description:
-			'Full-text search across all paragraphs in the Urantia Papers. Supports three modes: "and" (all words must appear, default), "or" (any word), "phrase" (exact phrase). Results ranked by relevance. Provide the search string as either `query` (preferred) or `q` (REST alias) — exactly one is required.',
+			'Keyword search across all paragraphs in the Urantia Papers. Mode "auto" (default): a reference such as "68:6.3", "103:2", "Paper 68", or a bare number such as "68" (0 to 196) gives those paragraphs; otherwise the exact phrase first, then every word, then (when few) typo fixes and most of the words. Each result has `match` (reference, exact, all, near, most); `meta.didYouMean` gives the fixed query and `meta.see` names another work the query names. Other modes: "and" (all words), "or" (any word), "phrase" (exact phrase). Provide the search string as either `query` (preferred) or `q` (REST alias) — exactly one is required.',
 		parameters: {
 			type: "object",
 			properties: {
@@ -178,8 +206,8 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 				type: {
 					type: "string",
 					description: "Search mode",
-					enum: ["phrase", "and", "or"],
-					default: "and",
+					enum: ["auto", "phrase", "and", "or"],
+					default: "auto",
 				},
 				paper_id: { type: "string", description: "Filter to a specific paper ID" },
 				part_id: { type: "string", description: "Filter to a specific part ID (1-4)" },
@@ -194,7 +222,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 	{
 		name: "semantic_search",
 		description:
-			"Search the Urantia Papers using semantic similarity (vector embeddings). Returns conceptually related results even without exact keyword matches. Provide the search string as either `query` (preferred) or `q` (REST alias) — exactly one is required.",
+			'Search the Urantia Papers using semantic similarity (vector embeddings). Returns conceptually related results even without exact keyword matches. A reference such as "99:1.1" gives those paragraphs; a pasted paragraph gives itself first. Each result has `strength` (strong, related, weak) and `match` (reference, exact, similar). The list holds the 100 nearest; `meta.total` is the length of that list, and `meta.related` counts the related or better. Provide the search string as either `query` (preferred) or `q` (REST alias) — exactly one is required.',
 		parameters: {
 			type: "object",
 			properties: {
@@ -362,6 +390,67 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 					maximum: 10,
 				},
 			},
+		},
+	},
+	{
+		name: "list_works",
+		description:
+			'List the works beside the Urantia Papers: the Bible (World English Bible) and the texts of the world\'s religions that Paper 131 summarizes, each in the US public domain. `id` is what the other work tools take ("bible" or a slug such as "dhammapada").',
+		parameters: { type: "object", properties: {} },
+	},
+	{
+		name: "search_works",
+		description:
+			'Keyword search across the Bible and the other works, or one work with `work`. A reference such as "John 3:16", "Dhp 183", or "BG 2.47" gives those units first. Otherwise the exact phrase first, then every word, then (when few) a typo fix in `meta.didYouMean`. Each result has `match`, `url`, and its nearest Urantia paragraphs (semantic parallels, not curated ones). Provide `query` or `q`.',
+		parameters: { type: "object", properties: workQueryProps },
+	},
+	{
+		name: "works_semantic_search",
+		description:
+			"Natural-language search across the Bible and the other works, or one work with `work`. The list holds the 100 nearest chunks; each has `similarity` and `strength` (strong, related, weak), and `meta.total` is the length of that list, and `meta.related` counts the related or better. Each result has `url` and its nearest Urantia paragraphs. Provide `query` or `q`.",
+		parameters: { type: "object", properties: workQueryProps },
+	},
+	{
+		name: "read_work",
+		description:
+			'Read a work by reference: one unit, a short range of up to 50, or a chapter, each with its link. The prefix is optional ("BG 2.47" and "2.47" are the same); for the Bible, name the book ("John 3:16").',
+		parameters: { type: "object", properties: workRefProps, required: ["work", "ref"] },
+	},
+	{
+		name: "get_work_urantia_parallels",
+		description:
+			"The 10 Urantia paragraphs closest in meaning to one unit of a work. Semantic parallels, not curated ones. The reference must name one unit.",
+		parameters: { type: "object", properties: workRefProps, required: ["work", "ref"] },
+	},
+	{
+		name: "verify_quote",
+		description:
+			'Check whether a quoted passage is in the Urantia Papers. Returns `verdict` (exact, close, not_found), the reference and exact text of the best match, and each word that differs. A quote must be at least 4 words. Give `ref` (such as "2:5.1") to also check the reference the quote claims.',
+		parameters: {
+			type: "object",
+			properties: {
+				text: { type: "string", description: "The quoted passage to check. At least 4 words." },
+				ref: { type: "string", description: 'The reference the quote claims, such as "2:5.1".' },
+			},
+			required: ["text"],
+		},
+	},
+	{
+		name: "get_citation",
+		description:
+			'A formatted citation of one paragraph of the Urantia Papers in APA, MLA, Chicago, or BibTeX. The ref is "196:2.1", "1:196.2.1", or "196.2.1".',
+		parameters: {
+			type: "object",
+			properties: {
+				ref: { type: "string", description: 'The paragraph, such as "196:2.1".' },
+				style: {
+					type: "string",
+					description: "Citation style",
+					enum: ["apa", "mla", "chicago", "bibtex"],
+					default: "apa",
+				},
+			},
+			required: ["ref"],
 		},
 	},
 ] as const;

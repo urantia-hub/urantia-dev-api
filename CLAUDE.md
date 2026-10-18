@@ -81,15 +81,15 @@ with 429. See `tests/integration/openapi.test.ts` for the pattern.
 then hits `/health` and `/search/semantic?q=warmup&limit=1`.
 
 The warmup hit is load-bearing, not cosmetic. `/search/semantic` uses a KV
-cache (`SEARCH_CACHE` binding) for query embeddings and filter-tuple counts.
-Without the warmup, the first real user query after a deploy eats the cold
-path: fresh Worker isolate, cold Hyperdrive pool, no cached `count(*)` —
-roughly 2s. With the warmup, the unfiltered count cache is populated and the
-steady-state floor is ~300ms.
+cache (`SEARCH_CACHE` binding) for query embeddings. Without the warmup, the
+first real user query after a deploy eats the cold path: fresh Worker isolate,
+cold Hyperdrive pool, roughly 2s. Do not strip the warmup from the deploy script.
 
-Do not strip the warmup from the deploy script. If you change the cache key
-scheme in `src/lib/search-cache.ts` (bump `COUNT_KEY_VERSION`), the warmup is
-what rebuilds the hot set after the rollout.
+Since 2026-10-18 `/search/semantic` reads no `count(*)`: its list is the 100
+nearest paragraphs (`src/lib/paper-semantic.ts`, `hnsw.ef_search` 100 in the
+query's transaction; the default of 40 gave 40 results with a total of 14,593),
+`meta.total` is its length, and `meta.related` counts those that are `related` or better. The cut points of
+`strength` are in `src/lib/search-strength.ts`, from `bun scripts/calibrate-strength.ts`.
 
 ## Project Structure
 
@@ -114,7 +114,30 @@ what rebuilds the hot set after the rollout.
 - `src/types/node.ts` — TypeScript types + ref format detection
 - `scripts/seed.ts` — Database seeder from urantia-papers-json
 - `scripts/setup-fts.sql` — Full-text search setup SQL
+- `scripts/setup-search.sql` — Normalized text, `search_words`, pg_trgm and fuzzystrmatch (see Keyword search)
 - `docs/plans/unified-auth-layer.md` — Full design spec for the unified auth layer
+
+## Keyword search (2026-10-18)
+
+`searchPapers` (`src/lib/paper-search.ts`) serves `/search` and the MCP tool `search.fulltext`, so
+the two give the same results. Mode `auto` (the default) goes in tiers: a whole reference, the exact
+phrase, all words, near words (a typo fixed, `meta.didYouMean`), and most words. The last two run
+only when the first ones give fewer than 10.
+
+- The normalized text is no column: `matchText` (`src/lib/search-words.ts`) gives the SQL of
+  `normalizedSql` in `src/lib/search-text.ts`, and each table has a trigram index on that expression
+  (`paragraphs_match_text_trgm_idx`, built CONCURRENTLY, so no rewrite of a table with vectors). It
+  must give the same text as `normalizeQuery`, and the query must use the same expression as the
+  index. Change them together.
+- `search_vector` is declared as generated in `schema.ts`. Before that, a push dropped its expression.
+- Do not deploy before `setup-search.sql` (and `setup-works-search.sql` for `/works`) runs: the
+  search queries need the indexes, `search_words`, and `fuzzystrmatch`.
+- `search_words` holds the words of each text with their counts. Run
+  `bun scripts/fill-search-words.ts papers` after a reseed.
+- Query text reaches Postgres only as a parameter. The tsquery is built from normalized words
+  (`[a-z0-9]` only).
+- `tests/db/paper-search.test.ts` runs on a local copy of the Papers: seed, `setup-fts.sql`,
+  `setup-search.sql`, and the fill.
 
 ## SDKs
 
@@ -410,8 +433,12 @@ phases: `../world-religions-plan-2026-10.md`.
   `?include=scriptureScores`. Shared currents leaves out Paper 131. The
   texts' scores correlate (mean 0.42), so "close in N texts" is not N
   independent votes; say so wherever the count appears.
-- No MCP tools for scriptures until the OpenAI and Claude directory reviews
-  finish.
+- `/works` (2026-10-18) puts the Bible and the 9 texts under one set of
+  endpoints and MCP tools (`works.*`), with one result shape. The work id is
+  `bible` or the corpus slug. The old `/bible` and `/scriptures` routes stay.
+  Kelson lifted the rule "no MCP tools for scriptures" on 2026-10-17. The code
+  is `src/lib/works.ts`; its keyword search needs `scripts/setup-works-search.sql`
+  and `bun scripts/fill-search-words.ts bible` and `works`.
 
 ## Example requests and the Postman collection
 
@@ -485,7 +512,8 @@ its row in the same change when you submit somewhere or a listing changes state.
   not for Glama Path A.
 - **Connector verification**: `/.well-known/glama.json` in `src/index.ts`.
 - **Function-calling schemas**: `/tools/openai` and `/tools/anthropic` are public
-  endpoints that ship the same 19 MCP tools (13 UB + 6 Bible/cross-reference)
+  endpoints that ship the same 26 MCP tools (13 UB + 6 Bible/cross-reference +
+  5 works + `quotes.verify` + `cite.get`)
   as ready-to-use OpenAI/Anthropic tool definitions. Source of truth lives in
   `src/lib/tool-catalog.ts`.
 

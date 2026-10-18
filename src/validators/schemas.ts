@@ -342,7 +342,7 @@ export const SearchRequest = z.object({
 	limit: z.number().int().min(1).max(100).default(20),
 	paperId: z.string().optional(),
 	partId: z.string().optional(),
-	type: z.enum(["phrase", "and", "or"]).default("and"),
+	type: z.enum(["auto", "phrase", "and", "or"]).default("auto"),
 	include: z.string().optional(),
 });
 
@@ -352,17 +352,33 @@ export const SearchQueryParams = z.object({
 	limit: z.coerce.number().int().min(1).max(100).default(20),
 	paperId: z.string().optional(),
 	partId: z.string().optional(),
-	type: z.enum(["phrase", "and", "or"]).default("and"),
+	type: z.enum(["auto", "phrase", "and", "or"]).default("auto"),
 	include: z.string().optional(),
 });
 
+export const SearchMatch = z
+	.enum(["reference", "exact", "all", "near", "most"])
+	.describe(
+		"How the paragraph matched: reference (the query named it), exact (the whole phrase), all (every word), near (every word after a typo fix, see meta.didYouMean), most (two thirds of the words or more; with type `or`, some of the words).",
+	);
+
 export const SearchResultSchema = ParagraphSchema.extend({
 	rank: z.number(),
+	match: SearchMatch,
 });
 
 export const SearchResponse = z.object({
 	data: z.array(SearchResultSchema),
-	meta: PaginationMeta,
+	meta: PaginationMeta.extend({
+		didYouMean: z
+			.string()
+			.optional()
+			.describe("The query with typos fixed, when near results are in the list."),
+		see: z
+			.object({ work: z.string(), title: z.string() })
+			.optional()
+			.describe("Another work that the query names, such as the Bible or the Dhammapada."),
+	}),
 });
 
 // --- Semantic Search ---
@@ -385,13 +401,26 @@ export const SemanticSearchQueryParams = z.object({
 	include: z.string().optional(),
 });
 
+export const SemanticStrength = z
+	.enum(["strong", "related", "weak"])
+	.describe(
+		"How close the result is: strong (most right answers score this), related, or weak (likely off the topic).",
+	);
+
 export const SemanticSearchResultSchema = ParagraphSchema.extend({
 	similarity: z.number(),
+	strength: SemanticStrength,
+	match: z
+		.enum(["reference", "exact", "similar"])
+		.describe("reference (the query named it), exact (the query is its text), or similar."),
 });
 
 export const SemanticSearchResponse = z.object({
 	data: z.array(SemanticSearchResultSchema),
-	meta: PaginationMeta,
+	meta: PaginationMeta.extend({
+		total: z.number().int().describe("The length of the list: the nearest results, at most 100."),
+		related: z.number().int().describe("How many results of the list are related or better."),
+	}),
 });
 
 // --- Audio ---
@@ -869,3 +898,98 @@ export const ParagraphScriptureScoresSchema = z.object({
 	),
 	profile: z.array(InsightTextScoreSchema),
 });
+
+// --- Works (the Bible and the other texts, 2026-10-18) ---
+
+export const WorkSchema = z.object({
+	id: z.string().describe('The work id: "bible", or the slug of a text such as "dhammapada".'),
+	title: z.string(),
+	religion: z.string(),
+	translator: z.string(),
+	year: z.number().int().nullable(),
+	refPrefix: z
+		.string()
+		.nullable()
+		.describe('The prefix of its references, such as "Dhp". Null for the Bible (a book name).'),
+	unitLabel: z.string().describe('The word for one unit of the work: "verse", "section", "pauri".'),
+	units: z.number().int(),
+	urantiaSection: z.string().nullable(),
+});
+
+export const WorksResponse = z.object({ data: z.array(WorkSchema) });
+
+export const WorkUrantiaParallel = z.object({
+	standardReferenceId: z.string(),
+	paperTitle: z.string(),
+	sectionTitle: z.string().nullable(),
+	text: z.string(),
+	similarity: z.number(),
+	rank: z.number().int(),
+});
+
+export const WorkResultSchema = z.object({
+	work: z.object({ id: z.string(), title: z.string() }),
+	reference: z
+		.string()
+		.describe('"John 3:16", "Dhp 183", "BG 2.47-49" (a chunk in semantic search).'),
+	text: z.string(),
+	url: z.string().nullable().describe("The public page that holds the text, or null."),
+	match: z
+		.enum(["reference", "exact", "all", "near"])
+		.optional()
+		.describe("Keyword search: how it matched."),
+	similarity: z.number().optional().describe("Semantic search: cosine similarity."),
+	strength: SemanticStrength.optional(),
+	urantiaParallels: z
+		.array(WorkUrantiaParallel)
+		.describe("The nearest Urantia paragraphs (semantic parallels, not curated ones)."),
+});
+
+const worksSearchFields = {
+	q: z.string().min(1).max(500),
+	work: z.string().optional().describe('One work only: "bible" or a work id such as "dhammapada".'),
+};
+
+export const WorksSearchRequest = z.object({
+	...worksSearchFields,
+	page: z.number().int().min(0).default(0),
+	limit: z.number().int().min(1).max(100).default(20),
+	urantiaParallelLimit: z.number().int().min(0).max(10).default(3),
+});
+
+export const WorksSearchQueryParams = z.object({
+	...worksSearchFields,
+	page: z.coerce.number().int().min(0).default(0),
+	limit: z.coerce.number().int().min(1).max(100).default(20),
+	urantiaParallelLimit: z.coerce.number().int().min(0).max(10).default(3),
+});
+
+export const WorksSearchResponse = z.object({
+	data: z.array(WorkResultSchema),
+	meta: PaginationMeta.extend({
+		didYouMean: z.string().optional(),
+		related: z
+			.number()
+			.int()
+			.optional()
+			.describe("Semantic search only: how many results of the list are related or better."),
+	}),
+});
+
+export const WorkRefParam = z.object({
+	work: z
+		.string()
+		.min(1)
+		.max(64)
+		.describe('"bible", or a work id such as "bhagavad-gita" (its ref prefix also works: "bg").'),
+	ref: z
+		.string()
+		.min(1)
+		.max(40)
+		.describe(
+			"A unit (`John 3:16`, `2.47`, `Dhp 183`), a short range (`John 3:16-18`, `2.47-49`), or a whole chapter (`John 3`, `2`).",
+		),
+});
+
+export const WorkReadResponse = z.object({ data: z.array(WorkResultSchema) });
+export const WorkParallelsResponse = z.object({ data: WorkResultSchema });

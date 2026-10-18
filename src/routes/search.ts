@@ -1,9 +1,11 @@
 import { createRoute } from "@hono/zod-openapi";
 import { and, eq, sql } from "drizzle-orm";
+
 // biome-ignore lint: Handler context type varies per route; using `any` avoids
 // duplicating the full typed-response signature for each GET/POST pair.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyContext = any;
+
 import OpenAI from "openai";
 import { getDb } from "../db/client.ts";
 import { paragraphs } from "../db/schema.ts";
@@ -11,17 +13,11 @@ import { createApp } from "../lib/app.ts";
 import { enrichWithBibleParallels, wantsBibleParallels } from "../lib/bible-parallels.ts";
 import { enrichWithEntities, wantsEntities } from "../lib/entities.ts";
 import { problemJson } from "../lib/errors.ts";
-import {
-	getCachedCount,
-	getCachedEmbedding,
-	runAfter,
-	setCachedCount,
-	setCachedEmbedding,
-} from "../lib/search-cache.ts";
-import {
-	enrichWithUrantiaParallels,
-	wantsUrantiaParallels,
-} from "../lib/urantia-parallels.ts";
+import { type SearchType, searchPapers, tierCounts } from "../lib/paper-search.ts";
+import { semanticSearchPapers } from "../lib/paper-semantic.ts";
+import { getCachedEmbedding, runAfter, setCachedEmbedding } from "../lib/search-cache.ts";
+import { normalizeQuery } from "../lib/search-text.ts";
+import { enrichWithUrantiaParallels, wantsUrantiaParallels } from "../lib/urantia-parallels.ts";
 import {
 	ErrorResponse,
 	SearchQueryParams,
@@ -34,24 +30,6 @@ import {
 
 export const searchRoute = createApp();
 
-/**
- * Build a tsquery string from the search input based on the search type.
- */
-function buildTsQuery(sanitized: string, type: "phrase" | "and" | "or"): string {
-	switch (type) {
-		case "phrase":
-			return `phraseto_tsquery('english', '${sanitized}')`;
-		case "and": {
-			const words = sanitized.split(/\s+/).filter(Boolean);
-			return `to_tsquery('english', '${words.join(" & ")}')`;
-		}
-		case "or": {
-			const words = sanitized.split(/\s+/).filter(Boolean);
-			return `to_tsquery('english', '${words.join(" | ")}')`;
-		}
-	}
-}
-
 // ── Shared handler: Full-text search ──
 
 type SearchParams = {
@@ -60,7 +38,7 @@ type SearchParams = {
 	limit: number;
 	paperId?: string;
 	partId?: string;
-	type: "phrase" | "and" | "or";
+	type: SearchType;
 	include?: string;
 };
 
@@ -72,62 +50,12 @@ async function handleFullTextSearch(c: AnyContext, params: SearchParams) {
 		return problemJson(c, 400, "Search query cannot be empty");
 	}
 
-	const sanitized = q.replace(/[^\w\s]/g, " ").trim();
-
-	if (!sanitized) {
+	if (normalizeQuery(q).words.length === 0) {
 		return problemJson(c, 400, "Search query cannot be empty");
 	}
 
-	const tsQuery = buildTsQuery(sanitized, type);
-	const offset = page * limit;
-
-	// Build WHERE conditions
-	const conditions = [sql`search_vector @@ ${sql.raw(tsQuery)}`];
-
-	if (paperId) {
-		conditions.push(eq(paragraphs.paperId, paperId));
-	}
-	if (partId) {
-		conditions.push(eq(paragraphs.partId, partId));
-	}
-
-	const whereClause = and(...conditions);
-
-	// Count total matches
-	const countResult = await db
-		.select({ count: sql<number>`count(*)` })
-		.from(paragraphs)
-		.where(whereClause);
-
-	const total = Number(countResult[0]?.count ?? 0);
-
-	// Fetch results with rank and highlighted text
-	const results = await db
-		.select({
-			id: paragraphs.id,
-			standardReferenceId: paragraphs.standardReferenceId,
-			sortId: paragraphs.sortId,
-			paperId: paragraphs.paperId,
-			sectionId: sql<
-				string | null
-			>`CASE WHEN ${paragraphs.sectionId} IS NOT NULL THEN split_part(${paragraphs.sectionId}, '.', 2) ELSE NULL END`.as(
-				"sectionId",
-			),
-			partId: paragraphs.partId,
-			paperTitle: paragraphs.paperTitle,
-			sectionTitle: paragraphs.sectionTitle,
-			paragraphId: paragraphs.paragraphId,
-			text: paragraphs.text,
-			htmlText: sql<string>`ts_headline('english', ${paragraphs.htmlText}, ${sql.raw(tsQuery)}, ${sql.raw('\'StartSel="<span class=urantia-dev-highlighted>", StopSel="</span>", MaxFragments=0, HighlightAll=true\'')})`,
-			labels: paragraphs.labels,
-			audio: paragraphs.audio,
-			rank: sql<number>`ts_rank(search_vector, ${sql.raw(tsQuery)})`,
-		})
-		.from(paragraphs)
-		.where(whereClause)
-		.orderBy(sql`ts_rank(search_vector, ${sql.raw(tsQuery)}) DESC`)
-		.limit(limit)
-		.offset(offset);
+	const { data: results, meta } = await searchPapers(db, { q, type, page, limit, paperId, partId });
+	const total = meta.total;
 
 	const logger = c.get("logger");
 	if (logger) {
@@ -137,13 +65,17 @@ async function handleFullTextSearch(c: AnyContext, params: SearchParams) {
 			paper_id: paperId ?? undefined,
 			part_id: partId ?? undefined,
 			result_count: total,
+			first_match: results[0]?.match,
+			tier_counts: tierCounts(results),
 		});
 	}
 
 	type Enriched = (typeof results)[number] & {
 		entities?: Awaited<ReturnType<typeof enrichWithEntities>>[number]["entities"];
 		bibleParallels?: Awaited<ReturnType<typeof enrichWithBibleParallels>>[number]["bibleParallels"];
-		urantiaParallels?: Awaited<ReturnType<typeof enrichWithUrantiaParallels>>[number]["urantiaParallels"];
+		urantiaParallels?: Awaited<
+			ReturnType<typeof enrichWithUrantiaParallels>
+		>[number]["urantiaParallels"];
 	};
 	let enrichedResults: Enriched[] = results;
 	if (wantsEntities(include))
@@ -156,12 +88,7 @@ async function handleFullTextSearch(c: AnyContext, params: SearchParams) {
 	return c.json(
 		{
 			data: enrichedResults,
-			meta: {
-				page,
-				limit,
-				total,
-				totalPages: Math.ceil(total / limit),
-			},
+			meta,
 		},
 		200,
 	);
@@ -189,84 +116,39 @@ async function handleSemanticSearch(c: AnyContext, params: SemanticSearchParams)
 		return problemJson(c, 400, "Search query cannot be empty");
 	}
 
-	const offset = page * limit;
-
-	const startEmbedding = performance.now();
-	let queryVector = await getCachedEmbedding(kv, q);
-	const embeddingCacheHit = queryVector !== null;
-	if (!queryVector) {
-		const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-		const embeddingResponse = await openai.embeddings.create({
-			model: "text-embedding-3-small",
-			input: q,
-		});
-		const vec = embeddingResponse.data[0]?.embedding;
-		if (!vec) {
-			return problemJson(c, 500, "Failed to generate embedding");
+	let embeddingMs = 0;
+	let embeddingCacheHit = false;
+	const embed = async () => {
+		const startEmbedding = performance.now();
+		let vector = await getCachedEmbedding(kv, q);
+		embeddingCacheHit = vector !== null;
+		if (!vector) {
+			const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+			const embeddingResponse = await openai.embeddings.create({
+				model: "text-embedding-3-small",
+				input: q,
+			});
+			vector = embeddingResponse.data[0]?.embedding ?? null;
+			if (vector) runAfter(c, setCachedEmbedding(kv, q, vector));
 		}
-		queryVector = vec;
-		runAfter(c, setCachedEmbedding(kv, q, vec));
-	}
-	const embeddingMs = Math.round(performance.now() - startEmbedding);
-	const vectorStr = `[${queryVector.join(",")}]`;
+		embeddingMs = Math.round(performance.now() - startEmbedding);
+		return vector;
+	};
 
-	// Build WHERE conditions
-	const conditions = [sql`embedding IS NOT NULL`];
-	if (paperId) {
-		conditions.push(eq(paragraphs.paperId, paperId));
-	}
-	if (partId) {
-		conditions.push(eq(paragraphs.partId, partId));
-	}
-	const whereClause = and(...conditions);
-
-	// Run count (if not cached) and vector search in parallel.
 	const startQueries = performance.now();
-	const cachedCount = await getCachedCount(kv, paperId, partId);
-	const countCacheHit = cachedCount !== null;
-	const countPromise = countCacheHit
-		? Promise.resolve<{ count: number }[]>([{ count: cachedCount }])
-		: db.select({ count: sql<number>`count(*)` }).from(paragraphs).where(whereClause);
-	const [countResult, results] = await Promise.all([
-		countPromise,
-		db
-			.select({
-				id: paragraphs.id,
-				standardReferenceId: paragraphs.standardReferenceId,
-				sortId: paragraphs.sortId,
-				paperId: paragraphs.paperId,
-				sectionId: sql<
-					string | null
-				>`CASE WHEN ${paragraphs.sectionId} IS NOT NULL THEN split_part(${paragraphs.sectionId}, '.', 2) ELSE NULL END`.as(
-					"sectionId",
-				),
-				partId: paragraphs.partId,
-				paperTitle: paragraphs.paperTitle,
-				sectionTitle: paragraphs.sectionTitle,
-				paragraphId: paragraphs.paragraphId,
-				text: paragraphs.text,
-				htmlText: paragraphs.htmlText,
-				labels: paragraphs.labels,
-				audio: paragraphs.audio,
-				similarity: sql<number>`1 - (embedding <=> ${vectorStr}::vector)`,
-			})
-			.from(paragraphs)
-			.where(whereClause)
-			.orderBy(sql`embedding <=> ${vectorStr}::vector`)
-			.limit(limit)
-			.offset(offset),
-	]);
-	const queriesMs = Math.round(performance.now() - startQueries);
-
-	const total = Number(countResult[0]?.count ?? 0);
-	if (!countCacheHit) {
-		runAfter(c, setCachedCount(kv, paperId, partId, total));
+	const found = await semanticSearchPapers(db, { q, page, limit, paperId, partId, embed });
+	if (!found) {
+		return problemJson(c, 500, "Failed to generate embedding");
 	}
+	const queriesMs = Math.round(performance.now() - startQueries) - embeddingMs;
+	const { data: results, meta } = found;
 
 	type Enriched = (typeof results)[number] & {
 		entities?: Awaited<ReturnType<typeof enrichWithEntities>>[number]["entities"];
 		bibleParallels?: Awaited<ReturnType<typeof enrichWithBibleParallels>>[number]["bibleParallels"];
-		urantiaParallels?: Awaited<ReturnType<typeof enrichWithUrantiaParallels>>[number]["urantiaParallels"];
+		urantiaParallels?: Awaited<
+			ReturnType<typeof enrichWithUrantiaParallels>
+		>[number]["urantiaParallels"];
 	};
 	let enrichMs = 0;
 	let enrichedResults: Enriched[] = results;
@@ -289,10 +171,11 @@ async function handleSemanticSearch(c: AnyContext, params: SemanticSearchParams)
 			query: q,
 			paper_id: paperId ?? undefined,
 			part_id: partId ?? undefined,
-			result_count: total,
+			result_count: meta.total,
+			first_match: results[0]?.match,
+			first_strength: results[0]?.strength,
 			cache: {
 				embedding_hit: embeddingCacheHit,
-				count_hit: countCacheHit,
 			},
 			timing: {
 				embedding_ms: embeddingMs,
@@ -303,28 +186,16 @@ async function handleSemanticSearch(c: AnyContext, params: SemanticSearchParams)
 		});
 	}
 
-	return c.json(
-		{
-			data: enrichedResults,
-			meta: {
-				page,
-				limit,
-				total,
-				totalPages: Math.ceil(total / limit),
-			},
-		},
-		200,
-	);
+	return c.json({ data: enrichedResults, meta }, 200);
 }
 
-// ── Route definitions ──
+const searchDescription = `Search the Urantia Papers by keyword. Four search modes:
+- **auto** (default): a reference such as \`68:6.3\`, \`103:2\`, \`Paper 68\`, or a bare number such as \`68\` (0 to 196) gives those paragraphs. Otherwise the exact phrase comes first, then paragraphs with every word (the last word can be the start of a word). When these give fewer than 10, paragraphs with a typo fixed (\`meta.didYouMean\`) and paragraphs with most of the words follow. Each result has \`match\`.
+- **and**: all words must appear
+- **or**: any word can appear
+- **phrase**: exact phrase match
 
-const searchDescription = `Search the Urantia Papers using full-text search. Supports three search modes:
-- **and**: All words must appear (default)
-- **or**: Any word can appear
-- **phrase**: Exact phrase match
-
-Results are ranked by relevance. Optional filters: paperId, partId.`;
+Results are ranked by relevance. Optional filters: paperId, partId. When the query names another work, \`meta.see\` names it.`;
 
 const searchResponses = {
 	200: {
@@ -343,6 +214,9 @@ const searchResponses = {
 
 const semanticSearchDescription = `Search the Urantia Papers using semantic similarity (vector embeddings).
 Returns conceptually related results even without exact keyword matches.
+
+A reference such as \`99:1.1\` gives those paragraphs (\`match: "reference"\`). A pasted paragraph of 25 words or more gives itself first (\`match: "exact"\`). Each result has \`strength\`: strong, related, or weak. The list holds the 100 nearest paragraphs; \`meta.total\` is the length of that list, and \`meta.related\` counts those that are related or better.
+
 Optional filters: paperId, partId.`;
 
 const semanticSearchResponses = {

@@ -14,6 +14,11 @@ import {
 	uniqueIndex,
 	uuid,
 } from "drizzle-orm/pg-core";
+import { normalizedSql } from "../lib/search-text.ts";
+
+// A trigram index on the normalized text (`matchText` in src/lib/search-words.ts), for exact phrases.
+// An index on the expression, not a column: it is built CONCURRENTLY, with no rewrite of the table.
+const MATCH_TEXT_TRGM = sql.raw(`(${normalizedSql("text")}) gin_trgm_ops`);
 
 const tsvector = customType<{ data: string }>({
 	dataType() {
@@ -162,8 +167,11 @@ export const paragraphs = pgTable(
 
 		labels: text("labels").array(),
 
-		// Full-text search — populated via SQL generated column (see setup-fts.sql)
-		searchVector: tsvector("search_vector"),
+		// Full-text search: a generated column (setup-fts.sql). Declared as generated, or a push drops
+		// its expression and each new paragraph gets no search vector.
+		searchVector: tsvector("search_vector").generatedAlwaysAs(
+			sql`to_tsvector('english'::regconfig, COALESCE(text, ''::text))`,
+		),
 
 		// Semantic search — populated later via generate-embeddings script
 		embedding: vector("embedding"),
@@ -192,7 +200,22 @@ export const paragraphs = pgTable(
 		index("paragraphs_embedding_hnsw_idx")
 			.using("hnsw", t.embedding.op("vector_cosine_ops"))
 			.with({ m: "16", ef_construction: "64" }),
+		// Declared so that a push keeps them: scripts/setup-fts.sql and scripts/setup-search.sql.
+		index("paragraphs_fts_gin_idx").using("gin", t.searchVector),
+		index("paragraphs_match_text_trgm_idx").using("gin", MATCH_TEXT_TRGM),
 	],
+).enableRLS();
+
+// --- search_words (each word of a body of text, for near words in search) ---
+// `source`: "papers", "bible", or "works". Filled by scripts/fill-search-words.ts.
+export const searchWords = pgTable(
+	"search_words",
+	{
+		source: text("source").notNull(),
+		word: text("word").notNull(),
+		n: integer("n").notNull(),
+	},
+	(t) => [primaryKey({ name: "search_words_pkey", columns: [t.source, t.word] })],
 ).enableRLS();
 
 // --- entities ---
@@ -378,9 +401,15 @@ export const bibleVerses = pgTable(
 		chunkId: text("chunk_id"),
 		translation: text("translation").notNull().default("web"),
 		sourceVersion: text("source_version").notNull(),
+		// Keyword search (scripts/setup-works-search.sql), the same rules as on `paragraphs`.
+		searchVector: tsvector("search_vector").generatedAlwaysAs(
+			sql`to_tsvector('english'::regconfig, COALESCE(text, ''::text))`,
+		),
 	},
 	(t) => [
 		index("bv_book_chapter_verse_idx").on(t.bookCode, t.chapter, t.verse),
+		index("bv_fts_gin_idx").using("gin", t.searchVector),
+		index("bv_match_text_trgm_idx").using("gin", MATCH_TEXT_TRGM),
 		index("bv_book_order_idx").on(t.bookOrder),
 		index("bv_canon_idx").on(t.canon),
 		index("bv_chunk_id_idx").on(t.chunkId),
@@ -544,9 +573,15 @@ export const scripturePassages = pgTable(
 		numberEnd: integer("number_end").notNull(),
 		text: text("text").notNull(),
 		chunkId: text("chunk_id").references(() => scriptureChunks.id),
+		// Keyword search (scripts/setup-works-search.sql), the same rules as on `paragraphs`.
+		searchVector: tsvector("search_vector").generatedAlwaysAs(
+			sql`to_tsvector('english'::regconfig, COALESCE(text, ''::text))`,
+		),
 	},
 	(t) => [
 		uniqueIndex("sp_corpus_sort_idx").on(t.corpusId, t.sort),
+		index("sp_fts_gin_idx").using("gin", t.searchVector),
+		index("sp_match_text_trgm_idx").using("gin", MATCH_TEXT_TRGM),
 		index("sp_corpus_division_idx").on(t.corpusId, t.division),
 		index("sp_chunk_id_idx").on(t.chunkId),
 	],

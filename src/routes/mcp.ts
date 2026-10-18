@@ -20,9 +20,24 @@ import { BIBLE_BOOKS, formatBibleReference, resolveBibleBook } from "../lib/bibl
 import { enrichWithBibleParallels } from "../lib/bible-parallels.ts";
 import { MCP_ICONS } from "../lib/brand-icon.ts";
 import { enrichWithEntities } from "../lib/entities.ts";
+import { searchPapers } from "../lib/paper-search.ts";
+import { semanticSearchPapers } from "../lib/paper-semantic.ts";
+import { databaseCandidates } from "../lib/quote-candidates.ts";
+import { normalizeQuery } from "../lib/search-text.ts";
 import { enrichWithUrantiaParallels } from "../lib/urantia-parallels.ts";
+import {
+	listWorks,
+	readWork,
+	resolveWork,
+	searchWorks,
+	semanticSearchWorks,
+	workParallels,
+} from "../lib/works.ts";
 import { detectRefFormat } from "../types/node.ts";
+import { verseColumns } from "./bible.ts";
+import { CitationStyleEnum, citeParagraph } from "./cite.ts";
 import { paragraphFields } from "./paragraphs.ts";
+import { verifyQuote } from "./quotes.ts";
 
 export const mcpRoute = new Hono();
 
@@ -48,21 +63,6 @@ const searchParagraphFields = {
 	text: paragraphs.text,
 	labels: paragraphs.labels,
 } as const;
-
-function buildTsQuery(sanitized: string, type: "phrase" | "and" | "or"): string {
-	switch (type) {
-		case "phrase":
-			return `phraseto_tsquery('english', '${sanitized}')`;
-		case "and": {
-			const words = sanitized.split(/\s+/).filter(Boolean);
-			return `to_tsquery('english', '${words.join(" & ")}')`;
-		}
-		case "or": {
-			const words = sanitized.split(/\s+/).filter(Boolean);
-			return `to_tsquery('english', '${words.join(" | ")}')`;
-		}
-	}
-}
 
 async function findParagraphByRef(db: ReturnType<typeof getDb>["db"], ref: string) {
 	const format = detectRefFormat(ref);
@@ -179,8 +179,23 @@ const bibleBookSchema = z.object({
 	verseCount: z.number().int(),
 });
 
-const searchResultSchema = paragraphResultSchema.extend({ rank: z.number() });
-const semanticResultSchema = paragraphResultSchema.extend({ similarity: z.number() });
+const searchResultSchema = paragraphResultSchema.extend({
+	rank: z.number(),
+	match: z.enum(["reference", "exact", "all", "near", "most"]),
+});
+const searchMetaSchema = z.object({
+	page: z.number().int(),
+	limit: z.number().int(),
+	total: z.number().int(),
+	totalPages: z.number().int(),
+	didYouMean: z.string().optional(),
+	see: z.object({ work: z.string(), title: z.string() }).optional(),
+});
+const semanticResultSchema = paragraphResultSchema.extend({
+	similarity: z.number(),
+	strength: z.enum(["strong", "related", "weak"]),
+	match: z.enum(["reference", "exact", "similar"]),
+});
 
 const entityResultSchema = z.object({
 	id: z.string(),
@@ -200,6 +215,45 @@ const entityResultSchema = z.object({
 		.describe(
 			"Number of citations in the source index. A citation of a whole section counts once, so the entity's paragraph total can be higher.",
 		),
+});
+
+const workSchema = z.object({
+	id: z.string(),
+	title: z.string(),
+	religion: z.string(),
+	translator: z.string(),
+	year: z.number().int().nullable(),
+	refPrefix: z.string().nullable(),
+	unitLabel: z.string(),
+	units: z.number().int(),
+	urantiaSection: z.string().nullable(),
+});
+const workResultSchema = z.object({
+	work: z.object({ id: z.string(), title: z.string() }),
+	reference: z.string(),
+	text: z.string(),
+	url: z.string().nullable(),
+	match: z.enum(["reference", "exact", "all", "near"]).optional(),
+	similarity: z.number().optional(),
+	strength: z.enum(["strong", "related", "weak"]).optional(),
+	urantiaParallels: z.array(
+		z.object({
+			standardReferenceId: z.string(),
+			paperTitle: z.string(),
+			sectionTitle: z.string().nullable(),
+			text: z.string(),
+			similarity: z.number(),
+			rank: z.number().int(),
+		}),
+	),
+});
+const workMetaSchema = z.object({
+	page: z.number().int(),
+	limit: z.number().int(),
+	total: z.number().int(),
+	totalPages: z.number().int(),
+	didYouMean: z.string().optional(),
+	related: z.number().int().optional(),
 });
 
 const paginationMetaSchema = z.object({
@@ -648,14 +702,14 @@ function createMcpServer() {
 		{
 			title: "Full-Text Search",
 			description:
-				'Full-text search across all paragraphs of the Urantia Papers. Supports three modes: "and" (all words must appear, default), "or" (any word), "phrase" (exact phrase). Results ranked by relevance.',
+				'Keyword search across all paragraphs of the Urantia Papers. Mode "auto" (default): a reference such as "68:6.3", "103:2", "Paper 68", or a bare number such as "68" (0 to 196) gives those paragraphs; otherwise the exact phrase first, then every word, then (when few) typo fixes and most of the words. Each result has `match` (reference, exact, all, near, most); `meta.didYouMean` gives the fixed query and `meta.see` names another work the query names. Other modes: "and" (all words), "or" (any word), "phrase" (exact phrase).',
 			inputSchema: {
-				query: z.string().optional().describe('Search query. Example: "nature of God"'),
-				q: z.string().optional().describe("Alias for `query` (REST compatibility)."),
+				query: z.string().max(500).optional().describe('Search query. Example: "nature of God"'),
+				q: z.string().max(500).optional().describe("Alias for `query` (REST compatibility)."),
 				type: z
-					.enum(["phrase", "and", "or"])
-					.default("and")
-					.describe("Search mode: phrase, and, or"),
+					.enum(["auto", "phrase", "and", "or"])
+					.default("auto")
+					.describe("Search mode: auto, phrase, and, or"),
 				paper_id: z.string().optional().describe("Filter to a specific paper ID"),
 				part_id: z.string().optional().describe("Filter to a specific part ID (1-4)"),
 				page: z.number().int().min(0).default(0).describe("Page number (0-indexed)"),
@@ -674,7 +728,7 @@ function createMcpServer() {
 			},
 			outputSchema: {
 				data: z.array(searchResultSchema),
-				meta: paginationMetaSchema,
+				meta: searchMetaSchema,
 			},
 			annotations: { title: "Full-Text Search", ...READ_ONLY_LOCAL },
 		},
@@ -693,33 +747,16 @@ function createMcpServer() {
 			const searchQuery = query ?? q;
 			if (!searchQuery) return errorResult("Either 'query' or 'q' is required");
 			const { db } = getDb();
-			const sanitized = searchQuery.replace(/[^\w\s]/g, " ").trim();
-			if (!sanitized) return errorResult("Search query cannot be empty");
-
-			const tsQuery = buildTsQuery(sanitized, type);
-			const offset = page * limit;
-
-			const conditions = [sql`search_vector @@ ${sql.raw(tsQuery)}`];
-			if (paper_id) conditions.push(eq(paragraphs.paperId, paper_id));
-			if (part_id) conditions.push(eq(paragraphs.partId, part_id));
-			const whereClause = and(...conditions);
-
-			const countResult = await db
-				.select({ count: sql<number>`count(*)` })
-				.from(paragraphs)
-				.where(whereClause);
-			const total = Number(countResult[0]?.count ?? 0);
-
-			const results = await db
-				.select({
-					...searchParagraphFields,
-					rank: sql<number>`ts_rank(search_vector, ${sql.raw(tsQuery)})`,
-				})
-				.from(paragraphs)
-				.where(whereClause)
-				.orderBy(sql`ts_rank(search_vector, ${sql.raw(tsQuery)}) DESC`)
-				.limit(limit)
-				.offset(offset);
+			if (normalizeQuery(searchQuery).words.length === 0)
+				return errorResult("Search query cannot be empty");
+			const { data: results, meta } = await searchPapers(db, {
+				q: searchQuery,
+				type,
+				page,
+				limit,
+				paperId: paper_id,
+				partId: part_id,
+			});
 
 			const enrichedResults = await enrichParagraphs(db, results, {
 				entities: include_entities,
@@ -727,10 +764,7 @@ function createMcpServer() {
 				urantiaParallels: include_urantia_parallels,
 			});
 
-			return structured({
-				data: enrichedResults,
-				meta: { page, limit, total, totalPages: Math.ceil(total / limit) },
-			});
+			return structured({ data: enrichedResults, meta });
 		},
 	);
 
@@ -740,13 +774,14 @@ function createMcpServer() {
 		{
 			title: "Semantic Search",
 			description:
-				"Search the Urantia Papers using semantic similarity (vector embeddings). Returns conceptually related results even without exact keyword matches.",
+				'Search the Urantia Papers using semantic similarity (vector embeddings). Returns conceptually related results even without exact keyword matches. A reference such as "99:1.1" gives those paragraphs; a pasted paragraph gives itself first. Each result has `strength` (strong, related, weak) and `match` (reference, exact, similar). The list holds the 100 nearest; `meta.total` is the length of that list, and `meta.related` counts the related or better.',
 			inputSchema: {
 				query: z
 					.string()
+					.max(2000)
 					.optional()
 					.describe('Natural language query. Example: "What is the meaning of life?"'),
-				q: z.string().optional().describe("Alias for `query` (REST compatibility)."),
+				q: z.string().max(2000).optional().describe("Alias for `query` (REST compatibility)."),
 				paper_id: z.string().optional().describe("Filter to a specific paper ID"),
 				part_id: z.string().optional().describe("Filter to a specific part ID (1-4)"),
 				page: z.number().int().min(0).default(0).describe("Page number (0-indexed)"),
@@ -765,7 +800,7 @@ function createMcpServer() {
 			},
 			outputSchema: {
 				data: z.array(semanticResultSchema),
-				meta: paginationMetaSchema,
+				meta: paginationMetaSchema.extend({ related: z.number().int() }),
 			},
 			annotations: { title: "Semantic Search", ...READ_ONLY_OPEN_WORLD },
 		},
@@ -783,37 +818,23 @@ function createMcpServer() {
 			const searchQuery = query ?? q;
 			if (!searchQuery) return errorResult("Either 'query' or 'q' is required");
 			const { db } = getDb();
-			const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-			const embeddingResponse = await openai.embeddings.create({
-				model: "text-embedding-3-small",
-				input: searchQuery,
+			const found = await semanticSearchPapers(db, {
+				q: searchQuery,
+				page,
+				limit,
+				paperId: paper_id,
+				partId: part_id,
+				embed: async () => {
+					const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+					const res = await openai.embeddings.create({
+						model: "text-embedding-3-small",
+						input: searchQuery,
+					});
+					return res.data[0]?.embedding ?? null;
+				},
 			});
-			const queryVector = embeddingResponse.data[0]?.embedding;
-			if (!queryVector) return errorResult("Failed to generate embedding");
-			const vectorStr = `[${queryVector.join(",")}]`;
-
-			const offset = page * limit;
-			const conditions = [sql`embedding IS NOT NULL`];
-			if (paper_id) conditions.push(eq(paragraphs.paperId, paper_id));
-			if (part_id) conditions.push(eq(paragraphs.partId, part_id));
-			const whereClause = and(...conditions);
-
-			const countResult = await db
-				.select({ count: sql<number>`count(*)` })
-				.from(paragraphs)
-				.where(whereClause);
-			const total = Number(countResult[0]?.count ?? 0);
-
-			const results = await db
-				.select({
-					...searchParagraphFields,
-					similarity: sql<number>`1 - (embedding <=> ${vectorStr}::vector)`,
-				})
-				.from(paragraphs)
-				.where(whereClause)
-				.orderBy(sql`embedding <=> ${vectorStr}::vector`)
-				.limit(limit)
-				.offset(offset);
+			if (!found) return errorResult("Failed to generate embedding");
+			const { data: results, meta } = found;
 
 			const enrichedResults = await enrichParagraphs(db, results, {
 				entities: include_entities,
@@ -821,10 +842,7 @@ function createMcpServer() {
 				urantiaParallels: include_urantia_parallels,
 			});
 
-			return structured({
-				data: enrichedResults,
-				meta: { page, limit, total, totalPages: Math.ceil(total / limit) },
-			});
+			return structured({ data: enrichedResults, meta });
 		},
 	);
 
@@ -837,8 +855,8 @@ function createMcpServer() {
 				"Browse the entity catalog: beings, places, orders, races, religions, and concepts mentioned in the Urantia Papers. Supports filtering by type and searching by name.",
 			inputSchema: {
 				type: entityTypeEnum.optional().describe("Filter by entity type"),
-				query: z.string().optional().describe("Search entities by name or alias"),
-				q: z.string().optional().describe("Alias for `query` (REST compatibility)."),
+				query: z.string().max(200).optional().describe("Search entities by name or alias"),
+				q: z.string().max(200).optional().describe("Alias for `query` (REST compatibility)."),
 				page: z.number().int().min(0).default(0).describe("Page number (0-indexed)"),
 				limit: z.number().int().min(1).max(100).default(20).describe("Results per page (1-100)"),
 			},
@@ -1125,7 +1143,7 @@ function createMcpServer() {
 
 			const { db } = getDb();
 			const rows = await db
-				.select()
+				.select(verseColumns)
 				.from(bibleVerses)
 				.where(and(eq(bibleVerses.bookCode, meta.osis), eq(bibleVerses.chapter, chapter)))
 				.orderBy(bibleVerses.verse);
@@ -1180,7 +1198,7 @@ function createMcpServer() {
 
 			const { db } = getDb();
 			const rows = await db
-				.select()
+				.select(verseColumns)
 				.from(bibleVerses)
 				.where(
 					and(
@@ -1362,9 +1380,10 @@ function createMcpServer() {
 			inputSchema: {
 				query: z
 					.string()
+					.max(2000)
 					.optional()
 					.describe('Natural language query. Example: "blessed are the poor"'),
-				q: z.string().optional().describe("Alias for `query` (REST compatibility)."),
+				q: z.string().max(2000).optional().describe("Alias for `query` (REST compatibility)."),
 				canon: bibleCanonEnum.optional().describe("Filter by canon: ot, deuterocanon, nt"),
 				book_code: z
 					.string()
@@ -1567,6 +1586,233 @@ function createMcpServer() {
 				data,
 				meta: { page, limit, total, totalPages: Math.ceil(total / limit) },
 			});
+		},
+	);
+
+	// --- Works: the Bible and the other texts (2026-10-18) ---
+
+	const workQueryInput = {
+		query: z.string().max(500).optional().describe('Search query. Example: "love your enemies"'),
+		q: z.string().max(500).optional().describe("Alias for `query` (REST compatibility)."),
+		work: z
+			.string()
+			.max(64)
+			.optional()
+			.describe('One work only: "bible" or a work id from works.list, such as "dhammapada".'),
+		page: z.number().int().min(0).default(0).describe("Page number (0-indexed)"),
+		limit: z.number().int().min(1).max(100).default(20).describe("Results per page (1-100)"),
+		urantia_parallel_limit: z
+			.number()
+			.int()
+			.min(0)
+			.max(10)
+			.default(3)
+			.describe("How many Urantia paragraphs to attach to each result (0-10, default 3)."),
+	};
+	const workRefInput = {
+		work: z
+			.string()
+			.max(64)
+			.describe('"bible", or a work id from works.list, such as "bhagavad-gita".'),
+		ref: z
+			.string()
+			.max(40)
+			.describe('A unit, a short range, or a chapter: "John 3:16", "2.47", "Dhp 183", "John 3".'),
+	};
+
+	server.registerTool(
+		"works.list",
+		{
+			title: "List the Works",
+			description:
+				'The works beside the Urantia Papers: the Bible (World English Bible) and the texts of the world\'s religions that Paper 131 summarizes, each in the US public domain. `id` is what the other works.* tools take ("bible" or a slug such as "dhammapada"); `unitLabel` is the word for one unit of each work.',
+			inputSchema: {},
+			outputSchema: { data: z.array(workSchema) },
+			annotations: { title: "List the Works", ...READ_ONLY_LOCAL },
+		},
+		async () => {
+			const { db } = getDb();
+			return structured({ data: await listWorks(db) });
+		},
+	);
+
+	server.registerTool(
+		"works.search",
+		{
+			title: "Search the Works",
+			description:
+				'Keyword search across the Bible and the other works, or one work with `work`. A reference such as "John 3:16", "Jn 3:16-18", "Dhp 183", or "BG 2.47" gives those units first. Otherwise the exact phrase first, then every word, then (when few) a typo fix in `meta.didYouMean`. Each result has `match`, `url`, and its nearest Urantia paragraphs (semantic parallels, not curated ones).',
+			inputSchema: workQueryInput,
+			outputSchema: { data: z.array(workResultSchema), meta: workMetaSchema },
+			annotations: { title: "Search the Works", ...READ_ONLY_LOCAL },
+		},
+		async ({ query, q, work, page, limit, urantia_parallel_limit }) => {
+			const searchQuery = query ?? q;
+			if (!searchQuery) return errorResult("Either 'query' or 'q' is required");
+			const { db } = getDb();
+			const found = await searchWorks(db, {
+				q: searchQuery,
+				work,
+				page,
+				limit,
+				urantiaParallelLimit: urantia_parallel_limit,
+			});
+			if (!found) return errorResult(`Work "${work}" not found`);
+			return structured(found);
+		},
+	);
+
+	server.registerTool(
+		"works.search.semantic",
+		{
+			title: "Semantic Search of the Works",
+			description:
+				"Natural-language search across the Bible and the other works, or one work with `work`. The list holds the 100 nearest chunks (a few verses each); each has `similarity` and `strength` (strong, related, weak), and `meta.total` is the length of that list, and `meta.related` counts the related or better. Each result has `url` and its nearest Urantia paragraphs (semantic parallels, not curated ones).",
+			inputSchema: workQueryInput,
+			outputSchema: { data: z.array(workResultSchema), meta: workMetaSchema },
+			annotations: { title: "Semantic Search of the Works", ...READ_ONLY_OPEN_WORLD },
+		},
+		async ({ query, q, work, page, limit, urantia_parallel_limit }) => {
+			const searchQuery = query ?? q;
+			if (!searchQuery) return errorResult("Either 'query' or 'q' is required");
+			const { db } = getDb();
+			const found = await semanticSearchWorks(db, {
+				q: searchQuery,
+				work,
+				page,
+				limit,
+				urantiaParallelLimit: urantia_parallel_limit,
+				embed: async () => {
+					const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+					const res = await openai.embeddings.create({
+						model: "text-embedding-3-small",
+						input: searchQuery,
+					});
+					return res.data[0]?.embedding ?? null;
+				},
+			});
+			if (found === null) return errorResult(`Work "${work}" not found`);
+			if (found === "embedding") return errorResult("Failed to generate embedding");
+			return structured(found);
+		},
+	);
+
+	server.registerTool(
+		"works.read",
+		{
+			title: "Read a Work",
+			description:
+				'The units of a reference in one work, in order, at most 200, each with its link: one verse or passage, a short range of up to 50, or a chapter. The prefix is optional ("BG 2.47" and "2.47" are the same); for the Bible, name the book ("John 3:16").',
+			inputSchema: workRefInput,
+			outputSchema: { data: z.array(workResultSchema) },
+			annotations: { title: "Read a Work", ...READ_ONLY_LOCAL },
+		},
+		async ({ work, ref }) => {
+			const { db } = getDb();
+			if (!(await resolveWork(db, work))) return errorResult(`Work "${work}" not found`);
+			const units = await readWork(db, ref, work);
+			if (!units) return errorResult(`Invalid reference "${ref}" for "${work}"`);
+			if (units.length === 0) return errorResult(`${ref} not found in "${work}"`);
+			return structured({
+				data: units.map(({ chunk: _, ...u }) => ({ ...u, urantiaParallels: [] })),
+			});
+		},
+	);
+
+	server.registerTool(
+		"works.urantia_parallels",
+		{
+			title: "Urantia Parallels of a Work",
+			description:
+				"The 10 Urantia paragraphs closest in meaning to one unit of a work (the chunk that holds it). Semantic parallels, not curated ones: they do not claim that two teachings are the same. The reference must name one unit.",
+			inputSchema: workRefInput,
+			outputSchema: { data: workResultSchema },
+			annotations: { title: "Urantia Parallels of a Work", ...READ_ONLY_LOCAL },
+		},
+		async ({ work, ref }) => {
+			const { db } = getDb();
+			if (!(await resolveWork(db, work))) return errorResult(`Work "${work}" not found`);
+			const found = await workParallels(db, work, ref);
+			if (found === "many") return errorResult(`${ref} names more than one unit. Ask for one.`);
+			if (!found) return errorResult(`${ref} not found in "${work}"`);
+			return structured({ data: found });
+		},
+	);
+
+	server.registerTool(
+		"quotes.verify",
+		{
+			title: "Verify a Quote",
+			description:
+				'Checks whether a quoted passage is in the Urantia Papers. Returns `verdict` (exact, close, not_found), the reference and exact text of the best match, each word that differs, and other places the quote appears. Case and punctuation are ignored. A quote must be at least 4 words and fall within one paragraph. Give `ref` (such as "2:5.1") to also check the reference the quote claims.',
+			inputSchema: {
+				text: z
+					.string()
+					.min(1)
+					.max(2000)
+					.describe("The quoted passage to check. At least 4 words."),
+				ref: z
+					.string()
+					.max(40)
+					.optional()
+					.describe('The reference the quote claims, such as "2:5.1".'),
+			},
+			outputSchema: {
+				data: z.object({
+					verdict: z.enum(["exact", "close", "not_found"]),
+					match: z
+						.object({
+							reference: z.string(),
+							paperId: z.string(),
+							paperTitle: z.string(),
+							sectionTitle: z.string().nullable(),
+							verdict: z.enum(["exact", "close", "not_found"]),
+							similarity: z.number(),
+							text: z.string().nullable(),
+							differences: z.array(z.object({ quote: z.string(), text: z.string() })),
+						})
+						.nullable(),
+					claimedReference: z
+						.object({
+							ref: z.string(),
+							exists: z.boolean(),
+							verdict: z.enum(["exact", "close", "not_found"]).nullable(),
+						})
+						.nullable(),
+					alsoFoundAt: z.array(z.string()),
+				}),
+			},
+			annotations: { title: "Verify a Quote", ...READ_ONLY_LOCAL },
+		},
+		async ({ text, ref }) => {
+			const data = await verifyQuote(databaseCandidates(undefined), text, ref);
+			if (!data) return errorResult("A quote must be at least 4 words to place it.");
+			return structured({ data });
+		},
+	);
+
+	server.registerTool(
+		"cite.get",
+		{
+			title: "Cite a Paragraph",
+			description:
+				'A formatted citation of one paragraph of the Urantia Papers in APA, MLA, Chicago, or BibTeX. The ref is "196:2.1", "1:196.2.1", or "196.2.1".',
+			inputSchema: {
+				ref: z.string().min(1).describe('The paragraph, such as "196:2.1".'),
+				style: CitationStyleEnum.default("apa").describe("apa, mla, chicago, or bibtex"),
+			},
+			outputSchema: {
+				data: z.object({ ref: z.string(), style: CitationStyleEnum, citation: z.string() }),
+			},
+			annotations: { title: "Cite a Paragraph", ...READ_ONLY_LOCAL },
+		},
+		async ({ ref, style }) => {
+			const citation = citeParagraph(ref, style);
+			if (!citation)
+				return errorResult(
+					`Invalid reference "${ref}". Expected "196:2.1", "1:196.2.1", or "196.2.1".`,
+				);
+			return structured({ data: { ref, style, citation } });
 		},
 	);
 
@@ -1839,7 +2085,8 @@ mcpRoute.get("/", async (c) => {
 					params: ["ref", "window", "include_entities"],
 				},
 				"search.fulltext": {
-					description: "Full-text search (and/or/phrase modes)",
+					description:
+						"Keyword search: references, exact phrases, all words, typo fixes (auto/and/or/phrase modes)",
 					params: [
 						"q",
 						"type",
@@ -1853,7 +2100,8 @@ mcpRoute.get("/", async (c) => {
 					],
 				},
 				"search.semantic": {
-					description: "Semantic similarity search via vector embeddings",
+					description:
+						"Semantic similarity search via vector embeddings, with the strength of each result",
 					params: [
 						"q",
 						"paper_id",
@@ -1906,6 +2154,36 @@ mcpRoute.get("/", async (c) => {
 					description:
 						"Semantic search across the Bible. Each result includes top-N pre-computed Urantia paragraphs.",
 					params: ["q", "canon", "book_code", "page", "limit", "urantia_parallel_limit"],
+				},
+				"works.list": {
+					description:
+						"List the works beside the Papers: the Bible and 9 texts of the world's religions",
+				},
+				"works.search": {
+					description:
+						"Keyword search across the works, with references and typo fixes. Each result has its Urantia paragraphs.",
+					params: ["q", "work", "page", "limit", "urantia_parallel_limit"],
+				},
+				"works.search.semantic": {
+					description:
+						"Semantic search across the works. Each result has its strength and its Urantia paragraphs.",
+					params: ["q", "work", "page", "limit", "urantia_parallel_limit"],
+				},
+				"works.read": {
+					description: "Read a work by reference: a unit, a short range, or a chapter",
+					params: ["work", "ref"],
+				},
+				"works.urantia_parallels": {
+					description: "Top-10 Urantia paragraphs nearest to one unit of a work",
+					params: ["work", "ref"],
+				},
+				"quotes.verify": {
+					description: "Check whether a quote is in the Urantia Papers, and where",
+					params: ["text", "ref"],
+				},
+				"cite.get": {
+					description: "A citation of one paragraph in APA, MLA, Chicago, or BibTeX",
+					params: ["ref", "style"],
 				},
 			},
 			resources: {
