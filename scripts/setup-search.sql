@@ -3,6 +3,8 @@
 -- The column rule must stay the same as `normalizedSql` in src/lib/search-text.ts.
 
 CREATE EXTENSION IF NOT EXISTS pg_trgm;
+-- levenshtein() for near words.
+CREATE EXTENSION IF NOT EXISTS fuzzystrmatch;
 
 ALTER TABLE paragraphs ADD COLUMN IF NOT EXISTS match_text text
   GENERATED ALWAYS AS ((' ' || btrim(regexp_replace(regexp_replace(regexp_replace(lower(text), '[''‘’ʼ]', '', 'g'), '([0-9]),(?=[0-9]{3})', '\1', 'g'), '[^a-z0-9]+', ' ', 'g')) || ' ')) STORED;
@@ -17,6 +19,4 @@ CREATE TABLE IF NOT EXISTS search_words (
   n integer NOT NULL,
   PRIMARY KEY (source, word)
 );
-CREATE INDEX IF NOT EXISTS search_words_word_trgm_idx
-  ON search_words USING gin (word gin_trgm_ops);
 ALTER TABLE search_words ENABLE ROW LEVEL SECURITY;
