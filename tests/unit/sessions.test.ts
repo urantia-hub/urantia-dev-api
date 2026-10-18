@@ -83,6 +83,13 @@ function memoryStore(consents: Record<string, string[] | null> = { [APP]: ["prof
 		async usedSince(familyId, at) {
 			return rows.some((r) => r.familyId === familyId && r.consumed && r.consumed > at);
 		},
+		async reclaimConsumed(id, from, at, endsAt) {
+			const row = rows.find((r) => r.id === id);
+			if (!row || row.consumed?.getTime() !== from.getTime()) return false;
+			row.consumed = at;
+			row.expiresAt = endsAt;
+			return true;
+		},
 		async appAccess() {
 			return access;
 		},
@@ -475,6 +482,62 @@ describe("a refresh whose answer never reached the app", () => {
 			);
 			expect(next.ok).toBe(true);
 		}
+	});
+});
+
+describe("the limits of a recovery", () => {
+	it("recovers a lost token one time only", async () => {
+		const { store, rows } = memoryStore();
+		const first = await start(store);
+		const lost = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: first.refreshToken },
+			after(60),
+		);
+		if (!lost.ok) throw new Error("setup");
+		const once = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: first.refreshToken },
+			after(120),
+		);
+		expect(once.ok).toBe(true);
+		const twice = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: first.refreshToken },
+			after(600),
+		);
+		expect(twice).toMatchObject({ ok: false, status: 401 });
+		const third = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: first.refreshToken },
+			after(700),
+		);
+		expect(third).toMatchObject({ ok: false, status: 401 });
+		expect(rows).toHaveLength(0);
+	});
+
+	it("does not recover a token used more than 7 days ago, and ends the sign-in", async () => {
+		const { store, rows } = memoryStore();
+		const first = await start(store);
+		const lost = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: first.refreshToken },
+			after(60),
+		);
+		if (!lost.ok) throw new Error("setup");
+		const late = await refreshSession(
+			store,
+			env,
+			{ appId: APP, refreshToken: first.refreshToken },
+			after(8 * DAY),
+		);
+		expect(late).toMatchObject({ ok: false, status: 401 });
+		expect(rows).toHaveLength(0);
 	});
 });
 
