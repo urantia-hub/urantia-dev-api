@@ -7,6 +7,7 @@ import { getCachedEmbedding, runAfter, setCachedEmbedding } from "../lib/search-
 import {
 	listWorks,
 	readWork,
+	resolveWork,
 	searchWorks,
 	semanticSearchWorks,
 	type WorksSearchOptions,
@@ -121,7 +122,7 @@ worksRoute.openapi(
 	(c) => handleKeyword(c, c.req.valid("query")),
 );
 
-const semanticDescription = `Natural-language search across the Bible and the other works, or one work with \`work\`. The list holds the 100 nearest chunks (a chunk is a few verses, about one Urantia paragraph long); each has \`similarity\` and \`strength\` (strong, related, weak), and \`meta.total\` counts those that are related or better. A reference gives those units with no vector. Each result carries its nearest Urantia paragraphs (\`urantiaParallelLimit\`, 0 to 10, default 3).\n\n${PARALLELS_NOTE}`;
+const semanticDescription = `Natural-language search across the Bible and the other works, or one work with \`work\`. The list holds the 100 nearest chunks (a chunk is a few verses, about one Urantia paragraph long); each has \`similarity\` and \`strength\` (strong, related, weak), and \`meta.total\` is the length of that list, and \`meta.related\` counts those that are related or better. A reference gives those units with no vector. Each result carries its nearest Urantia paragraphs (\`urantiaParallelLimit\`, 0 to 10, default 3).\n\n${PARALLELS_NOTE}`;
 
 async function handleSemantic(c: AnyContext, params: WorksSearchOptions) {
 	const { db } = getDb(c.env?.HYPERDRIVE);
@@ -204,6 +205,7 @@ worksRoute.openapi(
 	async (c) => {
 		const { db } = getDb(c.env?.HYPERDRIVE);
 		const { work, ref } = c.req.valid("param");
+		if (!(await resolveWork(db, work))) return problemJson(c, 404, `Work "${work}" not found`);
 		const units = await readWork(db, ref, work);
 		if (!units)
 			return problemJson(
@@ -241,6 +243,7 @@ worksRoute.openapi(
 	async (c) => {
 		const { db } = getDb(c.env?.HYPERDRIVE);
 		const { work, ref } = c.req.valid("param");
+		if (!(await resolveWork(db, work))) return problemJson(c, 404, `Work "${work}" not found`);
 		const found = await workParallels(db, work, ref);
 		if (found === "many")
 			return problemJson(

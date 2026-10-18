@@ -1,12 +1,12 @@
 // Semantic search of the Papers, shared by GET/POST /search/semantic and the MCP tool `search.semantic`.
 // A whole reference gives its paragraphs. A pasted paragraph (25 words or more) gives itself first.
-// The list is the 100 nearest paragraphs; `meta.total` counts those that are `related` or better.
+// The list is the 100 nearest paragraphs (`meta.total`); `meta.related` counts those that are `related` or better.
 import { and, inArray, type SQL, sql } from "drizzle-orm";
 import { paragraphs } from "../db/schema.ts";
 import { columns, referenceWhere } from "./paper-search.ts";
 import { type Strength, strengthOf } from "./search-strength.ts";
 import { normalizeQuery, parsePaperRef } from "./search-text.ts";
-import type { Db } from "./search-words.ts";
+import { type Db, matchText } from "./search-words.ts";
 
 export type SemanticMatch = "reference" | "exact" | "similar";
 export type PaperSemanticOptions = {
@@ -26,7 +26,7 @@ const PASTED_WORDS = 25;
 type Row = Awaited<ReturnType<typeof rowsFor>>[number];
 export type PaperSemanticResult = {
 	data: (Row & { similarity: number; strength: Strength; match: SemanticMatch })[];
-	meta: { page: number; limit: number; total: number; totalPages: number };
+	meta: { page: number; limit: number; total: number; totalPages: number; related: number };
 };
 
 const rowsFor = (db: Db, where: SQL) => db.select(columns(null)).from(paragraphs).where(where);
@@ -40,7 +40,13 @@ export async function semanticSearchPapers(
 	const filters: SQL[] = [];
 	if (opts.paperId) filters.push(sql`${paragraphs.paperId} = ${opts.paperId}`);
 	if (opts.partId) filters.push(sql`${paragraphs.partId} = ${opts.partId}`);
-	const meta = (total: number) => ({ page, limit, total, totalPages: Math.ceil(total / limit) });
+	const meta = (total: number, related: number) => ({
+		page,
+		limit,
+		total,
+		totalPages: Math.ceil(total / limit),
+		related,
+	});
 
 	const ref = parsePaperRef(q);
 	if (ref) {
@@ -59,7 +65,7 @@ export async function semanticSearchPapers(
 				strength: "strong" as const,
 				match: "reference" as const,
 			})),
-			meta: meta(Number(n?.n ?? 0)),
+			meta: meta(Number(n?.n ?? 0), Number(n?.n ?? 0)),
 		};
 	}
 
@@ -81,17 +87,17 @@ export async function semanticSearchPapers(
 		if (nq.words.length < PASTED_WORDS) return near.map((r) => ({ ...r, exact: false }));
 		const [pasted] = (await tx.execute(sql`
 			select id, 1 - (embedding <=> ${v}::vector) as similarity from paragraphs
-			where match_text like ${`% ${nq.text} %`} ${filters.length ? sql`and ${and(...filters)}` : sql``}
+			where ${matchText("text")} like ${`% ${nq.text} %`} ${filters.length ? sql`and ${and(...filters)}` : sql``}
 			order by sort_id limit 1`)) as unknown as { id: string; similarity: number }[];
 		const rest = near.filter((r) => r.id !== pasted?.id).map((r) => ({ ...r, exact: false }));
 		return pasted ? [{ ...pasted, exact: true }, ...rest].slice(0, MAX_RESULTS) : rest;
 	});
 
 	const slice = ranked.slice(page * limit, page * limit + limit);
-	const total = ranked.filter(
+	const related = ranked.filter(
 		(r) => r.exact || strengthOf(Number(r.similarity), "papers") !== "weak",
 	).length;
-	if (slice.length === 0) return { data: [], meta: meta(total) };
+	if (slice.length === 0) return { data: [], meta: meta(ranked.length, related) };
 	const byId = new Map(
 		(
 			await rowsFor(
@@ -116,5 +122,5 @@ export async function semanticSearchPapers(
 			},
 		];
 	});
-	return { data, meta: meta(total) };
+	return { data, meta: meta(ranked.length, related) };
 }

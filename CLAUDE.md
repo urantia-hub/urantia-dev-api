@@ -88,7 +88,7 @@ cold Hyperdrive pool, roughly 2s. Do not strip the warmup from the deploy script
 Since 2026-10-18 `/search/semantic` reads no `count(*)`: its list is the 100
 nearest paragraphs (`src/lib/paper-semantic.ts`, `hnsw.ef_search` 100 in the
 query's transaction; the default of 40 gave 40 results with a total of 14,593),
-and `meta.total` counts those that are `related` or better. The cut points of
+`meta.total` is its length, and `meta.related` counts those that are `related` or better. The cut points of
 `strength` are in `src/lib/search-strength.ts`, from `bun scripts/calibrate-strength.ts`.
 
 ## Project Structure

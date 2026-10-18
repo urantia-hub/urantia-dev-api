@@ -359,7 +359,7 @@ export const SearchQueryParams = z.object({
 export const SearchMatch = z
 	.enum(["reference", "exact", "all", "near", "most"])
 	.describe(
-		"How the paragraph matched: reference (the query named it), exact (the whole phrase), all (every word), near (every word after a typo fix, see meta.didYouMean), most (two thirds of the words or more).",
+		"How the paragraph matched: reference (the query named it), exact (the whole phrase), all (every word), near (every word after a typo fix, see meta.didYouMean), most (two thirds of the words or more; with type `or`, some of the words).",
 	);
 
 export const SearchResultSchema = ParagraphSchema.extend({
@@ -418,12 +418,8 @@ export const SemanticSearchResultSchema = ParagraphSchema.extend({
 export const SemanticSearchResponse = z.object({
 	data: z.array(SemanticSearchResultSchema),
 	meta: PaginationMeta.extend({
-		total: z
-			.number()
-			.int()
-			.describe(
-				"The results that are related or better, at most 100. The list can go on with weak ones.",
-			),
+		total: z.number().int().describe("The length of the list: the nearest results, at most 100."),
+		related: z.number().int().describe("How many results of the list are related or better."),
 	}),
 });
 
@@ -970,7 +966,14 @@ export const WorksSearchQueryParams = z.object({
 
 export const WorksSearchResponse = z.object({
 	data: z.array(WorkResultSchema),
-	meta: PaginationMeta.extend({ didYouMean: z.string().optional() }),
+	meta: PaginationMeta.extend({
+		didYouMean: z.string().optional(),
+		related: z
+			.number()
+			.int()
+			.optional()
+			.describe("Semantic search only: how many results of the list are related or better."),
+	}),
 });
 
 export const WorkRefParam = z.object({

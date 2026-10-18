@@ -1,5 +1,6 @@
 import { type SQL, sql } from "drizzle-orm";
 import type { getDb } from "../db/client.ts";
+import { normalizedSql } from "./search-text.ts";
 
 export type Db = ReturnType<typeof getDb>["db"];
 
@@ -12,6 +13,12 @@ export const textArray = (words: string[]): SQL =>
 
 // Only this many words of a query get a typo check, so a long query does not start one query for each word.
 const MAX_CHECKED = 12;
+
+/**
+ * The normalized text of a row, as SQL. It is no column: each table has a trigram index on this
+ * expression (scripts/setup-search.sql), so it must stay the same text for the index to be used.
+ */
+export const matchText = (column: string): SQL => sql.raw(normalizedSql(column));
 
 /** The letters of a word in order, so two words with a swap of two letters compare equal. */
 const letters = (word: string) => [...word].sort().join("");

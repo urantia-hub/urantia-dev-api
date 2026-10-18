@@ -18,7 +18,7 @@ import { listCorpora, type ScriptureCorpus } from "./scripture-parallels.ts";
 import { MAX_RANGE, parseScriptureRef } from "./scripture-ref.ts";
 import { type Strength, strengthOf } from "./search-strength.ts";
 import { normalizeQuery, toTsQuery } from "./search-text.ts";
-import { correctWords, type Db } from "./search-words.ts";
+import { correctWords, type Db, matchText } from "./search-words.ts";
 
 export const BIBLE = "bible";
 const MAX_SEMANTIC = 100;
@@ -55,7 +55,14 @@ export type WorkResult = {
 	strength?: Strength;
 	urantiaParallels: UrantiaParallel[];
 };
-type Meta = { page: number; limit: number; total: number; totalPages: number; didYouMean?: string };
+type Meta = {
+	page: number;
+	limit: number;
+	total: number;
+	totalPages: number;
+	didYouMean?: string;
+	related?: number;
+};
 
 // A unit is one Bible verse or one passage of a work, with the chunk that holds its parallels.
 type Unit = Omit<WorkResult, "urantiaParallels"> & { chunk: { bible: boolean; id: string } | null };
@@ -350,7 +357,7 @@ export async function searchWorks(
 	const tiers = (text: string, ws: string[], usePrefix: boolean) => {
 		const query = ws.length && !nq.quoted ? toTsQuery(ws, "&", usePrefix) : null;
 		return {
-			exact: (t: string) => sql`${sql.identifier(t)}.match_text like ${`% ${text} %`}`,
+			exact: (t: string) => sql`${matchText(`${t}.text`)} like ${`% ${text} %`}`,
 			all: (t: string) =>
 				query
 					? sql`${sql.identifier(t)}.search_vector @@ to_tsquery('english', ${query})`
@@ -468,8 +475,8 @@ async function unitsById(db: Db, hits: { kind: "bible" | "works"; id: string }[]
 export type WorksSemanticOptions = WorksSearchOptions & { embed: () => Promise<number[] | null> };
 
 /**
- * The 100 nearest chunks of the Bible and the works (or of one work). `meta.total` counts those that
- * are related or better. A reference gives its units with no vector call. Null when `work` names no
+ * The 100 nearest chunks of the Bible and the works (or of one work), as `meta.total`; `meta.related`
+ * counts those that are related or better. A reference gives its units with no vector call. Null when `work` names no
  * work; "embedding" when the query has no vector.
  */
 export async function semanticSearchWorks(
@@ -480,7 +487,10 @@ export async function semanticSearchWorks(
 	const target = work ? await resolveWork(db, work) : undefined;
 	if (work && !target) return null;
 	const named = await readWork(db, q, work);
-	if (named) return searchWorks(db, opts);
+	if (named) {
+		const found = await searchWorks(db, opts);
+		return found && { ...found, meta: { ...found.meta, related: found.meta.total } };
+	}
 
 	const vector = await opts.embed();
 	if (!vector) return "embedding";
@@ -513,7 +523,7 @@ export async function semanticSearchWorks(
 			.slice(0, MAX_SEMANTIC);
 	});
 	const body = (kind: "bible" | "works") => (kind === "bible" ? "bible" : "works");
-	const total = near.filter((r) => strengthOf(r.similarity, body(r.kind)) !== "weak").length;
+	const related = near.filter((r) => strengthOf(r.similarity, body(r.kind)) !== "weak").length;
 	const slice = near.slice(page * limit, page * limit + limit);
 	const chunks = await chunksById(db, slice);
 	const units = slice.flatMap((r) => {
@@ -525,7 +535,7 @@ export async function semanticSearchWorks(
 	});
 	return {
 		data: await withParallels(db, units, urantiaParallelLimit),
-		meta: pageOf(page, limit, total),
+		meta: { ...pageOf(page, limit, near.length), related },
 	};
 }
 

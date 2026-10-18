@@ -190,7 +190,7 @@ async function handleSemanticSearch(c: AnyContext, params: SemanticSearchParams)
 }
 
 const searchDescription = `Search the Urantia Papers by keyword. Four search modes:
-- **auto** (default): a reference such as \`68:6.3\`, \`103:2\`, or \`Paper 68\` gives those paragraphs. Otherwise the exact phrase comes first, then paragraphs with every word (the last word can be the start of a word). When these give fewer than 10, paragraphs with a typo fixed (\`meta.didYouMean\`) and paragraphs with most of the words follow. Each result has \`match\`.
+- **auto** (default): a reference such as \`68:6.3\`, \`103:2\`, \`Paper 68\`, or a bare number such as \`68\` (0 to 196) gives those paragraphs. Otherwise the exact phrase comes first, then paragraphs with every word (the last word can be the start of a word). When these give fewer than 10, paragraphs with a typo fixed (\`meta.didYouMean\`) and paragraphs with most of the words follow. Each result has \`match\`.
 - **and**: all words must appear
 - **or**: any word can appear
 - **phrase**: exact phrase match
@@ -215,7 +215,7 @@ const searchResponses = {
 const semanticSearchDescription = `Search the Urantia Papers using semantic similarity (vector embeddings).
 Returns conceptually related results even without exact keyword matches.
 
-A reference such as \`99:1.1\` gives those paragraphs (\`match: "reference"\`). A pasted paragraph of 25 words or more gives itself first (\`match: "exact"\`). Each result has \`strength\`: strong, related, or weak. The list holds the 100 nearest paragraphs; \`meta.total\` counts those that are related or better.
+A reference such as \`99:1.1\` gives those paragraphs (\`match: "reference"\`). A pasted paragraph of 25 words or more gives itself first (\`match: "exact"\`). Each result has \`strength\`: strong, related, or weak. The list holds the 100 nearest paragraphs; \`meta.total\` is the length of that list, and \`meta.related\` counts those that are related or better.
 
 Optional filters: paperId, partId.`;
 

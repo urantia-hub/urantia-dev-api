@@ -132,6 +132,8 @@ suite("the works on a local copy", () => {
 		expect(r.data[0]?.reference).toBe("Dhp 3-5");
 		expect(r.data[0]?.strength).toBe("strong");
 		expect(r.meta.total).toBeLessThanOrEqual(100);
+		expect(r.meta.totalPages).toBe(Math.ceil(r.meta.total / 5));
+		expect(r.meta.related).toBeLessThanOrEqual(r.meta.total);
 		expect(r.data.every((x) => x.work.id === "dhammapada")).toBe(true);
 	});
 });

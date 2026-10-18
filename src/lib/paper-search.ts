@@ -10,9 +10,11 @@ import {
 	type WorkHint,
 	workHint,
 } from "./search-text.ts";
-import { correctWords, type Db, textArray } from "./search-words.ts";
+import { correctWords, type Db, matchText, textArray } from "./search-words.ts";
 
 export type SearchType = "auto" | "and" | "or" | "phrase";
+
+const MATCH_TEXT = matchText('"paragraphs"."text"');
 export type Match = "reference" | "exact" | "all" | "near" | "most";
 export type PaperSearchOptions = {
 	q: string;
@@ -152,7 +154,7 @@ export async function searchPapers(db: Db, opts: PaperSearchOptions): Promise<Pa
 	if (nq.words.length === 0) return empty();
 	const content = await contentWords(db, nq.words);
 	const keep = (words: string[]) => words.filter((w) => content.has(w));
-	const exact = sql`${paragraphs.matchText} like ${`% ${nq.text} %`}`;
+	const exact = sql`${MATCH_TEXT} like ${`% ${nq.text} %`}`;
 	const rankBy = (query: SQL) => sql`ts_rank(${paragraphs.searchVector}, ${query}) desc`;
 
 	if (type !== "auto") {
@@ -162,7 +164,12 @@ export async function searchPapers(db: Db, opts: PaperSearchOptions): Promise<Pa
 			type === "phrase"
 				? sql`phraseto_tsquery('english', ${nq.text})`
 				: tsq(toTsQuery(words, type === "and" ? "&" : "|", false));
-		const tier = sql`case when ${exact} then 1 else 2 end`;
+		// In `or` mode a paragraph with only some of the words is `most`, not `all`.
+		const every =
+			type === "or"
+				? sql`${paragraphs.searchVector} @@ ${tsq(toTsQuery(words, "&", false))}`
+				: sql`true`;
+		const tier = sql`case when ${exact} then 1 when ${every} then 2 else 5 end`;
 		return result(
 			sql`${paragraphs.searchVector} @@ ${query}`,
 			tier,
@@ -196,11 +203,14 @@ export async function searchPapers(db: Db, opts: PaperSearchOptions): Promise<Pa
 			const fixedWords = fixed.filter((w) => fixedContent.has(w));
 			// A fixed last word is a whole word; an unchanged one keeps its prefix.
 			const fixedPrefix = lastIsPrefix && fixed.at(-1) === nq.words.at(-1);
-			nearPhrase = sql`${paragraphs.matchText} like ${`% ${didYouMean} %`}`;
+			nearPhrase = sql`${MATCH_TEXT} like ${`% ${didYouMean} %`}`;
 			if (fixedWords.length > 0 && !nq.quoted) {
 				near = sql`${paragraphs.searchVector} @@ ${tsq(toTsQuery(fixedWords, "&", fixedPrefix))}`;
 			}
-			highlightWords = [...new Set([...words, ...fixedWords])];
+			// The query's last word stays last, so a prefix mark goes on it and not on a fixed word.
+			const last = words.at(-1);
+			highlightWords = [...new Set([...words, ...fixedWords])].filter((w) => w !== last);
+			if (last) highlightWords.push(last);
 			mostWords = fixedWords;
 			mostPrefix = fixedPrefix && fixedContent.has(fixed.at(-1) as string);
 		}
