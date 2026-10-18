@@ -12,7 +12,8 @@ import type { AuthStore } from "./auth-store.ts";
 
 // Two tabs can refresh with one token at the same moment. Inside this time a used token is not a theft.
 const REUSE_GRACE_MS = 10_000;
-// Used tokens are kept this long, so that a late return of one can end the family.
+// Used tokens are kept this long, so that a late return of one can end the family. The newest used
+// token of a family stays longer, so a lost answer can be recovered (see refreshSession).
 const KEEP_CONSUMED_MS = 60 * 60 * 1000;
 
 export type Tokens = {
@@ -125,9 +126,14 @@ export async function refreshSession(
 		return refused("Refresh token has expired. Please sign in again.");
 	}
 
-	// A used token that returns late is a sign of theft: end the whole sign-in.
+	// A used token that returns late is a sign of theft: end the whole sign-in. But when no token of the
+	// family was used after it, the answer of its refresh never reached the app (a closed page, a sleep):
+	// the app still holds this token and nothing else, so it gets a new pair.
 	const usedAt = row.consumed ?? ((await store.markConsumed(row.id, now)) ? null : now);
-	if (usedAt && now.getTime() - usedAt.getTime() > REUSE_GRACE_MS) {
+	const late = usedAt !== null && now.getTime() - usedAt.getTime() > REUSE_GRACE_MS;
+	const lostAnswer =
+		late && row.familyId !== null && !(await store.usedSince(row.familyId, usedAt));
+	if (late && !lostAnswer) {
 		// A token from before families existed has no family to end. End each sign-in of this reader in
 		// this app, as the old code did.
 		if (row.familyId) await store.deleteFamily(row.familyId);
