@@ -21,11 +21,12 @@ const letters = (word: string) => [...word].sort().join("");
  */
 export async function correctWords(
 	db: Db,
-	source: string,
+	source: string | string[],
 	words: string[],
 	prefixLast: boolean,
 ): Promise<string[] | null> {
 	const last = words.length - 1;
+	const inSource = sql`source = any(${textArray(Array.isArray(source) ? source : [source])})`;
 	const fixes = await Promise.all(
 		words.map(async (word, i) => {
 			if (word.length < 4 || /^[0-9]+$/.test(word)) return null;
@@ -33,7 +34,7 @@ export async function correctWords(
 			const max = word.length === 4 ? 1 : 2;
 			const rows = (await db.execute(sql`
 				with known as (
-					select 1 from search_words where source = ${source}
+					select 1 from search_words where ${inSource}
 					and (word = ${word} or (${prefix} and word like ${`${word}%`}))
 					limit 1
 				)
@@ -42,7 +43,7 @@ export async function correctWords(
 						and array_to_string(array(select unnest(string_to_array(word, null)) order by 1), '') = ${letters(word)}
 						then 1 else 0 end as d
 					from search_words
-					where source = ${source} and not exists (select 1 from known)
+					where ${inSource} and not exists (select 1 from known)
 					and left(word, 1) = ${word[0]} and abs(length(word) - ${word.length}) <= 2
 					and levenshtein(word, ${word}) <= 2
 				) c

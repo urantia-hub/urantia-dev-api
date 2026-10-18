@@ -429,8 +429,12 @@ phases: `../world-religions-plan-2026-10.md`.
   `?include=scriptureScores`. Shared currents leaves out Paper 131. The
   texts' scores correlate (mean 0.42), so "close in N texts" is not N
   independent votes; say so wherever the count appears.
-- No MCP tools for scriptures until the OpenAI and Claude directory reviews
-  finish.
+- `/works` (2026-10-18) puts the Bible and the 9 texts under one set of
+  endpoints and MCP tools (`works.*`), with one result shape. The work id is
+  `bible` or the corpus slug. The old `/bible` and `/scriptures` routes stay.
+  Kelson lifted the rule "no MCP tools for scriptures" on 2026-10-17. The code
+  is `src/lib/works.ts`; its keyword search needs `scripts/setup-works-search.sql`
+  and `bun scripts/fill-search-words.ts bible` and `works`.
 
 ## Example requests and the Postman collection
 
@@ -504,7 +508,8 @@ its row in the same change when you submit somewhere or a listing changes state.
   not for Glama Path A.
 - **Connector verification**: `/.well-known/glama.json` in `src/index.ts`.
 - **Function-calling schemas**: `/tools/openai` and `/tools/anthropic` are public
-  endpoints that ship the same 19 MCP tools (13 UB + 6 Bible/cross-reference)
+  endpoints that ship the same 26 MCP tools (13 UB + 6 Bible/cross-reference +
+  5 works + `quotes.verify` + `cite.get`)
   as ready-to-use OpenAI/Anthropic tool definitions. Source of truth lives in
   `src/lib/tool-catalog.ts`.
 

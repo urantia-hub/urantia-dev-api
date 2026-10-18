@@ -15,7 +15,7 @@ Use the same words everywhere, so the listings agree.
 | One line, MCP-only listing | Read and search the Urantia Papers by reference, keyword, or meaning, with named entities and Bible cross-references. (Use this until the MCP server has tools for the other texts.) |
 | Short (80 characters) | Read and search the Urantia Papers by reference, keyword, or meaning. No key. |
 | Author / company | Urantia.dev. Legal entity, when a form asks: Adams Technologies LLC |
-| MCP server | `https://api.urantia.dev/mcp` (Streamable HTTP, no auth, 19 read-only tools) |
+| MCP server | `https://api.urantia.dev/mcp` (Streamable HTTP, no auth, 26 read-only tools) |
 | OpenAPI spec | `https://api.urantia.dev/openapi.json` |
 | Home | `https://urantia.dev` |
 | Docs | `https://docs.urantia.dev` (MCP setup: `/mcp-servers`, API reference: `/api-reference/introduction`) |

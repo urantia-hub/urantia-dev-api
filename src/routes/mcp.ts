@@ -22,10 +22,20 @@ import { MCP_ICONS } from "../lib/brand-icon.ts";
 import { enrichWithEntities } from "../lib/entities.ts";
 import { searchPapers } from "../lib/paper-search.ts";
 import { semanticSearchPapers } from "../lib/paper-semantic.ts";
+import { databaseCandidates } from "../lib/quote-candidates.ts";
 import { normalizeQuery } from "../lib/search-text.ts";
 import { enrichWithUrantiaParallels } from "../lib/urantia-parallels.ts";
+import {
+	listWorks,
+	readWork,
+	searchWorks,
+	semanticSearchWorks,
+	workParallels,
+} from "../lib/works.ts";
 import { detectRefFormat } from "../types/node.ts";
+import { CitationStyleEnum, citeParagraph } from "./cite.ts";
 import { paragraphFields } from "./paragraphs.ts";
+import { verifyQuote } from "./quotes.ts";
 
 export const mcpRoute = new Hono();
 
@@ -203,6 +213,44 @@ const entityResultSchema = z.object({
 		.describe(
 			"Number of citations in the source index. A citation of a whole section counts once, so the entity's paragraph total can be higher.",
 		),
+});
+
+const workSchema = z.object({
+	id: z.string(),
+	title: z.string(),
+	religion: z.string(),
+	translator: z.string(),
+	year: z.number().int().nullable(),
+	refPrefix: z.string().nullable(),
+	unitLabel: z.string(),
+	units: z.number().int(),
+	urantiaSection: z.string().nullable(),
+});
+const workResultSchema = z.object({
+	work: z.object({ id: z.string(), title: z.string() }),
+	reference: z.string(),
+	text: z.string(),
+	url: z.string().nullable(),
+	match: z.enum(["reference", "exact", "all", "near"]).optional(),
+	similarity: z.number().optional(),
+	strength: z.enum(["strong", "related", "weak"]).optional(),
+	urantiaParallels: z.array(
+		z.object({
+			standardReferenceId: z.string(),
+			paperTitle: z.string(),
+			sectionTitle: z.string().nullable(),
+			text: z.string(),
+			similarity: z.number(),
+			rank: z.number().int(),
+		}),
+	),
+});
+const workMetaSchema = z.object({
+	page: z.number().int(),
+	limit: z.number().int(),
+	total: z.number().int(),
+	totalPages: z.number().int(),
+	didYouMean: z.string().optional(),
 });
 
 const paginationMetaSchema = z.object({
@@ -1536,6 +1584,226 @@ function createMcpServer() {
 		},
 	);
 
+	// --- Works: the Bible and the other texts (2026-10-18) ---
+
+	const workQueryInput = {
+		query: z.string().optional().describe('Search query. Example: "love your enemies"'),
+		q: z.string().optional().describe("Alias for `query` (REST compatibility)."),
+		work: z
+			.string()
+			.optional()
+			.describe('One work only: "bible" or a work id from works.list, such as "dhammapada".'),
+		page: z.number().int().min(0).default(0).describe("Page number (0-indexed)"),
+		limit: z.number().int().min(1).max(100).default(20).describe("Results per page (1-100)"),
+		urantia_parallel_limit: z
+			.number()
+			.int()
+			.min(0)
+			.max(10)
+			.default(3)
+			.describe("How many Urantia paragraphs to attach to each result (0-10, default 3)."),
+	};
+	const workRefInput = {
+		work: z.string().describe('"bible", or a work id from works.list, such as "bhagavad-gita".'),
+		ref: z
+			.string()
+			.describe('A unit, a short range, or a chapter: "John 3:16", "2.47", "Dhp 183", "John 3".'),
+	};
+
+	server.registerTool(
+		"works.list",
+		{
+			title: "List the Works",
+			description:
+				'The works beside the Urantia Papers: the Bible (World English Bible) and the texts of the world\'s religions that Paper 131 summarizes, each in the US public domain. `id` is what the other works.* tools take ("bible" or a slug such as "dhammapada"); `unitLabel` is the word for one unit of each work.',
+			inputSchema: {},
+			outputSchema: { data: z.array(workSchema) },
+			annotations: { title: "List the Works", ...READ_ONLY_LOCAL },
+		},
+		async () => {
+			const { db } = getDb();
+			return structured({ data: await listWorks(db) });
+		},
+	);
+
+	server.registerTool(
+		"works.search",
+		{
+			title: "Search the Works",
+			description:
+				'Keyword search across the Bible and the other works, or one work with `work`. A reference such as "John 3:16", "Jn 3:16-18", "Dhp 183", or "BG 2.47" gives those units first. Otherwise the exact phrase first, then every word, then (when few) a typo fix in `meta.didYouMean`. Each result has `match`, `url`, and its nearest Urantia paragraphs (semantic parallels, not curated ones).',
+			inputSchema: workQueryInput,
+			outputSchema: { data: z.array(workResultSchema), meta: workMetaSchema },
+			annotations: { title: "Search the Works", ...READ_ONLY_LOCAL },
+		},
+		async ({ query, q, work, page, limit, urantia_parallel_limit }) => {
+			const searchQuery = query ?? q;
+			if (!searchQuery) return errorResult("Either 'query' or 'q' is required");
+			const { db } = getDb();
+			const found = await searchWorks(db, {
+				q: searchQuery,
+				work,
+				page,
+				limit,
+				urantiaParallelLimit: urantia_parallel_limit,
+			});
+			if (!found) return errorResult(`Work "${work}" not found`);
+			return structured(found);
+		},
+	);
+
+	server.registerTool(
+		"works.search.semantic",
+		{
+			title: "Semantic Search of the Works",
+			description:
+				"Natural-language search across the Bible and the other works, or one work with `work`. The list holds the 100 nearest chunks (a few verses each); each has `similarity` and `strength` (strong, related, weak), and `meta.total` counts the related or better. Each result has `url` and its nearest Urantia paragraphs (semantic parallels, not curated ones).",
+			inputSchema: workQueryInput,
+			outputSchema: { data: z.array(workResultSchema), meta: workMetaSchema },
+			annotations: { title: "Semantic Search of the Works", ...READ_ONLY_OPEN_WORLD },
+		},
+		async ({ query, q, work, page, limit, urantia_parallel_limit }) => {
+			const searchQuery = query ?? q;
+			if (!searchQuery) return errorResult("Either 'query' or 'q' is required");
+			const { db } = getDb();
+			const found = await semanticSearchWorks(db, {
+				q: searchQuery,
+				work,
+				page,
+				limit,
+				urantiaParallelLimit: urantia_parallel_limit,
+				embed: async () => {
+					const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+					const res = await openai.embeddings.create({
+						model: "text-embedding-3-small",
+						input: searchQuery,
+					});
+					return res.data[0]?.embedding ?? null;
+				},
+			});
+			if (found === null) return errorResult(`Work "${work}" not found`);
+			if (found === "embedding") return errorResult("Failed to generate embedding");
+			return structured(found);
+		},
+	);
+
+	server.registerTool(
+		"works.read",
+		{
+			title: "Read a Work",
+			description:
+				'The units of a reference in one work, in order, at most 200, each with its link: one verse or passage, a short range of up to 50, or a chapter. The prefix is optional ("BG 2.47" and "2.47" are the same); for the Bible, name the book ("John 3:16").',
+			inputSchema: workRefInput,
+			outputSchema: { data: z.array(workResultSchema) },
+			annotations: { title: "Read a Work", ...READ_ONLY_LOCAL },
+		},
+		async ({ work, ref }) => {
+			const { db } = getDb();
+			const units = await readWork(db, ref, work);
+			if (!units) return errorResult(`Invalid reference "${ref}" for "${work}"`);
+			if (units.length === 0) return errorResult(`${ref} not found in "${work}"`);
+			return structured({
+				data: units.map(({ chunk: _, ...u }) => ({ ...u, urantiaParallels: [] })),
+			});
+		},
+	);
+
+	server.registerTool(
+		"works.urantia_parallels",
+		{
+			title: "Urantia Parallels of a Work",
+			description:
+				"The 10 Urantia paragraphs closest in meaning to one unit of a work (the chunk that holds it). Semantic parallels, not curated ones: they do not claim that two teachings are the same. The reference must name one unit.",
+			inputSchema: workRefInput,
+			outputSchema: { data: workResultSchema },
+			annotations: { title: "Urantia Parallels of a Work", ...READ_ONLY_LOCAL },
+		},
+		async ({ work, ref }) => {
+			const { db } = getDb();
+			const found = await workParallels(db, work, ref);
+			if (found === "many") return errorResult(`${ref} names more than one unit. Ask for one.`);
+			if (!found) return errorResult(`${ref} not found in "${work}"`);
+			return structured({ data: found });
+		},
+	);
+
+	server.registerTool(
+		"quotes.verify",
+		{
+			title: "Verify a Quote",
+			description:
+				'Checks whether a quoted passage is in the Urantia Papers. Returns `verdict` (exact, close, not_found), the reference and exact text of the best match, each word that differs, and other places the quote appears. Case and punctuation are ignored. A quote must be at least 4 words and fall within one paragraph. Give `ref` (such as "2:5.1") to also check the reference the quote claims.',
+			inputSchema: {
+				text: z
+					.string()
+					.min(1)
+					.max(2000)
+					.describe("The quoted passage to check. At least 4 words."),
+				ref: z
+					.string()
+					.max(40)
+					.optional()
+					.describe('The reference the quote claims, such as "2:5.1".'),
+			},
+			outputSchema: {
+				data: z.object({
+					verdict: z.enum(["exact", "close", "not_found"]),
+					match: z
+						.object({
+							reference: z.string(),
+							paperId: z.string(),
+							paperTitle: z.string(),
+							sectionTitle: z.string().nullable(),
+							verdict: z.enum(["exact", "close", "not_found"]),
+							similarity: z.number(),
+							text: z.string().nullable(),
+							differences: z.array(z.object({ quote: z.string(), text: z.string() })),
+						})
+						.nullable(),
+					claimedReference: z
+						.object({
+							ref: z.string(),
+							exists: z.boolean(),
+							verdict: z.enum(["exact", "close", "not_found"]).nullable(),
+						})
+						.nullable(),
+					alsoFoundAt: z.array(z.string()),
+				}),
+			},
+			annotations: { title: "Verify a Quote", ...READ_ONLY_LOCAL },
+		},
+		async ({ text, ref }) => {
+			const data = await verifyQuote(databaseCandidates(undefined), text, ref);
+			if (!data) return errorResult("A quote must be at least 4 words to place it.");
+			return structured({ data });
+		},
+	);
+
+	server.registerTool(
+		"cite.get",
+		{
+			title: "Cite a Paragraph",
+			description:
+				'A formatted citation of one paragraph of the Urantia Papers in APA, MLA, Chicago, or BibTeX. The ref is "196:2.1", "1:196.2.1", or "196.2.1".',
+			inputSchema: {
+				ref: z.string().min(1).describe('The paragraph, such as "196:2.1".'),
+				style: CitationStyleEnum.default("apa").describe("apa, mla, chicago, or bibtex"),
+			},
+			outputSchema: {
+				data: z.object({ ref: z.string(), style: CitationStyleEnum, citation: z.string() }),
+			},
+			annotations: { title: "Cite a Paragraph", ...READ_ONLY_LOCAL },
+		},
+		async ({ ref, style }) => {
+			const citation = citeParagraph(ref, style);
+			if (!citation)
+				return errorResult(
+					`Invalid reference "${ref}". Expected "196:2.1", "1:196.2.1", or "196.2.1".`,
+				);
+			return structured({ data: { ref, style, citation } });
+		},
+	);
+
 	// --- Resources ---
 
 	// urantia://paper/{id} — full paper as plaintext markdown
@@ -1805,7 +2073,8 @@ mcpRoute.get("/", async (c) => {
 					params: ["ref", "window", "include_entities"],
 				},
 				"search.fulltext": {
-					description: "Full-text search (and/or/phrase modes)",
+					description:
+						"Keyword search: references, exact phrases, all words, typo fixes (auto/and/or/phrase modes)",
 					params: [
 						"q",
 						"type",
@@ -1819,7 +2088,8 @@ mcpRoute.get("/", async (c) => {
 					],
 				},
 				"search.semantic": {
-					description: "Semantic similarity search via vector embeddings",
+					description:
+						"Semantic similarity search via vector embeddings, with the strength of each result",
 					params: [
 						"q",
 						"paper_id",
@@ -1872,6 +2142,36 @@ mcpRoute.get("/", async (c) => {
 					description:
 						"Semantic search across the Bible. Each result includes top-N pre-computed Urantia paragraphs.",
 					params: ["q", "canon", "book_code", "page", "limit", "urantia_parallel_limit"],
+				},
+				"works.list": {
+					description:
+						"List the works beside the Papers: the Bible and 9 texts of the world's religions",
+				},
+				"works.search": {
+					description:
+						"Keyword search across the works, with references and typo fixes. Each result has its Urantia paragraphs.",
+					params: ["q", "work", "page", "limit", "urantia_parallel_limit"],
+				},
+				"works.search.semantic": {
+					description:
+						"Semantic search across the works. Each result has its strength and its Urantia paragraphs.",
+					params: ["q", "work", "page", "limit", "urantia_parallel_limit"],
+				},
+				"works.read": {
+					description: "Read a work by reference: a unit, a short range, or a chapter",
+					params: ["work", "ref"],
+				},
+				"works.urantia_parallels": {
+					description: "Top-10 Urantia paragraphs nearest to one unit of a work",
+					params: ["work", "ref"],
+				},
+				"quotes.verify": {
+					description: "Check whether a quote is in the Urantia Papers, and where",
+					params: ["text", "ref"],
+				},
+				"cite.get": {
+					description: "A citation of one paragraph in APA, MLA, Chicago, or BibTeX",
+					params: ["ref", "style"],
 				},
 			},
 			resources: {
