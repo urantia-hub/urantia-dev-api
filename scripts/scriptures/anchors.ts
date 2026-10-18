@@ -15,16 +15,22 @@ const sql = postgres(DATABASE_URL, { max: 2 });
 
 if (!DRY) await sql.unsafe(readFileSync(join(import.meta.dir, "alter-anchors.sql"), "utf8"));
 
-const pages = new Map<string, Promise<string | null>>();
-const page = (url: string) => {
-	let found = pages.get(url);
-	if (!found) {
-		found = fetch(url, { headers: { "user-agent": "Mozilla/5.0 (urantia.dev anchors)" } })
-			.then(async (res) => (res.ok ? pageText(await res.text()) : null))
-			.catch(() => null);
-		pages.set(url, found);
+// One request at a time, with a pause, and a retry after a refusal (Wikisource refuses fast runs with 429).
+const pages = new Map<string, string | null>();
+const page = async (url: string): Promise<string | null> => {
+	if (pages.has(url)) return pages.get(url) ?? null;
+	let text: string | null = null;
+	for (let attempt = 0; attempt < 4 && text === null; attempt++) {
+		if (attempt) await new Promise((r) => setTimeout(r, 5000 * attempt));
+		const res = await fetch(url, {
+			headers: { "user-agent": "Mozilla/5.0 (urantia.dev anchors)" },
+		}).catch(() => null);
+		if (res?.ok) text = pageText(await res.text());
+		else if (res && res.status !== 429 && res.status < 500) break;
 	}
-	return found;
+	if (url.includes("wikisource.org")) await new Promise((r) => setTimeout(r, 300));
+	pages.set(url, text);
+	return text;
 };
 
 const chunks = await sql<{ id: string; corpus_id: string; label: string; text: string }[]>`
@@ -37,7 +43,11 @@ for (const chunk of chunks) {
 	count.all += 1;
 	const url = workPage(chunk.corpus_id, chunk.label);
 	const text = url ? await page(url) : null;
-	if (text === null) count.noPage += 1;
+	// A page that did not load keeps the anchor it has: no write.
+	if (url && text === null) {
+		count.noPage += 1;
+		continue;
+	}
 	const anchor = text === null ? null : findAnchor(text, chunk.text);
 	if (anchor) count.found += 1;
 	updates.push({ id: chunk.id, anchor });
