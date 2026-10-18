@@ -219,7 +219,7 @@ export const CORPORA: Corpus[] = [
 		id: "book-of-mormon-1830",
 		religion: "Latter Day Saint",
 		title: "The Book of Mormon",
-		translator: "Joseph Smith, Jun.",
+		translator: "Joseph Smith",
 		year: 1830,
 		source: "https://www.gutenberg.org/ebooks/17",
 		license: "Public domain in the United States",
