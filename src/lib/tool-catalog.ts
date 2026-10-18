@@ -169,7 +169,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 	{
 		name: "search",
 		description:
-			'Full-text search across all paragraphs in the Urantia Papers. Supports three modes: "and" (all words must appear, default), "or" (any word), "phrase" (exact phrase). Results ranked by relevance. Provide the search string as either `query` (preferred) or `q` (REST alias) — exactly one is required.',
+			'Keyword search across all paragraphs in the Urantia Papers. Mode "auto" (default): a reference such as "68:6.3", "103:2", or "Paper 68" gives those paragraphs; otherwise the exact phrase first, then every word, then (when few) typo fixes and most of the words. Each result has `match` (reference, exact, all, near, most); `meta.didYouMean` gives the fixed query and `meta.see` names another work the query names. Other modes: "and" (all words), "or" (any word), "phrase" (exact phrase). Provide the search string as either `query` (preferred) or `q` (REST alias) — exactly one is required.',
 		parameters: {
 			type: "object",
 			properties: {
@@ -178,8 +178,8 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 				type: {
 					type: "string",
 					description: "Search mode",
-					enum: ["phrase", "and", "or"],
-					default: "and",
+					enum: ["auto", "phrase", "and", "or"],
+					default: "auto",
 				},
 				paper_id: { type: "string", description: "Filter to a specific paper ID" },
 				part_id: { type: "string", description: "Filter to a specific part ID (1-4)" },

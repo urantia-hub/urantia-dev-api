@@ -114,7 +114,26 @@ what rebuilds the hot set after the rollout.
 - `src/types/node.ts` — TypeScript types + ref format detection
 - `scripts/seed.ts` — Database seeder from urantia-papers-json
 - `scripts/setup-fts.sql` — Full-text search setup SQL
+- `scripts/setup-search.sql` — Normalized text, `search_words`, pg_trgm and fuzzystrmatch (see Keyword search)
 - `docs/plans/unified-auth-layer.md` — Full design spec for the unified auth layer
+
+## Keyword search (2026-10-18)
+
+`searchPapers` (`src/lib/paper-search.ts`) serves `/search` and the MCP tool `search.fulltext`, so
+the two give the same results. Mode `auto` (the default) goes in tiers: a whole reference, the exact
+phrase, all words, near words (a typo fixed, `meta.didYouMean`), and most words. The last two run
+only when the first ones give fewer than 10.
+
+- `paragraphs.match_text` is a generated column. Its rule is `normalizedSql` in `src/lib/search-text.ts`,
+  and it must give the same text as `normalizeQuery`. Change both together.
+- `search_vector` and `match_text` are declared as generated in `schema.ts`. Before that, a push
+  dropped the expression of `search_vector`.
+- `search_words` holds the words of each text with their counts. Run
+  `bun scripts/fill-search-words.ts papers` after a reseed.
+- Query text reaches Postgres only as a parameter. The tsquery is built from normalized words
+  (`[a-z0-9]` only).
+- `tests/db/paper-search.test.ts` runs on a local copy of the Papers: seed, `setup-fts.sql`,
+  `setup-search.sql`, and the fill.
 
 ## SDKs
 

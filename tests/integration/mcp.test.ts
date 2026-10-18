@@ -1,5 +1,6 @@
 import { describe, expect, it } from "bun:test";
 import { app } from "../../src/index.ts";
+import { post } from "../helpers/app.ts";
 
 function mcpRequest(body: unknown) {
 	return app.request("/mcp", {
@@ -249,6 +250,19 @@ describe("MCP Server", () => {
 		const { structuredContent } = results[0].result;
 		expect(structuredContent.data).toBeArray();
 		expect(structuredContent.data.length).toBeGreaterThan(0);
+	});
+
+	it("search.fulltext gives the same results as POST /search", async () => {
+		for (const q of ["68:6.3", "such a life on such a planet", "universal fahter", "faith hope"]) {
+			const rest = await (
+				await post("/search", { q, limit: 10 }, { "cf-connecting-ip": "203.0.113.41" })
+			).json();
+			const [tool] = await callTool("search.fulltext", { q, limit: 10 });
+			const mcp = tool.result.structuredContent;
+			const pick = (d: { id: string; match: string }[]) => d.map((r) => [r.id, r.match]);
+			expect(pick(mcp.data)).toEqual(pick(rest.data));
+			expect(mcp.meta).toEqual(rest.meta);
+		}
 	});
 
 	it("search.fulltext errors when neither `query` nor `q` is provided", async () => {

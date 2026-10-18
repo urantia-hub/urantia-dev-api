@@ -129,3 +129,33 @@ describe.skipIf(!hasOpenAI)("POST /search/semantic", () => {
 		}
 	});
 });
+
+describe("POST /search (auto)", () => {
+	// Its own caller address, so these requests do not count against the shared limit.
+	const ip = { "cf-connecting-ip": "203.0.113.42" };
+	it("gives the paragraph of a reference first", async () => {
+		const { data } = await (await post("/search", { q: "68:6.3" }, ip)).json();
+		expect(data[0].standardReferenceId).toBe("68:6.3");
+		expect(data[0].match).toBe("reference");
+	});
+
+	it("puts the exact phrase first", async () => {
+		const { data } = await (
+			await post("/search", { q: "such a life on such a planet" }, ip)
+		).json();
+		expect(data[0].standardReferenceId).toBe("111:7.5");
+		expect(data[0].match).toBe("exact");
+	});
+
+	it("fixes a typo and says so", async () => {
+		const { data, meta } = await (await post("/search", { q: "universal fahter" }, ip)).json();
+		expect(meta.didYouMean).toBe("universal father");
+		expect(data[0].match).toBe("near");
+	});
+
+	it("answers 200 for common words, syntax, and a paper that does not exist", async () => {
+		for (const q of ["the of and", "a & b | !c:* 'd' \\e (f)", "197:1.1", "68:99.1"]) {
+			expect((await post("/search", { q }, ip)).status).toBe(200);
+		}
+	});
+});
