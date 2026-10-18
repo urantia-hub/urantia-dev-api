@@ -1587,10 +1587,11 @@ function createMcpServer() {
 	// --- Works: the Bible and the other texts (2026-10-18) ---
 
 	const workQueryInput = {
-		query: z.string().optional().describe('Search query. Example: "love your enemies"'),
-		q: z.string().optional().describe("Alias for `query` (REST compatibility)."),
+		query: z.string().max(500).optional().describe('Search query. Example: "love your enemies"'),
+		q: z.string().max(500).optional().describe("Alias for `query` (REST compatibility)."),
 		work: z
 			.string()
+			.max(64)
 			.optional()
 			.describe('One work only: "bible" or a work id from works.list, such as "dhammapada".'),
 		page: z.number().int().min(0).default(0).describe("Page number (0-indexed)"),
@@ -1604,9 +1605,13 @@ function createMcpServer() {
 			.describe("How many Urantia paragraphs to attach to each result (0-10, default 3)."),
 	};
 	const workRefInput = {
-		work: z.string().describe('"bible", or a work id from works.list, such as "bhagavad-gita".'),
+		work: z
+			.string()
+			.max(64)
+			.describe('"bible", or a work id from works.list, such as "bhagavad-gita".'),
 		ref: z
 			.string()
+			.max(40)
 			.describe('A unit, a short range, or a chapter: "John 3:16", "2.47", "Dhp 183", "John 3".'),
 	};
 

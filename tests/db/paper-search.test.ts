@@ -68,6 +68,12 @@ suite("searchPapers on the Papers", () => {
 		expect(r.meta.didYouMean).toBe("the universal father is the god of all creation");
 	});
 
+	it("checks only the first 12 long words for a typo", async () => {
+		const long = Array.from({ length: 14 }, (_, i) => `qqqq${String.fromCharCode(97 + i)}`);
+		const r = await search([...long, "fahter"].join(" "));
+		expect(r.meta.didYouMean ?? "").not.toContain("father");
+	});
+
 	it("finds a word from its first letters", async () => {
 		const r = await search("agondon");
 		expect(r.meta.total).toBeGreaterThan(0);
