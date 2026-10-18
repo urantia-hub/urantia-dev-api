@@ -38,6 +38,10 @@ export interface AuthStore {
 	deleteConsumedBefore(familyId: string, before: Date): Promise<void>;
 	// True if a token of the family was used after the moment given.
 	usedSince(familyId: string, at: Date): Promise<boolean>;
+	// Claims the recovery of a used token: only if it is still marked as used at `from`. The token is then
+	// used at `at` and ends at `endsAt`, so it cannot be recovered a second time. False if another request
+	// claimed it first.
+	reclaimConsumed(id: string, from: Date, at: Date, endsAt: Date): Promise<boolean>;
 	// The review status of the app and its owner, or null if the app is gone.
 	appAccess(appId: string): Promise<{ status: AppStatus; ownerId: string | null } | null>;
 	// The scopes that the reader allows this app now, or null if the reader removed the app.
@@ -134,6 +138,14 @@ export function createAuthStore(db: Db): AuthStore {
 				)
 				.limit(1);
 			return row !== undefined;
+		},
+		async reclaimConsumed(id, from, at, endsAt) {
+			const done = await db
+				.update(refreshTokens)
+				.set({ consumed: at, expiresAt: endsAt })
+				.where(and(eq(refreshTokens.id, id), eq(refreshTokens.consumed, from)))
+				.returning({ id: refreshTokens.id });
+			return done.length > 0;
 		},
 		async appAccess(appId) {
 			const [row] = await db

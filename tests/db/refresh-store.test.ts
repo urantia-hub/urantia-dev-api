@@ -53,6 +53,18 @@ suite("the refresh token queries, on a real database", () => {
 		expect(await store.usedSince(FAMILY, at(30))).toBe(false);
 	});
 
+	it("claim a recovery once, only from the time the token was used", async () => {
+		await token("a", FAMILY, at(0));
+		const [row] = await db.select().from(schema.refreshTokens);
+		if (!row) throw new Error("setup");
+		expect(await store.reclaimConsumed(row.id, at(1), at(30), at(31))).toBe(false);
+		expect(await store.reclaimConsumed(row.id, at(0), at(30), at(31))).toBe(true);
+		expect(await store.reclaimConsumed(row.id, at(0), at(32), at(33))).toBe(false);
+		const found = await store.findRefreshToken("a", "hub");
+		expect(found?.consumed?.toISOString()).toBe(at(30).toISOString());
+		expect(found?.expiresAt.toISOString()).toBe(at(31).toISOString());
+	});
+
 	it("remove old used tokens but keep the newest used one", async () => {
 		await token("a", FAMILY, at(0));
 		await token("b", FAMILY, at(15));
