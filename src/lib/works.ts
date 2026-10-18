@@ -15,7 +15,7 @@ import { formatBibleReference, resolveBibleBook } from "./bible-canonicalizer.ts
 import { contentWords } from "./paper-search.ts";
 import { bibleUrl, scriptureUrl, workPage } from "./parallel-links.ts";
 import { listCorpora, type ScriptureCorpus } from "./scripture-parallels.ts";
-import { MAX_RANGE, parseScriptureRef } from "./scripture-ref.ts";
+import { MAX_RANGE, namesDivision, parseScriptureRef } from "./scripture-ref.ts";
 import { type Strength, strengthOf } from "./search-strength.ts";
 import { normalizeQuery, toTsQuery } from "./search-text.ts";
 import { correctWords, type Db, matchText } from "./search-words.ts";
@@ -233,9 +233,11 @@ export async function readWork(db: Db, input: string, work?: string): Promise<Un
 	}
 	const corpora = target && !target.bible ? [target.corpus] : await listCorpora(db);
 	for (const corpus of corpora) {
-		const named = input.trim().toLowerCase().startsWith(corpus.refPrefix.toLowerCase());
+		const named =
+			input.trim().toLowerCase().startsWith(corpus.refPrefix.toLowerCase()) ||
+			namesDivision(input, corpus.divisionNames);
 		if (!target && !named) continue;
-		const ref = parseScriptureRef(input, corpus.refPrefix, corpus.refLevels);
+		const ref = parseScriptureRef(input, corpus.refPrefix, corpus.refLevels, corpus.divisionNames);
 		if (!ref) continue;
 		const rows = await db
 			.select(passageColumns)
