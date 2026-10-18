@@ -22,8 +22,7 @@ export type Corpus = {
 	kind: "scripture" | "classic" | "recorded";
 	summary: string; // one plain sentence on what the text is (approved copy)
 	linked: boolean; // false when no page on the three link sites holds the text
-	divisionNames?: string[]; // names that stand for division 1, 2, ... in a ref ("1 Nephi 3:7")
-	divisionAliases?: Record<string, number>; // other spellings of a name, normalized, to its index
+	divisionNames?: string[]; // names for division 1, 2, ... in a ref ("1 Nephi 3:7"); "A|B" adds spelling B
 };
 
 // Ordered by Paper 131 section, then the texts with no Paper 131 heading.
