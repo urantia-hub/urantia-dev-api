@@ -6,12 +6,16 @@ import {
 	parseBesantGita,
 	parseBookOfMormon,
 	parseBrintonHymns,
+	parseBrodeurProseEdda,
+	parseChamberlainKojiki,
 	parseDhammapada,
 	parseGilesChuangTzu,
 	parseGriffithRigVeda,
 	parseHesiod,
 	parseHomericHymns,
 	parseJapji,
+	parseLeggeShuKing,
+	parseMullerUpanishads,
 	parseRenoufBookOfTheDead,
 	parseTaoTeChing,
 	romanToInt,
@@ -863,5 +867,162 @@ _INDEX_
 		);
 		expect(p[4]?.text).toBe("The true Sage does not violate them. Neither does he.");
 		expect(p[5]?.text).toBe("When Chuang Tzŭ was about to die, his disciples expressed a wish.");
+	});
+});
+
+// The parts of a Wikisource page that the four parsers below meet: the header, page numbers,
+// footnote marks and the footnote list.
+const PAGE =
+	'<span><span class="pagenum ws-pagenum" id="16"><span class="pagenum-inner ws-noexport">&#8203;</span></span></span>';
+const FN = (n: number) =>
+	`<sup id="cite_ref-${n}" class="reference"><a href="#cite_note-${n}"><span class="cite-bracket">&#91;</span>${n}<span class="cite-bracket">&#93;</span></a></sup>`;
+const header = (section: string) =>
+	`<div class="ws-header wst-header"><div class="wst-header-mainblock"><a href="/wiki/x">PROLOGUE</a><div class="header-section-text">${section}</div></div></div>`;
+const notes =
+	'<div class="reflist wst-smallrefs"><ol class="references"><li id="cite_note-1">↑ Literally, “that became” (成).</li></ol></div>';
+
+describe("parseChamberlainKojiki", () => {
+	const section4 = `${header("Section 4")}<p>${PAGE}</p>
+<div class="wst-center tiInherit"><p>[<span class="wst-asc">Sect. IV.—Courtship of the Deities the Male-Who-Invites and the Female-Who-Invites.</span>]</p></div>
+<p>Having descended from Heaven onto this island, they saw to the erection${FN(1)} of an heavenly august pillar, they saw to the erection of an hall of eight fathoms${FN(2)}. Tunc quæsivit [Augustus Mas-Qui-Invitat] a ${PAGE}minore sorore Augustâ Feminâ-Qui-Invitat: “Tuum corpus quo in modo factum est?”</p>
+<div class="wst-hanging-indent"><p>The five Deities in the above list are separate Heavenly Deities.${FN(3)}</p></div>
+<p>Then the Female-Who-Invites said: “How delightful! a lovely youth!”</p>
+<p>Then Yata-no-waki-iratsume replied in a Song, saying:</p>
+<div class="wst-block-center" style="width:300px;"><p>“Even though the one sedge-stem of Yata be alone, if the Great Lord say it is right, even though it be alone [it is right].”</p></div>
+<p>Vol. II.</p>
+${notes}`;
+
+	it("numbers the paragraphs of a section, keeps the Latin as printed, and drops the footnotes", () => {
+		const p = parseChamberlainKojiki({ "4": section4 });
+		expect(p.map((x) => x.ref)).toEqual(["Kojiki 4.1", "Kojiki 4.2", "Kojiki 4.3"]);
+		expect(p[0]?.divisionTitle).toBe(
+			"Courtship of the Deities the Male-Who-Invites and the Female-Who-Invites",
+		);
+		expect(p[0]?.text).toBe(
+			"Having descended from Heaven onto this island, they saw to the erection of an heavenly august pillar, they saw to the erection of an hall of eight fathoms. Tunc quæsivit [Augustus Mas-Qui-Invitat] a minore sorore Augustâ Feminâ-Qui-Invitat: “Tuum corpus quo in modo factum est?” The five Deities in the above list are separate Heavenly Deities.",
+		);
+		expect(p[1]?.text).toBe("Then the Female-Who-Invites said: “How delightful! a lovely youth!”");
+		expect(p[2]?.text).toBe(
+			"Then Yata-no-waki-iratsume replied in a Song, saying: “Even though the one sedge-stem of Yata be alone, if the Great Lord say it is right, even though it be alone [it is right].”",
+		);
+		expect(p.some((x) => /Literally|\[\d+\]/.test(x.text))).toBe(false);
+	});
+
+	it("reads a section heading without brackets", () => {
+		const p = parseChamberlainKojiki({
+			"180": `<p>${PAGE}</p><p>Sect. CLXXX.—Empress Sui-ko.</p><p>Her Augustness Toyo-mike-kashiki-ya-hime dwelt at the Palace of Woharida.</p><p>The End.</p>`,
+		});
+		expect(p.map((x) => [x.ref, x.divisionTitle])).toEqual([["Kojiki 180.1", "Empress Sui-ko"]]);
+	});
+});
+
+describe("parseBrodeurProseEdda", () => {
+	const gylfi = `${header("GYLFAGINNING")}<p>${PAGE}</p><p>GYLFAGINNING</p><p>HERE BEGINS THE BEGUILING OF GYLFI</p>
+<p><b>I.</b> King Gylfi ruled the land that men now call Sweden. Thus says Bragi, the ancient skald:</p>
+<dl><dd>Gefjun drew from Gylfi &#160;&#160; gladly the wave-trove's freehold,</dd>
+<dd>Till from the running beasts &#160;&#160; sweat reeked, to Denmark's increase;</dd></dl>
+<p><b>II.</b> King Gylfi was a wise man and skilled in magic.${FN(1)}</p>
+<p>${PAGE}He saw three high-seats, each above the other.</p>
+<p>Footnotes</p>
+${notes}`;
+	const prologue = `<p>${PAGE}</p><p>PROLOGUE</p><p>IN the beginning God created heaven and earth.</p><p>One thing they wondered and pondered over.</p><p>II</p><p>The world was divided into three parts.</p>`;
+
+	it("numbers the paragraphs of each chapter, with a verse kept in the paragraph before it", () => {
+		const p = parseBrodeurProseEdda({ Prologue: prologue, Gylfaginning: gylfi });
+		expect(p.map((x) => x.ref)).toEqual([
+			"Prologue 1.1",
+			"Prologue 1.2",
+			"Prologue 2.1",
+			"Gylfaginning 1.1",
+			"Gylfaginning 2.1",
+			"Gylfaginning 2.2",
+		]);
+		expect(p[3]?.text).toBe(
+			"King Gylfi ruled the land that men now call Sweden. Thus says Bragi, the ancient skald: Gefjun drew from Gylfi gladly the wave-trove's freehold, Till from the running beasts sweat reeked, to Denmark's increase;",
+		);
+		expect(p[4]?.text).toBe("King Gylfi was a wise man and skilled in magic.");
+		expect(p[3]?.division).toBe("2");
+		expect(p[3]?.subdivision).toBe(1);
+	});
+});
+
+describe("parseMullerUpanishads", () => {
+	const khandogya6 = `<table><tr><td>Khandas (not listed in original)</td><td>First</td></tr></table><p>${PAGE}</p><p>SIXTH PRAPÂTHAKA.</p>
+<p>First Khanda.</p><p>1. Harih, Om. There lived once Svetaketu Âruneya (the grandson of Aruna).</p>
+<p>2. Having begun his apprenticeship (with a teacher) when he was twelve years of age${FN(1)}, Svetaketu returned to his father.</p>
+<p>The father replied: 'My dear, as by one clod of clay all that is made of clay is known.'</p>
+<div class="wst-center"><p><span style="font-size:120%;"><span class="smallcaps"><span id="Khanda2" title="Anchor:Khanda2" class="wst-anchor">Elventh Kha<i>nd</i>a</span>${FN(2)}.</span></span></p></div>
+<p>1, 2. 'In the beginning,' my dear, "there was that only which is (τὸ ὄν), one only, without a second.</p>${notes}`;
+	const kena = `<p>Also known as Kena-upanishad.</p><p>${PAGE}</p><div class="wst-center tiInherit"><p>TALAVAKÂRA-UPANISHAD.</p><p><br />
+<span style="font-size:120%;"><span class="smallcaps" style="font-variant:small-caps;">First Kha<i>nd</i>a.</span></span></p></div>
+<p>1. The Pupil asks: 'At whose wish does the mind sent forth proceed on its errand?</p><p>2. The Teacher replies: It is the ear of the ear. When freed (from the senses) the wise, on departing from this world, become immortal (Br<i>ah</i>man).</p>`;
+	const isa = `<p>Also known as Îsâvâsya-upanishad or Îsâ-upanishad.</p><p>${PAGE}</p><p>VÂGASANEYI-SAMHITÂ-UPANISHAD.</p>
+<div><p>1. All this, whatsoever moves on earth, is to be hidden in the Lord (the Self).</p></div><p>2. Though a man may wish to live a hundred years, performing works.</p>`;
+
+	it("cites each Upanishad by its own numbers", () => {
+		const p = parseMullerUpanishads({ "Khandogya 6": khandogya6, Kena: kena, Isa: isa });
+		expect(p.map((x) => [x.ref, x.division, x.subdivision])).toEqual([
+			["Khandogya 6.1", "1", 6],
+			["Khandogya 6.2", "1", 6],
+			["Kena 1.1", "2", 1],
+			["Kena 1.2", "2", 1],
+			["Isa 1", "3", 1],
+			["Isa 2", "3", 2],
+		]);
+		expect(p[0]?.text).toBe(
+			"1. Harih, Om. There lived once Svetaketu Âruneya (the grandson of Aruna). 2. Having begun his apprenticeship (with a teacher) when he was twelve years of age, Svetaketu returned to his father. The father replied: 'My dear, as by one clod of clay all that is made of clay is known.'",
+		);
+		expect(p[1]?.text).toBe(
+			"1, 2. 'In the beginning,' my dear, \"there was that only which is (τὸ ὄν), one only, without a second.",
+		);
+		expect(p[2]?.text).toBe(
+			"The Pupil asks: 'At whose wish does the mind sent forth proceed on its errand?",
+		);
+		expect(p[3]?.text).toBe(
+			"The Teacher replies: It is the ear of the ear. When freed (from the senses) the wise, on departing from this world, become immortal (Brahman).",
+		);
+		expect(p.some((x) => /Also known|Khandas|PRAP/.test(x.text))).toBe(false);
+	});
+});
+
+describe("parseLeggeShuKing", () => {
+	const book = `${header("Part I, Book I: The Canon of Yâo")}<p>${PAGE}</p><div class="wst-center"><p>THE SHÛ KING.</p></div>
+<div class="wst-center"><p><span class="smallcaps">The Canon of Yâo.</span></p></div>
+<div class="wst-size-block wst-smaller wst-smaller-block"><div class="wst-hanging-indent"><p>Shû King, the name of the whole work, has been sufficiently explained in the Introduction.</p></div><p>Yâo is the subject of the Book.</p></div>
+<p>${PAGE}<span id="ch1" title="Anchor:ch1" class="wst-anchor">1.</span> Examining into antiquity, (we find that) the Tî Yâo${FN(1)} was styled Fang-hsün.</p>
+<p>He made the able and virtuous distinguished.* He (also) regulated and polished the people.</p>
+<p>3. The Tî said, 'Who will search out (for me) a man according to the times?'</p>${notes}`;
+	const section = (n: number, paras: number) =>
+		`${header(`Part IV, Book V: The Thâi Kiâ, Section ${n}`)}<p>${PAGE}</p><p>Section ${n}.</p>${Array.from(
+			{ length: paras },
+			(_, i) => `<p>Words of section ${n}, paragraph ${i + 1}.</p>`,
+		).join("")}`;
+
+	it("leaves out Legge's introduction and notes, and numbers the paragraphs of a book", () => {
+		const p = parseLeggeShuKing({ "1.1": book });
+		expect(p.map((x) => [x.ref, x.division, x.subdivision, x.divisionTitle])).toEqual([
+			["Shu 1.1.1", "1", 1, "The Canon of Yâo"],
+			["Shu 1.1.2", "1", 1, "The Canon of Yâo"],
+			["Shu 1.1.3", "1", 1, "The Canon of Yâo"],
+		]);
+		expect(p.map((x) => x.text)).toEqual([
+			"Examining into antiquity, (we find that) the Tî Yâo was styled Fang-hsün.",
+			"He made the able and virtuous distinguished. He (also) regulated and polished the people.",
+			"The Tî said, 'Who will search out (for me) a man according to the times?'",
+		]);
+		expect(
+			p.some((x) => /whole work|subject of the Book|Literally|SHÛ|Canon of Yâo\./.test(x.text)),
+		).toBe(false);
+	});
+
+	it("numbers the paragraphs of a book with sections on through its sections, and skips its index page", () => {
+		const index = `${header("Part IV, Book V: The Thâi Kiâ")}<p>${PAGE}</p><p>Sections (containing the body text)</p>`;
+		const p = parseLeggeShuKing({ "4.5": index, "4.5.1": section(1, 2), "4.5.2": section(2, 1) });
+		expect(p.map((x) => [x.ref, x.divisionTitle])).toEqual([
+			["Shu 4.5.1", "The Thâi Kiâ, Section 1"],
+			["Shu 4.5.2", "The Thâi Kiâ, Section 1"],
+			["Shu 4.5.3", "The Thâi Kiâ, Section 2"],
+		]);
+		expect(p[2]?.text).toBe("Words of section 2, paragraph 1.");
 	});
 });
