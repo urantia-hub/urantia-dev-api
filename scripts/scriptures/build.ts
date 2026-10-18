@@ -9,7 +9,9 @@ import {
 	parseAnalects,
 	parseAstonOracles,
 	parseBesantGita,
+	parseBookOfMormon,
 	parseDhammapada,
+	parseGriffithRigVeda,
 	parseHicksBook6,
 	parseJapji,
 	parseOldfatherChapter,
@@ -54,6 +56,41 @@ async function besantChapters(): Promise<Record<string, string>> {
 	return chapters;
 }
 
+/** Every hymn page of Griffith's Rig Veda on Wikisource, keyed "book.hymn" (1,028 pages). */
+async function rigVedaHymns(): Promise<Record<string, string>> {
+	const titles: string[] = [];
+	let from: Record<string, string> = {};
+	for (;;) {
+		const url = `https://en.wikisource.org/w/api.php?${new URLSearchParams({
+			action: "query",
+			list: "allpages",
+			apprefix: "The Hymns of the Rigveda/",
+			aplimit: "500",
+			format: "json",
+			...from,
+		})}`;
+		const res = await fetch(url, { headers: HEADERS });
+		if (!res.ok) throw new Error(`Wikisource page list: HTTP ${res.status}`);
+		const body = (await res.json()) as {
+			query: { allpages: { title: string }[] };
+			continue?: Record<string, string>;
+		};
+		titles.push(...body.query.allpages.map((p) => p.title));
+		if (!body.continue) break;
+		from = body.continue;
+	}
+	const hymns: Record<string, string> = {};
+	for (const title of titles) {
+		const m = /\/Book (\d+)\/Hymn (\d+)$/.exec(title);
+		if (!m) continue;
+		hymns[`${m[1]}.${m[2]}`] = await wikisource(title);
+		await new Promise((r) => setTimeout(r, 500));
+	}
+	if (Object.keys(hymns).length !== 1028)
+		throw new Error(`Rig Veda: ${Object.keys(hymns).length} hymns, not 1028`);
+	return hymns;
+}
+
 const PARSE: Record<string, () => Promise<Passage[]>> = {
 	"dhammapada-muller-1881": async () => parseDhammapada(await gutenberg(2017)),
 	"tao-te-ching-legge-1891": async () => parseTaoTeChing(await gutenberg(216)),
@@ -62,6 +99,14 @@ const PARSE: Record<string, () => Promise<Passage[]>> = {
 	"shinto-oracles-aston-1905": async () =>
 		parseAstonOracles(await wikisource("Shinto: The Way of the Gods/Chapter 14")),
 	"koran-pickthall-1930": async () => parsePickthall(await gutenberg(16955)),
+	"book-of-mormon-1830": async () => {
+		const passages = parseBookOfMormon(await gutenberg(17));
+		// The standard count of the 15 books.
+		if (passages.length !== 6604)
+			throw new Error(`Book of Mormon: ${passages.length} verses, not 6604`);
+		return passages;
+	},
+	"rig-veda-griffith-1896": async () => parseGriffithRigVeda(await rigVedaHymns()),
 	"japji-macauliffe-1909": async () =>
 		parseJapji(await wikisource("The Sikh Religion/Volume 1/Japji")),
 	"diogenes-laertius-6-hicks-1925": async () =>

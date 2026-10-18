@@ -461,3 +461,200 @@ export function parseOldfatherChapter(
 		};
 	});
 }
+
+/** The 15 books of the Book of Mormon, in order. Their place in this list is the division number. */
+export const BOOK_OF_MORMON_BOOKS = [
+	"1 Nephi",
+	"2 Nephi",
+	"Jacob",
+	"Enos",
+	"Jarom",
+	"Omni",
+	"Words of Mormon",
+	"Mosiah",
+	"Alma",
+	"Helaman",
+	"3 Nephi",
+	"4 Nephi",
+	"Mormon",
+	"Ether",
+	"Moroni",
+];
+
+// The heading line that starts each book in Project Gutenberg #17.
+const BOM_HEADINGS: Record<string, number> = {
+	"THE FIRST BOOK OF NEPHI HIS REIGN AND MINISTRY (1 Nephi)": 1,
+	"THE SECOND BOOK OF NEPHI": 2,
+	"THE BOOK OF JACOB": 3,
+	"THE BOOK OF ENOS": 4,
+	"THE BOOK OF JAROM": 5,
+	"THE BOOK OF OMNI": 6,
+	"THE WORDS OF MORMON": 7,
+	"THE BOOK OF MOSIAH": 8,
+	"THE BOOK OF ALMA": 9,
+	"THE BOOK OF HELAMAN": 10,
+	"THIRD BOOK OF NEPHI": 11,
+	"FOURTH NEPHI": 12,
+	"THE BOOK OF MORMON": 13,
+	"THE BOOK OF ETHER": 14,
+	"THE BOOK OF MORONI": 15,
+};
+
+/**
+ * The Book of Mormon (1830 text, Project Gutenberg #17). A verse starts at "3:7", or at "Alma 3:7"
+ * inside a paragraph. The introductions of the books and the chapter headings are not kept.
+ * A verse out of order stops the build, so a missed marker cannot join two verses in silence.
+ */
+export function parseBookOfMormon(raw: string): Passage[] {
+	const passages: Passage[] = [];
+	const names = BOOK_OF_MORMON_BOOKS.join("|");
+	const chapterLine = new RegExp(`^(${names}) Chapter (\\d+)$`);
+	const marker = new RegExp(`(?:^|\\s)(?:(${names}) )?(\\d+):(\\d+) `, "g");
+	let book = 0;
+	let last = { book: 0, chapter: 0, verse: 0 };
+	for (const block of gutenbergBody(raw).split(/\r?\n\s*\r?\n/)) {
+		const para = block.replace(/\s+/g, " ").trim();
+		const heading = BOM_HEADINGS[para];
+		if (heading) book = heading;
+		const chapter = para.match(chapterLine);
+		if (chapter) book = BOOK_OF_MORMON_BOOKS.indexOf(chapter[1] as string) + 1;
+		if (heading || chapter || !/^(?:[1-4A-Z][A-Za-z ]* )?\d+:\d+ /.test(para)) continue;
+		const marks = [...para.matchAll(marker)];
+		for (const [k, m] of marks.entries()) {
+			if (m[1]) book = BOOK_OF_MORMON_BOOKS.indexOf(m[1]) + 1;
+			const c = Number(m[2]);
+			const v = Number(m[3]);
+			const name = BOOK_OF_MORMON_BOOKS[book - 1] ?? "?";
+			const next =
+				book === last.book
+					? (c === last.chapter && v === last.verse + 1) || (c === last.chapter + 1 && v === 1)
+					: book === last.book + 1 && c === 1 && v === 1;
+			if (!next) throw new Error(`Book of Mormon: ${name} ${c}:${v} is out of order`);
+			last = { book, chapter: c, verse: v };
+			const end = marks[k + 1]?.index ?? para.length;
+			passages.push({
+				ref: `${name} ${c}:${v}`,
+				sort: book * 1_000_000 + c * 1000 + v,
+				division: String(book),
+				divisionTitle: name,
+				subdivision: c,
+				text: clean(para.slice((m.index ?? 0) + m[0].length, end)),
+			});
+		}
+	}
+	return passages;
+}
+
+const plainText = (html: string) => decodeEntities(html.replace(/<[^>]+>/g, " "));
+
+type Verse = { n: number; text: string; lines: number };
+
+/** The verses of a hymn printed as lines of text: "1. text", then lines that go on with it. */
+function rigVedaLines(lines: string[]): Verse[] {
+	const verses: Verse[] = [];
+	let before: string[] = [];
+	for (const line of lines) {
+		// With lines that wait before any number, the first number can be 2 (verse 1 had none).
+		const next = verses.length ? (verses.at(-1) as Verse).n + 1 : before.length ? 2 : 1;
+		// "4. text", "4.text", or "4 text" when 4 is the next number. An indented number must be the next.
+		const m = /^(\s*)(\d+)(?:(\.)\s*|\s+)(\S.*)$/.exec(line);
+		const n = Number(m?.[2]);
+		if (
+			m &&
+			(n === next || (n === 1 && !verses.length) || (m[3] && (m[1] as string).length <= 1))
+		) {
+			// Lines before verse 2 with no number are verse 1. The scan prints that "1" as "I" on some pages.
+			if (n === 2 && !verses.length && before.length)
+				verses.push({
+					n: 1,
+					text: before.join(" ").replace(/^\s*I\.?\s+(?=[A-Z]{2})/, ""),
+					lines: before.length,
+				});
+			verses.push({ n, text: m[4] as string, lines: 1 });
+			before = [];
+		} else if (line.trim()) {
+			const last = verses.at(-1);
+			if (last) {
+				last.text += ` ${line}`;
+				last.lines++;
+			} else before.push(line);
+		}
+	}
+	return verses;
+}
+
+/**
+ * The Rig Veda (Griffith 1896, Wikisource), one page for each hymn, keyed "book.hymn". Most pages
+ * print the verses as "1. text" lines, in preformatted text or in a paragraph. A proofread page has
+ * one stanza for each verse, verse 1 has no number, and the hymn title is in its running head. Notes
+ * are not kept. A hymn that Griffith put only in his appendix or in Latin has no verse on its page.
+ */
+export function parseGriffithRigVeda(htmlByHymn: Record<string, string>): Passage[] {
+	const passages: Passage[] = [];
+	const keys = Object.keys(htmlByHymn).sort((a, b) => {
+		const [ab, ah] = a.split(".").map(Number) as [number, number];
+		const [bb, bh] = b.split(".").map(Number) as [number, number];
+		return ab - bb || ah - bh;
+	});
+	for (const key of keys) {
+		const [book, hymn] = key.split(".").map(Number) as [number, number];
+		let html = (htmlByHymn[key] as string)
+			.replace(/<style[\s\S]*?<\/style>/g, "")
+			.replace(/<!--[\s\S]*?-->/g, "")
+			.replace(/<sup[^>]*class="reference"[\s\S]*?<\/sup>/g, "")
+			.replace(/<ol class="references"[\s\S]*?<\/ol>/g, "");
+		// The text starts after the page header, which ends with the translator's name.
+		const header = html.indexOf('id="ws-translator"');
+		if (header >= 0) html = html.slice(html.indexOf("</div></div>", header));
+		const title = /class="wst-rh-cell wst-rh-right">([\s\S]*?)<\/div>/.exec(html);
+		const divisionTitle = title
+			? clean(plainText(title[1] as string)).replace(/\.$/, "") || null
+			: null;
+		let verses: Verse[] = [];
+		const stanzas = [...html.matchAll(/<div class="ws-poem-stanza"[^>]*>([\s\S]*?)<\/div>/g)];
+		if (stanzas.length) {
+			for (const [, body] of stanzas) {
+				const num = /<span class="ws-poem-versenum">\s*(\d+)/.exec(body as string);
+				const text = clean(
+					plainText((body as string).replace(/<span class="ws-poem-versenum">[^<]*<\/span>/, "")),
+				);
+				const lines = (body as string).split('class="ws-poem-line"').length - 1;
+				if (text)
+					verses.push({ n: num ? Number(num[1]) : (verses.at(-1)?.n ?? 0) + 1, text, lines });
+			}
+		} else {
+			const blocks = [...html.matchAll(/<pre>([\s\S]*?)<\/pre>/g)].map((m) => m[1] as string);
+			const body = blocks.length
+				? blocks.join("\n")
+				: [...html.matchAll(/<p>([\s\S]*?)<\/p>/g)]
+						.map((m) => (m[1] as string).replace(/<span class="wst-gap[^>]*><\/span>/g, "     "))
+						.join("\n")
+						.replace(/<br\s*\/?>/g, "\n");
+			verses = rigVedaLines(decodeEntities(body.replace(/<[^>]+>/g, "")).split("\n"));
+		}
+		// A number between its two neighbors that breaks the count is a misprint ("17, 16, 19").
+		for (let i = 1; i < verses.length - 1; i++) {
+			const before = (verses[i - 1] as Verse).n;
+			if (verses[i]?.n !== before + 1 && verses[i + 1]?.n === before + 2)
+				(verses[i] as Verse).n = before + 1;
+		}
+		const usual =
+			[...verses.map((v) => v.lines)].sort((a, b) => a - b)[Math.floor(verses.length / 2)] ?? 1;
+		for (const [i, v] of verses.entries()) {
+			// A verse twice as long as the others, before a gap of one, holds the next verse: the source
+			// left that number out ("RV 10.48.6-7"). A gap after a verse of usual length is a verse
+			// that Griffith left out.
+			const after = verses[i + 1]?.n;
+			const end = after === v.n + 2 && v.lines >= 2 * usual ? v.n + 1 : v.n;
+			passages.push({
+				ref: `RV ${book}.${hymn}.${v.n}${end > v.n ? `-${end}` : ""}`,
+				sort: book * 1_000_000 + hymn * 1000 + v.n,
+				division: String(book),
+				divisionTitle,
+				subdivision: hymn,
+				text: clean(v.text),
+			});
+		}
+	}
+	return passages;
+}

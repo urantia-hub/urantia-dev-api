@@ -1,5 +1,7 @@
 // The texts of the world religions layer. Each one is in the US public domain.
 
+import { BOOK_OF_MORMON_BOOKS } from "./parsers.ts";
+
 export type Corpus = {
 	id: string;
 	religion: string;
@@ -212,5 +214,48 @@ export const CORPORA: Corpus[] = [
 		refLevels: 1,
 		notes:
 			"From The Sikh Religion, volume 1. Japji 0 is the opening (the Mul Mantar), Japji 1 to 38 are the pauris, and Japji 39 is the closing slok.",
+	},
+	{
+		id: "book-of-mormon-1830",
+		religion: "Latter Day Saint",
+		title: "The Book of Mormon",
+		translator: "Joseph Smith, Jun.",
+		year: 1830,
+		source: "https://www.gutenberg.org/ebooks/17",
+		license: "Public domain in the United States",
+		urantiaSection: null,
+		refPrefix: "BoM",
+		slug: "book-of-mormon",
+		kind: "scripture",
+		summary: "The scripture of the Latter Day Saint movement, published in 1830.",
+		linked: true,
+		divisionLabel: "book",
+		unitLabel: "verse",
+		chunkBy: "size",
+		refLevels: 3,
+		divisionNames: BOOK_OF_MORMON_BOOKS,
+		notes:
+			"The text of Project Gutenberg #17, which follows a later LDS edition. Verse numbers as printed. Its title page names Joseph Smith, Jun. as translator.",
+	},
+	{
+		id: "rig-veda-griffith-1896",
+		religion: "Hindu",
+		title: "The Hymns of the Rigveda",
+		translator: "Ralph T. H. Griffith",
+		year: 1896,
+		source: "https://en.wikisource.org/wiki/The_Hymns_of_the_Rigveda",
+		license: "Public domain in the United States",
+		urantiaSection: null,
+		refPrefix: "RV",
+		slug: "rig-veda",
+		kind: "scripture",
+		summary: "The oldest Vedic hymns.",
+		linked: true,
+		divisionLabel: "book",
+		unitLabel: "verse",
+		chunkBy: "size",
+		refLevels: 3,
+		notes:
+			"From Wikisource: book, hymn, verse (RV 10.129.1). The hymns that he gave only in his appendix or in Latin are not on those pages, so they are not here.",
 	},
 ];
