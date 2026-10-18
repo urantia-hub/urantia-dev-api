@@ -14,6 +14,7 @@ import {
 	uniqueIndex,
 	uuid,
 } from "drizzle-orm/pg-core";
+import { normalizedSql } from "../lib/search-text.ts";
 
 const tsvector = customType<{ data: string }>({
 	dataType() {
@@ -162,8 +163,14 @@ export const paragraphs = pgTable(
 
 		labels: text("labels").array(),
 
-		// Full-text search — populated via SQL generated column (see setup-fts.sql)
-		searchVector: tsvector("search_vector"),
+		// Full-text search: a generated column (setup-fts.sql). Declared as generated, or a push drops
+		// its expression and each new paragraph gets no search vector.
+		searchVector: tsvector("search_vector").generatedAlwaysAs(
+			sql`to_tsvector('english'::regconfig, COALESCE(text, ''::text))`,
+		),
+		// Normalized text with a space at each end, for exact phrases (setup-search.sql). The rule is
+		// `normalizedSql` in src/lib/search-text.ts.
+		matchText: text("match_text").generatedAlwaysAs(sql.raw(normalizedSql("text"))),
 
 		// Semantic search — populated later via generate-embeddings script
 		embedding: vector("embedding"),
@@ -192,6 +199,24 @@ export const paragraphs = pgTable(
 		index("paragraphs_embedding_hnsw_idx")
 			.using("hnsw", t.embedding.op("vector_cosine_ops"))
 			.with({ m: "16", ef_construction: "64" }),
+		// Declared so that a push keeps them: scripts/setup-fts.sql and scripts/setup-search.sql.
+		index("paragraphs_fts_gin_idx").using("gin", t.searchVector),
+		index("paragraphs_match_text_trgm_idx").using("gin", t.matchText.op("gin_trgm_ops")),
+	],
+).enableRLS();
+
+// --- search_words (each word of a body of text, for near words in search) ---
+// `source`: "papers", "bible", or "works". Filled by scripts/fill-search-words.ts.
+export const searchWords = pgTable(
+	"search_words",
+	{
+		source: text("source").notNull(),
+		word: text("word").notNull(),
+		n: integer("n").notNull(),
+	},
+	(t) => [
+		primaryKey({ name: "search_words_pkey", columns: [t.source, t.word] }),
+		index("search_words_word_trgm_idx").using("gin", t.word.op("gin_trgm_ops")),
 	],
 ).enableRLS();
 
