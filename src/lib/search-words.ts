@@ -10,13 +10,16 @@ export const textArray = (words: string[]): SQL =>
 		sql`, `,
 	)}]::text[]`;
 
+// Only this many words of a query get a typo check, so a long query does not start one query for each word.
+const MAX_CHECKED = 12;
+
 /** The letters of a word in order, so two words with a swap of two letters compare equal. */
 const letters = (word: string) => [...word].sort().join("");
 
 /**
  * The words of a query with each unknown word of 4 letters or more changed to the closest word of
  * the source: same first letter, edit distance 1 (4 letters) or 2 (5 or more), a swap of two
- * letters counts as 1, and a more common word wins a tie. With `prefixLast`, a last word that
+ * letters counts as 1, and a more common word wins a tie. Only the first 12 such words. With `prefixLast`, a last word that
  * starts a known word stays. Null when no word changed.
  */
 export async function correctWords(
@@ -27,9 +30,13 @@ export async function correctWords(
 ): Promise<string[] | null> {
 	const last = words.length - 1;
 	const inSource = sql`source = any(${textArray(Array.isArray(source) ? source : [source])})`;
+	const checked = words
+		.map((word, i) => (word.length < 4 || /^[0-9]+$/.test(word) ? -1 : i))
+		.filter((i) => i >= 0)
+		.slice(0, MAX_CHECKED);
 	const fixes = await Promise.all(
 		words.map(async (word, i) => {
-			if (word.length < 4 || /^[0-9]+$/.test(word)) return null;
+			if (!checked.includes(i)) return null;
 			const prefix = prefixLast && i === last;
 			const max = word.length === 4 ? 1 : 2;
 			const rows = (await db.execute(sql`
