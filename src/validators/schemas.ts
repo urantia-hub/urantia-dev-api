@@ -904,7 +904,16 @@ export const ParagraphScriptureScoresSchema = z.object({
 export const WorkSchema = z.object({
 	id: z.string().describe('The work id: "bible", or the slug of a text such as "dhammapada".'),
 	title: z.string(),
-	religion: z.string(),
+	religion: z.string().describe("The same as `tradition`, kept for older clients."),
+	tradition: z
+		.string()
+		.describe('The people or the religion of the work: "Buddhism", "Norse", "Hawaiian".'),
+	kind: z
+		.enum(["scripture", "classic", "recorded"])
+		.describe(
+			'"scripture": read as sacred by its tradition. "classic": a story, history, or teaching that is not read as scripture. "recorded": an oral tradition that an outside observer wrote down.',
+		),
+	summary: z.string().describe("One plain sentence on what the work is."),
 	translator: z.string(),
 	year: z.number().int().nullable(),
 	refPrefix: z
@@ -928,7 +937,7 @@ export const WorkUrantiaParallel = z.object({
 });
 
 export const WorkResultSchema = z.object({
-	work: z.object({ id: z.string(), title: z.string() }),
+	work: z.object({ id: z.string(), title: z.string(), tradition: z.string() }),
 	reference: z
 		.string()
 		.describe('"John 3:16", "Dhp 183", "BG 2.47-49" (a chunk in semantic search).'),

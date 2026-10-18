@@ -1,5 +1,6 @@
 import { sql } from "drizzle-orm";
 import {
+	boolean,
 	customType,
 	date,
 	index,
@@ -520,6 +521,14 @@ export const scriptureCorpora = pgTable(
 		refLevels: integer("ref_levels").notNull().default(2),
 		// How the text is numbered or selected, in plain words.
 		notes: text("notes"),
+		// "scripture", "classic", or "recorded" (an oral tradition that an outside observer wrote down).
+		kind: text("kind").notNull().default("scripture"),
+		// One plain sentence on what the text is (approved copy).
+		summary: text("summary"),
+		// Names that stand for division 1, 2, ... in a ref ("1 Nephi 3:7"). Null when refs are numbers.
+		divisionNames: text("division_names").array(),
+		// False when no page on the three link sites holds the text: its passages have no url.
+		linked: boolean("linked").notNull().default(true),
 	},
 	(t) => [
 		uniqueIndex("sco_slug_idx").on(t.slug),

@@ -45,6 +45,24 @@ suite("the works on a local copy", () => {
 		expect(works).toHaveLength(10);
 	});
 
+	it("says what each work is: its tradition, kind, and summary", async () => {
+		const works = await listWorks(db as never);
+		for (const w of works) {
+			expect(w.tradition.length).toBeGreaterThan(0);
+			expect(["scripture", "classic", "recorded"]).toContain(w.kind);
+			expect(w.summary).toMatch(/\.$/);
+		}
+		const bible = works.find((w) => w.id === "bible");
+		expect(bible?.tradition).toBe("Judaism and Christianity");
+		expect(bible?.kind).toBe("scripture");
+		expect(works.find((w) => w.id === "quran")?.summary).toBe("The scripture of Islam.");
+	});
+
+	it("names the tradition of the work of each result", async () => {
+		const r = await search("Dhp 183");
+		expect(r?.data[0]?.work.tradition).toBe("Buddhism");
+	});
+
 	it("gives a Bible reference first, with its link", async () => {
 		const r = await search("John 3:16");
 		expect(refs(r)).toEqual(["John 3:16"]);
