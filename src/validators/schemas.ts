@@ -907,7 +907,7 @@ export const WorkSchema = z.object({
 	religion: z.string().describe("The same as `tradition`, kept for older clients."),
 	tradition: z
 		.string()
-		.describe('The people or the religion of the work: "Buddhism", "Norse", "Hawaiian".'),
+		.describe('The people or the religion of the work: "Buddhist", "Norse", "Ancient Greek".'),
 	kind: z
 		.enum(["scripture", "classic", "recorded"])
 		.describe(
