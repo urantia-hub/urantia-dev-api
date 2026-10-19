@@ -30,6 +30,7 @@ import {
 	parseRenoufBookOfTheDead,
 	parseTaoTeChing,
 } from "./parsers.ts";
+import { fixSource } from "./source-fixes.ts";
 
 const OUT =
 	process.argv[2] ?? join(import.meta.dir, "../../../urantia-data-sources/data/scriptures");
@@ -249,7 +250,8 @@ const PARSE: Record<string, () => Promise<Passage[]>> = {
 mkdirSync(OUT, { recursive: true });
 const only = process.env.ONLY?.split(",");
 for (const corpus of CORPORA.filter((c) => !only || only.includes(c.id))) {
-	const passages = await PARSE[corpus.id]?.();
+	const parsed = await PARSE[corpus.id]?.();
+	const passages = parsed && fixSource(corpus.id, parsed);
 	if (!passages?.length) throw new Error(`${corpus.id}: no passages`);
 	const refs = new Set(passages.map((p) => p.ref));
 	if (refs.size !== passages.length) throw new Error(`${corpus.id}: repeated references`);
