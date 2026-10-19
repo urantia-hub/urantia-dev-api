@@ -53,7 +53,7 @@ suite("the works on a local copy", () => {
 			expect(w.summary).toMatch(/\.$/);
 		}
 		const bible = works.find((w) => w.id === "bible");
-		expect(bible?.tradition).toBe("Judaism and Christianity");
+		expect(bible?.tradition).toBe("Jewish and Christian");
 		expect(bible?.kind).toBe("scripture");
 		expect(works.find((w) => w.id === "quran")?.summary).toBe("The scripture of Islam.");
 	});

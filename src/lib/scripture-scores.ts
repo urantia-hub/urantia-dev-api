@@ -17,7 +17,7 @@ type Summary = ReturnType<typeof corpusSummary>;
 export const BIBLE_SUMMARY: Summary = {
 	id: "bible",
 	slug: "bible",
-	religion: "Judaism and Christianity",
+	religion: "Jewish and Christian",
 	title: "World English Bible",
 	translator: "World English Bible",
 	year: 2000,

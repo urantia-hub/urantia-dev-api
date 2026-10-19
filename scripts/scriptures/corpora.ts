@@ -37,7 +37,7 @@ export type Corpus = {
 export const CORPORA: Corpus[] = [
 	{
 		id: "diogenes-laertius-6-hicks-1925",
-		religion: "Cynicism",
+		religion: "Cynic",
 		title: "Lives of Eminent Philosophers, Book 6: The Cynics",
 		translator: "R. D. Hicks",
 		year: 1925,
@@ -58,7 +58,7 @@ export const CORPORA: Corpus[] = [
 	},
 	{
 		id: "epictetus-3-22-oldfather-1928",
-		religion: "Cynicism",
+		religion: "Cynic",
 		title: "Discourses 3.22: On the Calling of a Cynic",
 		translator: "W. A. Oldfather",
 		year: 1928,
@@ -80,7 +80,7 @@ export const CORPORA: Corpus[] = [
 	},
 	{
 		id: "dhammapada-muller-1881",
-		religion: "Buddhism",
+		religion: "Buddhist",
 		title: "The Dhammapada",
 		translator: "F. Max Muller",
 		year: 1881,
@@ -100,7 +100,7 @@ export const CORPORA: Corpus[] = [
 	},
 	{
 		id: "bhagavad-gita-besant-1922",
-		religion: "Hinduism",
+		religion: "Hindu",
 		title: "The Bhagavad Gita",
 		translator: "Annie Besant (4th edition)",
 		year: 1922,
@@ -120,7 +120,7 @@ export const CORPORA: Corpus[] = [
 	},
 	{
 		id: "shinto-oracles-aston-1905",
-		religion: "Shinto",
+		religion: "Japanese (Shinto)",
 		title: "Shinto Oracles",
 		translator: "W. G. Aston",
 		year: 1905,
@@ -141,7 +141,7 @@ export const CORPORA: Corpus[] = [
 	},
 	{
 		id: "tao-te-ching-legge-1891",
-		religion: "Taoism",
+		religion: "Taoist",
 		title: "The Tao Te Ching",
 		translator: "James Legge",
 		year: 1891,
@@ -161,7 +161,7 @@ export const CORPORA: Corpus[] = [
 	},
 	{
 		id: "analects-legge-1861",
-		religion: "Confucianism",
+		religion: "Confucian",
 		title: "The Analects of Confucius",
 		translator: "James Legge",
 		year: 1861,
@@ -181,7 +181,7 @@ export const CORPORA: Corpus[] = [
 	},
 	{
 		id: "koran-pickthall-1930",
-		religion: "Islam",
+		religion: "Muslim",
 		title: "The Meaning of the Glorious Koran",
 		translator: "Marmaduke Pickthall",
 		year: 1930,
@@ -202,7 +202,7 @@ export const CORPORA: Corpus[] = [
 	},
 	{
 		id: "japji-macauliffe-1909",
-		religion: "Sikhism",
+		religion: "Sikh",
 		title: "The Japji",
 		translator: "Max Arthur Macauliffe",
 		year: 1909,

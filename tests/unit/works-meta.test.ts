@@ -11,6 +11,15 @@ describe("what each work says about itself", () => {
 			expect(c.summary.split(". ")).toHaveLength(1);
 		}
 	});
+	it("names each tradition by its people or followers, not by the name of the religion", () => {
+		const tradition = Object.fromEntries(CORPORA.map((c) => [c.slug, c.religion]));
+		for (const c of CORPORA) expect(c.religion).not.toMatch(/ism\b|^Islam$/);
+		expect(tradition["bhagavad-gita"]).toBe("Hindu");
+		expect(tradition["tao-te-ching"]).toBe("Taoist");
+		expect(tradition.analects).toBe("Confucian");
+		expect(tradition.quran).toBe("Muslim");
+		expect(tradition["shinto-oracles"]).toBe("Japanese (Shinto)");
+	});
 	it("keeps the kinds of the spec", () => {
 		const kind = Object.fromEntries(CORPORA.map((c) => [c.slug, c.kind]));
 		expect(kind.quran).toBe("scripture");
