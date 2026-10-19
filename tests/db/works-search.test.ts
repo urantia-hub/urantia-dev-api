@@ -4,6 +4,7 @@ import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import { CORPORA } from "../../scripts/scriptures/corpora.ts";
 import * as schema from "../../src/db/schema.ts";
+import { corpusPages, resolveCorpus } from "../../src/lib/scripture-parallels.ts";
 import {
 	listWorks,
 	readWork,
@@ -125,6 +126,34 @@ suite("the works on a local copy", () => {
 			expect(x).toHaveProperty("url");
 			expect(x.urantiaParallels).toBeArray();
 		}
+	});
+
+	it("gives the pages of a work: subdivisions for a work with three levels", async () => {
+		const pages = async (name: string) =>
+			corpusPages(db as never, (await resolveCorpus(db as never, name)) as never);
+		const rv = await pages("rig-veda");
+		expect(rv).toHaveLength(1027);
+		expect(rv[0]).toMatchObject({
+			division: 1,
+			subdivision: 1,
+			firstRef: "RV 1.1.1",
+			lastRef: "RV 1.1.9",
+			passageCount: 9,
+		});
+		const dhp = await pages("dhammapada");
+		expect(dhp).toHaveLength(26);
+		expect(dhp[1]).toMatchObject({
+			division: 2,
+			subdivision: null,
+			title: "On Earnestness",
+			firstRef: "Dhp 21",
+			lastRef: "Dhp 32",
+			passageCount: 12,
+		});
+	});
+
+	it("reads the longest page whole", async () => {
+		expect(await readWork(db as never, "Quran 2", "quran")).toHaveLength(286);
 	});
 
 	it("reads a part of a work", async () => {
