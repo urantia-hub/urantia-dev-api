@@ -1,7 +1,7 @@
 // The other works beside the Papers, under one set of endpoints (/works) and MCP tools (works.*):
 // the Bible (work id "bible") and the texts of scripture_corpora (work id = the corpus slug).
 // One result shape for all of them: work, reference, text, url, and the nearest Urantia paragraphs.
-import { and, asc, eq, inArray, type SQL, sql } from "drizzle-orm";
+import { and, asc, desc, eq, inArray, type SQL, sql } from "drizzle-orm";
 import {
 	bibleChunks,
 	bibleParallels,
@@ -633,6 +633,62 @@ export type OtherWorkParallels = Omit<WorkResult, "urantiaParallels"> & {
 };
 
 /** The nearest passages of the other works and of the Bible for the chunk of one unit, nearest first. */
+// A Bible chunk is no source in `scripture_work_parallels`: its parallels are the work passages that have it
+// in their own top 10, the nearest first.
+async function bibleWorkParallels(
+	db: Db,
+	unit: Omit<Unit, "chunk">,
+	chunkId: string,
+): Promise<OtherWorkParallels> {
+	let rows: { chunkId: string; similarity: number }[] = [];
+	try {
+		rows = await db
+			.select({
+				chunkId: scriptureWorkParallels.chunkId,
+				similarity: scriptureWorkParallels.similarity,
+			})
+			.from(scriptureWorkParallels)
+			.where(eq(scriptureWorkParallels.otherBibleChunkId, chunkId))
+			.orderBy(desc(scriptureWorkParallels.similarity))
+			.limit(10);
+	} catch (error) {
+		if (!isUndefinedTable(error)) throw error;
+	}
+	const hits = rows.map((r) => ({
+		kind: "works" as const,
+		id: r.chunkId,
+		similarity: r.similarity,
+	}));
+	const [found, verses] = await Promise.all([
+		chunksById(db, [...hits, { kind: "bible", id: chunkId }]),
+		db
+			.select({
+				bookCode: bibleVerses.bookCode,
+				chapter: bibleVerses.chapter,
+				verse: bibleVerses.verse,
+			})
+			.from(bibleVerses)
+			.where(eq(bibleVerses.chunkId, chunkId))
+			.orderBy(asc(bibleVerses.verse)),
+	]);
+	const parallels = hits.flatMap((h) => {
+		const other = found.get(h.id);
+		if (!other) return [];
+		const { chunk: _, ...rest } = other;
+		return [{ ...rest, similarity: h.similarity }];
+	});
+	return {
+		...unit,
+		chunk: {
+			label: found.get(chunkId)?.reference ?? unit.reference,
+			references: verses.map(
+				(v) => formatBibleReference(v.bookCode, v.chapter, v.verse) ?? unit.reference,
+			),
+		},
+		parallels,
+	};
+}
+
 export async function otherWorkParallels(
 	db: Db,
 	work: string,
@@ -642,12 +698,13 @@ export async function otherWorkParallels(
 	if (!units || units.length === 0) return null;
 	if (units.length > 1) return "many";
 	const { chunk, ...unit } = units[0] as Unit;
-	if (!chunk || chunk.bible)
+	if (!chunk)
 		return {
 			...unit,
 			chunk: { label: unit.reference, references: [unit.reference] },
 			parallels: [],
 		};
+	if (chunk.bible) return bibleWorkParallels(db, unit, chunk.id);
 	const [own, members] = await Promise.all([
 		db
 			.select({ label: scriptureChunks.label })
