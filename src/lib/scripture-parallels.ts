@@ -48,7 +48,12 @@ export type CorpusPage = {
 /** The reading pages of a corpus in order: a division, or a subdivision for a work with three ref levels. */
 export async function corpusPages(db: Db, corpus: ScriptureCorpus): Promise<CorpusPage[]> {
 	const p = scripturePassages;
-	const sub = corpus.refLevels === 3 ? p.subdivision : sql<number | null>`null::int`;
+	// A ref with one number in a work of three levels ("Isa 5" in the Upanishads) has no subdivision of its
+	// own: its whole division is one page.
+	const sub =
+		corpus.refLevels === 3
+			? sql<number | null>`CASE WHEN ${p.ref} ~ '[.:][0-9]+(-[0-9]+)?$' THEN ${p.subdivision} END`
+			: sql<number | null>`null::int`;
 	return db
 		.select({
 			division: p.division,
