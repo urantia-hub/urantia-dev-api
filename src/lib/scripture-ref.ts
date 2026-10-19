@@ -23,14 +23,16 @@ function divisionName(
 	names: string[],
 	aliases: Record<string, number>,
 ): { index: number; rest: string } | null {
-	const m = fold(s).match(/^(.*?[a-z].*?)\s+(\d.*)$/);
+	// A name alone ("Theogony") names the whole division; it must be a full name, never a short form.
+	const m = fold(s).match(/^(.*?[a-z].*?)(?:\s+(\d.*))?$/);
 	if (!m) return null;
-	const [, word, rest] = m as unknown as [string, string, string];
+	const [, word, rest] = m as unknown as [string, string, string | undefined];
 	// An entry can hold other spellings after a bar: "Voluspo|Voluspa".
 	const spellings = names.map((n) => n.split("|").map(fold));
 	const full = spellings.findIndex((all) => all.includes(word));
-	if (full >= 0) return { index: full + 1, rest };
-	if (aliases[word]) return { index: aliases[word] as number, rest };
+	if (full >= 0) return { index: full + 1, rest: rest ?? "" };
+	if (aliases[word]) return { index: aliases[word] as number, rest: rest ?? "" };
+	if (rest === undefined) return null;
 	if (word.replace(/[^a-z]/g, "").length < 2) return null;
 	const starts = spellings.flatMap((all, i) =>
 		all.some((n) => n.startsWith(word)) ? [i + 1] : [],
@@ -66,7 +68,7 @@ export function parseScriptureRef(
 	if (divisionNames?.length && /[^\d.:\s-]/.test(s)) {
 		const named = divisionName(s, divisionNames, aliases);
 		if (!named) return null;
-		s = `${named.index}.${named.rest}`;
+		s = named.rest ? `${named.index}.${named.rest}` : `${named.index}`;
 	}
 	const m = s.match(/^(\d{1,4}(?:[.:]\d{1,4}){0,2})(?:-(\d{1,4}))?$/);
 	if (!m) return null;
