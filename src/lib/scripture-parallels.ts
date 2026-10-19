@@ -1,9 +1,14 @@
 // Helpers for the world religions layer: corpus lookup by any of its names,
 // and `?include=scriptureParallels` on paragraphs. Named after the TARGET
 // type, like bible-parallels.ts.
-import { and, asc, eq, inArray, lte } from "drizzle-orm";
+import { and, asc, eq, inArray, lte, sql } from "drizzle-orm";
 import type { getDb } from "../db/client.ts";
-import { scriptureChunks, scriptureCorpora, scriptureParallels } from "../db/schema.ts";
+import {
+	scriptureChunks,
+	scriptureCorpora,
+	scriptureParallels,
+	scripturePassages,
+} from "../db/schema.ts";
 import { scriptureUrl } from "./parallel-links.ts";
 
 type Db = ReturnType<typeof getDb>["db"];
@@ -29,6 +34,34 @@ export async function resolveCorpus(db: Db, name: string): Promise<ScriptureCorp
 	return (await listCorpora(db)).find(
 		(c) => c.id === key || c.slug === key || c.refPrefix.toLowerCase() === key,
 	);
+}
+
+export type CorpusPage = {
+	division: number;
+	subdivision: number | null;
+	title: string | null;
+	firstRef: string;
+	lastRef: string;
+	passageCount: number;
+};
+
+/** The reading pages of a corpus in order: a division, or a subdivision for a work with three ref levels. */
+export async function corpusPages(db: Db, corpus: ScriptureCorpus): Promise<CorpusPage[]> {
+	const p = scripturePassages;
+	const sub = corpus.refLevels === 3 ? p.subdivision : sql<number | null>`null::int`;
+	return db
+		.select({
+			division: p.division,
+			subdivision: sql<number | null>`${sub}`,
+			title: sql<string | null>`(array_agg(${p.divisionTitle} ORDER BY ${p.sort}))[1]`,
+			firstRef: sql<string>`(array_agg(${p.ref} ORDER BY ${p.sort}))[1]`,
+			lastRef: sql<string>`(array_agg(${p.ref} ORDER BY ${p.sort} DESC))[1]`,
+			passageCount: sql<number>`count(*)::int`,
+		})
+		.from(p)
+		.where(eq(p.corpusId, corpus.id))
+		.groupBy(p.division, sub)
+		.orderBy(sql`min(${p.sort})`);
 }
 
 export function corpusSummary(c: ScriptureCorpus) {
