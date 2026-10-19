@@ -103,6 +103,30 @@
 							"thumbnail": "https://video.urantiahub.com/thumbnail-2.png",
 							"duration": 2324
 						}
+					},
+					"audio": {
+						"tts-1-hd": {
+							"nova": {
+								"url": "https://cdn.urantia.dev/audio/eng/papers/2.mp3",
+								"format": "mp3",
+								"starts": [
+									{
+										"at": 0,
+										"key": "title"
+									},
+									{
+										"at": 3.53,
+										"key": "2:0.1",
+										"sentences": [
+											3.53,
+											21.34
+										]
+									}
+								],
+								"bitrate": 32,
+								"duration": 2340.84
+							}
+						}
 					}
 				},
 				"paragraphs": [
@@ -217,33 +241,42 @@
 	"get /paragraphs/random": {
 		"response": {
 			"data": {
-				"id": "3:61.4.7",
-				"standardReferenceId": "61:4.7",
-				"sortId": "3.061.004.007",
-				"paperId": "61",
-				"sectionId": "4",
-				"partId": "3",
-				"paperTitle": "The Mammalian Era on Urantia",
-				"sectionTitle": "The Recent Continental-Elevation Stage - The Last Great Mammalian Migration",
-				"paragraphId": "7",
-				"text": "And thus does this period of almost ten million years’ duration draw to a close, and not yet has the ancestor of man appeared. This is the time usually designated as the Pliocene.",
-				"htmlText": "<span class=\"urantia-dev-pb-0\">And thus does this period of almost ten million years’ duration draw to a close, and not yet has the ancestor of man appeared. This is the time usually designated as the <em>Pliocene.</em></span>",
+				"id": "1:10.0.2",
+				"standardReferenceId": "10:0.2",
+				"sortId": "1.010.000.002",
+				"paperId": "10",
+				"sectionId": "0",
+				"partId": "1",
+				"paperTitle": "The Paradise Trinity",
+				"sectionTitle": null,
+				"paragraphId": "2",
+				"text": "The Paradise Trinity effectively provides for the full expression and perfect revelation of the eternal nature of Deity. The Stationary Sons of the Trinity likewise afford a full and perfect revelation of divine justice. The Trinity is Deity unity, and this unity rests eternally upon the absolute foundations of the divine oneness of the three original and co-ordinate and coexistent personalities, God the Father, God the Son, and God the Spirit.",
+				"htmlText": "<span class=\"urantia-dev-pb-4\">The Paradise Trinity effectively provides for the full expression and perfect revelation of the eternal nature of Deity. The Stationary Sons of the Trinity likewise afford a full and perfect revelation of divine justice. The Trinity is Deity unity, and this unity rests eternally upon the absolute foundations of the divine oneness of the three original and co-ordinate and coexistent personalities, God the Father, God the Son, and God the Spirit.</span>",
 				"labels": [],
 				"audio": {
 					"tts-1-hd": {
 						"nova": {
-							"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-3:61.4.7.mp3",
+							"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-1:10.0.2.mp3",
 							"format": "mp3",
 							"bitrate": 160,
-							"duration": 10.9,
-							"fileSize": 218400
+							"duration": 27.5,
+							"fileSize": 550560
+						}
+					},
+					"gpt-4o-mini-tts": {
+						"cedar": {
+							"url": "https://cdn.urantia.dev/audio/eng/paragraphs/cedar/gpt-4o-mini-tts-cedar-1:10.0.2.mp3",
+							"format": "mp3",
+							"bitrate": 192,
+							"duration": 28.6,
+							"fileSize": 687794
 						}
 					}
 				}
 			},
 			"navigation": {
-				"prev": "61:4.6",
-				"next": "61:5.1"
+				"prev": "10:0.1",
+				"next": "10:0.3"
 			}
 		}
 	},
@@ -433,41 +466,6 @@
 		"response": {
 			"data": [
 				{
-					"id": "1:16.8.3",
-					"standardReferenceId": "16:8.3",
-					"sortId": "1.016.008.003",
-					"paperId": "16",
-					"sectionId": "8",
-					"partId": "1",
-					"paperTitle": "The Seven Master Spirits",
-					"sectionTitle": "Urantia Personality",
-					"paragraphId": "3",
-					"text": "Personality is a unique endowment of original nature whose existence is independent of, and antecedent to, the bestowal of the Thought Adjuster. Nevertheless, the presence of the Adjuster does augment the qualitative manifestation of personality. Thought Adjusters, when they come forth from the Father, are identical in nature, but personality is diverse, original, and exclusive; and the manifestation of personality is further conditioned and qualified by the nature and qualities of the associated energies of a material, mindal, and spiritual nature which constitute the organismal vehicle for personality manifestation.",
-					"htmlText": "<span class=\"urantia-dev-pb-0\">Personality is a unique endowment of original nature whose existence is independent of, and antecedent to, the bestowal of the <span class=urantia-dev-highlighted>Thought</span> <span class=urantia-dev-highlighted>Adjuster</span>. Nevertheless, the presence of the <span class=urantia-dev-highlighted>Adjuster</span> does augment the qualitative manifestation of personality. <span class=urantia-dev-highlighted>Thought</span> <span class=urantia-dev-highlighted>Adjusters</span>, when they come forth from the Father, are identical in nature, but personality is diverse, original, and exclusive; and the manifestation of personality is further conditioned and qualified by the nature and qualities of the associated energies of a material, mindal, and spiritual nature which constitute the organismal vehicle for personality manifestation.</span>",
-					"labels": [],
-					"audio": {
-						"tts-1-hd": {
-							"nova": {
-								"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-1:16.8.3.mp3",
-								"format": "mp3",
-								"bitrate": 160,
-								"duration": 38,
-								"fileSize": 759840
-							}
-						},
-						"gpt-4o-mini-tts": {
-							"cedar": {
-								"url": "https://cdn.urantia.dev/audio/eng/paragraphs/cedar/gpt-4o-mini-tts-cedar-1:16.8.3.mp3",
-								"format": "mp3",
-								"bitrate": 192,
-								"duration": 39.9,
-								"fileSize": 959259
-							}
-						}
-					},
-					"rank": 0.310552
-				},
-				{
 					"id": "3:108.5.5",
 					"standardReferenceId": "108:5.5",
 					"sortId": "3.108.005.005",
@@ -491,7 +489,35 @@
 							}
 						}
 					},
-					"rank": 0.27321
+					"rank": 0.0827456,
+					"match": "exact"
+				},
+				{
+					"id": "3:110.5.5",
+					"standardReferenceId": "110:5.5",
+					"sortId": "3.110.005.005",
+					"paperId": "110",
+					"sectionId": "5",
+					"partId": "3",
+					"paperTitle": "Relation of Adjusters to Individual Mortals",
+					"sectionTitle": "Erroneous Concepts of Adjuster Guidance",
+					"paragraphId": "5",
+					"text": "It is extremely dangerous to postulate as to the Adjuster content of the dream life. The Adjusters do work during sleep, but your ordinary dream experiences are purely physiologic and psychologic phenomena. Likewise, it is hazardous to attempt the differentiation of the Adjusters’ concept registry from the more or less continuous and conscious reception of the dictations of mortal conscience. These are problems which will have to be solved through individual discrimination and personal decision. But a human being would do better to err in rejecting an Adjuster’s expression through believing it to be a purely human experience than to blunder into exalting a reaction of the mortal mind to the sphere of divine dignity. Remember, the influence of a Thought Adjuster is for the most part, though not wholly, a superconscious experience.",
+					"htmlText": "<span class=\"urantia-dev-pb-0\">It is extremely dangerous to postulate as to the <span class=urantia-dev-highlighted>Adjuster</span> content of the dream life. The <span class=urantia-dev-highlighted>Adjusters</span> do work during sleep, but your ordinary dream experiences are purely physiologic and psychologic phenomena. Likewise, it is hazardous to attempt the differentiation of the <span class=urantia-dev-highlighted>Adjusters</span>’ concept registry from the more or less continuous and conscious reception of the dictations of mortal conscience. These are problems which will have to be solved through individual discrimination and personal decision. But a human being would do better to err in rejecting an <span class=urantia-dev-highlighted>Adjuster</span>’s expression through believing it to be a purely human experience than to blunder into exalting a reaction of the mortal mind to the sphere of divine dignity. Remember, the influence of a <span class=urantia-dev-highlighted>Thought</span> <span class=urantia-dev-highlighted>Adjuster</span> is for the most part, though not wholly, a superconscious experience.</span>",
+					"labels": [],
+					"audio": {
+						"tts-1-hd": {
+							"nova": {
+								"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-3:110.5.5.mp3",
+								"format": "mp3",
+								"bitrate": 160,
+								"duration": 52.1,
+								"fileSize": 1042560
+							}
+						}
+					},
+					"rank": 0.0748848,
+					"match": "exact"
 				}
 			],
 			"meta": {
@@ -510,41 +536,6 @@
 		"response": {
 			"data": [
 				{
-					"id": "1:16.8.3",
-					"standardReferenceId": "16:8.3",
-					"sortId": "1.016.008.003",
-					"paperId": "16",
-					"sectionId": "8",
-					"partId": "1",
-					"paperTitle": "The Seven Master Spirits",
-					"sectionTitle": "Urantia Personality",
-					"paragraphId": "3",
-					"text": "Personality is a unique endowment of original nature whose existence is independent of, and antecedent to, the bestowal of the Thought Adjuster. Nevertheless, the presence of the Adjuster does augment the qualitative manifestation of personality. Thought Adjusters, when they come forth from the Father, are identical in nature, but personality is diverse, original, and exclusive; and the manifestation of personality is further conditioned and qualified by the nature and qualities of the associated energies of a material, mindal, and spiritual nature which constitute the organismal vehicle for personality manifestation.",
-					"htmlText": "<span class=\"urantia-dev-pb-0\">Personality is a unique endowment of original nature whose existence is independent of, and antecedent to, the bestowal of the <span class=urantia-dev-highlighted>Thought</span> <span class=urantia-dev-highlighted>Adjuster</span>. Nevertheless, the presence of the <span class=urantia-dev-highlighted>Adjuster</span> does augment the qualitative manifestation of personality. <span class=urantia-dev-highlighted>Thought</span> <span class=urantia-dev-highlighted>Adjusters</span>, when they come forth from the Father, are identical in nature, but personality is diverse, original, and exclusive; and the manifestation of personality is further conditioned and qualified by the nature and qualities of the associated energies of a material, mindal, and spiritual nature which constitute the organismal vehicle for personality manifestation.</span>",
-					"labels": [],
-					"audio": {
-						"tts-1-hd": {
-							"nova": {
-								"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-1:16.8.3.mp3",
-								"format": "mp3",
-								"bitrate": 160,
-								"duration": 38,
-								"fileSize": 759840
-							}
-						},
-						"gpt-4o-mini-tts": {
-							"cedar": {
-								"url": "https://cdn.urantia.dev/audio/eng/paragraphs/cedar/gpt-4o-mini-tts-cedar-1:16.8.3.mp3",
-								"format": "mp3",
-								"bitrate": 192,
-								"duration": 39.9,
-								"fileSize": 959259
-							}
-						}
-					},
-					"rank": 0.310552
-				},
-				{
 					"id": "3:108.5.5",
 					"standardReferenceId": "108:5.5",
 					"sortId": "3.108.005.005",
@@ -568,7 +559,35 @@
 							}
 						}
 					},
-					"rank": 0.27321
+					"rank": 0.0827456,
+					"match": "exact"
+				},
+				{
+					"id": "3:110.5.5",
+					"standardReferenceId": "110:5.5",
+					"sortId": "3.110.005.005",
+					"paperId": "110",
+					"sectionId": "5",
+					"partId": "3",
+					"paperTitle": "Relation of Adjusters to Individual Mortals",
+					"sectionTitle": "Erroneous Concepts of Adjuster Guidance",
+					"paragraphId": "5",
+					"text": "It is extremely dangerous to postulate as to the Adjuster content of the dream life. The Adjusters do work during sleep, but your ordinary dream experiences are purely physiologic and psychologic phenomena. Likewise, it is hazardous to attempt the differentiation of the Adjusters’ concept registry from the more or less continuous and conscious reception of the dictations of mortal conscience. These are problems which will have to be solved through individual discrimination and personal decision. But a human being would do better to err in rejecting an Adjuster’s expression through believing it to be a purely human experience than to blunder into exalting a reaction of the mortal mind to the sphere of divine dignity. Remember, the influence of a Thought Adjuster is for the most part, though not wholly, a superconscious experience.",
+					"htmlText": "<span class=\"urantia-dev-pb-0\">It is extremely dangerous to postulate as to the <span class=urantia-dev-highlighted>Adjuster</span> content of the dream life. The <span class=urantia-dev-highlighted>Adjusters</span> do work during sleep, but your ordinary dream experiences are purely physiologic and psychologic phenomena. Likewise, it is hazardous to attempt the differentiation of the <span class=urantia-dev-highlighted>Adjusters</span>’ concept registry from the more or less continuous and conscious reception of the dictations of mortal conscience. These are problems which will have to be solved through individual discrimination and personal decision. But a human being would do better to err in rejecting an <span class=urantia-dev-highlighted>Adjuster</span>’s expression through believing it to be a purely human experience than to blunder into exalting a reaction of the mortal mind to the sphere of divine dignity. Remember, the influence of a <span class=urantia-dev-highlighted>Thought</span> <span class=urantia-dev-highlighted>Adjuster</span> is for the most part, though not wholly, a superconscious experience.</span>",
+					"labels": [],
+					"audio": {
+						"tts-1-hd": {
+							"nova": {
+								"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-3:110.5.5.mp3",
+								"format": "mp3",
+								"bitrate": 160,
+								"duration": 52.1,
+								"fileSize": 1042560
+							}
+						}
+					},
+					"rank": 0.0748848,
+					"match": "exact"
 				}
 			],
 			"meta": {
@@ -606,7 +625,9 @@
 							}
 						}
 					},
-					"similarity": 0.553150798189724
+					"similarity": 0.553150798189724,
+					"strength": "weak",
+					"match": "similar"
 				},
 				{
 					"id": "3:112.3.4",
@@ -632,14 +653,17 @@
 							}
 						}
 					},
-					"similarity": 0.526940972060405
+					"similarity": 0.526940972060405,
+					"strength": "weak",
+					"match": "similar"
 				}
 			],
 			"meta": {
 				"page": 0,
 				"limit": 2,
-				"total": 14593,
-				"totalPages": 7297
+				"total": 100,
+				"totalPages": 50,
+				"related": 0
 			}
 		}
 	},
@@ -674,7 +698,9 @@
 							}
 						}
 					},
-					"similarity": 0.553150798189724
+					"similarity": 0.553150798189724,
+					"strength": "weak",
+					"match": "similar"
 				},
 				{
 					"id": "3:112.3.4",
@@ -700,14 +726,17 @@
 							}
 						}
 					},
-					"similarity": 0.526940972060405
+					"similarity": 0.526940972060405,
+					"strength": "weak",
+					"match": "similar"
 				}
 			],
 			"meta": {
 				"page": 0,
 				"limit": 2,
-				"total": 14593,
-				"totalPages": 7297
+				"total": 100,
+				"totalPages": 50,
+				"related": 0
 			}
 		}
 	},
@@ -1099,13 +1128,362 @@
 			}
 		}
 	},
+	"get /works": {
+		"response": {
+			"data": [
+				{
+					"id": "bible",
+					"title": "The Bible (World English Bible)",
+					"tradition": "Jewish and Christian",
+					"religion": "Jewish and Christian",
+					"kind": "scripture",
+					"summary": "The Hebrew Bible, the deuterocanon, and the New Testament.",
+					"translator": "World English Bible",
+					"year": null,
+					"refPrefix": null,
+					"unitLabel": "verse",
+					"units": 38034,
+					"urantiaSection": null
+				},
+				{
+					"id": "diogenes-laertius-6",
+					"title": "Lives of Eminent Philosophers, Book 6: The Cynics",
+					"religion": "Cynic",
+					"tradition": "Cynic",
+					"kind": "classic",
+					"summary": "The lives and sayings of Diogenes and the other Cynic philosophers.",
+					"translator": "R. D. Hicks",
+					"year": 1925,
+					"refPrefix": "DL",
+					"unitLabel": "section",
+					"units": 105,
+					"urantiaSection": "131:1"
+				}
+			]
+		}
+	},
+	"get /works/search": {
+		"response": {
+			"data": [
+				{
+					"work": {
+						"id": "bible",
+						"title": "The Bible (World English Bible)",
+						"tradition": "Jewish and Christian"
+					},
+					"reference": "Matthew 5:44",
+					"text": "But I tell you, love your enemies, bless those who curse you, do good to those who hate you, and pray for those who mistreat you and persecute you,",
+					"url": "https://ebible.org/eng-web/MAT05.htm#V44",
+					"match": "exact",
+					"urantiaParallels": [
+						{
+							"standardReferenceId": "140:3.16",
+							"paperTitle": "The Ordination of the Twelve",
+							"sectionTitle": "The Ordination Sermon",
+							"text": "“Your Father in heaven makes the sun to shine on the evil as well as upon the good; likewise he sends rain on the just and the unjust. You are the sons of God; even more, you are now the ambassadors of my Father’s kingdom. Be merciful, even as God is merciful, and in the eternal future of the kingdom you shall be perfect, even as your heavenly Father is perfect.",
+							"similarity": 0.709579,
+							"rank": 1
+						},
+						{
+							"standardReferenceId": "140:3.15",
+							"paperTitle": "The Ordination of the Twelve",
+							"sectionTitle": "The Ordination Sermon",
+							"text": "“I say to you: Love your enemies, do good to those who hate you, bless those who curse you, and pray for those who despitefully use you. And whatsoever you believe that I would do to men, do you also to them.",
+							"similarity": 0.708928,
+							"rank": 2
+						}
+					]
+				},
+				{
+					"work": {
+						"id": "bible",
+						"title": "The Bible (World English Bible)",
+						"tradition": "Jewish and Christian"
+					},
+					"reference": "Luke 6:27",
+					"text": "“But I tell you who hear: love your enemies, do good to those who hate you,",
+					"url": "https://ebible.org/eng-web/LUK06.htm#V27",
+					"match": "exact",
+					"urantiaParallels": [
+						{
+							"standardReferenceId": "140:3.15",
+							"paperTitle": "The Ordination of the Twelve",
+							"sectionTitle": "The Ordination Sermon",
+							"text": "“I say to you: Love your enemies, do good to those who hate you, bless those who curse you, and pray for those who despitefully use you. And whatsoever you believe that I would do to men, do you also to them.",
+							"similarity": 0.761205,
+							"rank": 1
+						},
+						{
+							"standardReferenceId": "159:5.11",
+							"paperTitle": "The Decapolis Tour",
+							"sectionTitle": "The Positive Nature of Jesus’ Religion",
+							"text": "When Jesus instructed his apostles that they should, when one unjustly took away the coat, offer the other garment, he referred not so much to a literal second coat as to the idea of doing something positive to save the wrongdoer in the place of the olden advice to retaliate—“an eye for an eye” and so on. Jesus abhorred the idea either of retaliation or of becoming just a passive sufferer or victim of injustice. On this occasion he taught them the three ways of contending with, and resisting, evil:",
+							"similarity": 0.53267,
+							"rank": 2
+						}
+					]
+				}
+			],
+			"meta": {
+				"page": 0,
+				"limit": 2,
+				"total": 21,
+				"totalPages": 11
+			}
+		}
+	},
+	"post /works/search": {
+		"request": {
+			"q": "Dhp 183",
+			"limit": 2
+		},
+		"response": {
+			"data": [
+				{
+					"work": {
+						"id": "dhammapada",
+						"title": "The Dhammapada",
+						"tradition": "Buddhist"
+					},
+					"reference": "Dhp 183",
+					"text": "Not to commit any sin, to do good, and to purify one's mind, that is the teaching of (all) the Awakened.",
+					"url": "https://www.gutenberg.org/cache/epub/2017/pg2017-images.html",
+					"match": "reference",
+					"urantiaParallels": [
+						{
+							"standardReferenceId": "131:3.5",
+							"paperTitle": "The World’s Religions",
+							"sectionTitle": "Buddhism",
+							"text": "“No religionist may hope to attain the enlightenment of immortal wisdom who persists in being slothful, indolent, feeble, idle, shameless, and selfish. But whoso is thoughtful, prudent, reflective, fervent, and earnest — even while he yet lives on earth — may attain the supreme enlightenment of the peace and liberty of divine wisdom. Remember, every act shall receive its reward. Evil results in sorrow and sin ends in pain. Joy and happiness are the outcome of a good life. Even the evildoer enjoys a season of grace before the time of the full ripening of his evil deeds, but inevitably there must come the full harvest of evil-doing. Let no man think lightly of sin, saying in his heart: ‘The penalty of wrongdoing shall not come near me.’ What you do shall be done to you, in the judgment of wisdom. Injustice done to your fellows shall come back upon you. The creature cannot escape the destiny of his deeds.",
+							"similarity": 0.533644,
+							"rank": 1
+						},
+						{
+							"standardReferenceId": "94:8.8",
+							"paperTitle": "The Melchizedek Teachings in the Orient",
+							"sectionTitle": "The Buddhist Faith",
+							"text": "Closely linked to the doctrine of suffering and the escape therefrom was the philosophy of the Eightfold Path: right views, aspirations, speech, conduct, livelihood, effort, mindfulness, and contemplation. It was not Gautama’s intention to attempt to destroy all effort, desire, and affection in the escape from suffering; rather was his teaching designed to picture to mortal man the futility of pinning all hope and aspirations entirely on temporal goals and material objectives. It was not so much that love of one’s fellows should be shunned as that the true believer should also look beyond the associations of this material world to the realities of the eternal future.",
+							"similarity": 0.526502,
+							"rank": 2
+						}
+					]
+				}
+			],
+			"meta": {
+				"page": 0,
+				"limit": 2,
+				"total": 1,
+				"totalPages": 1
+			}
+		}
+	},
+	"get /works/search/semantic": {
+		"response": {
+			"data": [
+				{
+					"work": {
+						"id": "dhammapada",
+						"title": "The Dhammapada",
+						"tradition": "Buddhist"
+					},
+					"reference": "Dhp 3-5",
+					"text": "\"He abused me, he beat me, he defeated me, he robbed me,\"--in those who harbour such thoughts hatred will never cease. \"He abused me, he beat me, he defeated me, he robbed me,\"--in those who do not harbour such thoughts hatred will cease. For hatred does not cease by hatred at any time: hatred ceases by love, this is an old rule.",
+					"url": "https://www.gutenberg.org/cache/epub/2017/pg2017-images.html#:~:text=those%20who%20harbour%20such",
+					"similarity": 0.663218010380599,
+					"strength": "strong",
+					"urantiaParallels": [
+						{
+							"standardReferenceId": "131:3.6",
+							"paperTitle": "The World’s Religions",
+							"sectionTitle": "Buddhism",
+							"text": "“The fool has said in his heart, ‘Evil shall not overtake me’; but safety is found only when the soul craves reproof and the mind seeks wisdom. The wise man is a noble soul who is friendly in the midst of his enemies, tranquil among the turbulent, and generous among the grasping. Love of self is like weeds in a goodly field. Selfishness leads to grief; perpetual care kills. The tamed mind yields happiness. He is the greatest of warriors who overcomes and subdues himself. Restraint in all things is good. He alone is a superior person who esteems virtue and is observant of his duty. Let not anger and hate master you. Speak harshly of no one. Contentment is the greatest wealth. What is given wisely is well saved. Do not to others those things you would not wish done to you. Pay good for evil; overcome evil with the good.",
+							"similarity": 0.412424,
+							"rank": 1
+						},
+						{
+							"standardReferenceId": "140:8.5",
+							"paperTitle": "The Ordination of the Twelve",
+							"sectionTitle": "Thursday Afternoon on the Lake",
+							"text": "He never ceased to warn his disciples against the evil practice of retaliation; he made no allowance for revenge, the idea of getting even. He deplored the holding of grudges. He disallowed the idea of an eye for an eye and a tooth for a tooth. He discountenanced the whole concept of private and personal revenge, assigning these matters to civil government, on the one hand, and to the judgment of God, on the other. He made it clear to the three that his teachings applied to the individual, not the state. He summarized his instructions up to that time regarding these matters, as:",
+							"similarity": 0.401049,
+							"rank": 2
+						}
+					]
+				},
+				{
+					"work": {
+						"id": "bible",
+						"title": "The Bible (World English Bible)",
+						"tradition": "Jewish and Christian"
+					},
+					"reference": "Proverbs 10:12",
+					"text": "Hatred stirs up strife, but love covers all wrongs.",
+					"url": "https://ebible.org/eng-web/PRO10.htm#V12",
+					"similarity": 0.50763853796286,
+					"strength": "weak",
+					"urantiaParallels": [
+						{
+							"standardReferenceId": "131:2.11",
+							"paperTitle": "The World’s Religions",
+							"sectionTitle": "Judaism",
+							"text": "“Love your neighbor as yourself; bear a grudge against no man. Whatsoever you hate do to no man. Love your brother, for the Lord has said: ‘I will love my children freely.’ The path of the just is as a shining light which shines more and more until the perfect day. They who are wise shall shine as the brightness of the firmament and they who turn many to righteousness as the stars forever and ever. Let the wicked forsake his evil way and the unrighteous man his rebellious thoughts. Says the Lord: ‘Let them return to me, and I will have mercy on them; I will abundantly pardon.’",
+							"similarity": 0.491502,
+							"rank": 1
+						},
+						{
+							"standardReferenceId": "54:5.5",
+							"paperTitle": "Problems of the Lucifer Rebellion",
+							"sectionTitle": "The Wisdom of Delay",
+							"text": "4. While wrongdoing is always deleterious to a family, wisdom and love admonish the upright children to bear with an erring brother during the time granted by the affectionate father in which the sinner may see the error of his way and embrace salvation.",
+							"similarity": 0.466579,
+							"rank": 2
+						}
+					]
+				}
+			],
+			"meta": {
+				"page": 0,
+				"limit": 2,
+				"total": 100,
+				"totalPages": 50,
+				"related": 1
+			}
+		}
+	},
+	"post /works/search/semantic": {
+		"request": {
+			"q": "action without attachment to its fruits",
+			"work": "bhagavad-gita",
+			"limit": 2
+		},
+		"response": {
+			"data": [
+				{
+					"work": {
+						"id": "bhagavad-gita",
+						"title": "The Bhagavad Gita",
+						"tradition": "Hindu"
+					},
+					"reference": "BG 5.10-12",
+					"text": "He who acteth, placing all actions in the Eternal, abandoning attachment, is unaffected by sin as a lotus leaf by the waters. Yogis, having abandoned attachment, perform action only by the body, by the mind, by the Reason, and even by the senses, for the purification of the self. The harmonised man, having abandoned the fruit of action, attaineth to the eternal Peace; the non-harmonised, impelled by desire, attached to fruit, are bound.",
+					"url": "https://en.wikisource.org/wiki/Bhagavad-Gita_(Besant_4th)/Discourse_5#:~:text=He%20who%20acteth%2C%20placing",
+					"similarity": 0.6211249682831,
+					"strength": "related",
+					"urantiaParallels": [
+						{
+							"standardReferenceId": "131:3.5",
+							"paperTitle": "The World’s Religions",
+							"sectionTitle": "Buddhism",
+							"text": "“No religionist may hope to attain the enlightenment of immortal wisdom who persists in being slothful, indolent, feeble, idle, shameless, and selfish. But whoso is thoughtful, prudent, reflective, fervent, and earnest — even while he yet lives on earth — may attain the supreme enlightenment of the peace and liberty of divine wisdom. Remember, every act shall receive its reward. Evil results in sorrow and sin ends in pain. Joy and happiness are the outcome of a good life. Even the evildoer enjoys a season of grace before the time of the full ripening of his evil deeds, but inevitably there must come the full harvest of evil-doing. Let no man think lightly of sin, saying in his heart: ‘The penalty of wrongdoing shall not come near me.’ What you do shall be done to you, in the judgment of wisdom. Injustice done to your fellows shall come back upon you. The creature cannot escape the destiny of his deeds.",
+							"similarity": 0.503438,
+							"rank": 1
+						},
+						{
+							"standardReferenceId": "131:3.3",
+							"paperTitle": "The World’s Religions",
+							"sectionTitle": "Buddhism",
+							"text": "“Unrighteousness is contemptible; sin is despicable. Evil is degrading, whether held in thought or wrought out in deeds. Pain and sorrow follow in the path of evil as the dust follows the wind. Happiness and peace of mind follow pure thinking and virtuous living as the shadow follows the substance of material things. Evil is the fruit of wrongly directed thinking. It is evil to see sin where there is no sin; to see no sin where there is sin. Evil is the path of false doctrines. Those who avoid evil by seeing things as they are gain joy by thus embracing the truth. Make an end of your misery by loathing sin. When you look up to the Noble One, turn away from sin with a whole heart. Make no apology for evil; make no excuse for sin. By your efforts to make amends for past sins you acquire strength to resist future tendencies thereto. Restraint is born of repentance. Leave no fault unconfessed to the Noble One.",
+							"similarity": 0.48021,
+							"rank": 2
+						}
+					]
+				},
+				{
+					"work": {
+						"id": "bhagavad-gita",
+						"title": "The Bhagavad Gita",
+						"tradition": "Hindu"
+					},
+					"reference": "BG 18.22-24",
+					"text": "While that which clingeth to each one thing as if it were the whole, without reason, without grasping the reality, narrow, that is declared to be dark. An action which is ordained, done by one undesirous of fruit, devoid of attachment, without love or hate, that is called pure. But that action that is done by one longing for desires, or again with egoism, or with much effort, that is declared to be passionate.",
+					"url": "https://en.wikisource.org/wiki/Bhagavad-Gita_(Besant_4th)/Discourse_18#:~:text=While%20that%20which%20clingeth",
+					"similarity": 0.576521135633489,
+					"strength": "weak",
+					"urantiaParallels": [
+						{
+							"standardReferenceId": "102:3.3",
+							"paperTitle": "The Foundations of Religious Faith",
+							"sectionTitle": "Knowledge, Wisdom, and Insight",
+							"text": "Material feelings, human emotions, lead directly to material actions, selfish acts. Religious insights, spiritual motivations, lead directly to religious actions, unselfish acts of social service and altruistic benevolence.",
+							"similarity": 0.453268,
+							"rank": 1
+						},
+						{
+							"standardReferenceId": "131:3.3",
+							"paperTitle": "The World’s Religions",
+							"sectionTitle": "Buddhism",
+							"text": "“Unrighteousness is contemptible; sin is despicable. Evil is degrading, whether held in thought or wrought out in deeds. Pain and sorrow follow in the path of evil as the dust follows the wind. Happiness and peace of mind follow pure thinking and virtuous living as the shadow follows the substance of material things. Evil is the fruit of wrongly directed thinking. It is evil to see sin where there is no sin; to see no sin where there is sin. Evil is the path of false doctrines. Those who avoid evil by seeing things as they are gain joy by thus embracing the truth. Make an end of your misery by loathing sin. When you look up to the Noble One, turn away from sin with a whole heart. Make no apology for evil; make no excuse for sin. By your efforts to make amends for past sins you acquire strength to resist future tendencies thereto. Restraint is born of repentance. Leave no fault unconfessed to the Noble One.",
+							"similarity": 0.428849,
+							"rank": 2
+						}
+					]
+				}
+			],
+			"meta": {
+				"page": 0,
+				"limit": 2,
+				"total": 100,
+				"totalPages": 50,
+				"related": 1
+			}
+		}
+	},
+	"get /works/{work}/{ref}": {
+		"response": {
+			"data": [
+				{
+					"work": {
+						"id": "bhagavad-gita",
+						"title": "The Bhagavad Gita",
+						"tradition": "Hindu"
+					},
+					"reference": "BG 2.47",
+					"text": "Thy business is with the action only, never with its fruits; so let not the fruit of action be thy motive, nor be thou to inaction attached.",
+					"url": "https://en.wikisource.org/wiki/Bhagavad-Gita_(Besant_4th)/Discourse_2#:~:text=Thy%20business%20is%20with",
+					"urantiaParallels": []
+				}
+			]
+		}
+	},
+	"get /works/{work}/{ref}/urantia-parallels": {
+		"response": {
+			"data": {
+				"work": {
+					"id": "bible",
+					"title": "The Bible (World English Bible)",
+					"tradition": "Jewish and Christian"
+				},
+				"reference": "John 3:16",
+				"text": "For God so loved the world, that he gave his only born Son, that whoever believes in him should not perish, but have eternal life.",
+				"url": "https://ebible.org/eng-web/JHN03.htm#V16",
+				"urantiaParallels": [
+					{
+						"standardReferenceId": "142:6.6",
+						"paperTitle": "The Passover at Jerusalem",
+						"sectionTitle": "The Visit with Nicodemus",
+						"text": "Nicodemus replied: “But I do not understand — how can that be?” Said Jesus: “Can it be that you are a teacher in Israel and yet ignorant of all this? It becomes, then, the duty of those who know about the realities of the spirit to reveal these things to those who discern only the manifestations of the material world. But will you believe us if we tell you of the heavenly truths? Do you have the courage, Nicodemus, to believe in one who has descended from heaven, even the Son of Man?”",
+						"similarity": 0.699646,
+						"rank": 1
+					},
+					{
+						"standardReferenceId": "174:5.7",
+						"paperTitle": "Tuesday Morning in the Temple",
+						"sectionTitle": "The Inquiring Greeks",
+						"text": "“He who believes this gospel, believes not merely in me but in Him who sent me. When you look upon me, you see not only the Son of Man but also Him who sent me. I am the light of the world, and whosoever will believe my teaching shall no longer abide in darkness. If you gentiles will hear me, you shall receive the words of life and shall enter forthwith into the joyous liberty of the truth of sonship with God. If my fellow countrymen, the Jews, choose to reject me and to refuse my teachings, I will not sit in judgment on them, for I came not to judge the world but to offer it salvation. Nevertheless, they who reject me and refuse to receive my teaching shall be brought to judgment in due season by my Father and those whom he has appointed to sit in judgment on such as reject the gift of mercy and the truths of salvation. Remember, all of you, that I speak not of myself, but that I have faithfully declared to you that which the Father commanded I should reveal to the children of men. And these words which the Father directed me to speak to the world are words of divine truth, everlasting mercy, and eternal life.",
+						"similarity": 0.689726,
+						"rank": 2
+					}
+				]
+			}
+		}
+	},
 	"get /scriptures": {
 		"response": {
 			"data": [
 				{
 					"id": "diogenes-laertius-6-hicks-1925",
 					"slug": "diogenes-laertius-6",
-					"religion": "Cynicism",
+					"religion": "Cynic",
 					"title": "Lives of Eminent Philosophers, Book 6: The Cynics",
 					"translator": "R. D. Hicks",
 					"year": 1925,
@@ -1122,7 +1500,7 @@
 				{
 					"id": "epictetus-3-22-oldfather-1928",
 					"slug": "epictetus-cynic",
-					"religion": "Cynicism",
+					"religion": "Cynic",
 					"title": "Discourses 3.22: On the Calling of a Cynic",
 					"translator": "W. A. Oldfather",
 					"year": 1928,
@@ -1144,7 +1522,7 @@
 			"data": {
 				"id": "bhagavad-gita-besant-1922",
 				"slug": "bhagavad-gita",
-				"religion": "Hinduism",
+				"religion": "Hindu",
 				"title": "The Bhagavad Gita",
 				"translator": "Annie Besant (4th edition)",
 				"year": 1922,
@@ -1182,7 +1560,7 @@
 				"corpus": {
 					"id": "bhagavad-gita-besant-1922",
 					"slug": "bhagavad-gita",
-					"religion": "Hinduism",
+					"religion": "Hindu",
 					"title": "The Bhagavad Gita",
 					"translator": "Annie Besant (4th edition)",
 					"year": 1922,
@@ -1208,7 +1586,7 @@
 				"corpus": {
 					"id": "bhagavad-gita-besant-1922",
 					"slug": "bhagavad-gita",
-					"religion": "Hinduism",
+					"religion": "Hindu",
 					"title": "The Bhagavad Gita",
 					"translator": "Annie Besant (4th edition)",
 					"year": 1922,
@@ -1267,7 +1645,7 @@
 					"corpus": {
 						"id": "dhammapada-muller-1881",
 						"slug": "dhammapada",
-						"religion": "Buddhism",
+						"religion": "Buddhist",
 						"title": "The Dhammapada",
 						"translator": "F. Max Muller",
 						"year": 1881,
@@ -1295,7 +1673,7 @@
 					"corpus": {
 						"id": "dhammapada-muller-1881",
 						"slug": "dhammapada",
-						"religion": "Buddhism",
+						"religion": "Buddhist",
 						"title": "The Dhammapada",
 						"translator": "F. Max Muller",
 						"year": 1881,
@@ -1321,55 +1699,14 @@
 			"meta": {
 				"page": 0,
 				"limit": 2,
-				"total": 2973,
-				"totalPages": 1487
+				"total": 14624,
+				"totalPages": 7312
 			}
 		}
 	},
 	"get /scriptures/insights/shared-currents": {
 		"response": {
 			"data": [
-				{
-					"paragraph": {
-						"id": "4:156.5.20",
-						"standardReferenceId": "156:5.20",
-						"paperId": "156",
-						"paperTitle": "The Sojourn at Tyre and Sidon",
-						"sectionTitle": "Jesus’ Teaching at Tyre",
-						"text": "The God-conscious mortal is certain of salvation; he is unafraid of life; he is honest and consistent. He knows how bravely to endure unavoidable suffering; he is uncomplaining when faced by inescapable hardship."
-					},
-					"textsClose": 9,
-					"consensus": 0.967998,
-					"distance": 0.00205578,
-					"closest": [
-						{
-							"corpus": {
-								"id": "epictetus-3-22-oldfather-1928",
-								"slug": "epictetus-cynic",
-								"religion": "Cynicism",
-								"title": "Discourses 3.22: On the Calling of a Cynic",
-								"translator": "W. A. Oldfather",
-								"year": 1928,
-								"refPrefix": "Epictetus",
-								"urantiaSection": "131:1"
-							},
-							"percentile": 0.998
-						},
-						{
-							"corpus": {
-								"id": "dhammapada-muller-1881",
-								"slug": "dhammapada",
-								"religion": "Buddhism",
-								"title": "The Dhammapada",
-								"translator": "F. Max Muller",
-								"year": 1881,
-								"refPrefix": "Dhp",
-								"urantiaSection": "131:3"
-							},
-							"percentile": 0.996
-						}
-					]
-				},
 				{
 					"paragraph": {
 						"id": "1:1.3.2",
@@ -1379,35 +1716,76 @@
 						"sectionTitle": "God is a Universal Spirit",
 						"text": "Said the seer of old: “Lo, he goes by me, and I see him not; he passes on also, but I perceive him not.” We may constantly observe the works of God, we may be highly conscious of the material evidences of his majestic conduct, but rarely may we gaze upon the visible manifestation of his divinity, not even to behold the presence of his delegated spirit of human indwelling."
 					},
-					"textsClose": 9,
-					"consensus": 0.958775,
-					"distance": 0.00493387,
+					"textsClose": 17,
+					"consensus": 0.937741,
+					"distance": 0.00150757,
 					"closest": [
 						{
 							"corpus": {
-								"id": "bhagavad-gita-besant-1922",
-								"slug": "bhagavad-gita",
-								"religion": "Hinduism",
-								"title": "The Bhagavad Gita",
-								"translator": "Annie Besant (4th edition)",
-								"year": 1922,
-								"refPrefix": "BG",
-								"urantiaSection": "131:4"
+								"id": "rig-veda-griffith-1896",
+								"slug": "rig-veda",
+								"religion": "Hindu",
+								"title": "The Hymns of the Rigveda",
+								"translator": "Ralph T. H. Griffith",
+								"year": 1896,
+								"refPrefix": "RV",
+								"urantiaSection": null
 							},
-							"percentile": 0.995
+							"percentile": 0.998
 						},
 						{
 							"corpus": {
-								"id": "tao-te-ching-legge-1891",
-								"slug": "tao-te-ching",
-								"religion": "Taoism",
-								"title": "The Tao Te Ching",
-								"translator": "James Legge",
-								"year": 1891,
-								"refPrefix": "TTC",
-								"urantiaSection": "131:8"
+								"id": "aztec-hymns-brinton-1890",
+								"slug": "aztec-hymns",
+								"religion": "Aztec (Nahua)",
+								"title": "Rig Veda Americanus: Sacred Songs of the Ancient Mexicans",
+								"translator": "Daniel G. Brinton",
+								"year": 1890,
+								"refPrefix": "Aztec Hymn",
+								"urantiaSection": null
 							},
-							"percentile": 0.992
+							"percentile": 0.998
+						}
+					]
+				},
+				{
+					"paragraph": {
+						"id": "4:132.4.6",
+						"standardReferenceId": "132:4.6",
+						"paperId": "132",
+						"paperTitle": "The Sojourn at Rome",
+						"sectionTitle": "Personal Ministry",
+						"text": "To a Roman soldier, as they walked along the Tiber, he said: “Be brave of heart as well as of hand. Dare to do justice and be big enough to show mercy. Compel your lower nature to obey your higher nature as you obey your superiors. Revere goodness and exalt truth. Choose the beautiful in place of the ugly. Love your fellows and reach out for God with a whole heart, for God is your Father in heaven.”"
+					},
+					"textsClose": 18,
+					"consensus": 0.93724,
+					"distance": 0.000274104,
+					"closest": [
+						{
+							"corpus": {
+								"id": "epictetus-3-22-oldfather-1928",
+								"slug": "epictetus-cynic",
+								"religion": "Cynic",
+								"title": "Discourses 3.22: On the Calling of a Cynic",
+								"translator": "W. A. Oldfather",
+								"year": 1928,
+								"refPrefix": "Epictetus",
+								"urantiaSection": "131:1"
+							},
+							"percentile": 1
+						},
+						{
+							"corpus": {
+								"id": "diogenes-laertius-6-hicks-1925",
+								"slug": "diogenes-laertius-6",
+								"religion": "Cynic",
+								"title": "Lives of Eminent Philosophers, Book 6: The Cynics",
+								"translator": "R. D. Hicks",
+								"year": 1925,
+								"refPrefix": "DL",
+								"urantiaSection": "131:1"
+							},
+							"percentile": 0.999
 						}
 					]
 				}
@@ -1425,47 +1803,6 @@
 			"data": [
 				{
 					"paragraph": {
-						"id": "3:108.2.1",
-						"standardReferenceId": "108:2.1",
-						"paperId": "108",
-						"paperTitle": "Mission and Ministry of Thought Adjusters",
-						"sectionTitle": "Prerequisites of Adjuster Indwelling",
-						"text": "Though the Adjusters volunteer for service as soon as the personality forecasts have been relayed to Divinington, they are not actually assigned until the human subjects make their first moral personality decision. The first moral choice of the human child is automatically indicated in the seventh mind-adjutant and registers instantly, by way of the local universe Creative Spirit, over the universal mind-gravity circuit of the Conjoint Actor in the presence of the Master Spirit of superuniverse jurisdiction, who forthwith dispatches this intelligence to Divinington. Adjusters reach their human subjects on Urantia, on the average, just prior to the sixth birthday. In the present generation it is running five years, ten months, and four days; that is, on the 2,134th day of terrestrial life."
-					},
-					"textsClose": 0,
-					"consensus": 0.19066,
-					"distance": 0.675941,
-					"closest": [
-						{
-							"corpus": {
-								"id": "analects-legge-1861",
-								"slug": "analects",
-								"religion": "Confucianism",
-								"title": "The Analects of Confucius",
-								"translator": "James Legge",
-								"year": 1861,
-								"refPrefix": "Analects",
-								"urantiaSection": "131:9"
-							},
-							"percentile": 0.324
-						},
-						{
-							"corpus": {
-								"id": "shinto-oracles-aston-1905",
-								"slug": "shinto-oracles",
-								"religion": "Shinto",
-								"title": "Shinto Oracles",
-								"translator": "W. G. Aston",
-								"year": 1905,
-								"refPrefix": "Oracle",
-								"urantiaSection": "131:7"
-							},
-							"percentile": 0.251
-						}
-					]
-				},
-				{
-					"paragraph": {
 						"id": "3:108.4.4",
 						"standardReferenceId": "108:4.4",
 						"paperId": "108",
@@ -1474,14 +1811,14 @@
 						"text": "When a world is isolated by rebellion, when a planet is cut off from all outside encircuited communication, as was Urantia after the Caligastia upheaval, aside from personal messengers there remains but one possibility of direct interplanetary or universe communication, and that is through the liaison of the Adjusters of the spheres. No matter what happens on a world or in a universe, the Adjusters are never directly concerned. The isolation of a planet in no way affects the Adjusters and their ability to communicate with any part of the local universe, superuniverse, or the central universe. And this is the reason why contacts with the supreme and the self-acting Adjusters of the reserve corps of destiny are so frequently made on quarantined worlds. Recourse is had to such a technique as a means of circumventing the handicaps of planetary isolation. In recent years the archangels’ circuit has functioned on Urantia, but that means of communication is largely limited to the transactions of the archangel corps itself."
 					},
 					"textsClose": 0,
-					"consensus": 0.185843,
-					"distance": 0.605701,
+					"consensus": 0.170321,
+					"distance": 0.605633,
 					"closest": [
 						{
 							"corpus": {
 								"id": "japji-macauliffe-1909",
 								"slug": "japji",
-								"religion": "Sikhism",
+								"religion": "Sikh",
 								"title": "The Japji",
 								"translator": "Max Arthur Macauliffe",
 								"year": 1909,
@@ -1494,7 +1831,7 @@
 							"corpus": {
 								"id": "shinto-oracles-aston-1905",
 								"slug": "shinto-oracles",
-								"religion": "Shinto",
+								"religion": "Japanese (Shinto)",
 								"title": "Shinto Oracles",
 								"translator": "W. G. Aston",
 								"year": 1905,
@@ -1502,6 +1839,47 @@
 								"urantiaSection": "131:7"
 							},
 							"percentile": 0.302
+						}
+					]
+				},
+				{
+					"paragraph": {
+						"id": "3:108.1.2",
+						"standardReferenceId": "108:1.2",
+						"paperId": "108",
+						"paperTitle": "Mission and Ministry of Thought Adjusters",
+						"sectionTitle": "Selection and Assignment",
+						"text": "Although we do not definitely know, we firmly believe that all Thought Adjusters are volunteers. But before ever they volunteer, they are in possession of full data respecting the candidate for indwelling. The seraphic drafts of ancestry and projected patterns of life conduct are transmitted via Paradise to the reserve corps of Adjusters on Divinington by the reflectivity technique extending inward from the capitals of the local universes to the headquarters of the superuniverses. This forecast covers not only the hereditary antecedents of the mortal candidate but also the estimate of probable intellectual endowment and spiritual capacity. The Adjusters thus volunteer to indwell minds of whose intimate natures they have been fully apprised."
+					},
+					"textsClose": 0,
+					"consensus": 0.240128,
+					"distance": 0.576646,
+					"closest": [
+						{
+							"corpus": {
+								"id": "japji-macauliffe-1909",
+								"slug": "japji",
+								"religion": "Sikh",
+								"title": "The Japji",
+								"translator": "Max Arthur Macauliffe",
+								"year": 1909,
+								"refPrefix": "Japji",
+								"urantiaSection": null
+							},
+							"percentile": 0.423
+						},
+						{
+							"corpus": {
+								"id": "aztec-hymns-brinton-1890",
+								"slug": "aztec-hymns",
+								"religion": "Aztec (Nahua)",
+								"title": "Rig Veda Americanus: Sacred Songs of the Ancient Mexicans",
+								"translator": "Daniel G. Brinton",
+								"year": 1890,
+								"refPrefix": "Aztec Hymn",
+								"urantiaSection": null
+							},
+							"percentile": 0.416
 						}
 					]
 				}
@@ -1519,64 +1897,64 @@
 			"data": [
 				{
 					"paragraph": {
-						"id": "4:121.4.4",
-						"standardReferenceId": "121:4.4",
-						"paperId": "121",
-						"paperTitle": "The Times of Michael’s Bestowal",
-						"sectionTitle": "Gentile Philosophy",
-						"text": "3. The Cynic. Although the Cynics traced their philosophy to Diogenes of Athens, they derived much of their doctrine from the remnants of the teachings of Machiventa Melchizedek. Cynicism had formerly been more of a religion than a philosophy. At least the Cynics made their religio-philosophy democratic. In the fields and in the market places they continually preached their doctrine that “man could save himself if he would.” They preached simplicity and virtue and urged men to meet death fearlessly. These wandering Cynic preachers did much to prepare the spiritually hungry populace for the later Christian missionaries. Their plan of popular preaching was much after the pattern, and in accordance with the style, of Paul’s Epistles."
+						"id": "4:140.3.19",
+						"standardReferenceId": "140:3.19",
+						"paperId": "140",
+						"paperTitle": "The Ordination of the Twelve",
+						"sectionTitle": "The Ordination Sermon",
+						"text": "“I warn you against false prophets who will come to you in sheep’s clothing, while on the inside they are as ravening wolves. By their fruits you shall know them. Do men gather grapes from thorns or figs from thistles? Even so, every good tree brings forth good fruit, but the corrupt tree bears evil fruit. A good tree cannot yield evil fruit, neither can a corrupt tree produce good fruit. Every tree that does not bring forth good fruit is presently hewn down and cast into the fire. In gaining an entrance into the kingdom of heaven, it is the motive that counts. My Father looks into the hearts of men and judges by their inner longings and their sincere intentions."
 					},
 					"corpus": {
-						"id": "diogenes-laertius-6-hicks-1925",
-						"slug": "diogenes-laertius-6",
-						"religion": "Cynicism",
-						"title": "Lives of Eminent Philosophers, Book 6: The Cynics",
-						"translator": "R. D. Hicks",
-						"year": 1925,
-						"refPrefix": "DL",
-						"urantiaSection": "131:1"
-					},
-					"passage": {
-						"chunkId": "diogenes-laertius-6-hicks-1925:DL 6.103",
-						"reference": "DL 6.103",
-						"text": "Such are the lives of the several Cynics. But we will go on to append the doctrines which they held in common – if, that is, we decide that Cynicism is really a philosophy, and not, as some maintain, just a way of life. They are content then, like Ariston of Chios, to do away with the subjects of Logic and Physics and to devote their whole attention to Ethics. And what some assert of Socrates, Diocles records of Diogenes, representing him as saying: \"We must inquire into Whate'er of good or ill within our halls is wrought.\" They also dispense with the ordinary subjects of instruction. At least Antisthenes used to say that those who had attained discretion had better not study literature, lest they should be perverted by alien influences."
-					},
-					"similarity": 0.679463,
-					"similaritySmall": 0.720913
-				},
-				{
-					"paragraph": {
-						"id": "4:122.2.3",
-						"standardReferenceId": "122:2.3",
-						"paperId": "122",
-						"paperTitle": "Birth and Infancy of Jesus",
-						"sectionTitle": "Gabriel Appears to Elizabeth",
-						"text": "“While your husband, Zacharias, stands before the altar in Jerusalem, and while the assembled people pray for the coming of a deliverer, I, Gabriel, have come to announce that you will shortly bear a son who shall be the forerunner of this divine teacher, and you shall call your son John. He will grow up dedicated to the Lord your God, and when he has come to full years, he will gladden your heart because he will turn many souls to God, and he will also proclaim the coming of the soul-healer of your people and the spirit-liberator of all mankind. Your kinswoman Mary shall be the mother of this child of promise, and I will also appear to her.”"
-					},
-					"corpus": {
-						"id": "koran-pickthall-1930",
-						"slug": "quran",
-						"religion": "Islam",
-						"title": "The Meaning of the Glorious Koran",
-						"translator": "Marmaduke Pickthall",
-						"year": 1930,
-						"refPrefix": "Quran",
+						"id": "book-of-mormon-1830",
+						"slug": "book-of-mormon",
+						"religion": "Latter Day Saint",
+						"title": "The Book of Mormon",
+						"translator": "Joseph Smith",
+						"year": 1830,
+						"refPrefix": "BoM",
 						"urantiaSection": null
 					},
 					"passage": {
-						"chunkId": "koran-pickthall-1930:Quran 3.38",
-						"reference": "Quran 3.38-39",
-						"text": "Then Zachariah prayed unto his Lord and said: My Lord! Bestow upon me of Thy bounty goodly offspring. Lo! Thou art the Hearer of Prayer. And the angels called to him as he stood praying in the sanctuary: Allah giveth thee glad tidings of (a son whose name is) John, (who cometh) to confirm a word from Allah lordly, chaste, a prophet of the righteous."
+						"chunkId": "book-of-mormon-1830:3 Nephi 14:15",
+						"reference": "3 Nephi 14:15-18",
+						"text": "Beware of false prophets, who come to you in sheep’s clothing, but inwardly they are ravening wolves. Ye shall know them by their fruits. Do men gather grapes of thorns, or figs of thistles? Even so every good tree bringeth forth good fruit; but a corrupt tree bringeth forth evil fruit. A good tree cannot bring forth evil fruit, neither a corrupt tree bring forth good fruit."
 					},
-					"similarity": 0.675817,
-					"similaritySmall": 0.692782
+					"similarity": 0.892641,
+					"similaritySmall": 0.879757
+				},
+				{
+					"paragraph": {
+						"id": "4:140.3.13",
+						"standardReferenceId": "140:3.13",
+						"paperId": "140",
+						"paperTitle": "The Ordination of the Twelve",
+						"sectionTitle": "The Ordination Sermon",
+						"text": "“You are the light of the world. A city set upon a hill cannot be hid. Neither do men light a candle and put it under a bushel, but on a candlestick; and it gives light to all who are in the house. Let your light so shine before men that they may see your good works and be led to glorify your Father who is in heaven."
+					},
+					"corpus": {
+						"id": "book-of-mormon-1830",
+						"slug": "book-of-mormon",
+						"religion": "Latter Day Saint",
+						"title": "The Book of Mormon",
+						"translator": "Joseph Smith",
+						"year": 1830,
+						"refPrefix": "BoM",
+						"urantiaSection": null
+					},
+					"passage": {
+						"chunkId": "book-of-mormon-1830:3 Nephi 12:14",
+						"reference": "3 Nephi 12:14-16",
+						"text": "Verily, verily, I say unto you, I give unto you to be the light of this people. A city that is set on a hill cannot be hid. Behold, do men light a candle and put it under a bushel? Nay, but on a candlestick, and it giveth light to all that are in the house; Therefore let your light so shine before this people, that they may see your good works and glorify your Father who is in heaven."
+					},
+					"similarity": 0.82846,
+					"similaritySmall": 0.873989
 				}
 			],
 			"meta": {
 				"page": 0,
 				"limit": 2,
-				"total": 83,
-				"totalPages": 42
+				"total": 338,
+				"totalPages": 169
 			}
 		}
 	},
@@ -1585,25 +1963,25 @@
 			"data": [
 				{
 					"paragraph": {
-						"id": "4:122.2.7",
-						"standardReferenceId": "122:2.7",
-						"paperId": "122",
-						"paperTitle": "Birth and Infancy of Jesus",
-						"sectionTitle": "Gabriel Appears to Elizabeth",
-						"text": "John was born in the City of Judah, March 25, 7 b.c. Zacharias and Elizabeth rejoiced greatly in the realization that a son had come to them as Gabriel had promised, and when on the eighth day they presented the child for circumcision, they formally christened him John, as they had been directed aforetime. Already had a nephew of Zacharias departed for Nazareth, carrying the message of Elizabeth to Mary proclaiming that a son had been born to her and that his name was to be John."
+						"id": "3:104.1.9",
+						"standardReferenceId": "104:1.9",
+						"paperId": "104",
+						"paperTitle": "Growth of the Trinity Concept",
+						"sectionTitle": "Urantian Trinity Concepts",
+						"text": "The followers of the Islamic faith likewise failed to grasp the idea of the Trinity. It is always difficult for an emerging monotheism to tolerate trinitarianism when confronted by polytheism. The trinity idea takes best hold of those religions which have a firm monotheistic tradition coupled with doctrinal elasticity. The great monotheists, the Hebrews and Mohammedans, found it difficult to distinguish between worshiping three gods, polytheism, and trinitarianism, the worship of one Deity existing in a triune manifestation of divinity and personality."
 					},
 					"corpus": {
 						"id": "koran-pickthall-1930",
 						"slug": "quran",
-						"religion": "Islam",
+						"religion": "Muslim",
 						"title": "The Meaning of the Glorious Koran",
 						"translator": "Marmaduke Pickthall",
 						"year": 1930,
 						"refPrefix": "Quran",
 						"urantiaSection": null
 					},
-					"gap": 0.755588,
-					"percentile": 0.992
+					"gap": 0.758524,
+					"percentile": 0.94
 				},
 				{
 					"paragraph": {
@@ -1617,22 +1995,22 @@
 					"corpus": {
 						"id": "koran-pickthall-1930",
 						"slug": "quran",
-						"religion": "Islam",
+						"religion": "Muslim",
 						"title": "The Meaning of the Glorious Koran",
 						"translator": "Marmaduke Pickthall",
 						"year": 1930,
 						"refPrefix": "Quran",
 						"urantiaSection": null
 					},
-					"gap": 0.738292,
+					"gap": 0.748946,
 					"percentile": 0.965
 				}
 			],
 			"meta": {
 				"page": 0,
 				"limit": 2,
-				"total": 328,
-				"totalPages": 164
+				"total": 148,
+				"totalPages": 74
 			}
 		}
 	},
