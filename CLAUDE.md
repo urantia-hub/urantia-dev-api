@@ -425,6 +425,7 @@ phases: `../world-religions-plan-2026-10.md`.
   the oldid of the main page does not freeze it. Before a load from Wikisource, read the history of
   each Page: page for edits by accounts that did not proofread it (done for batch 2: 965 pages, all
   clean). Four Rig Veda hymn pages are pinned to a revision before a bad edit.
+- A typo of a source that its scan does not have is fixed after the parse, in `scripts/scriptures/source-fixes.ts` (by work and ref). The build fails when the typo is gone from the source. A fix of a live row is a text update of the passage and its chunk (Kelson approves it); the embedding of the chunk stays.
 - Tables: `scripture_corpora`, `scripture_passages`, `scripture_chunks`,
   `scripture_parallels`. Created from `scripts/scriptures/create-tables.sql`
   and changed by `alter-phase2.sql`, never with `db:push`.
