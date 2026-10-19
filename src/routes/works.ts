@@ -6,6 +6,7 @@ import { problemJson } from "../lib/errors.ts";
 import { getCachedEmbedding, runAfter, setCachedEmbedding } from "../lib/search-cache.ts";
 import {
 	listWorks,
+	otherWorkParallels,
 	readWork,
 	resolveWork,
 	searchWorks,
@@ -15,6 +16,7 @@ import {
 } from "../lib/works.ts";
 import {
 	ErrorResponse,
+	OtherWorkParallelsResponse,
 	WorkParallelsResponse,
 	WorkReadResponse,
 	WorkRefParam,
@@ -245,6 +247,41 @@ worksRoute.openapi(
 		const { work, ref } = c.req.valid("param");
 		if (!(await resolveWork(db, work))) return problemJson(c, 404, `Work "${work}" not found`);
 		const found = await workParallels(db, work, ref);
+		if (found === "many")
+			return problemJson(
+				c,
+				400,
+				`${ref} names more than one unit. Ask for one.`,
+				"invalid-reference-format",
+			);
+		if (!found) return problemJson(c, 404, `${ref} not found in "${work}"`);
+		return c.json({ data: found }, 200);
+	},
+);
+
+worksRoute.openapi(
+	createRoute({
+		operationId: "getWorkOtherParallels",
+		method: "get",
+		path: "/{work}/{ref}/work-parallels",
+		tags: ["Works"],
+		summary: "Nearest passages of the other works for one unit of a work",
+		description:
+			"The 10 chunks of the other works and of the Bible that are closest in meaning to the chunk that holds this unit. The reference must name one unit of a text (not of the Bible). **These parallels are semantic, not curated.** They do not claim that two texts teach the same thing, or that one drew on the other.",
+		request: { params: WorkRefParam },
+		responses: {
+			200: {
+				description: "The unit, its chunk, and the nearest chunks of the other works",
+				content: { "application/json": { schema: OtherWorkParallelsResponse } },
+			},
+			...errors,
+		},
+	}),
+	async (c) => {
+		const { db } = getDb(c.env?.HYPERDRIVE);
+		const { work, ref } = c.req.valid("param");
+		if (!(await resolveWork(db, work))) return problemJson(c, 404, `Work "${work}" not found`);
+		const found = await otherWorkParallels(db, work, ref);
 		if (found === "many")
 			return problemJson(
 				c,

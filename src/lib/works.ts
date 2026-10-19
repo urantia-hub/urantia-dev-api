@@ -10,6 +10,7 @@ import {
 	scriptureChunks,
 	scriptureParallels,
 	scripturePassages,
+	scriptureWorkParallels,
 } from "../db/schema.ts";
 import { formatBibleReference, resolveBibleBook } from "./bible-canonicalizer.ts";
 import { contentWords } from "./paper-search.ts";
@@ -623,4 +624,82 @@ export async function workParallels(
 	if (units.length > 1) return "many";
 	const [one] = await withParallels(db, units, 10);
 	return one ?? null;
+}
+
+export type OtherWorkParallel = Omit<WorkResult, "urantiaParallels"> & { similarity: number };
+export type OtherWorkParallels = Omit<WorkResult, "urantiaParallels"> & {
+	chunk: { label: string; references: string[] };
+	parallels: OtherWorkParallel[];
+};
+
+/** The nearest passages of the other works and of the Bible for the chunk of one unit, nearest first. */
+export async function otherWorkParallels(
+	db: Db,
+	work: string,
+	ref: string,
+): Promise<OtherWorkParallels | null | "many"> {
+	const units = await readWork(db, ref, work);
+	if (!units || units.length === 0) return null;
+	if (units.length > 1) return "many";
+	const { chunk, ...unit } = units[0] as Unit;
+	if (!chunk || chunk.bible)
+		return {
+			...unit,
+			chunk: { label: unit.reference, references: [unit.reference] },
+			parallels: [],
+		};
+	const [own, members] = await Promise.all([
+		db
+			.select({ label: scriptureChunks.label })
+			.from(scriptureChunks)
+			.where(eq(scriptureChunks.id, chunk.id)),
+		db
+			.select({ ref: scripturePassages.ref })
+			.from(scripturePassages)
+			.where(eq(scripturePassages.chunkId, chunk.id))
+			.orderBy(asc(scripturePassages.sort)),
+	]);
+	let rows: {
+		otherChunkId: string | null;
+		otherBibleChunkId: string | null;
+		similarity: number;
+	}[] = [];
+	try {
+		rows = await db
+			.select({
+				otherChunkId: scriptureWorkParallels.otherChunkId,
+				otherBibleChunkId: scriptureWorkParallels.otherBibleChunkId,
+				similarity: scriptureWorkParallels.similarity,
+			})
+			.from(scriptureWorkParallels)
+			.where(eq(scriptureWorkParallels.chunkId, chunk.id))
+			.orderBy(asc(scriptureWorkParallels.rank));
+	} catch (error) {
+		// Before the table exists (42P01, undefined table) a unit has no parallels of other works.
+		if (!isUndefinedTable(error)) throw error;
+	}
+	const hits = rows.map((r) =>
+		r.otherBibleChunkId
+			? { kind: "bible" as const, id: r.otherBibleChunkId, similarity: r.similarity }
+			: { kind: "works" as const, id: r.otherChunkId as string, similarity: r.similarity },
+	);
+	const found = await chunksById(db, hits);
+	const parallels = hits.flatMap((h) => {
+		const other = found.get(h.id);
+		if (!other) return [];
+		const { chunk: _, ...rest } = other;
+		return [{ ...rest, similarity: h.similarity }];
+	});
+	return {
+		...unit,
+		chunk: { label: own[0]?.label ?? unit.reference, references: members.map((m) => m.ref) },
+		parallels,
+	};
+}
+
+function isUndefinedTable(error: unknown): boolean {
+	for (let e: unknown = error; e; e = (e as { cause?: unknown }).cause) {
+		if ((e as { code?: string }).code === "42P01") return true;
+	}
+	return false;
 }

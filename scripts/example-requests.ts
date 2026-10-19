@@ -65,6 +65,10 @@ export const EXAMPLE_REQUESTS: ExampleRequest[] = ([] = [
 		op: "get /works/{work}/{ref}/urantia-parallels",
 		path: "/works/bible/John%203:16/urantia-parallels",
 	},
+	{
+		op: "get /works/{work}/{ref}/work-parallels",
+		path: "/works/dhammapada/Dhp%2021/work-parallels",
+	},
 	{ op: "get /scriptures", path: "/scriptures" },
 	{ op: "get /scriptures/{corpus}", path: "/scriptures/bhagavad-gita" },
 	{ op: "get /scriptures/{corpus}/{ref}", path: "/scriptures/bhagavad-gita/2.47" },
