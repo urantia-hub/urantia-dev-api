@@ -56,7 +56,7 @@ worksRoute.openapi(
 		tags: ["Works"],
 		summary: "List the works beside the Papers",
 		description:
-			'The Bible (World English Bible) and the texts of the world\'s religions that Paper 131 summarizes, each in the US public domain. `id` is what the other `/works` endpoints take: `"bible"` or a slug such as `"dhammapada"`. `unitLabel` is the word for one unit of each work (verse, section, pauri).',
+			'The Bible (World English Bible) and 21 texts of the world\'s religions and traditions, each in the US public domain. `id` is what the other `/works` endpoints take: `"bible"` or a slug such as `"dhammapada"`. `unitLabel` is the word for one unit of each work (verse, section, pauri).',
 		responses: {
 			200: { description: "The works", content: { "application/json": { schema: WorksResponse } } },
 			500: errors[500],

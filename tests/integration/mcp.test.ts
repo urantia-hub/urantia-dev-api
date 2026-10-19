@@ -194,6 +194,19 @@ describe("MCP Server", () => {
 		}
 	});
 
+	it("the works tools declare what each work is", async () => {
+		await initialize();
+		const res = await mcpRequest({ id: 2, method: "tools/list" });
+		const tools = (await parseMcpResponse(res))[0].result.tools;
+		const list = tools.find((t: { name: string }) => t.name === "works.list");
+		const work = list.outputSchema.properties.data.items.properties;
+		for (const field of ["tradition", "kind", "summary"]) expect(work[field]).toBeDefined();
+		const search = tools.find((t: { name: string }) => t.name === "works.search");
+		expect(
+			search.outputSchema.properties.data.items.properties.work.properties.tradition,
+		).toBeDefined();
+	});
+
 	it("toc.get returns parts with papers via structuredContent", async () => {
 		const results = await callTool("toc.get");
 		expect(results.length).toBeGreaterThan(0);

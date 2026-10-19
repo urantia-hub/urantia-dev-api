@@ -1,5 +1,5 @@
 // The other works beside the Papers, under one set of endpoints (/works) and MCP tools (works.*):
-// the Bible (work id "bible") and the 9 texts of scripture_corpora (work id = the corpus slug).
+// the Bible (work id "bible") and the texts of scripture_corpora (work id = the corpus slug).
 // One result shape for all of them: work, reference, text, url, and the nearest Urantia paragraphs.
 import { and, asc, eq, inArray, type SQL, sql } from "drizzle-orm";
 import {

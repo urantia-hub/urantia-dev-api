@@ -395,7 +395,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 	{
 		name: "list_works",
 		description:
-			'List the works beside the Urantia Papers: the Bible (World English Bible) and the texts of the world\'s religions that Paper 131 summarizes, each in the US public domain. `id` is what the other work tools take ("bible" or a slug such as "dhammapada").',
+			'List the works beside the Urantia Papers: the Bible (World English Bible) and 21 texts of the world\'s religions and traditions, each in the US public domain. `id` is what the other work tools take ("bible" or a slug such as "dhammapada").',
 		parameters: { type: "object", properties: {} },
 	},
 	{
