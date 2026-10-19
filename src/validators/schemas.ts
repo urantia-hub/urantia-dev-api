@@ -721,6 +721,26 @@ export const ScriptureCorpusResponse = z.object({
 				passageCount: z.number().int(),
 			}),
 		),
+		pages: z
+			.array(
+				z.object({
+					division: z.number().int(),
+					subdivision: z
+						.number()
+						.int()
+						.nullable()
+						.describe(
+							"The hymn, chapter, or section in the division, for a work with three reference levels. Null otherwise.",
+						),
+					title: z.string().nullable(),
+					firstRef: z.string(),
+					lastRef: z.string(),
+					passageCount: z.number().int(),
+				}),
+			)
+			.describe(
+				"The reading pages of the work, in order: one division, or one subdivision for a work with three reference levels.",
+			),
 	}),
 });
 

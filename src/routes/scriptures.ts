@@ -11,6 +11,7 @@ import {
 import { createApp } from "../lib/app.ts";
 import { problemJson } from "../lib/errors.ts";
 import {
+	corpusPages,
 	corpusSummary,
 	listCorpora,
 	resolveCorpus,
@@ -119,7 +120,7 @@ const corpusRoute = createRoute({
 	tags: ["Scriptures"],
 	summary: "Get one text and its chapters",
 	description:
-		"Returns the corpus facts and its divisions (chapters, or books for the Analects), each with its first and last reference. The corpus accepts its id, slug, or ref prefix: `bhagavad-gita`, `bg`, and `bhagavad-gita-besant-1922` all work.",
+		"Returns the corpus facts, its divisions (chapters, or books for the Analects), each with its first and last reference, and its reading pages: a division, or for a work with three reference levels (the Rig Veda, the Book of Mormon) a subdivision such as a hymn or a chapter. The corpus accepts its id, slug, or ref prefix: `bhagavad-gita`, `bg`, and `bhagavad-gita-besant-1922` all work.",
 	request: { params: ScriptureCorpusParam },
 	responses: {
 		200: {
@@ -146,7 +147,8 @@ scripturesRoute.openapi(corpusRoute, async (c) => {
 		.where(eq(scripturePassages.corpusId, corpus.id))
 		.groupBy(scripturePassages.division)
 		.orderBy(asc(scripturePassages.division));
-	return c.json({ data: { ...corpusDetail(corpus), divisions: rows } }, 200);
+	const pages = await corpusPages(db, corpus);
+	return c.json({ data: { ...corpusDetail(corpus), divisions: rows, pages } }, 200);
 });
 
 // GET /scriptures/{corpus}/{ref} — a passage, a short range, or a chapter

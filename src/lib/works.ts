@@ -21,6 +21,8 @@ import { normalizeQuery, toTsQuery } from "./search-text.ts";
 import { correctWords, type Db, matchText } from "./search-words.ts";
 
 export const BIBLE = "bible";
+// The most units of one read: the longest page of a work is Koran surah 2 (286 verses).
+const READ_MOST = 400;
 const MAX_SEMANTIC = 100;
 // `near` runs only when the exact and all-word tiers give fewer results than this.
 const ENOUGH = 10;
@@ -226,7 +228,7 @@ export async function readWork(db: Db, input: string, work?: string): Promise<Un
 				.from(bibleVerses)
 				.where(and(...where))
 				.orderBy(asc(bibleVerses.verse))
-				.limit(200);
+				.limit(READ_MOST);
 			return rows.map(bibleUnit);
 		}
 		if (target) return null;
@@ -245,7 +247,7 @@ export async function readWork(db: Db, input: string, work?: string): Promise<Un
 			.leftJoin(scriptureChunks, eq(scripturePassages.chunkId, scriptureChunks.id))
 			.where(passageWhere(corpus, ref))
 			.orderBy(asc(scripturePassages.sort))
-			.limit(200);
+			.limit(READ_MOST);
 		return rows.map((p) => passageUnit(corpus, p));
 	}
 	return null;
