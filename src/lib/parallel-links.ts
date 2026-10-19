@@ -48,6 +48,13 @@ type Work = { page: (reference: string) => string | null; words: number; exact?:
 const gutenberg = (id: number) => () =>
 	`https://www.gutenberg.org/cache/epub/${id}/pg${id}-images.html`;
 const page = (url: string) => () => url;
+const wikisource = (title: string) =>
+	`https://en.wikisource.org/wiki/${encodeURI(title.replace(/ /g, "_"))}`;
+const PROSE_EDDA = /^(Prologue|Gylfaginning|Skáldskaparmál) \d/;
+const KHANDOGYA = "First Second Third Fourth Fifth Sixth Seventh Eighth".split(" ");
+// The books of each part of the Shû King, and the books whose text is on one page for each section.
+const SHU_BOOKS = [1, 4, 4, 11, 30];
+const SHU_SECTIONS = new Set(["3.1", "4.5", "4.7", "4.8", "5.1"]);
 
 const WORKS: Record<string, Work> = {
 	"diogenes-laertius-6-hicks-1925": {
@@ -93,6 +100,52 @@ const WORKS: Record<string, Work> = {
 	"koran-pickthall-1930": { page: gutenberg(16955), words: 24, exact: true },
 	"dhammapada-muller-1881": { page: gutenberg(2017), words: 0 },
 	"book-of-mormon-1830": { page: gutenberg(17), words: 24, exact: true },
+	"kojiki-chamberlain-1882": {
+		// One page for each of the 180 sections.
+		page: (reference) => {
+			const n = Number(/^Kojiki (\d+)\./.exec(reference)?.[1]);
+			return n >= 1 && n <= 180 ? wikisource(`Kojiki (Chamberlain, 1882)/Section ${n}`) : null;
+		},
+		words: 24,
+	},
+	"prose-edda-brodeur-1916": {
+		page: (reference) => {
+			const part = PROSE_EDDA.exec(reference)?.[1];
+			return part
+				? wikisource(`The Prose Edda (1916 translation by Arthur Gilchrist Brodeur)/${part}`)
+				: null;
+		},
+		words: 24,
+	},
+	"upanishads-muller-1879": {
+		page: (reference) => {
+			const v1 = "Sacred Books of the East/Volume 1/";
+			const k = /^Khandogya ([1-8])\./.exec(reference)?.[1];
+			if (k) return wikisource(`${v1}Khândogya-upanishad/${KHANDOGYA[Number(k) - 1]} Prapâthaka`);
+			if (/^Kena \d/.test(reference)) return wikisource(`${v1}Talavakâra-upanishad`);
+			if (/^Isa \d/.test(reference)) return wikisource(`${v1}Vâgasaneyi-samhitâ-upanishad`);
+			return null;
+		},
+		words: 24,
+	},
+	"shu-king-legge-1879": {
+		page: (reference) => {
+			const m = /^Shu ([1-5])\.(\d+)\.\d/.exec(reference);
+			if (!m) return null;
+			const [part, book] = [Number(m[1]), Number(m[2])];
+			if (book < 1 || book > (SHU_BOOKS[part - 1] as number) || SHU_SECTIONS.has(`${part}.${book}`))
+				return null;
+			return wikisource(`Sacred Books of the East/Volume 3/The Shu/Part ${part}/Book ${book}`);
+		},
+		words: 24,
+	},
+	// Repeated chapters: 24 first words were in two places for 13 passages, so no fragment.
+	"book-of-the-dead-renouf-1904": { page: gutenberg(69566), words: 0 },
+	"hesiod-evelyn-white-1914": { page: gutenberg(348), words: 24, exact: true },
+	"homeric-hymns-evelyn-white-1914": { page: gutenberg(348), words: 24, exact: true },
+	"poetic-edda-bellows-1923": { page: gutenberg(73533), words: 24, exact: true },
+	"aztec-hymns-brinton-1890": { page: gutenberg(14993), words: 24, exact: true },
+	"chuang-tzu-giles-1889": { page: gutenberg(59709), words: 24, exact: true },
 };
 
 /** The page that holds a passage of a work, or null. */

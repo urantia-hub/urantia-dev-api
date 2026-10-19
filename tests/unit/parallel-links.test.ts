@@ -84,6 +84,16 @@ describe("a page that holds a whole book", () => {
 		).toBe("https://www.gutenberg.org/cache/epub/4094/pg4094-images.html");
 	});
 
+	it("gets the page only for the Book of the Dead, whose repeated chapters share their words", () => {
+		expect(
+			scriptureUrl(
+				"book-of-the-dead-renouf-1904",
+				"BD 64.5",
+				"Oh Râ, who smileth cheerfully, and whose heart is delighted with the perfect order of this day, as thou enterest into Heaven and comest forth in the East, the Ancients and those who are gone before acclaim thee.",
+			),
+		).toBe("https://www.gutenberg.org/cache/epub/69566/pg69566-images.html");
+	});
+
 	it("gets the page only when no number of words was sure", () => {
 		expect(
 			scriptureUrl(
@@ -136,8 +146,60 @@ describe("the address of a passage of another work", () => {
 			expect(scriptureUrl("rig-veda-griffith-1896", reference, "x")).toBeNull();
 	});
 
+	it("is the reading page of Project Gutenberg for the works of batch 2", () => {
+		for (const [id, pg] of [
+			["book-of-the-dead-renouf-1904", 69566],
+			["hesiod-evelyn-white-1914", 348],
+			["homeric-hymns-evelyn-white-1914", 348],
+			["poetic-edda-bellows-1923", 73533],
+			["aztec-hymns-brinton-1890", 14993],
+			["chuang-tzu-giles-1889", 59709],
+		] as const) {
+			expect(workPage(id, "X 1.1")).toBe(
+				`https://www.gutenberg.org/cache/epub/${pg}/pg${pg}-images.html`,
+			);
+		}
+	});
+
+	it("is the Wikisource page of the section, part, book, or Upanishad for the works of batch 2", () => {
+		const ws = "https://en.wikisource.org/wiki/";
+		expect(workPage("kojiki-chamberlain-1882", "Kojiki 4.2")).toBe(
+			`${ws}Kojiki_(Chamberlain,_1882)/Section_4`,
+		);
+		expect(workPage("prose-edda-brodeur-1916", "Gylfaginning 34.2")).toBe(
+			`${ws}The_Prose_Edda_(1916_translation_by_Arthur_Gilchrist_Brodeur)/Gylfaginning`,
+		);
+		expect(workPage("prose-edda-brodeur-1916", "Skáldskaparmál 3.1")).toBe(
+			`${ws}The_Prose_Edda_(1916_translation_by_Arthur_Gilchrist_Brodeur)/Sk%C3%A1ldskaparm%C3%A1l`,
+		);
+		expect(workPage("upanishads-muller-1879", "Khandogya 6.8")).toBe(
+			`${ws}Sacred_Books_of_the_East/Volume_1/Kh%C3%A2ndogya-upanishad/Sixth_Prap%C3%A2thaka`,
+		);
+		expect(workPage("upanishads-muller-1879", "Kena 1.3")).toBe(
+			`${ws}Sacred_Books_of_the_East/Volume_1/Talavak%C3%A2ra-upanishad`,
+		);
+		expect(workPage("upanishads-muller-1879", "Isa 6")).toBe(
+			`${ws}Sacred_Books_of_the_East/Volume_1/V%C3%A2gasaneyi-samhit%C3%A2-upanishad`,
+		);
+		expect(workPage("shu-king-legge-1879", "Shu 2.1.3")).toBe(
+			`${ws}Sacred_Books_of_the_East/Volume_3/The_Shu/Part_2/Book_1`,
+		);
+	});
+
+	it("is null for a ref of batch 2 that it cannot place on one page", () => {
+		expect(workPage("kojiki-chamberlain-1882", "Kojiki 181.1")).toBeNull();
+		expect(workPage("prose-edda-brodeur-1916", "Hattatal 1.1")).toBeNull();
+		expect(workPage("upanishads-muller-1879", "Khandogya 9.1")).toBeNull();
+		expect(workPage("shu-king-legge-1879", "Shu 2.5.1")).toBeNull();
+		// A book with sections: our paragraph numbers run on through its sections, so the page is unknown.
+		expect(workPage("shu-king-legge-1879", "Shu 4.5.3")).toBeNull();
+	});
+
 	it("has a page for each work with a link, and none for a work with no link", () => {
-		for (const c of CORPORA) expect(workPage(c.id, `${c.refPrefix} 1.1.1`) !== null).toBe(c.linked);
+		// A stored ref of a work with named divisions starts with the name ("Prologue 1.1").
+		const first = (c: (typeof CORPORA)[number]) =>
+			c.divisionNames?.[0]?.split("|")[0] ?? c.refPrefix;
+		for (const c of CORPORA) expect(workPage(c.id, `${first(c)} 1.1.1`) !== null).toBe(c.linked);
 	});
 
 	it("is null for a work that it does not know", () => {

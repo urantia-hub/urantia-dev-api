@@ -6,16 +6,27 @@ import { join } from "node:path";
 import { CORPORA } from "./corpora.ts";
 import {
 	type Passage,
+	PROSE_EDDA_PARTS,
 	parseAnalects,
 	parseAstonOracles,
+	parseBellowsEdda,
 	parseBesantGita,
 	parseBookOfMormon,
+	parseBrintonHymns,
+	parseBrodeurProseEdda,
+	parseChamberlainKojiki,
 	parseDhammapada,
+	parseGilesChuangTzu,
 	parseGriffithRigVeda,
+	parseHesiod,
 	parseHicksBook6,
+	parseHomericHymns,
 	parseJapji,
+	parseLeggeShuKing,
+	parseMullerUpanishads,
 	parseOldfatherChapter,
 	parsePickthall,
+	parseRenoufBookOfTheDead,
 	parseTaoTeChing,
 } from "./parsers.ts";
 
@@ -103,6 +114,49 @@ async function rigVedaHymns(): Promise<Record<string, string>> {
 	return hymns;
 }
 
+/** Wikisource pages by key, one request at a time with a pause: a fast run gets refused. */
+async function wikisourcePages(titles: Record<string, string>): Promise<Record<string, string>> {
+	const pages: Record<string, string> = {};
+	for (const [key, title] of Object.entries(titles)) {
+		pages[key] = await wikisource(title);
+		await new Promise((r) => setTimeout(r, 500));
+	}
+	return pages;
+}
+
+const range = (n: number) => Array.from({ length: n }, (_, i) => i + 1);
+const SBE1 = "Sacred Books of the East/Volume 1/";
+const KHANDOGYA = "First Second Third Fourth Fifth Sixth Seventh Eighth".split(" ");
+// The Shû King: the books of each part, and the books whose text is on a page for each section.
+const SHU_BOOKS = [1, 4, 4, 11, 30];
+const SHU_SECTIONS: Record<string, number> = { "3.1": 2, "4.5": 3, "4.7": 3, "4.8": 3, "5.1": 3 };
+
+function shuTitles(): Record<string, string> {
+	const titles: Record<string, string> = {};
+	SHU_BOOKS.forEach((books, i) => {
+		for (const book of range(books)) {
+			const key = `${i + 1}.${book}`;
+			const at = `Sacred Books of the East/Volume 3/The Shu/Part ${i + 1}/Book ${book}`;
+			const sections = SHU_SECTIONS[key];
+			if (!sections) titles[key] = at;
+			else for (const n of range(sections)) titles[`${key}.${n}`] = `${at}/Section ${n}`;
+		}
+	});
+	return titles;
+}
+
+/** Stops the build when a source does not give the count of hymns, poems, or chapters that it has. */
+function parts(
+	passages: Passage[],
+	count: number,
+	name: string,
+	by: (p: Passage) => string = (p) => p.division,
+): Passage[] {
+	const found = new Set(passages.map(by)).size;
+	if (found !== count) throw new Error(`${name}: ${found} parts, not ${count}`);
+	return passages;
+}
+
 const PARSE: Record<string, () => Promise<Passage[]>> = {
 	"dhammapada-muller-1881": async () => parseDhammapada(await gutenberg(2017)),
 	"tao-te-ching-legge-1891": async () => parseTaoTeChing(await gutenberg(216)),
@@ -119,6 +173,72 @@ const PARSE: Record<string, () => Promise<Passage[]>> = {
 		return passages;
 	},
 	"rig-veda-griffith-1896": async () => parseGriffithRigVeda(await rigVedaHymns()),
+	// 186 chapters, less the 17 that are only a picture, a repeat, a part of another, or a description.
+	"book-of-the-dead-renouf-1904": async () =>
+		parts(parseRenoufBookOfTheDead(await gutenberg(69566)), 169, "Book of the Dead"),
+	"hesiod-evelyn-white-1914": async () => parts(parseHesiod(await gutenberg(348)), 2, "Hesiod"),
+	"homeric-hymns-evelyn-white-1914": async () =>
+		parts(parseHomericHymns(await gutenberg(348)), 33, "Homeric Hymns"),
+	"poetic-edda-bellows-1923": async () =>
+		parts(parseBellowsEdda(await gutenberg(73533)), 35, "Poetic Edda"),
+	"aztec-hymns-brinton-1890": async () =>
+		parts(parseBrintonHymns(await gutenberg(14993)), 20, "Aztec hymns"),
+	"chuang-tzu-giles-1889": async () =>
+		parts(parseGilesChuangTzu(await gutenberg(59709)), 33, "Chuang Tzu"),
+	"prose-edda-brodeur-1916": async () =>
+		parts(
+			parseBrodeurProseEdda(
+				await wikisourcePages(
+					Object.fromEntries(
+						PROSE_EDDA_PARTS.map((part) => [
+							part,
+							`The Prose Edda (1916 translation by Arthur Gilchrist Brodeur)/${part}`,
+						]),
+					),
+				),
+			),
+			133, // chapters: 5 of the Prologue, 54 of Gylfaginning, 74 of Skáldskaparmál
+			"Prose Edda",
+			(p) => `${p.division}.${p.subdivision}`,
+		),
+	"kojiki-chamberlain-1882": async () =>
+		parts(
+			parseChamberlainKojiki(
+				await wikisourcePages(
+					Object.fromEntries(
+						range(180).map((n) => [String(n), `Kojiki (Chamberlain, 1882)/Section ${n}`]),
+					),
+				),
+			),
+			180,
+			"Kojiki",
+		),
+	"upanishads-muller-1879": async () =>
+		parts(
+			parseMullerUpanishads(
+				await wikisourcePages({
+					...Object.fromEntries(
+						KHANDOGYA.map((w, i) => [
+							`Khandogya ${i + 1}`,
+							`${SBE1}Khândogya-upanishad/${w} Prapâthaka`,
+						]),
+					),
+					Kena: `${SBE1}Talavakâra-upanishad`,
+					Isa: `${SBE1}Vâgasaneyi-samhitâ-upanishad`,
+				}),
+			),
+			// The Khândogya has 154 Khandas (13, 24, 19, 17, 24, 16, 26, 15), the Kena 35 verses, the Îsâ 18.
+			154 + 35 + 18,
+			"Upanishads",
+			(p) => p.ref,
+		),
+	"shu-king-legge-1879": async () =>
+		parts(
+			parseLeggeShuKing(await wikisourcePages(shuTitles())),
+			50,
+			"Shu King",
+			(p) => `${p.division}.${p.subdivision}`,
+		),
 	"japji-macauliffe-1909": async () =>
 		parseJapji(await wikisource("The Sikh Religion/Volume 1/Japji")),
 	"diogenes-laertius-6-hicks-1925": async () =>

@@ -658,3 +658,680 @@ export function parseGriffithRigVeda(htmlByHymn: Record<string, string>): Passag
 	}
 	return passages;
 }
+
+const lf = (s: string) => s.replace(/\r/g, "");
+
+const SMALL_WORDS = new Set(["a", "an", "and", "of", "or", "the", "to", "in", "on"]);
+/** "TO THE SON OF CRONOS, MOST HIGH" gives "To the Son of Cronos, Most High". */
+function titleCase(s: string): string {
+	return s
+		.toLowerCase()
+		.replace(/[\p{L}’']+/gu, (w, at: number) =>
+			at > 0 && SMALL_WORDS.has(w) && s[at - 1] !== "-" ? w : w[0]?.toUpperCase() + w.slice(1),
+		)
+		.replace(/[.\s]+$/, "");
+}
+
+/** The text between a line that matches `from` and the next line that matches `to`. */
+function between(body: string, from: RegExp, to: RegExp): string {
+	const start = body.search(from);
+	if (start < 0) throw new Error(`No section ${from}`);
+	const rest = body.slice(start).replace(/^.*\n/, "");
+	const end = rest.search(to);
+	return end < 0 ? rest : rest.slice(0, end);
+}
+
+// "(ll. 116-138)", "(ll 493-501)", "(l. 6)", and lettered lines such as "(ll. 929a-929t)".
+const LINE_MARK = /\(ll?\.? (\d+)[a-z]?(?:-(\d+)[a-z]?)?\)/g;
+
+/**
+ * The passages of one poem of Project Gutenberg #348: each starts at its Greek line numbers.
+ * The four-digit footnote marks, the gap marks, and the sub-headings are not kept.
+ */
+function lineBlocks(section: string): { start: number; end: number; text: string }[] {
+	const kept = section
+		.split(/\n\s*\n/)
+		.filter((p) => !/^[\s*]*$/.test(p) && !/^[A-Z][A-Z ,’'—-]+$/.test(p.trim()))
+		.join("\n");
+	const marks = [...kept.matchAll(LINE_MARK)];
+	return marks.map((m, k) => {
+		const start = Number(m[1]);
+		const text = kept
+			.slice((m.index ?? 0) + m[0].length, marks[k + 1]?.index ?? kept.length)
+			.replace(/\(\(LACUNA\)\)|\{\[0-9\]\}/g, " ")
+			.replace(/\s*\b\d{4}\b/g, "")
+			.replace(/_/g, "");
+		return { start, end: m[2] ? Number(m[2]) : start, text: clean(text) };
+	});
+}
+
+const lineRef = (b: { start: number; end: number }) =>
+	b.end > b.start ? `${b.start}-${b.end}` : `${b.start}`;
+
+export const HESIOD_POEMS = ["Theogony", "Works and Days"];
+
+/** Hesiod (Evelyn-White, 1914, Project Gutenberg #348): the Theogony and the Works and Days. */
+export function parseHesiod(raw: string): Passage[] {
+	const body = gutenbergBody(lf(raw));
+	const sections = [
+		between(body, /^THE THEOGONY$/m, /^THE CATALOGUES OF WOMEN/m),
+		between(body, /^HESIOD’S WORKS AND DAYS$/m, /^THE DIVINATION BY BIRDS$/m),
+	];
+	return sections.flatMap((section, i) =>
+		lineBlocks(section).map((b, k) => ({
+			ref: `${HESIOD_POEMS[i]} ${lineRef(b)}`,
+			sort: (i + 1) * 100_000 + k,
+			division: String(i + 1),
+			divisionTitle: HESIOD_POEMS[i] as string,
+			text: b.text,
+		})),
+	);
+}
+
+/** The Homeric Hymns (Evelyn-White, 1914, Project Gutenberg #348): hymns I to XXXIII. */
+export function parseHomericHymns(raw: string): Passage[] {
+	const hymns = between(gutenbergBody(lf(raw)), /^THE HOMERIC HYMNS$/m, /^HOMER’S EPIGRAMS/m);
+	const heads = [...hymns.matchAll(/^([IVXL]+)\. (TO .+?)(?: \d{4})?$/gm)];
+	return heads.flatMap((h, i) => {
+		const n = romanToInt(h[1] as string);
+		const section = hymns.slice((h.index ?? 0) + h[0].length, heads[i + 1]?.index ?? hymns.length);
+		return lineBlocks(section).map((b, k) => ({
+			ref: `HH ${n}.${lineRef(b)}`,
+			sort: n * 100_000 + k,
+			division: String(n),
+			divisionTitle: titleCase(h[2] as string),
+			text: b.text,
+		}));
+	});
+}
+
+// Each poem of Bellows: the name of its heading, then other spellings after a bar.
+export const BELLOWS_POEMS = [
+	"Voluspo|Voluspa",
+	"Hovamol|Havamal",
+	"Vafthruthnismol|Vafthrudnismal",
+	"Grimnismol|Grimnismal",
+	"Skirnismol|Skirnismal",
+	"Harbarthsljoth|Harbardsljod",
+	"Hymiskvitha|Hymiskvida",
+	"Lokasenna",
+	"Thrymskvitha|Thrymskvida",
+	"Alvissmol|Alvissmal",
+	"Baldrs Draumar",
+	"Rigsthula",
+	"Hyndluljoth|Hyndluljod",
+	"Svipdagsmol|Svipdagsmal",
+	"Völundarkvitha|Volundarkvida",
+	"Helgakvitha Hjorvarthssonar|Helgakvida Hjorvardssonar",
+	"Helgakvitha Hundingsbana I|Helgakvida Hundingsbana I",
+	"Helgakvitha Hundingsbana II|Helgakvida Hundingsbana II",
+	"Fra Dautha Sinfjotla|Fra Dauda Sinfjotla",
+	"Gripisspo|Gripisspa",
+	"Reginsmol|Reginsmal",
+	"Fafnismol|Fafnismal",
+	"Sigrdrifumol|Sigrdrifumal",
+	"Brot af Sigurtharkvithu|Brot af Sigurdarkvidu",
+	"Guthrunarkvitha I|Gudrunarkvida I",
+	"Sigurtharkvitha en Skamma|Sigurdarkvida in Skamma",
+	"Helreith Brynhildar|Helreid Brynhildar",
+	"Drap Niflunga",
+	"Guthrunarkvitha II|Gudrunarkvida II",
+	"Guthrunarkvitha III|Gudrunarkvida III",
+	"Oddrunargratr",
+	"Atlakvitha|Atlakvida",
+	"Atlamol|Atlamal",
+	"Guthrunarhvot|Gudrunarhvot",
+	"Hamthesmol|Hamdismal",
+];
+
+const shown = (name: string) => name.split("|")[0] as string;
+
+/** The poem whose name the heading starts with: "GUTHRUNARKVITHA II, EN FORNA" is "Guthrunarkvitha II". */
+function eddaPoem(heading: string): number {
+	const i = BELLOWS_POEMS.findIndex((name) => {
+		const upper = shown(name).toUpperCase();
+		return heading.startsWith(upper) && !/\p{L}/u.test(heading[upper.length] ?? "");
+	});
+	if (i < 0) throw new Error(`Poetic Edda: no poem named ${heading}`);
+	return i + 1;
+}
+
+/**
+ * The Poetic Edda (Bellows, 1923, Project Gutenberg #73533). Each poem has its name, its English
+ * title, Bellows's introductory note, a gap of blank lines, the text, and a notes section. A passage
+ * is a stanza; the manuscript's prose goes with the stanza that it leads into, and prose after the
+ * last stanza goes with that stanza. A poem of prose only numbers its paragraphs from 1.
+ */
+export function parseBellowsEdda(raw: string): Passage[] {
+	const lines = gutenbergBody(lf(raw)).split("\n");
+	const passages: Passage[] = [];
+	for (let at = 0; at < lines.length; at++) {
+		if (!/^INTRODUCTORY NOTE\s*$/.test(lines[at] as string)) continue;
+		const above = lines
+			.slice(0, at)
+			.filter((l) => l.trim())
+			.slice(-2);
+		const poem = eddaPoem((above[0] as string).trim());
+		const title = titleCase((above[1] as string).trim());
+		let to = at + 1;
+		while (to < lines.length && !/^\s*NOTES?\s*$/.test(lines[to] as string)) to++;
+		// The note ends at the last run of 3 blank lines before the first stanza (or before the last
+		// text of a poem of prose only): the note itself can hold such a run.
+		// A stanza number has at most 3 digits; a year at the start of a line of the note has 4.
+		let limit = lines.findIndex((l, i) => i > at && i < to && /^\d{1,3}\.\s/.test(l));
+		if (limit < 0) limit = to - 1 - [...lines.slice(at, to)].reverse().findIndex((l) => l.trim());
+		let from = at + 1;
+		for (let i = at + 1; i + 2 < limit; i++)
+			if (lines.slice(i, i + 3).every((l) => !l.trim())) from = i + 3;
+		const paras = lines
+			.slice(from, to)
+			.join("\n")
+			.split(/\n\s*\n/)
+			.map((p) => p.trim())
+			.filter((p) => /\p{Ll}/u.test(p)); // not a heading inside the poem: "I. GROUGALDR"
+		const stanzas: { n: number; text: string }[] = [];
+		let lead: string[] = [];
+		for (const para of paras) {
+			const m = para.match(/^(\d{1,3})\.\s+([\s\S]*)$/);
+			if (!m) {
+				lead.push(para);
+				continue;
+			}
+			stanzas.push({ n: Number(m[1]), text: [...lead, m[2] as string].join(" ") });
+			lead = [];
+		}
+		if (stanzas.length && lead.length)
+			(stanzas.at(-1) as { text: string }).text += ` ${lead.join(" ")}`;
+		if (!stanzas.length) stanzas.push(...lead.map((text, k) => ({ n: k + 1, text })));
+		for (const s of stanzas) {
+			passages.push({
+				ref: `${shown(BELLOWS_POEMS[poem - 1] as string)} ${s.n}`,
+				sort: poem * 1000 + s.n,
+				division: String(poem),
+				divisionTitle: title,
+				text: clean(s.text.replace(/\s*\|\s*/g, " ")),
+			});
+		}
+		at = to;
+	}
+	return passages;
+}
+
+// Chapters whose page holds only the editor's description of them, with no translation.
+const BD_DESCRIBED_ONLY = new Set([20, 168, 184]);
+// Editor's lines in the text: "is identical with Chapter IX.", a remark in brackets, the end of
+// Renouf's part, and the byline of Naville's.
+const BD_EDITORIAL =
+	/^(is |Identical with |This completes Sir P\.|BY EDOUARD NAVILLE)|^\[[^\]]*\]$/;
+
+/**
+ * The Book of the Dead (Renouf and Naville, 1904, Project Gutenberg #69566). A chapter starts at a
+ * centered "CHAPTER CXXV." that is not a plate's caption; its rubric is the title, and each paragraph
+ * after it is a passage, up to its notes. A chapter with a letter (XXXA, XXXB) or a second part keeps
+ * the number of its chapter, and its paragraphs go on with that chapter's count. Plates, footnotes,
+ * and the marks of the notes are not kept.
+ */
+export function parseRenoufBookOfTheDead(raw: string): Passage[] {
+	const lines = gutenbergBody(lf(raw)).split("\n");
+	const filled = (from: number) => lines.slice(from).find((l) => l.trim()) ?? "";
+	const passages: Passage[] = [];
+	const count = new Map<number, number>();
+	const titles = new Map<number, string>();
+	const unmarked = (s: string) =>
+		clean(s.replace(/\(\d+\.\)|\[\d+\]|[_=⁂]/g, " ").replace(/\s+([,.;:!?—])/g, "$1"));
+	let chapter = 0;
+	let inText = false;
+	let inIllustration = false;
+	let inPlate = false; // from "PLATE IV." to the next text at the left margin
+	let inFootnote = false;
+	let rubric: string[] | null = null; // the italic lines right under a heading, while they are read
+	let para: string[] = [];
+	const flush = () => {
+		const text = unmarked(para.join(" "));
+		para = [];
+		if (!text || !inText || BD_EDITORIAL.test(text)) return;
+		if (!/\p{Ll}/u.test(text)) return; // a heading inside the chapter: "HYMN I.", "PART I."
+		const n = (count.get(chapter) ?? 0) + 1;
+		count.set(chapter, n);
+		passages.push({
+			ref: `BD ${chapter}.${n}`,
+			sort: chapter * 1000 + n,
+			division: String(chapter),
+			divisionTitle: titles.get(chapter) || `Chapter ${chapter}`,
+			text,
+		});
+	};
+	for (const [i, line] of lines.entries()) {
+		if (inIllustration) {
+			if (/\]\s*$/.test(line)) inIllustration = false;
+			continue;
+		}
+		const heading = line.match(/^ {10,}CHAPTERS? ([IVXLC]+)[AB]?\b/i);
+		if (inFootnote && !heading && (!line.trim() || /^ {2,}\S/.test(line))) continue;
+		inFootnote = false;
+		if (heading) {
+			flush();
+			const prev =
+				lines
+					.slice(0, i)
+					.filter((l) => l.trim())
+					.at(-1) ?? "";
+			const caption =
+				(inPlate && /BOOK OF THE DEAD/.test(prev)) ||
+				/^\s*(\[Illustration|NOTES?\.)/.test(filled(i + 1)) ||
+				/note/i.test(line);
+			if (caption) continue;
+			inPlate = false;
+			chapter = romanToInt((heading[1] as string).toUpperCase());
+			inText = !BD_DESCRIBED_ONLY.has(chapter);
+			rubric = !titles.has(chapter) && /^\s*(\(\d+\.\))?_/.test(filled(i + 1)) ? [] : null;
+			continue;
+		}
+		if (/^\[Illustration/.test(line)) {
+			flush();
+			inIllustration = !/\]\s*$/.test(line);
+			continue;
+		}
+		if (/^Footnote \d+:/.test(line)) {
+			flush();
+			inFootnote = true;
+			continue;
+		}
+		if (/^\s*(?:ce )?(?:INTRODUCTORY NOTE|NOTES?)\b[^a-z]*$/.test(line)) {
+			flush();
+			inText = false;
+			continue;
+		}
+		if (/^PLATE /.test(line)) {
+			flush();
+			inPlate = true;
+			continue;
+		}
+		if (/^ +BOOK OF THE DEAD\.\s*$|^\s*-{4,}\s*$/.test(line)) {
+			flush();
+			continue;
+		}
+		if (!line.trim()) {
+			if (rubric?.length) {
+				titles.set(chapter, unmarked(rubric.join(" ")));
+				rubric = null;
+			}
+			flush();
+			continue;
+		}
+		if (inPlate) {
+			if (/^ {4,}/.test(line)) continue;
+			inPlate = false;
+		}
+		if (rubric) rubric.push(line);
+		else para.push(line);
+	}
+	flush();
+	return passages;
+}
+
+/**
+ * The Aztec hymns (Brinton, Rig Veda Americanus, 1890, Project Gutenberg #14993). Each hymn has the
+ * Nahuatl text, a gloss, and then the English: an italic title, the numbered verses, and "_Notes._".
+ * Only the English verses are kept. A hymn whose verses do not run from 1 stops the build.
+ */
+export function parseBrintonHymns(raw: string): Passage[] {
+	const body = gutenbergBody(lf(raw));
+	const heads = [...body.matchAll(/^([IVXL]+)\. _.+_\s*$/gm)];
+	return heads.flatMap((h, i) => {
+		const n = romanToInt(h[1] as string);
+		const hymn = body.slice((h.index ?? 0) + h[0].length, heads[i + 1]?.index ?? body.length);
+		const notes = hymn.search(/^_Notes\._/m);
+		if (notes < 0) throw new Error(`Aztec hymn ${n}: no notes heading`);
+		const paras = hymn
+			.slice(0, notes)
+			.split(/\n\s*\n/)
+			.map((p) => p.trim())
+			.filter(Boolean);
+		const verses: string[] = [];
+		let k = paras.length - 1;
+		for (; k >= 0 && /^\d+\. /.test(paras[k] as string); k--) verses.unshift(paras[k] as string);
+		const title = (paras[k] ?? "").match(/^_([\s\S]+?)\.?_$/);
+		if (!title) throw new Error(`Aztec hymn ${n}: no English title`);
+		return verses.map((v, j) => {
+			const m = v.match(/^(\d+)\. ([\s\S]*)$/) as RegExpMatchArray;
+			if (Number(m[1]) !== j + 1) throw new Error(`Aztec hymn ${n}: verse ${m[1]} is out of order`);
+			return {
+				ref: `Aztec Hymn ${n}.${j + 1}`,
+				sort: n * 1000 + j + 1,
+				division: String(n),
+				divisionTitle: clean(title[1] as string),
+				text: clean((m[2] as string).replace(/_/g, "")),
+			};
+		});
+	});
+}
+
+/**
+ * Chuang Tzu (Giles, 1889, Project Gutenberg #59709). The paragraphs have no numbers: they are
+ * numbered from 1 in each chapter. Giles's notes are indented one space and can cut a sentence in
+ * two; the two parts are joined. A verse that Giles quotes with its source under it, the editor's
+ * remarks in brackets, and the index are not kept.
+ */
+export function parseGilesChuangTzu(raw: string): Passage[] {
+	const body = gutenbergBody(lf(raw));
+	const end = body.search(/^_INDEX_\s*$/m);
+	const text = end < 0 ? body : body.slice(0, end);
+	const heads = [...text.matchAll(/^CHAPTER ([IVXL]+)\.\s*\n\s*\n([^\n]+)\n/gm)];
+	return heads.flatMap((h, i) => {
+		const n = romanToInt(h[1] as string);
+		const blocks = text
+			.slice((h.index ?? 0) + h[0].length, heads[i + 1]?.index ?? text.length)
+			.split(/\n\s*\n/)
+			.map((b) => b.replace(/^\n+/, ""))
+			.filter((b) => b.trim() && !/^[\s*]+$/.test(b));
+		const paras: string[] = [];
+		let afterNote = false;
+		let lastWasNote = false;
+		for (const b of blocks) {
+			if (/^ \S/.test(b)) {
+				afterNote = true;
+				lastWasNote = true;
+				continue;
+			}
+			if (/^ {2,}_.+_ \(.+\)\.\s*$/.test(b)) {
+				// A quoted verse and its source: the verse is the last block of the paragraph before.
+				paras[paras.length - 1] = (paras.at(-1) as string).replace(/\n\uE000[\s\S]*$/, "");
+				continue;
+			}
+			if (/^ {2,}\S/.test(b)) {
+				if (!lastWasNote && paras.length) paras[paras.length - 1] += `\n\uE000${b}`;
+				continue;
+			}
+			const prev = paras.at(-1);
+			const cut = afterNote && prev && (!/[.?!"'’”:]$/.test(prev.trim()) || /^[a-z]/.test(b));
+			if (cut) paras[paras.length - 1] = `${prev} ${b}`;
+			else paras.push(b);
+			afterNote = false;
+			lastWasNote = false;
+		}
+		return paras
+			.map((p) =>
+				clean(
+					p
+						.replace(/\uE000/g, " ")
+						.replace(/\[[^\]]*\]/g, " ")
+						.replace(/_/g, ""),
+				),
+			)
+			.filter(Boolean)
+			.map((p, k) => ({
+				ref: `Zhuangzi ${n}.${k + 1}`,
+				sort: n * 1000 + k + 1,
+				division: String(n),
+				divisionTitle: titleCase(h[2] as string),
+				text: p,
+			}));
+	});
+}
+
+type WsBlock = { text: string; verse: boolean; indent: boolean; center: boolean };
+
+/**
+ * The text blocks of a Wikisource page, from its first page number to its footnote list: one for
+ * each paragraph, line of verse, or heading. A block in smaller type (an editor's note) is left out.
+ */
+function wsBlocks(html: string): WsBlock[] {
+	let h = beforeNotes(html).replace(/<(script|style)[^>]*>[\s\S]*?<\/\1>/g, "");
+	const first = h.search(/<span[^>]*class="pagenum/);
+	if (first > 0) h = h.slice(first);
+	// An inline tag can sit inside a word ("Kha<i>nd</i>a"), so it goes with no space.
+	h = h
+		.replace(/<sup[^>]*class="reference"[^>]*>[\s\S]*?<\/sup>/g, "")
+		.replace(/<span[^>]*class="pagenum[^"]*"[^>]*>[\s\S]*?<\/span><\/span>/g, "")
+		.replace(/<br\s*\/?>/g, " ")
+		.replace(/<\/?(?:i|b|em|strong|span|a|small|big|abbr|u|s|sub|sup|link)\b[^>]*>/g, "");
+	const blocks: WsBlock[] = [];
+	const open: string[] = []; // the class of each open div, or "dl"
+	let buf = "";
+	const flush = () => {
+		const text = wikisourceText(buf);
+		buf = "";
+		// A heading of the editor's apparatus: "Footnotes", "Vol. II." (of the printed book).
+		if (
+			!text ||
+			/^(Footnotes|Vol\. [IVX]+\.)$/.test(text) ||
+			open.some((c) => /wst-smaller/.test(c))
+		)
+			return;
+		blocks.push({
+			text,
+			verse: open.some((c) => c === "dl" || /\bpoem\b|wst-block-center/.test(c)),
+			indent: open.some((c) => /hanging-indent/.test(c)),
+			center: open.some((c) => /wst-center/.test(c)),
+		});
+	};
+	for (const t of h.split(/(<\/?(?:p|div|dl|dd|h[1-6]|li|ol|ul|table|tr|td)\b[^>]*>)/)) {
+		const m = t.match(/^<(\/?)(\w+)([^>]*)>$/);
+		if (!m) {
+			buf += t;
+			continue;
+		}
+		flush();
+		const [, close, tag, attrs] = m as unknown as [string, string, string, string];
+		if (tag !== "div" && tag !== "dl") continue;
+		if (close) open.pop();
+		else if (!attrs.endsWith("/"))
+			open.push(tag === "dl" ? "dl" : (attrs.match(/class="([^"]*)"/)?.[1] ?? ""));
+	}
+	flush();
+	return blocks;
+}
+
+const hasLower = (s: string) => /\p{Ll}/u.test(s);
+
+/**
+ * Kojiki (Chamberlain, 1882, Wikisource), one page for each of the 180 sections, keyed by the section
+ * number. A passage is a paragraph, numbered in order ("Kojiki 4.2"). The notes of the original, which
+ * Chamberlain indents, stay with the paragraph before them. The passages that he gave in Latin stay so.
+ */
+export function parseChamberlainKojiki(htmlBySection: Record<string, string>): Passage[] {
+	const passages: Passage[] = [];
+	for (const [key, html] of Object.entries(htmlBySection)) {
+		const section = Number(key);
+		let title: string | null = null;
+		const paras: string[] = [];
+		for (const b of wsBlocks(html)) {
+			const head = b.text.match(/^\[?\s*Sect\. [IVXLC]+\.\s*—\s*(.+?)\.?\s*\]?$/);
+			if (head) {
+				title = head[1] as string;
+				continue;
+			}
+			if (!hasLower(b.text) || b.text === "The End.") continue;
+			// A note of the original (indented) and a song stay with the paragraph before them.
+			if ((b.indent || b.verse) && paras.length) paras[paras.length - 1] += ` ${b.text}`;
+			else paras.push(b.text);
+		}
+		paras.forEach((text, i) => {
+			passages.push({
+				ref: `Kojiki ${section}.${i + 1}`,
+				sort: section * 1000 + i + 1,
+				division: String(section),
+				divisionTitle: title,
+				text: clean(text),
+			});
+		});
+	}
+	return passages.sort((a, b) => a.sort - b.sort);
+}
+
+export const PROSE_EDDA_PARTS = ["Prologue", "Gylfaginning", "Skáldskaparmál"];
+
+/**
+ * The Prose Edda (Brodeur, 1916, Wikisource), one page for each part, keyed by its name. A passage is
+ * a paragraph of a chapter ("Gylfaginning 34.2"), numbered in order; a verse stays in the paragraph
+ * before it. The Prologue's first chapter has no number.
+ */
+export function parseBrodeurProseEdda(htmlByPart: Record<string, string>): Passage[] {
+	const passages: Passage[] = [];
+	for (const [name, html] of Object.entries(htmlByPart)) {
+		const part = PROSE_EDDA_PARTS.indexOf(name) + 1;
+		if (part === 0) throw new Error(`Prose Edda: no part ${name}`);
+		let chapter = name === "Prologue" ? 1 : 0;
+		let paras: string[] = [];
+		const done = () => {
+			paras.forEach((text, i) => {
+				passages.push({
+					ref: `${name} ${chapter}.${i + 1}`,
+					sort: part * 1_000_000 + chapter * 1000 + i + 1,
+					division: String(part),
+					subdivision: chapter,
+					divisionTitle: null,
+					text: clean(text),
+				});
+			});
+			paras = [];
+		};
+		for (const b of wsBlocks(html)) {
+			const alone = b.text.match(/^([IVXL]+)\.?$/);
+			const lead = b.text.match(/^\[?([IVXL]+)\.\s+([\s\S]*)$/);
+			if (alone || lead) {
+				done();
+				chapter = romanToInt(((alone ?? lead) as RegExpMatchArray)[1] as string);
+				if (lead) paras.push(`${b.text.startsWith("[") ? "[" : ""}${lead[2]}`);
+				continue;
+			}
+			if (!hasLower(b.text) || chapter === 0) continue;
+			if (b.verse && paras.length) paras[paras.length - 1] += ` ${b.text}`;
+			else paras.push(b.text);
+		}
+		done();
+	}
+	return passages.sort((a, b) => a.sort - b.sort);
+}
+
+export const UPANISHADS = [
+	"Khandogya|Chandogya|Chhandogya",
+	"Kena|Talavakara",
+	"Isa|Isavasya|Vajasaneyi",
+];
+
+const ORDINALS =
+	"first second third fourth fifth sixth seventh eighth ninth tenth eleventh twelfth thirteenth fourteenth fifteenth sixteenth seventeenth eighteenth nineteenth".split(
+		" ",
+	);
+const TENS: Record<string, number> = { twentieth: 20, twenty: 20, thirtieth: 30, thirty: 30 };
+/** "Sixth" is 6, "Twenty-fourth" is 24. */
+function ordinal(word: string): number {
+	const [a, b] = word.toLowerCase().split("-") as [string, string | undefined];
+	if (b) return (TENS[a] ?? Number.NaN) + ORDINALS.indexOf(b) + 1;
+	return TENS[a] ?? ORDINALS.indexOf(a) + 1;
+}
+
+/**
+ * The Upanishads of Sacred Books of the East 1 (Müller, 1879, Wikisource): the Khândogya, the Kena
+ * (Talavakâra), and the Îsâ (Vâgasaneyi). Pages are keyed "Khandogya 6" (one for each Prapâthaka),
+ * "Kena", and "Isa". The Khândogya is cited by Prapâthaka and Khanda, one passage for each Khanda
+ * with its verse numbers ("Khandogya 6.8"); the Kena by Khanda and verse ("Kena 1.3"); the Îsâ by verse
+ * ("Isa 6", the verse as its subdivision too, so that the ref names it).
+ */
+export function parseMullerUpanishads(htmlByPage: Record<string, string>): Passage[] {
+	const passages: Passage[] = [];
+	for (const [key, html] of Object.entries(htmlByPage)) {
+		const [name, book] = key.split(" ") as [string, string | undefined];
+		const index = UPANISHADS.findIndex((u) => u.startsWith(`${name}|`)) + 1;
+		if (index === 0) throw new Error(`Upanishads: no ${name}`);
+		let khanda = name === "Isa" ? 1 : 0;
+		const verses: { khanda: number; n: number; label: string; text: string }[] = [];
+		// The anchor of a Khanda heading holds its number; the heading's word can be misspelled ("Elventh").
+		const marked = html.replace(
+			/<span id="Khanda(\d+)"[^>]*class="wst-anchor"[^>]*>[\s\S]*?<\/span>/g,
+			"\uE004$1\uE004",
+		);
+		for (const b of wsBlocks(marked)) {
+			const anchor = b.text.match(/^\uE004(\d+)\uE004/);
+			const head = b.text.match(/^([A-Z][a-z]+(?:-[a-z]+)?) Khanda\.?$/);
+			if (anchor || head) {
+				khanda = anchor ? Number(anchor[1]) : ordinal((head as RegExpMatchArray)[1] as string);
+				continue;
+			}
+			// "1, 2." is two verses that Müller gives together.
+			const v = b.text.match(/^((\d+)(?:,\s*\d+)*)\.\s+([\s\S]*)$/);
+			if (v && khanda)
+				verses.push({ khanda, n: Number(v[2]), label: v[1] as string, text: v[3] as string });
+			else if (verses.length && hasLower(b.text))
+				(verses.at(-1) as { text: string }).text += ` ${b.text}`;
+		}
+		const at = (sub: number, n: number) => index * 1_000_000 + sub * 1000 + n;
+		if (name === "Khandogya") {
+			const p = Number(book);
+			for (const k of [...new Set(verses.map((v) => v.khanda))])
+				passages.push({
+					ref: `Khandogya ${p}.${k}`,
+					sort: at(p, k),
+					division: String(index),
+					subdivision: p,
+					divisionTitle: null,
+					text: clean(
+						verses
+							.filter((v) => v.khanda === k)
+							.map((v) => `${v.label}. ${v.text}`)
+							.join(" "),
+					),
+				});
+		} else
+			for (const v of verses)
+				passages.push({
+					ref: name === "Isa" ? `Isa ${v.n}` : `${name} ${v.khanda}.${v.n}`,
+					sort: name === "Isa" ? at(v.n, v.n) : at(v.khanda, v.n),
+					division: String(index),
+					subdivision: name === "Isa" ? v.n : v.khanda,
+					divisionTitle: null,
+					text: clean(v.text),
+				});
+	}
+	return passages.sort((a, b) => a.sort - b.sort);
+}
+
+/**
+ * The Shû King (Legge, Sacred Books of the East 3, 1879, Wikisource), one page for each book, or for
+ * each section of a book with sections, keyed "part.book" or "part.book.section". The pages carry
+ * Legge's chapter numbers for some books only, so a passage is a paragraph, numbered in order through
+ * the book ("Shu 2.1.3"). His introduction and notes (in smaller type), the headings, and the index page
+ * of a book with sections are out.
+ */
+export function parseLeggeShuKing(htmlByPage: Record<string, string>): Passage[] {
+	const passages: Passage[] = [];
+	const keys = Object.keys(htmlByPage);
+	const ran: Record<string, number> = {}; // paragraphs already numbered in the earlier sections of a book
+	const order = (k: string) => k.split(".").map(Number).concat(0) as [number, number, number];
+	for (const key of keys.sort((a, b) => {
+		const [x, y] = [order(a), order(b)];
+		return x[0] - y[0] || x[1] - y[1] || x[2] - y[2];
+	})) {
+		if (keys.some((k) => k.startsWith(`${key}.`))) continue;
+		const html = htmlByPage[key] as string;
+		const [part, book] = order(key);
+		const header = html.match(/class="header-section-text">([\s\S]*?)<\/div>/);
+		const title = header
+			? wikisourceText(header[1] as string).replace(/^Part [IVX]+, Book [IVXL]+:\s*/, "")
+			: null;
+		const paras: string[] = [];
+		for (const b of wsBlocks(html)) {
+			if (b.center || !hasLower(b.text) || /^(Book [IVXL]+\.|Section \d+\.$)/.test(b.text))
+				continue;
+			const text = b.text.replace(/^\d+\.\s+/, "").replace(/\*\s*/g, " ");
+			if (b.verse && paras.length) paras[paras.length - 1] += ` ${text}`;
+			else paras.push(text);
+		}
+		const offset = ran[`${part}.${book}`] ?? 0;
+		paras.forEach((text, i) => {
+			const n = offset + i + 1;
+			passages.push({
+				ref: `Shu ${part}.${book}.${n}`,
+				sort: part * 1_000_000 + book * 1000 + n,
+				division: String(part),
+				subdivision: book,
+				divisionTitle: title,
+				text: clean(text),
+			});
+		});
+		ran[`${part}.${book}`] = offset + paras.length;
+	}
+	return passages.sort((a, b) => a.sort - b.sort);
+}
