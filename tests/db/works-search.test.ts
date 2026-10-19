@@ -154,6 +154,25 @@ suite("the works on a local copy", () => {
 		});
 	});
 
+	// Isa has one number for each verse ("Isa 5"), in a work of three levels: it is one page, not 18.
+	it("gives a division of single-number refs as one page", async () => {
+		const up = await corpusPages(
+			db as never,
+			(await resolveCorpus(db as never, "upanishads")) as never,
+		);
+		const isa = up.filter((p) => p.firstRef.startsWith("Isa "));
+		expect(isa).toHaveLength(1);
+		expect(isa[0]).toMatchObject({
+			subdivision: null,
+			firstRef: "Isa 1",
+			lastRef: "Isa 18",
+			passageCount: 18,
+		});
+		expect(
+			up.filter((p) => p.firstRef.startsWith("Khandogya ")).every((p) => p.subdivision !== null),
+		).toBe(true);
+	});
+
 	it("reads the longest page whole", async () => {
 		expect(await readWork(db as never, "Quran 2", "quran")).toHaveLength(286);
 	});
