@@ -2,6 +2,7 @@ import { afterAll, describe, expect, it } from "bun:test";
 import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
+import { CORPORA } from "../../scripts/scriptures/corpora.ts";
 import * as schema from "../../src/db/schema.ts";
 import {
 	listWorks,
@@ -38,11 +39,11 @@ const refs = (r: Awaited<ReturnType<typeof search>>) => (r?.data ?? []).map((x) 
 suite("the works on a local copy", () => {
 	afterAll(() => client?.end());
 
-	it("lists the Bible and the 9 other works", async () => {
+	it("lists the Bible and every other work", async () => {
 		const works = await listWorks(db as never);
 		expect(works.map((w) => w.id)).toContain("bible");
 		expect(works.map((w) => w.id)).toContain("dhammapada");
-		expect(works).toHaveLength(10);
+		expect(works).toHaveLength(CORPORA.length + 1);
 	});
 
 	it("says what each work is: its tradition, kind, and summary", async () => {
@@ -60,7 +61,7 @@ suite("the works on a local copy", () => {
 
 	it("names the tradition of the work of each result", async () => {
 		const r = await search("Dhp 183");
-		expect(r?.data[0]?.work.tradition).toBe("Buddhism");
+		expect(r?.data[0]?.work.tradition).toBe("Buddhist");
 	});
 
 	it("gives a Bible reference first, with its link", async () => {

@@ -210,6 +210,28 @@ describe("parseGriffithRigVeda", () => {
 		expect(p[1]).toMatchObject({ division: "1", subdivision: 10, divisionTitle: null });
 	});
 
+	it('reads a verse number printed with a comma, and the scan\'s "2§" for 29', () => {
+		const lines = `<div class="verse"><pre>28. Bring to us all things excellent, O Satakratu, food and strength:
+     For, Indra, thou art kind to us.
+2&#167; O Satakratu, bring to us all blessings, all felicity.
+30, Thee, best Vrtra-slayer, we invoke.
+</pre></div>`;
+		const p = parseGriffithRigVeda({ "8.82": lines });
+		expect(p.map((x) => x.ref)).toEqual(["RV 8.82.28", "RV 8.82.29", "RV 8.82.30"]);
+		expect(p[1]?.text).toBe("O Satakratu, bring to us all blessings, all felicity.");
+	});
+
+	it('reads the scan\'s "1" as "I" before a word, and as "!" at the end', () => {
+		const lines = `<div class="verse"><pre>1. 1 count thee as the Holiest of all. Stronger am 1 than they,
+2. Yea, even the sinner from his sin, ye Bounteous Gods 1
+</pre></div>`;
+		const p = parseGriffithRigVeda({ "8.85": lines });
+		expect(p.map((x) => x.text)).toEqual([
+			"I count thee as the Holiest of all. Stronger am I than they,",
+			"Yea, even the sinner from his sin, ye Bounteous Gods!",
+		]);
+	});
+
 	it("drops a link to the errata that the page prints as text, and keeps its word", () => {
 		const errata = `<div class="verse"><pre>1. LET guardians hasting hear with favour the song of Angiras's pious
      &lt;A HREF="errata.htm#0"&gt;children&lt;/A&gt;?
@@ -630,6 +652,20 @@ Adored be Râ.
                                 PART I.
 
 Said on arriving at the Hall of Righteousness.`);
+
+	it("drops a note mark printed with no period", () => {
+		const marks = wrap(`                               CHAPTER I.
+
+_The Chapter of the doors._
+
+And let me join my two hands together(6) in the divine dwelling.
+
+                                 NOTES.
+`);
+		expect(parseRenoufBookOfTheDead(marks)[0]?.text).toBe(
+			"And let me join my two hands together in the divine dwelling.",
+		);
+	});
 
 	it("keeps the spell number of each Roman chapter heading and numbers its paragraphs", () => {
 		const p = parseRenoufBookOfTheDead(raw);

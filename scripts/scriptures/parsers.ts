@@ -557,7 +557,8 @@ function rigVedaLines(lines: string[]): Verse[] {
 		// With lines that wait before any number, the first number can be 2 (verse 1 had none).
 		const next = verses.length ? (verses.at(-1) as Verse).n + 1 : before.length ? 2 : 1;
 		// "4. text", "4.text", or "4 text" when 4 is the next number. An indented number must be the next.
-		const m = /^(\s*)(\d+)(?:(\.)\s*|\s+)(\S.*)$/.exec(line);
+		// The scan prints some numbers as "6," or "2§" (for "29.").
+		const m = /^(\s*)(\d+)(?:(\.)\s*|,\s*|\s+)(\S.*)$/.exec(line.replace(/^(\s*\d)§\s*/, "$19. "));
 		const n = Number(m?.[2]);
 		if (
 			m &&
@@ -654,12 +655,16 @@ export function parseGriffithRigVeda(htmlByHymn: Record<string, string>): Passag
 				division: String(book),
 				divisionTitle,
 				subdivision: hymn,
-				text: clean(v.text),
+				text: rigVedaScan(clean(v.text)),
 			});
 		}
 	}
 	return passages;
 }
+
+// The scan reads "I" as "1" before a word, and "!" as "1" at the end of a verse.
+const rigVedaScan = (s: string) =>
+	s.replace(/(?<![\w,.-])1(?= [a-z])/g, "I").replace(/(?<=[a-z]) 1$/, "!");
 
 const lf = (s: string) => s.replace(/\r/g, "");
 
@@ -880,7 +885,7 @@ export function parseRenoufBookOfTheDead(raw: string): Passage[] {
 	const count = new Map<number, number>();
 	const titles = new Map<number, string>();
 	const unmarked = (s: string) =>
-		clean(s.replace(/\(\d+\.\)|\[\d+\]|[_=⁂]/g, " ").replace(/\s+([,.;:!?—])/g, "$1"));
+		clean(s.replace(/\(\d+\.?\)|\[\d+\]|[_=⁂]/g, " ").replace(/\s+([,.;:!?—])/g, "$1"));
 	let chapter = 0;
 	let inText = false;
 	let inIllustration = false;

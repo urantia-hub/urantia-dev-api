@@ -98,6 +98,10 @@ for (const [order, corpus] of CORPORA.entries()) {
 				chunk_id: chunkOf.get(p.ref) ?? null,
 			};
 		});
+		// Remove the passages this build no longer makes ("RV 2.28.1-2" split in two) before they block a sort.
+		await tx`
+			DELETE FROM scripture_passages
+			WHERE corpus_id = ${corpus.id} AND NOT (id = ANY(${passageRows.map((p) => p.id)}))`;
 		for (let i = 0; i < passageRows.length; i += 500) {
 			await tx`
 				INSERT INTO scripture_passages ${tx(passageRows.slice(i, i + 500))}
