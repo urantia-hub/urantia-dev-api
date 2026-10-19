@@ -14,6 +14,7 @@
 - **Three paragraph reference formats** — all auto-detected (`2:0.1`, `2.0.1`, `1:2.0.1`)
 - **Entity enrichment** — attach typed entity mentions to any paragraph via `?include=entities`
 - **Works API** — `/works`, `/works/search`, `/works/search/semantic`, `/works/{work}/{ref}`, `/works/{work}/{ref}/urantia-parallels`: the Bible and the other works in one result shape (work, reference, text, link, nearest Urantia paragraphs)
+- **Works list** — the Bible (World English Bible) and 21 public domain texts, each with its tradition, kind (scripture or classic), edition, and a one-sentence summary: Diogenes Laertius Book 6 and Epictetus 3.22 (Cynic), the Dhammapada (Buddhist), the Bhagavad Gita, the Rig Veda, and three Upanishads (Hindu), the Shinto oracles and the Kojiki (Japanese, Shinto), the Tao Te Ching and Chuang Tzu (Taoist), the Analects and the Shu King (Confucian), the Koran (Muslim), the Japji (Sikh), the Book of Mormon (Latter Day Saint), the Book of the Dead (Ancient Egyptian), Hesiod and the Homeric Hymns (Ancient Greek), the Poetic and Prose Eddas (Norse), and Aztec hymns (Aztec, Nahua)
 - **Bible API** — `/bible/books`, `/bible/{bookCode}`, `/bible/{bookCode}/{chapter}`, `/bible/{bookCode}/{chapter}/{verse}` with OSIS book codes and forgiving alias resolution
 
 ## Search
@@ -32,7 +33,7 @@
 ## AI & Developer Tools
 
 - **MCP Server** at `api.urantia.dev/mcp` — 26 tools (Urantia Papers + Bible + the other works + cross-references + quote checks + citations), 2 resource templates (`urantia://paper/{id}`, `urantia://entity/{id}`), and 2 prompt templates (`study_assistant`, `comparative_theology`) for Claude, Cursor, Windsurf, and other AI agents
-- **Works tools** — `works.list`, `works.search` (keyword, with references and typo fixes), `works.search.semantic` (with `strength`), `works.read`, and `works.urantia_parallels`, for the Bible and the 9 texts of the world's religions in one result shape; plus `quotes.verify` and `cite.get`
+- **Works tools** — `works.list`, `works.search` (keyword, with references and typo fixes), `works.search.semantic` (with `strength`), `works.read`, and `works.urantia_parallels`, for the Bible and the 21 texts of the world's religions and traditions in one result shape; plus `quotes.verify` and `cite.get`
 - **Bible + cross-reference tools** — `bible.books`, `bible.book`, `bible.chapter`, `bible.verse`, `bible.verse.urantia_parallels` (top-10 UB paragraphs nearest a Bible verse), and `bible.search.semantic` (Bible search that returns matching UB paragraphs alongside each hit)
 - **UB ↔ Bible parallels on existing tools** — pass `include_bible_parallels` and/or `include_urantia_parallels` to `paragraphs.get`, `paragraphs.random`, `search.fulltext`, and `search.semantic` to get the top-10 semantic neighbors attached to each result
 - **Function-calling schemas** — `/tools/openai` and `/tools/anthropic` return drop-in tool definitions for the OpenAI and Anthropic SDKs
