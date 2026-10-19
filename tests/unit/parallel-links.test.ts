@@ -146,6 +146,18 @@ describe("the address of a passage of another work", () => {
 			expect(scriptureUrl("rig-veda-griffith-1896", reference, "x")).toBeNull();
 	});
 
+	it("is the revision that the text was read from, for a hymn whose page now holds other text", () => {
+		expect(workPage("rig-veda-griffith-1896", "RV 10.34.1")).toBe(
+			"https://en.wikisource.org/w/index.php?oldid=54741",
+		);
+		expect(workPage("rig-veda-griffith-1896", "RV 10.97.6")).toBe(
+			"https://en.wikisource.org/w/index.php?oldid=3747426",
+		);
+		expect(workPage("rig-veda-griffith-1896", "RV 10.35.1")).toBe(
+			"https://en.wikisource.org/wiki/The_Hymns_of_the_Rigveda/Book_10/Hymn_35",
+		);
+	});
+
 	it("is the reading page of Project Gutenberg for the works of batch 2", () => {
 		for (const [id, pg] of [
 			["book-of-the-dead-renouf-1904", 69566],

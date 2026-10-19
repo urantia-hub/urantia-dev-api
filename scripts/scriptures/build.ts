@@ -3,6 +3,7 @@
 // Default outDir: ../urantia-data-sources/data/scriptures (next to this repo).
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { RIG_VEDA_PINNED } from "../../src/lib/parallel-links.ts";
 import { CORPORA } from "./corpora.ts";
 import {
 	type Passage,
@@ -49,16 +50,6 @@ async function wikisource(page: string, oldid?: number): Promise<string> {
 	if (!res.ok) throw new Error(`Wikisource ${page}: HTTP ${res.status}`);
 	return ((await res.json()) as { parse: { text: string } }).parse.text;
 }
-
-// Hymn pages whose text today is not Griffith's, read at the last revision before that edit
-// (each found by a comparison with the 2005 import, 2026-10-18): 10.34 holds a translation revised
-// after Macdonell (2006), 10.58.3 "four-eyed" (2023), 10.86.13-14 other text (2022), 10.97.6 added words (2021).
-const RIG_VEDA_PINNED: Record<string, number> = {
-	"10.34": 54741,
-	"10.58": 12150713,
-	"10.86": 3747414,
-	"10.97": 3747426,
-};
 
 async function besantChapters(): Promise<Record<string, string>> {
 	const chapters: Record<string, string> = {};

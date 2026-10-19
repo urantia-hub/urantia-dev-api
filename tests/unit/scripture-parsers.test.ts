@@ -210,6 +210,17 @@ describe("parseGriffithRigVeda", () => {
 		expect(p[1]).toMatchObject({ division: "1", subdivision: 10, divisionTitle: null });
 	});
 
+	it("drops a link to the errata that the page prints as text, and keeps its word", () => {
+		const errata = `<div class="verse"><pre>1. LET guardians hasting hear with favour the song of Angiras's pious
+     &lt;A HREF="errata.htm#0"&gt;children&lt;/A&gt;?
+2. When to the people of the home he cometh he strides in strength.
+</pre></div>`;
+		const p = parseGriffithRigVeda({ "1.121": errata });
+		expect(p[0]?.text).toBe(
+			"LET guardians hasting hear with favour the song of Angiras's pious children?",
+		);
+	});
+
 	it("reads a proofread page: verse 1 has no number, the notes go, and the hymn title is kept", () => {
 		const p = parseGriffithRigVeda({ "1.1": proofread });
 		expect(p.map((x) => x.ref)).toEqual(["RV 1.1.1", "RV 1.1.2"]);
