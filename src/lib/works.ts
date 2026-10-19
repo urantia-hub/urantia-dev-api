@@ -70,7 +70,7 @@ type Meta = {
 // A unit is one Bible verse or one passage of a work, with the chunk that holds its parallels.
 type Unit = Omit<WorkResult, "urantiaParallels"> & { chunk: { bible: boolean; id: string } | null };
 
-const BIBLE_TRADITION = "Judaism and Christianity";
+const BIBLE_TRADITION = "Jewish and Christian";
 const BIBLE_WORK = {
 	id: BIBLE,
 	title: "The Bible (World English Bible)",
