@@ -1022,3 +1022,34 @@ export const WorkRefParam = z.object({
 
 export const WorkReadResponse = z.object({ data: z.array(WorkResultSchema) });
 export const WorkParallelsResponse = z.object({ data: WorkResultSchema });
+
+const OtherWorkParallel = WorkResultSchema.omit({
+	urantiaParallels: true,
+	match: true,
+	strength: true,
+	similarity: true,
+}).extend({
+	reference: z
+		.string()
+		.describe('The chunk of the other work: "Quran 2.255-257", "Genesis 1:1-2".'),
+	similarity: z.number().describe("Cosine similarity of the two chunks (text-embedding-3-large)."),
+});
+
+export const OtherWorkParallelsResponse = z.object({
+	data: WorkResultSchema.omit({
+		urantiaParallels: true,
+		match: true,
+		strength: true,
+		similarity: true,
+	}).extend({
+		chunk: z.object({
+			label: z.string().describe('The chunk that holds the unit: "Dhp 21-23".'),
+			references: z.array(z.string()).describe("Each unit of the chunk, in order."),
+		}),
+		parallels: z
+			.array(OtherWorkParallel)
+			.describe(
+				"Up to 10 chunks of the other works and of the Bible, nearest first. Empty when none are stored.",
+			),
+	}),
+});

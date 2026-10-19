@@ -1,4 +1,5 @@
 import { afterAll, describe, expect, it } from "bun:test";
+import { readFileSync } from "node:fs";
 import { sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
@@ -7,6 +8,7 @@ import * as schema from "../../src/db/schema.ts";
 import { corpusPages, resolveCorpus } from "../../src/lib/scripture-parallels.ts";
 import {
 	listWorks,
+	otherWorkParallels,
 	readWork,
 	searchWorks,
 	semanticSearchWorks,
@@ -154,6 +156,52 @@ suite("the works on a local copy", () => {
 
 	it("reads the longest page whole", async () => {
 		expect(await readWork(db as never, "Quran 2", "quran")).toHaveLength(286);
+	});
+
+	it("gives no parallels of other works while their table does not exist", async () => {
+		await (client as postgres.Sql).unsafe("DROP TABLE IF EXISTS scripture_work_parallels");
+		const found = await otherWorkParallels(db as never, "dhammapada", "Dhp 21");
+		expect(found).toMatchObject({ reference: "Dhp 21", parallels: [] });
+	});
+
+	it("gives the nearest passages of the other works and the Bible, nearest first", async () => {
+		const pg = client as postgres.Sql;
+		await pg.unsafe(readFileSync("scripts/scriptures/create-work-parallels.sql", "utf8"));
+		const [own] = await pg<{ chunk_id: string }[]>`
+			SELECT chunk_id FROM scripture_passages WHERE id = 'dhammapada-muller-1881:Dhp 21'`;
+		const [koran] = await pg<{ id: string }[]>`
+			SELECT id FROM scripture_chunks WHERE corpus_id = 'koran-pickthall-1930' ORDER BY sort_start LIMIT 1`;
+		// A local copy can have no Bible chunks: the test brings one of its own.
+		await pg`INSERT INTO bible_chunks (id, book_code, chapter, verse_start, verse_end, text)
+			VALUES ('test:Gen.1.1-2', 'Gen', 1, 1, 2, 'In the beginning, God created the heavens and the earth.')
+			ON CONFLICT (id) DO NOTHING`;
+		const bible = { id: "test:Gen.1.1-2" };
+		await pg`INSERT INTO scripture_work_parallels ${pg([
+			{
+				chunk_id: own?.chunk_id,
+				rank: 1,
+				other_bible_chunk_id: bible?.id,
+				other_chunk_id: null,
+				similarity: 0.7,
+			},
+			{
+				chunk_id: own?.chunk_id,
+				rank: 2,
+				other_chunk_id: koran?.id,
+				other_bible_chunk_id: null,
+				similarity: 0.6,
+			},
+		])}`;
+		const found = await otherWorkParallels(db as never, "dhammapada", "Dhp 21");
+		if (!found || found === "many") throw new Error("no unit");
+		expect(found.chunk.references).toContain("Dhp 21");
+		expect(found.parallels.map((p) => p.work.id)).toEqual(["bible", "quran"]);
+		expect(found.parallels[0]?.reference).toBe("Genesis 1:1-2");
+		expect(found.parallels[0]?.similarity).toBeCloseTo(0.7, 5);
+		expect(found.parallels[1]?.reference).toMatch(/^Quran 1/);
+		expect(found.parallels[1]?.work.tradition).toBe("Muslim");
+		await pg.unsafe("DROP TABLE scripture_work_parallels");
+		await pg`DELETE FROM bible_chunks WHERE id = 'test:Gen.1.1-2'`;
 	});
 
 	it("reads a part of a work", async () => {

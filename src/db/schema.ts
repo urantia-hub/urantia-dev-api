@@ -10,6 +10,7 @@ import {
 	primaryKey,
 	real,
 	serial,
+	smallint,
 	text,
 	timestamp,
 	uniqueIndex,
@@ -623,6 +624,31 @@ export const scriptureParallels = pgTable(
 		index("spar_para_direction_idx").on(t.paragraphId, t.direction, t.corpusId, t.rank),
 		index("spar_chunk_direction_idx").on(t.chunkId, t.direction, t.rank),
 		uniqueIndex("spar_natural_key_idx").on(t.direction, t.paragraphId, t.chunkId, t.source),
+	],
+).enableRLS();
+
+// --- scripture_work_parallels (chunk of a work -> nearest chunks of the other works and the Bible) ---
+// Computed by scripts/scriptures/work-parallels.ts with text-embedding-3-large; created by
+// scripts/scriptures/create-work-parallels.sql, never with db:push. One of the two "other" columns is set.
+export const scriptureWorkParallels = pgTable(
+	"scripture_work_parallels",
+	{
+		chunkId: text("chunk_id")
+			.notNull()
+			.references(() => scriptureChunks.id, { onDelete: "cascade" }),
+		rank: smallint("rank").notNull(),
+		otherChunkId: text("other_chunk_id").references(() => scriptureChunks.id, {
+			onDelete: "cascade",
+		}),
+		otherBibleChunkId: text("other_bible_chunk_id").references(() => bibleChunks.id, {
+			onDelete: "cascade",
+		}),
+		similarity: real("similarity").notNull(),
+		generatedAt: timestamp("generated_at").notNull().defaultNow(),
+	},
+	(t) => [
+		primaryKey({ columns: [t.chunkId, t.rank] }),
+		index("swp_other_chunk_idx").on(t.otherChunkId),
 	],
 ).enableRLS();
 
