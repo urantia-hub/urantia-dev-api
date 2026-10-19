@@ -142,6 +142,20 @@ describe("the named poems of batch 2", () => {
 		});
 		expect(parseScriptureRef("Works and Days 120", "Hesiod", 2, hesiod)?.path).toEqual([2, 120]);
 	});
+
+	test("reads a whole poem or book by its name alone, but never by a short form of it", () => {
+		expect(parseScriptureRef("Theogony", "Hesiod", 2, hesiod)).toEqual({
+			path: [1],
+			end: 1,
+			full: false,
+		});
+		expect(parseScriptureRef("Hesiod Works and Days", "Hesiod", 2, hesiod)?.path).toEqual([2]);
+		expect(parseScriptureRef("Hovamol", "Edda", 2, poems)?.path).toEqual([2]);
+		expect(parseScriptureRef("Helgakvitha Hundingsbana II", "Edda", 2, poems)?.path).toEqual([18]);
+		expect(parseScriptureRef("1 Nephi", "BoM", 3, BOM)?.path).toEqual([1]);
+		expect(parseScriptureRef("the", "Hesiod", 2, hesiod)).toBeNull();
+		expect(parseScriptureRef("Theo", "Hesiod", 2, hesiod)).toBeNull();
+	});
 });
 
 describe("the named parts of the Wikisource works of batch 2", () => {
