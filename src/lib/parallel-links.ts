@@ -56,6 +56,16 @@ const KHANDOGYA = "First Second Third Fourth Fifth Sixth Seventh Eighth".split("
 const SHU_BOOKS = [1, 4, 4, 11, 30];
 const SHU_SECTIONS = new Set(["3.1", "4.5", "4.7", "4.8", "5.1"]);
 
+// Hymn pages whose text today is not Griffith's, read at the last revision before that edit
+// (each found by a comparison with the 2005 import, 2026-10-18): 10.34 holds a translation revised
+// after Macdonell (2006), 10.58.3 "four-eyed" (2023), 10.86.13-14 other text (2022), 10.97.6 added words (2021).
+export const RIG_VEDA_PINNED: Record<string, number> = {
+	"10.34": 54741,
+	"10.58": 12150713,
+	"10.86": 3747414,
+	"10.97": 3747426,
+};
+
 const WORKS: Record<string, Work> = {
 	"diogenes-laertius-6-hicks-1925": {
 		page: page("https://en.wikisource.org/wiki/Lives_of_the_Eminent_Philosophers/Book_VI"),
@@ -89,9 +99,11 @@ const WORKS: Record<string, Work> = {
 		// One page for each hymn: "RV 10.129.1" is on Book 10, Hymn 129.
 		page: (reference) => {
 			const m = /^RV (10|[1-9])\.([1-9]\d{0,2})\./.exec(reference);
-			return m
-				? `https://en.wikisource.org/wiki/The_Hymns_of_the_Rigveda/Book_${m[1]}/Hymn_${m[2]}`
-				: null;
+			if (!m) return null;
+			const pinned = RIG_VEDA_PINNED[`${m[1]}.${m[2]}`];
+			return pinned
+				? `https://en.wikisource.org/w/index.php?oldid=${pinned}`
+				: `https://en.wikisource.org/wiki/The_Hymns_of_the_Rigveda/Book_${m[1]}/Hymn_${m[2]}`;
 		},
 		words: 5,
 	},

@@ -630,7 +630,9 @@ export function parseGriffithRigVeda(htmlByHymn: Record<string, string>): Passag
 						.map((m) => (m[1] as string).replace(/<span class="wst-gap[^>]*><\/span>/g, "     "))
 						.join("\n")
 						.replace(/<br\s*\/?>/g, "\n");
-			verses = rigVedaLines(decodeEntities(body.replace(/<[^>]+>/g, "")).split("\n"));
+			// Some pages print a link to the errata as escaped text: "&lt;A HREF=...&gt;word&lt;/A&gt;".
+			const text = body.replace(/<[^>]+>/g, "").replace(/&lt;\/?a\b[\s\S]*?&gt;/gi, "");
+			verses = rigVedaLines(decodeEntities(text).split("\n"));
 		}
 		// A number between its two neighbors that breaks the count is a misprint ("17, 16, 19").
 		for (let i = 1; i < verses.length - 1; i++) {
