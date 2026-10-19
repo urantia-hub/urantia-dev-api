@@ -223,6 +223,46 @@ suite("the works on a local copy", () => {
 		await pg`DELETE FROM bible_chunks WHERE id = 'test:Gen.1.1-2'`;
 	});
 
+	it("gives the work passages near a Bible verse, nearest first", async () => {
+		const pg = client as postgres.Sql;
+		await pg.unsafe(readFileSync("scripts/scriptures/create-work-parallels.sql", "utf8"));
+		// A local copy can have no Bible chunks: the test brings John 3:16 in a chunk of its own.
+		await pg`INSERT INTO bible_chunks (id, book_code, chapter, verse_start, verse_end, text)
+			VALUES ('test:John.3.16', 'John', 3, 16, 16, 'For God so loved the world.') ON CONFLICT (id) DO NOTHING`;
+		const [verse] = await pg<{ id: string; chunk_id: string | null }[]>`
+			SELECT id, chunk_id FROM bible_verses WHERE book_code = 'John' AND chapter = 3 AND verse = 16`;
+		await pg`UPDATE bible_verses SET chunk_id = 'test:John.3.16' WHERE id = ${verse?.id ?? ""}`;
+		const two = await pg<{ id: string }[]>`
+			SELECT id FROM scripture_chunks WHERE corpus_id = 'koran-pickthall-1930' ORDER BY sort_start LIMIT 2`;
+		await pg`INSERT INTO scripture_work_parallels ${pg([
+			{
+				chunk_id: two[0]?.id,
+				rank: 4,
+				other_bible_chunk_id: "test:John.3.16",
+				other_chunk_id: null,
+				similarity: 0.5,
+			},
+			{
+				chunk_id: two[1]?.id,
+				rank: 2,
+				other_bible_chunk_id: "test:John.3.16",
+				other_chunk_id: null,
+				similarity: 0.6,
+			},
+		])}`;
+		try {
+			const found = await otherWorkParallels(db as never, "bible", "John 3:16");
+			if (!found || found === "many") throw new Error("no unit");
+			expect(found.chunk).toEqual({ label: "John 3:16", references: ["John 3:16"] });
+			expect(found.parallels.map((p) => p.work.id)).toEqual(["quran", "quran"]);
+			expect(found.parallels.map((p) => p.similarity)).toEqual([0.6, 0.5]);
+		} finally {
+			await pg`UPDATE bible_verses SET chunk_id = ${verse?.chunk_id ?? null} WHERE id = ${verse?.id ?? ""}`;
+			await pg.unsafe("DROP TABLE scripture_work_parallels");
+			await pg`DELETE FROM bible_chunks WHERE id = 'test:John.3.16'`;
+		}
+	});
+
 	it("reads a part of a work", async () => {
 		expect((await readWork(db as never, "Dhp 1-3", "dhammapada"))?.map((u) => u.reference)).toEqual(
 			["Dhp 1", "Dhp 2", "Dhp 3"],
