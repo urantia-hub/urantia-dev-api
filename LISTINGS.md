@@ -53,6 +53,21 @@ Say "the Urantia Papers" for the text. "The Urantia Book" is the title of the 19
 | Gemini CLI extensions gallery | https://geminicli.com/extensions/browse/ | No form. `gemini-extension.json` is at the root of the plugin repo and the repo has the topic `gemini-cli-extension` (plugin #6). Google's crawler lists it if it passes validation. Passed `gemini extensions validate` locally. Not listed on 2026-10-10. The repo meets the three listing rules (public, topic, manifest at the root). The gallery data file (`https://geminicli.com/extensions.json`) was last built on 2026-10-07, and many other repos tagged in the same weeks are also absent, so the delay is on the crawler side. To check: search that file for `urantia` | 2026-10-04 |
 | mcp.so | https://mcp.so | Free-listing support ticket open. The paid path ($39) was skipped | 2026-10-02 |
 
+## Pending updates (works round 3, 2026-10-18)
+
+The MCP server has 26 tools (was 19) and serves the Bible and 21 other texts. Nothing below is sent yet. Kelson decides when, because the Claude and OpenAI reviews are open. Move each item into its row when it is done.
+
+| Where | What to change | New text |
+|---|---|---|
+| Official MCP Registry | Republish `server.json` 1.3.0 (Live shows 1.1.0). The old description says "Free" | "Read and search the Urantia Papers, with cross-references to the Bible and 21 other texts. No key." |
+| Plugin repo (feeds cursor.directory and the Gemini gallery) | Merge plugin PR #7 (1.3.0) | The descriptions in that PR |
+| OpenAI plugin directory | Package 1.2.2 says 19 tools, and its negative case 2 says the plugin has no Quran text. That is false now, because `works.read` serves the Koran. Submit 1.3.0 (`openai-plugin/urantia-papers-openai-1.3.0.zip`, built from PR #7) and record a new demo: the intro shows 26 tools, and Neg 2 asks for the Avesta | Neg 2 prompt: "Use the Urantia Papers plugin to quote what the Avesta says about truth." |
+| Claude Connectors Directory | Check the listing text and tool count at https://claude.ai/directory/manage | The standard one line above |
+| APIs.io | Open an issue on `api-evangelist/urantia-papers`: the page shows 19 tools and a spec without `/works` | "The MCP server now has 26 tools, and the spec at https://api.urantia.dev/openapi.json adds the /works endpoints (the Bible and 21 other texts). Can you refresh the provider page?" |
+| Postman | Rebuild the workspace from the OpenAPI spec: it has 28 requests and no `/works` folder | None |
+| Smithery, Glama, mcpservers.org | They read the live server or the docs. Check that the tool count shows 26 after a rescan | None |
+| PulseMCP | Re-reads the Registry when it reopens, so the Registry republish covers it | None |
+
 ## Stalled or closed
 
 | Where | Link | What happened |
