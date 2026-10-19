@@ -406,6 +406,25 @@ phases: `../world-religions-plan-2026-10.md`.
   because 131:1 reads like them; they have no Paper 131 heading, so their
   `urantia_section` is null. Do not write claims about where the Papers'
   wording came from; link to Matthew Block's source studies instead.
+- Round 3 (2026-10-18): the Book of Mormon (1830) and the Rig Veda (Griffith 1896), then batch 2:
+  the Book of the Dead (Renouf and Naville 1904), Hesiod and the Homeric Hymns (Evelyn-White 1914,
+  two corpora from one PG book), the Poetic Edda (Bellows 1923), Aztec hymns (Brinton 1890), Chuang
+  Tzu (Giles 1889), the Prose Edda (Brodeur 1916), the Kojiki (Chamberlain 1882), three Upanishads of
+  SBE 1 (Muller 1879), and the Shu King (Legge, SBE 3). 21 corpora in all. Phase B (Kumulipo, Night
+  Chant, Cath Maige Tuired, Gathas, Uttaradhyayana, Li Ki, Asa ki Var) is stopped: sacred-texts.com
+  refuses automated requests, and most of these have no proofread copy elsewhere.
+- What each work says about itself (`alter-round3.sql`): `kind` (`scripture`, `classic`, or
+  `recorded`), `summary` (one sentence, approved copy: Kelson reads each before a load), and
+  `religion`, shown as `tradition`, in the short form ("Hindu", not "Hinduism"; the Bible is "Jewish
+  and Christian"). The word "myth" labels no work (a test holds it).
+- `division_names`: a work whose divisions are names, not numbers, has refs by name ("1 Nephi 3:7",
+  "Voluspo 3", "Gylfaginning 1.1", "Khandogya 6.8"). A name holds no digit, because the parser takes
+  the name up to the first space before a digit. `linked` false means the work has no public page, and
+  `scriptureUrl` gives null for each passage.
+- Wikisource text is transcluded from `Page:` scan pages, so a bad edit lives on a Page: revision, and
+  the oldid of the main page does not freeze it. Before a load from Wikisource, read the history of
+  each Page: page for edits by accounts that did not proofread it (done for batch 2: 965 pages, all
+  clean). Four Rig Veda hymn pages are pinned to a revision before a bad edit.
 - Tables: `scripture_corpora`, `scripture_passages`, `scripture_chunks`,
   `scripture_parallels`. Created from `scripts/scriptures/create-tables.sql`
   and changed by `alter-phase2.sql`, never with `db:push`.
@@ -437,7 +456,7 @@ phases: `../world-religions-plan-2026-10.md`.
   `?include=scriptureScores`. Shared currents leaves out Paper 131. The
   texts' scores correlate (mean 0.42), so "close in N texts" is not N
   independent votes; say so wherever the count appears.
-- `/works` (2026-10-18) puts the Bible and the 9 texts under one set of
+- `/works` (2026-10-18) puts the Bible and the 21 texts under one set of
   endpoints and MCP tools (`works.*`), with one result shape. The work id is
   `bible` or the corpus slug. The old `/bible` and `/scriptures` routes stay.
   Kelson lifted the rule "no MCP tools for scriptures" on 2026-10-17. The code
@@ -551,7 +570,10 @@ its row in the same change when you submit somewhere or a listing changes state.
 
 
 **Bible semantic search:** `POST /bible/search/semantic` does live free-form
-search over the Bible at 1536-d (`bible_chunks.embedding_small`, HNSW-indexed)
+search over the Bible at 1536-d (`bible_chunks.embedding_small`, HNSW-indexed by
+`bc_embedding_small_hnsw_idx`; that index was missing on production until 2026-10-19, and both
+`/bible/search/semantic` and `/works/search/semantic` took 7 to 15 s. Each vector query is 8 ms warm
+and about 1 s cold: the three HNSW indexes, about 360 MB, do not fit in 224 MB of `shared_buffers`)
 and joins each result against `bible_parallels` (direction='bible_to_ub') so
 Bible hits arrive with the relevant Urantia paragraphs already attached.
 This is the urantia.dev API — Bible search without UB content would miss the
@@ -575,6 +597,8 @@ that passage (`src/lib/parallel-links.ts`). An app shows it as "Open".
   page address changes (it is the last step of the pipeline). On 2026-10-10 each of the 2,973 passages
   got one. The column came from `scripts/scriptures/alter-anchors.sql` (Kelson approved). A passage
   with no anchor falls back to the rule of its work in `WORKS`: its first words, or the page only.
+  The anchors log counts a chunk with no page (`page` null) as "page only", not "no page". The Poetic
+  Edda page marks line breaks with "|", so most of its first-words fragments miss; its anchors hold.
 - A wrong link costs more trust than no link (Kelson, 2026-10-10). A function answers null when it
   does not know the book or the work. A new work gets its page in `PAGES` in the same change.
 - `bun scripts/check-parallel-links.ts` reads the real pages for a sample of passages, and fails when
