@@ -41,6 +41,7 @@ Say "the Urantia Papers" for the text. "The Urantia Book" is the title of the 19
 | PulseMCP | https://www.pulsemcp.com/servers?q=urantia | Listed with old text ("The Urantia Book", author "Urantia Hub"). PulseMCP paused all changes on 2026-09-03 and re-reads the Registry when it reopens | 2026-10-10 |
 | Postman Public API Network | https://www.postman.com/urantia-dev/urantia-papers (publisher: https://www.postman.com/urantia-dev) | Public workspace with 46 read-only requests in 15 folders, with Works, built by `scripts/postman-sync.ts --dry-run` and imported by hand on 2026-10-20 (no paid API key). Publisher verification requested 2026-10-04 | 2026-10-20 |
 | mcpservers.org | https://mcpservers.org/servers/docs-urantia-dev-mcp-servers | Approved from the free submission of 2026-10-03. The listing links to docs.urantia.dev/mcp-servers. It shows 26 tools since its rescan | 2026-10-20 |
+| Context7 | https://context7.com/urantia-hub/urantia-dev-docs | Added by Kelson on 2026-10-20 (Free plan, GitHub tab). Context7 validated `context7.json` from the docs repo. The parse was still running at the last check, and search did not find it yet | 2026-10-20 |
 | APIs.io | https://apis.io/providers/urantia-papers/ | Live. Built from the public repo `api-evangelist/urantia-papers`. On 2026-10-05 the maintainer applied our correction by hand (their commit dced7ce) and closed PR #1 without a merge, which is their normal process: the spec (27 paths, 29 operations), the docs links, the MCP server with 19 tools, the catalog, and the robots line. The update is live since 2026-10-11 (his comment on PR #1). The re-score of 2026-10-09 moved the score from 6.1 to 40.5 of 100, and the agent score is 45. The page shows the MCP server with 19 tools and no account endpoints. Not applied: the Postman link, because no main docs page linked it; the docs home page and the API introduction link it now (docs #29). To ask for a change, open an issue on that repo | 2026-10-11 |
 | awesome-remote-mcp-servers | https://github.com/punkpeye/awesome-remote-mcp-servers | PR #1026, merged 2026-10-08. The entry uses the standard listing text and the Glama connector badge | 2026-10-10 |
 | npm | `@urantia/api`, `@urantia/auth` | TypeScript SDKs, from the `urantia-dev-sdks` repo | 2026-10-03 |
@@ -63,7 +64,6 @@ The MCP server has 26 tools (was 19) and serves the Bible and 21 other texts. Ke
 | APIs.io | Wait for the maintainer. Issue #3 on `api-evangelist/urantia-papers` asks for a refresh (opened 2026-10-20). The page shows 19 tools and no `/works`, and the score fell from 40.5 to 32.2 on 2026-10-17 | None |
 | Smithery, Glama | They read the live server or the docs. Check that the tool count shows 26 after a rescan | None |
 | PulseMCP | Re-reads the Registry when it reopens, so the Registry republish covers it | None |
-| Context7 | Kelson adds `urantia-hub/urantia-dev-docs` at https://context7.com/add-library (GitHub tab, needs a sign-in). `context7.json` is in the docs repo since 2026-10-20 (docs #48) | None |
 
 ## Stalled or closed
 
