@@ -55,18 +55,17 @@ Say "the Urantia Papers" for the text. "The Urantia Book" is the title of the 19
 
 ## Pending updates (works round 3, 2026-10-18)
 
-The MCP server has 26 tools (was 19) and serves the Bible and 21 other texts. Nothing below is sent yet. Kelson decides when. The OpenAI listing is live since 2026-10-20, so its update can go now; the Claude review is still open. Move each item into its row when it is done.
+The MCP server has 26 tools (was 19) and serves the Bible and 21 other texts. Kelson approved this round on 2026-10-20. The Registry (1.3.0) and plugin PR #7 were already done. The OpenAI listing is live since 2026-10-20, so its update can go now; the Claude review is still open. Move each item into its row when it is done.
 
 | Where | What to change | New text |
 |---|---|---|
-| Official MCP Registry | Republish `server.json` 1.3.0 (Live shows 1.1.0). The old description says "Free" | "Read and search the Urantia Papers, with cross-references to the Bible and 21 other texts. No key." |
-| Plugin repo (feeds cursor.directory and the Gemini gallery) | Merge plugin PR #7 (1.3.0) | The descriptions in that PR |
 | OpenAI plugin directory | Wait for the review of 1.3.2 (submitted 2026-10-20), then publish it. If the reviewer asks for a new demo: the intro shows 26 tools, and Neg 2 asks for the Avesta | Neg 2 prompt: "Use the Urantia Papers plugin to quote what the Avesta says about truth." |
-| Claude Connectors Directory | Check the listing text and tool count at https://claude.ai/directory/manage | The standard one line above |
-| APIs.io | Open an issue on `api-evangelist/urantia-papers`: the page shows 19 tools and a spec without `/works` | "The MCP server now has 26 tools, and the spec at https://api.urantia.dev/openapi.json adds the /works endpoints (the Bible and 21 other texts). Can you refresh the provider page?" |
-| Postman | Rebuild the workspace from the OpenAPI spec: it has 28 requests and no `/works` folder | None |
+| Claude Connectors Directory | Kelson checks the listing text and tool count at https://claude.ai/directory/manage (needs his sign-in) | The standard one line above |
+| APIs.io | Wait for the maintainer. Issue #3 on `api-evangelist/urantia-papers` asks for a refresh (opened 2026-10-20). The page shows 19 tools and no `/works`, and the score fell from 40.5 to 32.2 on 2026-10-17 | None |
+| Postman | Kelson imports the rebuilt collection (`urantia/postman/`, 46 requests with a Works folder, all 200 on 2026-10-20) into the public workspace and replaces the old one | None |
 | Smithery, Glama | They read the live server or the docs. Check that the tool count shows 26 after a rescan | None |
 | PulseMCP | Re-reads the Registry when it reopens, so the Registry republish covers it | None |
+| Context7 | Kelson adds `urantia-hub/urantia-dev-docs` at https://context7.com/add-library (GitHub tab, needs a sign-in). `context7.json` is in the docs repo since 2026-10-20 (docs #48) | None |
 
 ## Stalled or closed
 
