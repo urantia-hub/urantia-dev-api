@@ -40,7 +40,7 @@ Say "the Urantia Papers" for the text. "The Urantia Book" is the title of the 19
 | public-api-lists | https://github.com/public-api-lists/public-api-lists | PR #427, merged 2026-05-19 | 2026-10-03 |
 | PulseMCP | https://www.pulsemcp.com/servers?q=urantia | Listed with old text ("The Urantia Book", author "Urantia Hub"). PulseMCP paused all changes on 2026-09-03 and re-reads the Registry when it reopens | 2026-10-10 |
 | Postman Public API Network | https://www.postman.com/urantia-dev/urantia-papers (publisher: https://www.postman.com/urantia-dev) | Public workspace with 28 read-only requests in 12 folders, built from the OpenAPI spec. Publisher verification requested 2026-10-04 | 2026-10-04 |
-| mcpservers.org | https://mcpservers.org/servers/docs-urantia-dev-mcp-servers | Approved from the free submission of 2026-10-03. The listing links to docs.urantia.dev/mcp-servers | 2026-10-04 |
+| mcpservers.org | https://mcpservers.org/servers/docs-urantia-dev-mcp-servers | Approved from the free submission of 2026-10-03. The listing links to docs.urantia.dev/mcp-servers. It shows 26 tools since its rescan | 2026-10-20 |
 | APIs.io | https://apis.io/providers/urantia-papers/ | Live. Built from the public repo `api-evangelist/urantia-papers`. On 2026-10-05 the maintainer applied our correction by hand (their commit dced7ce) and closed PR #1 without a merge, which is their normal process: the spec (27 paths, 29 operations), the docs links, the MCP server with 19 tools, the catalog, and the robots line. The update is live since 2026-10-11 (his comment on PR #1). The re-score of 2026-10-09 moved the score from 6.1 to 40.5 of 100, and the agent score is 45. The page shows the MCP server with 19 tools and no account endpoints. Not applied: the Postman link, because no main docs page linked it; the docs home page and the API introduction link it now (docs #29). To ask for a change, open an issue on that repo | 2026-10-11 |
 | awesome-remote-mcp-servers | https://github.com/punkpeye/awesome-remote-mcp-servers | PR #1026, merged 2026-10-08. The entry uses the standard listing text and the Glama connector badge | 2026-10-10 |
 | npm | `@urantia/api`, `@urantia/auth` | TypeScript SDKs, from the `urantia-dev-sdks` repo | 2026-10-03 |
@@ -65,7 +65,7 @@ The MCP server has 26 tools (was 19) and serves the Bible and 21 other texts. No
 | Claude Connectors Directory | Check the listing text and tool count at https://claude.ai/directory/manage | The standard one line above |
 | APIs.io | Open an issue on `api-evangelist/urantia-papers`: the page shows 19 tools and a spec without `/works` | "The MCP server now has 26 tools, and the spec at https://api.urantia.dev/openapi.json adds the /works endpoints (the Bible and 21 other texts). Can you refresh the provider page?" |
 | Postman | Rebuild the workspace from the OpenAPI spec: it has 28 requests and no `/works` folder | None |
-| Smithery, Glama, mcpservers.org | They read the live server or the docs. Check that the tool count shows 26 after a rescan | None |
+| Smithery, Glama | They read the live server or the docs. Check that the tool count shows 26 after a rescan | None |
 | PulseMCP | Re-reads the Registry when it reopens, so the Registry republish covers it | None |
 
 ## Stalled or closed
