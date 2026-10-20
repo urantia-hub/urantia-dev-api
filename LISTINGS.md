@@ -39,7 +39,7 @@ Say "the Urantia Papers" for the text. "The Urantia Book" is the title of the 19
 | public-apis | https://github.com/public-apis/public-apis (Books) | Merged | 2026-10-03 |
 | public-api-lists | https://github.com/public-api-lists/public-api-lists | PR #427, merged 2026-05-19 | 2026-10-03 |
 | PulseMCP | https://www.pulsemcp.com/servers?q=urantia | Listed with old text ("The Urantia Book", author "Urantia Hub"). PulseMCP paused all changes on 2026-09-03 and re-reads the Registry when it reopens | 2026-10-10 |
-| Postman Public API Network | https://www.postman.com/urantia-dev/urantia-papers (publisher: https://www.postman.com/urantia-dev) | Public workspace with 28 read-only requests in 12 folders, built from the OpenAPI spec. Publisher verification requested 2026-10-04 | 2026-10-04 |
+| Postman Public API Network | https://www.postman.com/urantia-dev/urantia-papers (publisher: https://www.postman.com/urantia-dev) | Public workspace with 46 read-only requests in 15 folders, with Works, built by `scripts/postman-sync.ts --dry-run` and imported by hand on 2026-10-20 (no paid API key). Publisher verification requested 2026-10-04 | 2026-10-20 |
 | mcpservers.org | https://mcpservers.org/servers/docs-urantia-dev-mcp-servers | Approved from the free submission of 2026-10-03. The listing links to docs.urantia.dev/mcp-servers. It shows 26 tools since its rescan | 2026-10-20 |
 | APIs.io | https://apis.io/providers/urantia-papers/ | Live. Built from the public repo `api-evangelist/urantia-papers`. On 2026-10-05 the maintainer applied our correction by hand (their commit dced7ce) and closed PR #1 without a merge, which is their normal process: the spec (27 paths, 29 operations), the docs links, the MCP server with 19 tools, the catalog, and the robots line. The update is live since 2026-10-11 (his comment on PR #1). The re-score of 2026-10-09 moved the score from 6.1 to 40.5 of 100, and the agent score is 45. The page shows the MCP server with 19 tools and no account endpoints. Not applied: the Postman link, because no main docs page linked it; the docs home page and the API introduction link it now (docs #29). To ask for a change, open an issue on that repo | 2026-10-11 |
 | awesome-remote-mcp-servers | https://github.com/punkpeye/awesome-remote-mcp-servers | PR #1026, merged 2026-10-08. The entry uses the standard listing text and the Glama connector badge | 2026-10-10 |
@@ -49,7 +49,7 @@ Say "the Urantia Papers" for the text. "The Urantia Book" is the title of the 19
 
 | Where | Link | State | Since |
 |---|---|---|---|
-| Claude Connectors Directory | Manage at https://claude.ai/directory/manage, slug `urantia-papers` | In review on 2026-10-10: "Nothing to do until a reviewer decides". Questions go to mcp-review@anthropic.com | 2026-10-02 |
+| Claude Connectors Directory | Manage at https://claude.ai/directory/manage, slug `urantia-papers` | In review. On 2026-10-20 Kelson saved the standard one line, a description with the 26 tools and the 21 other texts, and notes on the public domain translations. The form says reviewers see a saved edit, so no resubmission. Questions go to mcp-review@anthropic.com | 2026-10-02 |
 | Gemini CLI extensions gallery | https://geminicli.com/extensions/browse/ | No form. `gemini-extension.json` is at the root of the plugin repo and the repo has the topic `gemini-cli-extension` (plugin #6). Google's crawler lists it if it passes validation. Passed `gemini extensions validate` locally. Not listed on 2026-10-10. The repo meets the three listing rules (public, topic, manifest at the root). The gallery data file (`https://geminicli.com/extensions.json`) was last built on 2026-10-07, and many other repos tagged in the same weeks are also absent, so the delay is on the crawler side. To check: search that file for `urantia` | 2026-10-04 |
 | mcp.so | https://mcp.so | Free-listing support ticket open. The paid path ($39) was skipped | 2026-10-02 |
 
@@ -60,9 +60,7 @@ The MCP server has 26 tools (was 19) and serves the Bible and 21 other texts. Ke
 | Where | What to change | New text |
 |---|---|---|
 | OpenAI plugin directory | Wait for the review of 1.3.2 (submitted 2026-10-20), then publish it. If the reviewer asks for a new demo: the intro shows 26 tools, and Neg 2 asks for the Avesta | Neg 2 prompt: "Use the Urantia Papers plugin to quote what the Avesta says about truth." |
-| Claude Connectors Directory | Kelson checks the listing text and tool count at https://claude.ai/directory/manage (needs his sign-in) | The standard one line above |
 | APIs.io | Wait for the maintainer. Issue #3 on `api-evangelist/urantia-papers` asks for a refresh (opened 2026-10-20). The page shows 19 tools and no `/works`, and the score fell from 40.5 to 32.2 on 2026-10-17 | None |
-| Postman | Kelson imports the rebuilt collection (`urantia/postman/`, 46 requests with a Works folder, all 200 on 2026-10-20) into the public workspace and replaces the old one | None |
 | Smithery, Glama | They read the live server or the docs. Check that the tool count shows 26 after a rescan | None |
 | PulseMCP | Re-reads the Registry when it reopens, so the Registry republish covers it | None |
 | Context7 | Kelson adds `urantia-hub/urantia-dev-docs` at https://context7.com/add-library (GitHub tab, needs a sign-in). `context7.json` is in the docs repo since 2026-10-20 (docs #48) | None |
