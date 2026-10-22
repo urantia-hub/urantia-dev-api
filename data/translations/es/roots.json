@@ -1,0 +1,51 @@
+{
+	"actual": {
+		"forms": [
+			"en acto",
+			"acto",
+			"lo Actual",
+			"actualizar",
+			"actualización"
+		],
+		"reason": "In the papers 'actual' means existing in act, as opposed to potential. The Spanish 'actual' and 'actualidad' read as 'current' and 'the present time'. Use 'en acto' (the adjective, singular and plural) and 'acto' (the noun) as the key-concept batch did, and keep 'lo Actual' only as the noun beside 'lo Potencial'. Keep 'actualizar' and 'actualización' in their philosophical sense. When English 'actual' means simply 'real', translators use 'real'.",
+		"decision": {
+			"by": "Kelson (consistency review proposal)",
+			"date": "2026-10-22",
+			"note": "Consistency review 2026-10-21. Not yet checked by a Spanish speaker."
+		}
+	},
+	"brotherhood": {
+		"forms": [
+			"fraternidad",
+			"fraternidades"
+		],
+		"reason": "The Melchizedek brotherhood (93:6.8) is an association of believers, which is the sense of the Brotherhood of United Midwayers. Four of the five terms use 'fraternidad'. The form 'fraternidad Melquisedec' follows 'Colegio Melquisedec' and 'Hijos Melquisedec'.",
+		"decision": {
+			"by": "Kelson (consistency review proposal)",
+			"date": "2026-10-22",
+			"note": "Consistency review 2026-10-21. Not yet checked by a Spanish speaker."
+		}
+	},
+	"righteousness": {
+		"forms": [
+			"rectitud",
+			"recto",
+			"recta",
+			"rectos",
+			"rectas"
+		],
+		"reason": "The papers set righteousness beside justice as a separate value (Truth-Justice-Righteousness), so 'justicia' would merge two words; 'rectitud' keeps them apart and is the form the one existing term already uses."
+	},
+	"staff": {
+		"forms": [
+			"personal",
+			"personal corpóreo"
+		],
+		"reason": "'Staff' in all four terms means the Prince's group of 100. 'Cuerpo' also translates 'Corps' (Corps of the Finality and others), so 'personal' is the only form that does not clash. Remove the alias 'cuerpo de los cien' from corporeal-staffs-of-planetary-princes.",
+		"decision": {
+			"by": "Kelson (consistency review proposal)",
+			"date": "2026-10-22",
+			"note": "Consistency review 2026-10-21. Not yet checked by a Spanish speaker."
+		}
+	}
+}

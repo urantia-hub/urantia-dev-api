@@ -69,6 +69,20 @@ Every translator follows `meaning-first.md`: find the meaning in the papers (the
    bun scripts/translate/agent/assemble-glossary.ts --lang=es
    ```
 
+   Then rule again, blind, on each term with a real dispute (a back-check mismatch, a second translator that differs, or low confidence). An adjudicator that knows the current form keeps it: the first Spanish round kept 555 of 571 forms, with the clear mismatches. The blind packet shows the forms as shuffled candidates with no sign of the current one:
+
+   ```sh
+   bun scripts/translate/agent/prepare-adjudication.ts --lang=es --blind
+   bun scripts/translate/agent/assemble-glossary.ts --lang=es
+   ```
+
+   When the blind ruling chooses a different form, assemble keeps the earlier ruling in `contested`. A third adjudicator sees both rulings with their reasons, in a shuffled order, and its ruling is final (29 of 108 Spanish terms):
+
+   ```sh
+   bun scripts/translate/agent/prepare-adjudication.ts --lang=es --tiebreak
+   bun scripts/translate/agent/assemble-glossary.ts --lang=es
+   ```
+
    The review file lists every flagged term with its evidence and ruling, as a record. A human can still decide a term:
 
    ```sh
