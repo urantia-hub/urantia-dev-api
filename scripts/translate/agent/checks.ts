@@ -67,27 +67,32 @@ function shingles(text: string, n = 6): Set<string> {
 
 const editionCache = new Map<string, Map<string, string>[]>();
 
-/** Existing editions in the target language, used only to detect copying. Never sent to a translator. */
+/** The edition folders on disk for a language, e.g. book-es, book-es-1993. */
+export function editionDirs(lang: string): string[] {
+	if (!existsSync(URANTIAPEDIA_DIR)) return [];
+	return readdirSync(URANTIAPEDIA_DIR).filter(
+		(d) => (d === `book-${lang}` || d.startsWith(`book-${lang}-`)) && !d.endsWith("footnotes"),
+	);
+}
+
+/** One existing edition of a paper as plain text by reference. Never sent to a translator. */
+export function loadEdition(dir: string, paper: number): Map<string, string> | null {
+	const file = join(URANTIAPEDIA_DIR, dir, `Doc${pad(paper)}.json`);
+	if (!existsSync(file)) return null;
+	type Doc = { sections: { pars: { par_ref: string; par_content: string }[] }[] };
+	const doc: Doc = JSON.parse(readFileSync(file, "utf-8"));
+	return new Map(
+		doc.sections.flatMap((s) => s.pars.map((p) => [p.par_ref, stripTags(p.par_content)])),
+	);
+}
+
+/** Existing editions in the target language, used only to detect copying. */
 function loadEditions(lang: string, paper: number): Map<string, string>[] {
 	const key = `${lang}:${paper}`;
 	if (editionCache.has(key)) return editionCache.get(key)!;
-	const editions: Map<string, string>[] = [];
-	if (existsSync(URANTIAPEDIA_DIR)) {
-		const dirs = readdirSync(URANTIAPEDIA_DIR).filter(
-			(d) => (d === `book-${lang}` || d.startsWith(`book-${lang}-`)) && !d.endsWith("footnotes"),
-		);
-		for (const dir of dirs) {
-			const file = join(URANTIAPEDIA_DIR, dir, `Doc${pad(paper)}.json`);
-			if (!existsSync(file)) continue;
-			type Doc = { sections: { pars: { par_ref: string; par_content: string }[] }[] };
-			const doc: Doc = JSON.parse(readFileSync(file, "utf-8"));
-			editions.push(
-				new Map(
-					doc.sections.flatMap((s) => s.pars.map((p) => [p.par_ref, stripTags(p.par_content)])),
-				),
-			);
-		}
-	}
+	const editions = editionDirs(lang)
+		.map((d) => loadEdition(d, paper))
+		.filter((e): e is Map<string, string> => !!e);
 	editionCache.set(key, editions);
 	return editions;
 }

@@ -25,7 +25,7 @@ export const LANG_NAMES: Record<string, string> = {
 
 export const PAPER_NUMBERS = Array.from({ length: 197 }, (_, i) => i);
 
-// Entity types whose names are fixed terms. Concepts are fixed only when capitalized.
+// Entity types whose names get a fixed translation. Concepts do only when capitalized.
 const FIXED_TYPES = new Set(["being", "place", "order", "race", "religion"]);
 
 export type EnglishParagraph = {
@@ -146,70 +146,94 @@ export function fold(s: string): string {
 	return s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
 }
 
-// The stored aliases are often loose synonyms. Keep only shorter forms of the name ("Ajustador").
-function isShortForm(alias: string, name: string): boolean {
-	const stems = fold(name)
-		.split(/[\s-]+/)
-		.map((w) => w.slice(0, 5));
-	return fold(alias)
-		.split(/[\s-]+/)
-		.filter((w) => w.length >= 4)
-		.every((w) => stems.includes(w.slice(0, 5)));
+export type GlossaryEntity = {
+	id: string;
+	name: string;
+	type: string;
+	aliases: string[];
+	description: string;
+	mentions: number;
+};
+
+/** One clean glossary entry: the target-language name and its short forms. */
+export type GlossaryEntry = { name: string; aliases?: string[] };
+
+export function glossaryPath(lang: string): string {
+	return join(ROOT, `data/translations/${lang}/glossary.json`);
+}
+
+function loadMentions(): Record<string, { id: string }[]> {
+	return JSON.parse(readFileSync(join(ROOT, "data/entities/paragraph-entities.json"), "utf-8"));
+}
+
+/** The entities that need a fixed translation: names, places, orders, and capitalized concepts. */
+export function glossaryEntities(): GlossaryEntity[] {
+	type Seed = { id: string; name: string; type: string; aliases: string[]; description: string };
+	const seeds: Seed[] = JSON.parse(
+		readFileSync(join(ROOT, "data/entities/seed-entities.json"), "utf-8"),
+	);
+	const counts = new Map<string, number>();
+	for (const list of Object.values(loadMentions())) {
+		for (const m of list) counts.set(m.id, (counts.get(m.id) ?? 0) + 1);
+	}
+	return seeds
+		.filter((e) => FIXED_TYPES.has(e.type) || (e.type === "concept" && /^[A-Z]/.test(e.name)))
+		.filter((e) => !/^[\d\s.,:-]+$/.test(e.name))
+		.map((e) => ({
+			id: e.id,
+			name: e.name,
+			type: e.type,
+			aliases: e.aliases ?? [],
+			description: e.description ?? "",
+			mentions: counts.get(e.id) ?? 0,
+		}));
+}
+
+export function loadGlossary(lang: string): Record<string, GlossaryEntry> {
+	const path = glossaryPath(lang);
+	return existsSync(path) ? JSON.parse(readFileSync(path, "utf-8")) : {};
 }
 
 let termIndex: { byEntity: Map<string, Term>; byRef: Map<string, string[]> } | null = null;
 
-/** Glossary terms from the entity translations, keyed to the paragraphs that mention them. */
+/**
+ * Glossary terms keyed to the paragraphs that mention them. Reads only the clean glossary,
+ * which was translated from the English. The older entity translations are not used here.
+ */
 export function loadTerms(lang: string): {
 	byEntity: Map<string, Term>;
 	byRef: Map<string, string[]>;
 } {
 	if (termIndex) return termIndex;
-	type Seed = { id: string; name: string; type: string; aliases: string[] };
-	type Translated = { entityId: string; name: string; aliases: string[] | null };
-	const seeds: Seed[] = JSON.parse(
-		readFileSync(join(ROOT, "data/entities/seed-entities.json"), "utf-8"),
-	);
-	const translatedPath = join(ROOT, `data/translations/${lang}/entity-translations.json`);
-	const translated: Translated[] = existsSync(translatedPath)
-		? JSON.parse(readFileSync(translatedPath, "utf-8"))
-		: [];
-	const targetById = new Map(translated.map((t) => [t.entityId, t]));
-
+	const glossary = loadGlossary(lang);
 	const byEntity = new Map<string, Term>();
-	for (const seed of seeds) {
-		const t = targetById.get(seed.id);
-		if (!t || /^[\d\s.,:-]+$/.test(seed.name)) continue;
-		const capitalized = /^[A-Z]/.test(seed.name);
-		byEntity.set(seed.id, {
-			en: seed.name,
-			enForms: [seed.name, ...(seed.aliases ?? [])].filter(Boolean),
-			target: t.name,
-			aliases: (t.aliases ?? []).filter((a) => a && a !== t.name && isShortForm(a, t.name)),
-			type: seed.type,
-			required: FIXED_TYPES.has(seed.type) || (seed.type === "concept" && capitalized),
+	for (const e of glossaryEntities()) {
+		const g = glossary[e.id];
+		if (!g) continue;
+		byEntity.set(e.id, {
+			en: e.name,
+			enForms: [e.name, ...e.aliases].filter(Boolean),
+			target: g.name,
+			aliases: (g.aliases ?? []).filter((a) => a && a !== g.name),
+			type: e.type,
+			required: true,
 		});
 	}
-
-	type Mention = { id: string };
-	const mentions: Record<string, Mention[]> = JSON.parse(
-		readFileSync(join(ROOT, "data/entities/paragraph-entities.json"), "utf-8"),
-	);
 	const byRef = new Map(
-		Object.entries(mentions).map(([ref, list]) => [ref, list.map((m) => m.id)]),
+		Object.entries(loadMentions()).map(([ref, list]) => [ref, list.map((m) => m.id)]),
 	);
 	termIndex = { byEntity, byRef };
 	return termIndex;
 }
 
-/** Terms mentioned in the given paragraph refs, required terms first. */
+/** Terms mentioned in the given paragraph refs. */
 export function termsForRefs(lang: string, refs: string[]): Term[] {
 	const { byEntity, byRef } = loadTerms(lang);
 	const ids = new Set(refs.flatMap((r) => byRef.get(r) ?? []));
 	return [...ids]
 		.map((id) => byEntity.get(id))
 		.filter((t): t is Term => !!t)
-		.sort((a, b) => Number(b.required) - Number(a.required) || a.en.localeCompare(b.en));
+		.sort((a, b) => a.en.localeCompare(b.en));
 }
 
 export function stripTags(html: string): string {
