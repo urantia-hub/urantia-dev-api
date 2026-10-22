@@ -189,7 +189,15 @@ export type GlossaryEntry = {
 	/** A human decision. It locks the entry. */
 	decision?: { by: string; date: string; note?: string };
 	/** An agent's ruling on a flagged entry. A human decision or a later report can replace it. */
-	adjudicated?: { date: string; reason: string; previous?: string };
+	adjudicated?: {
+		date: string;
+		reason: string;
+		previous?: string;
+		rootIssue?: string;
+		/** An earlier ruling for a different form. A third ruling (--tiebreak) settles it. */
+		contested?: { name: string; reason: string; previous?: string };
+		tiebreak?: boolean;
+	};
 };
 
 export function glossaryPath(lang: string): string {

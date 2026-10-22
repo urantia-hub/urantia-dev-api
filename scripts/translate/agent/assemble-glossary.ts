@@ -44,7 +44,7 @@ const dir = join(WORK_DIR, lang, "glossary");
 const drafts = existsSync(dir)
 	? readdirSync(dir)
 			.filter((f) => f.endsWith(".draft.json"))
-			.sort((a, b) => order(a) - order(b))
+			.sort((a, b) => order(a) - order(b) || a.localeCompare(b))
 	: [];
 
 // Merge first translations before the checks that refer to them.
@@ -135,6 +135,11 @@ for (const file of drafts) {
 			};
 		} else if (kind === "adjud") {
 			const name = (v.name as string).trim();
+			const prior = g!.adjudicated;
+			const contested =
+				!v.tiebreak && prior && name !== g!.name
+					? { name: g!.name, reason: prior.reason, ...(prior.previous ? { previous: prior.previous } : {}) }
+					: undefined;
 			const aliases = Array.isArray(v.aliases)
 				? (v.aliases as string[]).filter((a) => a?.trim() && a !== name)
 				: g!.aliases;
@@ -146,6 +151,9 @@ for (const file of drafts) {
 					date: new Date().toISOString().slice(0, 10),
 					reason: (v.reason as string).trim(),
 					...(name !== g!.name ? { previous: g!.name } : {}),
+					...(contested ? { contested } : {}),
+					...(v.tiebreak ? { tiebreak: true } : {}),
+					...(typeof v.rootIssue === "string" && v.rootIssue.trim() ? { rootIssue: v.rootIssue.trim() } : {}),
 				},
 			};
 		} else if (kind === "judge") {
