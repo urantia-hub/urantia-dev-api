@@ -35,6 +35,15 @@
 			}
 		]
 	},
+	"aaron-old-testament": {
+		"name": "Aarón (Antiguo Testamento)",
+		"aliases": [
+			"Aarón"
+		],
+		"meaning": "The Old Testament Aaron of the Golden Calf, the subject of a sermon of Peter at Rimmon (146:1.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"aaron-the-stone-mason": {
 		"name": "Aarón el cantero",
 		"aliases": [
@@ -50,6 +59,12 @@
 				"reason": "'albañil' is a bricklayer; the terms already done use 'cantero' for 'stone mason'."
 			}
 		]
+	},
+	"abaddon": {
+		"name": "Abadón",
+		"meaning": "The chief of staff of Caligastia, who followed him into rebellion and is chief executive of the Urantia rebels (53:1.5).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"abandonters": {
 		"name": "abandonters",
@@ -86,6 +101,12 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"abiram": {
+		"name": "Abiram",
+		"meaning": "The first-born son of a petty king of Palestine, put alive in the foundation of the walls of Jericho (89:6.6).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"abner": {
 		"name": "Abner",
 		"meaning": "The chief of the disciples of John the Baptist, later head of the seventy messengers and leader of the church at Philadelphia (Papers 163, 166, 171).",
@@ -102,6 +123,25 @@
 		"meaning": "The natives of Australia, cited as survivors of primitive, antisocial social conditions (68:1.6).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"aborigines-indian": {
+		"name": "aborígenes (de la India)",
+		"aliases": [
+			"aborígenes de la India"
+		],
+		"meaning": "The so-called aborigines of India: not representative of the early mixed peoples of India but the most inferior southern and eastern fringe, never fully absorbed by the Andites or the Aryans (79:2.2).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "aborígenes (indios)",
+				"reason": "\"indios\" also names the native peoples of the Americas, a wrong reading for most Latin American readers."
+			},
+			{
+				"form": "indígenas de la India",
+				"reason": "Fine in a sentence, but the parallel term \"aborígenes (australianos)\" is already set; keep the same head word."
+			}
+		]
 	},
 	"abraham-old-testament": {
 		"name": "Abraham (Antiguo Testamento)",
@@ -121,6 +161,18 @@
 		"meaning": "A young, influential member of the Sanhedrin who publicly accepted Jesus' teachings and was baptized by Abner in the pool of Siloam (148:8.1).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"absalom": {
+		"name": "Absalón",
+		"meaning": "Absalom, a son of King David whose mother was a Canaanite; today he might be called a demagogue (97:9.15).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Absalom",
+				"reason": "The English spelling; Spanish uses the standard biblical form."
+			}
+		]
 	},
 	"absolute": {
 		"name": "Absoluto",
@@ -248,6 +300,51 @@
 		"meaning": "The Roman province in Greece where Luke wrote his Gospel in the year 82 (121:8.8).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"acropolis": {
+		"name": "Acrópolis",
+		"meaning": "The Acropolis of Athens, under whose shadow Paul spoke to the council of the Areopagus (195:1.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "acrópolis",
+				"reason": "Lowercase is the common noun for any citadel; here it names the one in Athens."
+			}
+		]
+	},
+	"act-of-god": {
+		"name": "Acto de Dios",
+		"meaning": "The children of the Infinite Spirit are truly the \"Act of God,\" as the divine Sons are the \"Word of God\": God speaks through the Son and acts through the Infinite Spirit (10:3.3).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Acción de Dios",
+				"reason": "\"Acción\" reads as an activity in progress; the English is a single act, set beside \"Word\" (Palabra)."
+			},
+			{
+				"form": "Obra de Dios",
+				"reason": "\"Obra\" means a work or product, not the act itself; it changes the pairing with \"Palabra de Dios\"."
+			},
+			{
+				"form": "caso fortuito / fuerza mayor",
+				"reason": "Legal sense of English \"act of God\"; the authors do not mean this. The reader must not bring the insurance or legal sense of \"acto de Dios\" to the term."
+			}
+		],
+		"note": "Keep the quotation marks of 10:3.3 in running text («Acto de Dios») so the legal sense of \"acto de Dios\" (force majeure) does not intrude."
+	},
+	"actium": {
+		"name": "Accio",
+		"meaning": "Actium, the site of the battle that Augustus commemorated by the founding of Nicopolis, the \"city of victory\" (133:2.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Actium",
+				"reason": "Latin form; Spanish uses \"Accio\" for the battle (batalla de Accio)."
+			}
+		]
 	},
 	"acts-book-of": {
 		"name": "Hechos, libro de los",
@@ -383,6 +480,34 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"aden": {
+		"name": "Aden",
+		"meaning": "Aden, a man who taught and worked in Jesus' name without being with the apostles; John forbade him, but he went on and raised up believers at Kanata (159:2.1, 159:2.4).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Adén",
+				"reason": "This is the Spanish name of the city in Yemen; the term is a person, so keep the English spelling to keep the two apart."
+			}
+		],
+		"note": "The person's name is spelled like the city of Adén; a reader can take it for the city. The spelling without the accent marks the difference."
+	},
+	"adirondack-mountains": {
+		"name": "montes Adirondack",
+		"aliases": [
+			"Adirondack"
+		],
+		"meaning": "The ancient Adirondack Mountains of North America, part of an east-west ridge of primitive fossil-bearing rock (58:7.4).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Montañas Adirondack",
+				"reason": "Calque of the English; Spanish geography writes lowercase \"montes\" before the proper name, as in \"montes Apalaches\"."
+			}
+		]
+	},
 	"adjuster-expression": {
 		"name": "expresión del Ajustador",
 		"meaning": "The expression of the indwelling Adjuster through the mortal mind and personality (Paper 110).",
@@ -494,6 +619,27 @@
 		],
 		"note": "In everyday Spanish 'asistente administrativo' is an office job title. The phrase names two different groups (39:4.2 and 33:4.6)."
 	},
+	"administrative-enactors": {
+		"name": "escenificadores administrativos",
+		"meaning": "The seventh group of heavenly reproducers: those who depict the significance of governmental philosophy and administrative technique, the celestial dramatists of sovereignty (44:2.9, 44:2.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "ejecutores administrativos",
+				"reason": "\"Ejecutor\" means one who carries out orders or a sentence (and \"ejecutores divinos\" is already a term); these beings act out, they do not execute."
+			},
+			{
+				"form": "intérpretes administrativos",
+				"reason": "\"intérprete\" is already used for translators of meaning (racial interpreters, interpreters of ethics)."
+			},
+			{
+				"form": "representadores administrativos",
+				"reason": "\"representador\" is rare, and \"representar\" also means to stand in for someone, as a delegate."
+			}
+		],
+		"note": "\"Enactor\" here means one who acts out or stages a drama; \"escenificador\" carries that sense. A reviewer can check this against the other heavenly reproducer groups when they are done."
+	},
 	"administrator-seraphim": {
 		"name": "serafines administradores",
 		"aliases": [
@@ -502,6 +648,50 @@
 			"cuarto orden de serafines"
 		],
 		"meaning": "The fourth order of seraphim, who serve the administration of the local systems (39:4.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"adonai": {
+		"name": "Adonai",
+		"meaning": "Adonai, one of the names the Semites used for their Deity because they disliked to speak its name (96:1.9).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Adonay",
+				"reason": "A Spanish variant spelling; \"Adonai\" is the more common and neutral form."
+			}
+		]
+	},
+	"adonia": {
+		"name": "Adonia",
+		"meaning": "Adonia, the central Asian commercial metropolis of the Andites, near the present city of Ashkhabad (79:1.4).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"advisory-commission-on-ethics-and-self-government": {
+		"name": "Comisión Consultiva de Ética y Autogobierno",
+		"aliases": [
+			"Comisión Consultiva de Ética Interuniversal y Autogobierno"
+		],
+		"meaning": "The Paradise reserve corps of the Faithfuls of Days, called in the papers the Advisory Commission of Interuniverse Ethics and Self-government (18:7.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Comisión Asesora de Ética y Autogobierno",
+				"reason": "Also correct; \"Consultiva\" is the more usual name for a body that gives advice, and \"asesores\" is kept for advisers as persons (court advisers)."
+			},
+			{
+				"form": "Comisión Consultiva de Ética y Autonomía",
+				"reason": "\"autonomía\" is independence from others; the English is the governing of oneself."
+			}
+		],
+		"note": "The papers (18:7.1) give only the form \"Advisory Commission of Interuniverse Ethics and Self-government\"; I give that as the alias."
+	},
+	"afghanistan": {
+		"name": "Afganistán",
+		"meaning": "Afghanistan, in whose highlands Badonan, a descendant of Andon and Fonta, founded a primitive center of culture that lasted over half a million years (79:0.1).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -526,6 +716,25 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"agondonters": {
+		"name": "agondonters",
+		"aliases": [
+			"agondonter"
+		],
+		"meaning": "Agondonters: ascenders from isolated (quarantined) worlds, evolutionary will creatures who can believe without seeing, persevere when isolated, and triumph over insuperable difficulties even when alone; they keep this grouping into the Corps of the Mortal Finality (50:7.2).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "agondontarios",
+				"reason": "Would follow \"finalitarios\", but the nearest coined pattern, \"abandonters\", is kept unchanged in the terms already done; keep the -onters family visible."
+			},
+			{
+				"form": "agondontes",
+				"reason": "An invented Spanish ending with no support in the terms already done."
+			}
+		]
+	},
 	"ahab": {
 		"name": "Acab",
 		"meaning": "A Hebrew king whom Elijah denounced for the murder of the Naboths to take their land (97:3.6, 97:9.19).",
@@ -541,6 +750,22 @@
 			{
 				"form": "Ormuz",
 				"reason": "A later Persian form; the papers use Ahura-Mazda."
+			}
+		]
+	},
+	"ai": {
+		"name": "Hai",
+		"meaning": "Ai, the city whose ambush and wholesale slaughter, with only the king saved, the papers give as a picture of barbaric warfare (69:8.3).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Ai",
+				"reason": "In Spanish, \"ai\" reads as the interjection \"¡ay!\"; the standard Spanish biblical form is \"Hai\"."
+			},
+			{
+				"form": "Ay",
+				"reason": "Same sound as the interjection \"¡ay!\"."
 			}
 		]
 	},
@@ -562,6 +787,24 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"alexander-brother-of-philo": {
+		"name": "Alejandro (hermano de Filón)",
+		"aliases": [
+			"Alejandro"
+		],
+		"meaning": "Alexander, a Jewish banker of Alexandria with whom Gonod did business; his brother was the philosopher Philo (130:3.9).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"alexander-of-cyrene": {
+		"name": "Alejandro de Cirene",
+		"aliases": [
+			"Alejandro"
+		],
+		"meaning": "Alexander, a son of Simon of Cyrene, who with his brother Rufus became a very effective teacher of the gospel in Africa (187:1.10).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"alexander-the-great": {
 		"name": "Alejandro Magno",
 		"aliases": [
@@ -576,6 +819,18 @@
 		"meaning": "The Egyptian city of the great library, where Jesus lived as a child and later visited (Papers 122-123, 130).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"allah": {
+		"name": "Alá",
+		"meaning": "Allah, Islam's clear-cut concept of the one and only Deity, the supreme God of the universe (95:7.6, 94:2.8).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Allah",
+				"reason": "English transliteration; the standard Spanish form is \"Alá\"."
+			}
+		]
 	},
 	"almighty-supreme": {
 		"name": "Supremo Todopoderoso",
@@ -603,6 +858,18 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"alpheus": {
+		"name": "Alfeo",
+		"meaning": "Alpheus, the father of the twin apostles James and Judas, fishermen of Kheresa (138:4.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Alfeus",
+				"reason": "Not a Spanish form; \"gemelos Alfeo\" is already set."
+			}
+		]
+	},
 	"alpheus-twins": {
 		"name": "gemelos Alfeo",
 		"aliases": [
@@ -621,6 +888,12 @@
 	"alps": {
 		"name": "Alpes",
 		"meaning": "The European mountain range, used as a measure of height (59:1.8).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"alvoring": {
+		"name": "Alvoring",
+		"meaning": "Alvoring, one of the seven nearest neighboring local universes of Nebadon in Orvonton (32:2.12).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -671,6 +944,12 @@
 		],
 		"note": "I do not know an established Spanish form for this Perean town. A human must confirm 'Amatus' or choose another form."
 	},
+	"amaziah": {
+		"name": "Amasías",
+		"meaning": "Amaziah, a king of Judah who defeated the Edomites, was defeated by his northern neighbors, and was assassinated by revolting rural folk (97:9.22).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"amdon": {
 		"name": "Amdon",
 		"meaning": "The Chaldean herder of Sumerian extraction in whose tent Melchizedek was first seen by mortal man (93:2.1).",
@@ -682,6 +961,37 @@
 		"meaning": "An Egyptian teacher whose Book of Wisdom passed almost word for word into Hebrew Proverbs (95:4.5).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"amenhotep-iii": {
+		"name": "Amenhotep III",
+		"meaning": "Amenhotep III, the Egyptian prince whose birth is pictured at Luxor with a second, identical child, the symbol of his ka (111:0.5).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Amenofis III",
+				"reason": "An older Greek-derived Spanish form; still used, but Egyptology in Spanish now prefers \"Amenhotep\"."
+			}
+		],
+		"note": "Both \"Amenhotep III\" and \"Amenofis III\" are standard in Spanish; a reviewer can choose one house form for all pharaohs."
+	},
+	"amidist": {
+		"name": "amidista",
+		"aliases": [
+			"amidistas"
+		],
+		"meaning": "Amidists: believers in Amida, God of the Paradise in the west, who hold that the soul can sojourn in Paradise before Nirvana and that salvation comes by faith in Amida (94:12.3).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Amidista",
+				"reason": "Spanish does not capitalize the name of a follower of a religion."
+			}
+		],
+		"forcedChoices": [
+			"Lowercase \"amidista\": Spanish writes the followers of a religion in lowercase (budistas, fariseos), as in the terms already done."
+		]
 	},
 	"ammonites": {
 		"name": "amonitas",
@@ -761,6 +1071,12 @@
 	"amosad": {
 		"name": "Amosad",
 		"meaning": "The leader under whom the Sethite priesthood was regenerated about 15,000 B.C., beginning a brilliant era of the second garden (78:5.1, 92:5.9).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"anaxagoras": {
+		"name": "Anaxágoras",
+		"meaning": "Anaxagoras, a Greek philosopher who was a mechanist except that he recognized a First Cause, an Initial Mind (98:2.6).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -913,6 +1229,26 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"anglo-saxons": {
+		"name": "anglosajones",
+		"aliases": [
+			"anglosajón",
+			"anglosajona",
+			"anglosajonas"
+		],
+		"meaning": "The Anglo-Saxon peoples, whose forefathers were the blended Andite horsemen and blue men of the Russian plains, the ancestors of the Nordic races (80:4.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "anglo-sajones",
+				"reason": "Spanish writes this compound as one word."
+			}
+		],
+		"forcedChoices": [
+			"Lowercase: Spanish writes peoples and nationalities in lowercase."
+		]
+	},
 	"angona": {
 		"name": "Angona",
 		"meaning": "The dark giant system whose near approach drew from the sun the matter that became the solar system (57:5.6, 57:5.13).",
@@ -925,15 +1261,48 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"annan": {
+		"name": "Annan",
+		"meaning": "Annan, a loyal daughter and spokesman for the Nodites, a member of the twelve-member Urantia committee that received Adam and Eve (74:2.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"forcedChoices": [
+			"\"Annan\" is a woman (\"daughter\"); a Spanish sentence must use feminine agreement: «Annan, una hija leal y portavoz de los noditas»."
+		]
+	},
 	"annas": {
 		"name": "Anás",
 		"meaning": "The former Jewish high priest, father-in-law of Caiaphas, who knew Jesus earlier and held the preliminary examination of Jesus (142:0.2, 183:5.1).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"annon": {
+		"name": "Annon",
+		"meaning": "Annon, one of the well-known women among the ancestors of Mary, the mother of Jesus (122:1.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"anova": {
+		"name": "Anova",
+		"meaning": "Anova, world number one of Satania, its oldest inhabited world, a satellite of a large dark planet lit by three neighboring suns (49:0.5).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"ansie": {
+		"name": "Ansie",
+		"meaning": "Ansie, one of the well-known women among the ancestors of Mary, the mother of Jesus (122:1.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"antarctica": {
 		"name": "Antártida",
 		"meaning": "The southern continent, which rose with the other land masses from the Pacific depths (57:8.21).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"antares": {
+		"name": "Antares",
+		"meaning": "Antares, the largest star in the local universe, a stellar cloud 450 times the diameter of the sun (41:3.2).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -961,9 +1330,27 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"anu": {
+		"name": "Anu",
+		"meaning": "Anu, a Mesopotamian god; with Bel and Ea one of the Babylonian triad, the gods of earth, sea, and sky (95:1.4).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"apennines": {
+		"name": "Apeninos",
+		"meaning": "The Apennines of Italy, whose highlands stood as islands when most of Europe was under the sea in the early mammal age (61:1.12).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"aphrodite": {
 		"name": "Afrodita",
 		"meaning": "The Greek form of the goddess Ishtar; in Rome she became Venus (95:1.7, 98:3.3).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"apollo": {
+		"name": "Apolo",
+		"meaning": "Apollo, the Greek and Roman god whose temple stood on the Palatine hill in Rome (132:0.2).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -1013,11 +1400,39 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"aquila": {
+		"name": "Áquila",
+		"meaning": "Aquila, a Jewish tentmaker, one of the Cynics whom Jesus met in Rome; with Priscilla he later lodged and worked with Paul in Corinth (133:3.12).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Aquila",
+				"reason": "Also used in Spanish Bibles, but read without the accent it is stressed on the second syllable; the accent marks the Latin stress."
+			},
+			{
+				"form": "Águila",
+				"reason": "The Spanish word for eagle; a wrong reading."
+			}
+		]
+	},
 	"arabia": {
 		"name": "Arabia",
 		"meaning": "The desert peninsula where the Salem missionaries failed through overorganization and where clans kept a hazy idea of one God (95:7.1, 95:7.3).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"arabian-sea": {
+		"name": "mar Arábigo",
+		"meaning": "The Arabian Sea, crossed coastwise by Dravidian shipping by 7000 B.C. on the way to the Sumerian cities of the Persian Gulf (79:3.7).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "mar de Arabia",
+				"reason": "Also used, but \"mar Arábigo\" is the more usual Spanish name."
+			}
+		]
 	},
 	"arabs": {
 		"name": "árabes",
@@ -1028,9 +1443,28 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"aram": {
+		"name": "Aram",
+		"meaning": "Aram, a river settlement near Erech, home of Noah the wine maker (78:7.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Aram (Siria)",
+				"reason": "The biblical Aram is the land of Syria; this Aram is a village near Erech. Do not add the Syria sense."
+			}
+		],
+		"note": "Aram here is a Mesopotamian village, not the biblical land of Aram (Syria). It matches \"Noé (vinicultor de Aram)\" already done."
+	},
 	"aramaic": {
 		"name": "arameo",
 		"meaning": "The common language of Palestine in Jesus' time, of which he first learned the Galilean dialect (123:3.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"arbela": {
+		"name": "Arbela",
+		"meaning": "Arbela, one of the cities and towns of Perea where the seventy and the apostles worked in the Perean mission (165:0.1).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -1068,6 +1502,23 @@
 		"meaning": "The name students give to the prelife era, from the time the planet reached its present size to the start of life, when water covered the whole surface (59:0.2, 78:7.4).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"architects-of-being": {
+		"name": "Arquitectos del Ser",
+		"meaning": "The (unrevealed) Architects of Being, who formulate the plans by which life is constructed on the inhabited planets (36:0.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Arquitectos de la Existencia",
+				"reason": "\"Existencia\" narrows \"Being\" to the fact of existing; the English is wider."
+			},
+			{
+				"form": "Arquitectos de los Seres",
+				"reason": "The plural adds a meaning (the plans of individual beings) that the English does not state."
+			}
+		],
+		"note": "\"del Ser\" with a capital can make a Spanish reader think of the Supreme Being; the English \"Being\" has the same capital, so the form keeps the English open."
 	},
 	"architects-of-the-master-universe": {
 		"name": "Arquitectos del Universo Maestro",
@@ -1116,6 +1567,49 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"ardnon": {
+		"name": "Ardnon",
+		"meaning": "Ardnon, the leader of the Chaldean priests who, told by the seraphim through the midway creatures, visited the newborn Jesus (119:7.6).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"area-and-building-custodians": {
+		"name": "custodios de áreas y edificios",
+		"aliases": [
+			"Custodios de Áreas y Edificios"
+		],
+		"meaning": "The seventh group of Morontia Companions, custodians of the material and morontia structures and abodes of the mansion worlds (48:3.15).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "guardianes de áreas y edificios",
+				"reason": "\"guardián\" is already used for guardians (guardian angels, Celestial Guardians); \"custodian\" is \"custodio\" in the terms already done."
+			},
+			{
+				"form": "conserjes",
+				"reason": "A janitor or caretaker; too low and changes the idea."
+			}
+		]
+	},
+	"areopagus": {
+		"name": "Areópago",
+		"meaning": "The Areopagus, the council in Athens before which Paul spoke of \"the Unknown God\" (195:1.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"areopolis": {
+		"name": "Areópolis",
+		"meaning": "Areopolis, one of the towns of Perea in the Perean mission (165:0.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"arimathea": {
+		"name": "Arimatea",
+		"meaning": "Arimathea, a village whose citizens invited Jesus to visit them while he and the apostles were in Samaria; the home of Joseph of Arimathea (143:0.1, 189:4.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"aristotle": {
 		"name": "Aristóteles",
 		"aliases": [
@@ -1124,6 +1618,76 @@
 		"meaning": "The Greek philosopher, successor of Socrates and Plato, who taught that virtue is knowledge and goodness is health of the soul (98:2.6).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"arius": {
+		"name": "Arrio",
+		"meaning": "Arius, whose persuasions at Nicaea would have triumphed but for Athanasius (195:0.18).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Arius",
+				"reason": "Latin form; the standard Spanish form is \"Arrio\"."
+			}
+		]
+	},
+	"armageddon": {
+		"name": "Armagedón",
+		"meaning": "Armageddon, the headquarters of the orange race some 300,000 years ago under the leadership of Porshunta (64:6.12).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Armagedon",
+				"reason": "Without the accent the Spanish stress is wrong."
+			}
+		],
+		"note": "The papers use the name only as a place, the orange race's headquarters. Readers can bring the apocalyptic \"final battle\" sense to it; the papers do not mean that."
+	},
+	"armenia": {
+		"name": "Armenia",
+		"meaning": "Armenia, one of the lands through which Andrew journeyed after persecution scattered the apostles (139:1.12).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"aroer": {
+		"name": "Aroer",
+		"meaning": "Aroer, one of the towns of Perea in the Perean mission (165:0.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"artemis": {
+		"name": "Artemisa",
+		"meaning": "Artemis of the Ephesians, the most famous goddess of Asia Minor, a perpetuation of the ancient Anatolian mother goddess (133:6.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Ártemis",
+				"reason": "Also used, but \"Artemisa\" is the usual Spanish form."
+			}
+		]
+	},
+	"artists-of-odor": {
+		"name": "artistas del olor",
+		"meaning": "The fourth group of designers and embellishers, celestial artisans who create symphonies for the delight of the children of light; the papers call the name an unfortunate comparison with chemical odors (44:6.6).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "artistas del aroma",
+				"reason": "\"aroma\" adds pleasantness; the English uses the plain word \"odor\" and says the comparison is unfortunate."
+			},
+			{
+				"form": "artistas de la fragancia",
+				"reason": "Same reason; \"fragrance\" is not the authors' word."
+			},
+			{
+				"form": "artistas olfativos",
+				"reason": "Ties the term to the physical sense of smell more than the English does."
+			}
+		],
+		"note": "\"olor\" is neutral in Spanish, but some readers can take it as a bad smell (\"huele a algo\")."
 	},
 	"aryans": {
 		"name": "arios",
@@ -1188,6 +1752,69 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"ashdod": {
+		"name": "Asdod",
+		"meaning": "Ashdod, a town on Jesus' journey from Joppa through Jamnia to Gaza in A.D. 25 (134:7.4).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"ashkhabad": {
+		"name": "Asjabad",
+		"meaning": "Ashkhabad, a present-day city of central Asia near the site of ancient Adonia (79:1.4).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Ashkhabad",
+				"reason": "English transliteration."
+			},
+			{
+				"form": "Asjabat",
+				"reason": "A rarer Spanish spelling."
+			}
+		],
+		"note": "Spanish spellings vary (Asjabad, Asgabat); a reviewer can check the house form for modern place names."
+	},
+	"ashtaroth": {
+		"name": "Astarot",
+		"meaning": "Ashtaroth, a town where John found a man teaching in Jesus' name and forbade him (159:2.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Astoret",
+				"reason": "Kept for the goddess Ashtoreth; the two must stay apart."
+			}
+		]
+	},
+	"ashtoreth": {
+		"name": "Astoret",
+		"meaning": "Ashtoreth, the name under which the cult of Ishtar invaded Palestine (95:1.7).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Astarot",
+				"reason": "Kept for the town Ashtaroth; the two must stay apart."
+			},
+			{
+				"form": "Astarté",
+				"reason": "Kept for Astarte, the name among the northern tribes."
+			}
+		]
+	},
+	"ashur": {
+		"name": "Asur",
+		"meaning": "Ashur, the god of the Assyrians, one of the national gods Jeremiah said did not exist apart from Yahweh (97:6.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"ashurbanipal": {
+		"name": "Asurbanipal",
+		"meaning": "Ashurbanipal, an Assyrian king who sent more colonists to dwell in Samaria (143:4.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"asia": {
 		"name": "Asia",
 		"aliases": [
@@ -1208,6 +1835,18 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"asoka": {
+		"name": "Asoka",
+		"meaning": "Asoka, the low-caste Indian monarch who espoused Buddhism, built an empire, and sent more than seventeen thousand Buddhist missionaries over the known world (94:9.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Ashoka",
+				"reason": "A more recent transliteration; \"Asoka\" follows the English and is common in Spanish."
+			}
+		]
+	},
 	"assigned-sentinel-of-satania": {
 		"name": "Centinela Asignado de Satania",
 		"meaning": "The Assigned Sentinel of the system of Satania, representative of the Supreme Executives and subordinate to the Associate Inspector (24:5.2).",
@@ -1222,6 +1861,25 @@
 		"meaning": "Co-ordinating personalities and liaison representatives of the Seven Supreme Executives, personalized by the Infinite Spirit, who serve in rotation on the system capitals (24:5.1, 24:5.3).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"assistant-teachers": {
+		"name": "instructores asistentes",
+		"aliases": [
+			"Instructores Asistentes"
+		],
+		"meaning": "The fourth group of superior seraphim, helpers and associates of the teaching counselors, linked with the educational work of the local universe, especially on the mansion worlds (39:2.7).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "maestros asistentes",
+				"reason": "\"Maestro\" is kept for \"Master\" in the terms already done; \"teacher\" is \"instructor\" (consejeros instructores)."
+			},
+			{
+				"form": "profesores ayudantes",
+				"reason": "\"ayudante\" is kept for \"adjutant\", and \"profesor\" is not the word used for teacher in the terms already done."
+			}
+		]
 	},
 	"associate-circuit-supervisors": {
 		"name": "Supervisores Asociados de los Circuitos",
@@ -1287,6 +1945,12 @@
 			}
 		]
 	},
+	"assuntia": {
+		"name": "Assuntia",
+		"meaning": "Assuntia, one of the local systems of Norlatiadek that are immediate neighbors of Satania (41:2.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"assyria": {
 		"name": "Asiria",
 		"aliases": [
@@ -1294,6 +1958,18 @@
 			"asirio"
 		],
 		"meaning": "The empire to which the northern kingdom refused tribute, after which Israel was besieged and dispersed (97:9.21).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"astarte": {
+		"name": "Astarté",
+		"meaning": "Astarte, the name under which the cult of Ishtar reached the northern tribes (95:1.7).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"athanasius": {
+		"name": "Atanasio",
+		"meaning": "Athanasius, a Greek from Egypt who at Nicaea defended the concept of the nature of Jesus against the persuasions of Arius (195:0.18).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -1365,12 +2041,27 @@
 			}
 		]
 	},
+	"azariah": {
+		"name": "Azarías",
+		"aliases": [
+			"Uzías"
+		],
+		"meaning": "Azariah, called Uzziah by Isaiah, the sixteen-year-old son of Amaziah put on the throne of Judah after his father's assassination (97:9.22).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"baal": {
 		"name": "Baal",
 		"aliases": [
 			"baalitas"
 		],
 		"meaning": "The Canaanite god whose name means 'owner', a god of rain and of land ownership and fertility (97:3.3).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"baal-perazim": {
+		"name": "Baal-Perazim",
+		"meaning": "Baal-Perazim, the place David named for a victory, because eighty per cent of his soldiers were Baalites (97:9.12).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -1456,6 +2147,24 @@
 			}
 		]
 	},
+	"baganda-tribes": {
+		"name": "tribus baganda",
+		"meaning": "The Baganda tribes of Africa, which have only recently emerged from the mana level of prayer (91:0.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "tribus bagandas",
+				"reason": "Spanish usually leaves African ethnic names unchanged after \"tribus\"."
+			}
+		]
+	},
+	"balkans": {
+		"name": "Balcanes",
+		"meaning": "The Balkans, one of the two routes (with the Ukraine) by which the Andonites entered Europe after 3000 B.C. (80:9.6).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"baltic": {
 		"name": "Báltico",
 		"meaning": "The Baltic sea and coast, a route by which Andonites from Siberia entered Europe and a source of the amber trade of the Nordics (80:4.2, 80:9.4).",
@@ -1474,6 +2183,18 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"barak": {
+		"name": "Barac",
+		"meaning": "Barak, who with Deborah defeated Sisera at Taanach (126:1.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"barnabas": {
+		"name": "Bernabé",
+		"meaning": "Barnabas, a Greek convert of the pupils of Rodan, associated with Stephen in Jerusalem (194:4.11).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"bartholomew": {
 		"name": "Bartolomé",
 		"aliases": [
@@ -1483,6 +2204,27 @@
 		"confidence": "high",
 		"formConfidence": "high",
 		"note": "Church tradition identifies the apostle Nathaniel with Bartholomew; the papers make Bartholomew his father. The form must not be read as the apostle."
+	},
+	"bartimeus": {
+		"name": "Bartimeo",
+		"meaning": "Bartimeus, an elderly beggar of Jericho, blind from youth, whose sight Jesus restored (171:5.1, 171:5.3).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"bashan": {
+		"name": "Basán",
+		"meaning": "Bashan, the land of King Og, whose raid by the Hebrews the papers name as brutal (69:8.3).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"basques": {
+		"name": "vascos",
+		"meaning": "The Basques, with the Berbers one of two surviving branches of the blue race, though much mixed with the Saharans (80:9.11).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"forcedChoices": [
+			"Lowercase: Spanish writes peoples in lowercase."
+		]
 	},
 	"batanea": {
 		"name": "Batanea",
@@ -1495,6 +2237,24 @@
 		"meaning": "The wife of the Hittite whom King David took as a wife (97:9.10).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"bautan": {
+		"name": "Bautan",
+		"meaning": "Bautan, a pupil in Gautama's school at Benares who told his teacher the Salem traditions of the Melchizedek covenant with Abraham (94:7.5).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"bay-of-bengal": {
+		"name": "golfo de Bengala",
+		"meaning": "The Bay of Bengal, where Dravidian shipping ventured as far as the East Indies by 7000 B.C. (79:3.7).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "bahía de Bengala",
+				"reason": "Calque; Spanish geography names this body of water \"golfo de Bengala\"."
+			}
+		]
 	},
 	"beauty": {
 		"name": "belleza",
@@ -1511,9 +2271,21 @@
 			}
 		]
 	},
+	"bedouins": {
+		"name": "beduinos",
+		"meaning": "The Bedouins, desert tribes whose tribal god Yahweh Moses adopted, and who believed nature spirits made the sand whirls (96:4.3, 85:4.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"beelzebub": {
 		"name": "Belcebú",
 		"meaning": "The leader of the disloyal secondary midwayers who allied themselves with Caligastia (53:1.5, 77:7.4).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"beeroth": {
+		"name": "Beerot",
+		"meaning": "Beeroth, a town on Jesus' last tour through Palestine as a private individual, from Beersheba to Dan (134:7.5).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -1528,6 +2300,24 @@
 				"reason": "English spelling; the standard Spanish form of this historical town is Beerseba."
 			}
 		]
+	},
+	"beirut": {
+		"name": "Beirut",
+		"meaning": "Beirut, the coast city where Jesus visited the Syrian believer Malach (156:3.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"beit-adis": {
+		"name": "Beit Adis",
+		"meaning": "Beit Adis, the village near the rock cavern where Jesus lived during his forty days (136:4.14).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"beit-jenn": {
+		"name": "Beit Jenn",
+		"meaning": "Beit Jenn, a village in the foothills of Mount Hermon where Jesus set up his headquarters in August A.D. 25 (134:8.1).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"bel": {
 		"name": "Bel",
@@ -1547,6 +2337,36 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"benares": {
+		"name": "Benarés",
+		"meaning": "The city in India where Gautama founded his school and from which he sent students out in groups of sixty (94:7.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Varanasi",
+				"reason": "Modern official name; the English uses the older name."
+			}
+		]
+	},
+	"bengal": {
+		"name": "Bengala",
+		"meaning": "A region of India where many people worship a meteor that fell in A.D. 1880; its bay is also named (85:1.2, 79:3.7).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"berbers": {
+		"name": "bereberes",
+		"meaning": "A North African people who, with the Basques, represent the survival of two branches of the blue race, much mixed with the Saharans (80:9.11).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "beréberes",
+				"reason": "Also valid, but the form without the accent is more common in Latin America."
+			}
+		]
+	},
 	"bering-strait-land-bridge": {
 		"name": "puente terrestre del estrecho de Bering",
 		"aliases": [
@@ -1559,6 +2379,18 @@
 		"meaning": "The land link between North America and Asia, over which the early lemurs and later peoples migrated (62:1.2).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"bernice": {
+		"name": "Berenice",
+		"meaning": "The mother of Justa; Jesus stayed in their house just north of Sidon (156:2.2).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Bernice",
+				"reason": "English spelling; Spanish has a standard form of this name."
+			}
+		]
 	},
 	"bestowal": {
 		"name": "otorgamiento",
@@ -1587,6 +2419,54 @@
 			"keep 'otorgamiento' from the done term 'Pentecostés (otorgamiento del Espíritu de la Verdad)': Rule 4: one English word, one Spanish word. Note that 'otorgamiento' has a legal or administrative ring in ordinary use; the reader must take it as self-giving."
 		]
 	},
+	"beth-marion": {
+		"name": "Beth-Marion",
+		"meaning": "A Phoenician woman at Bethsaida who became so fanatical that she almost drowned when she tried to walk on the water (148:8.4).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Bet-Marion",
+				"reason": "The name is known only from this book, so the English spelling stays."
+			}
+		]
+	},
+	"beth-meon": {
+		"name": "Bet-meón",
+		"meaning": "One of the cities of Perea where the seventy, Jesus, and the twelve worked in the Perean mission of A.D. 30 (165:0.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Beth-Meon",
+				"reason": "A biblical place; Spanish has a standard form with Bet-, as in Bet-seán."
+			}
+		]
+	},
+	"beth-nimrah": {
+		"name": "Bet-nimra",
+		"meaning": "One of the towns of Perea where the seventy, Jesus, and the twelve worked in the Perean mission (165:0.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Beth-Nimrah",
+				"reason": "A biblical place; the Spanish pattern uses Bet-."
+			}
+		]
+	},
+	"beth-peor": {
+		"name": "Bet-peor",
+		"meaning": "One of the towns of Perea where the seventy, Jesus, and the twelve worked in the Perean mission (165:0.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Beth-Peor",
+				"reason": "A biblical place; the Spanish pattern uses Bet-."
+			}
+		]
+	},
 	"beth-shean": {
 		"name": "Bet-seán",
 		"meaning": "The ancient Hebrew city that became Scythopolis, the chief Greek city of the Decapolis, which Jesus visited with Joseph (124:3.6).",
@@ -1596,6 +2476,18 @@
 			{
 				"form": "Betsán",
 				"reason": "Also used, but less close to the English form."
+			}
+		]
+	},
+	"beth-zur": {
+		"name": "Bet-sur",
+		"meaning": "The home town of Ezda, the orphan boy who kept the herds of John the Baptist (135:3.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Beth-zur",
+				"reason": "A biblical place; the Spanish pattern uses Bet-."
 			}
 		]
 	},
@@ -1690,9 +2582,47 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"bithynia": {
+		"name": "Bitinia",
+		"meaning": "A region of Asia Minor through which Matthew preached and baptized after he left Jerusalem (139:7.10).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"black-forest-mountains": {
+		"name": "montes de la Selva Negra",
+		"aliases": [
+			"Selva Negra"
+		],
+		"meaning": "European mountains whose formation began in the Carboniferous epoch, with the Vosges and the Urals (59:5.12).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"black-friday": {
+		"name": "Viernes Negro",
+		"meaning": "The most holy day of the Phrygian mysteries, the \"day of blood\" that commemorated the self-inflicted death of Attis (98:4.7).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Black Friday",
+				"reason": "In Spanish this English form means the modern shopping day."
+			},
+			{
+				"form": "Viernes de Sangre",
+				"reason": "Translates the gloss \"day of blood\", which the text gives separately."
+			}
+		],
+		"note": "\"Viernes Negro\" also names a modern shopping day or a market crash; the context of the Attis cult must carry the sense."
+	},
 	"black-sea": {
 		"name": "mar Negro",
 		"meaning": "The sea between Europe and Asia whose regions supplied iron ore to Andite metalworkers (80:6.3).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"blackfoot-indians": {
+		"name": "indios pies negros",
+		"meaning": "A North American tribe among whom many later descendants of Onamonalonton survive (64:6.7).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -1714,6 +2644,30 @@
 		"meaning": "The member of the Prince's staff who directed the board of animal domestication and utilization (66:5.4).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"borneans": {
+		"name": "borneanos",
+		"meaning": "The people of Borneo, who still kill a slave to go with his dead master on the ghost journey (87:2.8).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "habitantes de Borneo",
+				"reason": "Correct but a phrase, not a name."
+			}
+		]
+	},
+	"bosora": {
+		"name": "Bosora",
+		"meaning": "One of the cities of Perea where the seventy, Jesus, and the twelve worked in the Perean mission (165:0.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Bosra",
+				"reason": "Can be read as a different, better-known city; the English form is kept."
+			}
+		]
 	},
 	"brahma": {
 		"name": "Brahma",
@@ -1743,6 +2697,18 @@
 			{
 				"form": "Brahma",
 				"reason": "The personal creator god of Hinduism, a different concept."
+			}
+		]
+	},
+	"brahmanas": {
+		"name": "Brahmanas",
+		"meaning": "Later Hindu scriptures compiled with the Upanishads, when the Brahmanic priests sought true reality and depersonalized the concept of God (94:2.6).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "brahmanes",
+				"reason": "Means the priests (Brahmans), not the scriptures."
 			}
 		]
 	},
@@ -1783,6 +2749,18 @@
 			}
 		],
 		"note": "'Dador' is correct but slightly formal; a reviewer can check that it reads naturally as a divine title."
+	},
+	"brenner-pass": {
+		"name": "paso del Brennero",
+		"meaning": "The Alpine pass by which the Nordics traded amber with the Danubians (80:9.4).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"bretons": {
+		"name": "bretones",
+		"meaning": "The people of Brittany, survivors of the original Andonite inhabitants of western Europe mixed with Mediterranean stock (80:9.14).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"bright-and-morning-stars": {
 		"name": "Resplandecientes Estrellas Matutinas",
@@ -1844,6 +2822,12 @@
 			"Spanish \"jefe\" is masculine; the English \"chief\" has no gender. I keep the masculine as the unmarked form."
 		]
 	},
+	"british-columbia": {
+		"name": "Columbia Británica",
+		"meaning": "A Canadian province where, 70 million years ago, Cambrian rocks were thrust fifteen miles over Cretaceous layers (60:3.14).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"british-isles": {
 		"name": "Islas Británicas",
 		"aliases": [
@@ -1871,6 +2855,18 @@
 			{
 				"form": "Gran Bretaña",
 				"reason": "Great Britain is a different place; a reader can confuse plain \"Bretaña\" with it, so the alias \"Bretaña francesa\" helps where the context is weak."
+			}
+		]
+	},
+	"broadcast-directors": {
+		"name": "directores de difusiones",
+		"meaning": "Thought conservers among the celestial artisans who supervise, censor, edit, adapt, and translate the broadcasts of Paradise, the superuniverses, and the local universes (44:4.9, 44:4.10).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "directores de transmisiones",
+				"reason": "\"broadcasts\" is already \"difusiones\" in the glossary."
 			}
 		]
 	},
@@ -1909,6 +2905,21 @@
 			{
 				"form": "emisores",
 				"reason": "technical sense of a device or a currency issuer"
+			}
+		]
+	},
+	"broadcasters-tertiary-supernaphim": {
+		"name": "difusores (supernafines terciarios)",
+		"aliases": [
+			"Difusores"
+		],
+		"meaning": "The tertiary supernaphim of the third Circuit Spirit, master technicians who receive and send the broadcasts of the central creation and direct the space reports of Deity phenomena on Paradise (26:3.6).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "transmisores",
+				"reason": "\"broadcasters\" is already \"difusores\" for the superior seraphim; one word, one translation."
 			}
 		]
 	},
@@ -2009,6 +3020,21 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"buddha-sakyamuni": {
+		"name": "Buda, Sakyamuni",
+		"aliases": [
+			"Buda Sakyamuni"
+		],
+		"meaning": "A later title of Gautama given by his disciples, after \"the enlightened one\" and \"the Buddha\" (94:8.2, 94:11.3).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Shakyamuni",
+				"reason": "A valid spelling, but the English writes Sakyamuni."
+			}
+		]
+	},
 	"buddhism": {
 		"name": "budismo",
 		"aliases": [
@@ -2065,6 +3091,33 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"caleb": {
+		"name": "Caleb",
+		"meaning": "With Joshua, one of the only two of the hosts out of Egypt who lived to enter the promised land, according to the Scriptures (166:3.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"calebites": {
+		"name": "calebitas",
+		"meaning": "A non-Hebrew nomadic group that formed part of David's kingdom of Judah at Hebron (97:9.7).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"caledonian-mountains": {
+		"name": "montes Caledonianos",
+		"aliases": [
+			"Caledonianos"
+		],
+		"meaning": "A great mountain range raised about 290 million years ago, from Ireland through Scotland to Spitzbergen (59:3.3).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "montes Caledonios",
+				"reason": "Less used; Spanish geology says \"caledoniano\"."
+			}
+		]
+	},
 	"california": {
 		"name": "California",
 		"meaning": "The region on the western coast of North America.",
@@ -2100,6 +3153,18 @@
 				"reason": "The English writes 'one hundred' in lowercase."
 			}
 		]
+	},
+	"caligula": {
+		"name": "Calígula",
+		"meaning": "The Roman emperor at whose court Selta, the writer of a Jewish apocalyptic text, served (176:2.8).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"callirrhoe": {
+		"name": "Calírroe",
+		"meaning": "One of the towns of Perea where the seventy, Jesus, and the twelve worked in the Perean mission (165:0.1).",
+		"confidence": "high",
+		"formConfidence": "medium"
 	},
 	"cambrian": {
 		"name": "Cámbrico",
@@ -2166,15 +3231,63 @@
 			}
 		]
 	},
+	"capetown": {
+		"name": "Ciudad del Cabo",
+		"meaning": "A city of South Africa that the papers contrast with the crude culture of the Bushmen to the north (66:5.30).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"capitolias": {
+		"name": "Capitolias",
+		"meaning": "One of the cities of Perea where the seventy, Jesus, and the twelve worked in the Perean mission (165:0.1).",
+		"confidence": "high",
+		"formConfidence": "medium"
+	},
+	"capitolium": {
+		"name": "Capitolio",
+		"meaning": "The Capitoline hill in Rome with the temple of Jupiter, Juno, and Minerva, where Jesus often went to ponder the bondage of ignorance of the Romans (132:0.2).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Capitolium",
+				"reason": "Latin form; Spanish has a standard form."
+			}
+		]
+	},
+	"cappadocia": {
+		"name": "Capadocia",
+		"meaning": "A region of Asia Minor through which Matthew preached and baptized after he left Jerusalem (139:7.10).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"capua": {
 		"name": "Capua",
 		"meaning": "An Italian city where Jesus and his companions stopped three days before going on the Appian Way to Rome (130:8.6, 130:0.2).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"carboniferous": {
+		"name": "Carbonífero",
+		"meaning": "The geologic period of the coal age, the fern-forest age of frogs; its active stage began 200 million years ago (58:7.10, 59:5.10, 59:5.13).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"caribbean-region": {
 		"name": "región del Caribe",
 		"meaning": "The Caribbean area, which was highly elevated in early geologic ages (59:1.5, 59:2.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"carpathians": {
+		"name": "Cárpatos",
+		"meaning": "European highlands that stood above the water as islands when most of Europe was submerged (61:1.12).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"carrara-marble": {
+		"name": "mármol de Carrara",
+		"meaning": "Marble that comes from limestone laid down in the southern Alps by a sea invasion in the early reptilian age (60:1.4).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -2197,6 +3310,18 @@
 		"formConfidence": "high",
 		"note": "The packet summary gives the dates as 'April 24 to April 25 CE'; 134:2.1 says the trip began on April 1, A.D. 24, and lasted a full year."
 	},
+	"caspin": {
+		"name": "Caspin",
+		"meaning": "One of the towns of Perea where the seventy, Jesus, and the twelve worked in the Perean mission (165:0.1).",
+		"confidence": "high",
+		"formConfidence": "medium"
+	},
+	"catskill-mountains": {
+		"name": "montes Catskill",
+		"meaning": "Mountains on the west bank of the Hudson River, one of the largest geologic monuments of the Devonian floods 240 million years ago (59:4.15).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"caucasians": {
 		"name": "caucásicos",
 		"aliases": [
@@ -2212,6 +3337,12 @@
 			}
 		],
 		"note": "\"caucásico\" also means 'of the Caucasus region'; the context of race must decide."
+	},
+	"cedes": {
+		"name": "Cedes",
+		"meaning": "A believer at Antioch who made a brief record of Jesus' life in A.D. 78, one of Luke's sources (121:8.9).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"celestial-artisans": {
 		"name": "artesanos celestiales",
@@ -2334,6 +3465,19 @@
 			}
 		]
 	},
+	"ch-in-shih-huang-ti": {
+		"name": "Ch'in Shih Huang Ti",
+		"meaning": "A Chinese emperor whose imperial efforts against the Confucian doctrines failed (94:6.11).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Qin Shi Huang",
+				"reason": "The modern pinyin form; the glossary keeps the older romanization (Sinkiang, Honan)."
+			}
+		],
+		"note": "A reviewer must decide between the book's Wade-Giles form and the pinyin form now common in Spanish."
+	},
 	"chaldeans": {
 		"name": "caldeos",
 		"aliases": [
@@ -2341,6 +3485,12 @@
 			"tribus caldeas"
 		],
 		"meaning": "Eastern Semites near Ur, among the most advanced of them, and star worshipers who saw themselves as children of the sky father and the earth mother (96:2.1, 85:5.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"chang": {
+		"name": "Chang",
+		"meaning": "A Chinese merchant in Corinth whom Jesus told to worship only God, his true spirit ancestor (133:4.9).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -2375,6 +3525,18 @@
 			}
 		],
 		"note": "In modern use the word means the cantor of the synagogue; the papers use the older sense of school officer."
+	},
+	"chedorlaomer": {
+		"name": "Quedorlaomer",
+		"meaning": "The enemy over whom Abraham won a victory, after which Abraham offered a conventional sacrifice (93:4.14).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"chemosh": {
+		"name": "Quemos",
+		"meaning": "The god of the Amorites, whose actuality the Hebrews conceded but held subordinate to Yahweh (96:1.14).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"cherubim-and-sanobim": {
 		"name": "querubines y sanobines",
@@ -2467,6 +3629,21 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"chief-supernaphim": {
+		"name": "supernafín jefe",
+		"meaning": "The original pattern angel, the first angel of Paradise, who presides over all three orders of supernaphim (27:2.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "jefe de los supernafines",
+				"reason": "Reads as an office over the supernaphim, not as one supernaphim who is chief."
+			}
+		],
+		"forcedChoices": [
+			"The English \"supernaphim\" serves as singular here; Spanish needs the singular \"supernafín\" for one being."
+		]
+	},
 	"chiefs-of-assignment": {
 		"name": "jefes de asignación",
 		"meaning": "Primary supernaphim who assign service on Paradise, for example a supernaphim to command the seraphim of a reclaimed isolated world (27:0.2, 27:2.2).",
@@ -2482,6 +3659,12 @@
 	"china": {
 		"name": "China",
 		"meaning": "The land of eastern Asia where the yellow race built a stable civilization (79:5-8).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"china-seas": {
+		"name": "mares de China",
+		"meaning": "The seas whose dangers the Buddhist teachers faced as they carried their faith over Asia (94:9.2).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -2596,6 +3779,19 @@
 			}
 		]
 	},
+	"cicero": {
+		"name": "Cicerón",
+		"meaning": "The Roman orator; a people that produced him and Vergil was ripe for Paul's Hellenized Christianity (195:2.6).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"cincinnati-island": {
+		"name": "isla de Cincinnati",
+		"meaning": "A Devonian landmass in North America; the land southeast of it stayed above water while much of western Europe was submerged (59:4.8).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"note": "The papers name it only once. The summary places it in Europe, but the text places only the submerged lands in Europe."
+	},
 	"circuit-regulators": {
 		"name": "reguladores de circuitos",
 		"aliases": [
@@ -2625,6 +3821,18 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"citizenship-registrars": {
+		"name": "archivistas de la ciudadanía",
+		"meaning": "Officials of the representative government of Jerusem who compute the mota status of citizens and assign their suffrage qualifications (45:7.7).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "registradores de la ciudadanía",
+				"reason": "\"recorders\" is already \"registradores\"; \"registrars\" is \"archivistas\" in the glossary."
+			}
+		]
+	},
 	"city-of-judah": {
 		"name": "Ciudad de Judá",
 		"meaning": "The town in the hills four miles west of Jerusalem where Elizabeth lived, Mary visited her, and John the Baptist was born (122:2.6, 122:2.7).",
@@ -2645,6 +3853,57 @@
 		"meaning": "The wife of Pontius Pilate, who heard of Jesus through her maid and after Pilate's death became known for spreading the gospel (185:1.7).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"claudius": {
+		"name": "Claudio",
+		"meaning": "A wealthy Roman slaveholder who freed one hundred and seventeen slaves after an evening with Jesus (132:4.5).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"claudus": {
+		"name": "Claudus",
+		"meaning": "A discouraged young man on Malta who, after his talk with Jesus, became a Cynic preacher and later preached Christianity in Rome, Naples, and Spain (130:8.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Claudio",
+				"reason": "Merges him with Claudius, a different person."
+			}
+		]
+	},
+	"clement": {
+		"name": "Clemente",
+		"meaning": "Clement of Alexandria, taught by Pantaenus in the early schools that kept much of Jesus' teachings (195:3.10).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"cleopas-of-emmaus": {
+		"name": "Cleofás de Emaús",
+		"aliases": [
+			"Cleofás"
+		],
+		"meaning": "A man of Emmaus, brother of Jacob, to whom Jesus appeared on the road from Jerusalem in his seventh morontia appearance (190:5.2, 190:5.3).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"cloa": {
+		"name": "Cloa",
+		"meaning": "One of the remarkable women among the ancestors of Mary, the mother of Jesus (122:1.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"clopas": {
+		"name": "Clopás",
+		"meaning": "The husband of Mary, the sister of Jesus' mother, who stood near the cross (187:3.2, 188:1.7).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Cleofás",
+				"reason": "Already the form for Cleopas of Emmaus, a different person."
+			}
+		]
 	},
 	"co-ordinate-creator-sons": {
 		"name": "Hijos Creadores Coordinados",
@@ -2684,9 +3943,36 @@
 			"'Coordinados' from the done term 'co-ordinate: coordinar': The English adjective 'co-ordinate' means of equal rank or order, but Spanish 'coordinado' commonly reads as 'organized' or 'co-ordinated'; a human must check this."
 		]
 	},
+	"co-ordinators-and-liaison-directors": {
+		"name": "coordinadores y directores de enlace",
+		"aliases": [
+			"Coordinadores y Directores de Enlace"
+		],
+		"meaning": "Morontia Companions who facilitate morontia intercourse and prevent confusion as instructors of social conduct and morontia progress (48:3.11).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"college-of-high-ethics": {
+		"name": "Colegio de Alta Ética",
+		"meaning": "The highest course of training in universe administration, given on the Melchizedek home world and presided over by the original Father Melchizedek (35:3.22).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"college-of-wisdom": {
+		"name": "Colegio de la Sabiduría",
+		"meaning": "The high college on Salvington at the top of the Teacher Sons' long course of training (20:8.3).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"colorado": {
 		"name": "Colorado",
 		"meaning": "The North American region named for its Morrison fresh-water fossil beds and for the Grand Canyon of the Colorado River (60:2.5, 58:7.5).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"colorado-river": {
+		"name": "río Colorado",
+		"meaning": "The North American river whose Grand Canyon shows primitive fossil-bearing rocks in several layers (58:7.5).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -2715,6 +4001,29 @@
 			}
 		],
 		"note": "'complemento' can read as an add-on item; here it means a colleague who completes a pair."
+	},
+	"compound-manipulators": {
+		"name": "manipuladores compuestos",
+		"meaning": "Celestial artisans who work with the functional association of physical, mindal, and spiritual energies and seek the universe presence of God the Supreme (44:5.5).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "manipuladores de compuestos",
+				"reason": "Reads as chemical compounds and closes the English adjective."
+			},
+			{
+				"form": "manipuladores de energías combinadas",
+				"reason": "Commentary; adds words the English does not have."
+			}
+		],
+		"note": "The English \"compound\" can describe the manipulators or the energy they work with; the Spanish keeps the same ambiguity."
+	},
+	"concept-recorders": {
+		"name": "registradores de conceptos",
+		"meaning": "Thought recorders who preserve concept pictures and idea patterns by a permanent method unknown on material worlds (44:4.5).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"conductors-of-worship": {
 		"name": "conductores de la adoración",
@@ -2763,6 +4072,22 @@
 			}
 		]
 	},
+	"connecticut": {
+		"name": "Connecticut",
+		"aliases": [
+			"Connecticut oriental"
+		],
+		"meaning": "A state of the United States where the great eastern-Connecticut fault appeared in the early reptilian age, one side sinking two miles (60:1.7).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"note": "The summary dates the fault to the Cretaceous; the text puts it in the early reptilian age section (60:1)."
+	},
+	"constantine": {
+		"name": "Constantino",
+		"meaning": "The Roman emperor won to Christianity after Christian leaders compromised further with paganism (195:0.10).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"constellation-centers": {
 		"name": "Centros de las Constelaciones",
 		"meaning": "The fifth order of Supreme Power Centers: ten in each constellation, energy projectors to its one hundred local systems (29:2.6, 29:2.17).",
@@ -2774,6 +4099,15 @@
 				"reason": "Rare adjective."
 			}
 		]
+	},
+	"constellation-fathers": {
+		"name": "Padres de las Constelaciones",
+		"aliases": [
+			"Padre de la Constelación"
+		],
+		"meaning": "The reigning Most High of a constellation, the presiding member of its three Vorondadek rulers, who reigns ten thousand standard years (35:6.1, 43:3.2).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"constellations": {
 		"name": "constelaciones",
@@ -2837,6 +4171,12 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"cornelius": {
+		"name": "Cornelio",
+		"meaning": "A Roman centurion of Caesarea who became a believer through Peter and whose steward was Anaxand (130:2.5).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"corporeal-staffs-of-planetary-princes": {
 		"name": "personal corpóreo de los Príncipes Planetarios",
 		"aliases": [
@@ -2887,6 +4227,18 @@
 		"meaning": "One of the seven finaliter corps, a possible supreme destiny for Havona natives (31:1.5, 30:2.136).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"corps-of-light-and-life": {
+		"name": "Cuerpo de Luz y Vida",
+		"meaning": "The corps on Paradise in which the ascendant mortals of time now serve temporarily; their final destiny is not known (31:3.2).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Cuerpo de la Luz y la Vida",
+				"reason": "\"light and life\" is already \"luz y vida\" without articles."
+			}
+		]
 	},
 	"corps-of-mortal-finaliters": {
 		"name": "Cuerpo de Finalitarios Mortales",
@@ -3046,6 +4398,51 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"council-of-perfection": {
+		"name": "consejo de perfección",
+		"meaning": "A council on Paradise to which superuniverse conciliators are translated, and from which they emerge as a co-ordinating corps of the Infinite Spirit (25:3.16).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "consejo de la perfección",
+				"reason": "The English has no article; the article would suggest an abstract named Perfection."
+			}
+		]
+	},
+	"council-of-planetary-princes": {
+		"name": "consejo de los Príncipes Planetarios",
+		"aliases": [
+			"consejo de sistema de los gobernantes de mundos"
+		],
+		"meaning": "The system council of world rulers, the Planetary Princes and resident governors general, over which the System Sovereign presides at the system headquarters (45:2.4, 114:3.4).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"council-of-seven": {
+		"name": "consejo de siete",
+		"meaning": "The council of the red man, after the teaching of Onamonalonton, whose rule was unanimous (70:5.4).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "consejo de los siete",
+				"reason": "Suggests seven known persons, which the English does not say."
+			}
+		]
+	},
+	"council-of-seventy": {
+		"name": "consejo de setenta",
+		"meaning": "A council at the constellation headquarters, selected from evolutionary beings, analogous to the twenty-four counselors (50:2.2).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "consejo de los setenta",
+				"reason": "Can be confused with \"the seventy\" messengers of Jesus' time."
+			}
+		]
+	},
 	"counselors-and-advisers": {
 		"name": "consejeros y asesores",
 		"aliases": [
@@ -3093,6 +4490,12 @@
 			}
 		]
 	},
+	"court-of-israel": {
+		"name": "atrio de Israel",
+		"meaning": "A court of the Jerusalem temple from which steps led down to the court of the women (162:4.3).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"court-of-priests": {
 		"name": "atrio de los sacerdotes",
 		"meaning": "The court of the Jerusalem temple, below the rock ledge in front of the temple, where the altar stood and sacrifices were made (125:1.4, 162:4.4).",
@@ -3138,6 +4541,24 @@
 			{
 				"form": "colonias de huéspedes",
 				"reason": "Interprets the term instead of keeping the English word 'courtesy'."
+			}
+		]
+	},
+	"crab-nebula": {
+		"name": "nebulosa del Cangrejo",
+		"meaning": "An irregular nebula that began about nine hundred years ago, with its mother sphere still a lone star near its center (41:8.4).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"craftworkers-of-color": {
+		"name": "artífices del color",
+		"meaning": "Designers and embellishers among the celestial artisans who make the ten thousand color tones of spirit reflection give out messages of harmonious beauty (44:6.3).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "artesanos del color",
+				"reason": "\"artisans\" is already \"artesanos\"; \"craftworkers\" needs a different word."
 			}
 		]
 	},
@@ -3317,6 +4738,31 @@
 			}
 		]
 	},
+	"cuthites": {
+		"name": "cuteos",
+		"meaning": "A people whose descendants Sargon of Assyria settled in central Palestine in place of the deported Israelites (143:4.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "cutitas",
+				"reason": "Too close to the Cutites, a different people."
+			}
+		]
+	},
+	"cutites": {
+		"name": "Cutitas",
+		"meaning": "One of the groups that occupied the first garden after Adam left it (73:7.1).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "cuteos",
+				"reason": "Already the form for the Cuthites."
+			}
+		],
+		"note": "The papers name them once; they must not be merged with the Cuthites."
+	},
 	"cybele": {
 		"name": "Cibeles",
 		"meaning": "The Phrygian goddess, mother of Attis, whose cult the papers list among the mystery cults (98:4.3, 98:5.5).",
@@ -3380,6 +4826,36 @@
 		"meaning": "The city of northern Africa, home of Simon who carried Jesus' crossbeam (187:1.10, 130:6.6).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"cyrus": {
+		"name": "Ciro",
+		"meaning": "A figure in the traditions of the infant set adrift and preserved by the gods, with Sargon, Moses, and Romulus (89:7.3).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"dabaritta": {
+		"name": "Dabaritta",
+		"meaning": "A town of Galilee visited on the second preaching tour, October to December A.D. 28 (149:0.1).",
+		"confidence": "high",
+		"formConfidence": "medium"
+	},
+	"dagon": {
+		"name": "Dagón",
+		"meaning": "The god of the Philistines, named by Jeremiah among the national gods that did not exist (97:6.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"dakota-black-hills": {
+		"name": "Black Hills de Dakota",
+		"meaning": "The Black Hills region of Dakota in North America, named as the eastward limit of the Pacific invasion of the western continent in the later reptilian age (60:2.4).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Colinas Negras de Dakota",
+				"reason": "A literal rendering that Spanish readers do not use for this real place; the English proper name is the usual form."
+			}
+		]
 	},
 	"dalamatia": {
 		"name": "Dalamatia",
@@ -3449,6 +4925,35 @@
 			{
 				"form": "Danubianos",
 				"reason": "Spanish writes the names of peoples in lowercase."
+			}
+		]
+	},
+	"daphne": {
+		"name": "Dafne",
+		"meaning": "Daphne, the figure of Greek myth whose name the grove at Antioch carries; the papers name her only in 'the grove of Daphne' (133:8.1).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Daphne",
+				"reason": "The English spelling; Spanish has a standard form for this classical name."
+			}
+		],
+		"note": "The papers do not describe Daphne herself; the packet summary (a naiad, daughter of Ladon) is not in the text."
+	},
+	"daphne-grove-of": {
+		"name": "bosque de Dafne",
+		"meaning": "A notorious shrine of shame at Antioch that Gonod and Ganid visited and that Jesus refused to visit (133:8.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "arboleda de Dafne",
+				"reason": "Closer to 'grove' in size, but less natural for a sacred grove at a shrine; 'bosque' is the plain usual word."
+			},
+			{
+				"form": "santuario de Dafne",
+				"reason": "Gives the meaning instead of the name; the English names the grove, not the shrine."
 			}
 		]
 	},
@@ -3524,6 +5029,22 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"dead-book-of-the": {
+		"name": "Muertos, Libro de los",
+		"aliases": [
+			"El Libro de los Muertos",
+			"Libro de los Muertos"
+		],
+		"meaning": "The Egyptian collection of magical charm texts, first inscribed on coffins, that was gathered and preserved as protection for the dead (95:2.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Libro de los Difuntos",
+				"reason": "'Difuntos' is more formal and is not the usual Spanish name of this Egyptian text."
+			}
+		]
+	},
 	"dead-sea": {
 		"name": "mar Muerto",
 		"meaning": "The sea of Palestine by which Engedi lies (135:1.1).",
@@ -3554,6 +5075,21 @@
 			{
 				"form": "Deccan",
 				"reason": "English spelling; Spanish geography uses Decán."
+			}
+		]
+	},
+	"december-25th": {
+		"name": "25 de diciembre",
+		"aliases": [
+			"veinticinco de diciembre"
+		],
+		"meaning": "December 25, the date of the annual festival of Mithras, the most elaborate observance of the Mithraic cult (98:5.4).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Diciembre 25",
+				"reason": "English word order and a capital on the month; Spanish writes the day first and the month in lowercase."
 			}
 		]
 	},
@@ -3684,6 +5220,40 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"devouress": {
+		"name": "Devoradora",
+		"aliases": [
+			"la Devoradora"
+		],
+		"meaning": "In Egyptian belief, the hell to which a soul found wanting in the judgment hall of Osiris was consigned (95:2.9).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Devorador",
+				"reason": "The English uses the feminine suffix -ess; the masculine loses it."
+			},
+			{
+				"form": "Devoradora de almas",
+				"reason": "Adds words that the English name does not have."
+			}
+		],
+		"forcedChoices": [
+			"The feminine 'Devoradora' follows the English '-ess' ending."
+		]
+	},
+	"dilmat": {
+		"name": "Dilmat",
+		"meaning": "The Egyptian name for the ancient Nodite settlement on the Persian Gulf near the earlier city of Dilmun (77:4.8).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Dilmún",
+				"reason": "That is the form for Dilmun, a different name in the same paragraph."
+			}
+		]
+	},
 	"dilmun": {
 		"name": "Dilmún",
 		"meaning": "The later Nodite city near the Persian Gulf; the Sumerians gave its name to all three Nodite centers (77:4.8).",
@@ -3693,6 +5263,69 @@
 			{
 				"form": "Dilmun",
 				"reason": "Spanish stress needs the accent."
+			}
+		]
+	},
+	"diogenes-of-athens": {
+		"name": "Diógenes de Atenas",
+		"meaning": "The Greek philosopher to whom the Cynics traced their philosophy (121:4.4).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Diógenes de Sinope",
+				"reason": "The papers say 'of Athens'; a translation must not correct the text."
+			}
+		]
+	},
+	"dion": {
+		"name": "Dión",
+		"meaning": "One of the towns in Perea where the seventy and Jesus and the apostles worked during the Perean mission that began January 3, A.D. 30 (165:0.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Dium",
+				"reason": "That form is kept for the separate English entry Dium (159:0.2), so the two names stay distinct as in the English."
+			},
+			{
+				"form": "Dion",
+				"reason": "Without the accent, Spanish readers stress it wrongly; the accent gives the usual pronunciation."
+			}
+		]
+	},
+	"dionysus": {
+		"name": "Dioniso",
+		"meaning": "The Greek god whose nature worship flourished among the mystery cults of the Mediterranean lands (98:2.10).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Dionisio",
+				"reason": "In Spanish this is mainly a man's given name; 'Dioniso' is the usual name of the god."
+			},
+			{
+				"form": "Baco",
+				"reason": "The Roman name; the English uses the Greek one."
+			}
+		]
+	},
+	"directors-of-assignment": {
+		"name": "directores de asignación",
+		"aliases": [
+			"Directores de Asignación"
+		],
+		"meaning": "A body of 144 supreme seraphim, elected by the angels, that is the highest angelic council on any sphere and co-ordinates seraphic service and assignment (39:1.16, 39:2.17).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "directores de destino",
+				"reason": "'Destino' is the term for 'destiny'; 'assignment' is a different word."
+			},
+			{
+				"form": "directores de nombramientos",
+				"reason": "Reads as a personnel office; it also breaks the family with 'jefes de asignación'."
 			}
 		]
 	},
@@ -3723,6 +5356,50 @@
 			{
 				"form": "Jueces de Espíritus",
 				"reason": "Changes the idea: they discern and present; the Censors judge."
+			}
+		]
+	},
+	"dium": {
+		"name": "Dium",
+		"meaning": "One of the Decapolis cities where the apostles and evangelists worked during the tour of August 18 to September 16 (159:0.2).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Dión",
+				"reason": "Used for the separate English entry Dion (165:0.1); the English keeps two spellings, so the Spanish must keep two."
+			}
+		],
+		"note": "Dion and Dium can be the same historical city, but the English gives two names; a reviewer can check whether one form is wanted."
+	},
+	"dives": {
+		"name": "Dives",
+		"meaning": "The rich man in the old Nazarite parable of the rich man and the beggar Lazarus, which Peter recited and on which Jesus never consented to comment (169:3.2, 169:3.3).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Epulón",
+				"reason": "A traditional Spanish nickname for the rich man from the Gospel story, not the name that the papers give."
+			},
+			{
+				"form": "el rico",
+				"reason": "A description, not the personal name the text uses."
+			}
+		]
+	},
+	"divine-builders": {
+		"name": "constructores divinos",
+		"aliases": [
+			"Constructores Divinos"
+		],
+		"meaning": "One of the groups of celestial artisans, working in seven groups, who build the spirit cities, homes, and other structures of the celestial realms (44:0.8, 44:3.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "edificadores divinos",
+				"reason": "Correct but more literary; 'constructores' is the plain word."
 			}
 		]
 	},
@@ -3789,6 +5466,41 @@
 			}
 		]
 	},
+	"doings-of-kings-of-israel": {
+		"name": "Hechos de los Reyes de Israel",
+		"aliases": [
+			"Los Hechos de los Reyes de Israel"
+		],
+		"meaning": "A book of Hebrew records that the priests of the Babylonian exile destroyed after they prepared their sacred history of Israel (97:8.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Crónicas de los Reyes de Israel",
+				"reason": "Confuses it with the biblical books of Chronicles; the papers describe a lost book."
+			},
+			{
+				"form": "Obras de los Reyes de Israel",
+				"reason": "'Obras' also means buildings or written works, a wrong reading."
+			}
+		],
+		"note": "'Hechos' is also the word in 'Hechos, libro de los' (Acts). The full title keeps them apart, but a reviewer can check it."
+	},
+	"doings-of-kings-of-judah": {
+		"name": "Hechos de los Reyes de Judá",
+		"aliases": [
+			"Los Hechos de los Reyes de Judá"
+		],
+		"meaning": "A book of Hebrew records that the priests of the Babylonian exile destroyed after they prepared their sacred history of Israel (97:8.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Crónicas de los Reyes de Judá",
+				"reason": "Confuses it with the biblical books of Chronicles; the papers describe a lost book."
+			}
+		]
+	},
 	"don": {
 		"name": "Don",
 		"aliases": [
@@ -3798,6 +5510,30 @@
 		"confidence": "high",
 		"formConfidence": "medium",
 		"note": "\"don\" is a Spanish title of respect; use \"río Don\" where the context does not show a river."
+	},
+	"dorcas": {
+		"name": "Dorcas",
+		"meaning": "The woman at whose home Gadiah held a memorable argument with Peter (130:1.3).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Tabita",
+				"reason": "A different name for the biblical figure; the papers say Dorcas."
+			}
+		]
+	},
+	"dothan": {
+		"name": "Dotán",
+		"meaning": "The hills where Joseph's brothers sold him into Egyptian slavery, which Jesus could see from the hill of Simeon near Nazareth (126:1.2).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Dothan",
+				"reason": "The English spelling; Spanish has a standard biblical form."
+			}
+		]
 	},
 	"dravidians": {
 		"name": "drávidas",
@@ -3825,9 +5561,79 @@
 			}
 		]
 	},
+	"dyaks": {
+		"name": "dayak",
+		"aliases": [
+			"los dayak"
+		],
+		"meaning": "A present-day people who evolved only the most primitive religious practices (92:6.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Dyaks",
+				"reason": "The English plural; Spanish writes peoples in lowercase and does not use the English -s."
+			},
+			{
+				"form": "dayacos",
+				"reason": "A less usual Spanish form."
+			}
+		]
+	},
+	"dyaus-pitar": {
+		"name": "Dyaus pitar",
+		"meaning": "The Vedic lord of heaven, one of the triune leaders of the Aryan pantheon with Indra and Agni (94:1.3).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Dyaus Pitar",
+				"reason": "The English writes 'pitar' in lowercase; keep the English capitals."
+			}
+		]
+	},
+	"ea": {
+		"name": "Ea",
+		"meaning": "A Mesopotamian god, one of the Babylonian triad of Bel, Ea, and Anu, the gods of earth, sea, and sky (95:1.4).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"east-indies": {
 		"name": "Indias Orientales",
 		"meaning": "The islands of southeast Asia, reached by Andite groups and by Dravidian shipping (78:5.6, 79:3.7).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"easter-island": {
+		"name": "isla de Pascua",
+		"meaning": "The Pacific island that was long a religious and administrative center of one of the lost Andite-modified groups (78:5.7).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Rapa Nui",
+				"reason": "The native name; the English uses the European name."
+			}
+		]
+	},
+	"eastern-ghats": {
+		"name": "Ghats Orientales",
+		"meaning": "The mountain range of India through which three great rivers of the Deccan flow to the sea, along which Dravidian centers of culture were located (79:3.6).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Ghats del Este",
+				"reason": "Correct but less usual in Spanish geography."
+			}
+		]
+	},
+	"ebal": {
+		"name": "Ebal",
+		"aliases": [
+			"monte Ebal"
+		],
+		"meaning": "A mountain that Jesus could see from the hill of Simeon, connected with the traditions of Abraham, Jacob, and Abimelech (126:1.2).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -3842,6 +5648,22 @@
 		"meaning": "The Old Testament book whose frank pessimism was a worldly wise reaction to overoptimistic beliefs in Providence (97:8.2).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"edenic-league": {
+		"name": "liga edénica",
+		"meaning": "The federation into which Adam joined the companies of his system of group control throughout Eden (74:5.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "liga del Edén",
+				"reason": "Acceptable, but the English uses the adjective 'Edenic'."
+			},
+			{
+				"form": "Liga Edénica",
+				"reason": "The English writes 'league' in lowercase."
+			}
+		]
 	},
 	"edentia": {
 		"name": "Edentia",
@@ -3867,6 +5689,32 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"eightfold-path": {
+		"name": "Óctuple Sendero",
+		"aliases": [
+			"Sendero Óctuple"
+		],
+		"meaning": "The Buddhist philosophy of right views, aspirations, speech, conduct, livelihood, effort, mindfulness, and contemplation, linked to the doctrine of suffering and the escape from it (94:8.8).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Camino de Ocho Partes",
+				"reason": "Literal and not the usual Spanish name; 'Camino' also belongs to other terms (Camino del Padre)."
+			},
+			{
+				"form": "Noble Óctuple Sendero",
+				"reason": "Adds 'Noble', which the English does not have."
+			}
+		]
+	},
+	"el": {
+		"name": "El",
+		"meaning": "The name for the composite Deity that devout Semites used when they tried to worship all the evolving ideas of divinity, which also included other Bedouin nature gods (96:1.7).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"note": "In Spanish 'El' at the start of a sentence looks like the article 'el' with a capital. Translators must make the name clear from the context."
+	},
 	"el-elyon": {
 		"name": "El Elyon",
 		"meaning": "The Most High God of heaven, the term for Melchizedek's doctrine of Deity after his time at Salem (96:1.4, 96:4.2).",
@@ -3884,6 +5732,60 @@
 		"meaning": "The region east of the Euphrates where the eastern or Elamite Nodites settled (77:4.4).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"elamites": {
+		"name": "elamitas",
+		"aliases": [
+			"elamita"
+		],
+		"meaning": "The eastern Nodites of Elam, headed by Enoch son of Cain, who kept peace with the Adamites and became largely Sangik while keeping a civilization above the surrounding barbarians (76:2.9, 77:4.4).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Elamitas",
+				"reason": "Elam is a historical land; Spanish writes peoples in lowercase, as in 'edomitas'."
+			}
+		]
+	},
+	"elealah": {
+		"name": "Eleale",
+		"meaning": "One of the towns in Perea where the seventy and Jesus and the apostles worked during the Perean mission (165:0.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Elealah",
+				"reason": "The English spelling; Spanish has a standard biblical form without the final h."
+			}
+		]
+	},
+	"eleusinian-mysteries": {
+		"name": "misterios eleusinos",
+		"aliases": [
+			"misterios de Eleusis"
+		],
+		"meaning": "A mystery cult that grew up within the Olympian pantheon as a Greek version of the worship of fertility (98:2.10).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Misterios Eleusinos",
+				"reason": "The English writes 'mysteries' in lowercase."
+			}
+		]
+	},
+	"elihu": {
+		"name": "Eliú",
+		"meaning": "The prophet of Ur and priest of the Salem believers whose teaching of salvation by faith was the most cheering message heard in the Levant since Melchizedek (96:7.7).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Elihu",
+				"reason": "The English spelling; Spanish has a standard biblical form."
+			}
+		]
 	},
 	"elijah-mark": {
 		"name": "Elías Marcos",
@@ -3937,9 +5839,21 @@
 		"formConfidence": "high",
 		"note": "Same first name as Isabel, the mother of John the Baptist; the place name keeps them apart."
 	},
+	"ellanora": {
+		"name": "Ellanora",
+		"meaning": "A young woman of Panoptia who took the leadership of the human races in the Lucifer rebellion, so that no one on that world joined the rebels (53:7.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"elman": {
 		"name": "Elman",
 		"meaning": "The Syrian believer physician who supervised the sick at the Bethsaida encampment and organized the kingdom's first hospital (148:0.1, 148:2.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"eloah": {
+		"name": "Eloah",
+		"meaning": "The singular of Elohim, the name under which the three-in-one God concept of the Sumerian-Chaldean groups was worshiped in Egypt (96:1.8).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -3952,6 +5866,52 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"emergency-council-of-edentia": {
+		"name": "consejo de emergencia de Edentia",
+		"meaning": "The council made up of all personalities assigned to Norlatiadek because of the Satania upheaval, presided over by a Vorondadek Son, the Most High director (43:5.14).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "consejo de urgencia de Edentia",
+				"reason": "'Urgencia' is also correct, but 'emergencia' is the plain word in most of Latin America."
+			}
+		]
+	},
+	"emmaus": {
+		"name": "Emaús",
+		"meaning": "A village about seven miles west of Jerusalem, home of the brothers Cleopas and Jacob, on whose road Jesus made his seventh morontia appearance (190:5.1, 190:5.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"emotion-designers": {
+		"name": "diseñadores de emociones",
+		"meaning": "The celestial artisans who enhance and conserve feeling, and preserve the sentiments of morontia and the emotions of divinity for study and inspiration (44:6.5).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "diseñadores emocionales",
+				"reason": "Reads as designers who are emotional, a wrong sense."
+			},
+			{
+				"form": "diseñadores de la emoción",
+				"reason": "Acceptable; the plural reads more naturally for a group that preserves many feelings."
+			}
+		]
+	},
+	"en-gannim": {
+		"name": "En-ganim",
+		"meaning": "A place between Geba and Endor where Jesus stopped on his last private tour through Palestine in A.D. 25 (134:7.5).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "En-Gannim",
+				"reason": "The English double n; Spanish biblical forms use one n."
+			}
+		]
+	},
 	"endantum": {
 		"name": "Endantum",
 		"meaning": "The headquarters of the fifth constellation of Nebadon, where Michael made his sixth bestowal as a morontia mortal (119:6.3, 119:6.6).",
@@ -3963,6 +5923,26 @@
 		"meaning": "A town in Galilee where Joseph worked and where Jesus rested from the crowds and told the story of King Saul and the witch of Endor (123:3.8, 146:7.1).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"enemy": {
+		"name": "enemigo",
+		"aliases": [
+			"el enemigo del reino"
+		],
+		"meaning": "'The enemy of the kingdom', against whom Jesus warned the apostles because he would try to draw them away (138:7.3).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Enemigo",
+				"reason": "The English writes 'enemy' in lowercase."
+			},
+			{
+				"form": "Caligastia",
+				"reason": "The paragraph does not name the enemy; to name him in the translation closes what the text leaves open."
+			}
+		],
+		"note": "The packet summary says the enemy is Caligastia. 138:7.3 does not name him. Keep the plain word."
 	},
 	"energy": {
 		"name": "energía",
@@ -4034,6 +6014,12 @@
 			}
 		]
 	},
+	"england": {
+		"name": "Inglaterra",
+		"meaning": "England, which with Scotland and Wales fought until they gave their sovereignties to the United Kingdom (134:6.3).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"english-channel-land-bridge": {
 		"name": "puente terrestre del canal de la Mancha",
 		"aliases": [
@@ -4066,9 +6052,33 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"enos": {
+		"name": "Enós",
+		"meaning": "The son of Seth who founded the new order of worship in the second garden (76:3.4).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Enos",
+				"reason": "Without the accent Spanish readers stress it wrongly; the biblical form has the accent."
+			}
+		]
+	},
 	"ensa": {
 		"name": "Ensa",
 		"meaning": "The minor sector of one hundred local universes, with capital Uminor the third, in which Nebadon lies (15:14.7, 18:5.5).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"enta": {
+		"name": "Enta",
+		"meaning": "One of the remarkable women among the ancestors of Mary, the mother of Jesus (122:1.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"eocene": {
+		"name": "Eoceno",
+		"meaning": "The 'so-called Eocene period' of the early mammals, when North America was connected by land with every continent except Australia (61:1.14).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -4087,6 +6097,26 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"epicurean-teacher-in-corinth": {
+		"name": "maestro epicúreo de Corinto",
+		"aliases": [
+			"maestro epicúreo"
+		],
+		"meaning": "The Epicurean teacher in Corinth whom Jesus told to discern the greater things of the spirit that come from the realization of God's presence in the heart (133:4.5).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "instructor epicúreo de Corinto",
+				"reason": "'Instructor' is for the coined orders (Instructores de los Mundos Morada); for a Greek philosophy teacher it reads stiffly."
+			},
+			{
+				"form": "profesor epicúreo",
+				"reason": "Suggests a school post that the text does not give."
+			}
+		],
+		"note": "'Maestro' in lowercase is a plain word; 'Maestro' with a capital is the title of Jesus. A reviewer can check this in context."
+	},
 	"epicureanism": {
 		"name": "epicureísmo",
 		"aliases": [
@@ -4100,6 +6130,21 @@
 			{
 				"form": "epicureo",
 				"reason": "In common Spanish \"epicúreo\" also means a lover of pleasure; the papers say the better Epicureans were not sensual. Keep it as the name of the school."
+			}
+		]
+	},
+	"epistle-of-first-john": {
+		"name": "Primera Epístola de Juan",
+		"aliases": [
+			"Primera de Juan"
+		],
+		"meaning": "The epistle that John wrote himself as a covering letter for the Gospel that Nathan wrote under his direction (121:8.10).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Epístola de Primera de Juan",
+				"reason": "Copies the English word order and is not natural Spanish."
 			}
 		]
 	},
@@ -4237,6 +6282,22 @@
 			}
 		]
 	},
+	"ethical-sensitizers": {
+		"name": "Sensibilizadores Éticos",
+		"meaning": "Supervisor seraphim who foster creature appreciation of the morality of interpersonal relationships, and act as counselors and exchange teachers (39:3.7).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Sensibilizadores de la Ética",
+				"reason": "Suggests that they make ethics sensitive, not creatures."
+			},
+			{
+				"form": "Concienciadores Éticos",
+				"reason": "'Concienciar' is mostly used in Spain and suggests campaigns."
+			}
+		]
+	},
 	"ethics": {
 		"name": "ética",
 		"aliases": [
@@ -4252,6 +6313,12 @@
 				"reason": "The papers distinguish ethics from morality."
 			}
 		]
+	},
+	"etruscan-priesthood": {
+		"name": "sacerdocio etrusco",
+		"meaning": "The rapidly spreading Etruscan priesthood, with its new gods and temples, that the Salem missionaries in Italy could not overcome and that was organized into the Roman state religion (98:3.2).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"euphrates-river": {
 		"name": "río Éufrates",
@@ -4286,6 +6353,22 @@
 		],
 		"note": "Same Spanish word as in \"evangelistas seráficos\" (seraphic evangels) in the terms already done. The adjective \"seráficos\" separates them, but a human must check the overlap."
 	},
+	"evangels-of-destiny": {
+		"name": "evangelistas del destino",
+		"meaning": "The hosts trained in the Melchizedek College of Spiritual Endowment who go out to proclaim spiritual liberty and divine sonship to the remote worlds of the universe (35:3.21).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "evangelios del destino",
+				"reason": "'Evangelio' is the message (gospel), not the messenger."
+			},
+			{
+				"form": "heraldos del destino",
+				"reason": "Breaks the family with 'Evangelistas de la Luz' and 'evangelistas seráficos'."
+			}
+		]
+	},
 	"evangels-of-light": {
 		"name": "Evangelistas de la Luz",
 		"meaning": "Any celestial personality assigned for a time to a finaliter corps without taking the finaliter oath; they resume their former status after it (31:7.1, 31:7.2).",
@@ -4306,6 +6389,12 @@
 	"eve": {
 		"name": "Eva",
 		"meaning": "The Material Daughter who came with Adam to Urantia to uplift the races (40:2.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"eventod": {
+		"name": "Eventod",
+		"meaning": "The name by which Michael was known on Uversa in his fifth bestowal, as an ascending spirit mortal who lived there eleven years (119:5.2).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -4392,6 +6481,15 @@
 		],
 		"note": "The papers do not define 'reversion' in this title; it can mean the return from a trip or a link with the reversion (recreation) directors. The form keeps both readings open."
 	},
+	"exodus": {
+		"name": "Éxodo",
+		"aliases": [
+			"libro del Éxodo"
+		],
+		"meaning": "The Book of Exodus, from which Jesus read the first text, from the law, in the synagogue at Capernaum (145:2.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"experientials": {
 		"name": "experienciales",
 		"aliases": [
@@ -4408,6 +6506,22 @@
 			{
 				"form": "vivenciales",
 				"reason": "Psychological and regional; the English is a coined term."
+			}
+		]
+	},
+	"experts-of-communication": {
+		"name": "expertos en comunicación",
+		"meaning": "Energy-manipulator artisans, twelve of whom serve Urantia, who know the laws of transmittal and interference for all space messages except those of Gravity and Solitary Messengers (44:5.7).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "expertos de la comunicación",
+				"reason": "Copies the English 'of'; Spanish says 'expertos en'."
+			},
+			{
+				"form": "técnicos de comunicaciones",
+				"reason": "Changes 'experts' to 'technicians', a word that the paragraph uses only as a description."
 			}
 		]
 	},
@@ -4439,6 +6553,24 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"ezra-disciple-of-john": {
+		"name": "Esdras (discípulo de Juan)",
+		"meaning": "A disciple of John the Baptist who rejected Jesus as the Deliverer, left with many disciples, and founded a sect that believed in John but not in Jesus (137:2.2).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Ezra",
+				"reason": "Breaks the family with 'Esdras de Nazaret', which is already done."
+			}
+		]
+	},
+	"ezra-of-alexandria": {
+		"name": "Esdras de Alejandría",
+		"meaning": "The father of Susanna, one of the women who went to anoint the body of Jesus (189:4.4).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"ezra-of-nazareth": {
 		"name": "Esdras de Nazaret",
 		"aliases": [
@@ -4454,11 +6586,49 @@
 			}
 		]
 	},
+	"ezra-of-syracuse": {
+		"name": "Esdras de Siracusa",
+		"aliases": [
+			"Esdras"
+		],
+		"meaning": "The backslidden Jew who kept the tavern at Syracuse, whom Jesus helped back to the faith and who later helped build the first Christian church there (130:8.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"ezra-prophet": {
+		"name": "Esdras (profeta)",
+		"meaning": "The prophet who promised the Jews prosperity by adherence to the law (97:8.3).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"ezraeon": {
+		"name": "Ezraeon",
+		"meaning": "A friend of Joseph and Mary whose boat took them from Alexandria to Joppa in August, 4 B.C. (123:0.4).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"note": "The packet types this term as a place, but 123:0.4 shows that Ezraeon is a person, the owner of the boat."
+	},
 	"fad": {
 		"name": "Fad",
 		"meaning": "The member of the Prince's staff who presided over the faculty on dissemination and conservation of knowledge, made the first alphabet of twenty-five characters, and sponsored learning by doing (66:5.9, 66:7.6).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"fair-havens": {
+		"name": "Buenos Puertos",
+		"meaning": "A place on Crete where Jesus drew a slave girl away from a drunken man who attacked her, which Ganid never forgot (130:5.4).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Fair Havens",
+				"reason": "Spanish readers know this Cretan harbor by its translated name."
+			},
+			{
+				"form": "Bellos Puertos",
+				"reason": "Literal, but not the usual Spanish name of the place."
+			}
+		]
 	},
 	"faith": {
 		"name": "fe",
@@ -4506,11 +6676,62 @@
 			}
 		]
 	},
+	"family-commission-of-twelve": {
+		"name": "Comisión Familiar de los Doce",
+		"meaning": "The commission of twelve, chosen from the higher orders of universe personalities, that Gabriel sent to Urantia to investigate Jewish family life and nominate bestowal families for Michael (122:0.2).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Comisión de la Familia de Doce",
+				"reason": "Reads as a commission about a family of twelve people."
+			},
+			{
+				"form": "Comisión de Doce sobre la Familia",
+				"reason": "Clear, but it changes the order and the shape of the English name."
+			}
+		]
+	},
+	"fanoving": {
+		"name": "Fanoving",
+		"meaning": "One of the nearest local universes to Nebadon in the superuniverse of Orvonton (32:2.12).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"fantad": {
 		"name": "Fantad",
 		"meaning": "The leader of the green race in its cultural revival 350 000 years ago, one of the four and twenty counselors (64:6.17, 45:4.9).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"faroes": {
+		"name": "islas Feroe",
+		"aliases": [
+			"Feroe"
+		],
+		"meaning": "The islands by which one group of Salem missionaries went to the Andonites of Iceland (93:7.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"fate": {
+		"name": "Hado",
+		"meaning": "The power that the Greeks kept above Zeus, which prevented a true monotheism, since a God of final value must himself be the arbiter of fate (98:1.3).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Destino",
+				"reason": "'Destino' is the term for 'destiny', and 98:1.3 sets fate and destiny apart."
+			},
+			{
+				"form": "Sino",
+				"reason": "Also means 'but' as a conjunction, a wrong reading in a sentence."
+			},
+			{
+				"form": "Moira",
+				"reason": "The Greek proper name; the English uses a common word with a capital."
+			}
+		]
 	},
 	"father-absolute": {
 		"name": "Padre-Absoluto",
@@ -4524,6 +6745,18 @@
 			}
 		]
 	},
+	"father-brahma": {
+		"name": "Padre-Brahma",
+		"meaning": "The emerging Vedic concept of Brahma as the source of all gods, not wholly in disharmony with the Salem teaching of one God (94:1.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Brahma Padre",
+				"reason": "Drops the hyphen and the English word order."
+			}
+		]
+	},
 	"father-fused-mortals": {
 		"name": "mortales fusionados con el Padre",
 		"aliases": [
@@ -4532,6 +6765,38 @@
 		"meaning": "Mortals who fuse with their Thought Adjuster, a fragment of the Universal Father; the same as Adjuster-fused mortals (40:9.1, 22:6.1).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"father-guides": {
+		"name": "Guías Padre",
+		"aliases": [
+			"guías Padre"
+		],
+		"meaning": "Secondary supernaphim, the older and most experienced superaphic ministers, who tutor pilgrim souls on the third circle of Havona and keep schools of wisdom there (26:4.7, 26:9.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Guías del Padre",
+				"reason": "Says that they guide toward or belong to the Father, a reading that the English leaves open."
+			},
+			{
+				"form": "Guías Paternos",
+				"reason": "Says that they are fatherly in manner, which also closes what the English leaves open."
+			}
+		],
+		"note": "The apposition 'Guías Padre' follows 'Espíritus Madre' and 'Hijos Miguel' and keeps the English sense open."
+	},
+	"father-infinite": {
+		"name": "Padre-Infinito",
+		"meaning": "A name sometimes given to the Infinite, the actual value-level of the true infinity of the free will of the Universal Father (0:3.24, 0:3.25).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Padre Infinito",
+				"reason": "Without the hyphen it reads as a plain title with an adjective, not the compound concept."
+			}
+		]
 	},
 	"father-melchizedek": {
 		"name": "Padre Melquisedec",
@@ -4617,6 +6882,25 @@
 			}
 		]
 	},
+	"fatherlikeness": {
+		"name": "semejanza con el Padre",
+		"aliases": [
+			"semejanza al Padre"
+		],
+		"meaning": "Likeness to the Father; success in the quest of the Infinite is directly proportional to its achievement, which comes by living the will of God (106:9.11).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "paternidad",
+				"reason": "Means 'fatherhood', a different term (paternidad de Dios)."
+			},
+			{
+				"form": "paternalidad",
+				"reason": "Means fatherly manner, not likeness to the Father."
+			}
+		]
+	},
 	"finaliter-corps": {
 		"name": "cuerpo de finalitarios",
 		"aliases": [
@@ -4677,6 +6961,18 @@
 			}
 		]
 	},
+	"finns": {
+		"name": "finlandeses",
+		"meaning": "A Nordic people who believed that most trees were occupied by kind spirits (85:2.4).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "fineses",
+				"reason": "Correct but less usual; it can also mean the wider Finnic peoples."
+			}
+		]
+	},
 	"first-cause": {
 		"name": "Primera Causa",
 		"aliases": [
@@ -4692,6 +6988,12 @@
 				"reason": "Also correct, but the plain word order matches the English and reads naturally in all regions."
 			}
 		]
+	},
+	"first-epistle-of-peter": {
+		"name": "Primera Epístola de Pedro",
+		"meaning": "Peter's letter that shows his vigorous style, later altered by a disciple of Paul (139:2.12).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"first-experiential-trinity": {
 		"name": "primera Trinidad experiencial",
@@ -4711,9 +7013,55 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"florissant-fossil-beds": {
+		"name": "yacimientos fósiles de Florissant",
+		"meaning": "The fossil beds of Colorado that belong to the later years of the recent flood stage of the mammalian era (61:2.4).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "lechos fósiles de Florissant",
+				"reason": "A literal copy of 'beds'; 'yacimientos' is the plain Spanish word."
+			}
+		]
+	},
 	"force": {
 		"name": "fuerza",
 		"meaning": "A broad term like energy, for spiritual, mindal, and material realms; in physics, cosmic force means energies from the Unqualified Absolute not yet responsive to Paradise gravity (0:6.2, 0:6.5).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"foreword": {
+		"name": "Prólogo",
+		"meaning": "The opening paper of definitions and limits of terms, which the authors call a definitive guide for the papers that follow, not a finished statement in itself (0:0.4).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Prefacio",
+				"reason": "Usually a short note about the book; this part defines terms and is a whole paper."
+			},
+			{
+				"form": "Introducción",
+				"reason": "Suggests a general overview, not a set of definitions."
+			}
+		]
+	},
+	"formosa": {
+		"name": "Formosa",
+		"meaning": "The island in East Asia that small groups of Andites reached, with Japan and the East Indies (78:5.6).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Taiwán",
+				"reason": "The modern name; the English uses the older name."
+			}
+		]
+	},
+	"fortant": {
+		"name": "Fortant",
+		"meaning": "The bestowal director of Satania, number 319,847 of the secondary Lanonandek reserves, who directs the universe activities moved to Jerusem since Michael's bestowal (45:3.7).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -4743,6 +7091,18 @@
 			{
 				"form": "Fundación para el Progreso Espiritual",
 				"reason": "Adds a purpose that the English 'of' does not state."
+			}
+		]
+	},
+	"fountain-gate": {
+		"name": "puerta de la Fuente",
+		"meaning": "The gate of Jerusalem near Siloam to which the water procession went at the Feast of Tabernacles (162:4.4).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "puerta de la fuente",
+				"reason": "In lowercase, 'fuente' can read as any fountain; the capital marks the name of the gate."
 			}
 		]
 	},
@@ -4847,6 +7207,36 @@
 			}
 		]
 	},
+	"fridays": {
+		"name": "viernes",
+		"aliases": [
+			"el viernes"
+		],
+		"meaning": "Friday, long regarded as an unlucky day, an example of days of the week treated as fetishes (88:1.6).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Viernes",
+				"reason": "Spanish writes days of the week in lowercase."
+			}
+		]
+	},
+	"fruit-vendor-of-messina": {
+		"name": "vendedor de fruta de Mesina",
+		"aliases": [
+			"vendedor de fruta"
+		],
+		"meaning": "A small boy at Messina from whom Jesus bought fruit and whom he encouraged; the boy later followed Mithraism and then the Christian faith (130:8.3).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "frutero de Mesina",
+				"reason": "'Frutero' also means a fruit bowl in many countries."
+			}
+		]
+	},
 	"fusion": {
 		"name": "fusión",
 		"aliases": [
@@ -4882,9 +7272,21 @@
 			}
 		]
 	},
+	"gad": {
+		"name": "Gad",
+		"meaning": "One of the reputed tribes, with Reuben and Gilead, that traditionally lived in the regions east of the Jordan (128:1.14).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"gadara": {
 		"name": "Gadara",
 		"meaning": "A town of the Decapolis where Thomas Didymus once worked as a carpenter and stone mason, and where the apostles did personal work (138:2.5, 138:9.3).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"gadda": {
+		"name": "Gadda",
+		"meaning": "One of the towns in Perea where the seventy and Jesus and the apostles worked during the Perean mission (165:0.1).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -6094,6 +8496,24 @@
 			}
 		]
 	},
+	"indo-china": {
+		"name": "Indochina",
+		"meaning": "The southeast Asian peninsula where the cultures of India and China blended and where the green race persisted most; a Hinayana Buddhist region (79:6.2, 94:9.4).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Indo-China",
+				"reason": "English spelling; Spanish writes one word."
+			}
+		]
+	},
+	"indra": {
+		"name": "Indra",
+		"meaning": "The Vedic Aryan god, 'the tempestuous lord of the atmosphere', later a secondary Hindu deity (94:1.3, 94:4.6).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"indus": {
 		"name": "Indo",
 		"meaning": "The river of India whose valley drew the Andites about 8000 B.C. (79:1.3, 79:2.4).",
@@ -6292,6 +8712,23 @@
 			}
 		]
 	},
+	"interpreters-and-translators": {
+		"name": "intérpretes y traductores",
+		"aliases": [
+			"Intérpretes y Traductores",
+			"intérprete",
+			"traductor"
+		],
+		"meaning": "A group of the Morontia Companions who know all the tongues of a local universe and serve ascending mortals as linguists and language teachers on the mansion worlds (48:3.12, 48:3.13, 47:3.11).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "traductores (alone)",
+				"reason": "'translators' is already a separate term (traductores); this order needs both words."
+			}
+		]
+	},
 	"interpreters-of-cosmic-citizenship": {
 		"name": "intérpretes de la ciudadanía cósmica",
 		"aliases": [
@@ -6325,6 +8762,26 @@
 		"meaning": "The Iranian plateau and its peoples, a corridor of Andite migration and land of Zoroaster (79:1, 95:6).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"iron-city": {
+		"name": "Irón (ciudad)",
+		"aliases": [
+			"Irón"
+		],
+		"meaning": "A Galilean town with mineral mines where Jesus worked with the miners and taught in the synagogue on the first preaching tour (146:0.1, 146:4.1, 146:4.2, 173:1.6).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Hierro",
+				"reason": "Translates the English homograph; the town name is Hebrew, not the metal."
+			},
+			{
+				"form": "Iron",
+				"reason": "Reads as the English word; the standard Spanish biblical form of this place is Irón."
+			}
+		],
+		"note": "Check that Irón is the accepted Spanish form for this Galilean town."
 	},
 	"iroquois": {
 		"name": "iroqueses",
@@ -6434,6 +8891,12 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"israelites": {
+		"name": "israelitas",
+		"meaning": "The northern Hebrew tribes (only three or four settled in Palestine) whose union with the Canaanites formed the Hebrew nation; their consciousness arose in Ephraim (97:9.1, 97:9.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"italy": {
 		"name": "Italia",
 		"aliases": [
@@ -6522,6 +8985,18 @@
 			}
 		]
 	},
+	"james-of-safed": {
+		"name": "Santiago de Safed",
+		"meaning": "A citizen of Tiberias whose epileptic, demon-possessed son Jesus healed; he said 'Lord, I believe. I pray you help my unbelief' (158:4.2, 158:5.2).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Jacobo de Safed",
+				"reason": "'James' is Santiago in the terms already done."
+			}
+		]
+	},
 	"james-zebedee": {
 		"name": "Santiago Zebedeo",
 		"aliases": [
@@ -6551,6 +9026,18 @@
 	"jebus": {
 		"name": "Jebús",
 		"meaning": "The strong-walled city of the Jebusites that David made his capital, Jerusalem (97:9.11).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"jehovah": {
+		"name": "Jehová",
+		"meaning": "A recent term for the completed Hebrew concept of Yahweh; not used until fifteen hundred years after Jesus (96:1.10, 94:12.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"jehu": {
+		"name": "Jehú",
+		"meaning": "The country landlord who joined Jehonadab to destroy the Baal prophets at Samaria, completing Elijah's reform (97:9.19, 124:6.3).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -6622,6 +9109,12 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"joab": {
+		"name": "Joab",
+		"meaning": "A young evangelist, ringleader of the plot to make Jesus king at the feeding of the five thousand and leader of the evangelists (152:2.5, 153:5.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"joanna": {
 		"name": "Juana",
 		"meaning": "The wife of Chuza, steward of Herod Antipas, one of the ten women Jesus set apart for the ministering work of the kingdom (150:1.1).",
@@ -6661,6 +9154,15 @@
 		],
 		"meaning": "John, son of Zebedee, the youngest of the twelve apostles (139:4.1).",
 		"confidence": "high"
+	},
+	"jonah": {
+		"name": "Jonás",
+		"meaning": "The Hebrew scriptural figure whose story Jesus used about running from duty and God's love for the so-called heathen, whether or not Jonah lived (130:1.2, 159:4.4).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"forcedChoices": [
+			"'We are all Jonahs' (130:1.2): Spanish 'Jonás' is the same in the plural, so a translator writes 'todos somos Jonás' or 'todos somos como Jonás'."
+		]
 	},
 	"joppa": {
 		"name": "Jope",
@@ -6718,6 +9220,26 @@
 		"meaning": "The great-grandson of Abraham, a believer in Melchizedek, who chose to serve Egypt as a civil administrator (93:9.5).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"joshua-jesus": {
+		"name": "Josué (Jesús)",
+		"aliases": [
+			"Josué"
+		],
+		"meaning": "The name Gabriel told Mary to give her son, Jesus' Hebrew name, used by those around him (122:3.1, 133:2.4).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Yeshúa",
+				"reason": "Not the plain form; the English uses the common form Joshua."
+			},
+			{
+				"form": "Jesús (only)",
+				"reason": "Loses the point that the text gives the Hebrew name."
+			}
+		],
+		"note": "Josué is also 'Joshua (Old Testament)'; the qualifier keeps them apart. A reader can miss that Josué and Jesús are one name."
 	},
 	"joshua-old-testament": {
 		"name": "Josué (Antiguo Testamento)",
@@ -6796,6 +9318,12 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"julias": {
+		"name": "Julias",
+		"meaning": "A Perean residence of Herod Antipas, with Machaerus (135:12.1); not the same as Bethsaida-Julias in Gaulanitis (138:9.3).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"jupiter-god": {
 		"name": "Júpiter (dios)",
 		"meaning": "The Roman god honored, with Juno and Minerva, in the temple on the Capitolium (132:0.2).",
@@ -6805,6 +9333,12 @@
 	"jupiter-planet": {
 		"name": "Júpiter (planeta)",
 		"meaning": "The giant planet of the solar system, formed with Saturn from the central portion of the matter that Angona pulled from the sun (57:5.9, 57:6.5).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"justa": {
+		"name": "Justa",
+		"meaning": "Daughter of Bernice; Jesus stayed at her home north of Sidon and taught the twenty-four there each morning (156:2.2, 156:2.5).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -6835,6 +9369,27 @@
 			}
 		],
 		"note": "\"Justo\" is also the common adjective \"just\". The capital and the qualifier must show that it is a name."
+	},
+	"kaaba-stone": {
+		"name": "piedra de la Kaaba",
+		"aliases": [
+			"Kaaba"
+		],
+		"meaning": "The black stone fetish in a temple at Mecca, revered by almost all Arabian tribes, which later led to Islam (95:7.5, 88:1.2).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Caaba",
+				"reason": "Also valid in Spanish, but Kaaba is more common and matches the English."
+			}
+		]
+	},
+	"kansas": {
+		"name": "Kansas",
+		"meaning": "The U.S. state that marked the southern limit of the central ice sheet in the first and last glaciers (61:5.5, 61:7.9).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"karuska": {
 		"name": "Karuska",
@@ -7542,6 +10097,12 @@
 			}
 		]
 	},
+	"kentucky": {
+		"name": "Kentucky",
+		"meaning": "The U.S. state where a great volcano erupted 330,000,000 years ago and where Devonian coral is exposed near Louisville (59:2.5, 59:4.6).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"kheresa": {
 		"name": "Kheresa",
 		"meaning": "The fishing village by the Sea of Galilee, home of the Alpheus twins, where Jesus called them (138:4.1).",
@@ -7579,6 +10140,27 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"kopet-dagh": {
+		"name": "Kopet Dag",
+		"aliases": [
+			"cordillera de Kopet"
+		],
+		"meaning": "A mountain range east of the southern end of the Caspian Sea; Adamson's center of the violet race was in its foothills (77:5.10).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Kopet Dagh",
+				"reason": "English transliteration; Spanish geography usually writes Kopet Dag."
+			}
+		]
+	},
+	"korea": {
+		"name": "Corea",
+		"meaning": "The east Asian land where Buddhism became established and later merged with local practice (94:9.1, 94:11.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"lake-van": {
 		"name": "lago Van",
 		"meaning": "The lake north of Mesopotamia where Van's followers and Adamson's descendants settled and from which Salem teachers went out to Europe and Asia (73:1.6, 93:7.2).",
@@ -7613,6 +10195,24 @@
 			}
 		]
 	},
+	"laotta": {
+		"name": "Laotta",
+		"meaning": "The brilliant Nodite woman, head of the Garden's western schools, whom Adam sought after Eve's default; she died giving birth to Sansa (75:5.2, 76:0.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"lapland": {
+		"name": "Laponia",
+		"meaning": "The northern European region where the older Andonites kept some semblance of identity (80:4.6).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"lasea": {
+		"name": "Lasea",
+		"meaning": "A port on Crete where Jesus, Gonod, and Ganid sailed from Alexandria (130:0.2, 130:4.12).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"lazarus-of-bethany": {
 		"name": "Lázaro (de Betania)",
 		"meaning": "Jesus' friend at Bethany, brother of Martha and Mary, whom Jesus raised from the dead (Paper 168).",
@@ -7634,6 +10234,41 @@
 			}
 		]
 	},
+	"lesser-road": {
+		"name": "Camino Menor",
+		"aliases": [
+			"Hinayana"
+		],
+		"meaning": "The Hinayana division of southern Buddhism, which keeps Siddhartha's early asocial doctrine, as against the Mahayana 'Great Road' (94:9.5, 94:9.4, 94:12.2).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Vehículo Menor",
+				"reason": "A common rendering of Hinayana, but not what the English says; Greater Road is already Camino Mayor."
+			},
+			{
+				"form": "Camino Inferior",
+				"reason": "Adds a value judgment that 'lesser' does not need here."
+			}
+		]
+	},
+	"levant": {
+		"name": "Levante",
+		"aliases": [
+			"el Levante"
+		],
+		"meaning": "The eastern Mediterranean lands (Syria, Palestine, Mesopotamian borders) into which Nodites and later Aryans moved (51:6.3, 78:1.4, 79:1.6).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Oriente Próximo",
+				"reason": "Wider region; changes the scope."
+			}
+		],
+		"note": "In Spain 'Levante' also names the east of Spain and an east wind; use it with the article and capitals so context selects the eastern Mediterranean."
+	},
 	"levites": {
 		"name": "levitas",
 		"aliases": [
@@ -7648,6 +10283,16 @@
 				"reason": "The terms already done write peoples and religious groups in lowercase (fariseos, saduceos)."
 			}
 		]
+	},
+	"life-carrier-worlds": {
+		"name": "mundos de los Portadores de Vida",
+		"aliases": [
+			"mundo de los Portadores de Vida",
+			"mundo número dos"
+		],
+		"meaning": "The fourth group of seven primary spheres of the Salvington circuit, overseen by the Melchizedeks and given to the study and conservation of life (36:2.1, 36:2.16, 36:6.3).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"life-carriers": {
 		"name": "Portadores de Vida",
@@ -7681,6 +10326,12 @@
 				"reason": "The hyphenated form is only an adjective in English; Spanish uses \"de luz y vida\"."
 			}
 		]
+	},
+	"livias": {
+		"name": "Livias",
+		"meaning": "A town in southern Perea where Jesus' party camped before Jerusalem and where Simon Zelotes and Peter distributed swords (171:4.1, 165:0.1).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"local-system-centers": {
 		"name": "centros de los sistemas locales",
@@ -7856,6 +10507,19 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"luz": {
+		"name": "Luz",
+		"meaning": "A place on the route from Caesarea-Philippi to the Phoenician coast; near it Jesus gave a great address on true religion (155:4.1, 155:4.2).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Lus",
+				"reason": "Not a standard Spanish form."
+			}
+		],
+		"note": "'luz' is the common Spanish word for 'light'; the capital and a preposition ('cerca de Luz') must signal the place name."
+	},
 	"lydda": {
 		"name": "Lida",
 		"meaning": "A town on the route between Judea and Galilee through which Jesus passed on the return from Egypt and later on trips to Jerusalem (123:0.6, 127:6.4).",
@@ -7869,6 +10533,12 @@
 			"macabea"
 		],
 		"meaning": "The Jewish family and movement of the Maccabean revolt, with which Mary's ancestors were identified; also the name of a book (122:5.10, 121:6.3).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"macedonia": {
+		"name": "Macedonia",
+		"meaning": "The region north of Greece where Andrew and early missionaries proclaimed Jesus (139:1.12, 194:4.13).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -7900,6 +10570,24 @@
 			{
 				"form": "Machiventa Melchizedek",
 				"reason": "The biblical name has a standard Spanish form, and 'Hijos Melquisedec' is already done."
+			}
+		]
+	},
+	"madagascar": {
+		"name": "Madagascar",
+		"meaning": "The island off Africa where some tribes killed children born on unlucky days, and which the Andites did not reach (68:6.10, 78:5.5).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"madon": {
+		"name": "Madón",
+		"meaning": "A Galilean town on Jesus' private tour and on the first preaching tour (134:7.5, 146:0.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Madon",
+				"reason": "Spanish biblical usage writes the accent."
 			}
 		]
 	},
@@ -7938,6 +10626,12 @@
 			}
 		]
 	},
+	"maine": {
+		"name": "Maine",
+		"meaning": "The U.S. state with Silurian volcanoes in the east, off whose coast icebergs slid into the Atlantic in the ice age (59:3.2, 61:5.8).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"majeston": {
 		"name": "Majeston",
 		"meaning": "The chief of reflectivity, personalized by a reaction of the Deity Absolute after the forty-ninth Reflective Spirit; the Paradise center of all reflectivity, where the mind of the Supreme focuses as a time-space experience (17:2.2, 0:3.14).",
@@ -7952,6 +10646,29 @@
 		"meaning": "About one tenth of a superuniverse: one hundred minor sectors and ten thousand local universes, ruled by three Perfections of Days (15:13.1).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"malachi": {
+		"name": "Malaquías",
+		"meaning": "The last Hebrew prophet before John; his promise of Elijah's return held John back (135:4.4, 97:0.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"malaysia": {
+		"name": "Malasia",
+		"aliases": [
+			"malayo",
+			"malayos"
+		],
+		"meaning": "The Malay lands and peoples: Mongoloid with much secondary Sangik blood; a Malay tribe claimed descent from the lemur (81:4.12, 74:8.5).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Malaya",
+				"reason": "Old colonial name; less known."
+			}
+		],
+		"note": "The papers seen use only 'Malay' and 'Malayan'; in a sentence translators will mostly need 'malayo'. 'Malasia' names the modern state."
 	},
 	"malta": {
 		"name": "Malta",
@@ -7977,6 +10694,15 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"man-who-attacked-wife-at-tarentum": {
+		"name": "hombre que agredió a su esposa en Tarento",
+		"aliases": [
+			"hombre que maltrataba a su esposa"
+		],
+		"meaning": "A man at the Tarentum landing who mistreated his wife in public; Jesus took him aside kindly and he promised self-control (133:2.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"mangus": {
 		"name": "Mangus",
 		"meaning": "The Roman centurion at Capernaum who built the synagogue and asked Jesus to heal his servant (147:1.1, 147:1.3).",
@@ -7986,6 +10712,12 @@
 	"manotia": {
 		"name": "Manotia",
 		"meaning": "A supreme seraphim who achieved all seven seraphic services, was second in command of the Satania seraphim in the Lucifer rebellion, and is now associate chief of seraphim on Urantia (39:0.9, 53:6.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"mansant": {
+		"name": "Mansant",
+		"meaning": "A great teacher after the Planetary Prince's fall who pointed people to 'The Great Light'; one of the twenty-four counselors (45:4.4, 64:6.29).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -8051,6 +10783,18 @@
 			}
 		]
 	},
+	"marduk": {
+		"name": "Marduk",
+		"meaning": "A Babylonian god, one of the seven chief Mesopotamian deities, who perpetuated the Adam legend as a son-of-God link (92:5.6, 95:1.4, 95:1.10).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"mars-planet": {
+		"name": "Marte (planeta)",
+		"meaning": "Urantia's outer neighbor planet, whose thin atmosphere would class any inhabitants as subbreathers (49:2.13).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"martha-sister-of-andrew-and-peter": {
 		"name": "Marta (hermana de Andrés y Pedro)",
 		"aliases": [
@@ -8090,6 +10834,15 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"mary-mother-of-alpheus-twins": {
+		"name": "María (madre de los gemelos Alfeo)",
+		"aliases": [
+			"María, la madre de los gemelos Alfeo"
+		],
+		"meaning": "The mother of the Alpheus twins, one of the women who went to anoint Jesus' body (189:4.4, 191:0.11).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"mary-mother-of-jesus": {
 		"name": "María (madre de Jesús)",
 		"meaning": "Mary, the earthly mother of Jesus and wife of Joseph (122:1.2).",
@@ -8100,6 +10853,22 @@
 		"meaning": "The sister of Lazarus and Martha of Bethany, who went to Philadelphia with them (190:1.10).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"mary-wife-of-clopas": {
+		"name": "María (esposa de Clopás)",
+		"aliases": [
+			"María, la esposa de Clopás",
+			"María, la esposa de Clopás y hermana de la madre de Jesús"
+		],
+		"meaning": "Sister of Jesus' mother, who stood near the cross and waited by the tomb (187:3.2, 188:1.7).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Cleofás",
+				"reason": "Common in Spanish Bibles, but can merge Clopas with Cleopas, a different man in the papers."
+			}
+		]
 	},
 	"master": {
 		"name": "Maestro",
@@ -8341,6 +11110,25 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"may-day": {
+		"name": "fiesta del primero de mayo",
+		"aliases": [
+			"primero de mayo"
+		],
+		"meaning": "An old festival day when sex regulations were suspended; its rites were imitative magic aimed at the plant world (82:2.4, 88:6.4).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Primero de Mayo (alone)",
+				"reason": "Most readers take it as Labor Day."
+			},
+			{
+				"form": "Día de Mayo",
+				"reason": "Not a natural Spanish name."
+			}
+		]
+	},
 	"meanings": {
 		"name": "significados",
 		"aliases": [
@@ -8402,6 +11190,12 @@
 				"reason": "A different, apocalyptic name."
 			}
 		]
+	},
+	"mek": {
+		"name": "Mek",
+		"meaning": "Leader of the Prince's council on art and science, who improved industry and the art of the blue man (66:5.23, 66:5.26).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"melchizedek-brotherhood": {
 		"name": "hermandad de Melquisedec",
@@ -8580,9 +11374,21 @@
 			}
 		]
 	},
+	"mercury": {
+		"name": "Mercurio",
+		"meaning": "The inner planet of the solar system, slowed by tidal friction until one face always turns to the sun (42:7.2, 57:6.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"mesopotamia": {
 		"name": "Mesopotamia",
 		"meaning": "The land between the Tigris and Euphrates rivers, the site of the second garden and of the Andite civilization (76:0.1, 78:1.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"mesozoic": {
+		"name": "Mesozoico",
+		"meaning": "The early land-life era of one hundred million years, ending with the Cretaceous (59:0.5, 60:4.6).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -8602,10 +11408,31 @@
 			}
 		]
 	},
+	"messenger-hosts-of-space": {
+		"name": "Huestes Mensajeras del Espacio",
+		"aliases": [
+			"huestes mensajeras"
+		],
+		"meaning": "The intermediate group of the family of the Infinite Spirit, linking the higher personalities with the ministering spirits (25:0.1, 26:1.1, 37:5.8).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Huestes de Mensajeros del Espacio",
+				"reason": "Heavier; 'messenger' here works as a modifier."
+			}
+		]
+	},
 	"messiah": {
 		"name": "Mesías",
 		"meaning": "The anointed deliverer that the Jews expected, a hope that Jesus did not fulfill in the temporal sense (136:1.1).",
 		"confidence": "high"
+	},
+	"messina": {
+		"name": "Mesina",
+		"meaning": "The Sicilian port where Jesus stopped one day and spoke to a young fruit vendor (130:0.2, 130:8.3).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"mexico": {
 		"name": "México",
@@ -8721,6 +11548,12 @@
 				"reason": "Reads as a regnal number (Miguel I); the papers say 'original' and 'first-born'."
 			}
 		]
+	},
+	"midianites": {
+		"name": "madianitas",
+		"meaning": "An ancient people raided by the Hebrews and who invaded the Jordan region in Gideon's day (70:1.15, 124:6.6).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"midsonite-world": {
 		"name": "mundo midsonitario",
@@ -8883,6 +11716,19 @@
 			}
 		]
 	},
+	"milcha": {
+		"name": "Milca",
+		"meaning": "A cousin of the Apostle Thomas, one of the ten women Jesus commissioned for ministry (150:1.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Milcha",
+				"reason": "Spanish 'ch' gives a wrong sound."
+			}
+		],
+		"note": "A Hebrew name, so hispanicized like Juana and Rebeca; confirm the policy."
+	},
 	"milky-way-galaxy": {
 		"name": "galaxia de la Vía Láctea",
 		"aliases": [
@@ -9027,6 +11873,18 @@
 		"meaning": "The greatest of the mystery cults, the worship of Mithras, spread over the Roman Empire by legions recruited in the Levant (98:5.1).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"mohammed": {
+		"name": "Mahoma",
+		"meaning": "The founder of Islam in the sixth century after Christ, whose return his followers expect (92:5.14, 92:5.6).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Mohamed",
+				"reason": "Common, but Mahoma is the standard Spanish historical form."
+			}
+		]
 	},
 	"monmatia": {
 		"name": "Monmatia",
@@ -9304,6 +12162,16 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"most-high": {
+		"name": "Altísimo",
+		"aliases": [
+			"el Altísimo"
+		],
+		"meaning": "A Semitic title for Deity in scripture; the papers note that in Urantia records it can refer to the Most High Fathers of the constellation or to God (43:3.4, 4:1.4).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"note": "The papers state that the referent of 'Most High' is often unclear; keep it open, do not resolve it in translation."
+	},
 	"most-high-assistants": {
 		"name": "Asistentes Altísimos",
 		"meaning": "A corps of high spirits from outside the local universe who assist the Paradise personalities of Nebadon with advanced plans and rulings (37:4.5, 37:8.10).",
@@ -9457,6 +12325,21 @@
 			}
 		]
 	},
+	"mount-ararat": {
+		"name": "monte Ararat",
+		"meaning": "The sacred mountain of northern Mesopotamia where Vanites said their seven commandments were given to Van (77:4.11, 77:4.12).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"mount-assembly": {
+		"name": "Monte de la Asamblea",
+		"aliases": [
+			"monte de la asamblea"
+		],
+		"meaning": "The most holy mount on Edentia, residence of the Faithful of Days, where ascending mortals gather (43:4.1, 43:4.5, 43:4.6).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"mount-carmel": {
 		"name": "monte Carmelo",
 		"meaning": "The long ridge in northwest Palestine running down to the sea, linked with Elijah's story against the priests of Baal (123:5.12, 128:3.2).",
@@ -9518,6 +12401,12 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"mount-tabor": {
+		"name": "monte Tabor",
+		"meaning": "The mountain range east of Nazareth whose summit Jesus first climbed with Joseph at nine (122:6.1, 124:1.6).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"mystery-monitors": {
 		"name": "Monitores de Misterio",
 		"aliases": [
@@ -9557,6 +12446,24 @@
 			}
 		]
 	},
+	"nabon": {
+		"name": "Nabon",
+		"meaning": "A Greek Jew, high priest of the Mithraic cult in Rome, influenced by Jesus' talk on truth and faith (132:3.1, 132:3.11).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"naboths": {
+		"name": "los Nabot",
+		"aliases": [
+			"Nabot"
+		],
+		"meaning": "Naboth and his sons, executed in Ahab's intrigue to take their land; Elijah denounced the murder (97:9.19).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"forcedChoices": [
+			"Spanish does not pluralize a surname: 'los Nabot' for 'the Naboths'."
+		]
+	},
 	"nahor-old-testament": {
 		"name": "Nacor (Antiguo Testamento)",
 		"aliases": [
@@ -9572,6 +12479,13 @@
 			}
 		],
 		"note": "Distinct from Nahor the Jerusalem teacher who visited Jesus (123:6.8). A reviewer can confirm Nacor against Najor."
+	},
+	"nahor-rabbi": {
+		"name": "Nacor (rabino)",
+		"meaning": "A teacher in a Jerusalem rabbinical academy who came to observe Jesus at Nazareth and proposed taking him to Jerusalem (123:6.8, 123:6.9).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"note": "Another Nahor, a young evangelist, appears at 150:9.3; keep them separate."
 	},
 	"nain": {
 		"name": "Naín",
@@ -9597,12 +12511,36 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"nasanta": {
+		"name": "Nasanta",
+		"meaning": "Daughter of Elman the Syrian physician, one of the ten women commissioned by Jesus (150:1.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"nathan-of-caesarea": {
 		"name": "Natán de Cesarea",
 		"aliases": [
 			"Natán"
 		],
 		"meaning": "A Greek Jew from Caesarea, associate of the apostle John, who wrote the Gospel of John under John's direction (121:8.10).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"nathan-of-cana": {
+		"name": "Natán de Caná",
+		"aliases": [
+			"Natán"
+		],
+		"meaning": "The father of Johab, the bridegroom at the Cana wedding (137:3.6).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"nathan-of-nazareth": {
+		"name": "Natán de Nazaret",
+		"aliases": [
+			"Natán"
+		],
+		"meaning": "A Nazareth potter by the spring who befriended young Jesus and Jacob and gave them clay (123:5.15).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -9666,6 +12604,12 @@
 		"meaning": "The local universe in which Urantia is, the creation of Michael (0:0.5, 35:0.1).",
 		"confidence": "high"
 	},
+	"nebadon-corps-of-perfection": {
+		"name": "Cuerpo de Perfección de Nebadon",
+		"meaning": "The local-universe corps of Spirit-fused ascenders; members may become Universe Aids and are associated with the Susatia (37:5.4, 37:9.7).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"nebadon-corps-of-the-finality": {
 		"name": "Cuerpo de los Finalitarios de Nebadon",
 		"meaning": "The finality corps of Nebadon, whose leadership some in the universe hold that Jesus' soul-identity will later take in outer space (188:3.8).",
@@ -9678,6 +12622,19 @@
 			}
 		],
 		"note": "The papers mention this corps once, as an opinion held by 'those in the universe'; the translation must keep it as an opinion."
+	},
+	"nebadon-revelatory-corps": {
+		"name": "Cuerpo Revelador de Nebadon",
+		"meaning": "A Nebadon group that requested and sponsored papers of this revelation (56:10.22).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Cuerpo de Revelación de Nebadon",
+				"reason": "Reads as a body of revealed text, not a group of beings."
+			}
+		],
+		"note": "The summary's details (twelve members, Mantutia's direction, Part II in 1934) were not checked in this task."
 	},
 	"nebuchadnezzar": {
 		"name": "Nabucodonosor",
@@ -9699,6 +12656,12 @@
 				"reason": "Rare in Spanish; 'nebulosas' is the usual word in astronomy."
 			}
 		]
+	},
+	"necho": {
+		"name": "Necao",
+		"meaning": "The Egyptian pharaoh whose army killed Josiah and who was later overthrown by Nebuchadnezzar (97:9.24, 97:9.25).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"neighboring-planet": {
 		"name": "planeta vecino",
@@ -9729,15 +12692,57 @@
 			}
 		]
 	},
+	"new-jerusalem": {
+		"name": "Nueva Jerusalén",
+		"aliases": [
+			"nueva Jerusalén"
+		],
+		"meaning": "The holy city the Jews expected the Messiah to set up as world capital, and the city John saw coming down from God (176:1.6, 52:7.11).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"new-stone-age": {
+		"name": "Nueva Edad de Piedra",
+		"meaning": "The period in Europe overlapping the Bronze Age, with sun worship and roofless sun temples; its charms survive in Brittany (80:9.13, 80:9.14).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Neolítico",
+				"reason": "Technical term; the English uses a plain phrase, and 'Edad de Piedra (Antigua)' is already set."
+			}
+		]
+	},
 	"new-testament": {
 		"name": "Nuevo Testamento",
 		"meaning": "The Christian scriptures, mostly devoted to Paul's religious experience and convictions rather than to the religious life of Jesus (196:2.1).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"niagara-falls": {
+		"name": "cataratas del Niágara",
+		"aliases": [
+			"Niágara"
+		],
+		"meaning": "The falls over Niagara limestone; the Great Lakes have emptied by this route for 37,000 years (59:3.9, 61:7.10).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"nicodemus": {
 		"name": "Nicodemo",
 		"meaning": "A wealthy, elderly member of the Sanhedrin who visited Jesus privately at night (142:6.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"nicopolis": {
+		"name": "Nicópolis",
+		"meaning": "The Greek 'city of victory' founded by Augustus after Actium; Jesus lodged there with Jeramy (133:2.5, 130:0.3).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"nile-god": {
+		"name": "dios del Nilo",
+		"meaning": "The legendary Egyptian god who died and rose again, behind the Isis and Osiris rites; shown holding the infant prince with his ka (98:4.8, 111:0.5).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -9837,6 +12842,21 @@
 			}
 		]
 	},
+	"north-pole": {
+		"name": "Polo Norte",
+		"aliases": [
+			"capas de hielo polares"
+		],
+		"meaning": "The northern pole of the earth, which marine fossils reach (59:3.7).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"ohio-river": {
+		"name": "río Ohio",
+		"meaning": "The river whose banks near Louisville expose thick Devonian coral deposits (59:4.6).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"old-testament": {
 		"name": "Antiguo Testamento",
 		"meaning": "The Hebrew scriptures, which Jesus treated as human writings that contain truth and error (159:4.1).",
@@ -9923,6 +12943,18 @@
 			"Spanish needs an article for the nominalized adjective; chose the neuter \"lo\" to match the done term \"Actual, lo\" and the triad Original, Actual, Potential (115:3.9)."
 		]
 	},
+	"orlandof": {
+		"name": "Orlandof",
+		"meaning": "A prince and teacher of the blue race who led tribes back to the true God as the 'Supreme Chief'; one of the twenty-four counselors (64:6.23, 45:4.6).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"orvonon": {
+		"name": "Orvonon",
+		"meaning": "The enlightener of the indigo race who proclaimed 'The God of Gods'; one of the twenty-four counselors (64:6.26, 45:4.10).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"orvonton-paradise-satellite": {
 		"name": "Orvonton (satélite del Paraíso)",
 		"meaning": "The seventh of the executive spheres of the Infinite Spirit near Paradise, named for and dedicated to the administration of the seventh superuniverse (13:4).",
@@ -9966,9 +12998,36 @@
 			}
 		]
 	},
+	"overcontrol": {
+		"name": "supercontrol",
+		"aliases": [
+			"supercontroladores",
+			"supercontrolar"
+		],
+		"meaning": "Control exercised from a higher level over all within a domain, as by the Ultimate over the master universe or by the Unqualified Absolute in infinity (0:1.10, 0:11.8, 118:2.4, 1:2.10).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "sobrecontrol",
+				"reason": "Spanish 'sobre-' often means excess, as in sobrecarga; reads as too much control."
+			},
+			{
+				"form": "control superior",
+				"reason": "Loses the coined single term and the family link."
+			}
+		],
+		"note": "Readers must not take 'super-' as colloquial 'very great'; it names control from a level above, as in Superalma for Oversoul. Family root: control (controladores)."
+	},
 	"pacific-ocean": {
 		"name": "océano Pacífico",
 		"meaning": "The ocean that formed from the early world ocean and once covered nine tenths of the earth's surface (57:8.20, 57:8.21).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"paleozoic": {
+		"name": "Paleozoico",
+		"meaning": "The marine-life era of 250 million years, ending with the Permian (59:0.4, 59:6.11).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -9981,6 +13040,21 @@
 	"palonia": {
 		"name": "Palonia",
 		"meaning": "A local system of Nebadon where Lutentia rebelled and where Michael ruled for more than seventeen years as the Savior Sovereign (119:2.5, 119:2.6).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"panama-isthmus": {
+		"name": "istmo de Panamá",
+		"meaning": "The isthmus that rose and sank twice in the Cenozoic, joining or separating the Atlantic and Pacific (61:0.2, 61:1.12).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"panoptia": {
+		"name": "Panoptia",
+		"aliases": [
+			"panoptianos"
+		],
+		"meaning": "The only Satania world whose people stayed loyal in the Lucifer rebellion, under Ellanora; Panoptians now care for the Father's world on Jerusem (53:7.1, 53:9.1).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -10435,6 +13509,12 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"persians": {
+		"name": "persas",
+		"meaning": "The people who freed the Jews from Babylon and whose Zoroastrian ideas shaped Jewish heaven, hell, and devils (97:10.2, 95:6.6).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"personal-aids-of-the-infinite-spirit": {
 		"name": "Auxiliares Personales del Espíritu Infinito",
 		"aliases": [
@@ -10519,6 +13599,18 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"phasaelis": {
+		"name": "Fasaelis",
+		"meaning": "A new Greek city near the Jordan where the apostles first preached to mostly gentile hearers (143:0.2, 143:1.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Phasaelis",
+				"reason": "Spanish does not keep 'ph'."
+			}
+		]
+	},
 	"philadelphia": {
 		"name": "Filadelfia",
 		"meaning": "The city in Perea where Abner led the believers (Paper 166, 171).",
@@ -10594,6 +13686,83 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"phrygian-mystery-cults": {
+		"name": "cultos mistéricos frigios",
+		"aliases": [
+			"culto frigio",
+			"ceremonias frigias",
+			"misterios frigios"
+		],
+		"meaning": "The mystery cult of Phrygia centered on Cybele and her son Attis, whose imposing but degrading ceremonies celebrated the death and resurrection of Attis (98:4.3, 98:4.6, 98:4.7).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "cultos de misterio frigios",
+				"reason": "Reads as cults that are a mystery; 'mistéricos' is the plain term for mystery religions."
+			},
+			{
+				"form": "cultos misteriosos frigios",
+				"reason": "'misterioso' means strange or secret, not a cult of initiation."
+			}
+		]
+	},
+	"pilgrim-helpers": {
+		"name": "asistentes de los peregrinos",
+		"meaning": "The first group of secondary supernaphim, who welcome the ascenders on the seventh (outer) circle of Havona and teach them an outline of every Paradise requirement (26:5.1, 26:5.2, 26:5.6).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "ayudantes de los peregrinos",
+				"reason": "'ayudantes' is taken by 'adjutant' (espíritus ayudantes de la mente); 'helper' is 'asistente' in 'serafines asistentes planetarios'."
+			},
+			{
+				"form": "auxiliares de los peregrinos",
+				"reason": "'auxiliar' is taken by 'Aids' (Auxiliares Personales, Auxiliares del Universo)."
+			}
+		],
+		"note": "'asistente' now carries both 'helper' (planetary helper seraphim) and 'assistant' (administrative assistants, High Son Assistants) in the done terms. A reviewer must decide if the two English words need two Spanish words."
+	},
+	"pilgrim-receivers-and-free-associators": {
+		"name": "receptores de peregrinos y asociadores libres",
+		"aliases": [
+			"Receptores de Peregrinos y Asociadores Libres"
+		],
+		"meaning": "An order of Morontia Companions who are the social companions of new arrivals on the mansion worlds, welcome them on awakening, and stay with them until they leave the local universe as first-stage spirits (48:3.8).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "recibidores de peregrinos",
+				"reason": "'recibidor' is an entrance hall in much of the Spanish-speaking world."
+			},
+			{
+				"form": "acogedores de peregrinos",
+				"reason": "'acogedor' is mainly an adjective (cozy); it does not read as a noun of office."
+			},
+			{
+				"form": "compañeros libres",
+				"reason": "Changes the word; 'associator' is 'asociador' in 'asociadores primarios'."
+			}
+		],
+		"note": "'receptor' also means a receiving device (receptores de difusiones). In this term it means one who receives guests; the context must carry that."
+	},
+	"planetary-custodians": {
+		"name": "custodios planetarios",
+		"aliases": [
+			"Custodios Planetarios"
+		],
+		"meaning": "The council of seventy guardians on each morontia world, the local authority in morontia affairs, who grant morontia form material and authorize the changes of form between spheres (48:2.18, 30:2.111).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "guardianes planetarios",
+				"reason": "'guardián' is used for 'guardian'; 'custodian' is 'custodio' in Custodians of Records."
+			}
+		]
+	},
 	"planetary-helper-seraphim": {
 		"name": "serafines asistentes planetarios",
 		"aliases": [
@@ -10654,6 +13823,15 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"plato": {
+		"name": "Platón",
+		"aliases": [
+			"platónico"
+		],
+		"meaning": "The Greek philosopher of idealism, successor of Socrates, whom the papers rank as a philosopher rather than a religious teacher (92:5.12, 98:2.6, 130:4.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"platonism": {
 		"name": "platonismo",
 		"aliases": [
@@ -10680,6 +13858,16 @@
 			}
 		]
 	},
+	"polynesia": {
+		"name": "Polinesia",
+		"aliases": [
+			"polinesio",
+			"polinesia (adj.)"
+		],
+		"meaning": "The island region of the Pacific, whose islands were once more numerous and larger, crossed by Andite sailors from Japan (78:5.7, 79:5.9, 82:6.9).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"polytheism": {
 		"name": "politeísmo",
 		"meaning": "The worship of many gods, which the papers call a relative unification of the deity concept and 'monotheism in the making' (5:4.2, 5:4.9, 104:1.9).",
@@ -10698,6 +13886,12 @@
 			"Pilato"
 		],
 		"meaning": "Pontius Pilate, the Roman procurator of Judea who presided at the trial of Jesus and ordered his crucifixion (185:1.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"porshunta": {
+		"name": "Porshunta",
+		"meaning": "The oracle and master mind of the extinct orange race, who led a revival of higher living at Armageddon about 300 000 years ago and is one of the four and twenty counselors (45:4.7, 64:6.12).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -10862,6 +14056,28 @@
 		],
 		"note": "'Probatorio' in common Spanish leans to legal proof ('periodo probatorio'). A reviewer can prefer a form that says 'a period before the choice'."
 	},
+	"proterozoic": {
+		"name": "Proterozoico",
+		"meaning": "The life-dawn era of geologic history, between the prelife age and the era of developed marine life (59:0.3, 58:7.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"protozoa": {
+		"name": "Protozoos",
+		"aliases": [
+			"protozoario",
+			"protozoos"
+		],
+		"meaning": "The primitive single-celled animal organisms, such as the ameba, that survive from the first steps of life differentiation (58:7.2, 65:2.4).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Protozoarios",
+				"reason": "Correct but less common than 'protozoos' in neutral Spanish."
+			}
+		]
+	},
 	"proverbs": {
 		"name": "Proverbios",
 		"aliases": [
@@ -10892,6 +14108,35 @@
 		"meaning": "A coastal city of Palestine on Jesus' routes (128:3.2, 156:6.2).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"public-builders": {
+		"name": "constructores públicos",
+		"meaning": "The seventh group of divine builders among the celestial artisans, who plan and construct the places of assembly other than those of worship (44:3.8).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "constructores de obras públicas",
+				"reason": "Adds a sense of civil engineering that the English does not have."
+			}
+		],
+		"note": "'constructores públicos' can read as builders employed by a government. The English has the same weakness."
+	},
+	"punjab": {
+		"name": "Punyab",
+		"meaning": "The region of northwestern India that received a continuous infiltration of Andite and Aryan blood (79:1.1, 79:4.3).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Panyab",
+				"reason": "Also accepted, but less common."
+			},
+			{
+				"form": "Punjab",
+				"reason": "English spelling; Spanish usage adapts 'j' to 'y'."
+			}
+		]
 	},
 	"pygmies": {
 		"name": "pigmeos",
@@ -10999,9 +14244,21 @@
 			}
 		]
 	},
+	"ragaba": {
+		"name": "Ragaba",
+		"meaning": "A town of Perea in the final mission, where the Pharisee Nathaniel gave a Sabbath breakfast for Jesus (165:0.1, 166:1.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"ramah": {
 		"name": "Ramá",
 		"meaning": "A Galilean town where the apostles worked and where Jesus talked with an aged Greek philosopher (146:3.1, 138:9.3, 156:6.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"rantulia": {
+		"name": "Rantulia",
+		"meaning": "A local system of Norlatiadek next to Satania, through which the loyal intelligence corps sent calls for help to Edentia in the Lucifer rebellion (41:2.1, 53:6.5).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -11284,6 +14541,21 @@
 		],
 		"note": "\"reversión\" also has a legal sense (return of property); the context removes it, but a reader can stop at it."
 	},
+	"rhodes": {
+		"name": "Rodas",
+		"meaning": "The Greek island where Jesus and his companions stopped on the voyage from Ephesus to Cyprus (130:0.3, 133:7.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"rich-man-of-rome": {
+		"name": "hombre rico de Roma",
+		"aliases": [
+			"hombre rico, ciudadano romano"
+		],
+		"meaning": "A wealthy Roman citizen and Stoic whom Jesus counseled to administer wealth as a wise trustee for later generations (132:5.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"rig-veda": {
 		"name": "Rig-Veda",
 		"aliases": [
@@ -11298,6 +14570,26 @@
 				"reason": "Also correct in Spanish; the hyphenated form keeps the English spelling that the papers use."
 			}
 		]
+	},
+	"road-of-robbers": {
+		"name": "camino de los salteadores",
+		"aliases": [
+			"camino"
+		],
+		"meaning": "The road up from Jericho to Bethany, called the \"road of robbers\", that Jesus took to the Passover (171:6.4); Barabbas was taken for robbery and murder on the Jericho road (185:5.3).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "camino de los ladrones",
+				"reason": "'ladrones' is taken by 'thieves' (ladrones crucificados con Jesús)."
+			},
+			{
+				"form": "camino de los bandidos",
+				"reason": "'bandido' is broader (outlaw); 'salteador' is a robber on the road."
+			}
+		],
+		"note": "'salteador' is a little literary in some regions."
 	},
 	"rocky-mountains": {
 		"name": "Montañas Rocosas",
@@ -11355,6 +14647,17 @@
 		"meaning": "The Roman Empire of Jesus' time and after (195:3.1).",
 		"confidence": "high"
 	},
+	"roman-soldiers-in-jerusalem": {
+		"name": "soldados romanos en Jerusalén",
+		"aliases": [
+			"soldados romanos",
+			"legionarios romanos",
+			"guardia romana"
+		],
+		"meaning": "The Roman soldiers at Jerusalem, among them those who saw the stone roll from the tomb and fled to the fortress of Antonia (189:2.4).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"rome": {
 		"name": "Roma",
 		"meaning": "The capital of the Roman Empire, a city of two million where Jesus spent time on his Mediterranean journey (132:0.2).",
@@ -11381,15 +14684,33 @@
 			}
 		]
 	},
+	"rufus": {
+		"name": "Rufo",
+		"meaning": "The son of Simon of Cyrene, whom Jesus and Ganid helped after an oxcart accident, and who later taught the gospel in Africa (130:6.6, 187:1.10).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"russia": {
 		"name": "Rusia",
 		"meaning": "The present land named among places with Devonian red sandstone (59:4.7).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"ruth-daughter-of-matthew": {
+		"name": "Rut (hija de Mateo)",
+		"meaning": "Ruth, the eldest daughter of Matthew Levi, one of the ten women Jesus set apart for the ministering work of the kingdom (150:1.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"ruth-sister-of-jesus": {
 		"name": "Rut (hermana de Jesús)",
 		"meaning": "Jesus' youngest sister, who married David Zebedee and went to Philadelphia (190:1.10).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"ryonin": {
+		"name": "Ryonin",
+		"meaning": "A Japanese Buddhist teacher whose teachings, with those of Honen Shonin and Shinran, brought the God concept of Buddhism to the belief in Amida Buddha (94:12.2).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -11476,6 +14797,12 @@
 			"Lowercase, as Spanish writes names of peoples."
 		]
 	},
+	"salem": {
+		"name": "Salem",
+		"meaning": "The community of Melchizedek in Palestine, later Jebus and then Jerusalem, and the center of his teaching (93:2.4, 93:5.4).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"salem-teachings": {
 		"name": "enseñanzas de Salem",
 		"aliases": [
@@ -11494,6 +14821,12 @@
 	"salome-wife-of-zebedee": {
 		"name": "Salomé (esposa de Zebedeo)",
 		"meaning": "The wife of Zebedee and mother of the apostles James and John (Papers 125, 189).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"salsatia": {
+		"name": "Salsatia",
+		"meaning": "The Census Director of Nebadon on Salvington, who is automatically aware of the birth and death of will in the local universe (37:8.4).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -11612,6 +14945,13 @@
 			}
 		]
 	},
+	"sargon-king-of-assyria": {
+		"name": "Sargón (rey de Asiria)",
+		"meaning": "The king of Assyria who, about 700 B.C., took more than 25 000 Jews of the northern kingdom into captivity and put other peoples in their place, a source of the Jewish-Samaritan enmity (143:4.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"note": "The papers also name an earlier Sargon, the priest of Kish who made himself king in Mesopotamia (78:8.8). Keep the two apart."
+	},
 	"satan": {
 		"name": "Satanás",
 		"meaning": "A primary Lanonandek Son, Lucifer's first assistant, who represented the rebellion on Urantia (53:1, 53:5).",
@@ -11631,6 +14971,21 @@
 	"satania": {
 		"name": "Satania",
 		"meaning": "The local system of Urantia, with its capital on Jerusem, the site of the Lucifer rebellion (32:2.11, 53:0.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"satisfactions-of-service": {
+		"name": "Satisfacciones del Servicio",
+		"aliases": [
+			"Satisfacción del Servicio"
+		],
+		"meaning": "A group of secondary seconaphim attached to the Divine Counselors, who promote the value of unselfish service and the satisfactions that come from it (28:5.4).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"sato": {
+		"name": "Sato",
+		"meaning": "A direct descendant of Adamson and Ratta who led the tall Adamsonite progenitors of the Greeks westward to Greece (80:7.3).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -11732,6 +15087,15 @@
 			"segundo Edén"
 		],
 		"meaning": "The home of Adam and Eve in Mesopotamia after they left the first garden (76:3.4, 76:3.7).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"secondary-circuit-supervisors": {
+		"name": "Supervisores Secundarios de los Circuitos",
+		"aliases": [
+			"supervisores secundarios"
+		],
+		"meaning": "Universe Circuit Supervisors stationed on the superuniverse headquarters who supervise the spirit-energy circuits of the local universes; 84 691 are on Uversa (24:1.5, 24:1.9).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -12001,6 +15365,12 @@
 			}
 		]
 	},
+	"set": {
+		"name": "Set",
+		"meaning": "The Egyptian god of darkness and evil, believed to have killed Osiris (95:5.12).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"sethites": {
 		"name": "setitas",
 		"aliases": [
@@ -12107,6 +15477,28 @@
 			}
 		]
 	},
+	"sevenfold-controllers": {
+		"name": "controladores séptuples",
+		"aliases": [
+			"siete grupos"
+		],
+		"meaning": "The controllers of the grand universe that God the Sevenfold encompasses together with its creators (116:5.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "controladores del Séptuple",
+				"reason": "Adds a genitive that the English does not state."
+			}
+		],
+		"note": "'séptuple' follows 'Dios el Séptuple'. A reader can take 'controladores séptuples' as each controller being sevenfold; the English permits the same reading."
+	},
+	"shang-ti": {
+		"name": "Shang-ti",
+		"meaning": "The God of Heaven of Chinese belief, in which the teachings of Singlangton persisted and which preserved vestiges of a real God concept (94:5.3, 79:8.7).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"shechem": {
 		"name": "Siquem",
 		"meaning": "An ancient city of central Palestine on Jesus' route north in A.D. 25 and one of the places to which David Zebedee's runners carried news of the crucifixion (134:7.5, 186:3.2).",
@@ -12119,6 +15511,37 @@
 			}
 		]
 	},
+	"shensi": {
+		"name": "Shensi",
+		"meaning": "A province of China where Andite immigrants stimulated advanced civilization and irrigation problems promoted co-operation (79:7.5, 79:8.6).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Shaanxi",
+				"reason": "Modern spelling; the English text uses the older form."
+			}
+		]
+	},
+	"shiloh": {
+		"name": "Silo",
+		"meaning": "The place of an early temple of Yahweh, later discredited (97:9.17, 153:2.2).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Siló",
+				"reason": "Also used, but less common in Spanish Bibles."
+			}
+		],
+		"note": "'silo' is also a grain silo; the capital letter and context separate them."
+	},
+	"shinran": {
+		"name": "Shinran",
+		"meaning": "A Japanese Buddhist teacher who, with Ryonin and Honen Shonin, brought the Buddhist God concept to the belief in Amida Buddha (94:12.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"shinto": {
 		"name": "sintoísmo",
 		"meaning": "The religion revered in Japan, listed by the papers among the composite religions (92:6.9, 92:6.15).",
@@ -12130,6 +15553,12 @@
 				"reason": "Spanish uses the adapted form \"sintoísmo\" for the religion."
 			}
 		]
+	},
+	"shunem": {
+		"name": "Sunem",
+		"meaning": "An ancient village near Jezreel, known for the beautiful maiden and the works of Elisha, where Jesus later taught the evangelists and women about salvation (124:6.3, 150:5.1).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"siberia": {
 		"name": "Siberia",
@@ -12148,6 +15577,21 @@
 				"reason": "A geographic claim the English does not make."
 			}
 		]
+	},
+	"sicily": {
+		"name": "Sicilia",
+		"aliases": [
+			"siciliano"
+		],
+		"meaning": "The Mediterranean island where Thomas preached; its ancient bay was a refuge for marine life (139:8.13, 59:6.9).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"siddim": {
+		"name": "Sidim",
+		"meaning": "The place of the battle after which Abraham led a confederation of eleven tribes and met Melchizedek (93:5.14, 93:9.9).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"sidon": {
 		"name": "Sidón",
@@ -12251,9 +15695,33 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"simon-assistant-of-david-zebedee": {
+		"name": "Simón (asistente de David Zebedeo)",
+		"meaning": "One of David Zebedee's assistants who, after the draught of fishes, fell at Jesus' knees and then left his nets to follow him (145:1.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"simon-boat": {
+		"name": "Simón (barca)",
+		"meaning": "The boat named \"Simon\", the former fishing boat of Simon Peter, built by Jesus' own hands, from which he taught the crowd (145:1.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Simón (barco)",
+				"reason": "'barco' suggests a larger vessel; 'barca' fits a lake fishing boat."
+			}
+		]
+	},
 	"simon-brother-of-jesus": {
 		"name": "Simón (hermano de Jesús)",
 		"meaning": "A younger brother of Jesus, the third son of Joseph and Mary.",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"simon-brother-of-jesus-mother": {
+		"name": "Simón (hermano de la madre de Jesús)",
+		"meaning": "Mary's brother Simon, who joined the Zealots and became an officer of the Galilean division, which caused an estrangement with Jesus (127:2.4).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -12302,6 +15770,15 @@
 		],
 		"meaning": "Simon Peter, fisherman and spokesman of the twelve apostles (139:2.1).",
 		"confidence": "high"
+	},
+	"simon-the-tanner": {
+		"name": "Simón el curtidor",
+		"aliases": [
+			"Simón"
+		],
+		"meaning": "A tanner of Joppa who employed the Philistine interpreter Gadiah and did business with Gonod's agents (130:1.1).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"simon-zelotes": {
 		"name": "Simón Zelotes",
@@ -12352,6 +15829,29 @@
 			}
 		]
 	},
+	"siva": {
+		"name": "Siva",
+		"meaning": "A member of the Hindu Trimurti: lord of life and death, god of fertility, and master of destruction (94:4.5, 104:1.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Shiva",
+				"reason": "Common in Spanish, but the English text uses 'Siva', which is also a standard Spanish form."
+			}
+		]
+	},
+	"skepticism-philosophy": {
+		"name": "escepticismo (filosofía)",
+		"aliases": [
+			"Escepticismo",
+			"escéptico",
+			"el Escéptico"
+		],
+		"meaning": "The Gentile philosophy that held knowledge to be fallacious and conviction and assurance impossible, a purely negative attitude (121:4.5); also doubt in general (102:6.4).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"social-architects": {
 		"name": "arquitectos sociales",
 		"aliases": [
@@ -12366,6 +15866,15 @@
 				"reason": "Loses the word 'architect', which the papers use in other terms (Master Architects)."
 			}
 		]
+	},
+	"socrates": {
+		"name": "Sócrates",
+		"aliases": [
+			"socrático"
+		],
+		"meaning": "The Greek philosopher who, with Plato and Aristotle, taught that virtue is knowledge and that it is better to suffer injustice than to be guilty of it (98:2.6, 98:0.1).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"sodom": {
 		"name": "Sodoma",
@@ -12445,6 +15954,13 @@
 		"meaning": "Mortals who fuse with an individualized spirit of the Creator Son rather than with an Adjuster, and serve mostly in their superuniverse (40:9.1, 40:10.10, 22:6.1).",
 		"confidence": "high",
 		"formConfidence": "high"
+	},
+	"son-of-god": {
+		"name": "Hijo de Dios",
+		"meaning": "In Jewish Messianic expectation, the latest name for the expected deliverer, after \"servant of the Lord\", \"son of David\", and \"Son of Man\" (136:1.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"note": "Same Spanish words as 'Sons of God' (Hijos de Dios), an order of beings. Only the number and the context separate them, as in English."
 	},
 	"son-of-man": {
 		"name": "Hijo del Hombre",
@@ -12560,6 +16076,15 @@
 			"el Alma de la Bondad"
 		],
 		"meaning": "Tertiary seconaphim who reflect goodness and work inseparably with the Secret of Greatness (28:6.20, 28:6.21).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"souls-of-peace": {
+		"name": "almas de la paz",
+		"aliases": [
+			"Almas de la Paz"
+		],
+		"meaning": "The third order of planetary helper seraphim, whose ministry brings \"peace on earth and good will among men\"; their chief Vevona heralded Michael's birth (39:5.5).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -13068,6 +16593,18 @@
 			}
 		]
 	},
+	"supremacy-guides": {
+		"name": "guías de la supremacía",
+		"meaning": "The secondary supernaphim who teach the \"spiritual graduates\" on the sixth circle of Havona, distinct from the Graduate Guides (26:6.1, 26:6.4).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "guías supremos",
+				"reason": "Reads as 'supreme guides', a rank, not guides in Supremacy."
+			}
+		]
+	},
 	"supreme": {
 		"name": "Supremo",
 		"meaning": "God the Supreme, the evolving Deity of time and space, who becomes the highest finite manifestation of the total will of God (117:0.1).",
@@ -13379,6 +16916,12 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"syracuse": {
+		"name": "Siracusa",
+		"meaning": "The Sicilian port where Jesus and his companions spent a week and Jesus helped the backslidden Jew Ezra find God (130:8.2, 98:7.10).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"syria": {
 		"name": "Siria",
 		"meaning": "The region of the eastern Mediterranean north of Palestine.",
@@ -13465,6 +17008,22 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"teachers-of-rest": {
+		"name": "instructores del descanso",
+		"meaning": "The seventh group of energy manipulators among the celestial artisans, who teach the technique of divine rest, the intake of spiritual energy (44:5.8).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "maestros del descanso",
+				"reason": "'Maestro' is taken by 'Master'."
+			},
+			{
+				"form": "instructores de reposo",
+				"reason": "'reposo' suggests medical rest; 'descanso' follows 'complementos del descanso'."
+			}
+		]
+	},
 	"teaching-counselors": {
 		"name": "consejeros instructores",
 		"aliases": [
@@ -13494,6 +17053,15 @@
 				"reason": "'Consejeros' is already 'Counselors' (Consejeros Divinos)."
 			}
 		]
+	},
+	"technicians": {
+		"name": "técnicos",
+		"aliases": [
+			"técnicos seráficos"
+		],
+		"meaning": "The fifth order of transition ministers, seraphim who help new ascenders adjust to the morontia spheres and teach them about their energies (48:6.29).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"teherma-the-persian": {
 		"name": "Teherma el persa",
@@ -13552,6 +17120,13 @@
 			}
 		]
 	},
+	"thaddeus": {
+		"name": "Tadeo",
+		"meaning": "One of the two names, Thaddeus and Lebbeus, by which the apostles James and Judas Alpheus were also called (139:10.5, 179:2.2).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"note": "139:10.5 does not say which twin was Thaddeus. The summary assigns it to James; the text leaves it open. Do not close it in a translation."
+	},
 	"thieves-crucified-with-jesus": {
 		"name": "ladrones crucificados con Jesús",
 		"aliases": [
@@ -13588,6 +17163,12 @@
 				"reason": "Historical person; the standard Spanish form is required."
 			}
 		]
+	},
+	"thor-god": {
+		"name": "Thor (dios)",
+		"meaning": "The victorious commander in the final battle of the Somme, later revered as a god, a ghost hero who was also master of the lightning (80:5.4, 85:6.4).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"those-high-in-authority": {
 		"name": "Aquellos Elevados en Autoridad",
@@ -13675,6 +17256,24 @@
 			}
 		]
 	},
+	"thoughtless-pagan": {
+		"name": "pagano irreflexivo",
+		"meaning": "A pagan whom Jesus, Gonod, and Ganid met on the way to the northern Italian lakes, whom Jesus did not engage because he had no desire to know God (132:7.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "pagano desconsiderado",
+				"reason": "'desconsiderado' means inconsiderate toward others, not without thought."
+			}
+		]
+	},
+	"thrace": {
+		"name": "Tracia",
+		"meaning": "The region where the apostle Matthew preached and was put to death at Lysimachia (139:7.10).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"tiberias": {
 		"name": "Tiberíades",
 		"meaning": "The city on the Sea of Galilee built by Herod Antipas.",
@@ -13714,6 +17313,19 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"titus-associate-of-paul": {
+		"name": "Tito (asociado de Pablo)",
+		"meaning": "The associate of Paul whom Paul sent to Crete to reorganize the churches, with Fortune as his close associate (130:5.1, 130:6.5).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"titus-emperor": {
+		"name": "Tito (emperador)",
+		"meaning": "The Roman commander, later emperor, whose armies invested Jerusalem in A.D. 70 (121:8.7).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"note": "In the passage that I saw, the text says only 'the armies of Titus'; it does not call him emperor there."
+	},
 	"titus-of-capernaum": {
 		"name": "Tito de Cafarnaúm",
 		"aliases": [
@@ -13729,6 +17341,26 @@
 				"reason": "Titus is a common Latin name with the standard Spanish form Tito."
 			}
 		]
+	},
+	"toda-tribe": {
+		"name": "tribu de los toda",
+		"aliases": [
+			"los toda"
+		],
+		"meaning": "A tribe of India whose impersonal prayers, addressed to no one, show a regression to a primitive level of religion (91:0.4, 91:3.2).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "tribu toda",
+				"reason": "Reads as 'the whole tribe' ('toda' = all)."
+			},
+			{
+				"form": "tribu Toda",
+				"reason": "A capital on an ethnic name is against Spanish usage."
+			}
+		],
+		"note": "'toda' is also the common word for 'all'. Keep the name invariable after 'los'."
 	},
 	"transcendental-almighty": {
 		"name": "Todopoderoso trascendental",
@@ -13879,6 +17511,12 @@
 			"tribal"
 		],
 		"meaning": "Social groups larger than clans and earlier than the state, led by war chiefs through the father line (70:4.10, 70:6.3).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"trimurti": {
+		"name": "Trimurti",
+		"meaning": "The supreme trinity of Hinduism: Brahma, Siva, and Vishnu (94:4.4, 94:4.6).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -14266,6 +17904,12 @@
 			}
 		]
 	},
+	"troas": {
+		"name": "Troas",
+		"meaning": "A city through which Jesus and his companions went from Athens to Ephesus (130:0.3, 133:6.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"truth": {
 		"name": "verdad",
 		"aliases": [
@@ -14373,6 +18017,18 @@
 		],
 		"note": "The name stays in English; only the ordinal is translated. Check that the same rule applies to 'Uminor the third' and similar names."
 	},
+	"uminor-the-third": {
+		"name": "Uminor el tercero",
+		"meaning": "The headquarters world of the minor sector Ensa, surrounded by seven spheres of higher physical studies (15:7.8, 15:14.7).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"unclassified-centers": {
+		"name": "Centros No Clasificados",
+		"meaning": "The seventh order of Supreme Power Centers, who function in special local situations, as balance wheels or energy governors on spheres of extraordinary energy relationships (29:2.8, 29:2.19).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"unions-of-days": {
 		"name": "Uniones de Días",
 		"aliases": [
@@ -14387,6 +18043,15 @@
 				"reason": "'Ancients of Days' is 'Ancianos de Días' without the article; the family keeps the same form."
 			}
 		]
+	},
+	"unions-of-souls": {
+		"name": "Uniones de Almas",
+		"aliases": [
+			"Unión de Almas"
+		],
+		"meaning": "Secondary seconaphim attached to the Perfectors of Wisdom, reflectors of the ideals of ethical relationships between intelligent beings (28:5.3, 28:5.13).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"united-midwayers-of-urantia": {
 		"name": "Seres Intermedios Unidos de Urantia",
@@ -14641,6 +18306,12 @@
 			}
 		]
 	},
+	"upanishads": {
+		"name": "Upanishads",
+		"meaning": "Later Hindu scriptures, compiled with the Brahmanas, in which the Brahmans depersonalized the concept of God into an all-encompassing Absolute (94:2.6, 94:2.8).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"ur": {
 		"name": "Ur",
 		"meaning": "The city of Chaldea where the Salem doctrines were preached and from which Terah and Abraham departed (93:5.4).",
@@ -14685,6 +18356,23 @@
 				"reason": "'Papel' is a sheet of paper or a role; the packet sets 'paper' as 'documento'."
 			}
 		]
+	},
+	"uranus": {
+		"name": "Urano",
+		"meaning": "The papers do not name Uranus; the entity links it to one of 'three of the major planets of the Angona system' detached and added to the solar system, a source of retrograde motion (57:5.13, 57:5.14).",
+		"confidence": "low",
+		"formConfidence": "high",
+		"note": "In the passages that I saw, the papers do not say that one of the three captured bodies is Uranus. The link comes from the entity index. A human must check the link before the form is used for those passages."
+	},
+	"uriah-the-hittite": {
+		"name": "Urías el hitita",
+		"aliases": [
+			"Urías",
+			"el hitita"
+		],
+		"meaning": "The man whose murder climaxed the atrocities of David's political machine (97:9.15).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"urmia": {
 		"name": "Urmia",
@@ -14767,6 +18455,15 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"voices-of-mercy": {
+		"name": "Voces de la Misericordia",
+		"aliases": [
+			"Voz de la Misericordia"
+		],
+		"meaning": "A corps of superior seraphim, the mercy ministers of the local universes, who foster the higher impulses of men and angels and see that justice is dealt with mercy (39:2.5, 39:4.5).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"voices-of-seven-master-spirits": {
 		"name": "Voces de los Siete Espíritus Maestros",
 		"aliases": [
@@ -14792,6 +18489,12 @@
 			"la Voz de la Sabiduría"
 		],
 		"meaning": "Secondary seconaphim in liaison with the living libraries of Paradise who transmit the essence of wisdom to the Perfectors of Wisdom (28:5.7).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"volga": {
+		"name": "Volga",
+		"meaning": "The river whose grazing lands, with those of the Don, formed the northern route of the Andite migrations into Europe (80:4.1).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -14854,6 +18557,12 @@
 		"confidence": "high",
 		"formConfidence": "high"
 	},
+	"wisconsin": {
+		"name": "Wisconsin",
+		"meaning": "A state of North America, crossed by an ancient fossil-bearing rock ridge; its St. Croix valley shows 127 successive lava flows (58:7.4, 58:7.7).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"wisdom": {
 		"name": "sabiduría",
 		"meaning": "The insight that co-ordinates knowledge and experience with meanings and values, fostered by the adjutant spirit of wisdom and rising toward God-consciousness (36:5, 101:2, 102:2).",
@@ -14885,6 +18594,13 @@
 			}
 		],
 		"note": "Spanish readers know 'Libro de la Sabiduría' as the deuterocanonical book. A translator must add 'de Amenemope' in context when the reference is not clear."
+	},
+	"wisdom-of-solomon": {
+		"name": "Sabiduría de Salomón",
+		"meaning": "A Hellenized Jewish book that shows both Platonic philosophy and Stoic doctrines (121:6.3).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"note": "This is probably the same book as the done term 'Wisdom, Book of' (Sabiduría, Libro de la). A reviewer must decide if the two entries name one book."
 	},
 	"wise-men-magi": {
 		"name": "sabios (magos)",
@@ -14991,6 +18707,28 @@
 			}
 		]
 	},
+	"yahwehites": {
+		"name": "yahveítas",
+		"meaning": "The southern or wandering Arabian tribes of Palestine who held land to be an inalienable gift of Deity to the clan (97:3.2).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "yahvistas",
+				"reason": "In biblical studies 'yahvista' names the Yahwist source of the Pentateuch."
+			}
+		],
+		"note": "'yahveíta' is a rare word, derived from 'Yahvé' like 'baalita' from 'Baal'."
+	},
+	"yangtze-river": {
+		"name": "río Yangtsé",
+		"aliases": [
+			"Yangtsé"
+		],
+		"meaning": "The river of China along which early centers of Chinese culture grew, less progressive than those of the Yellow River (79:6.5, 79:7.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"yellow-race": {
 		"name": "raza amarilla",
 		"aliases": [
@@ -15019,6 +18757,12 @@
 	"zacharias": {
 		"name": "Zacarías",
 		"meaning": "The priest, husband of Elizabeth and father of John the Baptist, who taught his son (135:0.4).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"zaphon": {
+		"name": "Zafón",
+		"meaning": "A city of the Decapolis and Perea where the apostles and evangelists, and later the seventy, worked (159:0.2, 165:0.1).",
 		"confidence": "high",
 		"formConfidence": "high"
 	},
@@ -15053,6 +18797,12 @@
 			"'the Zebedees' (the family) is written 'los Zebedeo', because Spanish does not pluralize a family name."
 		]
 	},
+	"zebulun": {
+		"name": "Zabulón",
+		"meaning": "A village of Galilee on the Nazareth-Mount Lebanon trail where Jesus and the apostles preached and held meetings (146:0.1, 156:6.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"zechariah": {
 		"name": "Zacarías (profeta)",
 		"meaning": "The Hebrew prophet whom Jesus quoted on prayer and whose prophecy of the king riding on an ass guided Jesus' entry into Jerusalem (146:2.3, 172:3.4, 172:5.5).",
@@ -15082,6 +18832,12 @@
 				"reason": "'Infinito' is used for the person or the adjective; the terms already done use 'infinitud' for 'infinity'."
 			}
 		]
+	},
+	"zophar": {
+		"name": "Sofar",
+		"meaning": "The third friend of Job, who suggested a hidden purpose in his miseries (148:6.8, 148:6.9).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"zoroaster": {
 		"name": "Zoroastro",
