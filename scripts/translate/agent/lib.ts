@@ -289,6 +289,65 @@ export function glossaryEntities(): GlossaryEntity[] {
 	return out;
 }
 
+/**
+ * One fixed translation for an English word that recurs inside many terms (staff, Master, actual).
+ * `forms` holds every target-language form of the root (singular, plural, adjective).
+ */
+export type Root = {
+	forms: string[];
+	reason?: string;
+	decision?: { by: string; date: string; note?: string };
+};
+
+export function rootsPath(lang: string): string {
+	return join(ROOT, `data/translations/${lang}/roots.json`);
+}
+
+export function loadRoots(lang: string): Record<string, Root> {
+	const path = rootsPath(lang);
+	return existsSync(path) ? JSON.parse(readFileSync(path, "utf-8")) : {};
+}
+
+/** Groups of terms that a reviewer accepted as sharing one form. */
+export type Consistency = { same: string[][] };
+
+export function consistencyPath(lang: string): string {
+	return join(ROOT, `data/translations/${lang}/consistency.json`);
+}
+
+export function loadConsistency(lang: string): Consistency {
+	const path = consistencyPath(lang);
+	return existsSync(path) ? JSON.parse(readFileSync(path, "utf-8")) : { same: [] };
+}
+
+/** Folds case and accents, and drops the articles and "de", so near-identical names compare equal. */
+export function foldName(s: string): string {
+	return fold(s)
+		.split(/[^\p{L}\p{N}]+/u)
+		.filter((w) => w && !["el", "la", "los", "las", "lo", "de", "del", "the", "of"].includes(w))
+		.join(" ");
+}
+
+/** Terms whose English contains a root word but whose target forms use none of the root's forms. */
+export function rootViolations(
+	glossary: Record<string, GlossaryEntry>,
+	roots: Record<string, Root>,
+): { root: string; id: string; en: string; name: string }[] {
+	const names = new Map(glossaryEntities().map((e) => [e.id, e.name]));
+	const out: { root: string; id: string; en: string; name: string }[] = [];
+	for (const [word, root] of Object.entries(roots)) {
+		const re = new RegExp(`\\b${word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\b`, "i");
+		const stems = root.forms.map((f) => fold(f));
+		for (const [id, g] of Object.entries(glossary)) {
+			const en = names.get(id) ?? "";
+			if (!re.test(en)) continue;
+			const target = fold([g.name, ...(g.aliases ?? [])].join(" | "));
+			if (!stems.some((st) => target.includes(st))) out.push({ root: word, id, en, name: g.name });
+		}
+	}
+	return out;
+}
+
 export function loadGlossary(lang: string): Record<string, GlossaryEntry> {
 	const path = glossaryPath(lang);
 	return existsSync(path) ? JSON.parse(readFileSync(path, "utf-8")) : {};

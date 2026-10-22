@@ -71,6 +71,16 @@ Every translator follows `meaning-first.md`: find the meaning in the papers (the
 
    A decision locks the entry. No later step changes it.
 
+5. Consistency. Batches run in parallel, so related terms can disagree: one English word with two roots ("staff" as "cuerpo" and "personal"), or two different things with one form. Run this after a wave, and before the next wave:
+
+   ```sh
+   bun scripts/translate/agent/check-consistency.ts --lang=es     # findings + a packet for a fresh agent
+   bun scripts/translate/agent/assemble-consistency.ts --lang=es  # merge its draft
+   bun scripts/translate/agent/decide-glossary.ts --lang=es --root=staff --forms="personal" --by=<name> --requeue
+   ```
+
+   The reviewer sorts each shared form into "same thing" or "conflict", and proposes one root for each real split. Proposed roots go to `roots.json`, and every later packet shows them at the top. A human decides each root. `--requeue` removes the terms that break it, so the next batch translates them again with the root.
+
 Use a fresh agent for each packet. For the second opinions, a different model gives more independence.
 
 ## Translate a paper
