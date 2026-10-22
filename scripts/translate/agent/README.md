@@ -62,7 +62,14 @@ Every translator follows `meaning-first.md`: find the meaning in the papers (the
 
    Run `assemble-glossary.ts` after each step.
 
-4. Human review. This writes every flagged term with its evidence (meaning, rejected forms, second opinion, blind reading):
+4. Rulings. No human gate: an adjudicator agent rules on each flagged term (low confidence, a second translator disagreed, a blind-reading mismatch, or a note). It sees all the evidence and the full glossary, and records its choice and reason in `adjudicated`. A human decision or a later reader report can replace it:
+
+   ```sh
+   bun scripts/translate/agent/prepare-adjudication.ts --lang=es   # after the second opinions and back-check
+   bun scripts/translate/agent/assemble-glossary.ts --lang=es
+   ```
+
+   The review file lists every flagged term with its evidence and ruling, as a record. A human can still decide a term:
 
    ```sh
    bun scripts/translate/agent/review-glossary.ts --lang=es
