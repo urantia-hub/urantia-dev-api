@@ -8,6 +8,7 @@
  *   second-*  independent second opinions; a different form marks the term for a human
  *   blind-*   blind readings of the forms (with blind-*.key.json)
  *   judge-*   verdicts that compare a blind reading with the meaning
+ *   adjud-*   an agent's ruling on each flagged term
  * Moves each merged draft to done/. An entry with a human `decision` is never changed.
  * Exits 1 when a draft has an error.
  */
@@ -30,7 +31,7 @@ import {
 	loadEnglishPaper,
 	loadGlossary,
 	loadRoots,
-	needsHuman,
+	needsRuling,
 	PAPER_NUMBERS,
 	parseArgs,
 	rootViolations,
@@ -48,7 +49,7 @@ const drafts = existsSync(dir)
 
 // Merge first translations before the checks that refer to them.
 function order(file: string): number {
-	return ["batch", "second", "blind", "judge"].indexOf(file.split("-")[0]!);
+	return ["batch", "second", "blind", "judge", "adjud"].indexOf(file.split("-")[0]!);
 }
 
 const entities = new Map(glossaryEntities().map((e) => [e.id, e]));
@@ -89,6 +90,8 @@ for (const file of drafts) {
 		} else if (kind === "blind" && !str("reading")) errors.push(`${id}: no reading`);
 		else if (kind === "judge" && !["match", "mismatch"].includes(str("verdict"))) {
 			errors.push(`${id}: verdict must be match or mismatch`);
+		} else if (kind === "adjud" && (!str("name") || !str("reason"))) {
+			errors.push(`${id}: a ruling needs a name and a reason`);
 		}
 		if (kind !== "batch" && !glossary[id]) errors.push(`${id}: no first translation yet`);
 	}
@@ -129,6 +132,21 @@ for (const file of drafts) {
 			g!.backcheck = {
 				reading: (v.reading as string).trim(),
 				...((v.misreadings as string[])?.length ? { misreadings: v.misreadings as string[] } : {}),
+			};
+		} else if (kind === "adjud") {
+			const name = (v.name as string).trim();
+			const aliases = Array.isArray(v.aliases)
+				? (v.aliases as string[]).filter((a) => a?.trim() && a !== name)
+				: g!.aliases;
+			glossary[id] = {
+				...g!,
+				name,
+				...(aliases?.length ? { aliases } : { aliases: undefined }),
+				adjudicated: {
+					date: new Date().toISOString().slice(0, 10),
+					reason: (v.reason as string).trim(),
+					...(name !== g!.name ? { previous: g!.name } : {}),
+				},
 			};
 		} else if (kind === "judge") {
 			g!.backcheck = {
@@ -186,14 +204,15 @@ if (broken.length) {
 	for (const v of broken.slice(0, 40)) console.log(`  ${v.root}: ${v.en} → ${v.name}`);
 }
 
-const human = Object.entries(glossary).filter(([, g]) => needsHuman(g));
+const pending = Object.entries(glossary).filter(([, g]) => needsRuling(g));
 const count = (f: (g: GlossaryEntry) => boolean) => Object.values(glossary).filter(f).length;
 console.log(`
 ${Object.keys(glossary).length}/${entities.size} terms (${changed} changes this run)
   second opinions: ${count((g) => !!g.second)} (${count((g) => g.second?.agree === false)} disagree)
   blind readings: ${count((g) => !!g.backcheck)}, judged: ${count((g) => !!g.backcheck?.verdict)} (${count((g) => g.backcheck?.verdict === "mismatch")} mismatch)
   human decisions: ${count((g) => !!g.decision)}
-  for a human: ${human.length} (bun scripts/translate/agent/review-glossary.ts --lang=${lang})`);
+  adjudicated: ${count((g) => !!g.adjudicated)}
+  flagged, no ruling yet: ${pending.length} (bun scripts/translate/agent/prepare-adjudication.ts --lang=${lang})`);
 
 if (!DRY_RUN && changed) {
 	const sorted = Object.fromEntries(Object.entries(glossary).sort(([a], [b]) => a.localeCompare(b)));

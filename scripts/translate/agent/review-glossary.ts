@@ -1,5 +1,5 @@
 /**
- * review-glossary.ts — Write the glossary terms that need a human, with all the evidence.
+ * review-glossary.ts — Write every flagged glossary term with all the evidence and its ruling.
  *
  * Usage: bun scripts/translate/agent/review-glossary.ts --lang=es [--all]
  *
@@ -9,7 +9,7 @@
 
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { glossaryEntities, LANG_NAMES, loadGlossary, needsHuman, parseArgs, WORK_DIR } from "./lib.ts";
+import { glossaryEntities, isFlagged, LANG_NAMES, loadGlossary, parseArgs, WORK_DIR } from "./lib.ts";
 
 const { lang, flags } = parseArgs();
 const ALL = flags.has("--all");
@@ -17,7 +17,7 @@ const glossary = loadGlossary(lang);
 const entities = glossaryEntities().sort((a, b) => b.mentions - a.mentions);
 
 const rows = entities
-	.filter((e) => glossary[e.id] && (ALL || needsHuman(glossary[e.id]!)))
+	.filter((e) => glossary[e.id] && (ALL || isFlagged(glossary[e.id]!)))
 	.map((e) => {
 		const g = glossary[e.id]!;
 		const why = [
@@ -40,6 +40,9 @@ const rows = entities
 			g.backcheck ? `- Blind reader understood: ${g.backcheck.reading}` : "",
 			g.backcheck?.misreadings?.length ? `- Possible misreadings: ${g.backcheck.misreadings.join("; ")}` : "",
 			g.backcheck?.verdict ? `- Judge: ${g.backcheck.verdict}${g.backcheck.note ? `, ${g.backcheck.note}` : ""}` : "",
+			g.adjudicated
+				? `- Ruling (agent, ${g.adjudicated.date})${g.adjudicated.previous ? `, was "${g.adjudicated.previous}"` : ""}: ${g.adjudicated.reason}`
+				: "",
 			g.decision ? `- Decided by ${g.decision.by} on ${g.decision.date}${g.decision.note ? `: ${g.decision.note}` : ""}` : "",
 		]
 			.filter(Boolean)
@@ -50,6 +53,6 @@ const out = join(WORK_DIR, lang, "glossary-review.md");
 mkdirSync(join(WORK_DIR, lang), { recursive: true });
 writeFileSync(
 	out,
-	`# ${LANG_NAMES[lang]} glossary: ${ALL ? "all terms" : "terms for a human"} (${rows.length})\n\nMost-used terms first.\n\n${rows.join("\n\n")}\n`,
+	`# ${LANG_NAMES[lang]} glossary: ${ALL ? "all terms" : "flagged terms"} (${rows.length})\n\nMost-used terms first.\n\n${rows.join("\n\n")}\n`,
 );
 console.log(`${rows.length} terms → ${out}`);
