@@ -4,7 +4,7 @@
     "name": "1-2-3 the First",
     "type": "being",
     "aliases": [],
-    "description": "The eldest midwayer of the primary order on Urantia who stood loyal to Gabriel during the Caligastia rebellion and led efforts to reduce rebel casualties among his order. He currently serves on Jerusem as a member of the twenty-four counselors and has previously functioned as governor general of Urantia.",
+    "description": "The eldest of the primary midwayers, leader of the loyal midway creatures in the service of Gabriel at the Caligastia betrayal; his fearless leadership helped reduce the casualties in his order. He serves on Jerusem as one of the twenty-four counselors and once functioned as governor general of Urantia after Pentecost.",
     "seeAlso": [],
     "citations": [
       "77:8.2",
@@ -4495,17 +4495,6 @@
     ]
   },
   {
-    "id": "archelaus",
-    "name": "Archelaus",
-    "type": "being",
-    "aliases": [],
-    "description": "A being mentioned in The Urantia Book but not further described in the available text.",
-    "seeAlso": [
-      "Herod Archelaus"
-    ],
-    "citations": []
-  },
-  {
     "id": "archeology",
     "name": "archeology",
     "type": "concept",
@@ -6244,7 +6233,9 @@
     "id": "azariah",
     "name": "Azariah",
     "type": "being",
-    "aliases": [],
+    "aliases": [
+      "Uzziah"
+    ],
     "description": "Son of King Amaziah who became king of Judah at age sixteen after his father was assassinated, also known as Uzziah, whose reign preceded the time when Isaiah prophesied that Jerusalem would never fall.",
     "seeAlso": [],
     "citations": [
@@ -10717,7 +10708,7 @@
       "the Caspian",
       "Caspian group"
     ],
-    "description": "A large inland sea that was significantly expanded in ancient times and served as an important geographical landmark and migration route. Jesus conducted a caravan to the Caspian Sea region from April 24 to April 25 CE, and the area was central to various ancient civilizations and migration patterns of the Adamites, Andites, and other early peoples.",
+    "description": "A large inland sea, at one time expanded, that blocked the northward journeys of the Adamites; later Andites entered Europe by the Caspian Sea route. On April 1, A.D. 24, Jesus left Nazareth as conductor of a caravan to the southeastern Caspian Sea region and returned a full year later.",
     "seeAlso": [],
     "citations": [
       "80:2.5",
@@ -11336,9 +11327,9 @@
   {
     "id": "center-of-centers",
     "name": "Center of Centers",
-    "type": "being",
+    "type": "place",
     "aliases": [],
-    "description": "A designation referring to the Universal Father as the absolute center of all reality and existence.",
+    "description": "A name for the center of all things at Paradise. The superuniverses swing in their space path opposite the Center of Centers, and the Infinite Spirit is approachable at the center of centers.",
     "seeAlso": [
       "Universal Father"
     ],
@@ -11980,10 +11971,8 @@
     "id": "chicago",
     "name": "Chicago",
     "type": "place",
-    "aliases": [
-      "the city of this visitation"
-    ],
-    "description": "Chicago is referenced as \"the city of this visitation\" where the Urantia Book's revelators worked, and is used to illustrate the enormous energy value of sunlight, with a hypothetical daily sunshine bill exceeding 100 million dollars.",
+    "aliases": [],
+    "description": "The U.S. city that the papers use to show the energy value of sunlight: Chicago's bill for sunshine would amount to considerably over 100 million dollars a day.",
     "seeAlso": [],
     "citations": [
       "113:2.7",
@@ -13055,7 +13044,7 @@
     "name": "Cincinnati Island",
     "type": "place",
     "aliases": [],
-    "description": "A geographic region that, 260 million years ago during the Devonian period, remained elevated above water while much of western Europe, including the British Isles, was submerged under seas.",
+    "description": "A land area named once in the papers: during the Devonian period the land southeast of the Cincinnati Island stayed well above water, while very much of western Europe, including the British Isles, was submerged.",
     "seeAlso": [],
     "citations": [
       "59:4.8"
@@ -15348,7 +15337,7 @@
     "aliases": [
       "eastern-Connecticut"
     ],
-    "description": "A northeastern American state where a great geological fault appeared 150 million years ago during the Cretaceous period, with one side eventually sinking two miles and creating significant geographical changes.",
+    "description": "Named in the papers only in 'the great eastern-Connecticut fault', which appeared in North America during the early reptilian age; one side eventually sank two miles.",
     "seeAlso": [],
     "citations": [
       "60:1.7"
@@ -18742,9 +18731,9 @@
   {
     "id": "daphne",
     "name": "Daphne",
-    "type": "being",
+    "type": "place",
     "aliases": [],
-    "description": "Daphne was a Greek mythical character, a naiad who was the daughter of the river god Ladon.",
+    "description": "The grove of Daphne at Antioch, a notorious shrine. Gonod and Ganid visited it, but Jesus declined to go with them.",
     "seeAlso": [
       "Daphne, grove of"
     ],
@@ -23591,7 +23580,8 @@
     "name": "Elijah Mark",
     "type": "being",
     "aliases": [
-      "Elijah"
+      "Elijah",
+      "Mark, Elijah"
     ],
     "description": "Elijah Mark was the father of John Mark and husband of Mary Mark, whose Jerusalem home served as a regular meeting place for Jesus' followers. The famous Last Supper took place in an upper room of his house, and Jesus made several post-resurrection appearances there. He died suddenly of a brain hemorrhage on May 3, A.D. 30, just hours before John Mark returned home. The upper room of his house later became the gathering place for 120 believers at Pentecost.",
     "seeAlso": [],
@@ -24120,7 +24110,7 @@
     "aliases": [
       "the enemy of the kingdom"
     ],
-    "description": "An appellation used by Jesus for Caligastia, the fallen Planetary Prince, when warning the apostles that this enemy of the kingdom would try to separate them from each other.",
+    "description": "In Jesus' phrase 'the enemy of the kingdom', used when he warned the apostles that this enemy would seek to draw them away. The paragraph does not name the enemy.",
     "seeAlso": [
       "Caligastia",
       "devil",
@@ -26685,7 +26675,7 @@
   {
     "id": "ezraeon",
     "name": "Ezraeon",
-    "type": "place",
+    "type": "being",
     "aliases": [],
     "description": "Ezraeon was a friend of Joseph and Mary who owned the boat that carried them from Alexandria to Joppa in August of 4 B.C. as they returned from Egypt.",
     "seeAlso": [],
@@ -30132,7 +30122,7 @@
     "name": "Galantia",
     "type": "being",
     "aliases": [],
-    "description": "Galantia is the ascendant associate of Gavalia, Nebadon's first Brilliant Evening Star, and is the first ascendant to enter service in Nebadon. She currently maintains headquarters on Jerusem and serves as associate chief of these superangels.",
+    "description": "The associate of Gavalia, head of the Brilliant Evening Stars of Nebadon, and the first of the ascendant superangels to attain this high estate. Galantia maintains headquarters on Jerusem as the associate head of these superangels.",
     "seeAlso": [],
     "citations": [
       "37:2.6",
@@ -31160,7 +31150,7 @@
     "name": "Gilead",
     "type": "place",
     "aliases": [],
-    "description": "One of the cities in Perea where the seventy messengers worked during Jesus' final ministry from January 30 until the end of his earthly life.",
+    "description": "One of the cities and towns of Perea where the seventy worked during the Perean mission that began on January 3, A.D. 30. The papers also name Gilead as one of the reputed tribes that dwelt east of the Jordan.",
     "seeAlso": [],
     "citations": [
       "165:0.1"
@@ -40349,7 +40339,7 @@
     "name": "isolation worlds",
     "type": "place",
     "aliases": [],
-    "description": "Worlds that have been quarantined or cut off from normal universe circuits, typically as a consequence of rebellion, providing unique opportunities for faith development.",
+    "description": "The satellites around the Father's world of Jerusem, which in Satania serve as detention spheres; the few seraphim and cherubim who joined the Satania rebellion are confined on these isolation worlds.",
     "seeAlso": [
       "prison worlds"
     ],
@@ -40554,7 +40544,7 @@
     "name": "Jah",
     "type": "being",
     "aliases": [],
-    "description": "Jah is a Semitic name for the Deity, a shortened version of Yahweh used to avoid pronouncing the sacred name.",
+    "description": "One of the sundry names that the Semites used for their Deity, because they disliked to speak the name of their Deity.",
     "seeAlso": [],
     "citations": [
       "96:1.9"
@@ -42696,17 +42686,6 @@
     ]
   },
   {
-    "id": "jewelry",
-    "name": "Jewelry",
-    "type": "concept",
-    "aliases": [],
-    "description": "Decorative objects worn for personal adornment, including various forms of ornamental accessories.",
-    "seeAlso": [
-      "ornamentation"
-    ],
-    "citations": []
-  },
-  {
     "id": "jewish-priesthood",
     "name": "Jewish priesthood",
     "type": "concept",
@@ -43092,7 +43071,8 @@
     "name": "John the Baptist",
     "type": "being",
     "aliases": [
-      "John"
+      "John",
+      "strange preacher"
     ],
     "description": "Born March 25, 7 B.C., John was the son of Zacharias and Elizabeth and the forerunner of Jesus' mission. He preached repentance and baptism in preparation for the coming kingdom, baptized Jesus in the Jordan River, and was later executed by Herod Antipas on January 10, A.D. 28.",
     "seeAlso": [],
@@ -43182,7 +43162,8 @@
     "name": "John Zebedee",
     "type": "being",
     "aliases": [
-      "John"
+      "John",
+      "Zebedee, John"
     ],
     "description": "John Zebedee was the youngest of the twelve apostles at age 24, unmarried and living with his parents in Bethsaida. A fisherman working with his brother James in partnership with Andrew and Peter, John served as Jesus' personal agent in dealing with the Master's family affairs and continued to care for Mary, Jesus' mother, throughout her life. Known for his dependability and devotion, he was one of the three apostles chosen to be Jesus' closest companions and was present at all the important events of Jesus' ministry.",
     "seeAlso": [
@@ -44513,11 +44494,9 @@
   },
   {
     "id": "karbar",
-    "name": "Karbar",
+    "name": "Karkar",
     "type": "place",
-    "aliases": [
-      "Karkar"
-    ],
+    "aliases": [],
     "description": "The site of a battle where King Ahab of Ephraim and ten allied groups fought against Assyrian King Shalmaneser III, resulting in a draw that stopped the Assyrian advance but decimated the allies.",
     "seeAlso": [],
     "citations": [
@@ -49706,17 +49685,6 @@
     ]
   },
   {
-    "id": "mark-elijah",
-    "name": "Mark, Elijah",
-    "type": "being",
-    "aliases": [],
-    "description": "Elijah Mark, likely referring to the same person as John Mark, was associated with the early Christian community and the Gospel accounts.",
-    "seeAlso": [
-      "Elijah Mark"
-    ],
-    "citations": []
-  },
-  {
     "id": "mark-gospel-of",
     "name": "Mark, Gospel of",
     "type": "concept",
@@ -52848,10 +52816,8 @@
     "id": "methuselah",
     "name": "Methuselah",
     "type": "being",
-    "aliases": [
-      "man who lived"
-    ],
-    "description": "Methuselah is a biblical figure whose legendary longevity resulted from confusion between months and years as time periods in ancient records, with traditions of extremely long human lives arising from such chronological misunderstandings.",
+    "aliases": [],
+    "description": "The papers do not use this name. They tell of records of a man who lived over nine hundred 'years', a span that represents not quite seventy years and comes from the confusion of the twenty-eight-day month with the later year.",
     "seeAlso": [],
     "citations": [
       "77:2.11"
@@ -54425,12 +54391,10 @@
   },
   {
     "id": "mithraic-priest-in-corinth",
-    "name": "Mithraic priest in Corinth",
+    "name": "leader of the Mithraic cult",
     "type": "being",
-    "aliases": [
-      "leader of the Mithraic cult"
-    ],
-    "description": "Jesus talked to the Mithraic priest in Corinth, urging him to seek eternal salvation within his own soul rather than in man-made mysteries or human philosophies.",
+    "aliases": [],
+    "description": "A leader of the Mithraic cult whom Jesus met in Corinth. Jesus told him that the mystery of eternal salvation dwells within his own soul, not in man-made mysteries and human philosophies.",
     "seeAlso": [],
     "citations": [
       "133:4.4"
@@ -55417,17 +55381,6 @@
     ]
   },
   {
-    "id": "mortal-corps-of-the-finality",
-    "name": "Mortal Corps of the Finality",
-    "type": "order",
-    "aliases": [],
-    "description": "A corps of perfected mortals who have achieved the ultimate of creature evolution and serve in the eternal purposes of the Universal Father.",
-    "seeAlso": [
-      "Corps of Mortal Finaliters"
-    ],
-    "citations": []
-  },
-  {
     "id": "mortal-mind",
     "name": "mortal mind",
     "type": "concept",
@@ -56218,9 +56171,9 @@
   {
     "id": "mother-eves",
     "name": "Mother Eves",
-    "type": "concept",
+    "type": "being",
     "aliases": [],
-    "description": "Mother Eves refer to the female Material Sons, also known as Material Daughters, who serve alongside Material Sons as biologic uplifters on evolutionary worlds. They are created beings who function as Adams and Eves to improve the biological status of mortal races on inhabited planets.",
+    "description": "The Material Daughters chosen by a Melchizedek life carrier, from volunteers who answer the call of the System Sovereign, to mate with him on a system midsonite world. Their offspring are the midsoniters.",
     "seeAlso": [
       "Material Sons"
     ],
@@ -57080,9 +57033,9 @@
   {
     "id": "nabu",
     "name": "Nabu",
-    "type": "religion",
+    "type": "being",
     "aliases": [],
-    "description": "One of the chief Mesopotamian deities that the Salem teachers incorporated into their reduced pantheon, eventually becoming part of the Babylonian triad alongside Bel and Ea.",
+    "description": "One of the seven chief deities of Mesopotamia to which the Salem teachers reduced the gods: Bel, Shamash, Nabu, Anu, Ea, Marduk, and Sin.",
     "seeAlso": [],
     "citations": [
       "95:1.4"
@@ -57171,7 +57124,7 @@
   {
     "id": "nambia",
     "name": "Nambia",
-    "type": "place",
+    "type": "being",
     "aliases": [],
     "description": "Nambia is the original and first-born Life Carrier of Nebadon, serving as one of the life-determining trio along with Gabriel and the Father Melchizedek who direct the corps of one hundred million Life Carriers in the universe.",
     "seeAlso": [],
@@ -57860,7 +57813,7 @@
     "name": "Nebadon Revelatory Corps",
     "type": "order",
     "aliases": [],
-    "description": "The Nebadon Revelatory Corps, directed by Mantutia Melchizedek, created Part II of the Urantia Papers in 1934. This commission of twelve Nebadon personalities sponsored various presentations and authored narratives for the revelation.",
+    "description": "The body at whose request a Mighty Messenger presented the paper on Universal Unity. That paper closes the series of twenty-five papers by various authors that a commission of twelve Nebadon personalities, under the direction of Mantutia Melchizedek, sponsored and put into English in 1934.",
     "seeAlso": [],
     "citations": [
       "56:10.22",
@@ -60564,7 +60517,7 @@
     "aliases": [
       "that Sunday"
     ],
-    "description": "The Christian commemoration of Jesus's triumphal entry into Jerusalem, when he was acclaimed by crowds waving palm branches. This event occurred on a Sunday when Jesus chose to perform his mightiest earthly work in nearby Bethany, the village that had accepted and believed in him.",
+    "description": "The papers do not use this name. It labels the Sunday on which Jesus rode a colt from Bethany into Jerusalem in a public entry, while a multitude from the city met him waving palm branches and shouting hosannas.",
     "seeAlso": [],
     "citations": [
       "172:3"
@@ -61255,9 +61208,9 @@
   {
     "id": "paradise-source-and-center",
     "name": "Paradise Source and Center",
-    "type": "being",
+    "type": "place",
     "aliases": [],
-    "description": "An alternative designation for the Universal Father, emphasizing his role as the original source and central focus of all reality emanating from Paradise.",
+    "description": "The eternal Isle of Paradise as one of the Seven Absolutes of Infinity: the second nondeity pattern, the absolute of patterns, and the foundation of gravity control throughout the universes. 19:1.12 also speaks of the divine Paradise Source and Center of all personality reality and all cosmic existence.",
     "seeAlso": [
       "Universal Father"
     ],
@@ -62113,7 +62066,7 @@
     "name": "Pella",
     "type": "place",
     "aliases": [],
-    "description": "Pella was a significant location in Jesus' ministry, where John the Baptist baptized Jesus in the Jordan River. It later served as Jesus' final headquarters in Perea, where thousands gathered to hear him preach, and became a place of safety for believers who fled Jerusalem before its destruction.",
+    "description": "A place by the Jordan near which Jesus was baptized and John the Baptist's company camped. Later Jesus made his last headquarters at the Pella camp in Perea, where more than twelve hundred persons gathered; Isador wrote the Gospel according to Matthew at Pella after he escaped from Jerusalem in A.D. 70.",
     "seeAlso": [],
     "citations": [
       "128:3.2",
@@ -63325,7 +63278,7 @@
     "name": "Philip (Tetrarch)",
     "type": "being",
     "aliases": [],
-    "description": "Philip the Tetrarch was the brother of Herod Antipas who ruled over territories including Caesarea Philippi. Unlike his brother, Philip became a reluctant believer in Jesus and allowed him to minister freely in his domain, even sending word that Jesus was welcome to live and work there.",
+    "description": "Philip the Tetrarch, brother of Herod Antipas, whose domain had Caesarea-Philippi as its capital. He became a halfhearted believer in Jesus and sent word that the Master was free to live and work in his domains.",
     "seeAlso": [],
     "citations": [
       "154:7.3",
@@ -70794,11 +70747,8 @@
     "id": "roman-catholic-church",
     "name": "Roman Catholic Church",
     "type": "religion",
-    "aliases": [
-      "world religion",
-      "one religion"
-    ],
-    "description": "A major Christian denomination that developed from early Christianity and became a dominant religious institution in Western civilization. The church was influenced by ancient continence cults that promoted celibate priesthood and faced challenges during the medieval period when it became highly institutionalized. The Urantia Book discusses how the church's totalitarian medieval structure contributed to the rise of modern secularism, while noting both its positive role in preserving Christianity and its tendency toward ecclesiastical authority that hindered religious progress.",
+    "aliases": [],
+    "description": "The papers do not use this name. They describe the state church of the Roman Empire, which became institutionalized nearly to the point of spiritual barrenness, and the later totalitarian ecclesiastical domination from which the secular revolt freed Western peoples.",
     "seeAlso": [
       "Christian church, early",
       "Christianity"
@@ -72572,7 +72522,7 @@
   {
     "id": "sarepta",
     "name": "Sarepta",
-    "type": "being",
+    "type": "place",
     "aliases": [],
     "description": "A location in Phoenicia through which Jesus and the apostles passed during their journey from Sidon to Tyre in July of the year 29 CE.",
     "seeAlso": [],
@@ -76622,12 +76572,12 @@
   },
   {
     "id": "simon-of-bethphage",
-    "name": "Simon of Bethphage",
+    "name": "Simon of Bethpage",
     "type": "being",
     "aliases": [
       "Simon"
     ],
-    "description": "A believer in Bethphage who provided shelter to the apostle Thomas. Thomas stayed at Simon's home for a week after Jesus' crucifixion, brooding in solitude and refusing to believe in the resurrection until his fellow apostles finally brought him back to rejoin them.",
+    "description": "A man of Bethpage at whose home Thomas stayed alone for about a week after the crucifixion, until Peter and John went to Bethpage and brought him back to the apostles.",
     "seeAlso": [],
     "citations": [
       "189:4.1",
@@ -81107,17 +81057,6 @@
     "citations": []
   },
   {
-    "id": "strange-preacher",
-    "name": "strange preacher",
-    "type": "being",
-    "aliases": [],
-    "description": "An unidentified religious teacher or evangelist mentioned in The Urantia Book.",
-    "seeAlso": [
-      "Aden"
-    ],
-    "citations": []
-  },
-  {
     "id": "strangers",
     "name": "strangers",
     "type": "concept",
@@ -81360,7 +81299,7 @@
     "name": "Sudna",
     "type": "being",
     "aliases": [],
-    "description": "A Graduate Guide from Havona who entered the divine embrace of the Father on Paradise and ceased to exist as an individual being, becoming one with the Universal Father.",
+    "description": "A servital of Havona who came over from the superuniverse service, was received on Paradise, knew the Father, entered the divine embrace, and is not.",
     "seeAlso": [],
     "citations": [
       "24:7.5"
@@ -84506,7 +84445,7 @@
     "name": "Thaddeus",
     "type": "being",
     "aliases": [],
-    "description": "An alternative name for James Alpheus, one of Jesus' twelve apostles, who along with his brother Judas was known for his humble acceptance of being among \"the least of all the apostles.\"",
+    "description": "A name of one of the Alpheus twins: 'James and Judas, who were also called Thaddeus and Lebbeus'. Thaddeus handed Jesus the cup at the Last Supper.",
     "seeAlso": [],
     "citations": [
       "179:2.2",
@@ -84514,22 +84453,11 @@
     ]
   },
   {
-    "id": "thailand",
-    "name": "Thailand",
-    "type": "place",
-    "aliases": [],
-    "description": "A Southeast Asian nation, historically known as Siam.",
-    "seeAlso": [
-      "Siam"
-    ],
-    "citations": []
-  },
-  {
     "id": "thamna",
     "name": "Thamna",
     "type": "place",
     "aliases": [],
-    "description": "A village where citizens invited Jesus to preach during his ministry, located in the region between Jerusalem and Samaria.",
+    "description": "A village whose citizens, with citizens of Arimathea, came to Bethel at the end of June, A.D. 27, to invite Jesus to visit their villages.",
     "seeAlso": [],
     "citations": [
       "143:0.1"
@@ -88750,21 +88678,12 @@
     ]
   },
   {
-    "id": "united-kingdom",
-    "name": "United Kingdom",
-    "type": "place",
-    "aliases": [],
-    "description": "A nation located in the British Isles, referenced in geographical contexts within The Urantia Book.",
-    "seeAlso": [
-      "British Isles"
-    ],
-    "citations": []
-  },
-  {
     "id": "united-midwayers-of-urantia",
     "name": "United Midwayers of Urantia",
     "type": "being",
-    "aliases": [],
+    "aliases": [
+      "Urantia Brotherhood of Urantia Midwayers"
+    ],
     "description": "A unified organization of both primary and secondary midway creatures serving on Urantia, combining the ancient primary midwayers with the secondary midwayers descended from the Adamic staff.",
     "seeAlso": [
       "midwayers"
@@ -89456,9 +89375,9 @@
   {
     "id": "universal-mind",
     "name": "Universal Mind",
-    "type": "being",
+    "type": "concept",
     "aliases": [],
-    "description": "A conceptual aspect of deity associated with the Infinite Spirit.",
+    "description": "The mind of the universes, of which the Conjoint Actor (the Infinite Spirit) is the source; the Infinite Spirit is called a universal mind and controls the universal mind circuit. The papers also use the term for the Universal Mind with which the Stoics sought harmony.",
     "seeAlso": [
       "Infinite Spirit"
     ],
@@ -89469,7 +89388,7 @@
     "name": "Universal Mother",
     "type": "being",
     "aliases": [],
-    "description": "The Supreme Being in its nurturing aspect, serving as the divine Mother who sustains all universe creatures throughout their lives, complementing the Universal Father as divine parents of the cosmic family.",
+    "description": "A name that the papers give to two Deity persons: the Eternal Son, who is the Universal Mother in the same sense that God is the Universal Father, and the Supreme Being, the Universal Mother of whose cosmic reaction the morontia soul is the child.",
     "seeAlso": [],
     "citations": [
       "6:8.1",
@@ -90281,20 +90200,9 @@
     "citations": []
   },
   {
-    "id": "urantia-brotherhood-of-urantia-midwayers",
-    "name": "Urantia Brotherhood of Urantia Midwayers",
-    "type": "being",
-    "aliases": [],
-    "description": "An organization of the midway creatures serving on Urantia, functioning as intermediary beings between material and spiritual realms.",
-    "seeAlso": [
-      "midwayers"
-    ],
-    "citations": []
-  },
-  {
     "id": "urantia-papers",
     "name": "Urantia Papers",
-    "type": "religion",
+    "type": "concept",
     "aliases": [
       "accompanying papers",
       "those papers",
@@ -90306,7 +90214,7 @@
       "paper",
       "narrative"
     ],
-    "description": "A collection of 196 revelatory papers constituting the most recent presentation of truth to the mortals of Urantia, authored by various celestial personalities and presented as a composite revelation from many beings rather than a single universe personality.",
+    "description": "The papers that constitute the most recent presentation of truth to the mortals of Urantia; a composite presentation by many beings, not the work of a single universe personality.",
     "seeAlso": [
       "language:limitations of human language",
       "revelation"
@@ -90383,24 +90291,6 @@
       "196:1.4",
       "189:3.5",
       "4:5.7"
-    ]
-  },
-  {
-    "id": "uranus",
-    "name": "Uranus",
-    "type": "place",
-    "aliases": [
-      "three of the major planets",
-      "three foreign space bodie",
-      "tributaries"
-    ],
-    "description": "One of three major planets originally from the Angona system that were captured by our solar system, with its retrograde motion proving it was once a satellite of the dark giant Angona before being gravitationally detached and incorporated into our solar family.",
-    "seeAlso": [
-      "Monmatia"
-    ],
-    "citations": [
-      "57:5.13",
-      "57:5.14"
     ]
   },
   {
@@ -90521,17 +90411,6 @@
       "28:5.10",
       "57:1.4",
       "28:7.1"
-    ]
-  },
-  {
-    "id": "uzziah",
-    "name": "Uzziah",
-    "type": "being",
-    "aliases": [],
-    "description": "Also known as Azariah, a sixteen-year-old who became king of Judah after his father Amaziah was assassinated by rural rebels, but during his reign the kingdom declined and was forced to pay tribute to the Assyrian kings.",
-    "seeAlso": [],
-    "citations": [
-      "97:9.22"
     ]
   },
   {
@@ -91642,7 +91521,7 @@
     "aliases": [
       "Vosges"
     ],
-    "description": "Mountain range that began forming during the Devonian epoch, along with the Black Forest and Ural mountains, as part of the geological development of Europe.",
+    "description": "Mountains whose beginning, along with the Black Forest and Ural mountains, the papers place in the Carboniferous period.",
     "seeAlso": [],
     "citations": [
       "59:5.12"
@@ -92953,7 +92832,7 @@
     "name": "Wisdom of Solomon",
     "type": "concept",
     "aliases": [],
-    "description": "A Hellenistic Jewish text that exemplified the influence of both Platonic philosophy and Stoic doctrines on Jewish religious thought. The work reflects themes of fate and chance governing human affairs, including the famous passage that 'the race is not to the swift' but to those whom fate and chance favor.",
+    "description": "A book in which the penetration of both Platonic philosophy and Stoic doctrines into Hellenized Jewish belief is exhibited. The papers quote from it the passage that 'the race is not to the swift, nor the battle to the strong ... but fate and chance befall them all.'",
     "seeAlso": [],
     "citations": [
       "121:6.3",
@@ -94089,17 +93968,6 @@
     "description": "The eldest son of Zebedee and Salome, who became one of Jesus' twelve apostles and was a fisherman by trade.",
     "seeAlso": [
       "James Zebedee"
-    ],
-    "citations": []
-  },
-  {
-    "id": "zebedee-john",
-    "name": "Zebedee, John",
-    "type": "being",
-    "aliases": [],
-    "description": "The son of Zebedee who managed Jesus' financial affairs and later became one of the twelve apostles.",
-    "seeAlso": [
-      "John Zebedee"
     ],
     "citations": []
   },

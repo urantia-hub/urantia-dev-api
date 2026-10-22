@@ -419,7 +419,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "43:0.1": [
@@ -8251,7 +8251,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "0:12.14": [
@@ -8268,7 +8268,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "121:0.1": [
@@ -8315,7 +8315,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "121:8.12": [
@@ -8342,7 +8342,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "121:8.13": [
@@ -8379,7 +8379,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "121:8.14": [
@@ -8406,7 +8406,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "195:1.1": [
@@ -18097,7 +18097,7 @@
     },
     {
       "id": "karbar",
-      "name": "Karbar",
+      "name": "Karkar",
       "type": "place"
     }
   ],
@@ -19129,7 +19129,7 @@
     {
       "id": "ezraeon",
       "name": "Ezraeon",
-      "type": "place"
+      "type": "being"
     },
     {
       "id": "joppa",
@@ -22271,11 +22271,6 @@
     {
       "id": "jeremiah",
       "name": "Jeremiah",
-      "type": "being"
-    },
-    {
-      "id": "uzziah",
-      "name": "Uzziah",
       "type": "being"
     },
     {
@@ -25816,7 +25811,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "18:3.6": [
@@ -30592,7 +30587,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "121:8.3": [
@@ -32147,11 +32142,6 @@
       "type": "place"
     },
     {
-      "id": "uranus",
-      "name": "Uranus",
-      "type": "place"
-    },
-    {
       "id": "venus-planet",
       "name": "Venus (planet)",
       "type": "place"
@@ -32176,11 +32166,6 @@
     {
       "id": "planets",
       "name": "planets",
-      "type": "place"
-    },
-    {
-      "id": "uranus",
-      "name": "Uranus",
       "type": "place"
     },
     {
@@ -34910,7 +34895,7 @@
     {
       "id": "daphne",
       "name": "Daphne",
-      "type": "being"
+      "type": "place"
     },
     {
       "id": "temple",
@@ -35330,7 +35315,7 @@
     {
       "id": "nabu",
       "name": "Nabu",
-      "type": "religion"
+      "type": "being"
     },
     {
       "id": "sin-god",
@@ -39536,7 +39521,7 @@
     },
     {
       "id": "simon-of-bethphage",
-      "name": "Simon of Bethphage",
+      "name": "Simon of Bethpage",
       "type": "being"
     },
     {
@@ -41306,7 +41291,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "31:9.3": [
@@ -44840,7 +44825,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "44:0.19": [
@@ -53527,7 +53512,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "6:8.8": [
@@ -71222,7 +71207,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "126:3.1": [
@@ -71254,7 +71239,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "59:4.12": [
@@ -76186,7 +76171,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "63:3.5": [
@@ -84876,7 +84861,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "196:2.5": [
@@ -86492,7 +86477,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "149:2.9": [
@@ -87494,7 +87479,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "190:0.4": [
@@ -87713,7 +87698,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "195:9.2": [
@@ -87735,7 +87720,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "195:9.3": [
@@ -87801,7 +87786,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "195:9.9": [
@@ -88594,7 +88579,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "85:2.5": [
@@ -96254,7 +96239,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "99:5.3": [
@@ -99121,7 +99106,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "25:3.1": [
@@ -101234,7 +101219,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "133:8.3": [
@@ -102622,7 +102607,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "114:7.8": [
@@ -102871,7 +102856,7 @@
   "191:5.1": [
     {
       "id": "simon-of-bethphage",
-      "name": "Simon of Bethphage",
+      "name": "Simon of Bethpage",
       "type": "being"
     },
     {
@@ -106359,7 +106344,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "19:1.6": [
@@ -106411,7 +106396,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "19:1.7": [
@@ -106458,7 +106443,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "19:1.8": [
@@ -106505,7 +106490,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "19:1.9": [
@@ -106557,7 +106542,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "19:1.10": [
@@ -106604,7 +106589,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "19:1.12": [
@@ -106661,7 +106646,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "56:10.8": [
@@ -106695,7 +106680,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "101:4.2": [
@@ -106732,7 +106717,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "101:4.3": [
@@ -112953,7 +112938,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "87:6.8": [
@@ -113455,7 +113440,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "187:2.4": [
@@ -124108,7 +124093,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "2:7.6": [
@@ -132459,7 +132444,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "19:5.8": [
@@ -133647,7 +133632,7 @@
     },
     {
       "id": "simon-of-bethphage",
-      "name": "Simon of Bethphage",
+      "name": "Simon of Bethpage",
       "type": "being"
     },
     {
@@ -137266,7 +137251,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "0:0.3": [
@@ -137288,7 +137273,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "56:10.23": [
@@ -137315,7 +137300,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "45:4.13": [
@@ -138142,7 +138127,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "30:0.2": [
@@ -143016,7 +143001,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "10:6.3": [
@@ -153812,7 +153797,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "97:7.10": [
@@ -162606,7 +162591,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "101:9.3": [
@@ -164147,7 +164132,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "138:5.2": [
@@ -164557,7 +164542,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "170:5.19": [
@@ -164584,7 +164569,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "136:0.2": [
@@ -185266,7 +185251,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "124:1.1": [
@@ -187511,7 +187496,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "137:4.8": [
@@ -188888,7 +188873,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "12:7.14": [
@@ -190011,7 +189996,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "154:6.10": [
@@ -193356,7 +193341,7 @@
     {
       "id": "sarepta",
       "name": "Sarepta",
-      "type": "being"
+      "type": "place"
     },
     {
       "id": "phoenicians",
@@ -194544,7 +194529,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "33:8.6": [
@@ -194684,7 +194669,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "130:1.4": [
@@ -194696,7 +194681,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "47:7.2": [
@@ -197241,7 +197226,7 @@
     {
       "id": "nambia",
       "name": "Nambia",
-      "type": "place"
+      "type": "being"
     }
   ],
   "58:1.2": [
@@ -199679,7 +199664,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "86:2.4": [
@@ -204385,7 +204370,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "114:6.6": [
@@ -205470,7 +205455,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "27:6": [
@@ -206632,7 +206617,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "93:9.1": [
@@ -208631,7 +208616,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "77:8.5": [
@@ -209982,7 +209967,7 @@
   "133:4.4": [
     {
       "id": "mithraic-priest-in-corinth",
-      "name": "Mithraic priest in Corinth",
+      "name": "leader of the Mithraic cult",
       "type": "being"
     }
   ],
@@ -215289,7 +215274,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "56:7.9": [
@@ -221044,7 +221029,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "50:6.2": [
@@ -223135,7 +223120,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "101:6.1": [
@@ -225210,7 +225195,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "13:1": [
@@ -226582,7 +226567,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "38:1.3": [
@@ -228226,7 +228211,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "23:3.9": [
@@ -228304,7 +228289,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "23:4.2": [
@@ -232012,7 +231997,7 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "109:4.6": [
@@ -234839,14 +234824,14 @@
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "189:3.5": [
     {
       "id": "urantia-papers",
       "name": "Urantia Papers",
-      "type": "religion"
+      "type": "concept"
     }
   ],
   "134:3.5": [

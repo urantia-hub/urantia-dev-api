@@ -1,0 +1,405 @@
+{
+  "actual": {
+    "action": "ok"
+  },
+  "andonites": {
+    "action": "ok"
+  },
+  "archelaus": {
+    "action": "merge",
+    "into": "herod-archelaus",
+    "reason": "Same person; the record has no citations and herod-archelaus already lists 'Archelaus' as an alias.",
+    "refs": []
+  },
+  "caspian-sea": {
+    "action": "fix",
+    "description": "A large inland sea, at one time expanded, that blocked the northward journeys of the Adamites; later Andites entered Europe by the Caspian Sea route. On April 1, A.D. 24, Jesus left Nazareth as conductor of a caravan to the southeastern Caspian Sea region and returned a full year later.",
+    "reason": "The trip began on April 1, A.D. 24, and lasted a full year; 'April 24 to April 25 CE' is wrong. Other claims trimmed to what the cited paragraphs say.",
+    "refs": [
+      "134:2.1",
+      "80:2.5",
+      "78:6.2"
+    ]
+  },
+  "celestial-recorders": {
+    "action": "ok"
+  },
+  "center-of-centers": {
+    "action": "fix",
+    "type": "place",
+    "description": "A name for the center of all things at Paradise. The superuniverses swing in their space path opposite the Center of Centers, and the Infinite Spirit is approachable at the center of centers.",
+    "reason": "Both uses name the central place at Paradise, not the Universal Father as a person.",
+    "refs": [
+      "15:1.4",
+      "16:2.1"
+    ]
+  },
+  "chicago": {
+    "action": "fix",
+    "aliases": [],
+    "description": "The U.S. city that the papers use to show the energy value of sunlight: Chicago's bill for sunshine would amount to considerably over 100 million dollars a day.",
+    "reason": "58:2.1 names Chicago. 113:2.7 says 'the city of this visitation' without naming a city, so the alias and the claim about the revelators are not in the text.",
+    "refs": [
+      "58:2.1",
+      "113:2.7"
+    ]
+  },
+  "cincinnati-island": {
+    "action": "fix",
+    "description": "A land area named once in the papers: during the Devonian period the land southeast of the Cincinnati Island stayed well above water, while very much of western Europe, including the British Isles, was submerged.",
+    "reason": "The text places only the submerged lands in Europe. The date '260 million years ago' is not in the cited paragraph.",
+    "refs": [
+      "59:4.8"
+    ]
+  },
+  "connecticut": {
+    "action": "fix",
+    "description": "Named in the papers only in 'the great eastern-Connecticut fault', which appeared in North America during the early reptilian age; one side eventually sank two miles.",
+    "reason": "60:1.7 is in the section 'The Early Reptilian Age', not the Cretaceous, and gives no date.",
+    "refs": [
+      "60:1.7"
+    ]
+  },
+  "daphne": {
+    "action": "fix",
+    "type": "place",
+    "description": "The grove of Daphne at Antioch, a notorious shrine. Gonod and Ganid visited it, but Jesus declined to go with them.",
+    "reason": "133:8.1 names only 'the grove of Daphne', a shrine; it does not describe a mythical naiad or Ladon.",
+    "refs": [
+      "133:8.1"
+    ]
+  },
+  "enemy": {
+    "action": "fix",
+    "description": "In Jesus' phrase 'the enemy of the kingdom', used when he warned the apostles that this enemy would seek to draw them away. The paragraph does not name the enemy.",
+    "reason": "138:7.3 does not identify the enemy as Caligastia.",
+    "refs": [
+      "138:7.3"
+    ]
+  },
+  "ezraeon": {
+    "action": "fix",
+    "type": "being",
+    "reason": "Ezraeon is a friend of Joseph and Mary who owned the boat, a person, not a place.",
+    "refs": [
+      "123:0.4"
+    ]
+  },
+  "galantia": {
+    "action": "fix",
+    "description": "The associate of Gavalia, head of the Brilliant Evening Stars of Nebadon, and the first of the ascendant superangels to attain this high estate. Galantia maintains headquarters on Jerusem as the associate head of these superangels.",
+    "reason": "The text gives no clear gender ('he' in 37:2.6 can refer to Gavalia or Galantia), so the description uses no pronoun. 'First ascendant to enter service in Nebadon' is not in the text.",
+    "refs": [
+      "37:2.6",
+      "46:5.25"
+    ]
+  },
+  "gilead": {
+    "action": "fix",
+    "description": "One of the cities and towns of Perea where the seventy worked during the Perean mission that began on January 3, A.D. 30. The papers also name Gilead as one of the reputed tribes that dwelt east of the Jordan.",
+    "reason": "The mission began on January 3, A.D. 30, not 'January 30'. 128:1.14 uses the same name for a tribe.",
+    "refs": [
+      "165:0.1",
+      "128:1.14"
+    ]
+  },
+  "isolation-worlds": {
+    "action": "fix",
+    "description": "The satellites around the Father's world of Jerusem, which in Satania serve as detention spheres; the few seraphim and cherubim who joined the Satania rebellion are confined on these isolation worlds.",
+    "reason": "The exact phrase occurs only in 45:1.10 and names the Jerusem detention spheres, not the rebellion-isolated planets (which the papers call 'isolated worlds').",
+    "refs": [
+      "45:1.10"
+    ]
+  },
+  "jah": {
+    "action": "fix",
+    "description": "One of the sundry names that the Semites used for their Deity, because they disliked to speak the name of their Deity.",
+    "reason": "96:1.9 lists Jah among the names but does not say it is a short form of Yahweh.",
+    "refs": [
+      "96:1.9"
+    ]
+  },
+  "jewelry": {
+    "action": "remove",
+    "reason": "No paragraph contains the word; the entity has 0 citations and the fulltext search finds no match."
+  },
+  "justice-guides": {
+    "action": "ok"
+  },
+  "karbar": {
+    "action": "fix",
+    "name": "Karkar",
+    "aliases": [],
+    "reason": "The text reads 'Karkar'; 'Karbar' does not occur.",
+    "refs": [
+      "97:9.18"
+    ]
+  },
+  "mark-elijah": {
+    "action": "merge",
+    "into": "elijah-mark",
+    "reason": "Inverted index form of Elijah Mark, the father of John Mark (not John Mark himself). The record has no citations.",
+    "refs": [
+      "192:4.5"
+    ]
+  },
+  "methuselah": {
+    "action": "fix",
+    "aliases": [],
+    "description": "The papers do not use this name. They tell of records of a man who lived over nine hundred 'years', a span that represents not quite seventy years and comes from the confusion of the twenty-eight-day month with the later year.",
+    "reason": "77:2.11 does not name Methuselah, and 'man who lived' is not a name.",
+    "refs": [
+      "77:2.11"
+    ]
+  },
+  "mithraic-priest-in-corinth": {
+    "action": "fix",
+    "name": "leader of the Mithraic cult",
+    "aliases": [],
+    "description": "A leader of the Mithraic cult whom Jesus met in Corinth. Jesus told him that the mystery of eternal salvation dwells within his own soul, not in man-made mysteries and human philosophies.",
+    "reason": "The text calls him 'the earnest leader of the Mithraic cult', not a priest.",
+    "refs": [
+      "133:4.4"
+    ]
+  },
+  "mother-eves": {
+    "action": "fix",
+    "type": "being",
+    "description": "The Material Daughters chosen by a Melchizedek life carrier, from volunteers who answer the call of the System Sovereign, to mate with him on a system midsonite world. Their offspring are the midsoniters.",
+    "reason": "The papers use the name only for the Daughters on the midsonite worlds, not for all Material Daughters.",
+    "refs": [
+      "36:4.1",
+      "36:4.2",
+      "36:4.5"
+    ]
+  },
+  "nabu": {
+    "action": "fix",
+    "type": "being",
+    "description": "One of the seven chief deities of Mesopotamia to which the Salem teachers reduced the gods: Bel, Shamash, Nabu, Anu, Ea, Marduk, and Sin.",
+    "reason": "The Babylonian triad is Bel, Ea, and Anu; Nabu is not in it. Nabu is a deity, not a religion.",
+    "refs": [
+      "95:1.4"
+    ]
+  },
+  "nambia": {
+    "action": "fix",
+    "type": "being",
+    "reason": "Nambia is the original and first-born Life Carrier of Nebadon, a being.",
+    "refs": [
+      "36:1.2"
+    ]
+  },
+  "nebadon-revelatory-corps": {
+    "action": "fix",
+    "description": "The body at whose request a Mighty Messenger presented the paper on Universal Unity. That paper closes the series of twenty-five papers by various authors that a commission of twelve Nebadon personalities, under the direction of Mantutia Melchizedek, sponsored and put into English in 1934.",
+    "reason": "The text does not say that the corps 'created Part II'; it gives the commission of twelve, Mantutia's direction, and the year 1934 for the series.",
+    "refs": [
+      "56:10.22",
+      "56:10.23"
+    ]
+  },
+  "paradise-source-and-center": {
+    "action": "fix",
+    "type": "place",
+    "description": "The eternal Isle of Paradise as one of the Seven Absolutes of Infinity: the second nondeity pattern, the absolute of patterns, and the foundation of gravity control throughout the universes. 19:1.12 also speaks of the divine Paradise Source and Center of all personality reality and all cosmic existence.",
+    "reason": "105:3.4 defines the term as the Isle of Paradise, not the Universal Father.",
+    "refs": [
+      "105:3.4",
+      "19:1.12"
+    ]
+  },
+  "pella": {
+    "action": "fix",
+    "description": "A place by the Jordan near which Jesus was baptized and John the Baptist's company camped. Later Jesus made his last headquarters at the Pella camp in Perea, where more than twelve hundred persons gathered; Isador wrote the Gospel according to Matthew at Pella after he escaped from Jerusalem in A.D. 70.",
+    "reason": "The summary was not checked. The papers say 'near Pella' for the baptism, 'more than twelve hundred' at the camp, and only Isador's escape to Pella, not a flight of believers.",
+    "refs": [
+      "163:5.1",
+      "137:0.1",
+      "165:1.1",
+      "121:8.7"
+    ]
+  },
+  "roman-catholic-church": {
+    "action": "fix",
+    "aliases": [],
+    "description": "The papers do not use this name. They describe the state church of the Roman Empire, which became institutionalized nearly to the point of spiritual barrenness, and the later totalitarian ecclesiastical domination from which the secular revolt freed Western peoples.",
+    "reason": "'Roman Catholic' and 'Roman church' do not occur. The aliases 'world religion' and 'one religion' do not name this church. Claims trimmed to what the cited paragraphs say.",
+    "refs": [
+      "195:3.9",
+      "195:4.1",
+      "195:8.4",
+      "195:8.6"
+    ]
+  },
+  "sarepta": {
+    "action": "fix",
+    "type": "place",
+    "reason": "Sarepta is a place on the coast that Jesus and the apostles passed through from Sidon to Tyre.",
+    "refs": [
+      "156:3.2"
+    ]
+  },
+  "simon-of-bethphage": {
+    "action": "fix",
+    "name": "Simon of Bethpage",
+    "description": "A man of Bethpage at whose home Thomas stayed alone for about a week after the crucifixion, until Peter and John went to Bethpage and brought him back to the apostles.",
+    "reason": "The papers spell the village 'Bethpage'. Thomas returned when Peter and John fetched him.",
+    "refs": [
+      "189:4.1",
+      "191:0.13",
+      "191:5.1"
+    ]
+  },
+  "strange-preacher": {
+    "action": "merge",
+    "into": "john-the-baptist",
+    "reason": "The phrase 'this strange preacher' in 135:6.3 refers to John the Baptist; no link to Aden is in the text.",
+    "refs": [
+      "135:6.3"
+    ]
+  },
+  "sudna": {
+    "action": "fix",
+    "description": "A servital of Havona who came over from the superuniverse service, was received on Paradise, knew the Father, entered the divine embrace, and is not.",
+    "reason": "24:7.5 calls Sudna a servital of Havona, not a Graduate Guide.",
+    "refs": [
+      "24:7.5"
+    ]
+  },
+  "thaddeus": {
+    "action": "fix",
+    "description": "A name of one of the Alpheus twins: 'James and Judas, who were also called Thaddeus and Lebbeus'. Thaddeus handed Jesus the cup at the Last Supper.",
+    "reason": "139:10.5 does not state outright which twin was Thaddeus, so the description does not assign the name to James.",
+    "refs": [
+      "139:10.5",
+      "179:2.2"
+    ]
+  },
+  "thamna": {
+    "action": "fix",
+    "description": "A village whose citizens, with citizens of Arimathea, came to Bethel at the end of June, A.D. 27, to invite Jesus to visit their villages.",
+    "reason": "The location 'between Jerusalem and Samaria' is not in the text. The spelling is the one the papers use.",
+    "refs": [
+      "143:0.1"
+    ]
+  },
+  "universal-mind": {
+    "action": "fix",
+    "type": "concept",
+    "description": "The mind of the universes, of which the Conjoint Actor (the Infinite Spirit) is the source; the Infinite Spirit is called a universal mind and controls the universal mind circuit. The papers also use the term for the Universal Mind with which the Stoics sought harmony.",
+    "reason": "The term is used in many paragraphs; it is a concept, not a being.",
+    "refs": [
+      "0:5.5",
+      "8:6.1",
+      "9:6.2",
+      "121:4.3"
+    ]
+  },
+  "universal-mother": {
+    "action": "fix",
+    "description": "A name that the papers give to two Deity persons: the Eternal Son, who is the Universal Mother in the same sense that God is the Universal Father, and the Supreme Being, the Universal Mother of whose cosmic reaction the morontia soul is the child.",
+    "reason": "6:8.1 uses the name for the Eternal Son and 117:6.5 for the Supreme Being; the old summary gave only one.",
+    "refs": [
+      "6:8.1",
+      "117:6.5"
+    ]
+  },
+  "urantia-brotherhood-of-urantia-midwayers": {
+    "action": "merge",
+    "into": "united-midwayers-of-urantia",
+    "reason": "The phrase does not occur. The papers say 'the Brotherhood of the United Midwayers of Urantia', the united corps of midwayers on Urantia.",
+    "refs": [
+      "121:8.14",
+      "77:8.1"
+    ]
+  },
+  "urantia-papers": {
+    "action": "fix",
+    "type": "concept",
+    "description": "The papers that constitute the most recent presentation of truth to the mortals of Urantia; a composite presentation by many beings, not the work of a single universe personality.",
+    "reason": "The report is a Spanish style note, but the type 'religion' is wrong and the count '196' was not checked.",
+    "refs": [
+      "92:4.9"
+    ]
+  },
+  "uranus": {
+    "action": "remove",
+    "reason": "The word 'Uranus' does not occur in the papers. 57:5.13 and 57:5.14 speak of three captured planets of the Angona system without naming any."
+  },
+  "uzziah": {
+    "action": "merge",
+    "into": "azariah",
+    "reason": "Same person: 'This was Azariah, called Uzziah by Isaiah.'",
+    "refs": [
+      "97:9.22"
+    ]
+  },
+  "vosges-mountains": {
+    "action": "fix",
+    "description": "Mountains whose beginning, along with the Black Forest and Ural mountains, the papers place in the Carboniferous period.",
+    "reason": "59:5.12 is in the section on the Carboniferous period, not the Devonian.",
+    "refs": [
+      "59:5.12"
+    ]
+  },
+  "wisdom-of-solomon": {
+    "action": "fix",
+    "description": "A book in which the penetration of both Platonic philosophy and Stoic doctrines into Hellenized Jewish belief is exhibited. The papers quote from it the passage that 'the race is not to the swift, nor the battle to the strong ... but fate and chance befall them all.'",
+    "reason": "The old description misquoted 86:1.6. It is not the same as 'Wisdom, Book of', which the papers give as Amenemope's Book of Wisdom (95:4.5), so no merge.",
+    "refs": [
+      "121:6.3",
+      "86:1.6",
+      "95:4.5"
+    ]
+  },
+  "zebedee-john": {
+    "action": "merge",
+    "into": "john-zebedee",
+    "reason": "Inverted index form of John Zebedee; the record has no citations, and 'managed Jesus' financial affairs' was not found.",
+    "refs": []
+  },
+  "mortal-corps-of-the-finality": {
+    "action": "merge",
+    "into": "corps-of-mortal-finaliters",
+    "reason": "0 citations; the name is already an alias of corps-of-mortal-finaliters.",
+    "refs": []
+  },
+  "thailand": {
+    "action": "remove",
+    "reason": "The papers do not name Thailand; they say 'Siam' (94:9.1), which has its own record."
+  },
+  "united-kingdom": {
+    "action": "remove",
+    "reason": "The papers do not name the United Kingdom; they say 'British Isles' and 'Great Britain', which have their own record."
+  },
+  "palm-sunday": {
+    "action": "fix",
+    "description": "The papers do not use this name. It labels the Sunday on which Jesus rode a colt from Bethany into Jerusalem in a public entry, while a multitude from the city met him waving palm branches and shouting hosannas.",
+    "reason": "'Palm Sunday' does not occur. The old description confused the entry with the resurrection of Lazarus at Bethany.",
+    "refs": [
+      "172:3.1",
+      "172:3.9",
+      "172:3.11"
+    ]
+  },
+  "philip-tetrarch": {
+    "action": "fix",
+    "description": "Philip the Tetrarch, brother of Herod Antipas, whose domain had Caesarea-Philippi as its capital. He became a halfhearted believer in Jesus and sent word that the Master was free to live and work in his domains.",
+    "reason": "156:6.6 says 'halfhearted believer', and 162:1.7 'almost a follower'; 'reluctant' is not in the text.",
+    "refs": [
+      "156:6.6",
+      "157:3.1",
+      "162:1.7"
+    ]
+  },
+  "1-2-3-the-first": {
+    "action": "fix",
+    "description": "The eldest of the primary midwayers, leader of the loyal midway creatures in the service of Gabriel at the Caligastia betrayal; his fearless leadership helped reduce the casualties in his order. He serves on Jerusem as one of the twenty-four counselors and once functioned as governor general of Urantia after Pentecost.",
+    "reason": "The governor general claim is in 77:9.5. The text says casualties 'in his order', not rebel casualties.",
+    "refs": [
+      "77:9.5",
+      "45:4.18"
+    ]
+  }
+}
