@@ -182,6 +182,10 @@ export type GlossaryEntry = {
 	second?: { name: string; meaning: string; formConfidence?: Confidence; agree: boolean };
 	/** What a reader of the target language understands from the form alone, and a judge's verdict. */
 	backcheck?: { reading: string; misreadings?: string[]; verdict?: "match" | "mismatch"; note?: string };
+	/** A note from the translator to the reviewer. */
+	note?: string;
+	/** Places where the target language forced a choice that the English leaves open. */
+	forcedChoices?: string[];
 	/** A human decision. It locks the entry. */
 	decision?: { by: string; date: string; note?: string };
 };
@@ -301,7 +305,8 @@ export function needsHuman(g: GlossaryEntry): boolean {
 		g.confidence !== "high" ||
 		!formOk ||
 		(g.second !== undefined && !g.second.agree) ||
-		g.backcheck?.verdict === "mismatch"
+		g.backcheck?.verdict === "mismatch" ||
+		!!g.note
 	);
 }
 
