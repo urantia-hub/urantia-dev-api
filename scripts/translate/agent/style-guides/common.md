@@ -7,6 +7,7 @@
 3. Keep the paragraph as one unit. Do not move content between paragraphs.
 4. Do not add notes, comments, or headings.
 5. When a word in your translation can also be read in a sense that the authors did not intend, choose another word. The reader sees only your words.
+6. Some sentences depend on the form of an English word: its origin, its sound, or a play on words. An example: "Sunday" carries the name of the sun, but the Spanish "domingo" does not. Translate the meaning, and put the English word in parentheses right after your word, so the sentence stays true: «el domingo (en inglés, *Sunday*, "día del sol")». This is the one exception to rule 4. Record each case in `forcedChoices`.
 
 ### Tone
 
