@@ -1,8 +1,133 @@
 {
+	"absolute": {
+		"name": "Absoluto",
+		"aliases": [
+			"el Absoluto"
+		],
+		"meaning": "The one Absolute of infinity (three Absolutes on subinfinite levels), conceived as the impersonal reaction of the Trinity; also the Buddhist concept of the Eternal One (56:9.5, Paper 94).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "lo Absoluto",
+				"reason": "The neuter article makes it an abstract quality; the papers treat it as a reality parallel to 'the Trinity' (56:9.5)."
+			}
+		]
+	},
+	"absolute-buddha": {
+		"name": "Buda Absoluto",
+		"meaning": "The Buddhist concept of the Buddha as the Eternal One of infinite existence, the Buddhist approach to Deity (Paper 94).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Buddha Absoluto",
+				"reason": "'Buda' is the standard Spanish form of the historical name (rule 2)."
+			}
+		]
+	},
+	"absolute-deity": {
+		"name": "Deidad Absoluta",
+		"meaning": "Deity on the absolute level; the absolute aspect of Deity, distinct from the Deity Absolute (0:1.13, 56:9).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Absoluto de la Deidad",
+				"reason": "That is the form of 'Deity Absolute'; the order of the English words marks two terms."
+			}
+		]
+	},
+	"absolute-mind-person": {
+		"name": "Mente Absoluta (persona)",
+		"meaning": "The Infinite Spirit as the personalization of absolute mind (3:1.8, 9:7.4).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Intelecto Absoluto",
+				"reason": "'Intelecto' would break the 'mind = mente' family."
+			}
+		]
+	},
+	"absolute-person": {
+		"name": "Persona Absoluta",
+		"meaning": "The Eternal Son, the absolute personality, though not in the experiential sense the personalization of the Absolute (0:5.5, 56:9.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Personalidad Absoluta",
+				"reason": "'Personality' and 'person' are different English words; 0:5.5 uses 'absolute personality' separately."
+			}
+		]
+	},
+	"absolutes": {
+		"name": "Absolutos",
+		"aliases": [
+			"los tres absolutos en acto"
+		],
+		"meaning": "The seven Absolutes of Infinity, the eternal and co-ordinate premises of all reality (Father, Son, Spirit, Paradise, and the three potential Absolutes); 'three absolute actuals' names the Father, Son, and Spirit or the actual side against the three potential Absolutes (Paper 105, 0:11).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "los tres actuales absolutos",
+				"reason": "False friend: Spanish 'actual' means 'current, present-day'."
+			},
+			{
+				"form": "los tres absolutos actualizados",
+				"reason": "'Actualizado' commonly means 'updated'."
+			},
+			{
+				"form": "los tres reales absolutos",
+				"reason": "'Real' also means 'royal', and as a noun a coin."
+			}
+		]
+	},
 	"adam": {
 		"name": "Adán",
 		"meaning": "The Material Son sent with Eve to Urantia as a biologic uplifter (51:0.1).",
 		"confidence": "high"
+	},
+	"adjuster-expression": {
+		"name": "expresión del Ajustador",
+		"meaning": "The expression of the indwelling Adjuster through the mortal mind and personality (Paper 110).",
+		"confidence": "low",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Ajustador-expresión",
+				"reason": "Not natural Spanish; the hyphen compound does not exist."
+			}
+		]
+	},
+	"adjuster-fused-mortals": {
+		"name": "mortales fusionados con el Ajustador",
+		"aliases": [
+			"fusionados con el Ajustador"
+		],
+		"meaning": "Ascending mortals whose souls have fused with their indwelling Thought Adjuster; one of three orders of fusion (40:9.1, 40:10.2).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "mortales fundidos con el Ajustador",
+				"reason": "'Fundido' also means 'melted' or 'burnt out'."
+			}
+		]
+	},
+	"adjuster-fusion": {
+		"name": "fusión con el Ajustador",
+		"meaning": "The eternal union of the surviving mortal soul with the indwelling Thought Adjuster (40:9.1, Paper 110).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "fusión del Ajustador",
+				"reason": "Reads as the Adjuster fusing with something else by itself."
+			}
+		]
 	},
 	"adjutant-mind-spirits": {
 		"name": "espíritus ayudantes de la mente",
@@ -159,6 +284,18 @@
 			}
 		]
 	},
+	"chief-of-mystery-monitors": {
+		"name": "jefe de los Monitores de Misterio",
+		"meaning": "The being who presides over the college of Personalized Adjusters on Divinington and advises Master Spirit Number One (Paper 107).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "jefe de los Monitores Misteriosos",
+				"reason": "'Misteriosos' describes them as secretive; the English uses 'Mystery' as a name element."
+			}
+		]
+	},
 	"christian-church-early": {
 		"name": "iglesia cristiana primitiva",
 		"aliases": [
@@ -198,6 +335,22 @@
 		"meaning": "The religion about Jesus that grew after him, with more of his gospel than any other faith but with additions he did not teach (195:0.1, 196:2.1).",
 		"confidence": "high"
 	},
+	"contact-personalities": {
+		"name": "personalidades de contacto",
+		"aliases": [
+			"Personalidades de contacto",
+			"guardianes de contacto"
+		],
+		"meaning": "The few (fewer than a score) reservists who are conscious of their role as points of contact between superhuman beings and mortals, and the midwayers who serve these contacts (114:7.8, 77:8.8).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "personas de contacto",
+				"reason": "Reads as an office 'contact person'; and 'person' is a different English word."
+			}
+		]
+	},
 	"corps-of-mortal-finaliters": {
 		"name": "Cuerpo de Finalitarios Mortales",
 		"aliases": [
@@ -225,6 +378,37 @@
 			"date": "2026-10-22",
 			"note": "\"finalidad\" reads as \"purpose\"; \"Finality\" follows \"finalitarios\""
 		}
+	},
+	"creative-mother-spirits": {
+		"name": "Espíritus Madre Creativos",
+		"meaning": "The local universe Mother Spirits seen in their creative partnership with the Creator Sons (Paper 34, 39:1.2 'Creative Spirit').",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Espíritus Madre Creadores",
+				"reason": "'Creadores' is fixed for 'Creator' (Hijos Creadores); 'Creative' is a different English word."
+			},
+			{
+				"form": "(ordinary sense) creativo = 'imaginative, artsy; advertising creative'",
+				"reason": "The reader must not bring the artistic or marketing sense; it means 'creating'."
+			}
+		]
+	},
+	"creative-spirits": {
+		"name": "Espíritus Creativos",
+		"aliases": [
+			"Espíritu Creativo"
+		],
+		"meaning": "The local universe Mother Spirits, Creative Daughters of the Infinite Spirit, who create and administer with the Creator Sons (8:5.3, 39:1.2).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Espíritus Creadores",
+				"reason": "Merges 'Creative' with 'Creator'; the papers keep the two words apart."
+			}
+		]
 	},
 	"creator-sons": {
 		"name": "Hijos Creadores",
@@ -262,10 +446,62 @@
 			}
 		]
 	},
+	"deity-absolute": {
+		"name": "Absoluto de la Deidad",
+		"meaning": "The potential that the Father's free will segregated from total infinite reality, within which all divinity activities take place; the Qualified Absolute (0:10.1, 0:11.6).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Absoluto Deidad",
+				"reason": "Not natural Spanish; reads as a typing error."
+			},
+			{
+				"form": "Deidad Absoluta",
+				"reason": "That is the form of 'Absolute Deity', a different term; the two must stay distinct."
+			}
+		]
+	},
+	"discerners-of-spirits": {
+		"name": "Discernidores de Espíritus",
+		"aliases": [
+			"Discernidor de Espíritus",
+			"discernidores secoráficos",
+			"discernidores"
+		],
+		"meaning": "Secondary seconaphim attached to the Universal Censors who, by inherent spiritual insight, present unerring portraits of the soul and motives of a being (28:5.20).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Discernientes de Espíritus",
+				"reason": "'Discerniente' is an adjective (discerning), not an agent noun."
+			},
+			{
+				"form": "Jueces de Espíritus",
+				"reason": "Changes the idea: they discern and present; the Censors judge."
+			}
+		]
+	},
 	"eternal-son": {
 		"name": "Hijo Eterno",
 		"meaning": "The Second Source and Center, the perfect expression of the Father's first absolute thought, the Word-God (6:0.1, 8:0.1).",
 		"confidence": "high"
+	},
+	"eternity": {
+		"name": "eternidad",
+		"aliases": [
+			"Eternidad"
+		],
+		"meaning": "Timeless existence, the everlasting now, in which potential infinity is inseparable (0:11.12, 13:1.9).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "perpetuidad",
+				"reason": "Means endless duration in time, which is the opposite of timelessness."
+			}
+		]
 	},
 	"europe": {
 		"name": "Europa",
@@ -274,6 +510,18 @@
 		],
 		"meaning": "The continent of Europe, settled by the blue man and later by the Andites (80:4.5, 80:5.8).",
 		"confidence": "high"
+	},
+	"father-absolute": {
+		"name": "Padre-Absoluto",
+		"meaning": "The Universal Father as the creator of the central universe and Father of all Creators, absolute in liberty of action (4:4.4, 10:3.8, 4:4.9).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Padre Absoluto",
+				"reason": "Without the hyphen it reads as a description ('the absolute father'); the English hyphen marks a name, like 'Father-Infinite'."
+			}
+		]
 	},
 	"finaliters": {
 		"name": "finalitarios",
@@ -290,6 +538,18 @@
 			{
 				"form": "finalizadores",
 				"reason": "Means those who finish or end a thing."
+			}
+		]
+	},
+	"foundation-of-spiritual-progress": {
+		"name": "Fundación del Progreso Espiritual",
+		"meaning": "An institution on a neighboring planet that supervises spiritual teachers who visit families, supported by voluntary gifts (Paper 72).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Fundación para el Progreso Espiritual",
+				"reason": "Adds a purpose that the English 'of' does not state."
 			}
 		]
 	},
@@ -312,6 +572,30 @@
 		"meaning": "God, the Universal Father, First Source and Center and the eternal God who dwells on Paradise (0:0.5, 1:0.1).",
 		"confidence": "high"
 	},
+	"god-the-absolute": {
+		"name": "Dios el Absoluto",
+		"meaning": "The experiential Deity whose actualization would follow the unification of the Absolute Trinity: the realization of absolute divinity (0:10.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Dios Absoluto",
+				"reason": "Reads as a description ('the absolute God') and breaks the pattern 'Dios el Espíritu', 'Dios el Supremo'."
+			}
+		]
+	},
+	"god-the-spirit": {
+		"name": "Dios el Espíritu",
+		"meaning": "The Infinite Spirit, Third Person of the Paradise Trinity (8:0.4, 13:1.10).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Dios Espíritu",
+				"reason": "Drops the article and reads as a description ('God, who is spirit') instead of the name."
+			}
+		]
+	},
 	"gospel": {
 		"name": "evangelio",
 		"meaning": "The good news Jesus proclaimed: the fatherhood of God and the brotherhood of man, the kingdom received by faith (194:3.8, 170:0.1).",
@@ -327,6 +611,18 @@
 			}
 		]
 	},
+	"great-spirit": {
+		"name": "Gran Espíritu",
+		"meaning": "The deity concept of the American red men, revived by Onamonalonton and kept from the Dalamatian teachings (64:6.7, 92:4.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Espíritu Grande",
+				"reason": "After the noun 'grande' means physical size; 'Gran' before the noun gives the sense of greatness."
+			}
+		]
+	},
 	"greece": {
 		"name": "Grecia",
 		"aliases": [
@@ -339,6 +635,70 @@
 		"name": "Havona",
 		"meaning": "The eternal central universe of perfect worlds that surrounds Paradise (0:0.5, 14:0.1).",
 		"confidence": "high"
+	},
+	"high-spirit-personalities-of-circuit-control-unrevealed": {
+		"name": "altas personalidades espirituales del control de circuitos (no reveladas)",
+		"meaning": "Unrevealed high spirit personalities who help the circuit supervisors direct the circuits for spirit messages and the transit of personalities (Paper 24).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "altas personalidades de espíritu del control de circuitos",
+				"reason": "Awkward; 'de espíritu' reads as 'spirited'."
+			},
+			{
+				"form": "personalidades espirituales superiores",
+				"reason": "'Superiores' is reserved for 'higher' (Personalidades Superiores del Espíritu Infinito)."
+			}
+		]
+	},
+	"higher-personalities-of-the-infinite-spirit": {
+		"name": "Personalidades Superiores del Espíritu Infinito",
+		"meaning": "The seven orders of higher personalities of the Infinite Spirit (Solitary Messengers, Universe Circuit Supervisors, Census Directors, Personal Aids, Associate Inspectors, Assigned Sentinels, Graduate Guides) (Paper 24, 45:1.8).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Personalidades Altas del Espíritu Infinito",
+				"reason": "'Alta' is used for 'high' elsewhere in the papers; 'Higher' is a comparative and needs 'Superiores'."
+			}
+		]
+	},
+	"holy-spirit": {
+		"name": "Espíritu Santo",
+		"meaning": "The spiritual circuit of the local universe Creative Spirit (Divine Minister), confined to the local universe, distinct from the omnipresent Infinite Spirit (8:5.3, 34:5.5, 194:2.17).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Espíritu Sagrado",
+				"reason": "Not natural Spanish for this name; 'Espíritu Santo' is the plain form and matches the scriptural phrase the papers quote."
+			},
+			{
+				"form": "(ordinary sense) third person of the Christian Trinity",
+				"reason": "The reader must not identify it with the Infinite Spirit; the papers define it as the circuit of the local universe Mother Spirit (8:5.3)."
+			}
+		]
+	},
+	"impersonal": {
+		"name": "impersonal",
+		"aliases": [
+			"impersonales",
+			"lo impersonal"
+		],
+		"meaning": "Without personality; the impersonal never transmutes directly into the personal (0:5.4, 0:1.17, 56:9.5).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "no personal",
+				"reason": "'Nonpersonal' is a separate English word in the papers (0:5.2, 0:5.5)."
+			},
+			{
+				"form": "(ordinary sense) impersonal = 'cold, unfriendly'",
+				"reason": "The reader must not read it as a lack of warmth."
+			}
+		]
 	},
 	"india": {
 		"name": "India",
@@ -388,6 +748,22 @@
 			{
 				"form": "Manipulador (alternatives such as Operador)",
 				"reason": "'Manipulador' carries a sense of deceit in Spanish, as 'manipulator' does in English; kept because the English uses this word for the handling of energies. Reviewer can check."
+			}
+		]
+	},
+	"infinity": {
+		"name": "infinitud",
+		"meaning": "The quality and level of the infinite: the unqualified reality of the I AM, potential infinity being absolute and inseparable from eternity (0:3.21, 0:11.1, 0:11.12).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "infinidad",
+				"reason": "Common Spanish for 'a huge number' (una infinidad de cosas); it loses the quality sense."
+			},
+			{
+				"form": "el infinito",
+				"reason": "Reserved for 'the Infinite' (0:3.24), a different English term."
 			}
 		]
 	},
@@ -457,6 +833,282 @@
 		],
 		"meaning": "The Judean apostle, treasurer of the twelve, who betrayed Jesus (139:12.1).",
 		"confidence": "high"
+	},
+	"kc-absolute": {
+		"name": "absoluto",
+		"aliases": [
+			"absoluta",
+			"absolutos",
+			"absolutas",
+			"absolutez"
+		],
+		"meaning": "Beginningless, endless, timeless, spaceless, and unconditioned; the third level of reality after the finite and the absonite (0:1.13, 0:11.12).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "total",
+				"reason": "'Total' and 'totality' are separate words in the papers."
+			},
+			{
+				"form": "(ordinary sense) absoluto = 'utter, complete' as intensifier",
+				"reason": "The reader must not read it as a mere intensifier ('un absoluto desastre')."
+			}
+		]
+	},
+	"kc-associate": {
+		"name": "asociado",
+		"aliases": [
+			"asociada",
+			"asociados",
+			"asociar",
+			"asociación",
+			"asociativo"
+		],
+		"meaning": "As noun, one who works together with another; as verb and adjective, joined in relation or function (0:1.6 'Associative Deity', 0:5.4, 8:0.4 'eternally associated persons').",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "socio",
+				"reason": "A business partner or a club member; a commercial sense."
+			},
+			{
+				"form": "compañero",
+				"reason": "Too informal and personal; loses the sense of joined function."
+			},
+			{
+				"form": "(ordinary sense) asociado = 'business partner, junior partner'",
+				"reason": "The reader must not bring the firm or law-office rank to it."
+			}
+		]
+	},
+	"kc-co-ordinate": {
+		"name": "coordinar",
+		"aliases": [
+			"coordinado",
+			"coordinada",
+			"coordinados",
+			"coordinación",
+			"coordinador"
+		],
+		"meaning": "As verb, to bring into unified and harmonious function; as adjective, equal in rank or status, as the three Paradise Deities are co-ordinate (7:7.1, 8:0.4, 42:12.13 'On Paradise the three energies are co-ordinate, in Havona co-ordinated').",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "coordenado",
+				"reason": "Mathematical 'co-ordinate' (axes); a false sense."
+			},
+			{
+				"form": "de igual rango",
+				"reason": "Explains the adjective and breaks the family with the verb, which 42:12.13 sets side by side."
+			},
+			{
+				"form": "(ordinary sense) coordinado = 'organized, arranged'",
+				"reason": "As an adjective the reader must also take 'of equal rank', as in grammar ('oraciones coordinadas'), not only 'organized'."
+			}
+		]
+	},
+	"kc-evolutionary": {
+		"name": "evolutivo",
+		"aliases": [
+			"evolutiva",
+			"evolutivos",
+			"evolutivas",
+			"evolución"
+		],
+		"meaning": "Of time-space creatures and realms that grow and progress through experience from lower to higher states, as against existential or Paradise origin (0:1.18, 0:5.1, 16:4.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "evolucionario",
+				"reason": "Anglicism, not standard Spanish."
+			},
+			{
+				"form": "evolucionista",
+				"reason": "Means 'a supporter of the theory of evolution', an ideological sense."
+			}
+		]
+	},
+	"kc-finite": {
+		"name": "finito",
+		"aliases": [
+			"finita",
+			"finitos",
+			"finitas"
+		],
+		"meaning": "The level of reality of creature life and time-space limitations; finite realities always have beginnings (0:1.11).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "limitado",
+				"reason": "Plain 'limited'; loses the technical level set against 'absonite' and 'absolute'."
+			}
+		]
+	},
+	"kc-indwelling": {
+		"name": "morada interior",
+		"aliases": [
+			"que mora en",
+			"morar en",
+			"residente"
+		],
+		"meaning": "The dwelling of a divine spirit (above all the Thought Adjuster) within the mind of a mortal; as adjective, 'the indwelling spirit' is the spirit that lives within (0:5.9, 0:5.10, 34:6.7).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "inhabitación",
+				"reason": "A technical term of Christian theology for the Holy Spirit in the soul; a religious sense the authors did not set."
+			},
+			{
+				"form": "residencia",
+				"reason": "Reads as a home address or a legal residence permit."
+			}
+		]
+	},
+	"kc-infinite": {
+		"name": "infinito",
+		"aliases": [
+			"infinita",
+			"infinitos",
+			"infinitas",
+			"Infinito"
+		],
+		"meaning": "Without limit; the fullness implied by the primacy of the First Source and Center; 'the Infinite' (capital) is the Father-Infinite (0:3.24, 0:1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "ilimitado",
+				"reason": "Plain 'unlimited'; loses the technical level of 'infinite' set against 'finite' and 'absolute'."
+			}
+		]
+	},
+	"kc-mortal": {
+		"name": "mortal",
+		"aliases": [
+			"mortales"
+		],
+		"meaning": "A will creature of material, evolutionary origin who is subject to physical death, and who can survive it by the soul (0:5.10, 40:9.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "humano",
+				"reason": "Too narrow: the papers apply 'mortal' to will creatures on many worlds, not only to Urantia humans."
+			},
+			{
+				"form": "(ordinary sense) mortal = 'lethal'",
+				"reason": "As an adjective Spanish 'mortal' also means 'deadly' (herida mortal, pecado mortal); the reader must not bring this sense to 'mente mortal' or 'vida mortal'."
+			}
+		]
+	},
+	"kc-prepersonal": {
+		"name": "prepersonal",
+		"aliases": [
+			"prepersonales"
+		],
+		"meaning": "Of a reality that is not yet a personality but is destined to become part of one, as the Thought Adjuster (0:5.9, 0:1.3, 0:5.4).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "anterior a la persona",
+				"reason": "Explains and loses the term."
+			}
+		]
+	},
+	"kc-spirit-born": {
+		"name": "nacido del espíritu",
+		"aliases": [
+			"nacidos del espíritu",
+			"nacida del espíritu",
+			"nacidas del espíritu"
+		],
+		"meaning": "Said of a mortal or a soul that has been born of the spirit, that is, has received and recognized the indwelling of God and lives under spirit leading (34:6.7, 34:6.13, 193:2.2, 42:12.12).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "renacido",
+				"reason": "Brings the evangelical 'born-again' label, a cultural sense the authors do not use."
+			},
+			{
+				"form": "nacido del Espíritu",
+				"reason": "The capital would decide that the spirit is the Spirit (a person); the English lowercase compound leaves this open, so the lowercase stays."
+			}
+		]
+	},
+	"kc-spirit-luminosity": {
+		"name": "luminosidad espiritual",
+		"meaning": "The 'light' that is the personality manifestation of spirit beings; a figure of speech, not related to intellectual insight or to physical light (0:6.8, 0:6.9).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "luz espiritual",
+				"reason": "'Luz' is the papers' 'light', the general word of which 'spirit luminosity' is one of three kinds (0:6.8)."
+			},
+			{
+				"form": "luminosidad del espíritu",
+				"reason": "Can read as the brightness of a person's mood or wit; 'espiritual' marks the spirit level better."
+			},
+			{
+				"form": "(ordinary sense) the 'spiritual glow' of a saintly person",
+				"reason": "The reader must not take it as a religious aura or a holy look; the papers make it a manifestation of spirit beings."
+			}
+		]
+	},
+	"kc-spiritual": {
+		"name": "espiritual",
+		"aliases": [
+			"espirituales",
+			"espiritualmente"
+		],
+		"meaning": "Of or pertaining to spirit: that which responds to the spirit circuit of the Eternal Son and to the spirit level of reality, as against the material and the mindal (0:6.1, 0:6.2, 42:12.13).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "espiritualista",
+				"reason": "Means 'spiritist' (contact with the dead) or a philosophical school; a sense the authors do not intend."
+			},
+			{
+				"form": "(ordinary sense) espiritual = 'sensitive, artistic, pious temperament'",
+				"reason": "The reader must not read it as a mood or a personal temperament; in the papers it names a level of reality."
+			}
+		]
+	},
+	"kc-superpersonal": {
+		"name": "superpersonal",
+		"aliases": [
+			"superpersonales"
+		],
+		"meaning": "Of a reality above the level of personality as creatures know it, as Deity functions superpersonally (0:1.2, 0:1.3, 0:5.4).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "suprapersonal",
+				"reason": "Breaks the 'super-' family of the papers (superuniverso, superpersonal)."
+			}
+		]
+	},
+	"kc-totality": {
+		"name": "totalidad",
+		"meaning": "The whole of something taken all together, as the totality of cosmic reality or of the co-ordinated infinite nature of God (1:5.13, 10:4.6, 42:2.3).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "conjunto",
+				"reason": "Means a set or a group; loses the sense of the complete whole."
+			}
+		]
 	},
 	"life-carriers": {
 		"name": "Portadores de Vida",
@@ -690,6 +1342,44 @@
 		"meaning": "Will creatures of animal origin on the evolutionary worlds, the lowest order of personal creation, able to survive and ascend to Paradise (49:0.1, 107:0.2).",
 		"confidence": "high"
 	},
+	"mother-spirits": {
+		"name": "Espíritus Madre",
+		"aliases": [
+			"Espíritu Madre"
+		],
+		"meaning": "The local universe Mother Spirits, consorts of the Creator Sons (Paper 34).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Espíritus Madres",
+				"reason": "Breaks the fixed form 'Espíritus Madre de los universos locales'."
+			}
+		]
+	},
+	"mystery-monitors": {
+		"name": "Monitores de Misterio",
+		"aliases": [
+			"Monitor de Misterio"
+		],
+		"meaning": "Another name of the Thought Adjusters, the divine fragments of the Father that indwell mortal minds (Paper 107).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Monitores Misteriosos",
+				"reason": "Makes 'mystery' an adjective of character (secretive)."
+			},
+			{
+				"form": "Vigilantes del Misterio",
+				"reason": "'Vigilante' is a security guard; it loses the advising sense of 'monitor'."
+			},
+			{
+				"form": "(ordinary sense) monitor = 'screen' or 'sports instructor'",
+				"reason": "The reader must not bring the screen or the camp-instructor sense; it means one who watches and admonishes."
+			}
+		]
+	},
 	"nathaniel-apostle": {
 		"name": "Natanael (apóstol)",
 		"meaning": "Nathaniel of Cana, the sixth apostle, brought to Jesus by Philip (139:6.1).",
@@ -750,6 +1440,111 @@
 		"meaning": "Paul of Tarsus, missionary to the gentiles and founder of much of early Christian theology (194:4.0, 196:2.1).",
 		"confidence": "high"
 	},
+	"pentecost-bestowal-of-spirit-of-truth": {
+		"name": "Pentecostés (otorgamiento del Espíritu de la Verdad)",
+		"aliases": [
+			"Pentecostés"
+		],
+		"meaning": "The day on which the Spirit of Truth was poured out upon all flesh after Jesus' ascension, which transformed the apostles and the believers (Paper 194, 194:2.17, 34:5.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Pentecostés (donación del Espíritu de la Verdad)",
+				"reason": "'Donación' reads as a charitable or legal donation; 'otorgamiento' keeps the sense of a gift that is conferred."
+			},
+			{
+				"form": "Pentecostés (efusión del Espíritu de la Verdad)",
+				"reason": "Translates 'outpouring', not 'bestowal'; it is a different English word in the papers."
+			}
+		]
+	},
+	"personal-aids-of-the-infinite-spirit": {
+		"name": "Auxiliares Personales del Espíritu Infinito",
+		"aliases": [
+			"Auxiliares Personales"
+		],
+		"meaning": "Beings, numbered in trillions, who serve only the Paradise presence of the Infinite Spirit and flash through the universes to execute his bidding, without a discoverable personality form (Paper 24, 24:4).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Ayudantes Personales del Espíritu Infinito",
+				"reason": "'Ayudantes' is already the fixed form for 'adjutant' (espíritus ayudantes de la mente); using it here would merge two different English words."
+			},
+			{
+				"form": "Asistentes Personales",
+				"reason": "Reads as an office job title (personal assistant)."
+			}
+		]
+	},
+	"personality": {
+		"name": "personalidad",
+		"aliases": [
+			"Personalidad",
+			"personalidades"
+		],
+		"meaning": "The unique gift of the Universal Father, the one changeless reality in creature experience, which unifies body, mind, spirit, and soul without being any of them (0:5.11, 0:5.4, 1:5.13).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "persona",
+				"reason": "'Person' is a different English word in the papers."
+			},
+			{
+				"form": "(ordinary sense) personalidad = 'character traits, temperament' or 'a celebrity'",
+				"reason": "The reader must not read it as psychological character or as 'a famous person'; it is a bestowed reality."
+			}
+		]
+	},
+	"personalized-adjusters": {
+		"name": "Ajustadores Personalizados",
+		"aliases": [
+			"Ajustador Personalizado"
+		],
+		"meaning": "Thought Adjusters who have received personality from the Father, usually after indwelling an incarnated Paradise Son or after unusual service (Paper 109, Paper 136).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Ajustadores con personalidad",
+				"reason": "Loses the sense of an act of personalization."
+			},
+			{
+				"form": "(ordinary sense) personalizado = 'customized, tailored'",
+				"reason": "The reader must not read it as 'custom-made'; it means 'given personality'."
+			}
+		]
+	},
+	"primitive-mortals": {
+		"name": "mortales primitivos",
+		"meaning": "Mortals in the early stages of evolution on a world, before advanced civilization (e.g. 39:5.7 'primitive men').",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "mortales primigenios",
+				"reason": "'Primigenio' means 'original, first of all', which changes the idea from 'early stage' to 'origin'."
+			}
+		]
+	},
+	"qualified-absolute": {
+		"name": "Absoluto Condicionado",
+		"meaning": "The Deity Absolute, the absolute potential segregated by the Father's choice, in contrast to the Unqualified Absolute (0:11.6, 0:10.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Absoluto Cualificado",
+				"reason": "'Cualificado' means 'skilled, trained'."
+			},
+			{
+				"form": "Absoluto Calificado",
+				"reason": "'Calificado' means 'graded' or 'skilled'."
+			}
+		]
+	},
 	"races": {
 		"name": "razas",
 		"meaning": "The human races of Urantia: the Andonites, the six Sangik races, and later blends with Nodites and Adamites (63:4.1, 64:6.1, 78:4.3).",
@@ -765,6 +1560,37 @@
 		],
 		"meaning": "The first of the six Sangik races, which went to the Americas (64:6.2).",
 		"confidence": "high"
+	},
+	"reflective-mother-spirits": {
+		"name": "Espíritus Madre Reflectivos",
+		"meaning": "The Reflective Spirits in their role as mothers of the Reflective Image Aids and the seconaphim (Paper 17, Paper 28).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Espíritus Madre Reflexivos",
+				"reason": "'Reflexivo' means 'thoughtful'; see Reflective Spirits."
+			}
+		]
+	},
+	"reflective-spirits": {
+		"name": "Espíritus Reflectivos",
+		"aliases": [
+			"Espíritu Reflectivo"
+		],
+		"meaning": "Forty-nine Spirits of Trinity origin on the superuniverse capitals, seven of each Master Spirit type, who operate universe reflectivity and are the mothers of the seconaphim (28:0, 40:10.2, 13:1.10).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Espíritus Reflexivos",
+				"reason": "'Reflexivo' means 'thoughtful' or grammatical 'reflexive'; the term names the reflection (reflectivity) of images and information, not thought."
+			},
+			{
+				"form": "Espíritus Reflectores",
+				"reason": "'Reflector' reads as a device (a spotlight, a mirror) rather than a quality."
+			}
+		]
 	},
 	"religion": {
 		"name": "religión",
@@ -793,6 +1619,25 @@
 		"meaning": "The supreme Jewish council and court at Jerusalem that opposed Jesus and brought about his trial (184:0.1, 172:2.1).",
 		"confidence": "high"
 	},
+	"self-acting-adjusters": {
+		"name": "Ajustadores autoactuantes",
+		"aliases": [
+			"Ajustador autoactuante"
+		],
+		"meaning": "A functional class of experienced Adjusters able to act on their own initiative, to leave the body, and to communicate with others of their kind (109:2.1, 109:2.9, 108:4.4).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Ajustadores autónomos",
+				"reason": "'Autónomo' commonly means 'self-employed' or 'regional government'."
+			},
+			{
+				"form": "Ajustadores que actúan por sí mismos",
+				"reason": "Explains and loses the form of a class name."
+			}
+		]
+	},
 	"seraphim": {
 		"name": "serafines",
 		"meaning": "The angels of the local universes, offspring of the Infinite Spirit as personalized on the local universe headquarters, who minister to mortals (39:0.1).",
@@ -801,6 +1646,59 @@
 			{
 				"form": "seraphim",
 				"reason": "The Spanish plural 'serafines' is the plain, standard word, and the English also uses the plain word."
+			}
+		]
+	},
+	"seven-absolutes-of-infinity": {
+		"name": "Siete Absolutos de la Infinitud",
+		"meaning": "The seven eternal premises of reality: Universal Father, Eternal Son, Infinite Spirit, Isle of Paradise, Deity Absolute, Universal Absolute, Unqualified Absolute (Paper 105).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Siete Absolutos de la Infinidad",
+				"reason": "'Infinidad' means 'a huge number'; 'infinity' is 'infinitud' in every term."
+			}
+		]
+	},
+	"seven-spirits-of-god": {
+		"name": "siete espíritus de Dios",
+		"meaning": "The seven spirits that the prophet saw in vision 'like lamps burning before the throne'; elsewhere the papers apply 'the Seven Spirits of God' to the Seven Master Spirits (16:4.1).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Siete Espíritus de Dios",
+				"reason": "Keep the English case of each passage: capitals where the papers capitalize (16:4.1), lowercase in the vision passage."
+			}
+		]
+	},
+	"seven-spirits-of-havona-circuits": {
+		"name": "Siete Espíritus de los Circuitos de Havona",
+		"aliases": [
+			"Siete Espíritus de los Circuitos",
+			"Espíritus de los Circuitos",
+			"Espíritus de Circuito"
+		],
+		"meaning": "The joint impersonal representation of the Infinite Spirit and the Seven Master Spirits to the seven circuits of Havona, one Spirit pervading each circuit (Paper 24, 24:1).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Siete Espíritus de los Circuitos havonianos",
+				"reason": "Turns the coined place name into an adjective; the name Havona must stay in its English form."
+			}
+		]
+	},
+	"seven-worlds-of-infinite-spirit": {
+		"name": "siete mundos del Espíritu Infinito",
+		"meaning": "The seven sacred spheres of the Infinite Spirit that circle Paradise (Paper 13).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "siete esferas del Espíritu Infinito",
+				"reason": "'Esfera' translates 'sphere', a different English word."
 			}
 		]
 	},
@@ -816,6 +1714,29 @@
 		"name": "Mensajeros Solitarios",
 		"meaning": "The personal and universal messenger corps of the Infinite Spirit, the first order of the Higher Personalities of the Infinite Spirit, who function alone (23:0.1).",
 		"confidence": "high"
+	},
+	"son-spirit-ministers": {
+		"name": "ministros Hijo-Espíritu",
+		"aliases": [
+			"Ministros Hijo-Espíritu"
+		],
+		"meaning": "The first group of supreme seraphim, who serve the high Sons and the Spirit-origin beings of the local universe, the Universe Son and the Universe Spirit (39:1.2).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "ministros del Hijo y del Espíritu",
+				"reason": "Explains the compound and loses its form as a name."
+			},
+			{
+				"form": "servidores Hijo-Espíritu",
+				"reason": "Breaks the 'minister/ministry' family (ministerio) that the papers use for angelic service."
+			},
+			{
+				"form": "(ordinary sense) ministro = government minister or clergyman",
+				"reason": "The reader must not bring the cabinet or the church office to it; it means one who ministers."
+			}
+		]
 	},
 	"sons-of-god": {
 		"name": "Hijos de Dios",
@@ -836,6 +1757,124 @@
 			}
 		]
 	},
+	"spirit": {
+		"name": "espíritu",
+		"aliases": [
+			"espíritus",
+			"Espíritu"
+		],
+		"meaning": "That which responds to the spirit circuit of the Eternal Son; a level of reality distinct from matter and mind, and in man the divine spirit that indwells the mind (0:6.1, 0:5.9, 0:6.8).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "alma",
+				"reason": "'Soul' is a separate term in the papers (0:5.10); 'alma' must stay for it."
+			},
+			{
+				"form": "ánima",
+				"reason": "Archaic, and carries the sense of a soul in purgatory."
+			},
+			{
+				"form": "(ordinary sense) espíritu = 'ghost', 'mood, team spirit', 'alcohol'",
+				"reason": "The reader must not bring the ghost, the mood, or the distilled-liquor senses to the term."
+			}
+		]
+	},
+	"spirit-advocate": {
+		"name": "Espíritu-Abogado",
+		"meaning": "The member of a conciliating commission, appointed by the judge-arbiter, who presents evidence and safeguards the rights of all personalities involved (25:2.7).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Abogado Espiritual",
+				"reason": "Closes the compound to 'an advocate of spiritual type'; the English leaves open whether 'Spirit' names the nature of the being or its domain."
+			},
+			{
+				"form": "Abogado del Espíritu",
+				"reason": "Reads as 'the Spirit's lawyer', which changes the idea."
+			}
+		]
+	},
+	"spirit-co-ordinators": {
+		"name": "coordinadores del espíritu",
+		"aliases": [
+			"Coordinadores del Espíritu"
+		],
+		"meaning": "The third group of superior seraphim, based on Salvington, who prepare ascenders for the transition from the highest morontia level to newborn spirit status (39:2.6).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "coordinadores espirituales",
+				"reason": "Reads as 'religious coordinators' (a parish role)."
+			},
+			{
+				"form": "coordinadores de espíritus",
+				"reason": "Implies they coordinate spirit beings; their work is the transition to spirit status."
+			}
+		]
+	},
+	"spirit-fused-mortals": {
+		"name": "mortales fusionados con el Espíritu",
+		"aliases": [
+			"fusionados con el Espíritu"
+		],
+		"meaning": "Ascending mortals who fuse, after death and at reawakening on the mansion worlds, with an individualization of the premind spirit of the Third Source (the local universe Mother Spirit) rather than with an Adjuster; they normally remain in their local universe (40:9.1, 40:10.2).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "mortales fundidos con el Espíritu",
+				"reason": "'Fundido' also means 'melted' and colloquially 'burnt out, broken'."
+			},
+			{
+				"form": "mortales fusionados por el Espíritu",
+				"reason": "'Por' makes the Spirit the agent of the fusion instead of the partner in it."
+			}
+		]
+	},
+	"spirit-mortals": {
+		"name": "mortales espíritu",
+		"meaning": "Mortals of origin who have attained spirit status in the ascension (cf. 39:2.6 'newborn spirit beings').",
+		"confidence": "low",
+		"formConfidence": "low",
+		"rejected": [
+			{
+				"form": "mortales espirituales",
+				"reason": "Reads as 'spiritually minded mortals' on earth, the opposite of the intended status."
+			},
+			{
+				"form": "mortales de espíritu",
+				"reason": "Reads as 'spirited mortals'."
+			}
+		]
+	},
+	"spirit-mother": {
+		"name": "Madre Espíritu",
+		"meaning": "The local universe Mother Spirit (Divine Minister) seen as the mother of the local creation (Paper 34).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Espíritu Madre",
+				"reason": "That is the fixed form of 'Mother Spirit'; the English inverts the order here, so the Spanish does too."
+			}
+		]
+	},
+	"spirit-of-god": {
+		"name": "espíritu de Dios",
+		"meaning": "The liaison of all spiritual ministry, the union of the spirits of the Father, the Son, the Spirit, and God the Sevenfold; in scripture also used for the Infinite Spirit or the local Creative Spirit (8:5.3, 8:5.6, 34:6.7).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Espíritu de Dios",
+				"reason": "The capital would close the reading to one person; the English lowercase keeps the wider sense of 8:5.6. Use the capital only where the English has it (8:5.3)."
+			}
+		]
+	},
 	"spirit-of-truth": {
 		"name": "Espíritu de la Verdad",
 		"meaning": "The spirit of the Creator Son, also of the Father, poured out at Pentecost as the new teacher that leads believers into all truth (194:2.3, 194:2.11, 194:3.8).",
@@ -844,6 +1883,82 @@
 			{
 				"form": "Espíritu de Verdad",
 				"reason": "Without the article it reads as a quality ('a truthful spirit'); 'de la Verdad' names the one spirit."
+			}
+		]
+	},
+	"spiritington": {
+		"name": "Spiritington",
+		"aliases": [
+			"SPIRITINGTON"
+		],
+		"meaning": "The third of the seven sacred worlds of the Father around Paradise, the 'bosom of the Spirit', home of the high beings that represent the Infinite Spirit; its secrets involve reflectivity (13:1.9, 13:1.10).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Espiritingtón",
+				"reason": "Rule 3: a name that exists only in this book keeps its English spelling."
+			}
+		]
+	},
+	"spirits-of-brotherhood": {
+		"name": "espíritus de la fraternidad",
+		"aliases": [
+			"Espíritus de la Fraternidad"
+		],
+		"meaning": "Planetary helper seraphim who work for racial harmony and social co-operation among the races (39:5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "espíritus de la hermandad",
+				"reason": "'Hermandad' also names a religious confraternity or a guild."
+			}
+		]
+	},
+	"spirits-of-the-havona-circuits": {
+		"name": "Espíritus de los Circuitos de Havona",
+		"meaning": "The Seven Spirits of the Havona Circuits considered as an order (Paper 24).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Espíritus de los Circuitos havonianos",
+				"reason": "Turns the name Havona into an adjective."
+			}
+		]
+	},
+	"spirits-of-trust": {
+		"name": "espíritus de la confianza",
+		"aliases": [
+			"Espíritus de la Confianza"
+		],
+		"meaning": "Planetary helper seraphim of the Adamic regime who inculcate trust into the minds of evolving men (39:5.7).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "espíritus de confianza",
+				"reason": "Without the article it reads as 'trustworthy spirits' (de confianza = reliable), which changes the idea."
+			}
+		]
+	},
+	"spiritual-energy-manipulators": {
+		"name": "manipuladores de energía espiritual",
+		"aliases": [
+			"Manipuladores de energía espiritual"
+		],
+		"meaning": "Celestial artisans who study the laws of spiritual energy and develop improved techniques for its intake by morontia and other beings (44:5.4).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "operadores de energía espiritual",
+				"reason": "Loses the match with the other 'energy manipulators' of 44:5."
+			},
+			{
+				"form": "(ordinary sense) manipulador = 'one who manipulates people'",
+				"reason": "The reader must not bring the sense of deceit; it means one who handles energy."
 			}
 		]
 	},
@@ -871,6 +1986,34 @@
 			}
 		]
 	},
+	"third-source-personalities": {
+		"name": "personalidades de la Tercera Fuente",
+		"meaning": "Beings personal to the Infinite Spirit but not in the Father's personality circuit, such as power directors (40:9.1, Paper 30).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "personalidades del Tercer Origen",
+				"reason": "'Source' is 'Fuente' in 'Primera Fuente y Centro'; 'origen' is 'origin'."
+			}
+		]
+	},
+	"thought-adjuster-of-jesus": {
+		"name": "Ajustador del Pensamiento de Jesús",
+		"aliases": [
+			"su Ajustador del Pensamiento",
+			"el Ajustador Personalizado que moraba en él"
+		],
+		"meaning": "The Adjuster who indwelt Jesus, who earlier served Machiventa Melchizedek and became a Personalized Adjuster and chief of Adjusters in Nebadon after the baptism (Paper 136).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Ajustador de Pensamiento de Jesús",
+				"reason": "Breaks the fixed form 'Ajustadores del Pensamiento'."
+			}
+		]
+	},
 	"thought-adjusters": {
 		"name": "Ajustadores del Pensamiento",
 		"aliases": [
@@ -894,6 +2037,33 @@
 			}
 		]
 	},
+	"transportation-personalities": {
+		"name": "personalidades de transporte",
+		"aliases": [
+			"Personalidades de Transporte"
+		],
+		"meaning": "Beings that carry other beings through space, as the seconaphim of the superuniverses and the seraphic transporters of the planets (39:5.10, 19:7.4, Paper 28).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "personalidades transportadoras",
+				"reason": "'Transportadores' is kept for 'transporters', a separate English term (39:5.10)."
+			}
+		]
+	},
+	"trinity-absolute": {
+		"name": "Trinidad Absoluta",
+		"meaning": "The second experiential Trinity of God the Supreme, God the Ultimate, and the Consummator of Universe Destiny, whose unification would actualize God the Absolute (0:10.1, Paper 104).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Trinidad del Absoluto",
+				"reason": "Reads as 'the Trinity that belongs to the Absolute'."
+			}
+		]
+	},
 	"trinity-teacher-sons": {
 		"name": "Hijos Instructores de la Trinidad",
 		"aliases": [
@@ -909,6 +2079,21 @@
 			{
 				"form": "Hijos Profesores",
 				"reason": "Reads as a school employee."
+			}
+		]
+	},
+	"universal-absolute": {
+		"name": "Absoluto Universal",
+		"aliases": [
+			"Universal"
+		],
+		"meaning": "The Absolute that unifies and co-ordinates the dynamic infinity of Total Deity and the static infinity of the Unqualified Absolute, resolving the tension between them (0:3.21, 0:11.1, 0:11.12).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Absoluto Cósmico",
+				"reason": "'Cosmic' is a different English word."
 			}
 		]
 	},
@@ -938,6 +2123,26 @@
 			}
 		]
 	},
+	"unqualified-absolute": {
+		"name": "Absoluto Incondicionado",
+		"meaning": "The nonpersonal, extradivine, undeified Absolute that pervades all space and is the source of cosmic force; the static infinity set against the Deity Absolute (0:3.21, 0:6.5, 0:11.6, 42:2.3).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Absoluto Incalificado",
+				"reason": "'Calificado' means 'skilled' or 'graded'; and 'incalificable' means 'outrageous'."
+			},
+			{
+				"form": "Absoluto No Cualificado",
+				"reason": "'Cualificado' means 'skilled, trained'; the English means 'not limited or conditioned'."
+			},
+			{
+				"form": "Absoluto Ilimitado",
+				"reason": "'Unlimited' would merge with 'infinite'."
+			}
+		]
+	},
 	"urantia": {
 		"name": "Urantia",
 		"meaning": "The name of our world, one of many inhabited planets of the local universe of Nebadon (0:0.5).",
@@ -962,6 +2167,21 @@
 			{
 				"form": "Papeles de Urantia",
 				"reason": "'Papel' is a sheet of paper or a role; the packet sets 'paper' as 'documento'."
+			}
+		]
+	},
+	"world-of-the-spirit": {
+		"name": "mundo del Espíritu",
+		"aliases": [
+			"Mundo del Espíritu"
+		],
+		"meaning": "Transitional culture world number 6 of a local system, the rendezvous of the high personalities of the Infinite Spirit (45:1.8, 53:7.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "mundo espiritual",
+				"reason": "Reads as 'the spirit world' in general (the afterlife), not a named sphere."
 			}
 		]
 	}
