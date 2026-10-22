@@ -11,7 +11,7 @@
  */
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname } from "node:path";
+import { dirname, join } from "node:path";
 import {
 	COPY_LIMIT_PAPER_MEDIAN,
 	checkParagraph,
@@ -26,8 +26,10 @@ import {
 	loadEnglishPaper,
 	loadTermDecisions,
 	outputPath,
+	pad,
 	type ParagraphTranslation,
 	parseArgs,
+	ROOT,
 	stripTags,
 	type TitleTranslation,
 	termDecisionsPath,
@@ -163,6 +165,13 @@ for (const paper of papers) {
 			[...Object.entries(decisions), ...added].sort(([a], [b]) => a.localeCompare(b)),
 		);
 		writeFileSync(termDecisionsPath(lang), `${JSON.stringify(sorted, null, "\t")}\n`);
+	}
+	// The translator's notes stay with the paper, so a reviewer can see each forced choice.
+	if (draft.forcedChoices?.length || draft.newTerms) {
+		const notes = join(ROOT, `data/translations/${lang}/notes/paper-${pad(paper)}.json`);
+		mkdirSync(dirname(notes), { recursive: true });
+		const body = { newTerms: draft.newTerms ?? {}, forcedChoices: draft.forcedChoices ?? [] };
+		writeFileSync(notes, `${JSON.stringify(body, null, "\t")}\n`);
 	}
 	console.log(
 		`  wrote ${outputPath(lang, paper)}, ${fresh.length} titles, ${added.length} new terms`,
