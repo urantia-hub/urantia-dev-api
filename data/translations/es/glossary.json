@@ -39259,46 +39259,6 @@
 			"note": "Place name."
 		}
 	},
-	"rapture": {
-		"name": "técnica de desmaterialización",
-		"aliases": [
-			"técnica de desmaterialización"
-		],
-		"meaning": "In the packet, the dematerialization technique for removing a whole population to a new world when a physical catastrophe dooms its planet (51:2.3).",
-		"confidence": "low",
-		"formConfidence": "low",
-		"rejected": [
-			{
-				"form": "arrebatamiento",
-				"reason": "Already the done term for 'Son seizure'."
-			},
-			{
-				"form": "rapto",
-				"reason": "In common Spanish means kidnapping."
-			}
-		],
-		"note": "A search finds no use of the word 'rapture' in the papers; the paragraph speaks only of a 'dematerialization technique'. The Christian sense of 'rapture' is not in the text. A human must decide if this term stays in the glossary.",
-		"backcheck": {
-			"reading": "A sudden fit of emotion, an outburst.",
-			"misreadings": [
-				"Religious rapture or ecstasy",
-				"The Rapture of believers in evangelical teaching",
-				"A robbery or snatching"
-			],
-			"verdict": "mismatch",
-			"note": "Read as a fit of emotion, not the removal of a population."
-		},
-		"second": {
-			"name": "técnica de desmaterialización",
-			"meaning": "The only match in the papers for this entry is the dematerialization technique that the Melchizedeks and Life Carriers install to carry a whole endangered population by seraphic transport to a new world (51:2.3); the word 'rapture' itself is not in the papers.",
-			"formConfidence": "low",
-			"agree": true
-		},
-		"adjudicated": {
-			"date": "2026-10-22",
-			"reason": "The word 'rapture' is not in the papers; the only match is the dematerialization technique of 51:2.3. 'arrebato' brings in the evangelical Rapture, a doctrine the authors do not teach. Low confidence in the meaning of the entry."
-		}
-	},
 	"ratta": {
 		"name": "Ratta",
 		"meaning": "Adamson's Nodite wife; with him she had sixty-seven children, among them the origin of the secondary midwayers (77:5.6).",
@@ -52865,42 +52825,6 @@
 			"reading": "Wales, part of Britain.",
 			"verdict": "match",
 			"note": "Correct region."
-		}
-	},
-	"watchful-householder": {
-		"name": "dueño de casa vigilante",
-		"meaning": "The figure of a parable of watchfulness: a house owner who keeps guard, as a lesson to be ready for the sudden departure of the Son of Man; I could not find the paragraph with a search in English.",
-		"confidence": "low",
-		"formConfidence": "medium",
-		"rejected": [
-			{
-				"form": "padre de familia vigilante",
-				"reason": "Shifts the sense from the owner of a house to a family role."
-			},
-			{
-				"form": "amo de casa vigilante",
-				"reason": "'Amo' suggests a master of servants."
-			}
-		],
-		"note": "The English alias 'no man' does not look like a form of this term, and a full-text search found no paragraph with 'householder' and 'thief'. A human must check the source and the alias.",
-		"backcheck": {
-			"reading": "A homeowner who stays alert and keeps watch over his house.",
-			"misreadings": [
-				"The Gospel parable of the master watching for the thief",
-				"A neighborhood watch member"
-			],
-			"verdict": "match",
-			"note": "A homeowner who keeps watch is the figure of the parable."
-		},
-		"second": {
-			"name": "dueño de casa vigilante",
-			"meaning": "The watchful householder is the figure of a man who watches for thieves, used to teach readiness for the sudden coming of the Son of Man.",
-			"formConfidence": "high",
-			"agree": true
-		},
-		"adjudicated": {
-			"date": "2026-10-22",
-			"reason": "A householder who keeps watch, as a lesson of readiness; a search in English found no paragraph with the phrase. The form is plain and says what the English says. Low confidence in the source."
 		}
 	},
 	"watchful-servant": {

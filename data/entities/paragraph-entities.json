@@ -121496,11 +121496,6 @@
       "type": "concept"
     },
     {
-      "id": "rapture",
-      "name": "rapture",
-      "type": "concept"
-    },
-    {
       "id": "material-sons",
       "name": "Material Sons",
       "type": "order"
@@ -186749,11 +186744,6 @@
       "id": "jesus",
       "name": "Jesus",
       "type": "being"
-    },
-    {
-      "id": "watchful-householder",
-      "name": "watchful householder",
-      "type": "concept"
     }
   ],
   "169:1.5": [

@@ -1,0 +1,10 @@
+BEGIN;
+UPDATE entities SET name = 'college of life planning', type = 'concept', aliases = NULL, description = 'A college on World Number One, the headquarters sphere of the Life Carrier worlds, devoted to the study of universal life in all its known phases. Teachers and advisers from Uversa, Havona, and Paradise function there, and the seven central emplacements of the adjutant mind-spirits are on the same world.' WHERE id = 'college-of-life-planning';
+UPDATE entities SET name = 'custodians (Lanonandek)', type = 'concept', aliases = ARRAY['Custodians and Recorders']::text[], description = 'One of the groups in the classification of the Lanonandek Sons on Salvington: the Custodians and Recorders, about 100,000 in round numbers.' WHERE id = 'custodians-lanonandek';
+DELETE FROM paragraph_entities WHERE entity_id = 'rapture';
+DELETE FROM entity_translations WHERE entity_id = 'rapture';
+DELETE FROM entities WHERE id = 'rapture';
+DELETE FROM paragraph_entities WHERE entity_id = 'watchful-householder';
+DELETE FROM entity_translations WHERE entity_id = 'watchful-householder';
+DELETE FROM entities WHERE id = 'watchful-householder';
+COMMIT;

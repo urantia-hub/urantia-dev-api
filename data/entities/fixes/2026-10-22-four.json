@@ -1,0 +1,22 @@
+{
+  "college-of-life-planning": {
+    "action": "fix",
+    "description": "A college on World Number One, the headquarters sphere of the Life Carrier worlds, devoted to the study of universal life in all its known phases. Teachers and advisers from Uversa, Havona, and Paradise function there, and the seven central emplacements of the adjutant mind-spirits are on the same world.",
+    "reason": "The old summary put it on Jerusem. 36:2.10 places it on World Number One of the Life Carrier worlds.",
+    "refs": ["36:2.10"]
+  },
+  "custodians-lanonandek": {
+    "action": "fix",
+    "description": "One of the groups in the classification of the Lanonandek Sons on Salvington: the Custodians and Recorders, about 100,000 in round numbers.",
+    "reason": "The papers give only the name and the count in the Salvington classification. The old summary added duties that the text does not state.",
+    "refs": ["35:8.13"]
+  },
+  "rapture": {
+    "action": "remove",
+    "reason": "The word is not in the papers. The idea in 51:2.3 is the dematerialization technique, which the dematerialization entity covers and cites."
+  },
+  "watchful-householder": {
+    "action": "remove",
+    "reason": "The papers give no such name; 165:5.6 is a saying of Jesus, not a named parable. Its alias 'no man' matched hundreds of unrelated paragraphs."
+  }
+}
