@@ -15,6 +15,7 @@ import { editionDirs, loadEdition } from "./checks.ts";
 import {
 	type Draft,
 	draftPath,
+	loadDraft,
 	LANG_NAMES,
 	loadEnglishPaper,
 	pad,
@@ -66,9 +67,9 @@ for (const paper of papers) {
 			const edition = loadEdition(c.slice("reference-".length), paper);
 			return { paragraphs: Object.fromEntries(edition ?? []) } as Draft;
 		}
-		const path = draftPath(lang, paper, c);
-		if (!existsSync(path)) throw new Error(`Missing draft for ${c}: ${path}`);
-		return JSON.parse(readFileSync(path, "utf-8")) as Draft;
+		const draft = loadDraft(lang, paper, c);
+		if (!draft) throw new Error(`Missing draft for ${c}: ${draftPath(lang, paper, c)}`);
+		return draft;
 	});
 	const en = loadEnglishPaper(paper);
 	const shared = en.paragraphs.filter((p) => drafts.every((d) => d.paragraphs[p.ref]));

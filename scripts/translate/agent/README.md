@@ -126,6 +126,15 @@ Use a fresh agent for each packet. For the second opinions, a different model gi
 
    - An error (a missing paragraph, changed span tags, English text, a copy) stops the paper. Fix the draft and run it again.
    - A warning (a term, a number, the length) marks the paragraph `needs_review`. Other paragraphs get `auto_checked`.
+   - A copy error goes back to a fresh agent with the English only. It never sees the failed wording. Its answer is merged over the draft:
+
+     ```sh
+     bun scripts/translate/agent/prepare-paper.ts --lang=es --paper=1 --redo
+     ```
+
+     In the Spanish pilot, the redo cleared 16 of 17 copy errors for Opus and 9 of 14 for Sonnet. Paper 1, the most quoted paper, kept a median match of 0.41 to 0.43 (the human editions score 0.13 to 0.34), so the models remember some of it.
+
+   The glossary table and the term check use the terms whose English form stands in the text. The entity map is a topic index: it missed "Michael" and "bestowal" in Paper 196.
 
 4. See the progress and the next papers:
 

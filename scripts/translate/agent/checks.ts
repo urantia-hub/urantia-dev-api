@@ -10,7 +10,7 @@ import {
 	pad,
 	stripTags,
 	type Term,
-	termsForRefs,
+	termsInText,
 	URANTIAPEDIA_DIR,
 } from "./lib.ts";
 
@@ -28,7 +28,7 @@ const LENGTH_RATIO: Record<string, [number, number]> = {
 
 // Share of the translation's 6-word runs found in one existing edition. Independent human editions
 // share a median of 0.13-0.34 per paragraph and a 90th percentile up to 0.58; a copy shares 0.8+.
-const COPY_LIMIT_PARAGRAPH = 0.6;
+export const COPY_LIMIT_PARAGRAPH = 0.6;
 const COPY_MIN_SHINGLES = 15;
 export const COPY_LIMIT_PAPER_MEDIAN = { warn: 0.35, error: 0.5 };
 
@@ -48,10 +48,13 @@ function numbers(text: string): string[] {
 }
 
 /** True when each long word of the term appears by its first 5 letters (allows plural and gender). */
+// The running text drops an index note and an inverted tail: "Miguel (el original)", "Miguel, orden de".
+const runningForm = (form: string) => form.replace(/\s*\([^)]*\)\s*$/, "").split(", ")[0]!;
+
 function termPresent(term: Term, text: string): boolean {
 	const hay = fold(text);
 	return [term.target, ...term.aliases].some((form) =>
-		fold(form)
+		fold(runningForm(form))
 			.split(/[\s-]+/)
 			.filter((w) => w.length >= 4)
 			.every((w) => hay.includes(w.slice(0, 5))),
@@ -159,13 +162,8 @@ export function checkParagraph(
 		if (ratio < lo || ratio > hi) add("warn", "length", `ratio ${ratio.toFixed(2)}`);
 	}
 
-	// The entity map also tags implied mentions, so check only terms written in the English.
-	const englishText = en.text.toLowerCase();
-	for (const term of termsForRefs(lang, [ref])) {
-		const written = term.enForms.some((f) =>
-			new RegExp(`\\b${f.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}`).test(englishText),
-		);
-		if (term.required && written && !termPresent(term, text)) {
+	for (const term of termsInText(lang, en.text)) {
+		if (term.required && !termPresent(term, text)) {
 			add("warn", "term", `"${term.en}" expected as "${term.target}"`);
 		}
 	}

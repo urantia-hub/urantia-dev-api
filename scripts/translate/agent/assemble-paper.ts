@@ -26,6 +26,7 @@ import {
 	loadEnglishPaper,
 	loadTermDecisions,
 	outputPath,
+	loadDraft,
 	pad,
 	type ParagraphTranslation,
 	parseArgs,
@@ -49,7 +50,7 @@ for (const paper of papers) {
 		failed++;
 		continue;
 	}
-	const draft: Draft = JSON.parse(readFileSync(path, "utf-8"));
+	const draft = loadDraft(lang, paper, candidate)!;
 	const en = loadEnglishPaper(paper);
 
 	const issues: Issue[] = [];

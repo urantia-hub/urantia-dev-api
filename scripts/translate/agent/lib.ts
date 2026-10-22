@@ -419,6 +419,32 @@ export function loadTerms(lang: string): {
 	return termIndex;
 }
 
+// Another name counts only when it reads as a name: a capital or more than one word, and no small first word.
+const SMALL_START = /^(the|a|an|his|her|its|their|my|our|your)\s/i;
+let textMatchers: { term: Term; res: RegExp[] }[] | null = null;
+
+/**
+ * Glossary terms whose English form stands in the text. The entity map is a topic index, not word
+ * positions: it misses terms that the text uses ("bestowal", "Michael" in Paper 196) and adds others.
+ */
+export function termsInText(lang: string, text: string): Term[] {
+	if (!textMatchers) {
+		const escape = (f: string) => f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+		textMatchers = [...loadTerms(lang).byEntity.values()].map((term) => {
+			const [name, ...aliases] = term.enForms.map((f) => f.replace(/\s*\([^)]*\)\s*$/, "").trim());
+			const forms = [name!, ...aliases.filter((a) => (/[A-Z]/.test(a) || /\s/.test(a)) && !SMALL_START.test(a))];
+			const res = [...new Set(forms)]
+				.filter((f) => f.length >= 3 && !/^\d+$/.test(f))
+				.map((f) => new RegExp(`(?<![\\p{L}\\d])${escape(f)}(?:s|es)?(?![\\p{L}\\d])`, /[A-Z]/.test(f) ? "u" : "iu"));
+			return { term, res };
+		});
+	}
+	return textMatchers
+		.filter(({ res }) => res.some((re) => re.test(text)))
+		.map(({ term }) => term)
+		.sort((a, b) => a.en.localeCompare(b.en));
+}
+
 /** Terms mentioned in the given paragraph refs. */
 export function termsForRefs(lang: string, refs: string[]): Term[] {
 	const { byEntity, byRef } = loadTerms(lang);
@@ -435,6 +461,24 @@ export function stripTags(html: string): string {
 
 export function draftPath(lang: string, paper: number, candidate = "main"): string {
 	return join(WORK_DIR, lang, candidate, `paper-${pad(paper)}.draft.json`);
+}
+
+/** Paragraphs that a fresh agent translated again after the copy check failed them. */
+export function redoPath(lang: string, paper: number, candidate = "main"): string {
+	return join(WORK_DIR, lang, candidate, `paper-${pad(paper)}.redo.json`);
+}
+
+/** A candidate's draft with its redone paragraphs merged in, or null when there is no draft. */
+export function loadDraft(lang: string, paper: number, candidate = "main"): Draft | null {
+	const path = draftPath(lang, paper, candidate);
+	if (!existsSync(path)) return null;
+	const draft: Draft = JSON.parse(readFileSync(path, "utf-8"));
+	const redo = redoPath(lang, paper, candidate);
+	if (existsSync(redo)) {
+		const again: Pick<Draft, "paragraphs"> = JSON.parse(readFileSync(redo, "utf-8"));
+		draft.paragraphs = { ...draft.paragraphs, ...again.paragraphs };
+	}
+	return draft;
 }
 
 export function outputPath(lang: string, paper: number): string {
