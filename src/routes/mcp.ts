@@ -215,6 +215,12 @@ const entityResultSchema = z.object({
 		.describe(
 			"Number of citations in the source index. A citation of a whole section counts once, so the entity's paragraph total can be higher.",
 		),
+	sense: z
+		.enum(["special", "ordinary"])
+		.nullable()
+		.describe(
+			'For a concept with a lowercase name: "special" when the papers coin the word or use it in their own sense, "ordinary" when they use it in its everyday sense. A reader app can leave ordinary words out of a list of terms. Null for other entries.',
+		),
 });
 
 const workSchema = z.object({
@@ -897,6 +903,7 @@ function createMcpServer() {
 					description: entities.description,
 					seeAlso: entities.seeAlso,
 					citationCount: entities.citationCount,
+					sense: entities.sense,
 				})
 				.from(entities)
 				.where(whereClause)
@@ -935,6 +942,7 @@ function createMcpServer() {
 					description: entities.description,
 					seeAlso: entities.seeAlso,
 					citationCount: entities.citationCount,
+					sense: entities.sense,
 				})
 				.from(entities)
 				.where(eq(entities.id, entity_id))
