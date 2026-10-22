@@ -242,11 +242,18 @@ let entityCache: GlossaryEntity[] | null = null;
 
 /**
  * The terms that need a fixed translation: names, places, orders, capitalized concepts,
- * and the key concepts in data/translations/key-concepts.json.
+ * concepts with the sense "special", and the key concepts in data/translations/key-concepts.json.
  */
 export function glossaryEntities(): GlossaryEntity[] {
 	if (entityCache) return entityCache;
-	type Seed = { id: string; name: string; type: string; aliases: string[]; description: string };
+	type Seed = {
+		id: string;
+		name: string;
+		type: string;
+		aliases: string[];
+		description: string;
+		sense?: string;
+	};
 	const seeds: Seed[] = JSON.parse(
 		readFileSync(join(ROOT, "data/entities/seed-entities.json"), "utf-8"),
 	);
@@ -264,6 +271,7 @@ export function glossaryEntities(): GlossaryEntity[] {
 			(e) =>
 				FIXED_TYPES.has(e.type) ||
 				(e.type === "concept" && /^[A-Z]/.test(e.name)) ||
+				e.sense === "special" ||
 				keyById.has(e.id),
 		)
 		.filter((e) => !/^[\d\s.,:-]+$/.test(e.name))
