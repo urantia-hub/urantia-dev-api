@@ -1,4 +1,20 @@
 {
+	"abner": {
+		"name": "Abner",
+		"meaning": "The chief of the disciples of John the Baptist, later head of the seventy messengers and leader of the church at Philadelphia (Papers 163, 166, 171).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"abraham-old-testament": {
+		"name": "Abraham (Antiguo Testamento)",
+		"aliases": [
+			"Abraham",
+			"Abram"
+		],
+		"meaning": "The Hebrew patriarch who became the pupil of Melchizedek and an ancestor of Joseph (93:5.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"absolute": {
 		"name": "Absoluto",
 		"aliases": [
@@ -85,10 +101,64 @@
 			}
 		]
 	},
+	"absoniters": {
+		"name": "absonitarios",
+		"aliases": [
+			"absonitario"
+		],
+		"meaning": "Beings of the absonite level, not created but eventuated (0:1.12).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "absonitos (as a noun)",
+				"reason": "The same form as the adjective \"absonito\"; \"-ario\" follows \"finaliters: finalitarios\"."
+			},
+			{
+				"form": "absonitadores",
+				"reason": "Says they make things absonite."
+			}
+		]
+	},
+	"absonity": {
+		"name": "absonidad",
+		"aliases": [
+			"absonitizado",
+			"absonitizada"
+		],
+		"meaning": "The quality or level of the absonite, between finite and absolute, which Paradise arrivals study after divinity (0:9.2, 30:4.31).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "absonitud",
+				"reason": "Less natural; \"-idad\" matches \"divinity: divinidad\"."
+			}
+		]
+	},
 	"adam": {
 		"name": "Adán",
 		"meaning": "The Material Son sent with Eve to Urantia as a biologic uplifter (51:0.1).",
 		"confidence": "high"
+	},
+	"adamites": {
+		"name": "Adamitas",
+		"aliases": [
+			"pueblos adámicos",
+			"raza violeta",
+			"pueblos violetas",
+			"hijos adámicos",
+			"adámico"
+		],
+		"meaning": "The violet race, the descendants of Adam and Eve on Urantia, who mixed with the evolutionary races to uplift them biologically.",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Adánicos",
+				"reason": "Possible adjective, but the noun form parallels 'Anditas' and 'Andonitas' already chosen."
+			}
+		]
 	},
 	"adjuster-expression": {
 		"name": "expresión del Ajustador",
@@ -168,6 +238,60 @@
 			}
 		]
 	},
+	"administrator-seraphim": {
+		"name": "serafines administradores",
+		"aliases": [
+			"administradores seráficos",
+			"ángeles administradores",
+			"cuarto orden de serafines"
+		],
+		"meaning": "The fourth order of seraphim, who serve the administration of the local systems (39:4.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"africa": {
+		"name": "África",
+		"meaning": "The continent to which the indigo race and other Sangik peoples migrated, and where the indigo race remained (64:6).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"alexandria": {
+		"name": "Alejandría",
+		"meaning": "The Egyptian city of the great library, where Jesus lived as a child and later visited (Papers 122-123, 130).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"almighty-supreme": {
+		"name": "Supremo Todopoderoso",
+		"meaning": "The power aspect of the Supreme Being, the experiential power of God the Supreme that synthesizes in the grand universe (0:7.7).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Todopoderoso Supremo",
+				"reason": "Order makes 'Todopoderoso' the name; in English 'Supreme' is the head noun."
+			},
+			{
+				"form": "Omnipotente Supremo",
+				"reason": "Plainer Spanish is 'Todopoderoso'."
+			}
+		]
+	},
+	"alpheus-twins": {
+		"name": "gemelos Alfeo",
+		"aliases": [
+			"gemelos de Alfeo"
+		],
+		"meaning": "James and Judas Alpheus, twin fishermen who were two of the twelve apostles of Jesus (Paper 139:10).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "gemelos Alpheus",
+				"reason": "Alpheus is a biblical name with a standard Spanish form."
+			}
+		]
+	},
 	"ancients-of-days": {
 		"name": "Ancianos de Días",
 		"aliases": [
@@ -194,6 +318,21 @@
 		],
 		"meaning": "The best all-round human stock since the violet race, a blend of Adamite and Nodite remnants with the best of other races (78:4.3, 80:4.5).",
 		"confidence": "high"
+	},
+	"andon-and-fonta": {
+		"name": "Andon y Fonta",
+		"aliases": [
+			"Andon"
+		],
+		"meaning": "The first two human beings on Urantia, the parents of mankind (Paper 63).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Andón y Fonta",
+				"reason": "These names exist only in this book; the rule keeps the English spelling. 'Andonitas' keeps the same root."
+			}
+		]
 	},
 	"andonites": {
 		"name": "Andonitas",
@@ -237,6 +376,55 @@
 			}
 		]
 	},
+	"archangels": {
+		"name": "arcángeles",
+		"aliases": [
+			"arcángel",
+			"Arcángeles",
+			"Arcángel de Nebadon"
+		],
+		"meaning": "Offspring of the Creator Son and the Universe Mother Spirit who serve the resurrection and survival of creatures (37:3.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "arcángel (traditional sense)",
+				"reason": "the reader must not bring the seven named archangels of tradition; this is an order of the local universe"
+			}
+		]
+	},
+	"architects-of-the-master-universe": {
+		"name": "Arquitectos del Universo Maestro",
+		"aliases": [
+			"Arquitectos Maestros",
+			"Arquitecto Maestro"
+		],
+		"meaning": "The absonite planners of the master universe, 28,011 in number, organized by space levels (31:9.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Universo Principal",
+				"reason": "breaks the 'master' family"
+			}
+		]
+	},
+	"architectural-spheres": {
+		"name": "esferas arquitectónicas",
+		"aliases": [
+			"esfera arquitectónica",
+			"mundos arquitectónicos"
+		],
+		"meaning": "Worlds made to order, such as Salvington, Edentia, and Jerusem, lighted and energized independently of the suns (41:1.3, 43:0.2).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "esferas arquitecturales",
+				"reason": "Not standard Spanish."
+			}
+		]
+	},
 	"ascending-mortals": {
 		"name": "mortales ascendentes",
 		"aliases": [
@@ -259,6 +447,251 @@
 				"reason": "Plain, but does not work as a noun phrase in all contexts; the English 'ascendant' and 'ascending' both go to 'ascendente'."
 			}
 		]
+	},
+	"ascending-pilgrims": {
+		"name": "peregrinos ascendentes",
+		"aliases": [
+			"peregrinos del tiempo"
+		],
+		"meaning": "Ascending creatures of time who pass through the Havona universe on their way to Paradise (13:1.21).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"ascending-sons-of-god": {
+		"name": "hijos de Dios ascendentes",
+		"aliases": [
+			"Hijos de Dios ascendentes"
+		],
+		"meaning": "Creatures of evolutionary origin who climb toward Paradise, helped by the descending Sons; translated midwayers are registered among them (20:1.1, 40:3.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"ascendington": {
+		"name": "Ascendington",
+		"meaning": "The seventh sacred world of the Father around Paradise, the home and rendezvous of the ascending pilgrims during their Havona life (13:1.21, 13:1.23).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"asia": {
+		"name": "Asia",
+		"aliases": [
+			"masa continental asiática",
+			"antiguo continente asiático",
+			"regiones asiáticas"
+		],
+		"meaning": "The continent that was the homeland of the human race and of the early civilizations (64:1.1, 78:1.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"associate-transcendental-master-force-organizers": {
+		"name": "Organizadores Maestros de la Fuerza Trascendentales Asociados",
+		"aliases": [
+			"Organizadores Maestros de la Fuerza Asociados"
+		],
+		"meaning": "The second group of Master Force Organizers, whose pressure-presence and tension-trends bring space-energy from the puissant to the gravity stage (29:0.3, 42:2.12).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Organizadores Asociados Trascendentales Maestros de la Fuerza",
+				"reason": "Splits \"Maestros de la Fuerza\" from \"Organizadores\"; the order follows \"Controladores Físicos Maestros\"."
+			}
+		]
+	},
+	"avonals-order-of": {
+		"name": "Avonales, orden de los",
+		"aliases": [
+			"Avonal",
+			"Avonales"
+		],
+		"meaning": "The order of Paradise Sons also called Magisterial Sons (20:1.11, 20:6.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Avonals",
+				"reason": "Keep the name, but Spanish forms the plural of a noun in -al with -es."
+			}
+		]
+	},
+	"babylonian-captivity": {
+		"name": "cautiverio babilónico",
+		"aliases": [
+			"cautiverio",
+			"exilio"
+		],
+		"meaning": "The exile of the Jews in Babylon after Nebuchadnezzar took Jerusalem, which turned them firmly to monotheism (97:9).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "cautividad de Babilonia",
+				"reason": "'cautividad' is correct but less common than 'cautiverio'."
+			}
+		]
+	},
+	"beauty": {
+		"name": "belleza",
+		"aliases": [
+			"Belleza"
+		],
+		"meaning": "With truth and goodness one of the three divine values; the harmony and unity of reality that creatures perceive and that leads to worship (2:7, 56:10).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "hermosura",
+				"reason": "Mostly physical attractiveness; narrower."
+			}
+		]
+	},
+	"bestowal": {
+		"name": "otorgamiento",
+		"aliases": [
+			"otorgarse",
+			"de otorgamiento"
+		],
+		"meaning": "The act in which a Paradise Son gives himself to live as a creature (often as a mortal) on a world of his domain, and also any divine gift given (20:5.6, 20:6.5, 93:9.11).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "encarnación",
+				"reason": "Not every bestowal is in mortal flesh, and the English uses 'incarnate' as a separate word."
+			},
+			{
+				"form": "donación",
+				"reason": "Ordinary sense is a donation of money or organs."
+			},
+			{
+				"form": "autootorgamiento",
+				"reason": "Not natural Spanish; the reflexive verb 'otorgarse' carries the self-giving."
+			}
+		],
+		"forcedChoices": [
+			"keep 'otorgamiento' from the done term 'Pentecostés (otorgamiento del Espíritu de la Verdad)': Rule 4: one English word, one Spanish word. Note that 'otorgamiento' has a legal or administrative ring in ordinary use; the reader must take it as self-giving."
+		]
+	},
+	"blue-race": {
+		"name": "raza azul",
+		"aliases": [
+			"hombre azul",
+			"razas azules",
+			"hombres azules",
+			"azul",
+			"razas sangiks azules"
+		],
+		"meaning": "One of the six colored Sangik races of Urantia, which spread in Europe and later mixed with the Andites and Adamites.",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"brilliant-evening-stars": {
+		"name": "Brillantes Estrellas Vespertinas",
+		"aliases": [
+			"Estrellas Vespertinas",
+			"Brillante Estrella Vespertina",
+			"Estrella Vespertina",
+			"superángeles"
+		],
+		"meaning": "Superangels of the local universe who serve as liaison officers of Gabriel, some created and some ascendant (37:2.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Luceros de la Tarde",
+				"reason": "the ordinary name of the planet Venus"
+			},
+			{
+				"form": "Estrellas de la Tarde",
+				"reason": "also reads as Venus"
+			}
+		]
+	},
+	"british-isles": {
+		"name": "Islas Británicas",
+		"aliases": [
+			"Gran Bretaña"
+		],
+		"meaning": "The island group of northwestern Europe that includes Great Britain and Ireland (historical geography, standard Spanish form).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Gran Bretaña (as the main name)",
+				"reason": "Excludes Ireland; it is only the alias form."
+			}
+		]
+	},
+	"broadcasters-superior-seraphim": {
+		"name": "difusores (serafines superiores)",
+		"aliases": [
+			"Difusores"
+		],
+		"meaning": "Seraphic recorders among the superior seraphim who send out records and essential information (39:2.9).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "radiodifusores",
+				"reason": "ties the term to radio technology"
+			},
+			{
+				"form": "emisores",
+				"reason": "technical sense of a device or a currency issuer"
+			}
+		]
+	},
+	"brotherhood-of-man": {
+		"name": "fraternidad de los hombres",
+		"aliases": [
+			"fraternidad"
+		],
+		"meaning": "The relationship of all persons as brothers that follows from the fatherhood of God, preached together with it in the gospel (193:0.4, 140:10.9).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "fraternidad del hombre",
+				"reason": "In Spanish the singular can read as the brotherhood of one man."
+			},
+			{
+				"form": "hermandad de los hombres",
+				"reason": "'Hermandad' also means a guild or confraternity; 'brotherhood' is already 'fraternidad' in 'espíritus de la fraternidad'."
+			},
+			{
+				"form": "fraternidad humana",
+				"reason": "Changes the noun 'man' to an adjective and loses 'el hombre'."
+			}
+		]
+	},
+	"brotherhood-of-united-midwayers": {
+		"name": "Fraternidad de los Seres Intermedios Unidos",
+		"meaning": "The united corps of primary and secondary midwayers on Urantia, in whose name the narrator of the Jesus papers writes (121:8.14, 77:8.1).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Hermandad de los Seres Intermedios Unidos",
+				"reason": "'brotherhood' is already 'fraternidad' in 'espíritus de la fraternidad'; one word keeps one translation."
+			}
+		]
+	},
+	"buddhism": {
+		"name": "budismo",
+		"aliases": [
+			"budistas",
+			"religión budista",
+			"fe budista"
+		],
+		"meaning": "The religion that grew from the teachings of Gautama Buddha (94:8.1, 94:11.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"caligastia": {
+		"name": "Caligastia",
+		"meaning": "The Planetary Prince of Urantia who joined the Lucifer rebellion and was deposed (67:6.5 context).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"caligastia-one-hundred": {
 		"name": "cien de Caligastia",
@@ -284,6 +717,58 @@
 			}
 		]
 	},
+	"capernaum": {
+		"name": "Cafarnaúm",
+		"meaning": "The fishing town on the north shore of the Sea of Galilee, Jesus' headquarters in his public work (Papers 129-150).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Capernaúm",
+				"reason": "Less common; 'Cafarnaúm' is the usual Spanish form."
+			}
+		]
+	},
+	"celestial-artisans": {
+		"name": "artesanos celestiales",
+		"aliases": [
+			"Artesanos Celestiales"
+		],
+		"meaning": "Recruited artists and artisans of the morontia and lower spirit realms, organized in seven divisions (Paper 44).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"central-universe": {
+		"name": "universo central",
+		"meaning": "Havona, the eternal and perfect creation of a billion worlds around the Isle of Paradise (0:0.5).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"cherubim-and-sanobim": {
+		"name": "querubines y sanobines",
+		"aliases": [
+			"querubines",
+			"sanobines",
+			"querubín",
+			"sanobín"
+		],
+		"meaning": "Paired assistants of the seraphim, the cherubim energy positive and the sanobim energy negative, near the morontia level (38:7.2, 38:7.3, 38:7.6).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "sanobim",
+				"reason": "the family seraphim→serafines, cherubim→querubines needs the same Spanish plural"
+			},
+			{
+				"form": "querubines (popular sense)",
+				"reason": "the reader must not bring the image of winged infants; these are working assistants"
+			}
+		],
+		"forcedChoices": [
+			"masculine gender for querubín and sanobín: Spanish nouns need a gender; the papers write 'her' for some angels, but the noun stays masculine"
+		]
+	},
 	"chief-of-mystery-monitors": {
 		"name": "jefe de los Monitores de Misterio",
 		"meaning": "The being who presides over the college of Personalized Adjusters on Divinington and advises Master Spirit Number One (Paper 107).",
@@ -295,6 +780,43 @@
 				"reason": "'Misteriosos' describes them as secretive; the English uses 'Mystery' as a name element."
 			}
 		]
+	},
+	"chief-of-urantia-cherubim": {
+		"name": "jefe de los querubines de Urantia",
+		"meaning": "The chief of the cherubim on Urantia, who sat on the advisory council of the planetary receivers (114:1.4).",
+		"confidence": "medium",
+		"formConfidence": "high"
+	},
+	"chief-of-urantia-seraphim": {
+		"name": "jefe de los serafines de Urantia",
+		"aliases": [
+			"jefe de los serafines",
+			"jefes de los serafines"
+		],
+		"meaning": "The supernaphim who commands the seraphic hosts on Urantia, a post that rotates (114:6.20, 113:0.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"china": {
+		"name": "China",
+		"meaning": "The land of eastern Asia where the yellow race built a stable civilization (79:5-8).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"chinese": {
+		"name": "chinos",
+		"aliases": [
+			"chino"
+		],
+		"meaning": "The people of China, mainly of the yellow race, with a long and stable civilization (79:8.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"christ": {
+		"name": "Cristo",
+		"meaning": "'The anointed one'; the title given to Jesus and used for Michael after his bestowal, as in Christ Michael (128:7.10, 196:2.1).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"christian-church-early": {
 		"name": "iglesia cristiana primitiva",
@@ -335,6 +857,106 @@
 		"meaning": "The religion about Jesus that grew after him, with more of his gospel than any other faith but with additions he did not teach (195:0.1, 196:2.1).",
 		"confidence": "high"
 	},
+	"circuits": {
+		"name": "circuitos",
+		"aliases": [
+			"Circuitos",
+			"circuito"
+		],
+		"meaning": "The paths of presence, energy, and communication that bind creation, such as the personality circuit of the Father and the mind circuit of the Conjoint Actor (0:6.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"co-ordinate-creator-sons": {
+		"name": "Hijos Creadores Coordinados",
+		"meaning": "The Creator Sons considered as a corps of equal rank among themselves, through whom the Eternal Son functions in the local universes (6:2.2, 7:2.4, 7:5.10).",
+		"confidence": "high",
+		"formConfidence": "low",
+		"rejected": [
+			{
+				"form": "Hijos Creadores coiguales",
+				"reason": "Closer to 'of equal rank', but it breaks the rule that 'co-ordinate' is 'coordinar' and its family."
+			},
+			{
+				"form": "Hijos Creadores Coordinados (reading)",
+				"reason": "The chosen form can read as 'coordinated by someone'; the English means 'of the same order or rank'. A reviewer must decide."
+			}
+		]
+	},
+	"co-ordinate-trinity-origin-beings": {
+		"name": "Seres Coordinados Originados en la Trinidad",
+		"aliases": [
+			"Seres Coordinados de Origen Trinitario"
+		],
+		"meaning": "A Paradise group of Trinity-origin beings that includes the Trinity Teacher Sons, three groups of superuniverse administrators, and the Inspired Trinity Spirits (19:0.1).",
+		"confidence": "high",
+		"formConfidence": "low",
+		"rejected": [
+			{
+				"form": "Seres Coordinadores Originados en la Trinidad",
+				"reason": "Says they co-ordinate others; the English adjective means of co-ordinate (equal) rank."
+			},
+			{
+				"form": "Seres Coordinados de la Trinidad",
+				"reason": "Loses 'origin'."
+			}
+		],
+		"forcedChoices": [
+			"'Coordinados' from the done term 'co-ordinate: coordinar': The English adjective 'co-ordinate' means of equal rank or order, but Spanish 'coordinado' commonly reads as 'organized' or 'co-ordinated'; a human must check this."
+		]
+	},
+	"conjoint-creator": {
+		"name": "Creador Conjunto",
+		"meaning": "A title of the Infinite Spirit, the Third Person, who creates jointly with the Father and the Son and is the source of mind and manipulator of energy (9:3.5, 9:5.4, 9:5.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Cocreador",
+				"reason": "Loses the 'conjoint' root that the papers also use in 'Conjoint Actor'."
+			}
+		]
+	},
+	"constellations": {
+		"name": "constelaciones",
+		"aliases": [
+			"constelación"
+		],
+		"meaning": "The administrative divisions of a local universe, each of one hundred local systems, ruled by the Most Highs (43:0.2, Paper 43).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "(no other form)",
+				"reason": "The ordinary sense of 'constelación' is a visible star pattern; the reader must not bring that sense. The same is true of the English, so the plain word stays."
+			}
+		]
+	},
+	"consuls-universe": {
+		"name": "cónsules (del universo)",
+		"aliases": [
+			"Cónsules"
+		],
+		"meaning": "Representatives of constellations to one another and to the universe headquarters, appointed by legislative decree, often Vorondadek Sons (33:6.4, 35:5.5).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"consummator-of-universe-destiny": {
+		"name": "Consumador del Destino del Universo",
+		"meaning": "An unrevealed agent who probably consummates destiny, an act probably involved with the Supreme and the Ultimate in the Trinity Absolute (106:7.3).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Culminador del Destino Universal",
+				"reason": "Not current Spanish; \"universal\" is kept for \"universal\"."
+			},
+			{
+				"form": "(note) Consumador",
+				"reason": "The reader must take it as \"one who brings to completion\", not \"consumidor\" (consumer)."
+			}
+		]
+	},
 	"contact-personalities": {
 		"name": "personalidades de contacto",
 		"aliases": [
@@ -371,6 +993,34 @@
 			"note": "\"finalidad\" reads as \"purpose\"; \"Finality\" follows \"finalitarios\""
 		}
 	},
+	"corps-of-permanent-citizens": {
+		"name": "cuerpo de ciudadanos permanentes",
+		"aliases": [
+			"ciudadanos permanentes"
+		],
+		"meaning": "The resident orders of beings who form the stable population of administrative worlds, such as the Material Sons on Jerusem and the susatia on Salvington (37:9.7, 37:9.12, 76:6.3).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"corps-of-seraphic-completion": {
+		"name": "Cuerpo de Culminación Seráfica",
+		"aliases": [
+			"Cuerpo Seráfico de Culminación"
+		],
+		"meaning": "The corps of seraphim who traversed the circles of Seraphington, attained Paradise, and received the embrace of the Eternal Son (39:9.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Compleción",
+				"reason": "exists but is rare and stiff"
+			},
+			{
+				"form": "Terminación",
+				"reason": "suggests an ending or a stop, not an attainment"
+			}
+		]
+	},
 	"corps-of-the-finality": {
 		"name": "Cuerpo de los Finalitarios",
 		"decision": {
@@ -378,6 +1028,62 @@
 			"date": "2026-10-22",
 			"note": "\"finalidad\" reads as \"purpose\"; \"Finality\" follows \"finalitarios\""
 		}
+	},
+	"corps-of-transcendental-finaliters": {
+		"name": "Cuerpo de Finalitarios Trascendentales",
+		"meaning": "One of the seven Paradise finaliter corps, the corps related to transcendental service, to which Havona natives are also admitted (31:0, 31:8).",
+		"confidence": "medium",
+		"formConfidence": "high"
+	},
+	"cosmic-consciousness": {
+		"name": "conciencia cósmica",
+		"meaning": "Awareness of the realities of the universe beyond the material and local outlook; the term itself is not defined in the papers.",
+		"confidence": "low",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "consciencia cósmica",
+				"reason": "Also valid; 'conciencia' is the more common spelling across Latin America."
+			},
+			{
+				"form": "(ordinary sense) 'conciencia' = moral conscience",
+				"reason": "The reader must not bring this; the sense is awareness."
+			}
+		]
+	},
+	"cosmic-mind": {
+		"name": "mente cósmica",
+		"aliases": [
+			"Mente cósmica",
+			"mente-cósmica",
+			"dotado de mente cósmica",
+			"mente-espíritu universal"
+		],
+		"meaning": "The sevenfold mind of time and space, a subabsolute manifestation of the mind of the Third Source and Center, ministered by the Seven Master Spirits to the superuniverses (0:6.1, 16:6).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "mente universal",
+				"reason": "Collides with 'Universal Mind' (Mente Universal)."
+			}
+		]
+	},
+	"courtesy-colonies": {
+		"name": "colonias de cortesía",
+		"aliases": [
+			"colonia de cortesía",
+			"colonia"
+		],
+		"meaning": "Groups of visiting beings who reside on headquarters worlds by courtesy, such as star students, celestial artisans, and reversion directors (46:5.30, 18:5.2, 37:10).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "colonias de huéspedes",
+				"reason": "Interprets the term instead of keeping the English word 'courtesy'."
+			}
+		]
 	},
 	"creative-mother-spirits": {
 		"name": "Espíritus Madre Creativos",
@@ -432,6 +1138,89 @@
 			}
 		]
 	},
+	"creature-trinitized-sons": {
+		"name": "hijos trinitizados por criaturas",
+		"aliases": [
+			"seres trinitizados por criaturas",
+			"Hijos trinitizados por criaturas",
+			"asistentes trinitizados por criaturas",
+			"trinitizados por criaturas"
+		],
+		"meaning": "Sons brought into being by the trinitizing union of two high creatures, such as finaliters and Paradise-Havona personalities, as distinct from those trinitized by Deity (22:0.5, 22:7.8).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "hijos trinitizados por la criatura",
+				"reason": "Singular suggests one creature; trinitization needs two (22:7.8)."
+			},
+			{
+				"form": "hijos criatura-trinitizados",
+				"reason": "Calque of the English hyphen; not natural Spanish."
+			}
+		]
+	},
+	"creatures": {
+		"name": "criaturas",
+		"aliases": [
+			"criatura",
+			"Criaturas",
+			"Criatura"
+		],
+		"meaning": "Any created being, as distinct from the Creator; finite realities 'always have beginnings — they are created', and the creature stands in relation to the Universal Creator (0:1.11, 1:4.5, 3:4.7).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "seres",
+				"reason": "Too broad; loses the 'created' sense that the papers stress."
+			},
+			{
+				"form": "criaturitas or 'criatura' as a baby",
+				"reason": "Ordinary senses the reader must not bring: a small child, a monster or beast. The papers mean only 'created being'."
+			}
+		]
+	},
+	"cretaceous": {
+		"name": "Cretácico",
+		"aliases": [
+			"período cretácico"
+		],
+		"meaning": "The geological period of flowering plants and the decline of the great reptiles (60:3).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Cretáceo",
+				"reason": "Less common in current Spanish geology."
+			}
+		]
+	},
+	"dalamatia": {
+		"name": "Dalamatia",
+		"aliases": [
+			"dalamatiano",
+			"dalamatianos"
+		],
+		"meaning": "The headquarters city of the Planetary Prince Caligastia on Urantia, near the Persian Gulf, later submerged (66:3).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"david-king": {
+		"name": "David (rey)",
+		"meaning": "The king of Israel who made Jerusalem his capital (97:9).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"david-zebedee": {
+		"name": "David Zebedeo",
+		"aliases": [
+			"David"
+		],
+		"meaning": "David Zebedee, brother of James and John, who ran the messenger service of Jesus' ministry (163:0.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"deity": {
 		"name": "Deidad",
 		"aliases": [
@@ -462,6 +1251,56 @@
 			}
 		]
 	},
+	"deity-trinitized-sons": {
+		"name": "Hijos trinitizados por la Deidad",
+		"aliases": [
+			"Hijo trinitizado por la Deidad"
+		],
+		"meaning": "The first group of Trinitized Sons of God, unrevealed in the papers (22:0.2, 22:0.5).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Hijos Deidad-trinitizados",
+				"reason": "Calque of the English compound."
+			},
+			{
+				"form": "Hijos trinitizados por Dios",
+				"reason": "'Deity' and 'God' are distinct terms (Deidad, Dios)."
+			}
+		]
+	},
+	"deity-ultimate": {
+		"name": "Deidad Última",
+		"meaning": "A designation of God the Ultimate, Deity on the second level of unifying divinity expression as overcontroller of the master universe (0:1.10, 0:9.1).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Último de la Deidad",
+				"reason": "Would mirror 'Absoluto de la Deidad', but that term names a distinct Absolute; this term only names God the Ultimate."
+			},
+			{
+				"form": "(note) same form as 'Ultimate Deity'",
+				"reason": "Both English forms name the same being, so one Spanish form is acceptable; a reviewer should confirm."
+			}
+		]
+	},
+	"descending-sons-of-god": {
+		"name": "Hijos de Dios descendentes",
+		"aliases": [
+			"Hijos descendentes"
+		],
+		"meaning": "Sons of God of high divine origin who serve on the worlds of time and space to help the ascending sons of God in their Paradise climb (20:1.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Hijos descendientes de Dios",
+				"reason": "'Descendiente' means offspring or descendant, not one who goes down."
+			}
+		]
+	},
 	"discerners-of-spirits": {
 		"name": "Discernidores de Espíritus",
 		"aliases": [
@@ -480,6 +1319,100 @@
 			{
 				"form": "Jueces de Espíritus",
 				"reason": "Changes the idea: they discern and present; the Censors judge."
+			}
+		]
+	},
+	"divine-counselors": {
+		"name": "Consejeros Divinos",
+		"aliases": [
+			"Consejero Divino"
+		],
+		"meaning": "An order of Trinity-origin beings who are the counsel of the Paradise Trinity to the superuniverses and sit with Perfectors of Wisdom and Universal Censors (19:0.1, 22:1.13).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Asesores Divinos",
+				"reason": "'Asesor' reads as a hired technical adviser; 'consejero' carries counsel and wisdom."
+			}
+		]
+	},
+	"divinity": {
+		"name": "divinidad",
+		"aliases": [
+			"Divinidad",
+			"DIVINIDAD"
+		],
+		"meaning": "The unifying quality of Deity as creatures comprehend it: truth, beauty, and goodness; love, mercy, and ministry in personality; justice, power, and sovereignty on impersonal levels (0:1.2, 0:1.15, 0:1.17).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "deidad",
+				"reason": "'Deidad' is the term for Deity; 'divinity' is its quality, so the two forms must differ."
+			},
+			{
+				"form": "(ordinary sense)",
+				"reason": "In everyday Spanish 'una divinidad' is a god or goddess, and 'divinidad' can mean 'something lovely'. The reader must not bring either sense."
+			}
+		]
+	},
+	"dual-origin-beings": {
+		"name": "seres de origen dual",
+		"aliases": [
+			"SERES DE ORIGEN DUAL",
+			"orden dual"
+		],
+		"meaning": "Beings who originate in any two of the Paradise Deities, or who are created by any two beings descended from them (30:1.29).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "seres de doble origen",
+				"reason": "Also natural, but 'dual' matches 'triune' as a parallel classification term."
+			}
+		]
+	},
+	"edentia": {
+		"name": "Edentia",
+		"meaning": "The headquarters world of the constellation Norlatiadek, seat of the Most Highs (43:0.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"egypt": {
+		"name": "Egipto",
+		"meaning": "Egypt, the land of the Nile valley and its ancient civilization (95:2.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"energy": {
+		"name": "energía",
+		"aliases": [
+			"energía-materia",
+			"fuerza-energía"
+		],
+		"meaning": "An all-inclusive term for spiritual, mindal, and material realms; physical energy denotes all phases and forms of phenomenal motion, action, and potential (0:6.2, 0:6.3).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "(ordinary sense) energy as only a physical quantity",
+				"reason": "The reader must not limit it to physics; 0:6.2 applies it to spirit and mind."
+			}
+		]
+	},
+	"error": {
+		"name": "error",
+		"aliases": [
+			"Error"
+		],
+		"meaning": "An intellectual mistake, a misconception that suggests lack of intellectual keenness, with no moral guilt in itself (67:1.4, 67:1.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "equivocación",
+				"reason": "Too casual for the defined term."
 			}
 		]
 	},
@@ -503,6 +1436,22 @@
 			}
 		]
 	},
+	"ethics": {
+		"name": "ética",
+		"aliases": [
+			"Ética",
+			"ético"
+		],
+		"meaning": "The principles of right relations between persons, growing from the facts of origin; ethics is progressive, unlike static traditional morality.",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "moral",
+				"reason": "The papers distinguish ethics from morality."
+			}
+		]
+	},
 	"europe": {
 		"name": "Europa",
 		"aliases": [
@@ -510,6 +1459,101 @@
 		],
 		"meaning": "The continent of Europe, settled by the blue man and later by the Andites (80:4.5, 80:5.8).",
 		"confidence": "high"
+	},
+	"eventuated-transcendental-beings": {
+		"name": "seres trascendentales eventuados",
+		"meaning": "Transcendental beings who neither create nor are created but are eventuated, functioning on absonite levels (0:1.12, 31:8).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "seres trascendentales eventuales",
+				"reason": "\"eventual\" means \"possible\" or \"temporary\"."
+			}
+		]
+	},
+	"eventuation": {
+		"name": "eventuación",
+		"aliases": [
+			"eventuar",
+			"eventuado",
+			"eventuados"
+		],
+		"meaning": "The coming into being of absonite realities and beings, neither creation nor evolution; they \"simply are\" (0:1.12, 0:9.1, 0:9.2).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "(note) eventual",
+				"reason": "The Spanish adjective \"eventual\" means \"possible\" or \"temporary\"; the reader must not carry it into \"eventuar\"."
+			},
+			{
+				"form": "advenimiento",
+				"reason": "Has the Christian sense of the coming of Christ."
+			},
+			{
+				"form": "acontecimiento",
+				"reason": "Means an event, not a mode of coming into being."
+			}
+		]
+	},
+	"evil": {
+		"name": "mal",
+		"aliases": [
+			"obrar mal",
+			"maldad"
+		],
+		"meaning": "The partial or unknowing transgression of divine law, the misadaptation of immaturity, which becomes sin only when chosen knowingly (67:1.4, 67:1.5, 132:2.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "maldad (as the main name)",
+				"reason": "Means wickedness of character, which is closer to sin; kept only as an alias."
+			},
+			{
+				"form": "(note) mal",
+				"reason": "The reader must not bring the sense of a personal or cosmic power of evil, nor illness (\"un mal\")."
+			}
+		]
+	},
+	"experientials": {
+		"name": "experienciales",
+		"aliases": [
+			"experiencial"
+		],
+		"meaning": "Realities that come to be through experience and growth, as the Supreme and the Ultimate are; the opposite of existential (0:1.14, 0:4.9, 0:7.5).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "experimentales",
+				"reason": "Means \"by experiment\" or \"trial\"; a false friend."
+			},
+			{
+				"form": "vivenciales",
+				"reason": "Psychological and regional; the English is a coined term."
+			}
+		]
+	},
+	"faith": {
+		"name": "fe",
+		"aliases": [
+			"Fe"
+		],
+		"meaning": "The living, personal trust by which a person grasps the truth of sonship with God; the assurance of sonship is the experience of faith (140:10.9, 193:0.4, 196:3.34).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "creencia",
+				"reason": "The papers set belief apart from faith; 'creencia' is the word for belief."
+			},
+			{
+				"form": "confianza",
+				"reason": "Is trust in general and collides with 'espíritus de la confianza'."
+			}
+		]
 	},
 	"father-absolute": {
 		"name": "Padre-Absoluto",
@@ -520,6 +1564,37 @@
 			{
 				"form": "Padre Absoluto",
 				"reason": "Without the hyphen it reads as a description ('the absolute father'); the English hyphen marks a name, like 'Father-Infinite'."
+			}
+		]
+	},
+	"father-fused-mortals": {
+		"name": "mortales fusionados con el Padre",
+		"aliases": [
+			"fusionados con el Padre"
+		],
+		"meaning": "Mortals who fuse with their Thought Adjuster, a fragment of the Universal Father; the same as Adjuster-fused mortals (40:9.1, 22:6.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"father-melchizedek": {
+		"name": "Padre Melquisedec",
+		"meaning": "The first Melchizedek of Nebadon, who with the Creator Son and Creative Spirit brought the order into being and acts for Gabriel in his absence (93:1.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"fatherhood-of-god": {
+		"name": "paternidad de Dios",
+		"aliases": [
+			"Paternidad de Dios",
+			"paternidad"
+		],
+		"meaning": "The truth that God is the Father of all persons, which the gospel of the kingdom proclaims with the sonship of man (193:0.4).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "padrazgo",
+				"reason": "Means sponsorship or godfathership, a different relationship."
 			}
 		]
 	},
@@ -541,6 +1616,24 @@
 			}
 		]
 	},
+	"first-experiential-trinity": {
+		"name": "primera Trinidad experiencial",
+		"meaning": "The union of the Supreme Creators, the Supreme Being, and the Architects of the Master Universe, also called the Trinity Ultimate (106:3.2, 31:9.14, 0:12.3).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "primera Trinidad experimental",
+				"reason": "'Experimental' means 'trial' or 'test'."
+			}
+		]
+	},
+	"force": {
+		"name": "fuerza",
+		"meaning": "A broad term like energy, for spiritual, mindal, and material realms; in physics, cosmic force means energies from the Unqualified Absolute not yet responsive to Paradise gravity (0:6.2, 0:6.5).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"foundation-of-spiritual-progress": {
 		"name": "Fundación del Progreso Espiritual",
 		"meaning": "An institution on a neighboring planet that supervises spiritual teachers who visit families, supported by voluntary gifts (Paper 72).",
@@ -550,6 +1643,100 @@
 			{
 				"form": "Fundación para el Progreso Espiritual",
 				"reason": "Adds a purpose that the English 'of' does not state."
+			}
+		]
+	},
+	"four-and-twenty-counselors": {
+		"name": "veinticuatro consejeros",
+		"aliases": [
+			"comisión de los veinticuatro",
+			"veinticuatro ancianos",
+			"veinticuatro directores",
+			"veinticuatro administradores"
+		],
+		"meaning": "A commission of twenty-four ascended Urantians on Jerusem, Michael's personal agents and advisory-control body for Urantia (45:4, 76:6.3).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "cuatro y veinte consejeros",
+				"reason": "Spanish has no archaic 'four and twenty' order; it reads as an error."
+			}
+		],
+		"forcedChoices": [
+			"plain 'veinticuatro': Spanish cannot keep the archaic English numeral order."
+		]
+	},
+	"fourth-creatures-cherubim": {
+		"name": "cuartas criaturas (querubines)",
+		"meaning": "Every fourth cherubim and sanobim, quasi-material and near the morontia level, useful in borderland work (38:7.6, 38:7.7).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "criaturas cuartas",
+				"reason": "reads as an odd adjective; the ordinal precedes in Spanish"
+			}
+		]
+	},
+	"fourth-creatures-havona-servitals": {
+		"name": "cuartas criaturas (Servitales de Havona)",
+		"aliases": [
+			"cuartas criaturas de los Servitales de Havona"
+		],
+		"meaning": "Every fourth Havona Servital, a semiphysical being nearer to the physical power directors, able to discern both spirit and material beings (25:1.3, 44:0.17).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "criaturas cuartas",
+				"reason": "Unnatural word order in Spanish."
+			}
+		]
+	},
+	"fourth-creatures-universal-conciliators": {
+		"name": "cuartas criaturas (Conciliadores Universales)",
+		"aliases": [
+			"cuartas criaturas de los conciliadores"
+		],
+		"meaning": "The quasi-material member of each conciliating commission, the Divine Executioner, almost visible to mortals (25:2.5, 25:2.8).",
+		"confidence": "high",
+		"formConfidence": "medium"
+	},
+	"free-will": {
+		"name": "libre albedrío",
+		"aliases": [
+			"de libre albedrío",
+			"voluntad libre"
+		],
+		"meaning": "The capacity of a personal creature to choose within its limits, the mark of will creatures that makes moral decision and survival possible (5:6, 112:5, 118:6).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "libre voluntad",
+				"reason": "Shows the family root \"voluntad\" but is less natural as the name of the faculty; kept as the alias \"voluntad libre\" where the text stresses the will."
+			}
+		]
+	},
+	"fusion": {
+		"name": "fusión",
+		"aliases": [
+			"Fusión",
+			"fusionado",
+			"fusionarse"
+		],
+		"meaning": "The eternal union of the surviving soul with a divine spirit fragment, of the Father (Adjuster), the Son, or the Spirit; a creature is fused with only one (40:9.1, 40:10.10).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "unión",
+				"reason": "Too general; loses the coined term."
+			},
+			{
+				"form": "fusión nuclear",
+				"reason": "The reader must not bring the physical sense of 'fusión' to this term."
 			}
 		]
 	},
@@ -564,6 +1751,22 @@
 			{
 				"form": "Lucero de la Mañana",
 				"reason": "'Lucero' is the planet Venus and is a traditional name for Lucifer; that sense is the opposite of what the authors mean."
+			}
+		]
+	},
+	"garden-of-eden": {
+		"name": "Jardín del Edén",
+		"aliases": [
+			"jardín",
+			"Jardín"
+		],
+		"meaning": "The headquarters of Adam and Eve on a Mediterranean peninsula, later submerged.",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Paraíso terrenal",
+				"reason": "Collides with the done term 'Paraíso'."
 			}
 		]
 	},
@@ -584,6 +1787,25 @@
 			}
 		]
 	},
+	"god-the-sevenfold": {
+		"name": "Dios el Séptuple",
+		"aliases": [
+			"Deidad Séptuple"
+		],
+		"meaning": "The seven-level association of Deity, from the Creator Sons up to the Universal Father, that makes up for the limits of creatures and integrates the perfecting with the perfect (105:6.5, 0:9.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Dios Séptuple",
+				"reason": "Breaks the pattern of the done terms 'Dios el Absoluto' and 'Dios el Espíritu'."
+			},
+			{
+				"form": "Dios Septenario",
+				"reason": "'Septenario' means a seven-day period or a set of seven."
+			}
+		]
+	},
 	"god-the-spirit": {
 		"name": "Dios el Espíritu",
 		"meaning": "The Infinite Spirit, Third Person of the Paradise Trinity (8:0.4, 13:1.10).",
@@ -593,6 +1815,60 @@
 			{
 				"form": "Dios Espíritu",
 				"reason": "Drops the article and reads as a description ('God, who is spirit') instead of the name."
+			}
+		]
+	},
+	"god-the-supreme": {
+		"name": "Dios el Supremo",
+		"aliases": [
+			"el Supremo"
+		],
+		"meaning": "The personal spirit reflection of the triune Paradise Deity in Havona, the first experiential Deity, unifying with the Almighty Supreme as the Supreme Being (0:7.1, 0:7.7).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"god-the-ultimate": {
+		"name": "Dios el Último",
+		"aliases": [
+			"el Último",
+			"Deidad Última"
+		],
+		"meaning": "Personal Deity that functions on the absonite level of supertime and transcended space, eventuating from the divinity potentials of the master universe; the second experiential Deity after God the Supreme (0:9.1, 0:9.2, 0:9.5).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Dios el Final",
+				"reason": "Implies only an end point in time, against 0:9.5 (he has no end)."
+			},
+			{
+				"form": "Dios Último",
+				"reason": "Without the article it reads as 'the last God'; the pattern 'Dios el X' follows Dios el Supremo and Dios el Absoluto."
+			}
+		],
+		"forcedChoices": [
+			"masculine 'el Último': The English refers to God the Ultimate with 'he' as with God the Supreme (0:7.1, 117:7.4)."
+		]
+	},
+	"goodness": {
+		"name": "bondad",
+		"aliases": [
+			"bien",
+			"Bien",
+			"Bondad",
+			"bueno"
+		],
+		"meaning": "With truth and beauty one of the three divine values through which creatures grasp divinity; the moral and spiritual quality of God that creatures seek and recognize (2:7, 56:10).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "benevolencia",
+				"reason": "Only kindness toward others; narrower than goodness."
+			},
+			{
+				"form": "(note) bondad",
+				"reason": "The reader must not reduce it to \"niceness\" or mild kindness."
 			}
 		]
 	},
@@ -608,6 +1884,59 @@
 			{
 				"form": "Evangelio",
 				"reason": "Capital reads as a book of the New Testament; the English uses lowercase for the message."
+			}
+		]
+	},
+	"graduate-guides": {
+		"name": "Guías de Graduados",
+		"aliases": [
+			"Guía de Graduados"
+		],
+		"meaning": "Higher Personalities of the Infinite Spirit who conduct the training school of Havona and guide each ascending pilgrim through the circuits; some are translated Havona Servitals (24:6.4, 25:1.7).",
+		"confidence": "high",
+		"formConfidence": "low",
+		"rejected": [
+			{
+				"form": "Guías Graduados",
+				"reason": "Reads as guides who themselves graduated; the English 'Graduate Guides' can mean guides of graduates (the pilgrims who graduate from the superuniverses)."
+			},
+			{
+				"form": "Guías de Posgrado",
+				"reason": "Too academic and modern."
+			}
+		],
+		"forcedChoices": [
+			"'de Graduados': English leaves open whether 'graduate' describes the guides or the pilgrims; Spanish must choose. The pilgrims arrive as graduates of the superuniverse schools (25:1.7). A reviewer must check."
+		]
+	},
+	"grand-universe": {
+		"name": "gran universo",
+		"aliases": [
+			"Gran Universo"
+		],
+		"meaning": "The seven evolving superuniverses together with the central universe of Havona, the now organized and inhabited creation (0:0.6).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "universo grande",
+				"reason": "After the noun, \"grande\" is only a size description, not a name."
+			}
+		]
+	},
+	"gravity": {
+		"name": "gravedad",
+		"aliases": [
+			"Gravedad",
+			"gravitación"
+		],
+		"meaning": "The sole control of energy-matter, and by extension the drawing circuits of personality, spirit, mind, and material gravity (0:6.11).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "(ordinary sense) 'gravedad' = seriousness",
+				"reason": "The reader must not bring this; the sense is a drawing force."
 			}
 		]
 	},
@@ -631,10 +1960,116 @@
 		"meaning": "Ancient Greece and its culture and philosophy (98:1.1, 195:1.1).",
 		"confidence": "high"
 	},
+	"greeks": {
+		"name": "griegos",
+		"aliases": [
+			"griego"
+		],
+		"meaning": "The ancient Greek people, teachers, artists, traders, and colonizers of the Mediterranean (80:7, 98:1-2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"guardian-angels": {
+		"name": "ángeles guardianes",
+		"aliases": [
+			"serafines guardianes",
+			"ángel guardián"
+		],
+		"meaning": "Seraphim assigned to individual mortals or groups of mortals, who minister to them in life and keep the identity of the surviving soul until the resurrection (Paper 113).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "ángeles de la guarda",
+				"reason": "A natural devotional set phrase, but it brings a popular image of a child's protector; 'guardianes' also matches 'serafines guardianes'."
+			},
+			{
+				"form": "ángeles custodios",
+				"reason": "Liturgical tone and less common across Latin America."
+			}
+		]
+	},
+	"guardians-of-destiny": {
+		"name": "guardianes del destino",
+		"aliases": [
+			"guardián personal",
+			"guardianes de destino",
+			"Guardianes del destino"
+		],
+		"meaning": "Personal seraphim assigned to a mortal who reaches the third circle or makes the supreme decision, who keep the soul's survival values after death and can go with the mortal to Paradise (113:6.1, 113:7.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "ángeles de la guarda",
+				"reason": "Popular religious term with a different idea."
+			}
+		]
+	},
 	"havona": {
 		"name": "Havona",
 		"meaning": "The eternal central universe of perfect worlds that surrounds Paradise (0:0.5, 14:0.1).",
 		"confidence": "high"
+	},
+	"havona-natives": {
+		"name": "nativos de Havona",
+		"aliases": [
+			"habitantes de los mundos de Havona",
+			"habitantes nativos de Havona"
+		],
+		"meaning": "The beings created by the Trinity who are the native inhabitants of the billion worlds of the central universe (14:4, 37:9.12).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "indígenas de Havona",
+				"reason": "Brings an ethnic and social sense."
+			}
+		]
+	},
+	"havona-pilgrims": {
+		"name": "peregrinos de Havona",
+		"aliases": [
+			"peregrino",
+			"peregrinos",
+			"peregrinos ascendentes",
+			"peregrinos del tiempo",
+			"peregrino del ascenso"
+		],
+		"meaning": "Ascending mortals who reach the central universe and pass inward through the seven circuits of Havona toward Paradise (Paper 26, 24:6.4).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "romeros de Havona",
+				"reason": "'romero' is a pilgrim to a local shrine and a herb; folk sense."
+			}
+		]
+	},
+	"havona-servitals": {
+		"name": "Servitales de Havona",
+		"aliases": [
+			"Servital de Havona",
+			"servitales"
+		],
+		"meaning": "Beings created by the Master Spirits with the Supreme Power Directors, who serve in Havona and the superuniverses, and some of whom become Graduate Guides (25:1.3, 25:1.7).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Servidores de Havona",
+				"reason": "Too generic; the coined '-al' form reads as a term."
+			}
+		]
+	},
+	"herod-antipas": {
+		"name": "Herodes Antipas",
+		"aliases": [
+			"Herodes"
+		],
+		"meaning": "Herod Antipas, tetrarch of Galilee and Perea, who killed John the Baptist (135:12.1).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"high-spirit-personalities-of-circuit-control-unrevealed": {
 		"name": "altas personalidades espirituales del control de circuitos (no reveladas)",
@@ -664,6 +2099,12 @@
 			}
 		]
 	},
+	"hinduism": {
+		"name": "hinduismo",
+		"meaning": "The oldest and most adaptable of the major religions, an integral part of the social life of India (94:4).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"holy-spirit": {
 		"name": "Espíritu Santo",
 		"meaning": "The spiritual circuit of the local universe Creative Spirit (Divine Minister), confined to the local universe, distinct from the omnipresent Infinite Spirit (8:5.3, 34:5.5, 194:2.17).",
@@ -677,6 +2118,43 @@
 			{
 				"form": "(ordinary sense) third person of the Christian Trinity",
 				"reason": "The reader must not identify it with the Infinite Spirit; the papers define it as the circuit of the local universe Mother Spirit (8:5.3)."
+			}
+		]
+	},
+	"i-am": {
+		"name": "YO SOY",
+		"meaning": "The philosophic concept of the Universal Father as the infinite, eternal, and absolute primal cause before any differentiation of reality (105:1.1, 105:2.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Yo Soy",
+				"reason": "the English keeps full capitals; keep them"
+			}
+		]
+	},
+	"idealism": {
+		"name": "idealismo",
+		"aliases": [
+			"Idealismo",
+			"idealista"
+		],
+		"meaning": "Devotion to high spiritual concepts and values above material ends, which in the papers must also be practical.",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"forcedChoices": [
+			"'idealismo': The reader must not bring the philosophical school (mind over matter) where the papers mean devotion to ideals."
+		]
+	},
+	"immanuel": {
+		"name": "Immanuel",
+		"meaning": "The Union of Days assigned to Nebadon, ambassador of the Paradise Trinity to Michael, whose name means 'God with us' (33:4).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Emanuel",
+				"reason": "The usual Spanish form of the biblical name; but here it names a particular being of this book, so the English spelling stays to keep the person distinct from the prophecy."
 			}
 		]
 	},
@@ -714,6 +2192,29 @@
 				"reason": "Refers to the religion; 'indio' is the gentilic. Note that 'indio' can also mean a native American in Latin America; context decides."
 			}
 		]
+	},
+	"indigo-race": {
+		"name": "raza índigo",
+		"aliases": [
+			"hombre índigo",
+			"razas índigo",
+			"índigos"
+		],
+		"meaning": "The sixth of the Sangik colored races, which migrated to Africa and stayed there (64:6).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "raza añil",
+				"reason": "'añil' is correct but less known for the color in all countries; 'índigo' matches the English."
+			}
+		]
+	},
+	"infinite-mind": {
+		"name": "Mente Infinita",
+		"meaning": "The mind of the Infinite Spirit, present throughout creation through the intelligence circuits.",
+		"confidence": "medium",
+		"formConfidence": "high"
 	},
 	"infinite-spirit": {
 		"name": "Espíritu Infinito",
@@ -767,6 +2268,115 @@
 			}
 		]
 	},
+	"iniquity": {
+		"name": "iniquidad",
+		"aliases": [
+			"Iniquidad"
+		],
+		"meaning": "The willful, determined, and persistent transgression of divine law, indicative of vanishing personality control (67:1.4, 67:1.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "maldad",
+				"reason": "Too general; does not carry the persistent, willful sense."
+			},
+			{
+				"form": "injusticia",
+				"reason": "Only injustice."
+			}
+		]
+	},
+	"inspired-trinity-spirits": {
+		"name": "Espíritus Inspirados de la Trinidad",
+		"aliases": [
+			"Espíritus Inspirados de la Trinidad del Paraíso",
+			"Espíritus Inspirados"
+		],
+		"meaning": "A somewhat impersonal, largely secret order of Trinity-origin beings whose ministry is superconscious (19:0.1).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Espíritus de la Trinidad Inspirados",
+				"reason": "Word order can read as 'Spirits of the inspired Trinity'."
+			},
+			{
+				"form": "Espíritus inspirados por la Trinidad",
+				"reason": "Closes a reading the English leaves open: the English does not say the Trinity inspires them."
+			}
+		]
+	},
+	"intelligence-co-ordinators-seraphic-corps-of-completion": {
+		"name": "coordinadores de información (Cuerpo Seráfico de Culminación)",
+		"aliases": [
+			"coordinadores de información glorificados"
+		],
+		"meaning": "Glorified completion seraphim who coordinate the exchange of news and information with the broadcasters (26:3.8 for the Havona order; 39:2.9).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "coordinadores de inteligencia",
+				"reason": "'inteligencia' reads as intellect or espionage; here 'intelligence' is news"
+			}
+		]
+	},
+	"iran": {
+		"name": "Irán",
+		"aliases": [
+			"iranio",
+			"iraní"
+		],
+		"meaning": "The Iranian plateau and its peoples, a corridor of Andite migration and land of Zoroaster (79:1, 95:6).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"isle-of-paradise": {
+		"name": "Isla del Paraíso",
+		"meaning": "The stationary Isle at the heart of the central universe, the geographic center of infinity and the dwelling place of the eternal God (0:0.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Isla Paraíso",
+				"reason": "Reads as a resort name; Spanish needs the \"de\" link."
+			}
+		]
+	},
+	"isle-of-patmos": {
+		"name": "isla de Patmos",
+		"aliases": [
+			"Patmos"
+		],
+		"meaning": "The Greek island where the apostle John was banished for four years and wrote the Book of Revelation (historical place).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Isla de Patmos",
+				"reason": "The capital on the generic noun is not the standard Spanish form for this historical place."
+			}
+		],
+		"forcedChoices": [
+			"lowercase \"isla\": Standard Spanish writes the generic geographic noun in lowercase before a historical place name."
+		]
+	},
+	"james-brother-of-jesus": {
+		"name": "Santiago (hermano de Jesús)",
+		"aliases": [
+			"Santiago"
+		],
+		"meaning": "James, the second-born brother of Jesus, later head of the church at Jerusalem.",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Jacobo",
+				"reason": "Also used in Spanish, but 'Santiago' matches the done term 'Santiago Zebedeo'."
+			}
+		]
+	},
 	"james-zebedee": {
 		"name": "Santiago Zebedeo",
 		"aliases": [
@@ -780,6 +2390,12 @@
 				"reason": "Used in some Bibles, but 'Santiago' is the common Spanish name of this apostle across countries."
 			}
 		]
+	},
+	"jerusalem": {
+		"name": "Jerusalén",
+		"meaning": "The historical city of Palestine, earlier Salem and Jebus, center of Jewish worship with its temple, where Jesus taught and was crucified (Papers 121-187).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"jerusalem-temple": {
 		"name": "templo de Jerusalén",
@@ -805,6 +2421,24 @@
 		"meaning": "The Jewish people, descendants of the Hebrews (97:0.1, 121:2.1).",
 		"confidence": "high"
 	},
+	"jews-ancient-hebrews": {
+		"name": "judíos (antiguos hebreos)",
+		"aliases": [
+			"hebreos"
+		],
+		"meaning": "The ancient Hebrew people, Abraham's descendants together with adopted nomads, from whom the Jewish nation formed (Papers 96-97).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"john-mark": {
+		"name": "Juan Marcos",
+		"aliases": [
+			"Marcos"
+		],
+		"meaning": "John Mark, the boy of chores for Jesus and the apostles, later the writer of the Gospel of Mark (121:8.2, 177:2.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"john-the-baptist": {
 		"name": "Juan el Bautista",
 		"aliases": [
@@ -821,6 +2455,15 @@
 		"meaning": "John, son of Zebedee, the youngest of the twelve apostles (139:4.1).",
 		"confidence": "high"
 	},
+	"joseph-father-of-jesus": {
+		"name": "José (padre de Jesús)",
+		"aliases": [
+			"José"
+		],
+		"meaning": "Joseph, the human father of Jesus, a carpenter and builder of Nazareth who died in an accident when Jesus was fourteen (122:1.1, 126:2.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"judaism": {
 		"name": "judaísmo",
 		"meaning": "The religion of the Jews that grew from the Hebrew faith and held the concept of one God (97:0.1, 121:2.1).",
@@ -833,6 +2476,28 @@
 		],
 		"meaning": "The Judean apostle, treasurer of the twelve, who betrayed Jesus (139:12.1).",
 		"confidence": "high"
+	},
+	"jude": {
+		"name": "Judas (hermano de Jesús)",
+		"aliases": [
+			"Judas"
+		],
+		"meaning": "Jude, the youngest brother of Jesus, of fiery and patriotic temper (127:1.6, 128:4.6).",
+		"confidence": "high",
+		"formConfidence": "low",
+		"rejected": [
+			{
+				"form": "Judá",
+				"reason": "the name of the patriarch and the tribe"
+			},
+			{
+				"form": "Jude",
+				"reason": "not a Spanish form"
+			}
+		],
+		"forcedChoices": [
+			"Judas, with the qualifier: Spanish has one name for English 'Jude' and 'Judas'; the English keeps them apart"
+		]
 	},
 	"kc-absolute": {
 		"name": "absoluto",
@@ -853,6 +2518,58 @@
 			{
 				"form": "(ordinary sense) absoluto = 'utter, complete' as intensifier",
 				"reason": "The reader must not read it as a mere intensifier ('un absoluto desastre')."
+			}
+		]
+	},
+	"kc-absonite": {
+		"name": "absonito",
+		"aliases": [
+			"absonita",
+			"absonitos",
+			"lo absonito"
+		],
+		"meaning": "The level of reality between the finite and the absolute, of things and beings without beginnings or endings that transcend time and space and are eventuated, not created (0:1.12, 0:9.2).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "absonita (as the masculine form)",
+				"reason": "Spanish needs an agreeing adjective; \"absonito\" and \"absonita\" follow the noun's gender."
+			}
+		]
+	},
+	"kc-ascender": {
+		"name": "ascendente",
+		"aliases": [
+			"ascendentes"
+		],
+		"meaning": "A creature of evolutionary origin who climbs from the material worlds toward Paradise (13:1.21, 20:1.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "ascensor",
+				"reason": "Means an elevator."
+			},
+			{
+				"form": "(ordinary sense) 'ascendente' = astrological sign or ancestor",
+				"reason": "The reader must not bring these; the sense is one who ascends. Matches 'mortales ascendentes'."
+			}
+		]
+	},
+	"kc-ascension-career": {
+		"name": "carrera de ascensión",
+		"meaning": "The whole course of a creature's ascent from the material worlds to Paradise.",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "trayectoria ascendente",
+				"reason": "Breaks the family root 'ascensión'."
+			},
+			{
+				"form": "(ordinary sense) 'carrera' = a race or a university degree",
+				"reason": "The reader must not bring these; the sense is a course of life."
 			}
 		]
 	},
@@ -910,6 +2627,58 @@
 			}
 		]
 	},
+	"kc-cosmic-insight": {
+		"name": "perspicacia cósmica",
+		"meaning": "A person's clear understanding of universe realities and his place among them, one of the values by which mortal progress through the cosmic circles is measured (106:0.1, 49:6.8, 100:4.2).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "intuición cósmica",
+				"reason": "'Intuición' suggests knowledge without reasoning; 0:6.8 calls insight intellectual."
+			},
+			{
+				"form": "visión cósmica",
+				"reason": "Collides with 'spiritual vision', which 100:4.2 sets beside cosmic insight."
+			},
+			{
+				"form": "discernimiento cósmico",
+				"reason": "Shares the root with 'Discernidores de Espíritus'."
+			}
+		]
+	},
+	"kc-creator-creature": {
+		"name": "Creador-criatura",
+		"meaning": "The relationship and shared experience between Creator and created being, which the papers compare to the Father-child affection and which the Supreme personifies (3:4.7, 21:3.23, 117:1.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "creador-creatura",
+				"reason": "'creatura' is a Latinism, not current Spanish."
+			}
+		]
+	},
+	"kc-enseraphimed": {
+		"name": "enserafinado",
+		"aliases": [
+			"enserafinados",
+			"enserafinar"
+		],
+		"meaning": "Enclosed in a transport seraphim for travel through space, in transit sleep (39:2.12, 39:5.14, 51:2.2).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "enseraphimado",
+				"reason": "mixes English spelling into a Spanish verb form"
+			},
+			{
+				"form": "transportado por serafines",
+				"reason": "plain paraphrase; the English coins one word"
+			}
+		]
+	},
 	"kc-evolutionary": {
 		"name": "evolutivo",
 		"aliases": [
@@ -932,6 +2701,26 @@
 			}
 		]
 	},
+	"kc-existential": {
+		"name": "existencial",
+		"aliases": [
+			"existenciales",
+			"existencialmente"
+		],
+		"meaning": "Eternal and without origin, existing by nature rather than through experience, as the Paradise Deities are; the opposite of experiential (0:1.14, 0:1.18, 0:4.9, 0:7.5).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "(note) existencial",
+				"reason": "The reader must not bring the sense of existentialist philosophy or personal anguish (\"crisis existencial\")."
+			},
+			{
+				"form": "eterno",
+				"reason": "Too broad; the Supreme is eternal in future but not existential (0:9.5)."
+			}
+		]
+	},
 	"kc-finite": {
 		"name": "finito",
 		"aliases": [
@@ -947,6 +2736,29 @@
 				"form": "limitado",
 				"reason": "Plain 'limited'; loses the technical level set against 'absonite' and 'absolute'."
 			}
+		]
+	},
+	"kc-guardian-of-destiny": {
+		"name": "guardián del destino",
+		"aliases": [
+			"guardianes del destino",
+			"guardián seráfico del destino"
+		],
+		"meaning": "The personal seraphim assigned to a mortal who reaches the third psychic circle, who keeps the life record and accompanies the survivor (110:6.14, 113:2.2, 112:4.12).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "ángel de la guarda",
+				"reason": "carries the popular Catholic belief of a guardian from birth; the papers assign it at the third circle"
+			},
+			{
+				"form": "guardiana del destino",
+				"reason": "the papers write 'her' for the seraphim, but the noun 'serafín' is masculine"
+			}
+		],
+		"forcedChoices": [
+			"masculine 'guardián': agrees with 'serafín'; the papers use 'her', so a translator can keep feminine pronouns in the sentence"
 		]
 	},
 	"kc-indwelling": {
@@ -988,6 +2800,27 @@
 			}
 		]
 	},
+	"kc-isle": {
+		"name": "Isla",
+		"aliases": [
+			"Isla del Paraíso",
+			"Isla eterna",
+			"isla"
+		],
+		"meaning": "The Isle is Paradise as a stationary, material-like body at the center of all things, the geographic center of infinity and the dwelling place of God (0:0.5, 11:2.8, 105:3.4).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Ínsula",
+				"reason": "Literary and archaic; the English uses the plain word."
+			},
+			{
+				"form": "Islote",
+				"reason": "Means a small island; the Isle is immense."
+			}
+		]
+	},
 	"kc-mortal": {
 		"name": "mortal",
 		"aliases": [
@@ -1007,6 +2840,55 @@
 			}
 		]
 	},
+	"kc-paradise-deity": {
+		"name": "Deidad del Paraíso",
+		"aliases": [
+			"Deidades del Paraíso"
+		],
+		"meaning": "The existential Deity of Paradise, existing as three persons in the Paradise Trinity, as distinct from the experiential Deities that are still emerging (0:4.9, 0:7.7, 0:7.9).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Divinidad del Paraíso",
+				"reason": "'divinity' is a separate term (the quality of Deity); the two must stay distinct."
+			}
+		]
+	},
+	"kc-perfecting": {
+		"name": "en perfeccionamiento",
+		"aliases": [
+			"perfeccionamiento",
+			"que se perfecciona",
+			"que se perfeccionan"
+		],
+		"meaning": "In the process of becoming perfect by evolutionary growth in time, as the superuniverses and evolutionary creatures are, in contrast to the perfect (Havona) and the perfected (32:3.14, 105:6.5, 106:1.1, 117:1.2).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "perfeccionante",
+				"reason": "Reads as 'that makes something perfect' (active cause), not 'that is becoming perfect'."
+			},
+			{
+				"form": "imperfecto",
+				"reason": "Loses the idea of progress toward perfection."
+			},
+			{
+				"form": "en vías de perfección",
+				"reason": "Correct sense but long; kept as a possible paraphrase, not the term."
+			}
+		],
+		"forcedChoices": [
+			"adjectival phrase 'en perfeccionamiento' or relative clause 'que se perfecciona': Spanish has no one-word participle adjective with the ongoing sense of English 'perfecting'."
+		]
+	},
+	"kc-personality-survival": {
+		"name": "supervivencia de la personalidad",
+		"meaning": "The survival of the personality, held by the soul and the Adjuster, past the death of the body (112:2, 112:5).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"kc-prepersonal": {
 		"name": "prepersonal",
 		"aliases": [
@@ -1019,6 +2901,41 @@
 			{
 				"form": "anterior a la persona",
 				"reason": "Explains and loses the term."
+			}
+		]
+	},
+	"kc-progression": {
+		"name": "progresión",
+		"meaning": "The step-by-step advance of a creature through levels of attainment, as in the circles of mortal progression and the routes of progression to Paradise (49:6.8, 40:3.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "progreso",
+				"reason": "Plainer, but reserved for the separate English word 'progress', which the papers also use (49:6.8)."
+			},
+			{
+				"form": "(ordinary sense) a mathematical series",
+				"reason": "The reader must not bring this."
+			}
+		]
+	},
+	"kc-sonship": {
+		"name": "filiación",
+		"aliases": [
+			"filiación con Dios"
+		],
+		"meaning": "The status of being a son of God, which a person knows and grasps by faith (140:10.9, 193:0.4, 196:3.34).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "condición de hijo",
+				"reason": "Correct but long; a phrase where the English uses one word."
+			},
+			{
+				"form": "(ordinary sense) 'filiación' = political membership or personal data on a record",
+				"reason": "The reader must not bring these; the sense is the relation of a son to his father."
 			}
 		]
 	},
@@ -1083,6 +3000,64 @@
 			}
 		]
 	},
+	"kc-superconscious": {
+		"name": "superconsciente",
+		"aliases": [
+			"superconsciencia"
+		],
+		"meaning": "The levels of the human mind above ordinary consciousness, the domain where the Thought Adjuster makes contact and where religious growth takes place (100:1.9, 91:2.6, 91:3.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "supraconsciente",
+				"reason": "Also valid Spanish, but 'super-' matches 'superpersonal' and 'superuniversos'."
+			},
+			{
+				"form": "subconsciente",
+				"reason": "The papers set the superconscious against the subconscious (91:3.5)."
+			}
+		]
+	},
+	"kc-superhuman": {
+		"name": "sobrehumano",
+		"aliases": [
+			"sobrehumanos",
+			"sobrehumana"
+		],
+		"meaning": "Above the human level, as beings, wisdom, or help from orders higher than mortals (for example the midwayers and the revelators).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "superhumano",
+				"reason": "Less standard than \"sobrehumano\"; the English uses a common word."
+			},
+			{
+				"form": "(note) sobrehumano",
+				"reason": "The reader must not bring the sense \"enormous effort\" (\"un esfuerzo sobrehumano\")."
+			}
+		]
+	},
+	"kc-supermaterial": {
+		"name": "supermaterial",
+		"aliases": [
+			"supermateriales"
+		],
+		"meaning": "Above the material level of reality: the morontial, mind, and spirit levels on which Deity shows its unity (0:1.2).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "sobrematerial",
+				"reason": "Not a current Spanish word; \"super-\" follows the glossary (superpersonal, superuniversos)."
+			},
+			{
+				"form": "inmaterial",
+				"reason": "Means only \"not material\"; loses \"above\"."
+			}
+		]
+	},
 	"kc-superpersonal": {
 		"name": "superpersonal",
 		"aliases": [
@@ -1098,6 +3073,21 @@
 			}
 		]
 	},
+	"kc-supreme-being": {
+		"name": "Ser Supremo",
+		"aliases": [
+			"el Supremo"
+		],
+		"meaning": "The evolving experiential Deity that unifies the sevenfold manifestation of Deity in the grand universe as one Lord, the eternal fusion of the finite and the infinite (0:7.7, 0:7.8, 0:7.9).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "(ordinary sense) 'Ser Supremo' = God in general",
+				"reason": "Kept the form, but the reader must not take it as a generic name for God; here it names an evolving Deity distinct from the Universal Father."
+			}
+		]
+	},
 	"kc-totality": {
 		"name": "totalidad",
 		"meaning": "The whole of something taken all together, as the totality of cosmic reality or of the co-ordinated infinite nature of God (1:5.13, 10:4.6, 42:2.3).",
@@ -1109,6 +3099,100 @@
 				"reason": "Means a set or a group; loses the sense of the complete whole."
 			}
 		]
+	},
+	"kc-transcendental": {
+		"name": "trascendental",
+		"aliases": [
+			"trascendentales"
+		],
+		"meaning": "Belonging to the absonite level that transcends time and space, between finite and absolute (0:9.1, 0:9.5, 0:2.17).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "transcendental",
+				"reason": "Valid but less common than \"trascendental\" in current Spanish."
+			},
+			{
+				"form": "(note) trascendental",
+				"reason": "The reader must not bring the sense \"very important\" or the sense of Kantian philosophy."
+			}
+		]
+	},
+	"kc-triodity": {
+		"name": "triodidad",
+		"aliases": [
+			"triodidades"
+		],
+		"meaning": "A non-Father triune relationship, such as the triodity of actuality or of potentiality, consequent on the triunities (104:5.1, 115:3.7).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "triodo",
+				"reason": "Ordinary sense is an electronic valve."
+			}
+		]
+	},
+	"kc-ultimate": {
+		"name": "último",
+		"aliases": [
+			"Último",
+			"última",
+			"Ultimidad"
+		],
+		"meaning": "In its special sense, pertaining to the absonite level of Deity and reality that transcends time and space, the second level of experiential divinity after the supreme (0:1.10, 0:1.12, 0:9.2); in many other uses it keeps its ordinary English sense of final or fundamental.",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "final",
+				"reason": "Means only 'at the end'; loses the sense of a level beyond time and space and breaks the family with Ultimidad."
+			},
+			{
+				"form": "ultimal",
+				"reason": "Not a Spanish word; reads as a coinage where the English uses a plain word."
+			},
+			{
+				"form": "(ordinary sense) 'último' = last in a series",
+				"reason": "Kept the word, but the reader must not bring the sense 'the last one'; the intended sense is the philosophical 'fundamental, beyond' as in 'realidad última'."
+			}
+		]
+	},
+	"kingdom-of-heaven": {
+		"name": "reino de los cielos",
+		"aliases": [
+			"reino"
+		],
+		"meaning": "In Jesus' teaching, the spiritual rule of God that consists in recognizing God's sovereignty, believing in sonship with God, and having faith in the desire to do his will (140:10.9).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "reino del cielo",
+				"reason": "Literal, but less natural; the plural is the ordinary Spanish phrase for this gospel term."
+			},
+			{
+				"form": "(ordinary sense) a political kingdom or a place after death",
+				"reason": "The reader must not bring these; the papers present a spiritual rule in human hearts."
+			}
+		]
+	},
+	"lanonandek-sons": {
+		"name": "Hijos Lanonandek",
+		"aliases": [
+			"Lanonandek",
+			"Lanonandeks"
+		],
+		"meaning": "The third order of local universe Sons, created by the Creator Son and the Mother Spirit, who serve as System Sovereigns and Planetary Princes (35:8).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"lazarus-of-bethany": {
+		"name": "Lázaro (de Betania)",
+		"meaning": "Jesus' friend at Bethany, brother of Martha and Mary, whom Jesus raised from the dead (Paper 168).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"life-carriers": {
 		"name": "Portadores de Vida",
@@ -1126,6 +3210,55 @@
 				"form": "Portadores de la Vida",
 				"reason": "Correct, but the article makes it read less as a term; the English has no article."
 			}
+		]
+	},
+	"light-and-life": {
+		"name": "luz y vida",
+		"aliases": [
+			"vida y luz"
+		],
+		"meaning": "The settled status of an inhabited world, the evolutionary goal of all mortal-inhabited worlds of the present age, reached after the Daynal Sons' missions (20:9.4, 36:1.4, 55:0.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "luz-y-vida",
+				"reason": "The hyphenated form is only an adjective in English; Spanish uses \"de luz y vida\"."
+			}
+		]
+	},
+	"local-systems": {
+		"name": "sistemas locales",
+		"aliases": [
+			"sistema local",
+			"sistema"
+		],
+		"meaning": "Units of about one thousand inhabited worlds under a System Sovereign; Satania is Urantia's system (15:2.3, 32:2.11).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"local-universe-centers": {
+		"name": "centros de los universos locales",
+		"aliases": [
+			"Centros de los Universos Locales"
+		],
+		"meaning": "The fourth order of Supreme Power Centers, stationed on local universe headquarters, which downstep superuniverse power for constellations and systems (29:2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"local-universe-mother-spirit-of-nebadon": {
+		"name": "Espíritu Madre del universo local de Nebadon",
+		"aliases": [
+			"Espíritu del Universo",
+			"Espíritus Madre de los universos locales",
+			"Ministra Divina de Salvington",
+			"Espíritu Madre de Salvington"
+		],
+		"meaning": "The Creative Spirit who is co-director with Michael of Nebadon, known as the Divine Minister of Salvington, whose personal influence is the Holy Spirit and who never leaves Salvington (34:4.7).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"forcedChoices": [
+			"feminine \"Ministra Divina\": The papers refer to the Mother Spirit as \"she\" (34:4.7)."
 		]
 	},
 	"local-universe-mother-spirits": {
@@ -1162,6 +3295,18 @@
 			}
 		]
 	},
+	"local-universe-power-centers": {
+		"name": "centros de poder de los universos locales",
+		"meaning": "Fourth-order Supreme Power Centers on local universe headquarters, which modify and distribute superuniverse power (29:2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"local-universe-sons-of-god": {
+		"name": "Hijos de Dios del Universo Local",
+		"meaning": "The orders of divine sonship native to or serving in a local universe, such as Melchizedeks, Vorondadeks, and Lanonandeks (35:0).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"local-universes": {
 		"name": "universos locales",
 		"aliases": [
@@ -1174,6 +3319,18 @@
 		"meaning": "The creations of the Creator Sons, each of one hundred constellations of one hundred systems of inhabited worlds (32:0.1).",
 		"confidence": "high"
 	},
+	"lucifer": {
+		"name": "Lucifer",
+		"meaning": "A primary Lanonandek Son, once System Sovereign of Satania, who led a rebellion against Michael and the Father (53:1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Luzbel",
+				"reason": "A traditional Spanish name with a folk-religious sense; the English uses \"Lucifer\"."
+			}
+		]
+	},
 	"lucifer-rebellion": {
 		"name": "rebelión de Lucifer",
 		"aliases": [
@@ -1181,6 +3338,41 @@
 		],
 		"meaning": "The revolt of Lucifer, System Sovereign of Satania, against the universe plan and the rule of Michael (53:0.1, 53:3.6).",
 		"confidence": "high"
+	},
+	"machiventa-melchizedek": {
+		"name": "Machiventa Melquisedec",
+		"aliases": [
+			"Melquisedec"
+		],
+		"meaning": "The Melchizedek Son who incarnated at Salem as an emergency bestowal, taught Abraham, and is now vicegerent Planetary Prince of Urantia (93:1.2, 93:9.11).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Machiventa Melchizedek",
+				"reason": "The biblical name has a standard Spanish form, and 'Hijos Melquisedec' is already done."
+			}
+		]
+	},
+	"magisterial-sons": {
+		"name": "Hijos Magistrales",
+		"aliases": [
+			"Hijo Magistral",
+			"Avonales"
+		],
+		"meaning": "The secondary Paradise Sons, offspring of the Eternal Son and the Infinite Spirit (Avonals), who judge dispensations on the worlds and also bestow themselves as mortals (20:1.11, 20:5.6, 20:6.5).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Hijos Magisteriales",
+				"reason": "'Magisterial' in Spanish means of teachers or of a magistracy and is also a church term (magisterio); 'magistral' keeps the sense of authority and judgment."
+			},
+			{
+				"form": "Hijos Magistrados",
+				"reason": "Narrows them to judges and loses the adjective form of the English."
+			}
+		]
 	},
 	"mansion-world-students": {
 		"name": "estudiantes de los mundos morada",
@@ -1214,10 +3406,46 @@
 			}
 		]
 	},
+	"mary-magdalene": {
+		"name": "María Magdalena",
+		"meaning": "The woman of Magdala, leader among the women evangelists, first to see the risen Jesus (Papers 150, 189-190).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"mary-mother-of-jesus": {
 		"name": "María (madre de Jesús)",
 		"meaning": "Mary, the earthly mother of Jesus and wife of Joseph (122:1.2).",
 		"confidence": "high"
+	},
+	"master-architects": {
+		"name": "Arquitectos Maestros",
+		"aliases": [
+			"Arquitecto Maestro"
+		],
+		"meaning": "The short name of the Architects of the Master Universe (31:9.1).",
+		"confidence": "high",
+		"formConfidence": "medium"
+	},
+	"master-force-organizers": {
+		"name": "Organizadores Maestros de la Fuerza",
+		"aliases": [
+			"organizadores de la fuerza del Paraíso"
+		],
+		"meaning": "Transcendental beings who work with space potency and organize the nebulae (29:5.1, 42:2.8).",
+		"confidence": "high",
+		"formConfidence": "medium"
+	},
+	"master-mathematician": {
+		"name": "Matemático Maestro",
+		"meaning": "A phrase for the mind behind the mathematical order of the universe, used against materialism (195:6.8); the text does not name a specific being.",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Gran Matemático",
+				"reason": "breaks the 'master' family"
+			}
+		]
 	},
 	"master-physical-controllers": {
 		"name": "Controladores Físicos Maestros",
@@ -1229,6 +3457,81 @@
 				"reason": "'Maestro' before the noun reads as a teacher of controllers; after the noun it means principal, as in 'Espíritus Maestros'."
 			}
 		]
+	},
+	"master-seraphim-of-planetary-supervision": {
+		"name": "serafines maestros de la supervisión planetaria",
+		"aliases": [
+			"serafines maestros"
+		],
+		"meaning": "Twelve corps of completion seraphim from Seraphington who supervise planetary affairs under the resident governor general (114:6.1, 39:9.2).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "serafines principales",
+				"reason": "breaks the 'master' family (Maestro)"
+			}
+		]
+	},
+	"master-sons": {
+		"name": "Hijos Maestros",
+		"aliases": [
+			"Hijo Maestro"
+		],
+		"meaning": "Creator Sons who completed their seven bestowals and so earned full sovereignty of their universe (21:4.6, 21:5.6).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Hijos Soberanos",
+				"reason": "interprets; the English says 'Master'"
+			}
+		]
+	},
+	"master-spirit-number-five": {
+		"name": "Espíritu Maestro Número Cinco",
+		"meaning": "The Master Spirit who blends the character of the Father and the Infinite Spirit (16:3.10).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"master-spirit-number-four": {
+		"name": "Espíritu Maestro Número Cuatro",
+		"meaning": "The Master Spirit who combines the natures of the Father and the Son (16:3.8).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"master-spirit-number-one": {
+		"name": "Espíritu Maestro Número Uno",
+		"meaning": "The Master Spirit who especially represents the Universal Father (16:3.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"master-spirit-number-seven": {
+		"name": "Espíritu Maestro Número Siete",
+		"aliases": [
+			"Séptimo Espíritu Maestro"
+		],
+		"meaning": "The Master Spirit who represents the Father, Son, and Spirit together and speaks for the Supreme Being (16:3.15).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"master-spirit-number-six": {
+		"name": "Espíritu Maestro Número Seis",
+		"meaning": "The Master Spirit who portrays the combined character of the Son and the Spirit (16:3.12).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"master-spirit-number-three": {
+		"name": "Espíritu Maestro Número Tres",
+		"meaning": "The Master Spirit who especially resembles the Infinite Spirit (16:3.6).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"master-spirit-number-two": {
+		"name": "Espíritu Maestro Número Dos",
+		"meaning": "The Master Spirit who especially portrays the Eternal Son (16:3.4).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"master-spirits-seven": {
 		"name": "Espíritus Maestros, Siete",
@@ -1250,6 +3553,22 @@
 			}
 		]
 	},
+	"master-universe": {
+		"name": "universo maestro",
+		"meaning": "All of the creation in space: the grand universe plus the uninhabited but mobilizing universes of outer space (0:0.6, 12:1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "universo principal",
+				"reason": "Suggests one universe among others; loses the sense of the all-inclusive whole."
+			},
+			{
+				"form": "(note) maestro",
+				"reason": "The reader must not bring the sense \"teacher\"; \"maestro\" follows \"Espíritus Maestros\" in the glossary."
+			}
+		]
+	},
 	"material-sons": {
 		"name": "Hijos Materiales",
 		"aliases": [
@@ -1257,6 +3576,138 @@
 		],
 		"meaning": "The order of Sons sent in pairs, as Adam and Eve, to uplift the races of an evolutionary world biologically (51:0.1).",
 		"confidence": "high"
+	},
+	"matthew-levi": {
+		"name": "Mateo Leví",
+		"aliases": [
+			"Mateo"
+		],
+		"meaning": "Matthew Levi, the seventh apostle, a former customs collector of Capernaum and the apostolic treasurer (139:7.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"meanings": {
+		"name": "significados",
+		"aliases": [
+			"significado"
+		],
+		"meaning": "The \"mind meanings\" of reality, the understanding that mind adds to perception of things, set between things (energy) and values (spirit) (0:0.3, 0:1.1, 0:4.10).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "sentidos",
+				"reason": "Also the five senses and directions; ambiguous."
+			},
+			{
+				"form": "significaciones",
+				"reason": "Heavier \"-ción\" noun with no gain."
+			}
+		]
+	},
+	"melchizedek-brotherhood": {
+		"name": "hermandad de Melquisedec",
+		"meaning": "The group of believers in one God that Machiventa Melchizedek founded at Salem (93).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "fraternidad de Melquisedec",
+				"reason": "'Fraternidad' is used for 'brotherhood' as a quality (the brotherhood of man); 'hermandad' fits an organized body."
+			},
+			{
+				"form": "cofradía de Melquisedec",
+				"reason": "Ordinary sense is a Catholic lay confraternity."
+			}
+		],
+		"forcedChoices": [
+			"'de Melquisedec' (person) rather than invariable 'Melquisedec' (order): The context is the Salem group of Machiventa."
+		]
+	},
+	"melchizedek-college-of-administration": {
+		"name": "Colegio Melquisedec de Administración",
+		"meaning": "The school on Jerusem from which representatives and electors must graduate before they serve in system government (45:7).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Escuela Melquisedec de Administración",
+				"reason": "Acceptable; 'Colegio' keeps the English word, but in some countries it means a secondary school."
+			}
+		]
+	},
+	"melchizedek-college-of-spiritual-endowment": {
+		"name": "Colegio Melquisedec de Dotación Espiritual",
+		"meaning": "A school of the Melchizedek University where Sons of God and seraphim train evangels of spiritual liberty and divine sonship.",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Colegio Melquisedec de Dones Espirituales",
+				"reason": "'Dones' suggests charismatic gifts; 'endowment' is an endowing."
+			}
+		]
+	},
+	"melchizedek-father": {
+		"name": "Melquisedec, Padre",
+		"meaning": "The index form of Father Melchizedek, the first Melchizedek of Nebadon (93:1.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"melchizedek-malavatia": {
+		"name": "Melquisedec, Malavatia",
+		"aliases": [
+			"Malavatia Melquisedec"
+		],
+		"meaning": "A Melchizedek who presented Paper 43.",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"melchizedek-manovandet": {
+		"name": "Melquisedec, Manovandet",
+		"aliases": [
+			"Manovandet Melquisedec"
+		],
+		"meaning": "A Melchizedek once attached to the receivership of Urantia, who presented Paper 53.",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"melchizedek-mantutia": {
+		"name": "Melquisedec, Mantutia",
+		"aliases": [
+			"Mantutia Melquisedec",
+			"director Melquisedec"
+		],
+		"meaning": "The Melchizedek who directed the commission that presented Parts II and III and supervised the restatement in Paper 120.",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"melchizedek-receivers": {
+		"name": "síndicos Melquisedec",
+		"aliases": [
+			"síndicos planetarios",
+			"síndico Melquisedec"
+		],
+		"meaning": "The twelve Melchizedeks who administered Urantia as custodians in trust after the Caligastia rebellion, until Michael's bestowal (67:6.5, 93:1.2, 93:9.11).",
+		"confidence": "high",
+		"formConfidence": "low",
+		"rejected": [
+			{
+				"form": "receptores Melquisedec",
+				"reason": "False friend: 'receptor' means one who receives."
+			},
+			{
+				"form": "administradores Melquisedec",
+				"reason": "Loses the legal sense of receivership (custody of a forfeited estate)."
+			},
+			{
+				"form": "depositarios Melquisedec",
+				"reason": "Means holders of a deposit; weak sense of governing."
+			}
+		],
+		"forcedChoices": [
+			"'síndicos': It carries the legal sense of receivership, but in some countries it also means a town official or a building manager; a human must confirm."
+		]
 	},
 	"melchizedek-sons": {
 		"name": "Hijos Melquisedec",
@@ -1273,6 +3724,55 @@
 			{
 				"form": "Hijos de Melquisedec",
 				"reason": "'de' makes them the children of one person; the name is the name of the order."
+			}
+		]
+	},
+	"melchizedek-sphere": {
+		"name": "esfera Melquisedec",
+		"meaning": "The pilot world of the Salvington circuit, headquarters of the Melchizedeks and site of Michael's first bestowal.",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "esfera de Melquisedec",
+				"reason": "Suggests one person; the English names the order."
+			}
+		]
+	},
+	"melchizedek-university": {
+		"name": "Universidad Melquisedec",
+		"meaning": "The training system of 490 worlds in the Salvington circuit where ascending mortals prepare for residence on Salvington.",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"melchizedek-worlds": {
+		"name": "mundos Melquisedec",
+		"aliases": [
+			"mundos"
+		],
+		"meaning": "The 490 worlds of the Salvington circuit that make up the Melchizedek University.",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"mesopotamia": {
+		"name": "Mesopotamia",
+		"meaning": "The land between the Tigris and Euphrates rivers, the site of the second garden and of the Andite civilization (76:0.1, 78:1.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"messenger-corps-david-zebedee-s": {
+		"name": "cuerpo de mensajeros (de David Zebedeo)",
+		"aliases": [
+			"cuerpo de mensajeros",
+			"servicio de mensajeros"
+		],
+		"meaning": "The group of runners organized by David Zebedee who carried news between Jesus, the apostles, and the believers, and who later helped him run the camps (163:5.2, 163:5.3).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "cuerpo de mensajería",
+				"reason": "'mensajería' suggests a courier company."
 			}
 		]
 	},
@@ -1318,6 +3818,22 @@
 			"note": "\"Miguel\" is the standard Spanish form of the name, as with Jesús, Juan, and Melquisedec"
 		}
 	},
+	"midway-messengers": {
+		"name": "mensajeros intermedios",
+		"meaning": "A small named group of the United Midwayers who give quick and reliable personal communication service on an evolutionary world (77:8.6).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "mensajeros de los seres intermedios",
+				"reason": "Reads as messengers who serve the midwayers, not midwayers who are messengers."
+			},
+			{
+				"form": "mensajeros intermediarios",
+				"reason": "'intermediario' adds a go-between sense."
+			}
+		]
+	},
 	"midwayers": {
 		"name": "seres intermedios",
 		"meaning": "Beings who live on a level about midway between mortals and the angelic orders, hence called midway creatures (77:0.1).",
@@ -1337,10 +3853,415 @@
 			}
 		]
 	},
+	"midwayers-chief-of-urantia": {
+		"name": "jefe de los seres intermedios de Urantia",
+		"aliases": [
+			"Jefe de los Seres Intermedios de Urantia"
+		],
+		"meaning": "The leader of the midwayers of Urantia, who presented Paper 91 on prayer (91:9.9, 77:8.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "jefe intermedio de Urantia",
+				"reason": "Reads as a middle-rank chief, not the chief of the midwayers."
+			}
+		],
+		"forcedChoices": [
+			"masculine 'jefe' with 'los seres': Spanish needs a gender; the English uses no gender here, and the masculine plural is the generic form."
+		]
+	},
+	"midwayers-primary": {
+		"name": "seres intermedios primarios",
+		"aliases": [
+			"intermedios primarios"
+		],
+		"meaning": "The first order of midway creatures, derived from the corporeal staff of the Planetary Prince, nearer to angels in nature, who serve as the planetary intelligence corps (38:9.9, 38:9.10, 77:1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "intermediarios primarios",
+				"reason": "Go-between sense; see secondary midwayers."
+			}
+		]
+	},
+	"midwayers-secondary": {
+		"name": "seres intermedios secundarios",
+		"aliases": [
+			"intermedios secundarios",
+			"orden secundaria de criaturas intermedias"
+		],
+		"meaning": "The second order of midway creatures, descended from the Adamic line, nearer to mortals in nature, who bridge the gap between mortal man and the primary midwayers (38:9.9, 38:9.10, 77:4).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "intermediarios secundarios",
+				"reason": "'intermediario' is a go-between or a broker; the term names beings on a level between two levels, not agents who mediate."
+			},
+			{
+				"form": "seres medianos secundarios",
+				"reason": "'mediano' means of medium size or mediocre."
+			}
+		]
+	},
+	"mighty-messengers": {
+		"name": "Mensajeros Poderosos",
+		"aliases": [
+			"Mensajero Poderoso"
+		],
+		"meaning": "Trinity-embraced ascendant mortals, tested in rebellion, who serve in superuniverse administration (22:2.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Poderosos Mensajeros",
+				"reason": "preposed adjective reads as praise, not as a name"
+			}
+		]
+	},
+	"mind": {
+		"name": "mente",
+		"aliases": [
+			"mental"
+		],
+		"meaning": "All that responds to the mind circuit of the Conjoint Actor, an attribute of the Infinite Spirit; in personality it always intervenes between spirit and matter (0:6.1, 0:6.8).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "intelecto",
+				"reason": "Narrower: only the reasoning faculty; the papers use mind for all levels of intelligence."
+			},
+			{
+				"form": "(ordinary sense) the brain or the psyche alone",
+				"reason": "The reader must not bring this; mind is a cosmic endowment of the Infinite Spirit."
+			}
+		]
+	},
+	"mind-energy-manipulators": {
+		"name": "manipuladores de energía mental",
+		"aliases": [
+			"Manipuladores de energía mental"
+		],
+		"meaning": "Celestial artisans expert in communication between morontia beings and other intelligent beings, and students of the mind circuits of the Infinite Spirit.",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "manipuladores de la energía de la mente",
+				"reason": "Long; 'manipuladores de energía espiritual' sets the pattern noun + adjective."
+			},
+			{
+				"form": "(ordinary sense) 'manipulador' = one who deceives",
+				"reason": "The reader must not bring this; the sense is a skilled handler."
+			}
+		]
+	},
+	"mind-personalities": {
+		"name": "personalidades de mente",
+		"meaning": "Unrevealed orders of beings dominated by mind but always associated with spirit, of which Majeston and his associates are an illustration (30:1.113).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "personalidades mentales",
+				"reason": "'Mental' can suggest a psychological type or a mental illness."
+			}
+		]
+	},
+	"mind-planners": {
+		"name": "planificadores de la mente",
+		"aliases": [
+			"Planificadores de la Mente"
+		],
+		"meaning": "Seraphim on the mansion worlds who study the souls in transit and group them for assignment and advancement, helping survivors use morontia mind (48:6.25, 39:2.6).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "planificadores mentales",
+				"reason": "Reads as people who plan in their heads."
+			},
+			{
+				"form": "diseñadores de la mente",
+				"reason": "Suggests they design minds; 48:6.25 says they study and group, and do not manipulate."
+			}
+		]
+	},
+	"mindal-and-physical-energy-personalities": {
+		"name": "personalidades de energía mental y física",
+		"aliases": [
+			"personalidades de energía mental y de energía física"
+		],
+		"meaning": "Unrevealed creatures that do not respond to spirit gravity but are true personalities within the Father's circuit (30:1.113).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "personalidades mentales y físicas",
+				"reason": "Drops 'energy', which is the point of the term."
+			}
+		],
+		"forcedChoices": [
+			"'mental' for 'mindal': Spanish has no separate adjective; 'mental' is the adjective of 'mente'."
+		]
+	},
+	"monmatia": {
+		"name": "Monmatia",
+		"meaning": "The name of Urantia's solar system (57:5).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"morality": {
+		"name": "moralidad",
+		"aliases": [
+			"moral"
+		],
+		"meaning": "The recognition of duty and of right and wrong, a superanimal but subspiritual level of mind that prepares for religious experience.",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "moral",
+				"reason": "As a noun it also means morale (spirit of a group); kept only as an adjective alias."
+			}
+		]
+	},
+	"morontia": {
+		"name": "morontia",
+		"aliases": [
+			"morontial",
+			"morontiales"
+		],
+		"meaning": "The level of reality between the material and the spiritual, the substance of the soul and of the ascension life in the local universe (0:5.10, 103:6.7).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "semiespiritual",
+				"reason": "Describes rather than names, and implies half spirit, which the papers do not say."
+			}
+		]
+	},
+	"morontia-cherubim": {
+		"name": "querubines morontiales",
+		"meaning": "The 'fourth creatures' among cherubim and sanobim, who keep quasi-material traits and serve on the morontia training worlds (38:7.7, 38:8.4, 48:3.4).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"morontia-counselors": {
+		"name": "consejeros morontiales",
+		"aliases": [
+			"Consejeros Morontiales",
+			"consejero morontial"
+		],
+		"meaning": "The seraphic transition ministers who teach mota on the mansion worlds to bring material and morontial viewpoints into focus (48:6.28).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "asesores morontiales",
+				"reason": "'Asesor' reads as a technical adviser; also matches 'Consejeros Divinos'."
+			}
+		]
+	},
+	"morontia-planners": {
+		"name": "planificadores morontiales",
+		"aliases": [
+			"Planificadores morontiales"
+		],
+		"meaning": "Divine Builders among the celestial artisans who build for the co-ordinate association of all personalities present on a sphere (44:3.7).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "planeadores morontiales",
+				"reason": "'Planeador' means a glider."
+			}
+		]
+	},
+	"morontia-progressors": {
+		"name": "progresores morontiales",
+		"aliases": [
+			"progresor morontial"
+		],
+		"meaning": "Ascending mortals who move through the morontia worlds of the local universe between the mansion worlds and spirit status (48:6.28, 43:8.12).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "progresistas morontiales",
+				"reason": "'Progresista' is a political sense."
+			},
+			{
+				"form": "mortales morontiales en progreso",
+				"reason": "Long, and loses the coined agent noun."
+			}
+		],
+		"forcedChoices": [
+			"adjective 'morontial' for the attributive 'morontia': Spanish needs an adjective; the English itself uses 'morontial' (0:5.10)."
+		]
+	},
+	"morontia-recorders": {
+		"name": "registradores morontiales",
+		"meaning": "Celestial artisans who preserve the scenes of morontia life as group records for the morontia halls of records (44).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "grabadores morontiales",
+				"reason": "'Grabador' can mean an engraver or a tape recorder."
+			}
+		]
+	},
+	"morontia-synthesizers": {
+		"name": "sintetizadores morontiales",
+		"meaning": "Master artisans who add the finishing touches to morontia ensembles of beauty (44).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "integradores morontiales",
+				"reason": "Loses the English coinage."
+			}
+		],
+		"forcedChoices": [
+			"'sintetizadores': The reader must not bring the ordinary sense of an electronic music instrument."
+		]
+	},
+	"morontia-temple": {
+		"name": "templo morontial",
+		"aliases": [
+			"templos morontiales"
+		],
+		"meaning": "The structure that appears on a planet entering light and life, used for planetary ceremonies and the translation of living mortals.",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"morontia-world": {
+		"name": "Mundo Morontial",
+		"aliases": [
+			"mundo morontial"
+		],
+		"meaning": "The second transitional culture world of a system capital such as Jerusem, headquarters of the supervisors of morontia life (45:1).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"forcedChoices": [
+			"capitalize for the specific world: In lowercase it is the same form as the general singular of 'morontia worlds'; capitals keep them apart, as the English alias does."
+		]
+	},
+	"morontia-world-transition-ministers": {
+		"name": "ministros de transición de los mundos morontiales",
+		"aliases": [
+			"serafines de los mundos morontiales",
+			"ministros de transición"
+		],
+		"meaning": "The sixth order of seraphim, who help mortals pass from the life in the flesh into morontia existence on the mansion worlds (48:6.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "ministros morontiales de transición",
+				"reason": "Shifts 'morontia' from the worlds to the ministers."
+			}
+		]
+	},
+	"morontia-worlds": {
+		"name": "mundos morontiales",
+		"aliases": [
+			"mundo morontial",
+			"esferas morontiales"
+		],
+		"meaning": "The transition worlds of the local universe, from the mansion worlds to the universe headquarters, where ascending mortals live the morontia life (48:6.1, 47:5.3).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "mundos de morontia",
+				"reason": "Acceptable, but the adjective reads more naturally and matches the family."
+			}
+		]
+	},
+	"morontians": {
+		"name": "morontianos",
+		"aliases": [
+			"morontiano"
+		],
+		"meaning": "Morontia beings, in context ascending mortals in the morontia stage, as on the Edentia training worlds (43:8.5, 43:8.12).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"mortal-mind": {
+		"name": "mente mortal",
+		"aliases": [
+			"mente del hombre",
+			"mente material"
+		],
+		"meaning": "The mind of evolutionary human beings, in whose superconscious levels the Thought Adjuster works and religious growth occurs (100:1.9, 91:2.6).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "intelecto mortal",
+				"reason": "'Mind' is 'mente' in all terms; 'intellect' is a separate English word."
+			}
+		]
+	},
 	"mortals": {
 		"name": "mortales",
 		"meaning": "Will creatures of animal origin on the evolutionary worlds, the lowest order of personal creation, able to survive and ascend to Paradise (49:0.1, 107:0.2).",
 		"confidence": "high"
+	},
+	"moses": {
+		"name": "Moisés",
+		"meaning": "Moses, the Hebrew leader and teacher who led the Hebrews out of Egypt and taught the worship of one God (96:3.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"most-highs": {
+		"name": "Altísimos",
+		"aliases": [
+			"Altísimo",
+			"Padres de la Constelación"
+		],
+		"meaning": "Vorondadek Sons who rule a constellation in a group of three, the senior one acting as Constellation Father (43:5, 67:6.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Más Altos",
+				"reason": "Reads as a comparison ('taller ones'), not a title."
+			}
+		]
+	},
+	"most-highs-of-norlatiadek": {
+		"name": "Altísimos de Norlatiadek",
+		"aliases": [
+			"Altísimos de Edentia"
+		],
+		"meaning": "The three Vorondadek Sons who rule the constellation of Norlatiadek from Edentia (43:0.2, 67:6.5).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"mota": {
+		"name": "mota",
+		"aliases": [
+			"mota morontial"
+		],
+		"meaning": "Morontia wisdom, a supermaterial sensitivity to reality that reconciles science and religion, with knowledge-reason for substance and faith-insight for essence (103:6.7, 48:6.28, 45:7.6).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "sabiduría morontial",
+				"reason": "A gloss, not the coined term; usable as an explanation."
+			}
+		],
+		"forcedChoices": [
+			"keep the coined name 'mota': Rule 3 keeps names that exist only in the book, but Spanish 'mota' means a speck or a fluff, and in Mexico it is slang for marijuana; a human must decide if a mark (italics) is needed."
+		]
 	},
 	"mother-spirits": {
 		"name": "Espíritus Madre",
@@ -1354,6 +4275,18 @@
 			{
 				"form": "Espíritus Madres",
 				"reason": "Breaks the fixed form 'Espíritus Madre de los universos locales'."
+			}
+		]
+	},
+	"mount-seraph": {
+		"name": "Monte Serafín",
+		"meaning": "The highest elevation on Jerusem, the point of departure for all transport seraphim (46:2.8).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Monte Seraph",
+				"reason": "'seraph' is an English common noun with a Spanish equivalent; the family stays visible as 'serafín'"
 			}
 		]
 	},
@@ -1380,20 +4313,111 @@
 			}
 		]
 	},
+	"mysticism": {
+		"name": "misticismo",
+		"aliases": [
+			"místico",
+			"mística"
+		],
+		"meaning": "The practice of seeking consciousness of God by withdrawal and inner communion, which can be genuine spiritual communion but can also become a technique of reality avoidance (100:5.8, 100:5.10).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "mística",
+				"reason": "As a noun it often names a body of religious literature or a 'mystique'; kept only as an adjective alias."
+			}
+		]
+	},
 	"nathaniel-apostle": {
 		"name": "Natanael (apóstol)",
 		"meaning": "Nathaniel of Cana, the sixth apostle, brought to Jesus by Philip (139:6.1).",
 		"confidence": "high"
+	},
+	"nazareth": {
+		"name": "Nazaret",
+		"meaning": "The town in Galilee where Jesus grew up (Papers 122-126).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"nebadon": {
 		"name": "Nebadon",
 		"meaning": "The local universe in which Urantia is, the creation of Michael (0:0.5, 35:0.1).",
 		"confidence": "high"
 	},
+	"nether-paradise": {
+		"name": "Paraíso inferior",
+		"aliases": [
+			"lado inferior del Paraíso"
+		],
+		"meaning": "The under side of the Isle of Paradise, the impersonal plane where the space presence of the Unqualified Absolute is focused and below which space seems to originate (11:2.8, 11:2.11, 15:4.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "bajo Paraíso",
+				"reason": "\"bajo\" also means \"base\" or \"low\" in value and reads as a lesser Paradise."
+			},
+			{
+				"form": "Paraíso de abajo",
+				"reason": "Too colloquial for a term."
+			},
+			{
+				"form": "(note) inferior",
+				"reason": "The reader must take \"inferior\" as \"lower in position\" (the opposite of \"Paraíso superior\"), not \"lower in worth\"."
+			}
+		]
+	},
+	"nodites": {
+		"name": "Noditas",
+		"aliases": [
+			"nodita"
+		],
+		"meaning": "The descendants of the rebel members of Caligastia's staff, named after Nod, the eighth race on Urantia (73:1.3, 77:2.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"old-testament": {
 		"name": "Antiguo Testamento",
 		"meaning": "The Hebrew scriptures, which Jesus treated as human writings that contain truth and error (159:4.1).",
 		"confidence": "high"
+	},
+	"orvonton-paradise-satellite": {
+		"name": "Orvonton (satélite del Paraíso)",
+		"meaning": "The seventh of the executive spheres of the Infinite Spirit near Paradise, named for and dedicated to the administration of the seventh superuniverse (13:4).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Orvonton (luna del Paraíso)",
+				"reason": "\"luna\" names a natural moon; the English says \"satellite\"."
+			}
+		]
+	},
+	"orvonton-superuniverse": {
+		"name": "Orvonton (superuniverso)",
+		"meaning": "The seventh superuniverse, which contains the local universe of Nebadon and Urantia; its capital is Uversa (0:0.5, 15:14).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"outer-space": {
+		"name": "espacio exterior",
+		"aliases": [
+			"niveles del espacio exterior"
+		],
+		"meaning": "The space levels beyond the seven superuniverses, where uninhabited universes now mobilize (0:0.6, 12:1, 12:2.4).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "(note) espacio exterior",
+				"reason": "The reader must not bring the astronaut sense \"space beyond Earth's atmosphere\"."
+			},
+			{
+				"form": "espacio ulterior",
+				"reason": "Means \"later\" more than \"farther\"."
+			}
+		]
 	},
 	"paradise": {
 		"name": "Paraíso",
@@ -1405,6 +4429,202 @@
 				"reason": "Lowercase reads as the general idea of heaven or the garden; the papers mean a specific place."
 			}
 		]
+	},
+	"paradise-arrivals": {
+		"name": "Llegados al Paraíso",
+		"aliases": [
+			"llegados al Paraíso"
+		],
+		"meaning": "The seventh stage of ascending mortals: those who reach Paradise with residential status, begin the course in divinity and absonity, and are to be mustered into the Mortal Corps of the Finality (30:4.31).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Llegadas al Paraíso",
+				"reason": "\"llegadas\" as a noun is the act of arrival, not the persons who arrive."
+			},
+			{
+				"form": "recién llegados al Paraíso",
+				"reason": "Adds \"newly\", which the English does not say."
+			}
+		]
+	},
+	"paradise-central-shining": {
+		"name": "Resplandor Central del Paraíso",
+		"aliases": [
+			"resplandor central"
+		],
+		"meaning": "The central shining of the spiritual glory of the Universal Father and the eternal Deities at the center of Paradise, with which a servital can have \"personal contact\" (11:1.3, 13:0.3, 24:7.2); the papers do not say if it is a being or a manifestation.",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Brillo Central del Paraíso",
+				"reason": "\"brillo\" is ordinary gloss or shine of a surface; too small for divine glory."
+			},
+			{
+				"form": "Luz Central del Paraíso",
+				"reason": "The English says \"Shining\", not \"Light\"; also near \"luminosidad espiritual\" already in the glossary."
+			}
+		]
+	},
+	"paradise-citizens": {
+		"name": "Ciudadanos del Paraíso",
+		"meaning": "Native resident beings of Paradise, of more than three thousand orders, who are not directly concerned with the ascent of will creatures (30:1, 11:2.11).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Habitantes del Paraíso",
+				"reason": "Loses the status sense of \"citizens\"."
+			}
+		],
+		"forcedChoices": [
+			"masculine generic \"Ciudadanos\": Spanish requires a gender; the masculine plural is the neutral generic for a mixed or sexless group."
+		]
+	},
+	"paradise-companions": {
+		"name": "Compañeros del Paraíso",
+		"meaning": "A composite group of angels drawn from several seraphic and supernaphic orders, assigned to keep company with beings, chiefly ascendant mortals, who arrive alone on Paradise (25:8).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Acompañantes del Paraíso",
+				"reason": "Reads as an escort or attendant role, weaker than companionship."
+			}
+		],
+		"forcedChoices": [
+			"masculine generic \"Compañeros\": Spanish requires a gender; the group is mixed angels, so the generic masculine plural is the neutral form."
+		]
+	},
+	"paradise-creator-sons": {
+		"name": "Hijos Creadores del Paraíso",
+		"meaning": "The Creator Sons (Michaels), who originate on Paradise from the Father and the Son and go out to make and rule local universes (21:0.1, 5:3.6).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"paradise-deities": {
+		"name": "Deidades del Paraíso",
+		"aliases": [
+			"DEIDADES DEL PARAÍSO"
+		],
+		"meaning": "The three existential Deities of Paradise: the Universal Father, the Eternal Son, and the Infinite Spirit (0:4.9, 0:12.12).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Dioses del Paraíso",
+				"reason": "Suggests polytheism; the English uses \"Deities\", already \"Deidad\" in the glossary."
+			}
+		]
+	},
+	"paradise-energy": {
+		"name": "energía del Paraíso",
+		"meaning": "Energy that takes origin from, or is grasped by, the Isle of Paradise, the source of all cosmic force and the center of absolute gravity (11:8, 105:3.4).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "energía paradisíaca",
+				"reason": "\"paradisíaco\" means \"delightful\" in ordinary Spanish."
+			}
+		]
+	},
+	"paradise-force-organizers": {
+		"name": "organizadores de la fuerza del Paraíso",
+		"aliases": [
+			"Organizadores Maestros de la Fuerza"
+		],
+		"meaning": "The Master Force Organizers of Paradise origin, who transmute space potency into primordial force and evolve it into the primary and secondary energies of physical reality (15:4.2, 12:2.4).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "organizadores de fuerza del Paraíso",
+				"reason": "Kept in line with \"Directores del Poder del Universo\", which uses the article."
+			},
+			{
+				"form": "organizadores de fuerzas",
+				"reason": "The plural turns the cosmic force into a list of forces."
+			}
+		]
+	},
+	"paradise-gravity": {
+		"name": "gravedad del Paraíso",
+		"aliases": [
+			"gravedad absoluta"
+		],
+		"meaning": "The absolute, circular gravity grasp of the Isle of Paradise on all physical energy and matter of the master universe (11:8, 12:3, 42:2.12).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "gravitación del Paraíso",
+				"reason": "Correct physics but less common; \"gravedad\" is the plain term in the sciences across Spanish countries."
+			},
+			{
+				"form": "(note) gravedad",
+				"reason": "The reader must not bring the sense \"seriousness\"."
+			}
+		]
+	},
+	"paradise-havona-system": {
+		"name": "sistema Paraíso-Havona",
+		"aliases": [
+			"Sistema Paraíso-Havona"
+		],
+		"meaning": "The eternal central aggregation of Paradise, its satellites, and the Havona spheres, which forms the nucleus around which the superuniverses and outer space revolve (12:1, 14:1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "sistema del Paraíso y Havona",
+				"reason": "Loses the compound name that the English hyphen makes."
+			}
+		]
+	},
+	"paradise-havona-trinitized-sons": {
+		"name": "Hijos trinitizados por seres del Paraíso y Havona",
+		"aliases": [
+			"hijos trinitizados por criaturas",
+			"descendencia trinitizada",
+			"Hijos trinitizados Paraíso-Havona"
+		],
+		"meaning": "Sons trinitized by Paradise citizens and Havona natives acting together, held in reserve for future universe ages (22:7.8 context, 31:9).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Hijos Paraíso-Havona-trinitizados",
+				"reason": "Calque of the English compound; not readable Spanish."
+			}
+		],
+		"forcedChoices": [
+			"spell out 'por seres del Paraíso y Havona': Spanish cannot stack the compound modifier; the short alias 'Hijos trinitizados Paraíso-Havona' is offered for tight sentences."
+		]
+	},
+	"paradise-incarnation-commission": {
+		"name": "comisión de encarnación del Paraíso",
+		"meaning": "A commission of seven unidentified Paradise personalities who arrived at the tomb before Jesus' morontia resurrection on April 9, A.D. 30 (189:1.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "comisión del Paraíso para la encarnación",
+				"reason": "Closes the English: it decides that the commission is from Paradise and exists for the incarnation."
+			},
+			{
+				"form": "comisión paradisíaca de encarnación",
+				"reason": "\"paradisíaco\" means \"delightful\" in ordinary Spanish."
+			}
+		]
+	},
+	"paradise-master-spirits": {
+		"name": "Espíritus Maestros del Paraíso",
+		"meaning": "The Seven Master Spirits of Paradise, who express the combinations of the three Paradise Deities (16:0.1, 16:1.1).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"paradise-sons-of-god": {
 		"name": "Hijos de Dios del Paraíso",
@@ -1424,6 +4644,22 @@
 			}
 		]
 	},
+	"paradise-source-and-center": {
+		"name": "Fuente y Centro del Paraíso",
+		"meaning": "The eternal Isle of Paradise as the second nondeity pattern among the Seven Absolutes of Infinity, the absolute of patterns and the foundation of gravity control (105:3.4); the packet summary (\"the Universal Father\") is not what 105:3.4 says, although 19:1.12 uses the phrase more broadly.",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Fuente-Centro del Paraíso",
+				"reason": "The English uses \"and\", not a hyphen."
+			},
+			{
+				"form": "Fuente y Centro Paradisíaco",
+				"reason": "\"paradisíaco\" means \"delightful\" in ordinary Spanish."
+			}
+		]
+	},
 	"paradise-trinity": {
 		"name": "Trinidad del Paraíso",
 		"meaning": "The eternal union of the Universal Father, the Eternal Son, and the Infinite Spirit (10:0.1, 15:0.1).",
@@ -1432,6 +4668,21 @@
 			{
 				"form": "Trinidad Paradisíaca",
 				"reason": "The adjective reads as 'idyllic' in common use."
+			}
+		]
+	},
+	"patmos-isle-of": {
+		"name": "Patmos, isla de",
+		"aliases": [
+			"isla de Patmos"
+		],
+		"meaning": "Index form of the island where the apostle John was banished for four years and wrote the Book of Revelation (historical place).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Patmos, Isla de",
+				"reason": "Kept in line with \"isla de Patmos\"; the generic noun stays lowercase."
 			}
 		]
 	},
@@ -1456,6 +4707,46 @@
 			{
 				"form": "Pentecostés (efusión del Espíritu de la Verdad)",
 				"reason": "Translates 'outpouring', not 'bestowal'; it is a different English word in the papers."
+			}
+		]
+	},
+	"perfection": {
+		"name": "perfección",
+		"aliases": [
+			"perfecto",
+			"perfeccionado",
+			"perfeccionar"
+		],
+		"meaning": "The state of being complete in divine quality, existential in Paradise-Havona and experiential (attained by growth) for evolutionary creatures; the papers contrast the perfect, the perfected, and the perfecting (32:3.14, 56:4.3, 106:1.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "plenitud",
+				"reason": "Means fullness, not the quality of being perfect; breaks the family perfect/perfected/perfecting."
+			},
+			{
+				"form": "perfeccionismo",
+				"reason": "Ordinary sense is a psychological trait; the reader must not bring that sense to 'perfección'."
+			}
+		]
+	},
+	"perfectors-of-wisdom": {
+		"name": "Perfeccionadores de la Sabiduría",
+		"aliases": [
+			"Perfeccionador de la Sabiduría"
+		],
+		"meaning": "Trinity-created beings who personify the wisdom of divinity in the superuniverses and counsel the Ancients of Days (19:2.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Perfectos de la Sabiduría",
+				"reason": "says they are perfect, not that they bring wisdom to perfection"
+			},
+			{
+				"form": "Perfeccionistas de la Sabiduría",
+				"reason": "'perfeccionista' is a personal trait"
 			}
 		]
 	},
@@ -1517,6 +4808,125 @@
 			}
 		]
 	},
+	"pharisees": {
+		"name": "fariseos",
+		"meaning": "The Jewish sect of strict observers of the law and tradition who often opposed Jesus (137:7.5).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"philadelphia": {
+		"name": "Filadelfia",
+		"meaning": "The city in Perea where Abner led the believers (Paper 166, 171).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"philip-apostle": {
+		"name": "Felipe (apóstol)",
+		"aliases": [
+			"Felipe"
+		],
+		"meaning": "Philip, one of the twelve apostles and their steward, who invited others with 'Come and see' (139:5.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"planetary-helper-seraphim": {
+		"name": "serafines asistentes planetarios",
+		"aliases": [
+			"asistentes planetarios",
+			"serafines planetarios",
+			"asistentes angélicos planetarios"
+		],
+		"meaning": "The fifth order of seraphim, who come with the Planetary Adams and help the material uplift of the races (39:5.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "serafines ayudantes planetarios",
+				"reason": "'ayudante' is already 'adjutant' (espíritus ayudantes de la mente)"
+			},
+			{
+				"form": "serafines auxiliares planetarios",
+				"reason": "'Auxiliares' is already 'Aids' (Auxiliares Personales)"
+			}
+		]
+	},
+	"planetary-princes": {
+		"name": "Príncipes Planetarios",
+		"aliases": [
+			"Príncipe Planetario"
+		],
+		"meaning": "Secondary Lanonandek Sons who rule the evolutionary worlds in the early ages (35:9.1, 50:1.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Príncipes de los Planetas",
+				"reason": "longer; the English uses an adjective"
+			}
+		]
+	},
+	"planets": {
+		"name": "planetas",
+		"aliases": [
+			"planeta"
+		],
+		"meaning": "Material spheres that circle suns, some of them inhabited by evolutionary mortals (15:6.11, 49:0.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"pontius-pilate": {
+		"name": "Poncio Pilato",
+		"aliases": [
+			"Pilato"
+		],
+		"meaning": "Pontius Pilate, the Roman procurator of Judea who presided at the trial of Jesus and ordered his crucifixion (185:1.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"power": {
+		"name": "poder",
+		"meaning": "Ordinarily the electronic level of material, linear-gravity-responsive matter; the papers also use it for sovereignty (0:6.2, 0:6.7).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "potencia",
+				"reason": "Covers only the physical sense and loses sovereignty; 'Poder' is used in 'Directores del Poder del Universo'."
+			}
+		]
+	},
+	"powers-of-paradise": {
+		"name": "Poderes del Paraíso",
+		"meaning": "The divine presences on Paradise into whose presence ascending angels and mortals come at last, in context the Paradise Deities (27:7.6).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Potestades del Paraíso",
+				"reason": "\"Potestades\" names a rank of angels in Christian tradition, a sense the authors do not intend."
+			},
+			{
+				"form": "Fuerzas del Paraíso",
+				"reason": "\"fuerza\" is a technical term for physical force in the papers."
+			}
+		]
+	},
+	"primary-eventuated-master-force-organizers": {
+		"name": "Organizadores Maestros de la Fuerza Primarios Eventuados",
+		"meaning": "The first order of Master Force Organizers, whose space presence makes passive force active (29:5.2, 42:2.8).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Eventuales",
+				"reason": "'eventual' means possible or temporary"
+			},
+			{
+				"form": "Surgidos",
+				"reason": "loses the special sense of 'eventuate' (absonite emergence)"
+			}
+		]
+	},
 	"primitive-mortals": {
 		"name": "mortales primitivos",
 		"meaning": "Mortals in the early stages of evolution on a world, before advanced civilization (e.g. 39:5.7 'primitive men').",
@@ -1545,10 +4955,38 @@
 			}
 		]
 	},
+	"qualified-vicegerents-of-the-ultimate": {
+		"name": "Vicegerentes Condicionados del Último",
+		"meaning": "Beings who represent the Ultimate, influential in the superuniverse governments and represented by Reflective Image Aids, whose present whereabouts and function the papers do not reveal (15:10.21, 106:4.3, 117:7.4).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Vicerregentes Calificados del Último",
+				"reason": "'Calificado' means skilled or graded; 'Qualified' is 'Condicionado' in 'Absoluto Condicionado', so it stays 'Condicionado'."
+			},
+			{
+				"form": "Representantes Condicionados del Último",
+				"reason": "Loses the sense of a deputy who holds the authority of another."
+			}
+		]
+	},
 	"races": {
 		"name": "razas",
 		"meaning": "The human races of Urantia: the Andonites, the six Sangik races, and later blends with Nodites and Adamites (63:4.1, 64:6.1, 78:4.3).",
 		"confidence": "high"
+	},
+	"reality": {
+		"name": "realidad",
+		"meaning": "All that exists on every universe level, originating in the infinite volition of the Universal Father and actualizing differentially in primal phases on many levels (0:4.1, 0:6.11).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "actualidad",
+				"reason": "False friend: means the present time; the papers keep 'actual' and 'reality' apart."
+			}
+		]
 	},
 	"red-race": {
 		"name": "raza roja",
@@ -1560,6 +4998,24 @@
 		],
 		"meaning": "The first of the six Sangik races, which went to the Americas (64:6.2).",
 		"confidence": "high"
+	},
+	"reflective-image-aids": {
+		"name": "Auxiliares de Imagen Reflectivos",
+		"aliases": [
+			"Auxiliares de Imagen"
+		],
+		"meaning": "Forty-nine beings created by the Reflective Spirits, seven on each superuniverse headquarters, true images of their Spirit ancestors minus reflectivity, who serve as their channel of communication (17:4.1, 15:10.2).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Ayudantes de Imagen Reflectiva",
+				"reason": "'Aids' is 'Auxiliares' in 'Auxiliares Personales'; and 'Reflectiva' ties the adjective to the image only."
+			}
+		],
+		"forcedChoices": [
+			"'Reflectivos' agrees with 'Auxiliares': Spanish forces the adjective onto one noun; it marks the order as that of the Reflective Spirits, since the Aids themselves lack reflectivity (17:4.1)."
+		]
 	},
 	"reflective-mother-spirits": {
 		"name": "Espíritus Madre Reflectivos",
@@ -1606,6 +5062,18 @@
 			}
 		]
 	},
+	"resurrection-halls": {
+		"name": "salas de resurrección",
+		"meaning": "The halls on the mansion worlds and other receiving worlds where sleeping survivors are repersonalized in morontia form.",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "pasillos de resurrección",
+				"reason": "'Hall' here is a large room, not a corridor."
+			}
+		]
+	},
 	"roman-empire": {
 		"name": "Imperio romano",
 		"aliases": [
@@ -1614,10 +5082,145 @@
 		"meaning": "The Roman Empire of Jesus' time and after (195:3.1).",
 		"confidence": "high"
 	},
+	"sabbath": {
+		"name": "sábado",
+		"aliases": [
+			"día de sábado"
+		],
+		"meaning": "The seventh day of the week as a day of rest and worship, from its origin in Eden to its later Jewish rules (74:7, 147:6, 153:3).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Sabbat",
+				"reason": "A loanword; plain Spanish names the day 'sábado'."
+			},
+			{
+				"form": "día de reposo",
+				"reason": "Descriptive phrase; loses the name of the day."
+			}
+		],
+		"forcedChoices": [
+			"lowercase 'sábado': Spanish writes days in lowercase; the English capital is the convention for a day name, not a coined term.",
+			"'sábado' is also the plain weekday Saturday: The context must show the day of rest; English 'Sabbath' is narrower than Spanish 'sábado'."
+		]
+	},
+	"sacred-spheres-of-paradise": {
+		"name": "esferas sagradas del Paraíso",
+		"aliases": [
+			"esferas sagradas"
+		],
+		"meaning": "The three circuits of seven worlds each that circle Paradise inside Havona: the secret spheres of the Father, the luminous worlds of the Son, and the executive spheres of the Spirit (13:0.1-0.3).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "mundos santos del Paraíso",
+				"reason": "\"santo\" adds a sense of holiness of persons; the English says \"sacred\" and \"spheres\"."
+			}
+		]
+	},
+	"salome-wife-of-zebedee": {
+		"name": "Salomé (esposa de Zebedeo)",
+		"meaning": "The wife of Zebedee and mother of the apostles James and John (Papers 125, 189).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"salvation": {
+		"name": "salvación",
+		"aliases": [
+			"salvar",
+			"salvo"
+		],
+		"meaning": "The free gift of God, received by faith, by which a person recognizes sonship with God and enters on eternal survival; it is not earned by works (150:5.3, 150:5.5, 193:1.2).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "rescate",
+				"reason": "Plain sense of physical rescue or ransom; changes the idea."
+			},
+			{
+				"form": "redención",
+				"reason": "Brings a theology of payment for sin that the papers do not attach to the word."
+			}
+		]
+	},
+	"salvington": {
+		"name": "Salvington",
+		"meaning": "The headquarters world of the local universe of Nebadon (32:2, 41:1.3).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"sanhedrin": {
 		"name": "Sanedrín",
 		"meaning": "The supreme Jewish council and court at Jerusalem that opposed Jesus and brought about his trial (184:0.1, 172:2.1).",
 		"confidence": "high"
+	},
+	"sanobim": {
+		"name": "sanobines",
+		"aliases": [
+			"sanobín"
+		],
+		"meaning": "The energy-negative partner of the cherubim, the complement of being (38:7.2).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "sanobim",
+				"reason": "the family plural follows serafines and querubines"
+			}
+		]
+	},
+	"satan": {
+		"name": "Satanás",
+		"meaning": "A primary Lanonandek Son, Lucifer's first assistant, who represented the rebellion on Urantia (53:1, 53:5).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Satán",
+				"reason": "Less common in neutral Spanish."
+			},
+			{
+				"form": "(religious sense)",
+				"reason": "The reader must not bring the popular image of the devil as ruler of hell; in the papers Satan is a personal being of a defined order."
+			}
+		]
+	},
+	"satania": {
+		"name": "Satania",
+		"meaning": "The local system of Urantia, with its capital on Jerusem, the site of the Lucifer rebellion (32:2.11, 53:0.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"seconaphim": {
+		"name": "seconafines",
+		"aliases": [
+			"seconafín",
+			"secoráfico"
+		],
+		"meaning": "The ministering spirits of the superuniverses, offspring of the Reflective Spirits, in primary, secondary, and tertiary orders (28:3.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "seconaphim",
+				"reason": "the family plural follows serafines"
+			}
+		]
+	},
+	"second-experiential-trinity": {
+		"name": "segunda Trinidad experiencial",
+		"meaning": "The second post-Havona Trinity, the Trinity Absolute, which cannot be infinite because it embraces derived Deities (0:12.3).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "segunda Trinidad experimental",
+				"reason": "'Experimental' means 'trial' or 'test'."
+			}
+		]
 	},
 	"self-acting-adjusters": {
 		"name": "Ajustadores autoactuantes",
@@ -1638,6 +5241,80 @@
 			}
 		]
 	},
+	"seraphic-corps-of-completion": {
+		"name": "Cuerpo Seráfico de Culminación",
+		"aliases": [
+			"Cuerpo de Culminación Seráfica",
+			"serafines de la culminación"
+		],
+		"meaning": "The same corps as the Corps of Seraphic Completion: seraphim who attained Paradise and the embrace of the Eternal Son (39:9.1, 39:9.2).",
+		"confidence": "high",
+		"formConfidence": "medium"
+	},
+	"seraphic-evangels": {
+		"name": "evangelistas seráficos",
+		"aliases": [
+			"evangelista seráfico"
+		],
+		"meaning": "The first group of transition ministers, who guide new mansion world arrivals and proclaim the gospel of eternal progression (48:6.4).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "evangelios seráficos",
+				"reason": "'evangelio' is the message, not the messenger"
+			},
+			{
+				"form": "heraldos seráficos",
+				"reason": "loses the link to 'evangelio' (gospel)"
+			},
+			{
+				"form": "evangelista (ordinary sense)",
+				"reason": "the reader must not bring the sense of a Gospel writer or a sect preacher"
+			}
+		]
+	},
+	"seraphic-guardians-of-destiny": {
+		"name": "guardianes seráficos del destino",
+		"aliases": [
+			"guardianes del destino"
+		],
+		"meaning": "The personal seraphim assigned to individual mortals who reach the third circle (113:0.1, 113:2.2).",
+		"confidence": "high",
+		"formConfidence": "medium"
+	},
+	"seraphic-hosts": {
+		"name": "huestes seráficas",
+		"meaning": "The seraphim taken together as an organized body of ministry (Paper 39 title, 39:0.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "ejércitos seráficos",
+				"reason": "adds a military sense"
+			}
+		]
+	},
+	"seraphic-secoraphic-and-superaphic-transport": {
+		"name": "transporte seráfico, secoráfico y superáfico",
+		"aliases": [
+			"transporte seráfico",
+			"transportes seráficos"
+		],
+		"meaning": "The carrying of personalities through space by seraphim, seconaphim, and supernaphim, in which the traveler is enseraphimed and sleeps in transit (39:2.12, 51:2.2, 23:2.22).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "seconáfico",
+				"reason": "the English writes 'secoraphic', not 'seconaphic'; keep its shape"
+			},
+			{
+				"form": "supernáfico",
+				"reason": "the English writes 'superaphic'; keep its shape"
+			}
+		]
+	},
 	"seraphim": {
 		"name": "serafines",
 		"meaning": "The angels of the local universes, offspring of the Infinite Spirit as personalized on the local universe headquarters, who minister to mortals (39:0.1).",
@@ -1646,6 +5323,24 @@
 			{
 				"form": "seraphim",
 				"reason": "The Spanish plural 'serafines' is the plain, standard word, and the English also uses the plain word."
+			}
+		]
+	},
+	"seraphim-of-the-future": {
+		"name": "serafines del futuro",
+		"meaning": "Seraphim held in reserve for the ages of light and life and for mortals of modified ascension (39:0.8, 39:5.1).",
+		"confidence": "medium",
+		"formConfidence": "high"
+	},
+	"seraphington": {
+		"name": "Seraphington",
+		"meaning": "The Paradise sphere that is the destiny world of the angels, the 'bosom of the Son and the Spirit' (13:1.22, 39:9.2).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Serafington",
+				"reason": "names unique to the book keep the English spelling, as Spiritington does"
 			}
 		]
 	},
@@ -1690,6 +5385,42 @@
 			}
 		]
 	},
+	"seven-superuniverses": {
+		"name": "siete superuniversos",
+		"meaning": "The seven evolving superuniverses that circle Havona and, with it, form the grand universe (0:0.5, 0:0.6).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"seven-supreme-executives": {
+		"name": "Siete Ejecutivos Supremos",
+		"meaning": "Seven beings trinitized by the Father, Son, and Spirit who coordinate the administration of the grand universe as representatives of the Seven Master Spirits.",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Siete Ejecutores Supremos",
+				"reason": "'Ejecutor' suggests one who carries out a sentence."
+			}
+		]
+	},
+	"seven-supreme-power-directors": {
+		"name": "siete Directores Supremos del Poder",
+		"meaning": "Seven beings created by the Seven Master Spirits who regulate physical power and energy in the grand universe and produce the Supreme Power Centers.",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Directores de Poder Supremo",
+				"reason": "Makes 'Supreme' modify the power, not the Directors."
+			}
+		]
+	},
+	"seven-supreme-spirit-groups": {
+		"name": "siete grupos de Espíritus Supremos",
+		"meaning": "The seven groups that make up the Supreme Spirits, the coordinating directors of the grand universe.",
+		"confidence": "medium",
+		"formConfidence": "high"
+	},
 	"seven-worlds-of-infinite-spirit": {
 		"name": "siete mundos del Espíritu Infinito",
 		"meaning": "The seven sacred spheres of the Infinite Spirit that circle Paradise (Paper 13).",
@@ -1702,6 +5433,18 @@
 			}
 		]
 	},
+	"simeon-singer": {
+		"name": "Simeón (cantor)",
+		"meaning": "The Judean singer who, with Anna, greeted the infant Jesus in the temple (122:9).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Simeón (cantante)",
+				"reason": "'cantante' suggests a modern performer; 'cantor' fits a temple singer."
+			}
+		]
+	},
 	"simon-peter": {
 		"name": "Simón Pedro",
 		"aliases": [
@@ -1710,10 +5453,51 @@
 		"meaning": "Simon Peter, fisherman and spokesman of the twelve apostles (139:2.1).",
 		"confidence": "high"
 	},
+	"simon-zelotes": {
+		"name": "Simón Zelotes",
+		"aliases": [
+			"Simón"
+		],
+		"meaning": "Simon Zelotes, the eleventh apostle, a former Zealot agitator of Capernaum (139:11.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Simón el Zelote",
+				"reason": "the English uses a surname-like form, not 'the Zealot'"
+			}
+		]
+	},
+	"sin": {
+		"name": "pecado",
+		"aliases": [
+			"Pecado",
+			"pecados"
+		],
+		"meaning": "The conscious, knowing, and deliberate transgression of divine law, a purposeful resistance to reality; distinguished from error and evil (67:1.4, 67:1.5, 89:10.2).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "falta",
+				"reason": "Also a minor fault or absence; too weak."
+			}
+		]
+	},
 	"solitary-messengers": {
 		"name": "Mensajeros Solitarios",
 		"meaning": "The personal and universal messenger corps of the Infinite Spirit, the first order of the Higher Personalities of the Infinite Spirit, who function alone (23:0.1).",
 		"confidence": "high"
+	},
+	"son-fused-mortals": {
+		"name": "mortales fusionados con el Hijo",
+		"aliases": [
+			"criaturas fusionadas con el Hijo",
+			"fusionados con el Hijo"
+		],
+		"meaning": "Mortals who fuse with an individualized spirit of the Creator Son rather than with an Adjuster, and serve mostly in their superuniverse (40:9.1, 40:10.10, 22:6.1).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"son-spirit-ministers": {
 		"name": "ministros Hijo-Espíritu",
@@ -1745,6 +5529,44 @@
 		],
 		"meaning": "All the orders of divine sonship, classified as descending, ascending, and trinitized Sons (20:0.1, 35:0.1).",
 		"confidence": "high"
+	},
+	"soul": {
+		"name": "alma",
+		"aliases": [
+			"almas"
+		],
+		"meaning": "The morontial, evolving self that the mind and the indwelling Adjuster create together through moral choices, which can survive death (111:0-111:2, 0:5.10).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "ánima",
+				"reason": "Literary or theological; suggests the souls of the dead in folk religion."
+			},
+			{
+				"form": "espíritu",
+				"reason": "Already the glossary form for \"spirit\", a different concept."
+			},
+			{
+				"form": "(note) alma",
+				"reason": "The reader must not bring the common sense of an immortal soul given at birth; the papers' soul is created and grows."
+			}
+		]
+	},
+	"south-america": {
+		"name": "América del Sur",
+		"aliases": [
+			"Sudamérica"
+		],
+		"meaning": "The continent of the western hemisphere, peopled mainly by the red race with later admixtures (Papers 57-64, 79:5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Suramérica",
+				"reason": "Regional variant; 'América del Sur' is neutral."
+			}
+		]
 	},
 	"space-levels": {
 		"name": "niveles del espacio",
@@ -1962,10 +5784,100 @@
 			}
 		]
 	},
+	"stationary-sons-of-the-trinity": {
+		"name": "Hijos Estacionarios de la Trinidad",
+		"aliases": [
+			"Hijo Estacionario de la Trinidad"
+		],
+		"meaning": "The Trinity-origin administrators of Havona and the superuniverses, of fixed number, including the Ancients of Days and the Universal Censors (22:1.13 'stationary numbers').",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Hijos Fijos de la Trinidad",
+				"reason": "'Fijo' can read as permanent in post; 'estacionario' keeps the coined English word."
+			},
+			{
+				"form": "Hijos Estacionados de la Trinidad",
+				"reason": "Means 'posted' or 'parked'; changes the idea."
+			}
+		],
+		"forcedChoices": [
+			"'Estacionarios': The English does not say whether 'stationary' refers to fixed numbers or fixed posts; 'estacionario' keeps both readings, but its ordinary sense (seasonal or stalled) must not be brought to it."
+		]
+	},
+	"sun-urantia-s": {
+		"name": "sol (de Urantia)",
+		"aliases": [
+			"sol"
+		],
+		"meaning": "The sun of Urantia's solar system, an offspring of the Andronover nebula (41:9.4, 57:5.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"suns": {
 		"name": "soles",
 		"meaning": "The stars of space, which also serve as way stations for energy circuits (41:3.1).",
 		"confidence": "high"
+	},
+	"superior-seraphim": {
+		"name": "serafines superiores",
+		"aliases": [
+			"superiores"
+		],
+		"meaning": "The second order of seraphim, who serve in the local universe administration, including transporters and recorders (39:2.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"supernaphim": {
+		"name": "supernafines",
+		"aliases": [
+			"supernafín",
+			"supernafines primarios",
+			"supernafines secundarios",
+			"supernafines terciarios"
+		],
+		"meaning": "The angelic ministering spirits of the central universe and Paradise, in primary, secondary, and tertiary orders, who serve the pilgrims of Havona and the Paradise residents (Paper 26:1, 27:0).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "supernaphim",
+				"reason": "The terms already done give 'seraphim' as 'serafines'; the same -im to -ines pattern keeps the angelic family visible."
+			},
+			{
+				"form": "supernafim",
+				"reason": "Not a natural Spanish plural; mixes the Hebrew plural with Spanish spelling."
+			}
+		]
+	},
+	"superuniverse-centers": {
+		"name": "Centros de los Superuniversos",
+		"aliases": [
+			"centros de poder"
+		],
+		"meaning": "The third order of Supreme Power Centers, a thousand on the capital of each superuniverse, which send out the specialized power circuits (29:2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"superuniverse-wards": {
+		"name": "pupilos del superuniverso",
+		"aliases": [
+			"Pupilos del Superuniverso"
+		],
+		"meaning": "Ascending mortals as first-stage spirits on the training worlds of a superuniverse, placed under the guardianship of the Ancients of Days (30:4).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "protegidos del superuniverso",
+				"reason": "Suggests favor or patronage rather than legal guardianship."
+			},
+			{
+				"form": "(note) pupilos",
+				"reason": "The reader must take \"pupilo\" as a person under guardianship, not only as a school pupil."
+			}
+		]
 	},
 	"superuniverses": {
 		"name": "superuniversos",
@@ -1974,6 +5886,31 @@
 		],
 		"meaning": "The seven evolutionary universes of time and space that circle Havona (0:0.5, 15:0.1).",
 		"confidence": "high"
+	},
+	"supervisor-seraphim": {
+		"name": "serafines supervisores",
+		"meaning": "The third order of seraphim, assigned to constellation service (39:3.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"supremacy": {
+		"name": "Supremacía",
+		"aliases": [
+			"supremacía"
+		],
+		"meaning": "The first level of experiential divinity, in which Paradise Deity evolves experientially in two phases that unify in the Supreme Being (0:7.7, 0:3.22).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Supremidad",
+				"reason": "Rare in Spanish; the plain noun is 'supremacía'."
+			},
+			{
+				"form": "(ordinary sense) dominance of one group over another",
+				"reason": "The reader must not bring this; the sense is a level of Deity."
+			}
+		]
 	},
 	"supreme": {
 		"name": "Supremo",
@@ -1986,6 +5923,251 @@
 			}
 		]
 	},
+	"supreme-center-supervisors": {
+		"name": "Supervisores Supremos de los Centros",
+		"meaning": "Seven beings who coordinate the master energy circuits of the grand universe, each on a world of the Seven Supreme Executives.",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Supervisores del Centro Supremo",
+				"reason": "Implies one Supreme Center, which the papers do not say."
+			}
+		]
+	},
+	"supreme-chief": {
+		"name": "Jefe Supremo",
+		"meaning": "The name under which Orlandof led the blue race back to the worship of the true God (64:6.23, 45:4.6).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Caudillo Supremo",
+				"reason": "Carries a modern political sense."
+			}
+		]
+	},
+	"supreme-circuit-supervisors": {
+		"name": "Supervisores Supremos de los Circuitos",
+		"meaning": "Seven beings created by the Infinite Spirit who regulate the circuits of Havona from the pilot worlds.",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Supervisores de Circuito Supremos",
+				"reason": "Ambiguous: 'Supremos' can attach to the circuit."
+			}
+		]
+	},
+	"supreme-council-of-destiny": {
+		"name": "Consejo Supremo del Destino",
+		"meaning": "The Paradise council of the presiding heads of the finaliter corps, with Grandfanda as chief.",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Consejo Supremo de Destino",
+				"reason": "Without the article it reads as a council that assigns destinations."
+			}
+		]
+	},
+	"supreme-council-of-universe-adjustments": {
+		"name": "Consejo Supremo de Ajustes del Universo",
+		"meaning": "The Paradise body formed by the reserve corps of Unions of Days, which handles adjustments in universe affairs.",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Consejo Supremo de Ajustes Universales",
+				"reason": "'Universe' as a noun phrase follows 'del Universo' in 'Directores del Poder del Universo'."
+			}
+		]
+	},
+	"supreme-creators": {
+		"name": "Creadores Supremos",
+		"meaning": "The Creators of time and space who, in association with Paradise Deity, contribute to the evolution of the Supreme Being (0:7.9).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Supremos Creadores",
+				"reason": "Adjective first reads as praise, not a name."
+			}
+		]
+	},
+	"supreme-executive-7-of-orvonton": {
+		"name": "Ejecutivo Supremo n.º 7 (de Orvonton)",
+		"aliases": [
+			"Ejecutivo Supremo de Orvonton"
+		],
+		"meaning": "The one of the Seven Supreme Executives who acts from executive sphere number seven and directs the affairs of Orvonton, the seventh superuniverse.",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Ejecutivo Supremo #7",
+				"reason": "'#' is not the normal Spanish sign for a number; 'n.º' is."
+			}
+		]
+	},
+	"supreme-executives": {
+		"name": "Ejecutivos Supremos",
+		"meaning": "The Seven Supreme Executives, one group of the Supreme Spirits, who coordinate the grand universe administration.",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"supreme-lanonandek-councils": {
+		"name": "consejos supremos Lanonandek",
+		"aliases": [
+			"consejo supremo"
+		],
+		"meaning": "Councils on the constellation headquarters, presided over by the senior Most High associate of the Constellation Father, that select System Sovereigns from the Lanonandek reserves (35:9.4).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Consejos Supremos de los Lanonandek",
+				"reason": "Capitalizes 'councils', which the text does not; and 'de los' makes the Lanonandeks the owners, not the order the councils serve."
+			}
+		],
+		"forcedChoices": [
+			"lowercase 'consejos supremos': The text writes 'supreme Lanonandek councils' in lowercase (35:9.4); only the name Lanonandek keeps its capital."
+		]
+	},
+	"supreme-mind": {
+		"name": "Mente Suprema",
+		"meaning": "The mind of the Supreme Being, given by the Infinite Spirit, which unifies the spirit person of God the Supreme with the power of the Almighty Supreme.",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Intelecto Supremo",
+				"reason": "'Mind' is 'mente' in all terms."
+			}
+		]
+	},
+	"supreme-power-centers": {
+		"name": "Centros Supremos del Poder",
+		"aliases": [
+			"centros del poder"
+		],
+		"meaning": "Living beings created by the Supreme Power Directors that control and direct the physical energies of space in the grand universe.",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Centros de Potencia Supremos",
+				"reason": "'Power' is 'Poder' in 'Directores del Poder del Universo'; one word for one meaning."
+			}
+		]
+	},
+	"supreme-power-directors": {
+		"name": "Directores Supremos del Poder",
+		"meaning": "The seven beings created by the Seven Master Spirits who regulate physical power in the grand universe and are the progenitors of the Supreme Power Centers.",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Directores Supremos de Potencia",
+				"reason": "'Power' is 'Poder' in 'Directores del Poder del Universo'."
+			}
+		]
+	},
+	"supreme-rulers": {
+		"name": "Gobernantes Supremos",
+		"meaning": "The highest rulers of the universe, named without saying which beings they are; the context does not decide whether it means the superuniverse authorities or Deity (43:3.4, 54:4.5, 18:3.8).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Soberanos Supremos",
+				"reason": "'Sovereign' is a separate English word in the papers (System Sovereigns)."
+			}
+		]
+	},
+	"supreme-seraphim": {
+		"name": "serafines supremos",
+		"aliases": [
+			"orden supremo de serafines"
+		],
+		"meaning": "The first order of local universe seraphim, associated with the Seraphic Corps of Completion (39:1.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Supremo (capitalized)",
+				"reason": "'Supremo' capitalized is God the Supreme; this adjective stays lowercase"
+			}
+		]
+	},
+	"supreme-spirits": {
+		"name": "Espíritus Supremos",
+		"aliases": [
+			"Espíritu Supremo"
+		],
+		"meaning": "The seven groups of spirit beings that act as coordinating directors of the grand universe administration, including the Master Spirits, the Supreme Executives, and the Reflective Spirits.",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"supreme-trinity-personalities": {
+		"name": "Personalidades Supremas de la Trinidad",
+		"meaning": "Beings created by the Paradise Trinity in fixed numbers who carry out its administrative policies and justice in the grand universe; the Ancients of Days are among them (18:3.8).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Personalidades de la Trinidad Suprema",
+				"reason": "Makes 'Supreme' modify the Trinity, as if it were a different Trinity."
+			}
+		]
+	},
+	"supreme-ultimate": {
+		"name": "Supremo-Último",
+		"meaning": "A future Deity reality related to both the Supreme and the Ultimate; the papers name its secrets and spirits but leave its nature open (13:1.18, 13:2.10, 0:9.5).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Supremo Último",
+				"reason": "Without the hyphen, 'Último' reads as an adjective: 'the last Supreme'."
+			}
+		]
+	},
+	"survival-of-mortal-death": {
+		"name": "supervivencia (a la muerte mortal)",
+		"aliases": [
+			"supervivencia",
+			"sobrevivir"
+		],
+		"meaning": "The continuation of the personality beyond physical death through the immortal soul in partnership with the Adjuster, which depends on the choice to do the Father's will (112:2, 112:3, 5:5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "sobrevivencia",
+				"reason": "Regional variant; \"supervivencia\" is the neutral standard."
+			},
+			{
+				"form": "(note) supervivencia",
+				"reason": "The reader must not bring the sense of only getting through physical danger."
+			}
+		]
+	},
+	"system-sovereigns": {
+		"name": "Soberanos de Sistema",
+		"aliases": [
+			"Soberano de Sistema"
+		],
+		"meaning": "Primary Lanonandek Sons who rule local systems of inhabited worlds from the system headquarters (35:9, 45:2).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Soberanos del Sistema",
+				"reason": "Fine in a sentence about one system, but as a title it names the office in general."
+			}
+		]
+	},
 	"third-source-personalities": {
 		"name": "personalidades de la Tercera Fuente",
 		"meaning": "Beings personal to the Infinite Spirit but not in the Father's personality circuit, such as power directors (40:9.1, Paper 30).",
@@ -1995,6 +6177,49 @@
 			{
 				"form": "personalidades del Tercer Origen",
 				"reason": "'Source' is 'Fuente' in 'Primera Fuente y Centro'; 'origen' is 'origin'."
+			}
+		]
+	},
+	"thomas-didymus": {
+		"name": "Tomás Dídimo",
+		"aliases": [
+			"Tomás"
+		],
+		"meaning": "Thomas called Didymus, one of the twelve apostles of Jesus, known for his analytical mind and his doubt about the resurrection.",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Thomas Didymus",
+				"reason": "Historical person; the standard Spanish form is required."
+			}
+		]
+	},
+	"those-high-in-authority": {
+		"name": "Aquellos Elevados en Autoridad",
+		"meaning": "Trinity-embraced, Adjuster-fused mortals of administrative ability who serve as executives in the superuniverse governments (22:2, 18:4.4).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Los Altos en Autoridad",
+				"reason": "'altos' first reads as 'tall'."
+			},
+			{
+				"form": "Altos Funcionarios",
+				"reason": "A civil-service title; loses the form of the English name."
+			}
+		]
+	},
+	"those-without-name-and-number": {
+		"name": "Aquellos sin Nombre ni Número",
+		"meaning": "The third group of Trinitized Sons of Attainment, ascenders of exceptional worship ability; strictly 'Those above Name and Number' (22:4.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Los sin Nombre y Número",
+				"reason": "'y' after a negation is unnatural; Spanish uses 'ni'."
 			}
 		]
 	},
@@ -2037,6 +6262,79 @@
 			}
 		]
 	},
+	"transcendental-almighty": {
+		"name": "Todopoderoso trascendental",
+		"meaning": "God the Ultimate in his future function of supercontrol of the universes, overcontrolling the Supreme Almighty from supertime and transcended space (117:7, 118:2).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Omnipotente trascendental",
+				"reason": "\"Almighty\" pairs with the Supreme Almighty; \"Todopoderoso\" is the plain Spanish name."
+			}
+		]
+	},
+	"transcendental-recorders": {
+		"name": "Registradores Trascendentales",
+		"meaning": "A personal order of transcendental beings, gravity traversers with no discoverable form, not available to superuniverse and local universe administrators (23:3.2, 30:1.95).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Archiveros Trascendentales",
+				"reason": "\"archivero\" keeps files, not records of events."
+			},
+			{
+				"form": "Cronistas Trascendentales",
+				"reason": "Implies narrative writing."
+			}
+		]
+	},
+	"transcendentalers": {
+		"name": "Trascendentales",
+		"aliases": [
+			"Trascendental"
+		],
+		"meaning": "Eventuated beings of absonite nature, neither created nor creators, who live on the west of Paradise and are concerned only with the superadministration of the master universe (31:8, 30:1).",
+		"confidence": "high",
+		"formConfidence": "low",
+		"rejected": [
+			{
+				"form": "Trascendentalistas",
+				"reason": "Names a philosophy movement (Emerson, Thoreau)."
+			},
+			{
+				"form": "Trascendentalizadores",
+				"reason": "Says they make things transcendental."
+			},
+			{
+				"form": "Trascendentaleros",
+				"reason": "Not a Spanish form; reads as a joke."
+			},
+			{
+				"form": "(note) Trascendentales",
+				"reason": "With the capital it is an order name, but it is the same form as the plural adjective of \"trascendental\"."
+			}
+		]
+	},
+	"transition-ministers": {
+		"name": "ministros de transición",
+		"aliases": [
+			"serafines de transición"
+		],
+		"meaning": "The sixth order of seraphim, who help survivors pass from the flesh into the morontia life on the mansion worlds (39:6.1, 48:6.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"transport-seraphim": {
+		"name": "serafines de transporte",
+		"aliases": [
+			"serafín de transporte"
+		],
+		"meaning": "Seraphim who carry personalities through space (39:2.11, 46:2.8).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"transportation-personalities": {
 		"name": "personalidades de transporte",
 		"aliases": [
@@ -2052,6 +6350,154 @@
 			}
 		]
 	},
+	"trinitized-ambassadors": {
+		"name": "Embajadores Trinitizados",
+		"aliases": [
+			"Embajador Trinitizado"
+		],
+		"meaning": "The second order of Trinitized Sons of Selection, Trinity-embraced Spirit-fused and Son-fused ascendant mortals who serve the Ancients of Days mainly in the minor sectors (22:6.1, 18:4.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Embajadores de la Trinidad",
+				"reason": "That is the separate term 'Trinity ambassadors' (Unions of Days)."
+			}
+		]
+	},
+	"trinitized-custodians": {
+		"name": "Custodios Trinitizados",
+		"aliases": [
+			"Custodio Trinitizado",
+			"Custodios"
+		],
+		"meaning": "Trinity-embraced ascendant seraphim and midwayers who serve as officers of the courts of the superuniverse governments (18:4.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Guardianes Trinitizados",
+				"reason": "'Guardián' is used for guardian seraphim and guardians of destiny; keep the words apart."
+			}
+		]
+	},
+	"trinitized-secrets-of-supremacy": {
+		"name": "Secretos Trinitizados de la Supremacía",
+		"aliases": [
+			"Secretos de la Supremacía",
+			"Secreto de la Supremacía"
+		],
+		"meaning": "Trinitized beings who direct the seven sacred worlds of the Father, ten on each, and who are related to the secrets of the Supreme, the Ultimate, and the Supreme-Ultimate (13:2.9, 13:2.10).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Secretos Trinitizados de Supremacía",
+				"reason": "Without the article it reads less naturally; 'la Supremacía' parallels 'Trinidad de la Supremacía'."
+			}
+		]
+	},
+	"trinitized-sons-of-attainment": {
+		"name": "Hijos Trinitizados de Logro",
+		"aliases": [
+			"Hijos de Logro"
+		],
+		"meaning": "Ascendant mortals who attained Paradise and were embraced by the Trinity, now serving the Ancients of Days (Mighty Messengers, Those High in Authority, Those without Name and Number) (22:1.13).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Hijos Trinitizados de Consecución",
+				"reason": "Correct but heavy; 'logro' is the plain word for an attainment."
+			},
+			{
+				"form": "Hijos Trinitizados por Logro",
+				"reason": "Closes the sense to 'trinitized because of an achievement'; the English 'of' is looser."
+			}
+		]
+	},
+	"trinitized-sons-of-destiny": {
+		"name": "hijos trinitizados del destino",
+		"aliases": [
+			"Hijos Trinitizados del Destino",
+			"hijos del destino"
+		],
+		"meaning": "Sons trinitized jointly by finaliters and Paradise-Havoners who embody aspects of the unrevealed function of the Supreme-Ultimate.",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "hijos trinitizados de destino",
+				"reason": "Without the article it reads as 'with a destiny' rather than 'of destiny'."
+			}
+		]
+	},
+	"trinitized-sons-of-god": {
+		"name": "Hijos Trinitizados de Dios",
+		"aliases": [
+			"Hijos Trinitizados",
+			"Hijo Trinitizado",
+			"hijos abrazados por la Trinidad"
+		],
+		"meaning": "The group of Sons who share the experience of trinitization, by origin or by later Trinity embrace: Deity-trinitized, Trinity-embraced, and creature-trinitized Sons (22:0.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Hijos Trinitarios de Dios",
+				"reason": "'Trinitario' means 'of the Trinity' or a religious order, not 'made by trinitization'."
+			}
+		]
+	},
+	"trinitized-sons-of-perfection": {
+		"name": "Hijos Trinitizados de Perfección",
+		"aliases": [
+			"Hijo Trinitizado de Perfección"
+		],
+		"meaning": "Trinity-embraced sons who were first creature-trinitized and are assigned to the Ancients of Days as Celestial Guardians and High Son Assistants (22:1.13).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Hijos Trinitizados de la Perfección",
+				"reason": "Article not in the English; also parallels 'de Logro' and 'de Selección'."
+			}
+		]
+	},
+	"trinitized-sons-of-selection": {
+		"name": "Hijos Trinitizados de Selección",
+		"aliases": [
+			"Hijos de Selección"
+		],
+		"meaning": "Trinity-embraced ascenders (Trinitized Custodians and Trinitized Ambassadors) recruited from seraphim, midwayers, and Spirit- or Son-fused mortals (22:6.1, 22:1.13).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Hijos Trinitizados Seleccionados",
+				"reason": "Changes the noun 'Selection' to a participle and loses the parallel with 'de Logro' and 'de Perfección'."
+			}
+		]
+	},
+	"trinity": {
+		"name": "Trinidad",
+		"aliases": [
+			"Trinidades",
+			"trinitario",
+			"trinitizar",
+			"trinitizado",
+			"trinitización"
+		],
+		"meaning": "The Paradise Trinity, the eternal Deity union of the Universal Father, Eternal Son, and Infinite Spirit, an existential entity; the plural also covers the post-Havona experiential Trinities (0:12.1, 0:12.2, 104:3.16).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Tríada",
+				"reason": "Plain word for a group of three; does not carry Deity union."
+			}
+		]
+	},
 	"trinity-absolute": {
 		"name": "Trinidad Absoluta",
 		"meaning": "The second experiential Trinity of God the Supreme, God the Ultimate, and the Consummator of Universe Destiny, whose unification would actualize God the Absolute (0:10.1, Paper 104).",
@@ -2061,6 +6507,131 @@
 			{
 				"form": "Trinidad del Absoluto",
 				"reason": "Reads as 'the Trinity that belongs to the Absolute'."
+			}
+		]
+	},
+	"trinity-ambassadors": {
+		"name": "embajadores de la Trinidad",
+		"aliases": [
+			"embajador de la Trinidad",
+			"representante de la Trinidad",
+			"observadores de la Trinidad"
+		],
+		"meaning": "Representatives of the Paradise Trinity to the local universes, the Unions of Days, such as Immanuel of Salvington in Nebadon (33:5.1, 18:6.6).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Embajadores Trinitizados",
+				"reason": "That is a separate order of Trinity-embraced mortals."
+			}
+		]
+	},
+	"trinity-embraced-sons": {
+		"name": "Hijos abrazados por la Trinidad",
+		"aliases": [
+			"hijos abrazados por la Trinidad",
+			"seres abrazados por la Trinidad",
+			"abrazo de la Trinidad"
+		],
+		"meaning": "Seven orders of beings, of dual or single origin, who receive the embrace of the Paradise Trinity and serve the superuniverse governments, none ever lost (22:1.13).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Hijos acogidos por la Trinidad",
+				"reason": "'Acoger' means to welcome or shelter; loses the specific act of embrace."
+			}
+		]
+	},
+	"trinity-guides": {
+		"name": "guías de la Trinidad",
+		"aliases": [
+			"guía de la Trinidad"
+		],
+		"meaning": "Secondary supernaphim who teach ascending pilgrims about the Trinity on the fifth Havona circle, to prepare them to recognize the Infinite Spirit (26:7.1, 26:7.2).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "guías trinitarios",
+				"reason": "'Trinitario' suggests a religious order."
+			}
+		]
+	},
+	"trinity-infinite": {
+		"name": "Trinidad Infinita",
+		"meaning": "The co-ordinate action of all triunity relationships of the First Source and Center, deified and undeified, which the philosophers also call the existential-experiential Trinity of Trinities (10:5.7, 0:12.9).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Trinidad del Infinito",
+				"reason": "Reads as the Trinity belonging to the Infinite."
+			}
+		]
+	},
+	"trinity-of-supremacy": {
+		"name": "Trinidad de la Supremacía",
+		"meaning": "The Paradise Trinity in its relation to the finite, the threefold Deity domain of the grand universe linked to the actualization of the Supreme (10:5).",
+		"confidence": "medium",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Trinidad Suprema",
+				"reason": "Reads as 'the highest Trinity' and can be confused with the Supreme Being."
+			}
+		]
+	},
+	"trinity-of-trinities": {
+		"name": "Trinidad de Trinidades",
+		"meaning": "A Trinity postulated by the philosophers of the universes, an existential-experiential Trinity Infinite whose personalization they cannot envisage (0:12.9).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Trinidad de las Trinidades",
+				"reason": "Acceptable, but the English has no article; the shorter form reads as a title."
+			}
+		]
+	},
+	"trinity-of-ultimacy": {
+		"name": "Trinidad de la Ultimidad",
+		"meaning": "The Paradise Trinity in its relation to the absonite, the levels more than finite and less than absolute (10:5).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Trinidad Última",
+				"reason": "Reads as 'last Trinity' and collides with 'Trinity Ultimate', a separate term."
+			},
+			{
+				"form": "Trinidad de lo Último",
+				"reason": "'Lo último' means 'the latest' or 'the last thing'."
+			}
+		],
+		"forcedChoices": [
+			"coined noun 'Ultimidad': Spanish has no noun for 'ultimacy'; the coinage parallels 'Supremacía' for 'Supremacy'."
+		]
+	},
+	"trinity-origin-beings": {
+		"name": "seres originados en la Trinidad",
+		"aliases": [
+			"ser originado en la Trinidad",
+			"de origen trinitario",
+			"personalidades originadas en la Trinidad"
+		],
+		"meaning": "Beings brought into existence directly by the Paradise Trinity, such as Trinity Teacher Sons, Perfectors of Wisdom, Divine Counselors, and Universal Censors (19:0.1, 22:1.13).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "seres trinitarios",
+				"reason": "'Trinitario' also names a religious order and the doctrine of the Trinity."
+			},
+			{
+				"form": "seres de la Trinidad",
+				"reason": "Loses the idea of origin."
 			}
 		]
 	},
@@ -2082,6 +6653,180 @@
 			}
 		]
 	},
+	"trinity-ultimate": {
+		"name": "Trinidad Última",
+		"meaning": "The first experiential Trinity, of subinfinite and absonite scope, in which the Supreme functions with other associates; it is even now a qualified reality (106:6.2, 106:6.5, 117:7.4).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Última Trinidad",
+				"reason": "With the adjective first it reads as 'the last Trinity'."
+			},
+			{
+				"form": "Trinidad del Último",
+				"reason": "Changes the idea to a Trinity that belongs to God the Ultimate."
+			}
+		],
+		"forcedChoices": [
+			"feminine 'Última': Agrees with 'Trinidad', as in 'Trinidad Absoluta'."
+		]
+	},
+	"triodities": {
+		"name": "triodidades",
+		"aliases": [
+			"triodidad"
+		],
+		"meaning": "Triune relationships that do not include the Father, also called associate or co-ordinate triunities: the triodity of actuality and the triodity of potentiality (104:5.1, 104:5.2, 104:5.7).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "tríodos",
+				"reason": "Ordinary sense is an electronic valve (triodo)."
+			},
+			{
+				"form": "triunidades asociadas",
+				"reason": "An alternate English name, but 'triodity' is the coined term and must stay distinct."
+			}
+		]
+	},
+	"triune-origin-beings": {
+		"name": "seres de origen trino",
+		"aliases": [
+			"SERES DE ORIGEN TRINO"
+		],
+		"meaning": "Beings of origin in all three Paradise Deities, or in the Trinity, together with the trinitized beings (30:1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "seres de origen triple",
+				"reason": "'triple' means threefold in amount, not of three persons."
+			}
+		]
+	},
+	"triunities": {
+		"name": "triunidades",
+		"aliases": [
+			"triunidad"
+		],
+		"meaning": "The seven functional associations of the Seven Absolutes of Infinity, each with the Father as member, which are associations rather than entities and act as the balance wheel of infinity (104:3.16, 104:4.46, 0:12).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "trinidades",
+				"reason": "The papers distinguish a triunity from a Trinity; a triunity is not an entity (104:3.16)."
+			},
+			{
+				"form": "tríadas",
+				"reason": "Plain word for any group of three; loses the coined term."
+			}
+		]
+	},
+	"truth": {
+		"name": "verdad",
+		"aliases": [
+			"verdades",
+			"Verdad"
+		],
+		"meaning": "A living spiritual value, known by spirit discernment and revealed by the Adjuster or other agencies, that cannot be held in formulas or creeds and must be lived (2:7, 101:2, 180:5.1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "(note) verdad",
+				"reason": "The reader must not bring the narrow sense \"a correct statement\" or \"a fact\"; in the papers truth is a living spiritual value."
+			}
+		]
+	},
+	"turkestan": {
+		"name": "Turquestán",
+		"meaning": "The central Asian region from which the Andites spread to Europe, India, and China (78:5, 79:1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"ultimacy": {
+		"name": "Ultimidad",
+		"aliases": [
+			"ultimidad"
+		],
+		"meaning": "The Deity level of absonite function in the master universe, where time and space are transcended; the second of the three experiential divinity levels Supremacy, Ultimacy, and Absoluteness (0:1.10, 0:1.12, 0:3.22).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Ultimación",
+				"reason": "Means 'finishing touches', an action, not a level."
+			},
+			{
+				"form": "Finalidad",
+				"reason": "Means 'purpose'; it also collides with 'Finalitarios' and 'Corps of the Finality'."
+			}
+		]
+	},
+	"ultimate": {
+		"name": "Último",
+		"aliases": [
+			"el Último"
+		],
+		"meaning": "Short name for God the Ultimate, the supersupreme eventuation of Deity on the absonite level (0:9.2, 106:4.3).",
+		"confidence": "high",
+		"formConfidence": "low",
+		"rejected": [
+			{
+				"form": "Final",
+				"reason": "Only an end point; not a Deity name."
+			}
+		],
+		"note": "Standing alone, 'el Último' is read by most readers as 'the last one'. Context and the capital help, but a human must review this risk.",
+		"forcedChoices": [
+			"masculine 'el Último': Follows 'Dios el Último' and 'el Supremo'."
+		]
+	},
+	"ultimate-deity": {
+		"name": "Deidad Última",
+		"meaning": "Another name for God the Ultimate; its actualization signals the absonite unification of the first experiential Trinity (0:9.1).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Última Deidad",
+				"reason": "Adjective first reads as 'the last Deity'."
+			}
+		]
+	},
+	"unions-of-days": {
+		"name": "Uniones de Días",
+		"aliases": [
+			"Unión de Días"
+		],
+		"meaning": "Trinity personalities who serve as ambassadors and advisers of the Paradise Trinity to the Creator Sons of the local universes (18:6, 33:4).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Uniones de los Días",
+				"reason": "'Ancients of Days' is 'Ancianos de Días' without the article; the family keeps the same form."
+			}
+		]
+	},
+	"united-midwayers-of-urantia": {
+		"name": "Seres Intermedios Unidos de Urantia",
+		"aliases": [
+			"Seres Intermedios Unidos"
+		],
+		"meaning": "The single corps, of 10,992 members, formed from both orders of midwayers on Urantia shortly after Pentecost and governed alternately by the senior member of each order (77:8.1, 77:8.5).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Intermedios Unidos de Urantia",
+				"reason": "'intermedios' alone as a noun can read as intermissions; the established form is 'seres intermedios'."
+			}
+		]
+	},
 	"universal-absolute": {
 		"name": "Absoluto Universal",
 		"aliases": [
@@ -2097,6 +6842,41 @@
 			}
 		]
 	},
+	"universal-censors": {
+		"name": "Censores Universales",
+		"aliases": [
+			"Censor Universal",
+			"Censores"
+		],
+		"meaning": "Beings of Trinity origin who are the judgment of Deity, not only reflectors of decisions (19:4.1, 19:4.4).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Jueces Universales",
+				"reason": "plain but loses the coined English name; 'Judge' can be another term"
+			},
+			{
+				"form": "censor (ordinary sense)",
+				"reason": "the reader must not bring the sense of one who suppresses speech or books; here it is judgment"
+			}
+		]
+	},
+	"universal-conciliators": {
+		"name": "Conciliadores Universales",
+		"aliases": [
+			"conciliadores"
+		],
+		"meaning": "Beings who serve in commissions of four (Judge-Arbiter, Spirit-Advocate, Divine Executioner, Recorder) to settle differences and interpret law (25:2, 25:2.5).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"universal-creator": {
+		"name": "Creador Universal",
+		"meaning": "The Father as creator of all; in Paper 105 the phase of the I AM that is one with the Eternal Son and initiates the creative cycle (105:2.7, 1:4.5).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
 	"universal-father": {
 		"name": "Padre Universal",
 		"meaning": "The First Person of Deity, the First Source and Center, God as the Father of all personalities (1:0.1, 15:0.1).",
@@ -2107,6 +6887,70 @@
 				"reason": "Not a name the papers use; it loses the term 'Universal'."
 			}
 		]
+	},
+	"universal-mind": {
+		"name": "Mente Universal",
+		"meaning": "A designation of the mind of the Infinite Spirit; the packet shows no paragraph that uses it, so the sense is not confirmed.",
+		"confidence": "low",
+		"formConfidence": "high"
+	},
+	"universe": {
+		"name": "universo",
+		"aliases": [
+			"universos",
+			"del universo"
+		],
+		"meaning": "An organized creation of physical, mind, and spirit reality: in the papers usually a local universe, a superuniverse, the central universe, or the whole (0:0.5, 0:0.6).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "cosmos",
+				"reason": "Kept for \"cosmos\" and \"cosmic\" in the English."
+			}
+		]
+	},
+	"universe-aids": {
+		"name": "Auxiliares del Universo",
+		"meaning": "Local universe beings, such as the Bright and Morning Stars, who carry out specific missions for the Creator Sons on headquarters worlds (30:2.148, 37:1.9).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Ayudantes del Universo",
+				"reason": "\"ayudante\" is near \"adjutant\" (\"espíritus ayudantes\")."
+			}
+		]
+	},
+	"universe-circuit-supervisors": {
+		"name": "Supervisores de los Circuitos del Universo",
+		"meaning": "Beings of the Infinite Spirit who supervise the spirit circuits outside Paradise and the transit of messages and personalities on them (24:1).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Supervisores de Circuitos Universales",
+				"reason": "\"universal\" is kept for \"universal\" in the English (Padre Universal)."
+			}
+		]
+	},
+	"universe-co-ordinators-and-constellation-counselors": {
+		"name": "Coordinadores del Universo y Consejeros de las Constelaciones",
+		"meaning": "A group of 100,000 Lanonandek Sons in the classification of that order in Nebadon (35:8.9).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"universe-of-universes": {
+		"name": "universo de universos",
+		"meaning": "The whole of creation, all universes taken together (0:0.4, 0:1.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"universe-orientators": {
+		"name": "orientadores del universo",
+		"meaning": "Supreme seraphim who help ascending pilgrims on Salvington adjust to their new place at the bottom of the spirit ascent before the superuniverse career (39:1.11).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"universe-power-directors": {
 		"name": "Directores del Poder del Universo",
@@ -2122,6 +6966,21 @@
 				"reason": "'Universe' is a noun used as a modifier, not 'Universal'; the other terms use 'del Universo'."
 			}
 		]
+	},
+	"universe-sons": {
+		"name": "Hijos del Universo",
+		"meaning": "The Creator or Sovereign Sons who rule local universes and receive worship there in the name of the Father (5:3.6).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"universe-spirits": {
+		"name": "Espíritus del Universo",
+		"aliases": [
+			"Espíritu del Universo"
+		],
+		"meaning": "The local universe Mother Spirits, the creative and administrative associates of the Creator Sons (5:3.6, 34:4.7).",
+		"confidence": "high",
+		"formConfidence": "high"
 	},
 	"unqualified-absolute": {
 		"name": "Absoluto Incondicionado",
@@ -2143,10 +7002,34 @@
 			}
 		]
 	},
+	"unqualified-supervisors-of-the-supreme": {
+		"name": "Supervisores Incondicionados del Supremo",
+		"meaning": "Beings who represent the Supreme, influential in the superuniverse governments and represented by Reflective Image Aids (15:10.21).",
+		"confidence": "medium",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "Supervisores No Calificados del Supremo",
+				"reason": "'No calificado' means unskilled; 'Unqualified' is 'Incondicionado' in 'Absoluto Incondicionado'."
+			}
+		]
+	},
 	"urantia": {
 		"name": "Urantia",
 		"meaning": "The name of our world, one of many inhabited planets of the local universe of Nebadon (0:0.5).",
 		"confidence": "high"
+	},
+	"urantia-brotherhood-of-urantia-midwayers": {
+		"name": "Fraternidad de los Seres Intermedios de Urantia",
+		"meaning": "The exact English phrase does not appear in the papers; it most likely names the same body as 'the Brotherhood of the United Midwayers of Urantia' (121:8.14), the united corps of midwayers on Urantia.",
+		"confidence": "low",
+		"formConfidence": "low",
+		"rejected": [
+			{
+				"form": "Fraternidad Urantia de los Seres Intermedios de Urantia",
+				"reason": "A literal copy of the doubled 'Urantia' in the term id; the doubling looks like an error in the source list, not a name in the papers."
+			}
+		]
 	},
 	"urantia-papers": {
 		"name": "Documentos de Urantia",
@@ -2170,6 +7053,90 @@
 			}
 		]
 	},
+	"uversa": {
+		"name": "Uversa",
+		"meaning": "The headquarters world of Orvonton, the seventh superuniverse, seat of the Ancients of Days (15:7, 37:9.12).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"values": {
+		"name": "valores",
+		"aliases": [
+			"valor"
+		],
+		"meaning": "The spirit worth of realities, the \"spirit values\" that the papers set beside \"mind meanings\" and \"things\" in universe reality (0:0.3, 0:1.1, 0:4.10, 0:4.11).",
+		"confidence": "high",
+		"formConfidence": "medium",
+		"rejected": [
+			{
+				"form": "(note) valores",
+				"reason": "The reader must not bring the financial sense (securities, prices) or the sense \"courage\" of the singular \"valor\"."
+			}
+		]
+	},
+	"van-prince-s-staff": {
+		"name": "Van (del cuerpo del Príncipe)",
+		"aliases": [
+			"Van"
+		],
+		"meaning": "The loyal member of Caligastia's staff who led the loyal forces after the rebellion and commanded the midway creatures (67:6, 67:6.5).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"voices-of-creator-sons": {
+		"name": "Voces de los Hijos Creadores",
+		"aliases": [
+			"Voz de los Hijos Creadores"
+		],
+		"meaning": "Primary seconaphim who reflect the minds of the Creator Sons, so that the Ancients of Days can perceive the voice of a Michael without calling him (28:4.6, 40:10.2).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"voices-of-seven-master-spirits": {
+		"name": "Voces de los Siete Espíritus Maestros",
+		"aliases": [
+			"la Voz de los Siete Espíritus Maestros"
+		],
+		"meaning": "Primary seconaphim who represent the collective natures of the Seven Master Spirits before the Ancients of Days (28:4.5).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"vorondadek-sons": {
+		"name": "Hijos Vorondadek",
+		"aliases": [
+			"Vorondadek",
+			"Hijo Vorondadek"
+		],
+		"meaning": "Local universe Sons of the Creator Son and the Creative Spirit who rule constellations as Most Highs (35:6.1).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"white-race": {
+		"name": "raza blanca",
+		"aliases": [
+			"razas blancas",
+			"hombre blanco"
+		],
+		"meaning": "The modern white races, descended mainly from the blue man with later Adamic and other admixture (Paper 80).",
+		"confidence": "high",
+		"formConfidence": "high"
+	},
+	"wisdom": {
+		"name": "sabiduría",
+		"meaning": "The insight that co-ordinates knowledge and experience with meanings and values, fostered by the adjutant spirit of wisdom and rising toward God-consciousness (36:5, 101:2, 102:2).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "saber",
+				"reason": "Means knowledge, which the papers set below wisdom."
+			},
+			{
+				"form": "sapiencia",
+				"reason": "Literary; the English uses the plain word."
+			}
+		]
+	},
 	"world-of-the-spirit": {
 		"name": "mundo del Espíritu",
 		"aliases": [
@@ -2184,5 +7151,35 @@
 				"reason": "Reads as 'the spirit world' in general (the afterlife), not a named sphere."
 			}
 		]
+	},
+	"worship": {
+		"name": "adoración",
+		"aliases": [
+			"Adoración",
+			"adorar"
+		],
+		"meaning": "The joyous, unselfish recognition and communion of the creature with the Creator, for its own sake and with no request, the first duty and privilege of creatures (5:3, 102:4, 196:3).",
+		"confidence": "high",
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "culto",
+				"reason": "Means organized rites or a religious service."
+			},
+			{
+				"form": "veneración",
+				"reason": "Also used for respect to saints or elders; weaker."
+			}
+		]
+	},
+	"yellow-race": {
+		"name": "raza amarilla",
+		"aliases": [
+			"hombre amarillo",
+			"tribus amarillas"
+		],
+		"meaning": "One of the six Sangik races, peaceful and agricultural, which consolidated central Asia (64:6.11, 79:5.1).",
+		"confidence": "high",
+		"formConfidence": "high"
 	}
 }
