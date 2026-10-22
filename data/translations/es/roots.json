@@ -26,6 +26,16 @@
 			"note": "Consistency review 2026-10-21. Not yet checked by a Spanish speaker."
 		}
 	},
+	"righteousness": {
+		"forms": [
+			"rectitud",
+			"recto",
+			"recta",
+			"rectos",
+			"rectas"
+		],
+		"reason": "The papers set righteousness beside justice as a separate value (Truth-Justice-Righteousness), so 'justicia' would merge two words; 'rectitud' keeps them apart and is the form the one existing term already uses."
+	},
 	"staff": {
 		"forms": [
 			"personal",

@@ -628,7 +628,7 @@
 		"name": "ayudantes de los circuitos de Havona",
 		"aliases": [
 			"doce ayudantes",
-			"Ayudantes Duodécuples de los Circuitos de Havona"
+			"Ayudantes Duodécuplos de los Circuitos de Havona"
 		],
 		"meaning": "The twelve adjutants of each Circuit Spirit of Havona, before whom ascending pilgrims pass the tests of a circle to move inward (26:5.5).",
 		"confidence": "medium",
@@ -638,7 +638,11 @@
 				"form": "asistentes de los circuitos de Havona",
 				"reason": "The terms already done use 'ayudante' for 'adjutant' (espíritus ayudantes de la mente)."
 			}
-		]
+		],
+		"adjudicated": {
+			"date": "2026-10-22",
+			"reason": "Consistency review: the alias \"Duodécuples\" must agree with \"Ayudantes\" (masculine plural \"Duodécuplos\")."
+		}
 	},
 	"administrative-assistants": {
 		"name": "asistentes administrativos",
@@ -4964,7 +4968,7 @@
 		"formConfidence": "high"
 	},
 	"cro-magnons": {
-		"name": "Cromañones",
+		"name": "cromañones",
 		"aliases": [
 			"Cromañón",
 			"Cromañoides",
@@ -4979,7 +4983,12 @@
 				"reason": "Spanish has the adapted form \"cromañón\"."
 			}
 		],
-		"note": "Spanish usually writes \"cromañón\" in lowercase; the capital follows rule 1 and the other race names (Andonitas). A human can decide."
+		"note": "Spanish usually writes \"cromañón\" in lowercase; the capital follows rule 1 and the other race names (Andonitas). A human can decide.",
+		"adjudicated": {
+			"date": "2026-10-22",
+			"reason": "Consistency review: Spanish writes peoples in lowercase, as with \"neandertales\".",
+			"previous": "Cromañones"
+		}
 	},
 	"custodians-of-knowledge": {
 		"name": "custodios del conocimiento",
@@ -5742,11 +5751,16 @@
 		"note": "'ejecutor' can also suggest one who kills; the context (executing decisions) supports the sense 'one who carries out'."
 	},
 	"divine-ministers": {
-		"name": "Ministros Divinos",
+		"name": "Ministras Divinas",
 		"meaning": "As a capitalized name, the local universe Mother Spirits subordinate to the Creator Sons (33:2.4); in lower case the papers also call the Paradise Sons divine ministers (20:1.12).",
 		"confidence": "medium",
 		"formConfidence": "high",
-		"note": "The capitalized form appears to name the Mother Spirits; the lower-case phrase is descriptive. Translators must keep the capitals as the English has them."
+		"note": "The capitalized form appears to name the Mother Spirits; the lower-case phrase is descriptive. Translators must keep the capitals as the English has them.",
+		"adjudicated": {
+			"date": "2026-10-22",
+			"reason": "Consistency review: \"Divine Ministers\" is a title of the local universe Mother Spirits (33:2.4), whose aliases use the feminine.",
+			"previous": "Ministros Divinos"
+		}
 	},
 	"divinington": {
 		"name": "Divinington",
@@ -10753,7 +10767,7 @@
 		"formConfidence": "high"
 	},
 	"jose": {
-		"name": "Jose",
+		"name": "Jose (maestro de Nazaret)",
 		"meaning": "A renowned teacher of the liberal school of rabbis that influenced the Nazareth synagogue (124:4.8).",
 		"confidence": "high",
 		"formConfidence": "low",
@@ -10767,7 +10781,12 @@
 				"reason": "The Hebrew rabbinic form; it reads as a scholarly choice the English does not make."
 			}
 		],
-		"note": "A Spanish reader can read 'Jose' as 'José' without its accent mark. A human must decide between 'Jose' and a form such as 'Yosé'."
+		"note": "A Spanish reader can read 'Jose' as 'José' without its accent mark. A human must decide between 'Jose' and a form such as 'Yosé'.",
+		"adjudicated": {
+			"date": "2026-10-22",
+			"reason": "Consistency review: \"Jose\" alone differs from \"José\" (Joseph) only by the accent; Jose is a rabbi of Nazareth (124:4.8).",
+			"previous": "Jose"
+		}
 	},
 	"joseph-brother-of-jesus": {
 		"name": "José (hermano de Jesús)",
