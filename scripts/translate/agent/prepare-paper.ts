@@ -86,7 +86,7 @@ ${JSON.stringify(draftExample, null, 2)}
 
 ${method}
 
-Use the method for each term or phrase that is not in the glossary and has a special sense in the papers, and for any sentence whose meaning you are not sure of. Record a new term in \`newTerms\`.
+Use the method for each term or phrase that is not in the glossary and has a special sense in the papers, and for any sentence whose meaning you are not sure of. Record a new term in \`newTerms\`, and each forced choice in \`forcedChoices\`: \`[{ "ref": "1:0.1", "choice": "…", "reason": "…" }]\`.
 
 ${common}
 
