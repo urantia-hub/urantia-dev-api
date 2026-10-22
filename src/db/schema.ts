@@ -231,6 +231,8 @@ export const entities = pgTable(
 		description: text("description"),
 		seeAlso: text("see_also").array(),
 		citationCount: integer("citation_count").notNull(),
+		// For a lowercase concept: "special" (a term of the papers) or "ordinary" (a word in its everyday sense).
+		sense: text("sense"),
 	},
 	(t) => [index("entities_type_idx").on(t.type)],
 ).enableRLS();

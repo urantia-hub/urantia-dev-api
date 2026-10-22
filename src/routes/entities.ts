@@ -77,6 +77,7 @@ entitiesRoute.openapi(listEntitiesRoute, async (c) => {
 			description: entities.description,
 			seeAlso: entities.seeAlso,
 			citationCount: entities.citationCount,
+			sense: entities.sense,
 		})
 		.from(entities)
 		.where(whereClause)
@@ -145,6 +146,7 @@ entitiesRoute.openapi(getEntityRoute, async (c) => {
 			description: entities.description,
 			seeAlso: entities.seeAlso,
 			citationCount: entities.citationCount,
+			sense: entities.sense,
 		})
 		.from(entities)
 		.where(eq(entities.id, id))

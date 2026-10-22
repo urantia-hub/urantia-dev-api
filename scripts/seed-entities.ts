@@ -22,6 +22,7 @@ type SeedEntity = {
 	description: string;
 	seeAlso: string[];
 	citations: string[];
+	sense?: "special" | "ordinary";
 };
 
 const client = postgres(DATABASE_URL);
@@ -45,6 +46,7 @@ async function seed() {
 			description: e.description || null,
 			seeAlso: e.seeAlso.length > 0 ? e.seeAlso : null,
 			citationCount: e.citations.length,
+			sense: e.sense ?? null,
 		}));
 		await db
 			.insert(entities)
@@ -53,6 +55,7 @@ async function seed() {
 				target: entities.id,
 				set: {
 					description: sql`excluded.description`,
+					sense: sql`excluded.sense`,
 				},
 			});
 		console.log(`  Upserted entities ${i + 1}–${Math.min(i + 500, rawData.length)}`);

@@ -23,7 +23,16 @@ const TOP_ENTITY_KEYS = ["count", "id", "name", "type"];
 
 const SECTION_KEYS = ["globalId", "id", "paperId", "sectionId", "sortId", "title"];
 
-const ENTITY_KEYS = ["aliases", "citationCount", "description", "id", "name", "seeAlso", "type"];
+const ENTITY_KEYS = [
+	"aliases",
+	"citationCount",
+	"description",
+	"id",
+	"name",
+	"seeAlso",
+	"sense",
+	"type",
+];
 
 const META_KEYS = ["limit", "page", "total", "totalPages"];
 
