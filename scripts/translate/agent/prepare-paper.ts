@@ -36,6 +36,7 @@ if (!existsSync(guidePath)) {
 }
 const guide = readFileSync(guidePath, "utf-8");
 const cleanRoom = readFileSync(join(import.meta.dir, "clean-room.md"), "utf-8");
+const method = readFileSync(join(import.meta.dir, "meaning-first.md"), "utf-8");
 const decisions = loadTermDecisions(lang);
 if (!existsSync(glossaryPath(lang))) {
 	console.error(`No clean glossary at ${glossaryPath(lang)}. Build it first (see README).`);
@@ -50,9 +51,11 @@ for (const paper of papers) {
 	);
 	const table = terms.length
 		? [
-				`| English | ${language} | Short forms | Type |`,
+				`| English | ${language} | Short forms | Meaning |`,
 				"|---|---|---|---|",
-				...terms.map((t) => `| ${t.en} | ${t.target} | ${t.aliases.join("; ")} | ${t.type} |`),
+				...terms.map(
+					(t) => `| ${t.en} | ${t.target} | ${t.aliases.join("; ")} | ${t.meaning ?? ""} |`,
+				),
 			].join("\n")
 		: "(none)";
 
@@ -80,6 +83,10 @@ ${JSON.stringify(draftExample, null, 2)}
 - \`paragraphs\` has one key for each paragraph reference below (${en.paragraphs.length} in total). The value is the translated HTML.
 - Keep every HTML tag and class exactly as in the English. Translate only the text between the tags.
 - \`sectionTitles\` has one key for each section id below. Leave out sections with no title.
+
+${method}
+
+Use the method for each term or phrase that is not in the glossary and has a special sense in the papers, and for any sentence whose meaning you are not sure of. Record a new term in \`newTerms\`.
 
 ${common}
 

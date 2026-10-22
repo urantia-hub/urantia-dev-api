@@ -68,6 +68,7 @@ export type TitleTranslation = {
 
 export type Term = {
 	en: string;
+	meaning?: string;
 	/** The English name and its English aliases. */
 	enForms: string[];
 	target: string;
@@ -156,7 +157,15 @@ export type GlossaryEntity = {
 };
 
 /** One clean glossary entry: the target-language name and its short forms. */
-export type GlossaryEntry = { name: string; aliases?: string[] };
+export type GlossaryEntry = {
+	name: string;
+	aliases?: string[];
+	/** The English meaning in one sentence, with references. */
+	meaning?: string;
+	confidence?: "high" | "medium" | "low";
+	/** Forms considered and rejected, with a short reason each. */
+	rejected?: { form: string; reason: string }[];
+};
 
 export function glossaryPath(lang: string): string {
 	return join(ROOT, `data/translations/${lang}/glossary.json`);
@@ -212,6 +221,7 @@ export function loadTerms(lang: string): {
 		if (!g) continue;
 		byEntity.set(e.id, {
 			en: e.name,
+			meaning: g.meaning,
 			enForms: [e.name, ...e.aliases].filter(Boolean),
 			target: g.name,
 			aliases: (g.aliases ?? []).filter((a) => a && a !== g.name),
