@@ -188,6 +188,8 @@ export type GlossaryEntry = {
 	forcedChoices?: string[];
 	/** A human decision. It locks the entry. */
 	decision?: { by: string; date: string; note?: string };
+	/** An agent's ruling on a flagged entry. A human decision or a later report can replace it. */
+	adjudicated?: { date: string; reason: string; previous?: string };
 };
 
 export function glossaryPath(lang: string): string {
@@ -353,9 +355,8 @@ export function loadGlossary(lang: string): Record<string, GlossaryEntry> {
 	return existsSync(path) ? JSON.parse(readFileSync(path, "utf-8")) : {};
 }
 
-/** True when a human must look at the entry. */
-export function needsHuman(g: GlossaryEntry): boolean {
-	if (g.decision) return false;
+/** True when a check raised a doubt about the entry. */
+export function isFlagged(g: GlossaryEntry): boolean {
 	// An entry from before form ratings needs an agreeing second opinion and a matching back-check.
 	const formOk = g.formConfidence
 		? g.formConfidence === "high"
@@ -367,6 +368,11 @@ export function needsHuman(g: GlossaryEntry): boolean {
 		g.backcheck?.verdict === "mismatch" ||
 		!!g.note
 	);
+}
+
+/** True when a flagged entry still needs a ruling: no human decision and no adjudication yet. */
+export function needsRuling(g: GlossaryEntry): boolean {
+	return !g.decision && !g.adjudicated && isFlagged(g);
 }
 
 let termIndex: { byEntity: Map<string, Term>; byRef: Map<string, string[]> } | null = null;
