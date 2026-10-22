@@ -125,7 +125,9 @@ Write one JSON file to \`${draft}\`. It has one key for each term id below (${ba
     "meaning": "One English sentence, with references (77:0.1).",
     "confidence": "high",
     "formConfidence": "medium",
-    "rejected": [{ "form": "…", "reason": "…" }]
+    "rejected": [{ "form": "…", "reason": "…" }],
+    "forcedChoices": ["Only when ${language} forces a choice that the English leaves open."],
+    "note": "Only when a human must look at this term, and why."
   }
 }
 \`\`\`
