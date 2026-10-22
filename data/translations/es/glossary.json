@@ -462,7 +462,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The second translator drops the qualifier, but the qualifier is part of the English entry name and keeps the personal sense (the Infinite Spirit, 9:7.4) apart from absolute mind as a level. Small doubt, so the first form stays."
+			"reason": "The absolute mind is the mind of the Third Person, inseparable from God the Spirit (9:4.2, 56:3.4). The glossary keeps the English disambiguator in parentheses, as in 'Aarón (Antiguo Testamento)'."
 		}
 	},
 	"absolute-person": {
@@ -736,7 +736,7 @@
 		}
 	},
 	"actual-the": {
-		"name": "Actual, lo",
+		"name": "lo Actual",
 		"aliases": [
 			"lo Actual",
 			"Actual"
@@ -774,7 +774,8 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Both translators agree; the fixed root gives 'lo Actual', and the neuter article fits a union of three realities (115:3.7). The capital must mark it against 'lo actual' (the current)."
+			"reason": "The fixed root gives 'lo Actual' for the triodity of actuality (104:5.2, 115:3.7). The inverted head adds nothing, and the capital keeps it apart from 'lo actual' (the current).",
+			"tiebreak": true
 		}
 	},
 	"adam": {
@@ -1051,7 +1052,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Both translators agree; it is the natural Spanish for the expression of the Adjuster set beside self-expression (195:7.5)."
+			"reason": "The papers set Adjuster-expression beside self-expression (195:7.5). The Ajustador root is fixed across the glossary, so the mechanical sense does not arise."
 		}
 	},
 	"adjuster-fused-mortals": {
@@ -1805,7 +1806,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The second translator keeps 'Amathus', but Spanish does not write 'th' in an adapted Greek name, and 'Amatunte' is the Cyprus city. The doubt is small, so the first form stays; a human can confirm it against 'Amatha'."
+			"reason": "A town east of the Jordan (128:1.14, 141:3.1). The glossary turns 'th' into 't' (Basán, Bet-peor, Ramat), and 'Amatus' keeps it distinct from 'Amatha'."
 		}
 	},
 	"amaziah": {
@@ -2807,7 +2808,7 @@
 		}
 	},
 	"archelais": {
-		"name": "Arquelaida",
+		"name": "Arquelais",
 		"meaning": "A new Greek city near the Jordan where Jesus and his associates went after southern Samaria (143:0.2).",
 		"confidence": "high",
 		"formConfidence": "medium",
@@ -2830,7 +2831,8 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The second translator writes 'Arquelais'. Spanish adapts Greek '-ais' names to '-aida' (Tebaida), and 'Fasaelis' ends in '-is', so it sets no pattern against this. The first form stays."
+			"reason": "A Greek city near the Jordan (143:0.2). 'Arquelais' follows 'Arquelao' and the plain form 'Fasaelis' for its twin city; '-aida' adds an ending the English does not have.",
+			"tiebreak": true
 		}
 	},
 	"archelaus": {
@@ -5216,7 +5218,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The blind reader took it as Britons, but bretones is the correct Spanish word for the people of Brittany; Britons is britanos. The context of 80:9.14 (western Europe, Andonites) and the term Bretaña make the sense clear."
+			"reason": "80:9.14 names the people of Brittany, and in Spanish 'bretones' means exactly that. Britons are 'britanos', so the blind reader's reading is a misreading, not a fault of the form."
 		}
 	},
 	"bright-and-morning-stars": {
@@ -5654,7 +5656,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The second translator gives raza marrón, but marrón is not used for skin color in all regions, and moreno means tanned or dark-haired. Parda is neutral and reads as a color term for the races in all varieties, so the first form stays."
+			"reason": "A blend of the red and yellow races (64:7.16). 'Parda' is neutral in every region, but 'marrón' is regional ('café' in Mexico) and reads as the color of objects."
 		}
 	},
 	"buddha": {
@@ -5814,7 +5816,7 @@
 		}
 	},
 	"caledonian-mountains": {
-		"name": "montes Caledonianos",
+		"name": "montes caledonianos",
 		"aliases": [
 			"Caledonianos"
 		],
@@ -5843,7 +5845,9 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The second translator gives montes caledonios. Spanish geology uses caledoniano for this mountain-building event (59:3.3), and the doubt is small, so the first form stays."
+			"reason": "59:3.3 names a mountain-building upheaval, and Spanish geology names it with 'caledoniano'. The adjective stays lowercase, as Spanish requires.",
+			"previous": "montes caledonios",
+			"tiebreak": true
 		}
 	},
 	"california": {
@@ -5910,7 +5914,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The second translator adds the article (los cien de Caligastia). The article belongs to the sentence, not to the name, so the first form stays; the lowercase follows the English 'one hundred'."
+			"reason": "The one hundred corporeal staff members (66:2.3, 66:4.2). Glossary heads carry no article, as with 'Ancianos de Días', and running text adds 'los'. The number is exact in context."
 		}
 	},
 	"caligula": {
@@ -6527,7 +6531,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The second translator gives Centro de los Centros. The English has no article, and the form without it reads as a title in Spanish, so the first form stays."
+			"reason": "Paradise, the residence of the Great Sources and Centers (15:1.4). The bare repetition keeps the superlative sense of the English, as in 'Rey de Reyes'."
 		}
 	},
 	"central-america": {
@@ -6603,7 +6607,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The second translator gives the pinyin Qin Shi Huang. The glossary keeps the book's older romanization for Chinese names (Mo Ti, Lao-Tse), so the first form stays."
+			"reason": "The papers use older romanizations, and the glossary keeps them ('Mo Ti', 'Shang-ti', 'Lao-Tse'). 'Qin Shi Huang' changes the authors' spelling."
 		}
 	},
 	"chaldeans": {
@@ -6662,7 +6666,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The second translator keeps Charax, but Spanish readers read 'ch' as the Spanish sound. Cárax is the regular Spanish adaptation of the classical name, so the first form stays."
+			"reason": "A port on the Persian Gulf (130:0.3). The glossary makes 'Ch' Spanish (Corazín, Quedorlaomer), and 'Cárax' is the usual Spanish spelling of the Greek name."
 		}
 	},
 	"chazan-of-nazareth-synagogue": {
@@ -6823,7 +6827,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The second translator gives Monitores Misteriosos, but the glossary term Mystery Monitors is Monitores de Misterio, and Misteriosos describes them as secretive. The first form stays."
+			"reason": "'Mystery' is a noun attribute in 'Mystery Monitors' (16:3.2). 'Monitores Misteriosos' changes it to 'monitors that are mysterious'."
 		}
 	},
 	"chief-of-nebadon-archangels": {
@@ -6927,7 +6931,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The second translator gives jefe de los supernafines. The term names one supernaphim who is chief (27:2.1), the original pattern angel, not an office over the order, so the first form stays."
+			"reason": "27:2.1 names one being, the original pattern angel. 'Jefe de los supernafines' reads as a role over the class, and the singular 'supernafín jefe' names the one angel."
 		}
 	},
 	"chiefs-of-assignment": {
@@ -7179,7 +7183,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Cusa is a current Spanish form of this New Testament name and the judge matched. The link to Nicholas of Cusa is weak in a Gospel context, and 'Chuza' can evoke 'chuzo' (a pike), so no candidate is clearly better."
+			"reason": "Herod's steward, the husband of Joanna (150:1.1). The glossary makes 'Ch' Spanish, and 'Chuza' would be read with a Spanish 'ch' sound. Confusion with Nicholas of Cusa is unlikely in the context."
 		}
 	},
 	"cicero": {
@@ -7494,7 +7498,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Both translators agree and the blind reader took it as 'of equal rank'. Spanish 'coordinado' also has the sense of equal order (as in 'oraciones coordinadas'), and the glossary fixes the 'coordinar' family for 'co-ordinate'."
+			"reason": "The Creator Sons as a class of equal rank (6:2.2, 7:2.4). This matches 'Hijas Ministradoras Coordinadas'."
 		}
 	},
 	"co-ordinate-ministering-daughters": {
@@ -7565,7 +7569,9 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The blind reader took 'Coordinados' as a rank, which is the meaning in 19:0.1. 'Coordinadores' would say they co-ordinate others; the family stays consistent with 'Hijos Creadores Coordinados'."
+			"reason": "19:0.1 groups these beings by rank. The form follows the done term 'seres originados en la Trinidad' and 'Hijos Creadores Coordinados'.",
+			"previous": "Seres Coordinados de Origen Trinitario",
+			"tiebreak": true
 		}
 	},
 	"co-ordinators-and-liaison-directors": {
@@ -7728,7 +7734,7 @@
 		}
 	},
 	"compound-manipulators": {
-		"name": "manipuladores compuestos",
+		"name": "manipuladores de energía compuesta",
 		"meaning": "Celestial artisans who work with the functional association of physical, mindal, and spiritual energies and seek the universe presence of God the Supreme (44:5.5).",
 		"confidence": "high",
 		"formConfidence": "medium",
@@ -7756,7 +7762,8 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "44:5.5 says they work with the functional association of physical, mindal, and spiritual energies, so they compound the energies, not only handle a 'compound energy'. The second translator's 'de energía compuesta' narrows that; the literal form keeps the English open."
+			"reason": "44:5.5: they work with the functional association of physical, mindal, and spiritual energies. The form follows the sibling forms 'manipuladores de energía física/mental/espiritual'; 'manipuladores compuestos' says that the beings are compound.",
+			"tiebreak": true
 		}
 	},
 	"concept-recorders": {
@@ -8391,7 +8398,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Agreement of 'No Revelados' with 'Hijos' already shows what is unrevealed, and this order keeps 'Hijos del Destino' together. The doubt is small, so the first form stays."
+			"reason": "The seventh finaliter corps (31:10.8). This keeps 'Hijos del Destino' together and puts 'No Revelados' on the Sons, as in 'Centros No Clasificados'."
 		}
 	},
 	"cosmic-consciousness": {
@@ -8425,7 +8432,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Both translators agree. 'conciencia' is the common spelling in Latin America; the context gives awareness, not moral conscience."
+			"reason": "Awareness of the universe that recognizes a First Cause (0:2.2, 47:7.5). The plain form is correct, and context removes the New Age sense."
 		}
 	},
 	"cosmic-mind": {
@@ -8533,7 +8540,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "70:5.4 describes a council of seven members, not seven known persons. 'consejo de siete' keeps the English without the article, so the first form stays."
+			"reason": "A tribal council of seven members that ruled by unanimous vote (70:5.4). 'De los siete' implies a known group of seven."
 		}
 	},
 	"council-of-seventy": {
@@ -8563,7 +8570,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "50:2.2 has no article, and 'los setenta' leads Spanish readers to the seventy of the Gospels or the Sanhedrin. The first form avoids that misreading."
+			"reason": "A council at the constellation headquarters (50:2.2). 'De los setenta' calls up the biblical Seventy, which is not the meaning here."
 		}
 	},
 	"council-on-food-and-material-welfare": {
@@ -9530,7 +9537,7 @@
 		}
 	},
 	"daphne-grove-of": {
-		"name": "bosque de Dafne",
+		"name": "Dafne, bosque de",
 		"meaning": "A notorious shrine of shame at Antioch that Gonod and Ganid visited and that Jesus refused to visit (133:8.1).",
 		"confidence": "high",
 		"formConfidence": "medium",
@@ -9560,7 +9567,8 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Keep. The second form is only the inverted index order of the same words; the judge and the blind reader get the grove at Antioch."
+			"reason": "The English head is inverted, and the glossary keeps inverted heads ('Hechos, libro de los'). It matches 'Dafne' for Daphne; the grove at Antioch (133:8.1) stays clear.",
+			"tiebreak": true
 		}
 	},
 	"dark-gravity-bodies": {
@@ -9933,7 +9941,9 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Keep. The phrase 'Deity Ultimate' has no use in the papers (fulltext search gives 0), and it names God the Ultimate, the same being as Ultimate Deity; 'Último de la Deidad' would wrongly suggest a separate entity like the Deity Absolute. The glossary pattern 'Trinidad Última' supports this form."
+			"reason": "The phrase has no use in the papers, and both translators state that it names God the Ultimate (0:9.1), the same as Ultimate Deity. 'Último de la Deidad' would invent a separate entity on the pattern of the Deity Absolute.",
+			"previous": "Último de la Deidad",
+			"tiebreak": true
 		}
 	},
 	"deliverer": {
@@ -10706,7 +10716,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Keep. The invariable 'dayak' is the usual Spanish name for the people; 'dayaks' adds the English plural -s that the packet rules reject."
+			"reason": "A present-day people with primitive religious practices (92:6.1). Spanish usually leaves this ethnonym without a plural ending ('los dayak'), and 'dayaks' is an English plural."
 		}
 	},
 	"dyaus-pitar": {
@@ -11937,7 +11947,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Keep. It is a personal name and the English gives no other form; to change the spelling would invent a name. In use it always appears with context (the wife of James, 128:5.7), and translators can write 'Esta, la joven de Nazaret' at first mention."
+			"reason": "A young woman of Nazareth who married James (128:5.7). It is a proper name, and the capital letter in running text marks it as a name. An invented spelling changes the name."
 		}
 	},
 	"esther": {
@@ -12413,7 +12423,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Keep. The singular pair mirrors the English 'excursion and reversion' and keeps both readings of 'reversion' open, with the link to 'directores de reversión'; the second translator's mixed plural has no basis in the English."
+			"reason": "Morontia Companions who supervise the longer trips (48:3.14). The singular abstract nouns match 'directores de reversión'."
 		}
 	},
 	"executioners-of-ancients-of-days": {
@@ -12559,7 +12569,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The second form only adds an article, which does not change the meaning. The judge found a match. 30:3.8 supplies the sense of a school extended from the next world down."
+			"reason": "A corps that keeps preparatory schools on the world below (30:3.8). The plain form without articles matches the English and reads as a term."
 		}
 	},
 	"ezda": {
@@ -12829,8 +12839,7 @@
 		],
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The English says 'of Twelve' without 'the'. The article 'los Doce' adds a sense that the English does not have and makes the blind reader think of the Apostles. The changed form drops the article and keeps the shape of the English name (122:0.2).",
-			"previous": "Comisión Familiar de los Doce"
+			"reason": "A commission of twelve sent to study Jewish family life (122:0.2). 'De los Doce' calls up the Apostles, and the 'sobre la Familia' form is long."
 		}
 	},
 	"fanoving": {
@@ -12976,7 +12985,7 @@
 		}
 	},
 	"father-guides": {
-		"name": "Guías Padre",
+		"name": "guías del Padre",
 		"aliases": [
 			"guías Padre"
 		],
@@ -13010,7 +13019,8 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "26:9.1 describes the older and most experienced superaphic ministers, so the name points to seniority, not to guidance toward the Father. The judge's mismatch went against 'guías del Padre'. The apposition follows 'Espíritus Madre' and keeps the English open."
+			"reason": "26:9.1 and the order of the circles (pilgrim helpers, supremacy guides, Trinity guides, Son finders, Father guides) show guides toward the Father. The form matches 'descubridores del Hijo', 'guías de la Trinidad', and 'guías de la supremacía'.",
+			"tiebreak": true
 		}
 	},
 	"father-infinite": {
@@ -13633,7 +13643,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "72:3.6 gives the name of a new institution. 'del' follows the English 'of', and 'para el' adds a purpose clause that the English does not state. The doubt is small, so the first form stays."
+			"reason": "A named institution on a neighboring planet (72:3.6). This follows the English 'of' and does not add a purpose that 'para' would add."
 		}
 	},
 	"fountain-gate": {
@@ -14838,7 +14848,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "5:3.1 uses 'Paradise Deities' and 'the Godheads' for the same three persons in two sentences together, so one Spanish form matches the authors. The other forms either name a quality ('Divinidades') or interpret. I keep a low confidence for a human check."
+			"reason": "The three persons of the Trinity, distinct in their relations with creatures (5:3.1, 161:1.7). This is the same reference as 'Deidades del Paraíso', so the shared form is correct, and Spanish has no other plain word for 'Godhead'."
 		}
 	},
 	"godlikeness": {
@@ -15124,7 +15134,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "24:6.1 says that the guides take their name from their work of 'guiding the mortal graduates from the superuniverses', so 'de Graduados' is correct. The form without the article reads better as a title than 'de los Graduados'."
+			"reason": "They guide the mortal graduates through the Havona circuits (24:6.1). The shorter form reads as an order name, and the context removes the school sense."
 		}
 	},
 	"grand-canyon": {
@@ -15593,7 +15603,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "78:8.10 pairs 'Suites and Guites' and does not name the historical Gutians. A form close to the papers' spelling does not add an identification that the authors did not make. Context removes the slang sense of 'guita'."
+			"reason": "A northern people paired with the Suites (78:8.10). The form matches the glossary's 'suitas' and keeps the authors' name. 'Gutis' adds an identification with a historical people that the English does not make."
 		}
 	},
 	"gulf-of-mexico": {
@@ -16087,7 +16097,7 @@
 		}
 	},
 	"hebrews-book-of": {
-		"name": "Hebreos, Libro de",
+		"name": "Hebreos, libro de",
 		"aliases": [
 			"Libro de Hebreos"
 		],
@@ -16113,7 +16123,8 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "93:9.11 and 196:2.1 say 'Book of Hebrews' and separately 'Epistle of James', so 'Libro' follows the authors' wording. A reader can still identify the New Testament book."
+			"reason": "93:9.11 and 196:2.1 say 'Book of Hebrews'. The glossary uses lowercase 'libro' for Bible books in inverted heads ('Génesis, libro del', 'Hechos, libro de los').",
+			"tiebreak": true
 		}
 	},
 	"hebron": {
@@ -16439,7 +16450,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Both forms carry the meaning; the first matches the glossary pattern 'reguladores de circuitos'. The article 'los' adds nothing, so the first form stays."
+			"reason": "Beings who help direct the circuits for spirit messages (24:1.12). The plainer form without a second article matches 'reguladores de circuitos'."
 		}
 	},
 	"higher-personalities-of-the-infinite-spirit": {
@@ -17171,7 +17182,7 @@
 		}
 	},
 	"immanuel": {
-		"name": "Immanuel",
+		"name": "Emanuel",
 		"meaning": "The Union of Days assigned to Nebadon, ambassador of the Paradise Trinity to Michael, whose name means 'God with us' (33:4).",
 		"confidence": "high",
 		"formConfidence": "medium",
@@ -17197,7 +17208,8 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Kept the first form: the name belongs to a particular Union of Days of this book (33:5.1), and the distinct spelling keeps the being apart from the biblical prophecy. The judge found the meaning 'God with us' still reaches the reader."
+			"reason": "The Union of Days of Nebadon (33:5.1). 'Emanuel' is the plain Spanish form of the name, and the glossary gives Spanish forms to names; the context of 33:5 keeps the being apart from the biblical use.",
+			"tiebreak": true
 		}
 	},
 	"impersonal": {
@@ -17239,7 +17251,7 @@
 		}
 	},
 	"imports-of-time": {
-		"name": "Alcances del Tiempo",
+		"name": "Importancias del Tiempo",
 		"aliases": [
 			"Alcance del Tiempo"
 		],
@@ -17278,7 +17290,8 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "28:6.10-11 show these beings give the bearing of time: how much time an undertaking requires and whether a defendant had ample time. 'alcance' carries that sense of reach and significance; 'Importancias' reads as 'how important time is', and 'Significaciones' belongs to the sister order 'Significances of Origins'. The doubt stays for a human reviewer."
+			"reason": "28:6.9 names the order 'The Import of Time' and explains the significance of time for every will creature. 'Alcances' changes the idea to reach or range.",
+			"tiebreak": true
 		}
 	},
 	"incas": {
@@ -17622,7 +17635,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "105:2.2 needs three distinct names; 'infinitud' is fixed for 'infinity', so 'Infinidad' is the remaining Spanish noun. The capital and article mark it as a term, not 'a huge number'."
+			"reason": "105:2.2 sets The Infinitude apart from The Infinity ('Infinitud (La)'), so the form must differ. 'Infinidad' is the other Spanish noun for the same root, and the capital letter and the article mark it as a term."
 		}
 	},
 	"infinity": {
@@ -18497,7 +18510,9 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Kept the first form: the son was not himself the stone mason (124:2.4 calls him the stone mason's son), so 'hijo del cantero' is more truthful than 'el cantero (hijo)'."
+			"reason": "124:2.4 calls him the stone mason's son, not a stone mason. 'Jacob el cantero (hijo)' says that the boy is himself a cantero.",
+			"previous": "Jacob el cantero (hijo)",
+			"tiebreak": true
 		}
 	},
 	"jah": {
@@ -19486,8 +19501,9 @@
 		"note": "A Spanish reader can read 'Jose' as 'José' without its accent mark. A human must decide between 'Jose' and a form such as 'Yosé'.",
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Consistency review: \"Jose\" alone differs from \"José\" (Joseph) only by the accent; Jose is a rabbi of Nazareth (124:4.8).",
-			"previous": "Jose"
+			"reason": "124:4.8: a renowned Nazareth teacher of the liberal rabbinic school, not Joseph. The tag separates him from the José entries; 'Yosé' invents a spelling that the English does not give.",
+			"previous": "Yosé",
+			"tiebreak": true
 		},
 		"second": {
 			"name": "Yosé",
@@ -19764,7 +19780,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Kept the first form: 'joy' is a plain word, 'alegría' is the plain Spanish for it, and 'gozos' in the plural reads devotional. The sense of 28:5.16 (inherent joy in existence) carries."
+			"reason": "28:5.16: these seconaphim promote 'reactions of joy' and show the 'inherent joy in freewill existence'. The plain word for that joy is 'alegría'. Rejected: 'Gozos de la Existencia' ('gozos' also names a devotional hymn genre and reads as more religious than the text)."
 		}
 	},
 	"judah": {
@@ -19875,7 +19891,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Spanish has one name for 'Jude' and 'Judas'; the tag keeps him apart from Judas Iscariote and Judas Alfeo, and matches 'Raquel (cuñada de Judas, hermano de Jesús)'."
+			"reason": "Jude is Jesus' youngest brother (128:6.5). The Spanish name is Judas, which collides with Judas Iscariot and Judas Alfeo, so the tag is needed. The glossary already writes 'Judas, hermano de Jesús' in the Rachel entry. Rejected: bare 'Judas' (collides with Judas Iscariote)."
 		}
 	},
 	"judea": {
@@ -20492,13 +20508,9 @@
 		}
 	},
 	"kc-co-ordinate": {
-		"name": "coordinar",
+		"name": "coordinado",
 		"aliases": [
-			"coordinado",
-			"coordinada",
-			"coordinados",
-			"coordinación",
-			"coordinador"
+			"coordinar"
 		],
 		"meaning": "As verb, to bring into unified and harmonious function; as adjective, equal in rank or status, as the three Paradise Deities are co-ordinate (7:7.1, 8:0.4, 42:12.13 'On Paradise the three energies are co-ordinate, in Havona co-ordinated').",
 		"confidence": "high",
@@ -20530,11 +20542,12 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Kept: 42:12.13 sets the verb and adjective side by side, and 'coordinado' (already an alias) carries the equal-rank sense, as in 'Hijos Creadores Coordinados'. The blind reader saw only the headword, so the aliases answer the judge's doubt."
+			"reason": "The special sense is 'of equal rank' (0:3.10, 42:12.13), and 'coordinado' carries it, as in 'Hijos Creadores Coordinados'. The verb stays as an alias for the other sense.",
+			"tiebreak": true
 		}
 	},
 	"kc-cosmic-insight": {
-		"name": "perspicacia cósmica",
+		"name": "discernimiento cósmico",
 		"meaning": "A person's clear understanding of universe realities and his place among them, one of the values by which mortal progress through the cosmic circles is measured (106:0.1, 49:6.8, 100:4.2).",
 		"confidence": "high",
 		"formConfidence": "medium",
@@ -20568,7 +20581,8 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Kept: 'discernimiento' shares the root with 'Discernidores de Espíritus', a separate order. 'Perspicacia' is clear, intellectual insight (0:6.8), and the blind reader got the sense."
+			"reason": "106:0.1 and 49:6.8: a grasp of universe meanings and values. 'Perspicacia' reads as shrewdness; 'Discernidores de Espíritus' is a name of an order and does not collide with a concept.",
+			"tiebreak": true
 		}
 	},
 	"kc-creator-creature": {
@@ -21307,7 +21321,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Kept: 'sobrehumano' is the standard Spanish word, and the English uses a common word; 'superhumano' is less standard."
+			"reason": "Plain English word for 'above the human level' (37:9.11, 91:0.3); 'sobrehumano' is the standard Spanish word. Rejected: 'superhumano' (less standard, reads as a comic-book term)."
 		}
 	},
 	"kc-supermaterial": {
@@ -21543,7 +21557,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Kept: the glossary family is fixed on 'Último' (Dios el Último, Deidad Última, Ultimidad, Supremo-Último), and 'realidad última' is the standard philosophical sense. A new form would break that family across 210 paragraphs."
+			"reason": "0:1.10 and 0:9.2 define the Ultimate as the absonite level that transcends time and space. The glossary already fixes 'Dios el Último', 'Deidad Última', 'Supremo-Último', and 'Ultimidad', so the term must stay 'último'. The capital in 'el Último' and the context carry the absonite sense; in the ordinary uses 'último' means final, as the English does. No alternative avoids the 'last' reading without breaking those fixed forms."
 		}
 	},
 	"keilah": {
@@ -21852,7 +21866,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Kept: it uses the same Spanish '-tse' as 'Lao-Tse' for the same title, and the reader gets Confucius from the context of 94:6.9."
+			"reason": "94:6.9 gives Confucius' Chinese name in parentheses. 'Kung Fu-tse' is the form a Spanish reader pronounces correctly; 'tz' is not Spanish spelling. Rejected: 'Kung Fu-tze' (English transliteration)."
 		}
 	},
 	"kyrios": {
@@ -22887,7 +22901,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Both translators agree; the form keeps open who they are, as 24:7.2 does. The meaning stays low confidence for a human check."
+			"reason": "24:7.2 names them without more detail; a literal, capitalized term keeps the text as open as the English. Only candidate; no collision."
 		}
 	},
 	"lut": {
@@ -23207,8 +23221,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Changed: 20:2.1 calls the Avonals 'judges, the magistrates of the time-space realms', and the blind reader took 'Magistrales' as 'Master Sons', which collides with 'Hijos Maestros', a different order. 'Magistrados' carries the meaning the papers give.",
-			"previous": "Hijos Magistrales"
+			"reason": "The Avonals judge dispensations on the worlds (20:1.11, 20:5.6); a 'magistrado' is a judge, which carries the magisterial function. Rejected: 'Hijos Magistrales' (reads as Master Sons and collides with 'Hijos Maestros')."
 		}
 	},
 	"maine": {
@@ -24378,7 +24391,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The second form with the article differs only in style, and the blind reader got teachers of philosophy from the first form (27:6.2). A change has a cost with no clear gain."
+			"reason": "27:6.2-6.5: these supernaphim teach philosophy to Paradise residents. 'Maestros de filosofía' reads as teachers of philosophy. Rejected: 'maestros de la filosofía' (reads as the great masters of philosophy, famous philosophers)."
 		}
 	},
 	"matadormus": {
@@ -24480,7 +24493,7 @@
 		}
 	},
 	"may-day": {
-		"name": "fiesta del primero de mayo",
+		"name": "fiesta de mayo",
 		"aliases": [
 			"primero de mayo"
 		],
@@ -24514,7 +24527,8 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "'fiesta' blocks the Labor Day reading, and 'primero de mayo' keeps the date that the English name gives (88:6.4). 'fiesta de mayo' loses the date."
+			"reason": "82:2.4 and 88:6.4: an ancient spring festival of imitative magic. Spanish readers take 'primero de mayo' as Labor Day; 'fiesta de mayo' matches 'palo de mayo'.",
+			"tiebreak": true
 		}
 	},
 	"maypole": {
@@ -25004,7 +25018,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The papers use 'receivers' in the legal sense of receivership of forfeited planetary titles (93:1.2, 74:2.6, 93:9.11), and 'síndico' is the Spanish officer of a receivership. 'receptores' is a false friend that means one who receives; the town-official sense of 'síndico' is a residual risk that the context reduces."
+			"reason": "'Receivers' is the legal sense: custodians who administer a forfeited estate in trust (93:1.2: 'the conduct of affairs on 606 of Satania is fully in the hands of the Melchizedek custodians'; 'planetary titles from forfeiture'). Spanish 'síndico' is the trustee of a receivership. Rejected: 'receptores Melquisedec' (reads as signal receivers and collides with 'receptores de difusiones' and 'receptores de peregrinos')."
 		}
 	},
 	"melchizedek-sons": {
@@ -25388,7 +25402,7 @@
 		}
 	},
 	"michael-memorial-on-1st-mansion-world": {
-		"name": "monumento a Miguel (en el primer mundo morada)",
+		"name": "memorial de Miguel (en el primer mundo morada)",
 		"aliases": [
 			"«Monumento a Miguel»"
 		],
@@ -25422,11 +25436,12 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The thing is a commemorative structure (188:3.11), and 'monumento' says that plainly. Spanish 'memorial' first reads as a written petition, so the second form has a greater risk of a misreading."
+			"reason": "188:3.11 and 189:1.9: a commemorative structure. The English uses one name for both memorials, and 46:5.19 calls the other one a temple with a staff, which 'monumento' does not fit.",
+			"tiebreak": true
 		}
 	},
 	"michael-memorial-on-jerusem": {
-		"name": "monumento a Miguel (en Jerusem)",
+		"name": "memorial de Miguel (en Jerusem)",
 		"aliases": [
 			"«Monumento a Miguel»"
 		],
@@ -25456,7 +25471,8 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The same form as the structure on the first mansion world, as the English uses one name for both. 'memorial' first reads as a written petition."
+			"reason": "46:5.19 calls it 'this temple' with a staff of over one million, a center of activity, not a statue. The form matches the memorial on the first mansion world.",
+			"tiebreak": true
 		}
 	},
 	"michael-of-nebadon": {
@@ -25872,7 +25888,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Spanish 'ch' gives a wrong sound, and Hebrew names in the glossary take a Spanish spelling (Abimelec, Absalón). 'Milca' is the plain Spanish reading of the name."
+			"reason": "150:1.1: a cousin of Thomas among the ten women. 'Milca' is the natural Spanish form of the name; Spanish 'ch' gives a wrong sound in 'Milcha'. Rejected: 'Milcha' (wrong pronunciation for a Spanish reader)."
 		}
 	},
 	"milky-way-galaxy": {
@@ -25998,7 +26014,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The form follows the glossary pattern 'personalidades de contacto' and 'personalidades de transporte'. 'personalidades mentales' can read as a psychological type, and 30:1.113 speaks of beings dominated by mind."
+			"reason": "30:1.113 contrasts 'spirit personalities who have mind' with 'mind personalities who have spirit': mind is the dominant nature. 'De mente' keeps that noun contrast. Rejected: 'personalidades mentales' (reads as psychological personality types, and 'mental' already renders 'mindal' in 'personalidades de energía mental y física')."
 		}
 	},
 	"mind-planners": {
@@ -26304,7 +26320,7 @@
 		}
 	},
 	"mispeh": {
-		"name": "Mispeh",
+		"name": "Mizpa",
 		"meaning": "One of the towns of Perea where the seventy worked during the Perean mission (165:0.1).",
 		"confidence": "high",
 		"formConfidence": "medium",
@@ -26327,7 +26343,8 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "'Mizpa' identifies the town with the biblical Mizpah places, which 165:0.1 does not do. Keeping the English spelling does not close what the text leaves open."
+			"reason": "165:0.1 lists Mispeh among the Perean towns. The glossary gives these towns their Spanish biblical forms (Bet-nimra, Bet-peor), and 'Mizpa' is that form.",
+			"tiebreak": true
 		}
 	},
 	"mississippi-river": {
@@ -27026,7 +27043,7 @@
 		}
 	},
 	"morrison-beds": {
-		"name": "capas de Morrison",
+		"name": "estratos de Morrison",
 		"meaning": "The so-called Morrison beds of Colorado, Montana, and Wyoming, rich in fresh-water fossils of the later reptilian age (60:2.5).",
 		"confidence": "high",
 		"formConfidence": "medium",
@@ -27056,7 +27073,8 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "'Capas' and 'estratos' both give the right meaning, and the blind reader got 'layers'. The doubt is small, so the first form stays; the plain word matches the plain English 'beds'."
+			"reason": "60:2.5: fossil-bearing geological deposits. 'Estratos' reads as geology; 'capas' is a general word.",
+			"tiebreak": true
 		}
 	},
 	"mortal-corps-of-the-finality": {
@@ -27380,7 +27398,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The judge found a mismatch because 'mota' is an everyday word for a speck, but 'mota' is a coined word of the papers and a gloss such as 'sabiduría morontial' loses the term. The first form stays; the context (48:6.28, 103:6.7) defines it, and a human can decide on italics."
+			"reason": "Mota is a coined term for morontia wisdom, a superphilosophy (48:6.28, 48:7.1, 103:6.7), so it must stay a coined term. The risk is real: Spanish 'mota' means a speck, and in Mexico and Central America it is slang for marijuana. The definitions in 48:6.28 and the context ('morontia mota') decide the sense, but the term needs italics or a gloss at first use; a human must confirm. Low confidence in the form."
 		}
 	},
 	"mother-cult": {
@@ -27454,7 +27472,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The blind reader understood both forms the same way. 'Evas Madre' follows the done order of 'Espíritus Madre' and 'Hijo Madre Original', so the first form stays."
+			"reason": "36:4.1 and 36:4.5: Material Daughters who serve as the Eves of worlds. The glossary puts 'Madre' after the noun in 'Espíritus Madre Reflectivos', and 'Evas' is the plural head noun. Rejected: 'Madres Eva' (makes 'Madres' the head noun, as if mothers named Eva)."
 		}
 	},
 	"mother-of-god-cult": {
@@ -27891,7 +27909,9 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The done term 'jefe de los Monitores de Misterio' already uses this form. 'Misteriosos' makes 'mystery' an adjective of character (secretive)."
+			"reason": "The done term 'jefe de los Monitores de Misterio' uses this form. 'Misteriosos' turns the name into a character trait (secretive).",
+			"previous": "Monitores Misteriosos",
+			"tiebreak": true
 		}
 	},
 	"mysticism": {
@@ -30003,7 +30023,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The first form keeps 'panorama' as the head noun, and 'exposición' is the plain museum word; 'exhibición' can suggest a show. The judge matched both forms, so the doubt is small."
+			"reason": "46:5.23: 'the exhibit panorama of Jerusem', which presents the status of each peopled world of Satania. 'Exposición' is the usual Spanish word for an exhibit. Rejected: 'panorama de exhibición' ('exhibición' leans toward a show or performance)."
 		}
 	},
 	"pantaenus": {
@@ -30235,7 +30255,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Both translators agree, and the form follows the done term 'Corps of the Finality: Cuerpo de los Finalitarios'. The feared collision is smaller than the note says: 'Corps of Paradise Finaliters' is done as 'Cuerpo de Finalitarios Paradisíacos', so the two forms differ in more than the article."
+			"reason": "22:8.6 and 31:10.20: the seven finality corps taken together on Paradise. The form follows 'Cuerpo de los Finalitarios' and 'Cuerpo de los Finalitarios de Nebadon', and it differs from 'Cuerpo de Finalitarios Paradisíacos' (Corps of Paradise Finaliters). Only candidate."
 		}
 	},
 	"paradise-creator-sons": {
@@ -30427,7 +30447,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The first form states who trinitizes them (Paradise and Havona personalities), in line with the done terms 'hijos trinitizados por criaturas' and 'Hijos trinitizados por la Deidad'. The second form 'por el Paraíso-Havona' reads as if a place trinitized them."
+			"reason": "22:7.13: these sons come from 'the creative efforts of the Paradise Citizens and the Havoners'. The trinitizers are beings of both places, which this form says. Rejected: 'Hijos trinitizados por el Paraíso-Havona' (reads as trinitized by a place or by the 'sistema Paraíso-Havona')."
 		}
 	},
 	"paradise-incarnation-commission": {
@@ -30545,8 +30565,7 @@
 		],
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "In 105:3.4 the term names Paradise itself as a Source and Center, in the series with Primera, Segunda, and Tercera Fuente y Centro; the judge found that 'del Paraíso' reads as the source of Paradise. The apposition says that Paradise is the source; the alias 'del Paraíso' stays for 19:1.12, where the phrase names the source at Paradise of all personality reality.",
-			"previous": "Fuente y Centro del Paraíso"
+			"reason": "105:3.4: Paradise itself is the source and center, the second nondeity pattern. Apposition keeps Paradise as the source, as in 'Primera Fuente y Centro'. Rejected: 'Fuente y Centro del Paraíso' (reads as the source of Paradise)."
 		}
 	},
 	"paradise-trinity": {
@@ -31334,7 +31353,9 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "'Filipo' is the usual Spanish form for the tetrarch, and it matches the done term 'Cesarea de Filipo' (157:3.1). It also keeps him apart from 'Felipe (apóstol)'."
+			"reason": "157:3.1: the ruler of the domain of Caesarea-Philippi. 'Filipo' matches the done term 'Cesarea de Filipo' and keeps him apart from 'Felipe (apóstol)'.",
+			"previous": "Felipe (tetrarca)",
+			"tiebreak": true
 		}
 	},
 	"philistines": {
@@ -31880,8 +31901,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The judge found that 'constructores del juego' reads as game makers. 44:3.4 says they build edifices for seasons of rest and, in a certain sense, play; 'para el juego' states that purpose, and 'esparcimiento' is too near the 'recreation' that the text names as a separate word.",
-			"previous": "constructores del juego"
+			"reason": "44:3.4: they build the edifices used in seasons of rest, recreation, 'and, in a certain sense, play'. 'Para el juego' says they build for play. Rejected: 'constructores del juego' (reads as game designers); 'constructores del esparcimiento' (loses the word 'play' that the English chooses)."
 		}
 	},
 	"pleistocene": {
@@ -31962,7 +31982,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The first form avoids 'comunicación espacial', which suggests satellite technology. The judge matched the first form."
+			"reason": "62:7.2: the planetary pole where messages from Salvington arrive over the mind circuit. 'Del espacio' follows 'esferas del espacio' and 'Huestes Mensajeras del Espacio'. Rejected: 'polos de comunicación espacial' (reads as satellite or spacecraft communications)."
 		}
 	},
 	"polynesia": {
@@ -32091,7 +32111,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Spanish writes 'f' for the Greek 'ph', as in 'Fasaelis', so the English spelling 'Porphyreon' does not fit. 'Porfirión' is the name of a Greek giant; human confirmation of the accent is useful."
+			"reason": "156:3.1: a coastal town north of Sidon. The glossary adapts such names to Spanish spelling (Antípatris, Calírroe). Rejected: 'Porphyreon' ('ph' and 'y' are not Spanish spelling)."
 		}
 	},
 	"porshunta": {
@@ -32413,8 +32433,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The done sister term 'Associate Transcendental Master Force Organizers' is 'Organizadores Maestros de la Fuerza Trascendentales Asociados', so the same order of adjectives applies here (29:5.2). The second translator's order matches it.",
-			"previous": "Organizadores Maestros de la Fuerza Primarios Eventuados"
+			"reason": "29:5.2 and 42:2.8: the first division of the Master Force Organizers. The order follows 'Organizadores Maestros de la Fuerza Trascendentales Asociados' (Associate Transcendental). Rejected: 'Primarios Eventuados' (breaks that fixed pattern)."
 		}
 	},
 	"primates": {
@@ -32957,7 +32976,9 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "44:3.8 says 'The public builders' and then explains them; the plain form follows the English. 'constructores de lugares públicos' explains instead of naming, and the doubt about a government employee is the same in the English."
+			"reason": "44:3.8 names them 'the public builders' and then explains them. The plain form follows the English; 'de lugares públicos' explains instead of naming.",
+			"previous": "constructores de lugares públicos",
+			"tiebreak": true
 		}
 	},
 	"puget-sound": {
@@ -33018,7 +33039,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Punyab is the adapted Spanish spelling that style guides recommend; the English spelling 'Punjab' is not needed in a Spanish text, and the region stays easy to recognize."
+			"reason": "79:1.1 and 79:4.3: the region of northern India. 'Punyab' is the Spanish spelling that gives the right sound. Rejected: 'Punjab' (Spanish 'j' gives the wrong sound)."
 		}
 	},
 	"purim": {
@@ -33182,7 +33203,9 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "'Vivificar' means to make alive and keen, which is the sense of 'quicken' in 39:4.10; it reads as a term. 'avivadores' is correct but reads more like stirring up a fire or a crowd; the doubt is small, so the first form stays."
+			"reason": "39:4.10: they quicken, that is make alive and keen, the appreciation of cosmic morality. 'Vivificar' carries that sense and reads as a term; 'avivar' suggests stirring a fire or a crowd.",
+			"previous": "avivadores de la moralidad",
+			"tiebreak": true
 		}
 	},
 	"race-commissioners": {
@@ -33212,7 +33235,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Spanish 'raciales' can suggest racial policy; 'de las razas' says that they speak for the races (37:5.5). The blind reader understood it correctly."
+			"reason": "37:5.5 and 37:5.6: they speak for the mortal races of a planet. Rejected: 'comisionados raciales' ('racial' reads as a modern political or race-relations office)."
 		}
 	},
 	"races": {
@@ -33607,7 +33630,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The plural masculine 'Reflectivos' can agree only with 'Auxiliares', so the form is not ambiguous, and it keeps the English order. The second form is also correct but not clearly better."
+			"reason": "17:4.1: the Image Aids of the Reflective Spirits. The form keeps the fixed 'Auxiliares de Imagen' together and uses 'Reflectivos' as in 'Espíritus Reflectivos'. Rejected: 'Auxiliares Reflectivos de Imagen' (splits the fixed term)."
 		}
 	},
 	"reflective-mother-spirits": {
@@ -34109,7 +34132,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The papers call him a 'rich young man' (163:2.4), and 'joven rico' is the name that Spanish readers know; 'dirigente' adds a word that the papers do not use for him."
+			"reason": "163:2.4 and 163:3.1: Matadormus, a rich young member of the Sanhedrin; the papers call him the 'rich young man'. Rejected: 'joven dirigente rico' (awkward, and adds a word the papers do not use for him)."
 		}
 	},
 	"rig-veda": {
@@ -34178,7 +34201,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "'Ladrones' is already the form for 'thieves crucified with Jesus', and 'salteador' names exactly a robber on a road, which is the sense of 171:6.4."
+			"reason": "171:6.4: the road from Jericho to Bethany, named for the robbers who attacked travelers there. 'Salteador' is a highway robber. Rejected: 'camino de los ladrones' ('ladrones' is a general thief, and collides with 'ladrones crucificados con Jesús')."
 		}
 	},
 	"rocky-mountains": {
@@ -34539,7 +34562,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "'en Corinto' follows the English and says where Jesus met him (133:4.11); 'de Corinto' can wrongly say that the lad was from Corinth."
+			"reason": "133:4.11: Jesus met the runaway in Corinth; the text does not say he came from there. Rejected: 'muchacho fugitivo de Corinto' (claims he was from Corinth)."
 		}
 	},
 	"russia": {
@@ -36057,7 +36080,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The papers use 'secoraphic' as a real adjective (17:3.5, 28:3.1), so the form keeps its shape and does not normalize it to 'seconáfico'; the same holds for 'superaphic'."
+			"reason": "The English coins the adjectives 'secoraphic' (28:3.1, 17:3.5) and 'superaphic' (26:2.7, 26:3.1) without the 'n' of seconaphim and supernaphim. The Spanish keeps the authors' coinage. Rejected: 'seconáfico y supernáfico' (changes the coined forms)."
 		}
 	},
 	"seraphim": {
@@ -36286,7 +36309,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Both translators agree on a literal form. The source of the phrase is unclear, so the literal form keeps the meaning open; it does not collide with 'Supervisores Supremos de los Centros'."
+			"reason": "The phrase does not occur in the papers (search finds only 44:0.5 'central corps of morontia supervisors'), so meaning confidence is low; the literal form keeps the English open and does not collide with 'Supervisores Supremos de los Centros'. Send to a human."
 		}
 	},
 	"seven-sacred-worlds-of-eternal-son": {
@@ -36667,7 +36690,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The accent gives Spanish stress and reads naturally across Latin America; 136:1.4 glosses the term in context. The doubt is small, so the first form stays."
+			"reason": "136:1.4 uses it as the Jewish name of the symbol of the Divine Presence; the accented form gives the Hebrew stress to a Spanish reader and reads as a borrowed proper term, while 'Shekinah' leaves the stress and the final h unclear."
 		}
 	},
 	"shema": {
@@ -37910,7 +37933,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Both translators agree; 'arrebatamiento' carries the sudden taking from among the living without death (49:6.18), and the rapture echo is close to that idea. No candidate is clearly better."
+			"reason": "49:6.18: these mortals do not die but are taken from among the living straight to the Sovereign Son; 'arrebatamiento' carries a sudden taking-up of a living person, which is the sense, and 'por el Hijo' names the agent. A rapture echo exists but matches the described event."
 		}
 	},
 	"son-spirit-ministers": {
@@ -37951,7 +37974,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The compound keeps the English shape as a name; 'ministros de los Hijos y del Espíritu' explains it and closes which Son is meant (39:1.2 names both the high Sons and the Universe Son)."
+			"reason": "39:1.2: they serve the high Sons and Spirit-origin beings and also the Universe Son and Universe Spirit; the hyphenated coinage keeps that open, while 'ministros de los Hijos y del Espíritu' narrows it to one Spirit and reads as a description, not a term."
 		}
 	},
 	"sonarington": {
@@ -38150,7 +38173,7 @@
 		}
 	},
 	"sound-designers": {
-		"name": "diseñadores de sonido",
+		"name": "diseñadores del sonido",
 		"meaning": "Celestial artisans who depict spirit waves of diverse identity and morontia appreciation, what humans would call sound (44:6.4).",
 		"confidence": "high",
 		"formConfidence": "medium",
@@ -38177,7 +38200,8 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The form matches 'diseñadores de emociones' and the doubt is small, so the first form stays."
+			"reason": "44:6.4: celestial artisans who depict spirit waves as what mortals call sound. 'Del sonido' matches 'diseñadores del gusto' and avoids the job title 'diseñador de sonido' (audio engineer).",
+			"tiebreak": true
 		}
 	},
 	"south-africa": {
@@ -38522,8 +38546,7 @@
 		],
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The papers use 'spirit mortal' for ascenders at the spirit stage on the superuniverse worlds (30:4.24, 119:5.2, 119:5.3). 'mortales espíritu' reads awkwardly in running text; the second translator's form states that stage plainly and cannot read as 'spiritual-minded' or 'ghosts'.",
-			"previous": "mortales espíritu"
+			"reason": "30:4.24 and 119:5.2/5.3: ascending mortals at the spirit stage in the superuniverse before Havona; 'mortales espíritu' can read as ghosts, while 'en estado de espíritu' states the stage."
 		}
 	},
 	"spirit-mother": {
@@ -38962,7 +38985,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "'orden' as a class of beings is masculine in Spanish; the feminine reads as a religious order or a command."
+			"reason": "30:1.43 and 40:10.8: classes of beings of fixed local and superuniverse citizenship; 'orden' in the sense of class is masculine in Spanish (as in 'Avonales, orden de los'), while feminine 'órdenes' means commands or religious orders."
 		}
 	},
 	"stationary-sons-of-the-trinity": {
@@ -39142,8 +39165,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "In 135:6.3 'this strange preacher' is John, unusual in dress and manner. Before the noun, 'extraño' reads as 'unusual'; after it, it can read as 'stranger, outsider', which the blind reader showed ('unknown preacher').",
-			"previous": "predicador extraño"
+			"reason": "135:6.3: John the Baptist as an unusual, startling preacher; the adjective before the noun gives 'odd, remarkable', while after the noun 'predicador extraño' leans toward 'foreign' or 'unknown'."
 		}
 	},
 	"student-visitors": {
@@ -39511,7 +39533,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Each ascender is the ward of the Ancients of Days of one superuniverse (30:4); the singular is accurate, and 'pupilo' carries legal guardianship. The plural adds nothing."
+			"reason": "30:4.21-22: ascenders on the training worlds of their superuniverse become wards of the Ancients of Days; each belongs to one superuniverse, so the singular reads naturally and 'pupilo' keeps the legal sense of a ward under guardianship."
 		}
 	},
 	"superuniverses": {
@@ -40358,8 +40380,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "29:2.18 names the sixth group of Supreme Power Centers, one per local system; the sibling groups are 'Centros de las Constelaciones' and 'Centros de los Superuniversos', so the second translator's form keeps the family. The capitals and the missing 'locales' keep it apart from 'centros de los sistemas locales'.",
-			"previous": "Centros de Sistema"
+			"reason": "29:2.18: one Supreme Power Center for each local system; the form matches the sibling groups 'Centros de los Superuniversos' and 'Centros de las Constelaciones' and avoids the computing sense of 'Centros de Sistema'."
 		}
 	},
 	"system-co-ordinators": {
@@ -40870,7 +40891,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The glossary keeps the English roots in 'seconafines' and 'omniafines'; 'tertiafines' keeps the family, and the doubt is small."
+			"reason": "A coined order name (26:1.13, 28:1.3); the glossary keeps the coined root in 'seconafines' and 'omniafines', so 'tertiafines' keeps 'terti-' the same way and reads as a term, not as the ordinary Spanish 'tercia-'."
 		}
 	},
 	"tertiary-circuit-supervisors": {
@@ -41161,7 +41182,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The glossary gives 'Aquellos sin Nombre ni Número' for the order that 22:2 groups with this one; 'Aquellos' keeps the two names parallel, as the English does."
+			"reason": "The singular is 'Uno Elevado en Autoridad' and the companion order is 'Aquellos sin Nombre ni Número' (19:2.4, 22:4.4); 'Aquellos' keeps the two Trinitized orders parallel as titles."
 		}
 	},
 	"those-without-name-and-number": {
@@ -41564,7 +41585,7 @@
 		}
 	},
 	"toda-tribe": {
-		"name": "tribu de los toda",
+		"name": "tribu de los todas",
 		"aliases": [
 			"los toda"
 		],
@@ -41598,7 +41619,8 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "An ethnic name stays invariable after 'los'; 'todas' reads as the feminine plural of 'all' and makes the misreading worse."
+			"reason": "91:0.4 and 91:3.2: a tribe of India. Spanish plural ethnonyms take -s (los mayas), and the masculine article marks a people's name; 'los toda' invites the reading 'all'.",
+			"tiebreak": true
 		}
 	},
 	"todan": {
@@ -41863,7 +41885,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "47:9.2 uses this name and 'transition worlds' for the same spheres; 'de transición' keeps one root with 'mundo de transición n.º 1', and 'transicional' is rare."
+			"reason": "46:4.1, 45:6.6: the worlds of transition culture around a system capital; 'de transición' matches 'ministros de transición' and 'mundo de transición n.º 1', and 'transicional' is a rare, technical-sounding adjective."
 		}
 	},
 	"translators": {
@@ -42528,7 +42550,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The article follows the done term 'Secretos de la Supremacía' and the sibling 'Trinidad de la Ultimidad'. The second translator's form has the same meaning, so the first form stays."
+			"reason": "10:5.4: the Paradise Trinity in its finite function, focused in the Supreme; the article matches 'Secretos de la Supremacía' and 'Supremacía' as the fixed noun, and reads as the domain of Supremacy, not a political supremacy."
 		}
 	},
 	"trinity-of-trinities": {
@@ -42585,7 +42607,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Keeps the parallel with 'Trinidad de la Supremacía' and the done term 'Ultimidad'. 'Trinidad Última' is a separate term (Trinity Ultimate)."
+			"reason": "10:8.2, 106:8.9: the Paradise Trinity toward absonite levels; same construction as 'Trinidad de la Supremacía' and uses the fixed noun 'Ultimidad'."
 		}
 	},
 	"trinity-origin-beings": {
@@ -42624,7 +42646,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Follows the done term 'Seres Coordinados Originados en la Trinidad'. 'origen trinitario' brings the religious sense of 'trinitario'."
+			"reason": "19:0.1, 18:0.11: beings brought into existence directly by the Paradise Trinity; this keeps 'Trinidad' capitalized as the English does, while the adjective 'trinitario' suggests Christian Trinitarian doctrine."
 		}
 	},
 	"trinity-teacher-sons": {
@@ -42693,7 +42715,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The judge read 'last Trinity', but the English 'Ultimate' carries the same risk, and the form must match 'Deidad Última' and 'Dios el Último'. Context (106:4.1, 106:6.5) names it the first experiential Trinity, so no change."
+			"reason": "106:4.1, 106:6.5: the first experiential Trinity of absonite scope; the form follows 'Trinidad Absoluta', 'Trinidad Infinita', and 'Dios el Último', and the adjective after the capitalized noun reads as a title ('ultimate'), whereas 'la última Trinidad' would mean 'the last'."
 		}
 	},
 	"triodities": {
@@ -42965,7 +42987,9 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "'Duodécuplo' is the dictionary form; 'duodécuple' is not standard. It describes the nature of the order and does not state a count."
+			"reason": "30:1.59 names them in the Paradise classification. 'Duodécuplo' is the dictionary form; 'duodécuple' is not standard Spanish.",
+			"previous": "Ayudantes Duodécuples de los Circuitos de Havona",
+			"tiebreak": true
 		}
 	},
 	"tyrannus": {
@@ -42996,7 +43020,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "'Tirano' is the standard Spanish form of this name, and 'la escuela de Tirano' (133:6.3) shows it is a name. 'Tiranno' is not a Spanish form."
+			"reason": "133:6.3: the man whose school hall in Ephesus Paul used; 'Tirano' is the normal Spanish rendering of the Latin name Tyrannus, and as a capitalized name in 'la escuela de Tirano' it reads as a person, while 'Tiranno' is an invented spelling."
 		}
 	},
 	"tyre": {
@@ -43058,7 +43082,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Both translators agree. 'Tiro' is already Tyre, and 165:0.1 names a separate town in Perea, so the distinct spelling must stay."
+			"reason": "165:0.1 lists it among Perean towns, not Tyre on the coast; 'Tiro' is already Tyre in the glossary, so the unadapted name keeps the two places apart, as the glossary does for other minor Perean towns (Amatha, Capitolias)."
 		}
 	},
 	"ukraine": {
@@ -43143,7 +43167,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Both translators agree, and the form follows 'Dios el Último' and 'Vicegerentes Condicionados del Último'. The 'last one' risk exists in English too; the capital and context carry the Deity sense."
+			"reason": "0:9.2, 106:4.3: short name of God the Ultimate; it must match 'Dios el Último', 'Supremo-Último', and 'Vicegerentes Condicionados del Último'."
 		}
 	},
 	"ultimate-deity": {
@@ -43554,7 +43578,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Both translators agree. The literal form is plain and keeps what the English leaves open."
+			"reason": "121:4.3 (the Stoics' Universal Mind) and 56:2.3, 0:5.5 (the infinite universal mind of the Conjoint Actor); the plain form matches 'Mente Infinita' and 'Mente Suprema'."
 		}
 	},
 	"universal-mother": {
@@ -43872,7 +43896,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "'Permear' means to spread through, which is the sense of 'pervade' in 11:6.2. 'Penetrar' means to enter, which changes the idea."
+			"reason": "11:6.2-3, 11:7.3: the vertical space reservoirs not pervaded by the forces, energies, powers, and presences of pervaded space; 'permear' is the closest verb to 'pervade' (to spread through), while 'penetrar' means to enter and has unwanted senses."
 		}
 	},
 	"unqualified-absolute": {
@@ -44010,8 +44034,9 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The done term 'montes Urales' fixes 'los Urales' for the region, and 'del Ural' can read as the Ural River. The plural and the lowercase generic word stay, as in 61:1.12.",
-			"previous": "estrechos del Ural"
+			"reason": "61:1.12 writes 'the Ural Straits' in the plural, so the form keeps the plural. 'De los Urales' matches the done term 'montes Urales' and avoids the Ural River.",
+			"previous": "estrecho de los Urales",
+			"tiebreak": true
 		}
 	},
 	"urantia": {
@@ -44089,8 +44114,9 @@
 		],
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The papers use 'United Brotherhood of Urantia Midwayers' (121:0.1); the source term is most likely a garbled copy of it, so the form translates that name. A human must check if this entry and 'Brotherhood of United Midwayers' are one entry.",
-			"previous": "Fraternidad de los Seres Intermedios de Urantia"
+			"reason": "121:0.1 uses 'the United Brotherhood of Urantia Midwayers', and the source term is a garbled copy of that name. The form translates it with the fixed root 'fraternidad'.",
+			"previous": "Fraternidad de los Seres Intermedios de Urantia",
+			"tiebreak": true
 		}
 	},
 	"urantia-papers": {
@@ -44151,7 +44177,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "Both translators agree. The standard Spanish name of the planet; the link to 57:5.13 needs a human check, not a different form."
+			"reason": "57:5.13-14 refers to one of the major planets taken from Angona; 'Urano' is the standard Spanish name of the planet."
 		}
 	},
 	"uriah-the-hittite": {
@@ -44567,7 +44593,7 @@
 		},
 		"adjudicated": {
 			"date": "2026-10-22",
-			"reason": "The form follows the sibling terms 'constructores del juego' and 'constructores de la adoración'. 'constructores vocacionales' reads as 'builders by vocation', which the English does not mean."
+			"reason": "44:3.3: divine builders who build the abodes and workshops of routine workers and enhance the worker's vocation; the form matches the sibling 'constructores de la adoración', while 'constructores vocacionales' reads as builders who have a vocation."
 		}
 	},
 	"voices-of-angelic-hosts": {
