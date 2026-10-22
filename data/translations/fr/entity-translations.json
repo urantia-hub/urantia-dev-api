@@ -15833,16 +15833,6 @@
     "confidence": "medium"
   },
   {
-    "entityId": "first-source-and-center",
-    "language": "fr",
-    "source": "urantia.dev",
-    "version": 1,
-    "name": "Première Source-Centre",
-    "aliases": null,
-    "description": "Le Père Universel en tant que source absolue et centre éternel de toute réalité, énergie et personnalité dans l'univers des univers.",
-    "confidence": "medium"
-  },
-  {
     "entityId": "fish",
     "language": "fr",
     "source": "urantia.dev",
@@ -17466,16 +17456,6 @@
     "name": "Dieu l'Absolu",
     "aliases": null,
     "description": "Le troisième niveau de la Déité expérientielle, représentant la réalisation expérientielle de la divinité absolue par l'unification de la seconde Trinité expérientielle, la Trinité Absolue. Dieu l'Absolu est l'objectif de réalisation-accomplissement de tous les êtres superabsonites et fait l'expérience de l'identité avec l'Absolu Non Qualifié.",
-    "confidence": "high"
-  },
-  {
-    "entityId": "god-the-father",
-    "language": "fr",
-    "source": "urantia.dev",
-    "version": 1,
-    "name": "Dieu le Père",
-    "aliases": null,
-    "description": "La première personne de la Trinité du Paradis, également connue sous le nom de Père Universel, qui est la source éternelle et le centre de toute réalité ainsi que l'objet suprême d'adoration pour tous les êtres créés.",
     "confidence": "high"
   },
   {
@@ -22787,16 +22767,6 @@
     "name": "Joseph (Ancien Testament)",
     "aliases": null,
     "description": "Joseph était l'arrière-petit-fils d'Abraham et un ferme croyant dans les enseignements de Melchizédek, ce qui amenait ses frères à le considérer comme un rêveur pour avoir accepté ces croyances. Plutôt que d'accepter le commandement militaire des armées égyptiennes, il choisit de servir comme administrateur civil en Égypte, croyant qu'il pourrait mieux faire progresser le royaume des cieux par une gouvernance pacifique et un leadership éthique.",
-    "confidence": "high"
-  },
-  {
-    "entityId": "joshua-ben-joseph",
-    "language": "fr",
-    "source": "urantia.dev",
-    "version": 1,
-    "name": "Joshua ben Joseph",
-    "aliases": null,
-    "description": "Le nom hébreu de Jésus, signifiant « Yahvé est salut », qui fut son nom de naissance.",
     "confidence": "high"
   },
   {
@@ -35326,18 +35296,6 @@
     "confidence": "high"
   },
   {
-    "entityId": "rapture",
-    "language": "fr",
-    "source": "urantia.dev",
-    "version": 1,
-    "name": "enlèvement",
-    "aliases": [
-      "technique de dématérialisation"
-    ],
-    "description": "Une technique de dématérialisation utilisée pour transporter les populations planétaires en sécurité en cas de catastrophes physiques menaçant un monde entier, permettant aux races évolutionnaires de continuer leur développement sur de nouveaux mondes.",
-    "confidence": "high"
-  },
-  {
     "entityId": "rationalism",
     "language": "fr",
     "source": "urantia.dev",
@@ -46982,18 +46940,6 @@
     "name": "nids de guêpes",
     "aliases": null,
     "description": "Les nids de guêpes fournissaient un matériau d'écriture rudimentaire semblable au papier aux premiers peuples sous le système éducatif de Fad, qui utilisaient également les écorces d'arbres, les tablettes d'argile, les plaques de pierre et le parchemin de peaux martelées pour consigner les informations.",
-    "confidence": "high"
-  },
-  {
-    "entityId": "watchful-householder",
-    "language": "fr",
-    "source": "urantia.dev",
-    "version": 1,
-    "name": "propriétaire vigilant",
-    "aliases": [
-      "nul homme"
-    ],
-    "description": "La parabole du propriétaire vigilant enseigne la vigilance face au départ soudain et inattendu du Fils de l'Homme, comparant la préparation spirituelle à un propriétaire se gardant des voleurs.",
     "confidence": "high"
   },
   {

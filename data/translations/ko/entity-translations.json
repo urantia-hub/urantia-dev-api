@@ -15837,16 +15837,6 @@
     "confidence": "high"
   },
   {
-    "entityId": "first-source-and-center",
-    "language": "ko",
-    "source": "urantia.dev",
-    "version": 1,
-    "name": "첫째 근원이며 중심",
-    "aliases": null,
-    "description": "우주들의 우주에서 모든 실체, 에너지, 고유성의 절대적 근원이자 영원한 중심인 우주의 아버지",
-    "confidence": "high"
-  },
-  {
     "entityId": "fish",
     "language": "ko",
     "source": "urantia.dev",
@@ -17433,16 +17423,6 @@
     "name": "절대자 하나님",
     "aliases": null,
     "description": "체험적 신의 세 번째 단계로서, 둘째 체험적 삼위일체인 절대 삼위일체의 통일을 통해 절대적 신성의 체험적 실현을 나타낸다. 절대자 하나님은 모든 초절한 존재들의 실현-달성 목표이며, 무제한 절대자와의 정체성을 체험한다.",
-    "confidence": "high"
-  },
-  {
-    "entityId": "god-the-father",
-    "language": "ko",
-    "source": "urantia.dev",
-    "version": 1,
-    "name": "아버지 하나님",
-    "aliases": null,
-    "description": "천국 삼위일체의 첫 번째 위격으로, 우주 아버지로도 알려져 있으며, 모든 실재의 영원한 근원이자 중심이며, 모든 창조된 존재들이 예배하는 최상의 대상이다.",
     "confidence": "high"
   },
   {
@@ -22770,16 +22750,6 @@
     "name": "요셉 (구약)",
     "aliases": null,
     "description": "요셉은 아브라함의 증손자로 멜기세덱의 가르침을 굳게 믿었으며, 형제들은 그가 이를 받아들이는 것을 보고 그를 꿈꾸는 사람으로 여겼다. 이집트 군대의 군사 지휘권을 받아들이기보다는 이집트에서 민정 행정관으로 일하기를 선택했으며, 평화로운 통치와 윤리적 지도력을 통해 하늘나라를 더 잘 발전시킬 수 있다고 믿었다.",
-    "confidence": "high"
-  },
-  {
-    "entityId": "joshua-ben-joseph",
-    "language": "ko",
-    "source": "urantia.dev",
-    "version": 1,
-    "name": "요셉의 아들 여호수아",
-    "aliases": null,
-    "description": "예수의 히브리어 이름으로, \"야웨가 구원하신다\"는 뜻이며, 태어날 때 받은 본래 이름이다.",
     "confidence": "high"
   },
   {
@@ -35285,18 +35255,6 @@
     "confidence": "high"
   },
   {
-    "entityId": "rapture",
-    "language": "ko",
-    "source": "urantia.dev",
-    "version": 1,
-    "name": "휴거",
-    "aliases": [
-      "비물질화 기법"
-    ],
-    "description": "전체 세계를 위협하는 물리적 대이변이 발생할 경우 행성 인구를 안전한 곳으로 이송하기 위해 사용되는 비물질화 기법으로, 진화 종족들이 새로운 세계에서 발전을 계속할 수 있게 한다.",
-    "confidence": "high"
-  },
-  {
     "entityId": "rationalism",
     "language": "ko",
     "source": "urantia.dev",
@@ -46953,18 +46911,6 @@
     "name": "벌집",
     "aliases": null,
     "description": "벌집은 팟의 교육 체계 하에서 초기 민족들에게 조잡한 종이 같은 필기 재료를 제공했으며, 그들은 또한 나무 껍질, 진흙 서판, 석판, 두드린 가죽 양피지를 정보 기록용으로 사용했다.",
-    "confidence": "high"
-  },
-  {
-    "entityId": "watchful-householder",
-    "language": "ko",
-    "source": "urantia.dev",
-    "version": 1,
-    "name": "깨어 있는 집주인",
-    "aliases": [
-      "아무도"
-    ],
-    "description": "깨어 있는 집주인의 비유는 사람의 아들의 갑작스럽고 예상치 못한 떠남에 대비한 경계심을 가르치며, 영적 준비를 도둑을 경계하는 집주인에 비유한다.",
     "confidence": "high"
   },
   {

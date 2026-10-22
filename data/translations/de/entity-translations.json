@@ -15851,16 +15851,6 @@
     "confidence": "high"
   },
   {
-    "entityId": "first-source-and-center",
-    "language": "de",
-    "source": "urantia.dev",
-    "version": 1,
-    "name": "Erste Quelle und Mitte",
-    "aliases": null,
-    "description": "Der Universale Vater als absolute Quelle und ewige Mitte aller Realität, Energie und Persönlichkeit im Universum der Universen.",
-    "confidence": "high"
-  },
-  {
     "entityId": "fish",
     "language": "de",
     "source": "urantia.dev",
@@ -17451,16 +17441,6 @@
     "name": "Gott der Absolute",
     "aliases": null,
     "description": "Die dritte Stufe der erfahrungsmäßigen Gottheit, die die erfahrungsmäßige Verwirklichung absoluter Göttlichkeit durch die Einigung der zweiten erfahrungsmäßigen Trinität, der Absoluten Trinität, darstellt. Gott der Absolute ist das Verwirklichungs-Erreichungsziel aller superabsoniten Wesen und erfährt Identität mit dem Unbedingten Absoluten.",
-    "confidence": "high"
-  },
-  {
-    "entityId": "god-the-father",
-    "language": "de",
-    "source": "urantia.dev",
-    "version": 1,
-    "name": "Gott der Vater",
-    "aliases": null,
-    "description": "Die erste Person der Paradies-Trinität, auch bekannt als der Universale Vater, der die ewige Quelle und das Zentrum aller Realität und das höchste Objekt der Anbetung für alle geschaffenen Wesen ist.",
     "confidence": "high"
   },
   {
@@ -22736,16 +22716,6 @@
     "aliases": null,
     "description": "Joseph war der Urenkel Abrahams und ein fester Anhänger der Lehren Melchisedeks, weshalb ihn seine Brüder für einen Träumer hielten. Anstatt das militärische Kommando über ägyptische Armeen zu übernehmen, wählte er den Dienst als ziviler Verwalter in Ägypten, da er glaubte, das Himmelreich durch friedliche Regierungsführung und ethische Führung besser fördern zu können.",
     "confidence": "high"
-  },
-  {
-    "entityId": "joshua-ben-joseph",
-    "language": "de",
-    "source": "urantia.dev",
-    "version": 1,
-    "name": "Joshua ben Joseph",
-    "aliases": null,
-    "description": "",
-    "confidence": "needs_manual"
   },
   {
     "entityId": "joshua-jesus",
@@ -35290,18 +35260,6 @@
     "confidence": "high"
   },
   {
-    "entityId": "rapture",
-    "language": "de",
-    "source": "urantia.dev",
-    "version": 1,
-    "name": "Entrückung",
-    "aliases": [
-      "Entmaterialisierungstechnik"
-    ],
-    "description": "Eine Entmaterialisierungstechnik, die verwendet wird, um Planetenbevölkerungen bei physischen Katastrophen, die eine ganze Welt bedrohen, in Sicherheit zu transportieren und evolutionären Rassen zu ermöglichen, ihre Entwicklung auf neuen Welten fortzusetzen.",
-    "confidence": "high"
-  },
-  {
     "entityId": "rationalism",
     "language": "de",
     "source": "urantia.dev",
@@ -46936,18 +46894,6 @@
     "name": "Wespennester",
     "aliases": null,
     "description": "Wespennester lieferten rohes papierähnliches Schreibmaterial für frühe Völker unter Fads Bildungssystem, die auch Baumrinden, Tontafeln, Steinplatten und gehämmerte Hautpergamente zur Informationsaufzeichnung verwendeten.",
-    "confidence": "high"
-  },
-  {
-    "entityId": "watchful-householder",
-    "language": "de",
-    "source": "urantia.dev",
-    "version": 1,
-    "name": "wachsamer Hausherr",
-    "aliases": [
-      "niemand"
-    ],
-    "description": "Das Gleichnis vom wachsamen Hausherrn lehrt Wachsamkeit für den plötzlichen und unerwarteten Aufbruch des Menschensohns und vergleicht spirituelle Bereitschaft mit einem Hausbesitzer, der sich vor Dieben hütet.",
     "confidence": "high"
   },
   {

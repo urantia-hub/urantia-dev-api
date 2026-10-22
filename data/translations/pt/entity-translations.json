@@ -15852,16 +15852,6 @@
     "confidence": "high"
   },
   {
-    "entityId": "first-source-and-center",
-    "language": "pt",
-    "source": "urantia.dev",
-    "version": 1,
-    "name": "Primeira Fonte e Centro",
-    "aliases": null,
-    "description": "O Pai Universal como a fonte absoluta e centro eterno de toda realidade, energia e personalidade no universo dos universos.",
-    "confidence": "high"
-  },
-  {
     "entityId": "fish",
     "language": "pt",
     "source": "urantia.dev",
@@ -17459,16 +17449,6 @@
     "name": "Deus, o Absoluto",
     "aliases": null,
     "description": "O terceiro nível da Deidade experiencial, representando a realização experiencial da divindade absoluta através da unificação da segunda Trindade experiencial, a Trindade Absoluta. Deus, o Absoluto é a meta de realização-consecução de todos os seres superabsonitos e experimenta identidade com o Absoluto Não Qualificado.",
-    "confidence": "high"
-  },
-  {
-    "entityId": "god-the-father",
-    "language": "pt",
-    "source": "urantia.dev",
-    "version": 1,
-    "name": "Deus, o Pai",
-    "aliases": null,
-    "description": "A primeira pessoa da Trindade do Paraíso, também conhecida como Pai Universal, que é a fonte e centro eterno de toda realidade e o objeto supremo de adoração para todos os seres criados.",
     "confidence": "high"
   },
   {
@@ -22811,16 +22791,6 @@
     "name": "José (Antigo Testamento)",
     "aliases": null,
     "description": "José era bisneto de Abraão e um firme crente nos ensinamentos de Melquisedeque, pelo que seus irmãos o consideravam um sonhador por aceitar. Em vez de aceitar o comando militar dos exércitos egípcios, escolheu servir como administrador civil no Egito, acreditando que poderia melhor promover o reino dos céus através de governança pacífica e liderança ética.",
-    "confidence": "high"
-  },
-  {
-    "entityId": "joshua-ben-joseph",
-    "language": "pt",
-    "source": "urantia.dev",
-    "version": 1,
-    "name": "Josué ben José",
-    "aliases": null,
-    "description": "O nome hebraico de Jesus, que significa \"Javé é salvação\", que foi o nome dado a ele no nascimento.",
     "confidence": "high"
   },
   {
@@ -35341,18 +35311,6 @@
     "confidence": "high"
   },
   {
-    "entityId": "rapture",
-    "language": "pt",
-    "source": "urantia.dev",
-    "version": 1,
-    "name": "arrebatamento",
-    "aliases": [
-      "técnica de desmaterialização"
-    ],
-    "description": "Uma técnica de desmaterialização usada para transportar populações planetárias para segurança no caso de catástrofes físicas que ameacem um mundo inteiro, permitindo que raças evolucionárias continuem seu desenvolvimento em novos mundos.",
-    "confidence": "high"
-  },
-  {
     "entityId": "rationalism",
     "language": "pt",
     "source": "urantia.dev",
@@ -47010,18 +46968,6 @@
     "name": "ninhos de vespas",
     "aliases": null,
     "description": "Os ninhos de vespas forneciam material de escrita rudimentar semelhante ao papel para os povos primitivos sob o sistema educacional de Fad, que também usavam cascas de árvores, tabuletas de argila, placas de pedra e pergaminho de peles marteladas para registrar informações.",
-    "confidence": "high"
-  },
-  {
-    "entityId": "watchful-householder",
-    "language": "pt",
-    "source": "urantia.dev",
-    "version": 1,
-    "name": "dono de casa vigilante",
-    "aliases": [
-      "nenhum homem"
-    ],
-    "description": "A parábola do dono de casa vigilante ensina vigilância para a partida súbita e inesperada do Filho do Homem, comparando a preparação espiritual a um proprietário guardando-se contra ladrões.",
     "confidence": "high"
   },
   {
