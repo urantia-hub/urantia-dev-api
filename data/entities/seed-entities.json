@@ -14484,7 +14484,7 @@
     "name": "college of life planning",
     "type": "concept",
     "aliases": [],
-    "description": "An educational institution located on World Number One in Jerusem, dedicated to studying universal life in all its known phases. This college functions with teachers and advisers from Uversa, Havona, and Paradise, and houses the seven central emplacements of the adjutant mind-spirits.",
+    "description": "A college on World Number One, the headquarters sphere of the Life Carrier worlds, devoted to the study of universal life in all its known phases. Teachers and advisers from Uversa, Havona, and Paradise function there, and the seven central emplacements of the adjutant mind-spirits are on the same world.",
     "seeAlso": [],
     "citations": [
       "36:2.10"
@@ -18704,7 +18704,7 @@
     "aliases": [
       "Custodians and Recorders"
     ],
-    "description": "A group of one hundred thousand Lanonandek Sons who serve as custodians and archivists in Salvington, maintaining records and administrative functions for the local universe.",
+    "description": "One of the groups in the classification of the Lanonandek Sons on Salvington: the Custodians and Recorders, about 100,000 in round numbers.",
     "seeAlso": [],
     "citations": [
       "35:8.13"
@@ -69336,20 +69336,6 @@
     ]
   },
   {
-    "id": "rapture",
-    "name": "rapture",
-    "type": "concept",
-    "aliases": [
-      "dematerialization technique"
-    ],
-    "description": "A dematerialization technique used to transport planetary populations to safety in the event of physical catastrophes that threaten an entire world, allowing evolutionary races to continue their development on new worlds.",
-    "seeAlso": [],
-    "citations": [
-      "51:2.3"
-    ],
-    "sense": "special"
-  },
-  {
     "id": "rationalism",
     "name": "rationalism",
     "type": "concept",
@@ -93948,20 +93934,6 @@
       "66:5.9"
     ],
     "sense": "ordinary"
-  },
-  {
-    "id": "watchful-householder",
-    "name": "watchful householder",
-    "type": "concept",
-    "aliases": [
-      "no man"
-    ],
-    "description": "The parable of the watchful householder teaches vigilance for the sudden and unexpected departure of the Son of Man, comparing spiritual preparedness to a homeowner guarding against thieves.",
-    "seeAlso": [],
-    "citations": [
-      "165:5.6"
-    ],
-    "sense": "special"
   },
   {
     "id": "watchful-servant",
