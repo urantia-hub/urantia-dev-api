@@ -13,6 +13,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import {
 	draftPath,
+	glossaryPath,
 	LANG_NAMES,
 	loadEnglishPaper,
 	loadTermDecisions,
@@ -34,7 +35,12 @@ if (!existsSync(guidePath)) {
 	process.exit(1);
 }
 const guide = readFileSync(guidePath, "utf-8");
+const cleanRoom = readFileSync(join(import.meta.dir, "clean-room.md"), "utf-8");
 const decisions = loadTermDecisions(lang);
+if (!existsSync(glossaryPath(lang))) {
+	console.error(`No clean glossary at ${glossaryPath(lang)}. Build it first (see README).`);
+	process.exit(1);
+}
 
 for (const paper of papers) {
 	const en = loadEnglishPaper(paper);
@@ -42,16 +48,13 @@ for (const paper of papers) {
 		lang,
 		en.paragraphs.map((p) => p.ref),
 	);
-	const row = (t: (typeof terms)[number]) =>
-		`| ${t.en} | ${t.target} | ${t.aliases.join("; ")} | ${t.type} |`;
-	const table = (list: typeof terms) =>
-		list.length
-			? [
-					"| English | " + language + " | Other forms | Type |",
-					"|---|---|---|---|",
-					...list.map(row),
-				].join("\n")
-			: "(none)";
+	const table = terms.length
+		? [
+				`| English | ${language} | Short forms | Type |`,
+				"|---|---|---|---|",
+				...terms.map((t) => `| ${t.en} | ${t.target} | ${t.aliases.join("; ")} | ${t.type} |`),
+			].join("\n")
+		: "(none)";
 
 	const sections = en.sections.filter((s) => s.title);
 	const draftExample = {
@@ -66,7 +69,7 @@ for (const paper of papers) {
 
 You translate one paper of the Urantia Papers from English into ${language}. The English text is in the public domain. Your translation will be released as CC0.
 
-Work only from the English below. Do not copy, consult, or reproduce any existing ${language} translation of this book, even from memory. If a sentence comes to you in the words of a published translation, write it again in your own words.
+${cleanRoom}
 
 Output: write one JSON file to \`${draftPath(lang, paper, candidate)}\` with this shape:
 
@@ -84,13 +87,9 @@ ${guide}
 
 ## Glossary for this paper
 
-Required terms: use these forms. You can change number and gender to fit the sentence.
+Use these forms. You can change number and gender to fit the sentence.
 
-${table(terms.filter((t) => t.required))}
-
-Suggested words: use these unless the context needs another word.
-
-${table(terms.filter((t) => !t.required))}
+${table}
 
 Terms that earlier papers chose. Use the same forms when they appear.
 

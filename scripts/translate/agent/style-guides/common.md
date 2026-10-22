@@ -20,7 +20,7 @@
 2. Keep the capitals of the English for the coined terms: "Universal Father", "Thought Adjuster", "Ancients of Days". Do not capitalize other words because they seem important.
 3. Keep "Urantia" as "Urantia". Keep every name that the glossary keeps the same.
 4. When a coined term is not in the glossary, choose one form and use it in the full paper. Record it in `newTerms` in the draft: `{ "English term": "your form" }`.
-5. When you are not sure what a term means, look it up with the urantia.dev MCP server: `entities_get`, `search_semantic`, or `paragraphs_context`. Do not guess.
+5. When you are not sure what a term means, look it up with the urantia.dev MCP server, in English only: `entities_get`, `search_semantic`, or `paragraphs_context`. Do not guess.
 
 ### Quotes
 

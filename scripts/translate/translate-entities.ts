@@ -1,6 +1,9 @@
 /**
  * translate-entities.ts — Translate Urantia Book entities to target languages
  *
+ * NOT CLEAN-ROOM: uses entity data made with the Foundation text as context.
+ * For a clean translation, use scripts/translate/agent/ (see its README).
+ *
  * Usage:
  *   bun scripts/translate/translate-entities.ts --lang=es
  *   bun scripts/translate/translate-entities.ts --lang=es --entity=machiventa-melchizedek

@@ -11,6 +11,7 @@
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { editionDirs, loadEdition } from "./checks.ts";
 import {
 	type Draft,
 	draftPath,
@@ -18,15 +19,28 @@ import {
 	loadEnglishPaper,
 	pad,
 	parseArgs,
+	stripTags,
 	WORK_DIR,
 } from "./lib.ts";
 
 const { lang, papers, flags } = parseArgs();
 const arg = (name: string) => [...flags].find((a) => a.startsWith(`--${name}=`))?.split("=")[1];
-const candidates = (arg("candidates") ?? "").split(",").filter(Boolean);
+// --reference=book-es adds an existing edition as a blind candidate, for comparison only.
+// The review packets stay in .work/ and are never committed or shown to a translator.
+const references = (arg("reference") ?? "").split(",").filter(Boolean);
+for (const r of references) {
+	if (!editionDirs(lang).includes(r)) {
+		console.error(`No edition "${r}". On disk: ${editionDirs(lang).join(", ") || "none"}`);
+		process.exit(1);
+	}
+}
+const candidates = [
+	...(arg("candidates") ?? "").split(",").filter(Boolean),
+	...references.map((r) => `reference-${r}`),
+];
 const sample = Number(arg("sample") ?? 30);
 if (candidates.length < 2) {
-	console.error("--candidates needs two or more names");
+	console.error("--candidates and --reference need two or more names in total");
 	process.exit(1);
 }
 
@@ -48,6 +62,10 @@ function shuffle<T>(list: T[]): T[] {
 
 for (const paper of papers) {
 	const drafts = candidates.map((c) => {
+		if (c.startsWith("reference-")) {
+			const edition = loadEdition(c.slice("reference-".length), paper);
+			return { paragraphs: Object.fromEntries(edition ?? []) } as Draft;
+		}
 		const path = draftPath(lang, paper, c);
 		if (!existsSync(path)) throw new Error(`Missing draft for ${c}: ${path}`);
 		return JSON.parse(readFileSync(path, "utf-8")) as Draft;
@@ -67,9 +85,10 @@ for (const paper of papers) {
 	const body = picked
 		.map((p) => {
 			const versions = labels
-				.map((l, i) => `**${l}:** ${drafts[order[i]!]!.paragraphs[p.ref]}`)
+				.map((l, i) => `**${l}:** ${stripTags(drafts[order[i]!]!.paragraphs[p.ref]!)}`)
 				.join("\n\n");
-			return `### ${p.ref}\n\n**English:** ${p.htmlText}\n\n${versions}`;
+			// Plain text for every version, so markup does not show which one is which.
+			return `### ${p.ref}\n\n**English:** ${p.text}\n\n${versions}`;
 		})
 		.join("\n\n---\n\n");
 

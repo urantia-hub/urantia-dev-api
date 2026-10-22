@@ -1,6 +1,9 @@
 /**
  * build-term-glossary.ts — Extract entity name mappings for paragraph translation
  *
+ * NOT CLEAN-ROOM: uses entity data made with the Foundation text as context.
+ * For a clean translation, use scripts/translate/agent/ (see its README).
+ *
  * Usage:
  *   bun scripts/translate/build-term-glossary.ts --lang=es
  *
