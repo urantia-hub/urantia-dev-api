@@ -84,6 +84,8 @@ export type Draft = {
 	paragraphs: Record<string, string>;
 	/** Coined terms not in the glossary, as the translator chose to write them. */
 	newTerms?: Record<string, string>;
+	/** Places where the target language forced a choice that the English leaves open. */
+	forcedChoices?: { ref: string; choice: string; reason: string }[];
 };
 
 export function pad(paper: number): string {
@@ -154,17 +156,34 @@ export type GlossaryEntity = {
 	aliases: string[];
 	description: string;
 	mentions: number;
+	/** Word family, so a coined root is decided once (morontia, morontial, mota). */
+	family?: string;
+	/** Foreword section that defines the term, e.g. "0:5". */
+	foreword?: string;
+	/** A key concept: a word that the papers use in a special sense. */
+	key?: boolean;
 };
 
-/** One clean glossary entry: the target-language name and its short forms. */
+export type Confidence = "high" | "medium" | "low";
+
+/** One clean glossary entry: the target-language name, why it was chosen, and its checks. */
 export type GlossaryEntry = {
 	name: string;
 	aliases?: string[];
 	/** The English meaning in one sentence, with references. */
 	meaning?: string;
-	confidence?: "high" | "medium" | "low";
+	/** How sure the translator is of the English meaning. */
+	confidence?: Confidence;
+	/** How sure the translator is that the form carries that meaning with no wrong reading. */
+	formConfidence?: Confidence;
 	/** Forms considered and rejected, with a short reason each. */
 	rejected?: { form: string; reason: string }[];
+	/** An independent second translator's choice, made without seeing this one. */
+	second?: { name: string; meaning: string; formConfidence?: Confidence; agree: boolean };
+	/** What a reader of the target language understands from the form alone, and a judge's verdict. */
+	backcheck?: { reading: string; misreadings?: string[]; verdict?: "match" | "mismatch"; note?: string };
+	/** A human decision. It locks the entry. */
+	decision?: { by: string; date: string; note?: string };
 };
 
 export function glossaryPath(lang: string): string {
@@ -175,8 +194,44 @@ function loadMentions(): Record<string, { id: string }[]> {
 	return JSON.parse(readFileSync(join(ROOT, "data/entities/paragraph-entities.json"), "utf-8"));
 }
 
-/** The entities that need a fixed translation: names, places, orders, and capitalized concepts. */
+type KeyConcepts = {
+	families: Record<string, string[]>;
+	concepts: { id: string; en: string; family: string; foreword?: string }[];
+};
+
+function loadKeyConcepts(): KeyConcepts {
+	return JSON.parse(readFileSync(join(ROOT, "data/translations/key-concepts.json"), "utf-8"));
+}
+
+function wordRegex(word: string): RegExp {
+	const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+	return new RegExp(`\\b${escaped}(s|es|al|ally|ity|ities|ed|ing)?\\b`, "i");
+}
+
+let corpusRefs: Map<string, string[]> | null = null;
+
+/** Paragraph refs that contain each key concept that is not an entity, by text match. */
+function keyConceptRefs(): Map<string, string[]> {
+	if (corpusRefs) return corpusRefs;
+	const concepts = loadKeyConcepts().concepts.filter((c) => c.id.startsWith("kc-"));
+	const regexes = concepts.map((c) => [c.id, wordRegex(c.en.replace(/ \(.*\)$/, ""))] as const);
+	corpusRefs = new Map(concepts.map((c) => [c.id, []]));
+	for (const paper of PAPER_NUMBERS) {
+		for (const p of loadEnglishPaper(paper).paragraphs) {
+			for (const [id, re] of regexes) if (re.test(p.text)) corpusRefs.get(id)!.push(p.ref);
+		}
+	}
+	return corpusRefs;
+}
+
+let entityCache: GlossaryEntity[] | null = null;
+
+/**
+ * The terms that need a fixed translation: names, places, orders, capitalized concepts,
+ * and the key concepts in data/translations/key-concepts.json.
+ */
 export function glossaryEntities(): GlossaryEntity[] {
+	if (entityCache) return entityCache;
 	type Seed = { id: string; name: string; type: string; aliases: string[]; description: string };
 	const seeds: Seed[] = JSON.parse(
 		readFileSync(join(ROOT, "data/entities/seed-entities.json"), "utf-8"),
@@ -185,22 +240,69 @@ export function glossaryEntities(): GlossaryEntity[] {
 	for (const list of Object.values(loadMentions())) {
 		for (const m of list) counts.set(m.id, (counts.get(m.id) ?? 0) + 1);
 	}
-	return seeds
-		.filter((e) => FIXED_TYPES.has(e.type) || (e.type === "concept" && /^[A-Z]/.test(e.name)))
+	const { families, concepts } = loadKeyConcepts();
+	const keyById = new Map(concepts.map((c) => [c.id, c]));
+	const familyOf = (name: string) =>
+		Object.entries(families).find(([, roots]) => roots.some((r) => name.includes(r)))?.[0];
+
+	const out: GlossaryEntity[] = seeds
+		.filter(
+			(e) =>
+				FIXED_TYPES.has(e.type) ||
+				(e.type === "concept" && /^[A-Z]/.test(e.name)) ||
+				keyById.has(e.id),
+		)
 		.filter((e) => !/^[\d\s.,:-]+$/.test(e.name))
-		.map((e) => ({
-			id: e.id,
-			name: e.name,
-			type: e.type,
-			aliases: e.aliases ?? [],
-			description: e.description ?? "",
-			mentions: counts.get(e.id) ?? 0,
-		}));
+		.map((e) => {
+			const key = keyById.get(e.id);
+			return {
+				id: e.id,
+				name: e.name,
+				type: e.type,
+				aliases: e.aliases ?? [],
+				description: e.description ?? "",
+				mentions: counts.get(e.id) ?? 0,
+				family: key?.family ?? familyOf(e.name),
+				foreword: key?.foreword,
+				key: !!key,
+			};
+		});
+	const refs = keyConceptRefs();
+	for (const c of concepts.filter((c) => c.id.startsWith("kc-"))) {
+		out.push({
+			id: c.id,
+			name: c.en,
+			type: "concept",
+			aliases: [],
+			description: "",
+			mentions: refs.get(c.id)?.length ?? 0,
+			family: c.family,
+			foreword: c.foreword,
+			key: true,
+		});
+	}
+	entityCache = out;
+	return out;
 }
 
 export function loadGlossary(lang: string): Record<string, GlossaryEntry> {
 	const path = glossaryPath(lang);
 	return existsSync(path) ? JSON.parse(readFileSync(path, "utf-8")) : {};
+}
+
+/** True when a human must look at the entry. */
+export function needsHuman(g: GlossaryEntry): boolean {
+	if (g.decision) return false;
+	// An entry from before form ratings needs an agreeing second opinion and a matching back-check.
+	const formOk = g.formConfidence
+		? g.formConfidence === "high"
+		: g.second?.agree === true && g.backcheck?.verdict === "match";
+	return (
+		g.confidence !== "high" ||
+		!formOk ||
+		(g.second !== undefined && !g.second.agree) ||
+		g.backcheck?.verdict === "mismatch"
+	);
 }
 
 let termIndex: { byEntity: Map<string, Term>; byRef: Map<string, string[]> } | null = null;
@@ -232,6 +334,9 @@ export function loadTerms(lang: string): {
 	const byRef = new Map(
 		Object.entries(loadMentions()).map(([ref, list]) => [ref, list.map((m) => m.id)]),
 	);
+	for (const [id, refs] of keyConceptRefs()) {
+		for (const ref of refs) byRef.set(ref, [...(byRef.get(ref) ?? []), id]);
+	}
 	termIndex = { byEntity, byRef };
 	return termIndex;
 }

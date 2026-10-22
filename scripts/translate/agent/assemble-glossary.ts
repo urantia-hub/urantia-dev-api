@@ -3,8 +3,13 @@
  *
  * Usage: bun scripts/translate/agent/assemble-glossary.ts --lang=es [--dry-run]
  *
- * Reads every .work/translate/<lang>/glossary/batch-*.draft.json. Merges valid entries,
- * then moves each merged draft to done/. Exits 1 when a draft has an error.
+ * Reads every draft in .work/translate/<lang>/glossary/:
+ *   batch-*   first translations
+ *   second-*  independent second opinions; a different form marks the term for a human
+ *   blind-*   blind readings of the forms (with blind-*.key.json)
+ *   judge-*   verdicts that compare a blind reading with the meaning
+ * Moves each merged draft to done/. An entry with a human `decision` is never changed.
+ * Exits 1 when a draft has an error.
  */
 
 import {
@@ -17,10 +22,13 @@ import {
 } from "node:fs";
 import { join } from "node:path";
 import {
+	type Confidence,
+	fold,
 	type GlossaryEntry,
 	glossaryEntities,
 	glossaryPath,
 	loadGlossary,
+	needsHuman,
 	parseArgs,
 	WORK_DIR,
 } from "./lib.ts";
@@ -28,54 +36,98 @@ import {
 const { lang, flags } = parseArgs();
 const DRY_RUN = flags.has("--dry-run");
 const dir = join(WORK_DIR, lang, "glossary");
-const drafts = existsSync(dir) ? readdirSync(dir).filter((f) => f.endsWith(".draft.json")) : [];
+const drafts = existsSync(dir)
+	? readdirSync(dir)
+			.filter((f) => f.endsWith(".draft.json"))
+			.sort((a, b) => order(a) - order(b))
+	: [];
+
+// Merge first translations before the checks that refer to them.
+function order(file: string): number {
+	return ["batch", "second", "blind", "judge"].indexOf(file.split("-")[0]!);
+}
 
 const entities = new Map(glossaryEntities().map((e) => [e.id, e]));
 const glossary = loadGlossary(lang);
+const LEVELS = ["high", "medium", "low"];
 let failed = 0;
-let added = 0;
+let changed = 0;
+
+type Raw = Record<string, Record<string, unknown>>;
 
 for (const file of drafts) {
-	const draft: Record<string, GlossaryEntry> = JSON.parse(readFileSync(join(dir, file), "utf-8"));
-	const errors: string[] = [];
-	const warns: string[] = [];
-	for (const [id, entry] of Object.entries(draft)) {
-		const e = entities.get(id);
-		if (!e) errors.push(`${id}: not a glossary term`);
-		else if (!entry?.name?.trim()) errors.push(`${id}: no name`);
-		else if (!entry.meaning?.trim()) errors.push(`${id}: no meaning`);
-		else if (!["high", "medium", "low"].includes(entry.confidence ?? "")) {
-			errors.push(`${id}: confidence must be high, medium, or low`);
-		} else if (glossary[id] && glossary[id].name !== entry.name) {
-			warns.push(
-				`${id}: already "${glossary[id].name}", draft has "${entry.name}"; kept the first`,
-			);
-		}
+	const kind = file.split("-")[0]!;
+	let draft: Raw = JSON.parse(readFileSync(join(dir, file), "utf-8"));
+	if (kind === "blind") {
+		const keyFile = join(dir, file.replace(".draft.json", ".key.json"));
+		const key: Record<string, string> = JSON.parse(readFileSync(keyFile, "utf-8"));
+		draft = Object.fromEntries(Object.entries(draft).map(([k, v]) => [key[k] ?? k, v]));
 	}
-	console.log(
-		`${file}: ${Object.keys(draft).length} terms, ${errors.length} errors, ${warns.length} warnings`,
-	);
-	for (const m of errors) console.log(`  error ${m}`);
-	for (const m of warns) console.log(`  warn  ${m}`);
+	const errors: string[] = [];
+	for (const [id, v] of Object.entries(draft)) {
+		const str = (k: string) => (typeof v[k] === "string" ? (v[k] as string).trim() : "");
+		if (!entities.has(id)) errors.push(`${id}: not a glossary term`);
+		else if (kind === "batch" || kind === "second") {
+			if (!str("name")) errors.push(`${id}: no name`);
+			if (!str("meaning")) errors.push(`${id}: no meaning`);
+			if (!LEVELS.includes(str("confidence"))) errors.push(`${id}: bad confidence`);
+			if (!LEVELS.includes(str("formConfidence"))) errors.push(`${id}: bad formConfidence`);
+		} else if (kind === "blind" && !str("reading")) errors.push(`${id}: no reading`);
+		else if (kind === "judge" && !["match", "mismatch"].includes(str("verdict"))) {
+			errors.push(`${id}: verdict must be match or mismatch`);
+		}
+		if (kind !== "batch" && !glossary[id]) errors.push(`${id}: no first translation yet`);
+	}
+	console.log(`${file}: ${Object.keys(draft).length} terms, ${errors.length} errors`);
+	for (const m of errors.slice(0, 20)) console.log(`  error ${m}`);
 	if (errors.length) {
 		failed++;
 		continue;
 	}
-	for (const [id, entry] of Object.entries(draft)) {
-		if (glossary[id]) continue;
-		const aliases = (entry.aliases ?? []).filter((a) => a?.trim() && a !== entry.name);
-		glossary[id] = {
-			name: entry.name.trim(),
-			...(aliases.length ? { aliases } : {}),
-			meaning: entry.meaning!.trim(),
-			confidence: entry.confidence,
-			...(entry.rejected?.length ? { rejected: entry.rejected } : {}),
-		};
-		added++;
+
+	for (const [id, v] of Object.entries(draft)) {
+		const g = glossary[id];
+		if (g?.decision) continue;
+		if (kind === "batch") {
+			if (g) continue;
+			const name = (v.name as string).trim();
+			const aliases = ((v.aliases as string[]) ?? []).filter((a) => a?.trim() && a !== name);
+			glossary[id] = {
+				name,
+				...(aliases.length ? { aliases } : {}),
+				meaning: (v.meaning as string).trim(),
+				confidence: v.confidence as Confidence,
+				formConfidence: v.formConfidence as Confidence,
+				...((v.rejected as unknown[])?.length ? { rejected: v.rejected as GlossaryEntry["rejected"] } : {}),
+			};
+		} else if (kind === "second") {
+			const name = (v.name as string).trim();
+			const forms = [g!.name, ...(g!.aliases ?? [])].map(fold);
+			g!.second = {
+				name,
+				meaning: (v.meaning as string).trim(),
+				formConfidence: v.formConfidence as Confidence,
+				agree: forms.includes(fold(name)),
+			};
+		} else if (kind === "blind") {
+			g!.backcheck = {
+				reading: (v.reading as string).trim(),
+				...((v.misreadings as string[])?.length ? { misreadings: v.misreadings as string[] } : {}),
+			};
+		} else if (kind === "judge") {
+			g!.backcheck = {
+				...g!.backcheck!,
+				verdict: v.verdict as "match" | "mismatch",
+				...(v.note ? { note: v.note as string } : {}),
+			};
+		}
+		changed++;
 	}
 	if (!DRY_RUN) {
 		mkdirSync(join(dir, "done"), { recursive: true });
 		renameSync(join(dir, file), join(dir, "done", file));
+		const keyFile = join(dir, file.replace(".draft.json", ".key.json"));
+		if (existsSync(keyFile)) renameSync(keyFile, join(dir, "done", file.replace(".draft.json", ".key.json")));
 	}
 }
 
@@ -97,20 +149,17 @@ if (split.length) {
 	for (const [w, forms] of split.slice(0, 40)) console.log(`  ${w}: ${[...forms].join(", ")}`);
 }
 
-const unsure = Object.entries(glossary).filter(([, g]) => g.confidence !== "high");
-if (unsure.length) {
-	console.log(`\nTerms for a human check (confidence below high): ${unsure.length}`);
-	for (const [id, g] of unsure.slice(0, 60)) {
-		console.log(`  ${g.confidence?.padEnd(6)} ${entities.get(id)?.name} → ${g.name}: ${g.meaning}`);
-	}
-}
+const human = Object.entries(glossary).filter(([, g]) => needsHuman(g));
+const count = (f: (g: GlossaryEntry) => boolean) => Object.values(glossary).filter(f).length;
+console.log(`
+${Object.keys(glossary).length}/${entities.size} terms (${changed} changes this run)
+  second opinions: ${count((g) => !!g.second)} (${count((g) => g.second?.agree === false)} disagree)
+  blind readings: ${count((g) => !!g.backcheck)}, judged: ${count((g) => !!g.backcheck?.verdict)} (${count((g) => g.backcheck?.verdict === "mismatch")} mismatch)
+  human decisions: ${count((g) => !!g.decision)}
+  for a human: ${human.length} (bun scripts/translate/agent/review-glossary.ts --lang=${lang})`);
 
-const total = entities.size;
-console.log(`\n${Object.keys(glossary).length}/${total} terms (${added} added this run)`);
-if (!DRY_RUN && added) {
-	const sorted = Object.fromEntries(
-		Object.entries(glossary).sort(([a], [b]) => a.localeCompare(b)),
-	);
+if (!DRY_RUN && changed) {
+	const sorted = Object.fromEntries(Object.entries(glossary).sort(([a], [b]) => a.localeCompare(b)));
 	writeFileSync(glossaryPath(lang), `${JSON.stringify(sorted, null, "\t")}\n`);
 	console.log(`Wrote ${glossaryPath(lang)}`);
 }
