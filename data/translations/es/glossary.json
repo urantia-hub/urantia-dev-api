@@ -2835,22 +2835,6 @@
 			"tiebreak": true
 		}
 	},
-	"archelaus": {
-		"name": "Arquelao",
-		"meaning": "Herod Archelaus, son of Herod, ruler in Judea whom Joseph feared and who was later deposed; the parable of the pounds is based on him (123:0.5, 124:6.2, 171:8.2).",
-		"confidence": "high",
-		"formConfidence": "high",
-		"note": "The same person as the done term 'Herod Archelaus: Herodes Arquelao'. A reviewer can merge the two.",
-		"backcheck": {
-			"reading": "Archelaus, the son of Herod.",
-			"verdict": "match",
-			"note": "Herod's son."
-		},
-		"adjudicated": {
-			"date": "2026-10-22",
-			"reason": "The standard Spanish form; it matches the done term 'Herodes Arquelao'."
-		}
-	},
 	"archeozoic": {
 		"name": "Arqueozoico",
 		"meaning": "The name students give to the prelife era, from the time the planet reached its present size to the start of life, when water covered the whole surface (59:0.2, 78:7.4).",
@@ -11122,7 +11106,8 @@
 	"elijah-mark": {
 		"name": "Elías Marcos",
 		"aliases": [
-			"Elías"
+			"Elías",
+			"Marcos, Elías"
 		],
 		"meaning": "The father of John Mark, at whose Jerusalem home Jesus ate the Last Supper with the apostles (183:2.1).",
 		"confidence": "high",
@@ -19065,37 +19050,6 @@
 			"note": "Reader gets Moses' father-in-law"
 		}
 	},
-	"jewelry": {
-		"name": "joyas",
-		"meaning": "Objects worn for personal adornment; no paragraph with the word was found, so the meaning rests on the entity record.",
-		"confidence": "medium",
-		"formConfidence": "high",
-		"rejected": [
-			{
-				"form": "joyería",
-				"reason": "Also means a jewelry shop or the trade."
-			}
-		],
-		"note": "The search found no paragraph with 'jewelry'. A human must check where the term is used.",
-		"second": {
-			"name": "Joyas",
-			"meaning": "Personal ornaments; the papers trace ornamental personal effects to the wearing of charms (69:9.10) and the veneration of stones to their jewels (85:1.3); the word 'jewelry' itself was not found in the text.",
-			"formConfidence": "medium",
-			"agree": true
-		},
-		"backcheck": {
-			"reading": "Jewels, precious stones.",
-			"misreadings": [
-				"Treasures, valued things"
-			],
-			"verdict": "match",
-			"note": "Joyas are objects of adornment"
-		},
-		"adjudicated": {
-			"date": "2026-10-22",
-			"reason": "Plain word for adornments; 'joyería' is also a shop. The usage check stays for a human."
-		}
-	},
 	"jewish-priesthood": {
 		"name": "sacerdocio judío",
 		"meaning": "The priestly class of the Jews, to which Zacharias belonged, and which used the captivity writings (122:2.1, 97:7.4).",
@@ -19373,7 +19327,8 @@
 	"john-the-baptist": {
 		"name": "Juan el Bautista",
 		"aliases": [
-			"Juan"
+			"Juan",
+			"extraño predicador"
 		],
 		"meaning": "John, son of Zacharias and Elizabeth, who preached repentance and baptized Jesus (135:0.1).",
 		"confidence": "high",
@@ -19419,7 +19374,8 @@
 	"john-zebedee": {
 		"name": "Juan Zebedeo",
 		"aliases": [
-			"Juan"
+			"Juan",
+			"Zebedeo, Juan"
 		],
 		"meaning": "John, son of Zebedee, the youngest of the twelve apostles (139:4.1).",
 		"confidence": "high",
@@ -23664,26 +23620,6 @@
 			"note": "Reads as a name"
 		}
 	},
-	"mark-elijah": {
-		"name": "Marcos, Elías",
-		"aliases": [
-			"Elías Marcos"
-		],
-		"meaning": "Elijah Mark, father of John Mark, who died suddenly just before John Mark came home after the resurrection (192:4.5).",
-		"confidence": "high",
-		"formConfidence": "high",
-		"rejected": [
-			{
-				"form": "Elías Marcos = Juan Marcos",
-				"reason": "The packet summary is wrong: 192:4.5 shows Elijah Mark is John Mark's father, not John Mark."
-			}
-		],
-		"backcheck": {
-			"reading": "Mark, Elias.",
-			"verdict": "match",
-			"note": "Index form of Elijah Mark"
-		}
-	},
 	"mark-gospel-of": {
 		"name": "Marcos, Evangelio de",
 		"aliases": [
@@ -27075,32 +27011,6 @@
 			"date": "2026-10-22",
 			"reason": "60:2.5: fossil-bearing geological deposits. 'Estratos' reads as geology; 'capas' is a general word.",
 			"tiebreak": true
-		}
-	},
-	"mortal-corps-of-the-finality": {
-		"name": "Cuerpo Mortal de los Finalitarios",
-		"meaning": "The corps into which Father-fused mortals are mustered on reaching Paradise; only they take the finaliter oath (30:4.31, 31:3.3).",
-		"confidence": "high",
-		"formConfidence": "medium",
-		"rejected": [
-			{
-				"form": "Cuerpo Mortal de los Finalitarios",
-				"reason": "Follows the English order, but 'cuerpo mortal' is the ordinary Spanish for 'the mortal body'."
-			},
-			{
-				"form": "Cuerpo Mortal de la Finalidad",
-				"reason": "Same 'mortal body' reading, and breaks the done form for 'Corps of the Finality'."
-			},
-			{
-				"form": "Cuerpo de los Finalitarios Mortales",
-				"reason": "replaced by a human decision"
-			}
-		],
-		"note": "The form is close to the done 'Corps of Mortal Finaliters: Cuerpo de Finalitarios Mortales'. The two English names appear to refer to the same corps; a reviewer must confirm that.",
-		"decision": {
-			"by": "Kelson (consistency review proposal)",
-			"date": "2026-10-22",
-			"note": "Consistency review 2026-10-21. Not yet checked by a Spanish speaker."
 		}
 	},
 	"mortal-mind": {
@@ -39136,38 +39046,6 @@
 			"note": "Correct monument."
 		}
 	},
-	"strange-preacher": {
-		"name": "extraño predicador",
-		"meaning": "John the Baptist, as the unusual preacher who stirred all Palestine (135:6.3).",
-		"confidence": "medium",
-		"formConfidence": "medium",
-		"rejected": [
-			{
-				"form": "predicador forastero",
-				"reason": "'strange' here is unusual, not foreign."
-			}
-		],
-		"note": "135:6.3 is John the Baptist; the entity data links it to Aden, which I did not find.",
-		"second": {
-			"name": "extraño predicador",
-			"meaning": "John the Baptist, dressed like Elijah, whose preaching along the Jordan stirred all Palestine (135:6.3).",
-			"formConfidence": "high",
-			"agree": false
-		},
-		"backcheck": {
-			"reading": "Strange preacher, an unknown preacher.",
-			"misreadings": [
-				"Foreign preacher",
-				"Eccentric"
-			],
-			"verdict": "match",
-			"note": "Unusual preacher; context gives John the Baptist."
-		},
-		"adjudicated": {
-			"date": "2026-10-22",
-			"reason": "135:6.3: John the Baptist as an unusual, startling preacher; the adjective before the noun gives 'odd, remarkable', while after the noun 'predicador extraño' leans toward 'foreign' or 'unknown'."
-		}
-	},
 	"student-visitors": {
 		"name": "estudiantes visitantes",
 		"aliases": [
@@ -40934,28 +40812,6 @@
 		"adjudicated": {
 			"date": "2026-10-22",
 			"reason": "Both agree; the standard form, with 'Lebeo' for Lebbeus. The form does not say which twin it is."
-		}
-	},
-	"thailand": {
-		"name": "Tailandia",
-		"meaning": "The modern Southeast Asian country; the papers use only its older name Siam, as a land where Buddhism became established (94:9.1).",
-		"confidence": "high",
-		"formConfidence": "high",
-		"rejected": [
-			{
-				"form": "Siam",
-				"reason": "Already the form of the separate term 'Siam'; the modern name needs its own standard form."
-			}
-		],
-		"note": "The search found no use of 'Thailand' in the papers; only 'Siam' (94:9.1). A human can decide if this entry is needed.",
-		"backcheck": {
-			"reading": "Thailand.",
-			"verdict": "match",
-			"note": "Correct country."
-		},
-		"adjudicated": {
-			"date": "2026-10-22",
-			"reason": "Standard modern name, separate from 'Siam'."
 		}
 	},
 	"thamna": {
@@ -43323,36 +43179,12 @@
 			"note": "Souls joined; context gives the seconaphim."
 		}
 	},
-	"united-kingdom": {
-		"name": "Reino Unido",
-		"meaning": "The modern European nation in the British Isles; the papers speak of the British Isles, Scotland, and Wales, not of the United Kingdom (59:3.6, 59:4.8, 93:7.2).",
-		"confidence": "high",
-		"formConfidence": "high",
-		"rejected": [
-			{
-				"form": "Gran Bretaña",
-				"reason": "The island or a part of the state, not the state itself."
-			},
-			{
-				"form": "Islas Británicas",
-				"reason": "Already the form of 'British Isles', a geographical term."
-			}
-		],
-		"note": "The search found no use of 'United Kingdom' in the papers. A human can decide if this entry is needed.",
-		"backcheck": {
-			"reading": "The United Kingdom.",
-			"verdict": "match",
-			"note": "Correct nation."
-		},
-		"adjudicated": {
-			"date": "2026-10-22",
-			"reason": "The standard name of the nation. 'Gran Bretaña' and 'Islas Británicas' name other things."
-		}
-	},
 	"united-midwayers-of-urantia": {
 		"name": "Seres Intermedios Unidos de Urantia",
 		"aliases": [
-			"Seres Intermedios Unidos"
+			"Seres Intermedios Unidos",
+			"Fraternidad Unida de los Seres Intermedios de Urantia",
+			"Fraternidad de los Seres Intermedios de Urantia"
 		],
 		"meaning": "The single corps, of 10,992 members, formed from both orders of midwayers on Urantia shortly after Pentecost and governed alternately by the senior member of each order (77:8.1, 77:8.5).",
 		"confidence": "high",
@@ -44084,41 +43916,6 @@
 			"reason": "'Consultivo' follows the done term 'Comisión Consultiva'. The form is plain and correct."
 		}
 	},
-	"urantia-brotherhood-of-urantia-midwayers": {
-		"name": "Fraternidad Unida de los Seres Intermedios de Urantia",
-		"meaning": "The exact English phrase does not appear in the papers; it most likely names the same body as 'the Brotherhood of the United Midwayers of Urantia' (121:8.14), the united corps of midwayers on Urantia.",
-		"confidence": "low",
-		"formConfidence": "low",
-		"rejected": [
-			{
-				"form": "Fraternidad Urantia de los Seres Intermedios de Urantia",
-				"reason": "A literal copy of the doubled 'Urantia' in the term id; the doubling looks like an error in the source list, not a name in the papers."
-			}
-		],
-		"second": {
-			"name": "Fraternidad de Urantia de los Seres Intermedios de Urantia",
-			"meaning": "The same body as the Brotherhood of the United Midwayers of Urantia, the unified corps of 10,992 midwayers of this planet (121:8.14, 77:8.1).",
-			"formConfidence": "low",
-			"agree": false
-		},
-		"backcheck": {
-			"reading": "The Fraternity of Midwayers of Urantia, a brotherhood of intermediate beings.",
-			"misreadings": [
-				"Read as a religious order or a secret society"
-			],
-			"verdict": "match",
-			"note": "Brotherhood of the midwayers, as meant."
-		},
-		"aliases": [
-			"Fraternidad de los Seres Intermedios de Urantia"
-		],
-		"adjudicated": {
-			"date": "2026-10-22",
-			"reason": "121:0.1 uses 'the United Brotherhood of Urantia Midwayers', and the source term is a garbled copy of that name. The form translates it with the fixed root 'fraternidad'.",
-			"previous": "Fraternidad de los Seres Intermedios de Urantia",
-			"tiebreak": true
-		}
-	},
 	"urantia-papers": {
 		"name": "Documentos de Urantia",
 		"aliases": [
@@ -44153,31 +43950,6 @@
 			],
 			"verdict": "match",
 			"note": "Set of writings, as meant."
-		}
-	},
-	"uranus": {
-		"name": "Urano",
-		"meaning": "The papers do not name Uranus; the entity links it to one of 'three of the major planets of the Angona system' detached and added to the solar system, a source of retrograde motion (57:5.13, 57:5.14).",
-		"confidence": "low",
-		"formConfidence": "high",
-		"note": "In the passages that I saw, the papers do not say that one of the three captured bodies is Uranus. The link comes from the entity index. A human must check the link before the form is used for those passages.",
-		"second": {
-			"name": "Urano",
-			"meaning": "One of the three major planets of the Angona system that the sun detached from Angona and kept; their impact gave the solar system its retrograde motion (57:5.13, 57:5.14).",
-			"formConfidence": "high",
-			"agree": true
-		},
-		"backcheck": {
-			"reading": "Uranus, the planet or the Greek sky god.",
-			"misreadings": [
-				"Read as the chemical element root"
-			],
-			"verdict": "match",
-			"note": "Correct planet."
-		},
-		"adjudicated": {
-			"date": "2026-10-22",
-			"reason": "57:5.13-14 refers to one of the major planets taken from Angona; 'Urano' is the standard Spanish name of the planet."
 		}
 	},
 	"uriah-the-hittite": {
@@ -44232,22 +44004,6 @@
 			],
 			"verdict": "match",
 			"note": "Invented place name; context completes."
-		}
-	},
-	"uzziah": {
-		"name": "Uzías",
-		"meaning": "The name Isaiah gave Azariah, the sixteen-year-old son of Amaziah who became king of Judah (97:9.22).",
-		"confidence": "high",
-		"formConfidence": "high",
-		"note": "The same person as the done term 'Azariah: Azarías'.",
-		"backcheck": {
-			"reading": "Uzziah, a biblical king of Judah.",
-			"verdict": "match",
-			"note": "Correct king."
-		},
-		"adjudicated": {
-			"date": "2026-10-22",
-			"reason": "The standard Spanish form of the name of this king of Judah."
 		}
 	},
 	"values": {
@@ -45624,25 +45380,6 @@
 		"adjudicated": {
 			"date": "2026-10-22",
 			"reason": "This is the inverted index form of the done term 'Santiago Zebedeo'; 'Jacobo' would break the fixed name. The context of the apostles removes the patron-saint reading."
-		}
-	},
-	"zebedee-john": {
-		"name": "Zebedeo, Juan",
-		"aliases": [
-			"Juan Zebedeo"
-		],
-		"meaning": "John the son of Zebedee, one of the twelve apostles, who later directed Nathan in the writing of the Gospel of John at Ephesus (137:1.5, 139:4.4, 139:4.15, 190:1.10).",
-		"confidence": "high",
-		"formConfidence": "high",
-		"note": "An inverted index form of the done term 'John Zebedee'. The packet summary says he managed Jesus' financial affairs; I did not see that in a passage in this task.",
-		"backcheck": {
-			"reading": "Zebedee, John, the apostle.",
-			"verdict": "match",
-			"note": "Correct apostle."
-		},
-		"adjudicated": {
-			"date": "2026-10-22",
-			"reason": "This is the inverted index form of the done term 'Juan Zebedeo'. The judge and the blind reader confirm it."
 		}
 	},
 	"zebedee-salome": {
