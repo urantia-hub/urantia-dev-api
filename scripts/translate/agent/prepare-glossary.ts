@@ -20,6 +20,7 @@ import {
 	glossaryPath,
 	LANG_NAMES,
 	loadGlossary,
+	loadRoots,
 	parseArgs,
 	STYLE_GUIDE_DIR,
 	WORK_DIR,
@@ -36,6 +37,7 @@ const dir = join(WORK_DIR, lang, "glossary");
 const prefix = SECOND ? "second" : "batch";
 
 const glossary = loadGlossary(lang);
+const roots = loadRoots(lang);
 const entities = glossaryEntities();
 
 const todo = entities.filter((e) => {
@@ -131,6 +133,12 @@ Write one JSON file to \`${draft}\`. It has one key for each term id below (${ba
   }
 }
 \`\`\`
+
+## Fixed roots (${Object.keys(roots).length})
+
+An English word in this list always takes the ${language} root shown, in every term that contains it. Follow these before the terms already done.
+
+${Object.entries(roots).map(([w, r]) => `- ${w}: ${r.forms.join(", ")}${r.reason ? ` (${r.reason})` : ""}`).join("\n") || "(none yet)"}
 
 ## Terms already done (${done.length})
 

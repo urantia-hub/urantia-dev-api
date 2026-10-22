@@ -29,9 +29,11 @@ import {
 	glossaryPath,
 	loadEnglishPaper,
 	loadGlossary,
+	loadRoots,
 	needsHuman,
 	PAPER_NUMBERS,
 	parseArgs,
+	rootViolations,
 	WORK_DIR,
 } from "./lib.ts";
 
@@ -176,6 +178,12 @@ const badRefs = Object.entries(glossary).flatMap(([id, g]) =>
 if (badRefs.length) {
 	console.log(`\nReferences that do not exist (${badRefs.length}):`);
 	for (const r of badRefs.slice(0, 40)) console.log(`  ${r}`);
+}
+
+const broken = rootViolations(glossary, loadRoots(lang));
+if (broken.length) {
+	console.log(`\nTerms that do not use a fixed root (${broken.length}; fix with decide-glossary.ts or requeue):`);
+	for (const v of broken.slice(0, 40)) console.log(`  ${v.root}: ${v.en} → ${v.name}`);
 }
 
 const human = Object.entries(glossary).filter(([, g]) => needsHuman(g));
