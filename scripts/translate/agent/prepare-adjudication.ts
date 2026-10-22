@@ -50,8 +50,14 @@ const disputed = (g: GlossaryEntry) =>
 		g.confidence === "low" ||
 		g.formConfidence === "low");
 
-const flagged = Object.entries(glossary).filter(([, g]) =>
-	TIEBREAK ? !!g.adjudicated?.contested : BLIND ? disputed(g) : needsRuling(g),
+// --ids=<file> limits a round to the ids in the file, one per line: new terms after an earlier round.
+const idsArg = [...flags].find((a) => a.startsWith("--ids="))?.split("=")[1];
+const only = idsArg ? new Set(readFileSync(idsArg, "utf-8").split("\n").map((l) => l.trim()).filter(Boolean)) : null;
+
+const flagged = Object.entries(glossary).filter(
+	([id, g]) =>
+		(!only || only.has(id)) &&
+		(TIEBREAK ? !!g.adjudicated?.contested : BLIND ? disputed(g) : needsRuling(g)),
 );
 const ready = flagged.filter(([id, g]) => {
 	if (FORCE || BLIND) return true;

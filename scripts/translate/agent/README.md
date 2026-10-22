@@ -76,6 +76,8 @@ Every translator follows `meaning-first.md`: find the meaning in the papers (the
    bun scripts/translate/agent/assemble-glossary.ts --lang=es
    ```
 
+   The blind round has no marker of its own, so after new terms join the glossary, limit it to them with `--ids=<file>` (one id per line). Without it, the blind round rules again on every disputed term, and that can undo a third ruling.
+
    When the blind ruling chooses a different form, assemble keeps the earlier ruling in `contested`. A third adjudicator sees both rulings with their reasons, in a shuffled order, and its ruling is final (29 of 108 Spanish terms):
 
    ```sh
