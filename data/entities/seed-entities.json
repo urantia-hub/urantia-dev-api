@@ -389,7 +389,9 @@
     "id": "abraham-old-testament",
     "name": "Abraham (Old Testament)",
     "type": "being",
-    "aliases": [],
+    "aliases": [
+      "Father Abraham"
+    ],
     "description": "The Hebrew patriarch originally named Abram who changed his name to Abraham when his covenant with Melchizedek took on a formal aspect. He was born at Ur but left due to sun worship, became a chosen individual responsible for keeping alive the truth of one God, and was an ancestor of Joseph, the father of Jesus. Abraham was a wealthy and efficient businessman who attended the Salem school and became one of Melchizedek's most brilliant pupils.",
     "seeAlso": [],
     "citations": [
@@ -29308,19 +29310,6 @@
     "citations": []
   },
   {
-    "id": "first-source-and-center",
-    "name": "First Source and Center",
-    "type": "being",
-    "aliases": [],
-    "description": "The Universal Father as the absolute source and eternal center of all reality, energy, and personality in the universe of universes.",
-    "seeAlso": [
-      "I AM",
-      "Infinite",
-      "Universal Father"
-    ],
-    "citations": []
-  },
-  {
     "id": "fish",
     "name": "fish",
     "type": "concept",
@@ -32642,17 +32631,6 @@
       "106:8.17",
       "106:8.16"
     ]
-  },
-  {
-    "id": "god-the-father",
-    "name": "God the Father",
-    "type": "being",
-    "aliases": [],
-    "description": "The first person of the Paradise Trinity, also known as the Universal Father, who is the eternal source and center of all reality and the supreme object of worship for all created beings.",
-    "seeAlso": [
-      "Universal Father"
-    ],
-    "citations": []
   },
   {
     "id": "god-the-sevenfold",
@@ -57168,7 +57146,9 @@
     "id": "moses",
     "name": "Moses",
     "type": "being",
-    "aliases": [],
+    "aliases": [
+      "Father Moses"
+    ],
     "description": "The great Hebrew leader, teacher, and organizer who emancipated a remnant of the submerged violet race from Egypt and established monotheistic worship of the Universal Father as 'The God of Israel.' Moses was an extraordinary combination of military leader, social organizer, and religious teacher who laid the foundation for the Hebrew nation and perpetuation of their race.",
     "seeAlso": [],
     "citations": [
@@ -91096,7 +91076,12 @@
     "id": "universal-father",
     "name": "Universal Father",
     "type": "being",
-    "aliases": [],
+    "aliases": [
+      "Father",
+      "Paradise Father",
+      "First Source and Center",
+      "God the Father"
+    ],
     "description": "The First Person of Deity, the First Source and Center of all reality, creator and controller of the universe of universes. The Universal Father is the infinite and eternal God who bestows personality, indwells mortals through Thought Adjusters, and serves as the loving Father of all personalities throughout creation, being both transcendent in Paradise and immanent in the hearts of his children.",
     "seeAlso": [
       "God",

@@ -1,0 +1,52 @@
+{
+  "universal-father": {
+    "action": "fix",
+    "aliases": [
+      "Father",
+      "Paradise Father"
+    ],
+    "reason": "The papers call him 'the Father' about 5,800 times, and 'the Paradise Father' (1:1.5). Without these names, a reader's term list misses him in most paragraphs.",
+    "refs": [
+      "1:1.5",
+      "2:6.4",
+      "10:2.1"
+    ]
+  },
+  "first-source-and-center": {
+    "action": "merge",
+    "into": "universal-father",
+    "reason": "'The Universal Father is the God of all creation, the First Source and Center of all things and beings.' The record has no citations and points to the Universal Father.",
+    "refs": [
+      "1:0.1"
+    ]
+  },
+  "god-the-father": {
+    "action": "merge",
+    "into": "universal-father",
+    "reason": "A name of the Universal Father. The record has no citations and points to the Universal Father.",
+    "refs": [
+      "3:6.8"
+    ]
+  },
+  "abraham-old-testament": {
+    "action": "fix",
+    "aliases": [
+      "Father Abraham"
+    ],
+    "reason": "'Father Abraham' names the patriarch (121:7.3, 169:3.2), not the Universal Father.",
+    "refs": [
+      "121:7.3",
+      "169:3.2"
+    ]
+  },
+  "moses": {
+    "action": "fix",
+    "aliases": [
+      "Father Moses"
+    ],
+    "reason": "'your Father Moses' (174:3.2) names Moses, not the Universal Father.",
+    "refs": [
+      "174:3.2"
+    ]
+  }
+}
