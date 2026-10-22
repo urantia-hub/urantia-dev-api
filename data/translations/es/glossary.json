@@ -362,10 +362,10 @@
 		]
 	},
 	"actual": {
-		"name": "actual",
+		"name": "en acto",
 		"aliases": [
-			"actualidad",
-			"actuales"
+			"acto",
+			"lo Actual"
 		],
 		"meaning": "That which exists in fullness of expression, in contrast to the potential, which carries undisclosed capacity for growth (0:4.7, 115:3.16).",
 		"confidence": "high",
@@ -382,9 +382,18 @@
 			{
 				"form": "ordinary sense of 'actual'",
 				"reason": "The reader must not bring 'current, present-day'. The sense is 'existing in act'."
+			},
+			{
+				"form": "actual",
+				"reason": "replaced by a human decision"
 			}
 		],
-		"note": "The packet names 'actual' as a false friend. I keep it only because the papers set 'actual' against 'potential' in a philosophical sense, which Spanish philosophy writes as 'actual / en acto'. A human must decide if readers will take it as 'current'."
+		"note": "The packet names 'actual' as a false friend. I keep it only because the papers set 'actual' against 'potential' in a philosophical sense, which Spanish philosophy writes as 'actual / en acto'. A human must decide if readers will take it as 'current'.",
+		"decision": {
+			"by": "Kelson (consistency review proposal)",
+			"date": "2026-10-22",
+			"note": "Consistency review 2026-10-21. Not yet checked by a Spanish speaker."
+		}
 	},
 	"actual-the": {
 		"name": "Actual, lo",
@@ -605,8 +614,7 @@
 	"administrative-assistants": {
 		"name": "asistentes administrativos",
 		"aliases": [
-			"Asistentes Administrativos",
-			"administradores seráficos"
+			"Asistentes Administrativos"
 		],
 		"meaning": "Seraphim of the administrator order who are the immediate assistants of System Sovereigns and serve as agents of the system rulers (39:4.2); the papers also use the phrase for an unrevealed corps that serves Gabriel (33:4.6).",
 		"confidence": "high",
@@ -617,7 +625,12 @@
 				"reason": "'Auxiliar' is already used for 'Aids' (Universe Aids)."
 			}
 		],
-		"note": "In everyday Spanish 'asistente administrativo' is an office job title. The phrase names two different groups (39:4.2 and 33:4.6)."
+		"note": "In everyday Spanish 'asistente administrativo' is an office job title. The phrase names two different groups (39:4.2 and 33:4.6).",
+		"decision": {
+			"by": "Kelson (consistency review proposal)",
+			"date": "2026-10-22",
+			"note": "Consistency review 2026-10-21. Not yet checked by a Spanish speaker."
+		}
 	},
 	"administrative-enactors": {
 		"name": "escenificadores administrativos",
@@ -4180,7 +4193,6 @@
 	"corporeal-staffs-of-planetary-princes": {
 		"name": "personal corpóreo de los Príncipes Planetarios",
 		"aliases": [
-			"cuerpo de los cien",
 			"personal de Caligastia",
 			"personal corpóreo del Príncipe",
 			"asistentes del Príncipe Planetario",
@@ -4201,7 +4213,12 @@
 				"reason": "Military sense."
 			}
 		],
-		"note": "Conflict with the earlier term \"Van (del cuerpo del Príncipe)\", where staff = \"cuerpo\". A human must decide which word \"staff\" takes everywhere."
+		"note": "Conflict with the earlier term \"Van (del cuerpo del Príncipe)\", where staff = \"cuerpo\". A human must decide which word \"staff\" takes everywhere.",
+		"decision": {
+			"by": "Kelson (consistency review proposal)",
+			"date": "2026-10-22",
+			"note": "Consistency review 2026-10-21. Not yet checked by a Spanish speaker."
+		}
 	},
 	"corps-of-conjoint-trinitized-finaliters": {
 		"name": "Cuerpo de Finalitarios Trinitizados Conjuntos",
@@ -4243,8 +4260,7 @@
 	"corps-of-mortal-finaliters": {
 		"name": "Cuerpo de Finalitarios Mortales",
 		"aliases": [
-			"Cuerpo Mortal de los Finalitarios",
-			"Cuerpo de los Finalitarios"
+			"Cuerpo Mortal de los Finalitarios"
 		],
 		"meaning": "The corps that is the present known destination of the ascending Adjuster-fused mortals, with other groups also assigned to it (31:0.1, 107:2.7).",
 		"confidence": "high",
@@ -4261,7 +4277,7 @@
 		}
 	},
 	"corps-of-paradise-finaliters": {
-		"name": "Cuerpo de Finalitarios del Paraíso",
+		"name": "Cuerpo de Finalitarios Paradisíacos",
 		"meaning": "The second of the seven finaliter corps in the Uversa register (30:2.133, 31:10.3).",
 		"confidence": "medium",
 		"formConfidence": "medium",
@@ -4273,9 +4289,18 @@
 			{
 				"form": "Cuerpo de Finalitarios Paradisíacos",
 				"reason": "Breaks the pattern 'Paradise X' = 'X del Paraíso' in the done terms."
+			},
+			{
+				"form": "Cuerpo de Finalitarios del Paraíso",
+				"reason": "replaced by a human decision"
 			}
 		],
-		"note": "The English aliases for this term list 'Paradise Corps of the Finality' and 'finaliter corps', but the papers use those for all seven corps (22:8.6). The papers name this corps only in two lists, so its exact membership is implied, not stated."
+		"note": "The English aliases for this term list 'Paradise Corps of the Finality' and 'finaliter corps', but the papers use those for all seven corps (22:8.6). The papers name this corps only in two lists, so its exact membership is implied, not stated.",
+		"decision": {
+			"by": "Kelson (consistency review proposal)",
+			"date": "2026-10-22",
+			"note": "Consistency review 2026-10-21. Not yet checked by a Spanish speaker."
+		}
 	},
 	"corps-of-perfection": {
 		"name": "Cuerpo de Perfección",
@@ -4892,10 +4917,21 @@
 		"formConfidence": "high"
 	},
 	"dan-prince-s-staff": {
-		"name": "Dan (del cuerpo del Príncipe)",
+		"name": "Dan (del personal del Príncipe)",
 		"meaning": "The member of the Prince's staff who led the advisers on the conquest of predatory animals (66:5.7).",
 		"confidence": "high",
-		"formConfidence": "high"
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Dan (del cuerpo del Príncipe)",
+				"reason": "replaced by a human decision"
+			}
+		],
+		"decision": {
+			"by": "Kelson (consistency review proposal)",
+			"date": "2026-10-22",
+			"note": "Consistency review 2026-10-21. Not yet checked by a Spanish speaker."
+		}
 	},
 	"daniel": {
 		"name": "Daniel",
@@ -6354,7 +6390,7 @@
 		"note": "Same Spanish word as in \"evangelistas seráficos\" (seraphic evangels) in the terms already done. The adjective \"seráficos\" separates them, but a human must check the overlap."
 	},
 	"evangels-of-destiny": {
-		"name": "evangelistas del destino",
+		"name": "evangelizadores del destino",
 		"meaning": "The hosts trained in the Melchizedek College of Spiritual Endowment who go out to proclaim spiritual liberty and divine sonship to the remote worlds of the universe (35:3.21).",
 		"confidence": "high",
 		"formConfidence": "medium",
@@ -6366,11 +6402,20 @@
 			{
 				"form": "heraldos del destino",
 				"reason": "Breaks the family with 'Evangelistas de la Luz' and 'evangelistas seráficos'."
+			},
+			{
+				"form": "evangelistas del destino",
+				"reason": "replaced by a human decision"
 			}
-		]
+		],
+		"decision": {
+			"by": "Kelson (consistency review proposal)",
+			"date": "2026-10-22",
+			"note": "Consistency review 2026-10-21. Not yet checked by a Spanish speaker."
+		}
 	},
 	"evangels-of-light": {
-		"name": "Evangelistas de la Luz",
+		"name": "Evangelizadores de la Luz",
 		"meaning": "Any celestial personality assigned for a time to a finaliter corps without taking the finaliter oath; they resume their former status after it (31:7.1, 31:7.2).",
 		"confidence": "high",
 		"formConfidence": "medium",
@@ -6382,9 +6427,18 @@
 			{
 				"form": "Evangeles de Luz",
 				"reason": "Not a Spanish word."
+			},
+			{
+				"form": "Evangelistas de la Luz",
+				"reason": "replaced by a human decision"
 			}
 		],
-		"note": "\"evangel\" is already \"evangelista\" in \"seraphic evangels\"; that same word also translates human \"evangelists\". The rule of one word, one translation forces \"Evangelistas\" here."
+		"note": "\"evangel\" is already \"evangelista\" in \"seraphic evangels\"; that same word also translates human \"evangelists\". The rule of one word, one translation forces \"Evangelistas\" here.",
+		"decision": {
+			"by": "Kelson (consistency review proposal)",
+			"date": "2026-10-22",
+			"note": "Consistency review 2026-10-21. Not yet checked by a Spanish speaker."
+		}
 	},
 	"eve": {
 		"name": "Eva",
@@ -10418,10 +10472,21 @@
 		]
 	},
 	"local-universe-power-centers": {
-		"name": "centros de poder de los universos locales",
+		"name": "centros del poder de los universos locales",
 		"meaning": "Fourth-order Supreme Power Centers on local universe headquarters, which modify and distribute superuniverse power (29:2).",
 		"confidence": "high",
-		"formConfidence": "high"
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "centros de poder de los universos locales",
+				"reason": "replaced by a human decision"
+			}
+		],
+		"decision": {
+			"by": "Kelson (consistency review proposal)",
+			"date": "2026-10-22",
+			"note": "Consistency review 2026-10-21. Not yet checked by a Spanish speaker."
+		}
 	},
 	"local-universe-sons-of-god": {
 		"name": "Hijos de Dios del Universo Local",
@@ -11198,7 +11263,7 @@
 		"formConfidence": "high"
 	},
 	"melchizedek-brotherhood": {
-		"name": "hermandad de Melquisedec",
+		"name": "fraternidad Melquisedec",
 		"meaning": "The group of believers in one God that Machiventa Melchizedek founded at Salem (93).",
 		"confidence": "high",
 		"formConfidence": "medium",
@@ -11210,11 +11275,20 @@
 			{
 				"form": "cofradía de Melquisedec",
 				"reason": "Ordinary sense is a Catholic lay confraternity."
+			},
+			{
+				"form": "hermandad de Melquisedec",
+				"reason": "replaced by a human decision"
 			}
 		],
 		"forcedChoices": [
 			"'de Melquisedec' (person) rather than invariable 'Melquisedec' (order): The context is the Salem group of Machiventa."
-		]
+		],
+		"decision": {
+			"by": "Kelson (consistency review proposal)",
+			"date": "2026-10-22",
+			"note": "Consistency review 2026-10-21. Not yet checked by a Spanish speaker."
+		}
 	},
 	"melchizedek-college-of-administration": {
 		"name": "Colegio Melquisedec de Administración",
@@ -12119,7 +12193,7 @@
 		"formConfidence": "high"
 	},
 	"mortal-corps-of-the-finality": {
-		"name": "Cuerpo de los Finalitarios Mortales",
+		"name": "Cuerpo Mortal de los Finalitarios",
 		"meaning": "The corps into which Father-fused mortals are mustered on reaching Paradise; only they take the finaliter oath (30:4.31, 31:3.3).",
 		"confidence": "high",
 		"formConfidence": "medium",
@@ -12131,9 +12205,18 @@
 			{
 				"form": "Cuerpo Mortal de la Finalidad",
 				"reason": "Same 'mortal body' reading, and breaks the done form for 'Corps of the Finality'."
+			},
+			{
+				"form": "Cuerpo de los Finalitarios Mortales",
+				"reason": "replaced by a human decision"
 			}
 		],
-		"note": "The form is close to the done 'Corps of Mortal Finaliters: Cuerpo de Finalitarios Mortales'. The two English names appear to refer to the same corps; a reviewer must confirm that."
+		"note": "The form is close to the done 'Corps of Mortal Finaliters: Cuerpo de Finalitarios Mortales'. The two English names appear to refer to the same corps; a reviewer must confirm that.",
+		"decision": {
+			"by": "Kelson (consistency review proposal)",
+			"date": "2026-10-22",
+			"note": "Consistency review 2026-10-21. Not yet checked by a Spanish speaker."
+		}
 	},
 	"mortal-mind": {
 		"name": "mente mortal",
@@ -14460,14 +14543,25 @@
 		"formConfidence": "high"
 	},
 	"reserve-corps-of-destiny": {
-		"name": "cuerpos de reserva del destino",
+		"name": "cuerpo de reserva del destino",
 		"aliases": [
-			"cuerpo de reserva del destino",
+			"cuerpos de reserva del destino",
 			"reservistas del destino"
 		],
 		"meaning": "Groups of living mortals held in reserve to serve the superhuman government of a world in emergencies; Urantia has twelve such corps (114:7.7, 114:7.9).",
 		"confidence": "high",
-		"formConfidence": "high"
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "cuerpos de reserva del destino",
+				"reason": "replaced by a human decision"
+			}
+		],
+		"decision": {
+			"by": "Kelson (consistency review proposal)",
+			"date": "2026-10-22",
+			"note": "Consistency review 2026-10-21. Not yet checked by a Spanish speaker."
+		}
 	},
 	"reservists": {
 		"name": "reservistas",
@@ -15258,9 +15352,9 @@
 		"formConfidence": "medium"
 	},
 	"seraphic-evangels": {
-		"name": "evangelistas seráficos",
+		"name": "evangelizadores seráficos",
 		"aliases": [
-			"evangelista seráfico"
+			"evangelizador seráfico"
 		],
 		"meaning": "The first group of transition ministers, who guide new mansion world arrivals and proclaim the gospel of eternal progression (48:6.4).",
 		"confidence": "high",
@@ -15277,8 +15371,17 @@
 			{
 				"form": "evangelista (ordinary sense)",
 				"reason": "the reader must not bring the sense of a Gospel writer or a sect preacher"
+			},
+			{
+				"form": "evangelistas seráficos",
+				"reason": "replaced by a human decision"
 			}
-		]
+		],
+		"decision": {
+			"by": "Kelson (consistency review proposal)",
+			"date": "2026-10-22",
+			"note": "Consistency review 2026-10-21. Not yet checked by a Spanish speaker."
+		}
 	},
 	"seraphic-guardians-of-destiny": {
 		"name": "guardianes seráficos del destino",
@@ -16436,13 +16539,25 @@
 		"formConfidence": "high"
 	},
 	"stoicism-religion": {
-		"name": "estoicismo",
+		"name": "estoicismo (religión)",
 		"aliases": [
+			"estoicismo",
 			"estoicos"
 		],
 		"meaning": "The Greek philosophy of a controlling Reason-Fate and virtue as its own reward, which reached a sublime morality but remained a philosophy and never became a religion (121:4.3).",
 		"confidence": "high",
-		"formConfidence": "high"
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "estoicismo",
+				"reason": "replaced by a human decision"
+			}
+		],
+		"decision": {
+			"by": "Kelson (consistency review proposal)",
+			"date": "2026-10-22",
+			"note": "Consistency review 2026-10-21. Not yet checked by a Spanish speaker."
+		}
 	},
 	"stone-age-old": {
 		"name": "Edad de Piedra (Antigua)",
@@ -17391,9 +17506,9 @@
 		]
 	},
 	"transcendentalers": {
-		"name": "Trascendentales",
+		"name": "Trascendentalarios",
 		"aliases": [
-			"Trascendental"
+			"Trascendentalario"
 		],
 		"meaning": "Eventuated beings of absonite nature, neither created nor creators, who live on the west of Paradise and are concerned only with the superadministration of the master universe (31:8, 30:1).",
 		"confidence": "high",
@@ -17414,8 +17529,17 @@
 			{
 				"form": "(note) Trascendentales",
 				"reason": "With the capital it is an order name, but it is the same form as the plural adjective of \"trascendental\"."
+			},
+			{
+				"form": "Trascendentales",
+				"reason": "replaced by a human decision"
 			}
-		]
+		],
+		"decision": {
+			"by": "Kelson (consistency review proposal)",
+			"date": "2026-10-22",
+			"note": "Consistency review 2026-10-21. Not yet checked by a Spanish speaker."
+		}
 	},
 	"transition-ministers": {
 		"name": "ministros de transición",
@@ -18402,13 +18526,24 @@
 		]
 	},
 	"van-prince-s-staff": {
-		"name": "Van (del cuerpo del Príncipe)",
+		"name": "Van (del personal del Príncipe)",
 		"aliases": [
 			"Van"
 		],
 		"meaning": "The loyal member of Caligastia's staff who led the loyal forces after the rebellion and commanded the midway creatures (67:6, 67:6.5).",
 		"confidence": "high",
-		"formConfidence": "high"
+		"formConfidence": "high",
+		"rejected": [
+			{
+				"form": "Van (del cuerpo del Príncipe)",
+				"reason": "replaced by a human decision"
+			}
+		],
+		"decision": {
+			"by": "Kelson (consistency review proposal)",
+			"date": "2026-10-22",
+			"note": "Consistency review 2026-10-21. Not yet checked by a Spanish speaker."
+		}
 	},
 	"venus-planet": {
 		"name": "Venus (planeta)",
@@ -18580,9 +18715,9 @@
 		]
 	},
 	"wisdom-book-of": {
-		"name": "Sabiduría, Libro de la",
+		"name": "Sabiduría, Libro de la (de Amenemope)",
 		"aliases": [
-			"Libro de la Sabiduría"
+			"Libro de la Sabiduría de Amenemope"
 		],
 		"meaning": "Amenemope's Egyptian Book of Wisdom, from which parts of Proverbs were taken and which Philo possessed (95:4.5, 95:4.3, 96:1.5).",
 		"confidence": "high",
@@ -18591,9 +18726,18 @@
 			{
 				"form": "Libro de la Sabiduría de Salomón",
 				"reason": "That is a different book, the deuterocanonical Wisdom of Solomon, which the papers name separately (86:1.6)."
+			},
+			{
+				"form": "Sabiduría, Libro de la",
+				"reason": "replaced by a human decision"
 			}
 		],
-		"note": "Spanish readers know 'Libro de la Sabiduría' as the deuterocanonical book. A translator must add 'de Amenemope' in context when the reference is not clear."
+		"note": "Spanish readers know 'Libro de la Sabiduría' as the deuterocanonical book. A translator must add 'de Amenemope' in context when the reference is not clear.",
+		"decision": {
+			"by": "Kelson (consistency review proposal)",
+			"date": "2026-10-22",
+			"note": "Consistency review 2026-10-21. Not yet checked by a Spanish speaker."
+		}
 	},
 	"wisdom-of-solomon": {
 		"name": "Sabiduría de Salomón",
@@ -18755,10 +18899,24 @@
 		"formConfidence": "high"
 	},
 	"zacharias": {
-		"name": "Zacarías",
+		"name": "Zacarías (padre de Juan el Bautista)",
 		"meaning": "The priest, husband of Elizabeth and father of John the Baptist, who taught his son (135:0.4).",
 		"confidence": "high",
-		"formConfidence": "high"
+		"formConfidence": "high",
+		"aliases": [
+			"Zacarías"
+		],
+		"rejected": [
+			{
+				"form": "Zacarías",
+				"reason": "replaced by a human decision"
+			}
+		],
+		"decision": {
+			"by": "Kelson (consistency review proposal)",
+			"date": "2026-10-22",
+			"note": "Consistency review 2026-10-21. Not yet checked by a Spanish speaker."
+		}
 	},
 	"zaphon": {
 		"name": "Zafón",
