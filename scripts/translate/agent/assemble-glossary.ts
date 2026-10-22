@@ -43,7 +43,10 @@ for (const file of drafts) {
 		const e = entities.get(id);
 		if (!e) errors.push(`${id}: not a glossary term`);
 		else if (!entry?.name?.trim()) errors.push(`${id}: no name`);
-		else if (glossary[id] && glossary[id].name !== entry.name) {
+		else if (!entry.meaning?.trim()) errors.push(`${id}: no meaning`);
+		else if (!["high", "medium", "low"].includes(entry.confidence ?? "")) {
+			errors.push(`${id}: confidence must be high, medium, or low`);
+		} else if (glossary[id] && glossary[id].name !== entry.name) {
 			warns.push(
 				`${id}: already "${glossary[id].name}", draft has "${entry.name}"; kept the first`,
 			);
@@ -61,9 +64,13 @@ for (const file of drafts) {
 	for (const [id, entry] of Object.entries(draft)) {
 		if (glossary[id]) continue;
 		const aliases = (entry.aliases ?? []).filter((a) => a?.trim() && a !== entry.name);
-		glossary[id] = aliases.length
-			? { name: entry.name.trim(), aliases }
-			: { name: entry.name.trim() };
+		glossary[id] = {
+			name: entry.name.trim(),
+			...(aliases.length ? { aliases } : {}),
+			meaning: entry.meaning!.trim(),
+			confidence: entry.confidence,
+			...(entry.rejected?.length ? { rejected: entry.rejected } : {}),
+		};
 		added++;
 	}
 	if (!DRY_RUN) {
@@ -88,6 +95,14 @@ const split = [...byWord.entries()].filter(([, forms]) => forms.size > 1);
 if (split.length) {
 	console.log(`\nOne-word terms with more than one form (check that the difference is intended):`);
 	for (const [w, forms] of split.slice(0, 40)) console.log(`  ${w}: ${[...forms].join(", ")}`);
+}
+
+const unsure = Object.entries(glossary).filter(([, g]) => g.confidence !== "high");
+if (unsure.length) {
+	console.log(`\nTerms for a human check (confidence below high): ${unsure.length}`);
+	for (const [id, g] of unsure.slice(0, 60)) {
+		console.log(`  ${g.confidence?.padEnd(6)} ${entities.get(id)?.name} → ${g.name}: ${g.meaning}`);
+	}
 }
 
 const total = entities.size;

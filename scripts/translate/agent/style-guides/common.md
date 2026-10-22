@@ -6,6 +6,7 @@
 2. Keep the sentence boundaries of the English. One English sentence becomes one sentence. The audio and the sentence time maps depend on this.
 3. Keep the paragraph as one unit. Do not move content between paragraphs.
 4. Do not add notes, comments, or headings.
+5. When a word in your translation can also be read in a sense that the authors did not intend, choose another word. The reader sees only your words.
 
 ### Tone
 

@@ -21,7 +21,8 @@ import {
 	WORK_DIR,
 } from "./lib.ts";
 
-const BATCH_SIZE = 150;
+// Each term needs a look-up in the papers, so batches are smaller than for plain translation.
+const BATCH_SIZE = 75;
 
 const { lang, flags } = parseArgs();
 const limitArg = [...flags].find((a) => a.startsWith("--limit="))?.split("=")[1];
@@ -41,6 +42,7 @@ mkdirSync(dir, { recursive: true });
 for (const f of readdirSync(dir).filter((f) => f.endsWith(".packet.md"))) rmSync(join(dir, f));
 
 const cleanRoom = readFileSync(join(import.meta.dir, "clean-room.md"), "utf-8");
+const method = readFileSync(join(import.meta.dir, "meaning-first.md"), "utf-8");
 const guidePath = join(STYLE_GUIDE_DIR, `${lang}.md`);
 const guide = existsSync(guidePath) ? readFileSync(guidePath, "utf-8") : "";
 const done = Object.entries(glossary);
@@ -55,25 +57,31 @@ These are coined names and terms from the Urantia Papers: beings, places, orders
 
 ${cleanRoom}
 
-## How to choose a form
+${method}
 
-1. Read the English description of each term. It tells you what the term means.
-2. Translate the meaning in the natural way for ${language}. Keep the English capitals: a capitalized English term stays capitalized.
-3. Historical people and places (Jesus, Jerusalem, Athens): use the standard ${language} form.
-4. Names that exist only in this book (Nebadon, Havona, Salvington, Caligastia): keep the English spelling.
-5. One English word must have one translation in all terms. If "Adjuster" is "X" in one term, it is "X" in every term that contains it. The terms already done are listed below. Follow them.
-6. \`aliases\`: the shorter forms of your name that a translator can use in a sentence, when the English aliases show such forms. Leave it out when there are none.
-7. When you are not sure what a term means, check it with the urantia.dev MCP server, in English only.
+## Rules for the forms
+
+1. Keep the English capitals: a capitalized English term stays capitalized.
+2. Historical people and places (Jesus, Jerusalem, Athens): use the standard ${language} form. You do not need a look-up for these; give the meaning in a few words.
+3. Names that exist only in this book (Nebadon, Havona, Salvington, Caligastia): keep the English spelling. Still find and state what the name refers to.
+4. One English word has one translation in all terms. If "Adjuster" is "X" in one term, it is "X" in every term that contains it. The terms already done are listed below. Follow them. If you find that an earlier choice is wrong, keep it in your output and explain the problem in \`rejected\` of the term that shows it.
+5. \`aliases\`: the shorter forms of your name that a translator can use in a sentence, when the English aliases show such forms. Leave it out when there are none.
 
 ${guide}
 
 ## Output
 
-Write one JSON file to \`${draft}\`. It has one key for each term id below (${batch.length} in total):
+Write one JSON file to \`${draft}\`. It has one key for each term id below (${batch.length} in total). \`meaning\` and \`confidence\` are required. \`meaning\` is in English.
 
 \`\`\`json
 {
-  "${batch[0]!.id}": { "name": "…", "aliases": ["…"] }
+  "${batch[0]!.id}": {
+    "name": "…",
+    "aliases": ["…"],
+    "meaning": "One English sentence, with references (77:0.1).",
+    "confidence": "high",
+    "rejected": [{ "form": "…", "reason": "…" }]
+  }
 }
 \`\`\`
 
