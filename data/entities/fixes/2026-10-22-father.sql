@@ -1,0 +1,15 @@
+BEGIN;
+UPDATE entities SET name = 'Universal Father', type = 'being', aliases = ARRAY['Father', 'Paradise Father']::text[], description = 'The First Person of Deity, the First Source and Center of all reality, creator and controller of the universe of universes. The Universal Father is the infinite and eternal God who bestows personality, indwells mortals through Thought Adjusters, and serves as the loving Father of all personalities throughout creation, being both transcendent in Paradise and immanent in the hearts of his children.' WHERE id = 'universal-father';
+UPDATE entities SET name = 'Abraham (Old Testament)', type = 'being', aliases = ARRAY['Father Abraham']::text[], description = 'The Hebrew patriarch originally named Abram who changed his name to Abraham when his covenant with Melchizedek took on a formal aspect. He was born at Ur but left due to sun worship, became a chosen individual responsible for keeping alive the truth of one God, and was an ancestor of Joseph, the father of Jesus. Abraham was a wealthy and efficient businessman who attended the Salem school and became one of Melchizedek''s most brilliant pupils.' WHERE id = 'abraham-old-testament';
+UPDATE entities SET name = 'Moses', type = 'being', aliases = ARRAY['Father Moses']::text[], description = 'The great Hebrew leader, teacher, and organizer who emancipated a remnant of the submerged violet race from Egypt and established monotheistic worship of the Universal Father as ''The God of Israel.'' Moses was an extraordinary combination of military leader, social organizer, and religious teacher who laid the foundation for the Hebrew nation and perpetuation of their race.' WHERE id = 'moses';
+UPDATE entities SET aliases = ARRAY['Father', 'Paradise Father', 'First Source and Center', 'God the Father']::text[] WHERE id = 'universal-father';
+INSERT INTO paragraph_entities (paragraph_id, entity_id) SELECT paragraph_id, 'universal-father' FROM paragraph_entities WHERE entity_id = 'first-source-and-center' ON CONFLICT DO NOTHING;
+DELETE FROM paragraph_entities WHERE entity_id = 'first-source-and-center';
+DELETE FROM entity_translations WHERE entity_id = 'first-source-and-center';
+DELETE FROM entities WHERE id = 'first-source-and-center';
+INSERT INTO paragraph_entities (paragraph_id, entity_id) SELECT paragraph_id, 'universal-father' FROM paragraph_entities WHERE entity_id = 'god-the-father' ON CONFLICT DO NOTHING;
+DELETE FROM paragraph_entities WHERE entity_id = 'god-the-father';
+DELETE FROM entity_translations WHERE entity_id = 'god-the-father';
+DELETE FROM entities WHERE id = 'god-the-father';
+UPDATE entities SET citation_count = (SELECT count(*) FROM paragraph_entities WHERE entity_id = 'universal-father') WHERE id = 'universal-father';
+COMMIT;

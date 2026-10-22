@@ -13427,20 +13427,6 @@
 			"note": "The Father in Trinity language; fits."
 		}
 	},
-	"first-source-and-center": {
-		"name": "Primera Fuente y Centro",
-		"meaning": "God the Universal Father as primal in relation to total reality, infinite and eternal (0:3.9, 0:3.10, 105:3.2).",
-		"confidence": "high",
-		"formConfidence": "high",
-		"forcedChoices": [
-			"The adjective 'Primera' agrees with 'Fuente'; it still applies to both nouns, as in the English."
-		],
-		"backcheck": {
-			"reading": "The First Source and Center, the origin and focus of everything.",
-			"verdict": "match",
-			"note": "Origin of all; fits."
-		}
-	},
 	"flavius": {
 		"name": "Flavio",
 		"meaning": "A Greek Jew, proselyte of the gate, whose art-filled house in Jerusalem received Jesus (142:4.1).",
@@ -14655,17 +14641,6 @@
 			"reading": "God the Absolute.",
 			"verdict": "match",
 			"note": "Literal and clear."
-		}
-	},
-	"god-the-father": {
-		"name": "Dios el Padre",
-		"meaning": "The Universal Father, one of the three eternal, existential Paradise Deities (0:7.1).",
-		"confidence": "high",
-		"formConfidence": "high",
-		"backcheck": {
-			"reading": "God the Father.",
-			"verdict": "match",
-			"note": "Standard phrase."
 		}
 	},
 	"god-the-sevenfold": {
@@ -43360,7 +43335,13 @@
 			],
 			"verdict": "match",
 			"note": "Father of all, as meant."
-		}
+		},
+		"aliases": [
+			"Padre",
+			"Padre del Paraíso",
+			"Primera Fuente y Centro",
+			"Dios el Padre"
+		]
 	},
 	"universal-intelligence": {
 		"name": "Inteligencia Universal",
