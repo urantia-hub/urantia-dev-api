@@ -79,7 +79,7 @@ type RawJsonNode = {
 	paperTitle: string | null;
 	sectionTitle: string | null;
 	paperId: string | null;
-	sectionId: string | null;
+	paperSectionId: string | null;
 };
 
 type TitleTranslation = {
@@ -132,11 +132,12 @@ function extractTitles(): TitleEntry[] {
 			if (
 				node.type === "section" &&
 				node.sectionTitle &&
-				node.sectionId &&
-				!seenSections.has(node.sectionId)
+				node.paperSectionId &&
+				!seenSections.has(node.paperSectionId)
 			) {
-				seenSections.add(node.sectionId);
-				titles.push({ type: "section", id: node.sectionId, title: node.sectionTitle });
+				// sections.id in the DB is the paper-scoped id, e.g. "1.2"
+				seenSections.add(node.paperSectionId);
+				titles.push({ type: "section", id: node.paperSectionId, title: node.sectionTitle });
 			}
 		}
 	}
