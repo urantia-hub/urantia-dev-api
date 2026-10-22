@@ -1,0 +1,679 @@
+{
+	"families": {
+		"adjuster": [
+			"Adjuster",
+			"Monitor"
+		],
+		"morontia": [
+			"morontia",
+			"mota"
+		],
+		"absonite": [
+			"absonit",
+			"Absonit",
+			"transcendental",
+			"Transcendental"
+		],
+		"finality": [
+			"finaliter",
+			"Finality",
+			"Finaliter"
+		],
+		"midway": [
+			"midway",
+			"Midway"
+		],
+		"supreme": [
+			"Supreme"
+		],
+		"ultimate": [
+			"Ultimate"
+		],
+		"absolute": [
+			"Absolute"
+		],
+		"trinity": [
+			"Trinity",
+			"Trinitized",
+			"trinitized",
+			"triunit",
+			"triodit"
+		],
+		"michael": [
+			"Michael"
+		],
+		"melchizedek": [
+			"Melchizedek"
+		],
+		"master": [
+			"Master "
+		],
+		"seraph": [
+			"seraph",
+			"Seraph",
+			"cherub",
+			"Cherub",
+			"sanobim"
+		],
+		"ascension": [
+			"ascend",
+			"Ascend",
+			"ascension",
+			"Ascension"
+		],
+		"universe": [
+			"universe",
+			"Universe"
+		],
+		"paradise": [
+			"Paradise",
+			"Isle"
+		],
+		"creature": [
+			"Creator",
+			"creature"
+		],
+		"spirit": [
+			"Spirit",
+			"spirit"
+		],
+		"mind": [
+			"mind",
+			"Mind"
+		],
+		"personality": [
+			"personalit",
+			"Personalit"
+		],
+		"bestowal": [
+			"bestowal",
+			"Bestowal",
+			"Avonal",
+			"Magisterial"
+		],
+		"fusion": [
+			"fusion",
+			"fused",
+			"Fusion"
+		],
+		"mortal": [
+			"mortal",
+			"Mortal"
+		],
+		"sonship": [
+			"Sons of God",
+			"Daughters of God"
+		]
+	},
+	"concepts": [
+		{
+			"id": "personality",
+			"en": "personality",
+			"family": "personality",
+			"foreword": "0:5"
+		},
+		{
+			"id": "kc-prepersonal",
+			"en": "prepersonal",
+			"family": "personality",
+			"foreword": "0:5"
+		},
+		{
+			"id": "kc-superpersonal",
+			"en": "superpersonal",
+			"family": "personality"
+		},
+		{
+			"id": "impersonal",
+			"en": "impersonal",
+			"family": "personality"
+		},
+		{
+			"id": "kc-personality-survival",
+			"en": "personality survival",
+			"family": "survival"
+		},
+		{
+			"id": "mind",
+			"en": "mind",
+			"family": "mind",
+			"foreword": "0:6"
+		},
+		{
+			"id": "cosmic-mind",
+			"en": "cosmic mind",
+			"family": "mind",
+			"foreword": "0:6"
+		},
+		{
+			"id": "mortal-mind",
+			"en": "mortal mind",
+			"family": "mind"
+		},
+		{
+			"id": "soul",
+			"en": "soul",
+			"family": "soul"
+		},
+		{
+			"id": "spirit",
+			"en": "spirit",
+			"family": "spirit",
+			"foreword": "0:6"
+		},
+		{
+			"id": "kc-spiritual",
+			"en": "spiritual",
+			"family": "spirit"
+		},
+		{
+			"id": "kc-spirit-born",
+			"en": "spirit-born",
+			"family": "spirit"
+		},
+		{
+			"id": "kc-spirit-luminosity",
+			"en": "spirit luminosity",
+			"family": "spirit"
+		},
+		{
+			"id": "deity",
+			"en": "deity",
+			"family": "deity",
+			"foreword": "0:1"
+		},
+		{
+			"id": "divinity",
+			"en": "divinity",
+			"family": "deity",
+			"foreword": "0:1"
+		},
+		{
+			"id": "god",
+			"en": "God",
+			"family": "deity",
+			"foreword": "0:2"
+		},
+		{
+			"id": "kc-paradise-deity",
+			"en": "Paradise Deity",
+			"family": "deity",
+			"foreword": "0:1"
+		},
+		{
+			"id": "reality",
+			"en": "reality",
+			"family": "reality",
+			"foreword": "0:4"
+		},
+		{
+			"id": "energy",
+			"en": "energy",
+			"family": "energy",
+			"foreword": "0:6"
+		},
+		{
+			"id": "force",
+			"en": "force",
+			"family": "energy",
+			"foreword": "0:6"
+		},
+		{
+			"id": "power",
+			"en": "power",
+			"family": "energy",
+			"foreword": "0:6"
+		},
+		{
+			"id": "gravity",
+			"en": "gravity",
+			"family": "energy"
+		},
+		{
+			"id": "circuits",
+			"en": "circuit",
+			"family": "energy"
+		},
+		{
+			"id": "morontia",
+			"en": "morontia",
+			"family": "morontia",
+			"foreword": "0:5"
+		},
+		{
+			"id": "mota",
+			"en": "mota",
+			"family": "morontia"
+		},
+		{
+			"id": "kc-absonite",
+			"en": "absonite",
+			"family": "absonite",
+			"foreword": "0:1"
+		},
+		{
+			"id": "absonity",
+			"en": "absonity",
+			"family": "absonite",
+			"foreword": "0:9"
+		},
+		{
+			"id": "kc-existential",
+			"en": "existential",
+			"family": "existential",
+			"foreword": "0:1"
+		},
+		{
+			"id": "experientials",
+			"en": "experiential",
+			"family": "existential",
+			"foreword": "0:1"
+		},
+		{
+			"id": "kc-transcendental",
+			"en": "transcendental",
+			"family": "absonite",
+			"foreword": "0:9"
+		},
+		{
+			"id": "eventuation",
+			"en": "eventuation",
+			"family": "absonite",
+			"foreword": "0:9"
+		},
+		{
+			"id": "kc-finite",
+			"en": "finite",
+			"family": "finite",
+			"foreword": "0:1"
+		},
+		{
+			"id": "kc-infinite",
+			"en": "infinite",
+			"family": "infinite",
+			"foreword": "0:1"
+		},
+		{
+			"id": "infinity",
+			"en": "infinity",
+			"family": "infinite",
+			"foreword": "0:3"
+		},
+		{
+			"id": "eternity",
+			"en": "eternity",
+			"family": "infinite"
+		},
+		{
+			"id": "kc-absolute",
+			"en": "absolute",
+			"family": "absolute",
+			"foreword": "0:1"
+		},
+		{
+			"id": "kc-ultimate",
+			"en": "ultimate",
+			"family": "ultimate",
+			"foreword": "0:9"
+		},
+		{
+			"id": "ultimacy",
+			"en": "ultimacy",
+			"family": "ultimate",
+			"foreword": "0:9"
+		},
+		{
+			"id": "kc-supreme-being",
+			"en": "Supreme Being",
+			"family": "supreme",
+			"foreword": "0:7"
+		},
+		{
+			"id": "god-the-supreme",
+			"en": "God the Supreme",
+			"family": "supreme",
+			"foreword": "0:7"
+		},
+		{
+			"id": "supremacy",
+			"en": "supremacy",
+			"family": "supreme",
+			"foreword": "0:7"
+		},
+		{
+			"id": "trinity",
+			"en": "Trinity",
+			"family": "trinity",
+			"foreword": "0:12"
+		},
+		{
+			"id": "triunities",
+			"en": "triunity",
+			"family": "trinity",
+			"foreword": "0:12"
+		},
+		{
+			"id": "kc-triodity",
+			"en": "triodity",
+			"family": "trinity",
+			"foreword": "0:12"
+		},
+		{
+			"id": "kc-co-ordinate",
+			"en": "co-ordinate",
+			"family": "coordinate"
+		},
+		{
+			"id": "kc-associate",
+			"en": "associate",
+			"family": "coordinate"
+		},
+		{
+			"id": "overcontrol",
+			"en": "overcontrol",
+			"family": "control"
+		},
+		{
+			"id": "kc-supermaterial",
+			"en": "supermaterial",
+			"family": "material"
+		},
+		{
+			"id": "kc-superhuman",
+			"en": "superhuman",
+			"family": "material"
+		},
+		{
+			"id": "kc-superconscious",
+			"en": "superconscious",
+			"family": "mind"
+		},
+		{
+			"id": "fusion",
+			"en": "fusion",
+			"family": "fusion"
+		},
+		{
+			"id": "kc-indwelling",
+			"en": "indwelling",
+			"family": "adjuster"
+		},
+		{
+			"id": "bestowal",
+			"en": "bestowal",
+			"family": "bestowal"
+		},
+		{
+			"id": "survival-of-mortal-death",
+			"en": "survival (of mortal death)",
+			"family": "survival"
+		},
+		{
+			"id": "kc-ascension-career",
+			"en": "ascension career",
+			"family": "ascension"
+		},
+		{
+			"id": "kc-ascender",
+			"en": "ascender",
+			"family": "ascension"
+		},
+		{
+			"id": "kc-progression",
+			"en": "progression",
+			"family": "ascension"
+		},
+		{
+			"id": "kc-evolutionary",
+			"en": "evolutionary",
+			"family": "evolution"
+		},
+		{
+			"id": "creatures",
+			"en": "creature",
+			"family": "creature"
+		},
+		{
+			"id": "kc-creator-creature",
+			"en": "Creator-creature",
+			"family": "creature"
+		},
+		{
+			"id": "kc-mortal",
+			"en": "mortal",
+			"family": "mortal"
+		},
+		{
+			"id": "kc-sonship",
+			"en": "sonship",
+			"family": "sonship"
+		},
+		{
+			"id": "light-and-life",
+			"en": "light and life",
+			"family": "light-and-life"
+		},
+		{
+			"id": "kingdom-of-heaven",
+			"en": "kingdom of heaven",
+			"family": "kingdom"
+		},
+		{
+			"id": "brotherhood-of-man",
+			"en": "brotherhood of man",
+			"family": "kingdom"
+		},
+		{
+			"id": "fatherhood-of-god",
+			"en": "fatherhood of God",
+			"family": "kingdom"
+		},
+		{
+			"id": "faith",
+			"en": "faith",
+			"family": "faith"
+		},
+		{
+			"id": "worship",
+			"en": "worship",
+			"family": "worship"
+		},
+		{
+			"id": "salvation",
+			"en": "salvation",
+			"family": "salvation"
+		},
+		{
+			"id": "sin",
+			"en": "sin",
+			"family": "sin"
+		},
+		{
+			"id": "iniquity",
+			"en": "iniquity",
+			"family": "sin"
+		},
+		{
+			"id": "evil",
+			"en": "evil",
+			"family": "sin"
+		},
+		{
+			"id": "error",
+			"en": "error",
+			"family": "sin"
+		},
+		{
+			"id": "free-will",
+			"en": "free will",
+			"family": "will"
+		},
+		{
+			"id": "wisdom",
+			"en": "wisdom",
+			"family": "values"
+		},
+		{
+			"id": "truth",
+			"en": "truth",
+			"family": "values"
+		},
+		{
+			"id": "beauty",
+			"en": "beauty",
+			"family": "values"
+		},
+		{
+			"id": "goodness",
+			"en": "goodness",
+			"family": "values"
+		},
+		{
+			"id": "values",
+			"en": "values",
+			"family": "values",
+			"foreword": "0:4"
+		},
+		{
+			"id": "meanings",
+			"en": "meanings",
+			"family": "values"
+		},
+		{
+			"id": "potential",
+			"en": "potential",
+			"family": "potential",
+			"foreword": "0:4"
+		},
+		{
+			"id": "actual",
+			"en": "actual",
+			"family": "potential",
+			"foreword": "0:4"
+		},
+		{
+			"id": "kc-actualize",
+			"en": "actualize",
+			"family": "potential"
+		},
+		{
+			"id": "perfection",
+			"en": "perfection",
+			"family": "perfection"
+		},
+		{
+			"id": "kc-perfecting",
+			"en": "perfecting",
+			"family": "perfection"
+		},
+		{
+			"id": "kc-totality",
+			"en": "totality",
+			"family": "absolute"
+		},
+		{
+			"id": "selfhood",
+			"en": "selfhood",
+			"family": "self"
+		},
+		{
+			"id": "self-consciousness",
+			"en": "self-consciousness",
+			"family": "self"
+		},
+		{
+			"id": "identity",
+			"en": "identity",
+			"family": "self"
+		},
+		{
+			"id": "morality",
+			"en": "morality",
+			"family": "ethics"
+		},
+		{
+			"id": "ethics",
+			"en": "ethics",
+			"family": "ethics"
+		},
+		{
+			"id": "idealism",
+			"en": "idealism",
+			"family": "ethics"
+		},
+		{
+			"id": "ministry",
+			"en": "ministry",
+			"family": "ministry"
+		},
+		{
+			"id": "ministering-spirits",
+			"en": "ministering spirits",
+			"family": "ministry"
+		},
+		{
+			"id": "cosmic-consciousness",
+			"en": "cosmic consciousness",
+			"family": "mind"
+		},
+		{
+			"id": "kc-cosmic-insight",
+			"en": "cosmic insight",
+			"family": "mind"
+		},
+		{
+			"id": "kc-isle",
+			"en": "Isle",
+			"family": "paradise",
+			"foreword": "0:0"
+		},
+		{
+			"id": "nether-paradise",
+			"en": "nether Paradise",
+			"family": "paradise"
+		},
+		{
+			"id": "central-universe",
+			"en": "central universe",
+			"family": "universe",
+			"foreword": "0:0"
+		},
+		{
+			"id": "grand-universe",
+			"en": "grand universe",
+			"family": "universe",
+			"foreword": "0:0"
+		},
+		{
+			"id": "master-universe",
+			"en": "master universe",
+			"family": "universe",
+			"foreword": "0:0"
+		},
+		{
+			"id": "outer-space",
+			"en": "outer space",
+			"family": "universe"
+		},
+		{
+			"id": "resurrection-halls",
+			"en": "resurrection halls",
+			"family": "ascension"
+		},
+		{
+			"id": "kc-guardian-of-destiny",
+			"en": "guardian of destiny",
+			"family": "seraph"
+		},
+		{
+			"id": "kc-enseraphimed",
+			"en": "enseraphimed",
+			"family": "seraph"
+		},
+		{
+			"id": "epochal-revelations",
+			"en": "epochal revelation",
+			"family": "revelation"
+		}
+	]
+}

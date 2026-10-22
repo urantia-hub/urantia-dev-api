@@ -35,33 +35,43 @@ The source texts live outside the repo, in `../misc/` (the English JSON, and the
 
 ## Build the clean glossary (once for each language)
 
-Every translator follows `meaning-first.md`: find the meaning of the term in the papers (MCP server, English), state it with a reference, rate the confidence, test the candidate forms for meanings the authors did not intend, then choose. `glossary.json` keeps the meaning, the confidence, and the rejected forms of each term, so a reviewer can see why each form was chosen. The assembly step lists every term below `high` confidence for a human check.
+The glossary has 2,256 terms: beings, places, orders, races, religions, capitalized concepts, and 106 key concepts from `data/translations/key-concepts.json`. Key concepts are common words that the papers use in a special sense (personality, mind, soul, morontia), plus coined words that are not entities (absonite, superconscious). The list also groups terms into word families and names the Foreword section that defines a term.
 
-The glossary has 2,162 terms: beings, places, orders, races, religions, and capitalized concepts, in batches of 75. Agents translate each one from the English only.
+Every translator follows `meaning-first.md`: find the meaning in the papers (the Foreword first, then other uses), state it with a reference, rate the confidence in the meaning and in the form separately, test the candidates for meanings the authors did not intend, then choose. `glossary.json` keeps all of it.
 
-1. Prepare the first batch. It has the 75 terms that the most paragraphs use, so the main choices come first:
+1. First translation. A word family always stays in one batch, so its root is chosen once. Run the first batch alone, because it holds the most-used families:
 
    ```sh
    bun scripts/translate/agent/prepare-glossary.ts --lang=es --limit=1
-   ```
-
-2. A fresh agent translates the batch. Use this prompt:
-
-   > Read the packet at `<path>` and follow it. Write the JSON to the path that the packet gives. Use only the packet and the urantia.dev MCP server in English.
-
-3. Check and merge it. A Spanish speaker can look at this first batch, because all papers use these terms:
-
-   ```sh
    bun scripts/translate/agent/assemble-glossary.ts --lang=es
+   bun scripts/translate/agent/prepare-glossary.ts --lang=es      # the other batches, in parallel
    ```
 
-4. Prepare the other batches. Each packet lists the terms already done, so the batches can run at the same time:
+2. Second opinions on every key concept and every term below high confidence. A fresh agent does the full method again and never sees the first choice. A different form puts the term on the human list:
 
    ```sh
-   bun scripts/translate/agent/prepare-glossary.ts --lang=es
+   bun scripts/translate/agent/prepare-glossary.ts --lang=es --second
    ```
 
-5. When all the drafts are in, assemble again. The script lists one-word terms with two forms, for a check.
+3. Back-check from the reader's side. A blind reader sees only the target-language forms (numbered, no English) and says what each one suggests. Then a judge compares each reading with the English meaning:
+
+   ```sh
+   bun scripts/translate/agent/prepare-backcheck.ts --lang=es
+   bun scripts/translate/agent/prepare-backcheck.ts --lang=es --judge
+   ```
+
+   Run `assemble-glossary.ts` after each step.
+
+4. Human review. This writes every flagged term with its evidence (meaning, rejected forms, second opinion, blind reading):
+
+   ```sh
+   bun scripts/translate/agent/review-glossary.ts --lang=es
+   bun scripts/translate/agent/decide-glossary.ts --lang=es --id=<id> --name="<form>" --by=<name> --note="<why>"
+   ```
+
+   A decision locks the entry. No later step changes it.
+
+Use a fresh agent for each packet. For the second opinions, a different model gives more independence.
 
 ## Translate a paper
 
