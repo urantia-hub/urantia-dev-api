@@ -35,9 +35,11 @@ The source texts live outside the repo, in `../misc/` (the English JSON, and the
 
 ## Build the clean glossary (once for each language)
 
-The glossary has 2,162 terms: beings, places, orders, races, religions, and capitalized concepts. Agents translate each one from its English name and description only.
+Every translator follows `meaning-first.md`: find the meaning of the term in the papers (MCP server, English), state it with a reference, rate the confidence, test the candidate forms for meanings the authors did not intend, then choose. `glossary.json` keeps the meaning, the confidence, and the rejected forms of each term, so a reviewer can see why each form was chosen. The assembly step lists every term below `high` confidence for a human check.
 
-1. Prepare the first batch. It has the 150 terms that the most paragraphs use, so the main choices come first:
+The glossary has 2,162 terms: beings, places, orders, races, religions, and capitalized concepts, in batches of 75. Agents translate each one from the English only.
+
+1. Prepare the first batch. It has the 75 terms that the most paragraphs use, so the main choices come first:
 
    ```sh
    bun scripts/translate/agent/prepare-glossary.ts --lang=es --limit=1
