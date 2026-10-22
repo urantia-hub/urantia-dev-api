@@ -51,3 +51,6 @@ postman-collection.json
 data/paper-audio-timing.json
 data/paper-audio-timing-report.txt
 data/paper-audio-timing-unconfirmed.json
+
+# translation packets and drafts (scripts/translate/agent)
+.work

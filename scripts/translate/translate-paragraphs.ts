@@ -9,7 +9,7 @@
  *
  * Uses Claude Haiku for cost-effective paragraph translation.
  * Entity glossary is injected as a hard constraint for consistent terminology.
- * Foundation parallel text is used as reference context only.
+ * Works only from the public-domain English. No existing translation goes into the prompt.
  * Idempotent: resumes from output files, skips already-translated paragraphs.
  */
 
@@ -19,7 +19,6 @@ import Anthropic from "@anthropic-ai/sdk";
 
 const ROOT = join(import.meta.dir, "../..");
 const DATA_DIR = join(ROOT, "../misc/urantia-papers-json/data/json/eng");
-const URANTIAPEDIA = join(ROOT, "../misc/urantiapedia/input/json");
 
 const MODEL = "claude-haiku-4-5-20251001";
 const BATCH_SIZE = 20; // paragraphs per API call
@@ -97,7 +96,7 @@ type RawJsonNode = {
 };
 
 type ParagraphTranslation = {
-	paragraphId: string; // matches paragraphs.id in DB (the objectID)
+	paragraphId: string; // paragraphs.id in the DB, which is the globalId
 	globalId: string;
 	standardReferenceId: string;
 	language: string;
@@ -107,10 +106,6 @@ type ParagraphTranslation = {
 	source: string;
 	confidence: string;
 };
-
-type UrantiapediaParagraph = { par_ref: string; par_content: string };
-type UrantiapediaSection = { section_index: number; pars: UrantiapediaParagraph[] };
-type UrantiapediaPaper = { paper_index: number; sections: UrantiapediaSection[] };
 
 // --- Load entity glossary ---
 let glossary: Record<string, string> = {};
@@ -129,32 +124,6 @@ const glossaryText =
 		? glossaryEntries.map(([en, tr]) => `"${en}" → "${tr}"`).join("\n")
 		: "(no translated terms)";
 
-// --- Load Urantiapedia paper (Foundation reference) ---
-const urantiapediaCache = new Map<number, UrantiapediaPaper>();
-
-function loadUrantiapediaPaper(paperNum: number): UrantiapediaPaper | null {
-	if (urantiapediaCache.has(paperNum)) return urantiapediaCache.get(paperNum)!;
-	const padded = String(paperNum).padStart(3, "0");
-	try {
-		const data = JSON.parse(
-			readFileSync(join(URANTIAPEDIA, `book-${LANG}`, `Doc${padded}.json`), "utf-8"),
-		);
-		urantiapediaCache.set(paperNum, data);
-		return data;
-	} catch {
-		return null;
-	}
-}
-
-function findUrantiapediaParagraph(paper: UrantiapediaPaper, ref: string): string | null {
-	for (const s of paper.sections) {
-		for (const p of s.pars) {
-			if (p.par_ref === ref) return p.par_content;
-		}
-	}
-	return null;
-}
-
 // --- Load English paragraphs ---
 function loadPaperParagraphs(paperNum: number): RawJsonNode[] {
 	const padded = String(paperNum).padStart(3, "0");
@@ -166,7 +135,7 @@ function loadPaperParagraphs(paperNum: number): RawJsonNode[] {
 
 function getPaperNumbers(): number[] {
 	const files = readdirSync(DATA_DIR)
-		.filter((f) => f.endsWith(".json"))
+		.filter((f) => /^\d{3}\.json$/.test(f))
 		.sort();
 	return files.map((f) => Number(f.replace(".json", "")));
 }
@@ -220,24 +189,12 @@ async function translateBatch(
 	paperNum: number,
 	systemPrompt: string,
 ): Promise<ParagraphTranslation[]> {
-	const urantiapediaPaper = loadUrantiapediaPaper(paperNum);
-
 	const paragraphsContext = batch
 		.map((para, i) => {
 			const ref = para.standardReferenceId!;
-			const foundationText = urantiapediaPaper
-				? findUrantiapediaParagraph(urantiapediaPaper, ref)
-				: null;
-
-			let ctx = `[${i + 1}] ref: "${ref}"
+			return `[${i + 1}] ref: "${ref}"
 English text: "${para.text}"
 English htmlText: "${para.htmlText}"`;
-
-			if (foundationText) {
-				ctx += `\nFoundation ${LANG_NAMES[LANG]} (reference only — do NOT copy): "${foundationText}"`;
-			}
-
-			return ctx;
 		})
 		.join("\n\n---\n\n");
 
@@ -285,7 +242,7 @@ English htmlText: "${para.htmlText}"`;
 			const entry = parsed.find((e) => e.ref === ref);
 			if (entry) {
 				results.push({
-					paragraphId: para.globalId.replace(/:/g, "-").replace(/\./g, "-"), // matches DB id format
+					paragraphId: para.globalId, // paragraphs.id in the DB
 					globalId: para.globalId,
 					standardReferenceId: ref,
 					language: LANG,
@@ -297,7 +254,7 @@ English htmlText: "${para.htmlText}"`;
 				});
 			} else {
 				results.push({
-					paragraphId: para.globalId.replace(/:/g, "-").replace(/\./g, "-"),
+					paragraphId: para.globalId,
 					globalId: para.globalId,
 					standardReferenceId: ref,
 					language: LANG,
@@ -314,7 +271,7 @@ English htmlText: "${para.htmlText}"`;
 		console.error("  Parse error:", (err as Error).message);
 		console.error("  Response length:", rawText.length, "| stop_reason:", response.stop_reason);
 		return batch.map((para) => ({
-			paragraphId: para.globalId.replace(/:/g, "-").replace(/\./g, "-"),
+			paragraphId: para.globalId,
 			globalId: para.globalId,
 			standardReferenceId: para.standardReferenceId!,
 			language: LANG,
