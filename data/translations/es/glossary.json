@@ -201,10 +201,8 @@
 	"corps-of-mortal-finaliters": {
 		"name": "Cuerpo de Finalitarios Mortales",
 		"aliases": [
-			"Cuerpo Mortal de la Finalidad",
-			"Cuerpo Mortal de Finalitarios",
-			"Cuerpo de la Finalidad Mortal",
-			"Cuerpo de la Finalidad"
+			"Cuerpo Mortal de los Finalitarios",
+			"Cuerpo de los Finalitarios"
 		],
 		"meaning": "The corps that is the present known destination of the ascending Adjuster-fused mortals, with other groups also assigned to it (31:0.1, 107:2.7).",
 		"confidence": "high",
@@ -213,7 +211,20 @@
 				"form": "Cuerpo de la Finalidad (concern)",
 				"reason": "Kept as the alias for 'Corps of the Finality' because it pairs with 'finalitario', but Spanish 'finalidad' usually means 'purpose', not 'final state'. A human reviewer must decide; an alternative is 'Cuerpo de los Finalitarios'."
 			}
-		]
+		],
+		"decision": {
+			"by": "Kelson",
+			"date": "2026-10-22",
+			"note": "\"finalidad\" reads as \"purpose\"; \"Finality\" follows \"finalitarios\""
+		}
+	},
+	"corps-of-the-finality": {
+		"name": "Cuerpo de los Finalitarios",
+		"decision": {
+			"by": "Kelson",
+			"date": "2026-10-22",
+			"note": "\"finalidad\" reads as \"purpose\"; \"Finality\" follows \"finalitarios\""
+		}
 	},
 	"creator-sons": {
 		"name": "Hijos Creadores",
@@ -619,11 +630,11 @@
 		"confidence": "high"
 	},
 	"michael-of-nebadon": {
-		"name": "Michael de Nebadon",
+		"name": "Miguel de Nebadon",
 		"aliases": [
-			"Michael",
+			"Miguel",
 			"Nuestro Hijo Creador",
-			"Cristo Michael"
+			"Cristo Miguel"
 		],
 		"meaning": "The Creator Son of the order of Michael who made and rules the local universe of Nebadon and who lived on Urantia as Jesus (35:0.1, 194:2.4).",
 		"confidence": "high",
@@ -631,8 +642,29 @@
 			{
 				"form": "Miguel de Nebadon",
 				"reason": "'Miguel' brings in the archangel of tradition and a common personal name; the papers use Michael as the name of an order of Creator Sons, so the name is kept like the other names of this book."
+			},
+			{
+				"form": "Michael de Nebadon",
+				"reason": "replaced by a human decision"
 			}
-		]
+		],
+		"decision": {
+			"by": "Kelson",
+			"date": "2026-10-22",
+			"note": "\"Miguel\" is the standard Spanish form of the name, as with Jesús, Juan, and Melquisedec"
+		}
+	},
+	"michael-order-of": {
+		"name": "Miguel, orden de",
+		"aliases": [
+			"Migueles",
+			"orden de Miguel"
+		],
+		"decision": {
+			"by": "Kelson",
+			"date": "2026-10-22",
+			"note": "\"Miguel\" is the standard Spanish form of the name, as with Jesús, Juan, and Melquisedec"
+		}
 	},
 	"midwayers": {
 		"name": "seres intermedios",
