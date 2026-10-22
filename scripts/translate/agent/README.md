@@ -35,7 +35,7 @@ The source texts live outside the repo, in `../misc/` (the English JSON, and the
 
 ## Build the clean glossary (once for each language)
 
-The glossary has 2,256 terms: beings, places, orders, races, religions, capitalized concepts, and 106 key concepts from `data/translations/key-concepts.json`. Key concepts are common words that the papers use in a special sense (personality, mind, soul, morontia), plus coined words that are not entities (absonite, superconscious). The list also groups terms into word families and names the Foreword section that defines a term.
+The glossary has about 2,560 terms: beings, places, orders, races, religions, capitalized concepts, lowercase concepts with the sense "special" (added 2026-10-22, 315 terms), and 106 key concepts from `data/translations/key-concepts.json`. Key concepts are common words that the papers use in a special sense (personality, mind, soul, morontia), plus coined words that are not entities (absonite, superconscious). The list also groups terms into word families and names the Foreword section that defines a term.
 
 Every translator follows `meaning-first.md`: find the meaning in the papers (the Foreword first, then other uses), state it with a reference, rate the confidence in the meaning and in the form separately, test the candidates for meanings the authors did not intend, then choose. `glossary.json` keeps all of it.
 
