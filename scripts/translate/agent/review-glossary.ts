@@ -25,6 +25,7 @@ const rows = entities
 			g.formConfidence !== "high" && `form confidence ${g.formConfidence}`,
 			g.second && !g.second.agree && `second translator chose "${g.second.name}"`,
 			g.backcheck?.verdict === "mismatch" && "blind reading does not match",
+			g.note && "translator left a note",
 		].filter(Boolean);
 		return [
 			`## ${e.name} → ${g.name}`,
@@ -33,6 +34,8 @@ const rows = entities
 			`- Meaning: ${g.meaning}`,
 			g.aliases?.length ? `- Other forms: ${g.aliases.join("; ")}` : "",
 			...(g.rejected ?? []).map((r) => `- Rejected "${r.form}": ${r.reason}`),
+			g.note ? `- Translator's note: ${g.note}` : "",
+			...(g.forcedChoices ?? []).map((c) => `- Forced choice: ${c}`),
 			g.second ? `- Second translator: "${g.second.name}". Its meaning: ${g.second.meaning}` : "",
 			g.backcheck ? `- Blind reader understood: ${g.backcheck.reading}` : "",
 			g.backcheck?.misreadings?.length ? `- Possible misreadings: ${g.backcheck.misreadings.join("; ")}` : "",

@@ -27,8 +27,10 @@ import {
 	type GlossaryEntry,
 	glossaryEntities,
 	glossaryPath,
+	loadEnglishPaper,
 	loadGlossary,
 	needsHuman,
+	PAPER_NUMBERS,
 	parseArgs,
 	WORK_DIR,
 } from "./lib.ts";
@@ -54,6 +56,16 @@ let failed = 0;
 let changed = 0;
 
 type Raw = Record<string, Record<string, unknown>>;
+
+// Translators write forced choices as strings or as { choice, reason } objects.
+function forcedChoices(raw: unknown): string[] {
+	if (!Array.isArray(raw)) return typeof raw === "string" && raw.trim() ? [raw.trim()] : [];
+	return raw
+		.map((c) =>
+			typeof c === "string" ? c : [c?.choice, c?.reason].filter(Boolean).join(": "),
+		)
+		.filter((c) => c.trim());
+}
 
 for (const file of drafts) {
 	const kind = file.split("-")[0]!;
@@ -99,6 +111,8 @@ for (const file of drafts) {
 				confidence: v.confidence as Confidence,
 				formConfidence: v.formConfidence as Confidence,
 				...((v.rejected as unknown[])?.length ? { rejected: v.rejected as GlossaryEntry["rejected"] } : {}),
+				...(typeof v.note === "string" && v.note.trim() ? { note: v.note.trim() } : {}),
+				...(forcedChoices(v.forcedChoices).length ? { forcedChoices: forcedChoices(v.forcedChoices) } : {}),
 			};
 		} else if (kind === "second") {
 			const name = (v.name as string).trim();
@@ -147,6 +161,21 @@ const split = [...byWord.entries()].filter(([, forms]) => forms.size > 1);
 if (split.length) {
 	console.log(`\nOne-word terms with more than one form (check that the difference is intended):`);
 	for (const [w, forms] of split.slice(0, 40)) console.log(`  ${w}: ${[...forms].join(", ")}`);
+}
+
+// Every reference that a meaning cites must exist in the English text.
+const refs = new Set(PAPER_NUMBERS.flatMap((n) => loadEnglishPaper(n).paragraphs.map((p) => p.ref)));
+// "194:4.0" names a section, so it exists when the section has a paragraph.
+for (const r of [...refs]) refs.add(r.replace(/\.\d+$/, ".0"));
+const badRefs = Object.entries(glossary).flatMap(([id, g]) =>
+	[...`${g.meaning ?? ""} ${g.second?.meaning ?? ""}`.matchAll(/\b(\d{1,3}:\d{1,2}\.\d{1,3})\b/g)]
+		.map((m) => m[1]!)
+		.filter((r) => !refs.has(r))
+		.map((r) => `${id}: ${r}`),
+);
+if (badRefs.length) {
+	console.log(`\nReferences that do not exist (${badRefs.length}):`);
+	for (const r of badRefs.slice(0, 40)) console.log(`  ${r}`);
 }
 
 const human = Object.entries(glossary).filter(([, g]) => needsHuman(g));
