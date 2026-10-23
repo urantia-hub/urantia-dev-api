@@ -6,7 +6,7 @@ export const SupportedLanguage = z
 	.enum(["eng", "es", "fr", "pt", "de", "ko"])
 	.default("eng")
 	.describe(
-		"Language for translated fields. Entity names exist in es, fr, pt, de, and ko. Spanish paragraph text exists for part of the papers: a machine translation, released as CC0, with a `translation` label on each paragraph. Other paragraphs stay in English. Paper, section, and part titles follow the same papers; the topic labels stay in English. Each paragraph has a `language` field that states the language of its text.",
+		"Language for translated fields. `es` gives Spanish text for all 197 papers: a machine translation, released as CC0, with a `translation` label on each paragraph. Paper, section, and part titles are in Spanish too; the topic labels stay in English. Entity names exist in es, fr, pt, de, and ko. Each paragraph has a `language` field that states the language of its text.",
 	);
 
 export const LangQuery = z.object({

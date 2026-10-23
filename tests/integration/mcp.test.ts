@@ -245,6 +245,28 @@ describe("MCP Server", () => {
 		expect(paragraph).not.toHaveProperty("audio");
 	});
 
+	it('paragraphs.get with lang "es" gives Spanish text with a translation label', async () => {
+		const results = await callTool("paragraphs.get", { ref: "1:0.1", lang: "es" }, "10.0.0.41");
+		const { paragraph } = results[0].result.structuredContent;
+		expect(paragraph.language).toBe("es");
+		expect(paragraph.translation).toMatchObject({ method: "machine", license: "CC0-1.0" });
+		expect(paragraph).not.toHaveProperty("htmlText");
+		expect(paragraph.paperTitle).not.toBe("The Universal Father");
+	});
+
+	it('papers.get with lang "es" gives a Spanish title and Spanish paragraphs', async () => {
+		const results = await callTool("papers.get", { paper_id: "1", lang: "es" }, "10.0.0.42");
+		const { paper, paragraphs } = results[0].result.structuredContent;
+		expect(paper.title).not.toBe("The Universal Father");
+		expect(paragraphs.every((p: { language: string }) => p.language === "es")).toBe(true);
+	});
+
+	it("paragraphs.get leaves English rows without a language field", async () => {
+		const results = await callTool("paragraphs.get", { ref: "1:0.1" }, "10.0.0.43");
+		const { paragraph } = results[0].result.structuredContent;
+		expect(paragraph).not.toHaveProperty("language");
+	});
+
 	it("paragraphs.get returns a paragraph wrapped under .paragraph", async () => {
 		const results = await callTool("paragraphs.get", { ref: "0.0.1" });
 		expect(results.length).toBeGreaterThan(0);
