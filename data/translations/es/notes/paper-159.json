@@ -1,0 +1,54 @@
+{
+	"newTerms": {
+		"self-respect": "respeto propio",
+		"unfairness": "inequidad",
+		"Perean mission": "misión de Perea",
+		"messengers of David": "mensajeros de David",
+		"sympathy / pity": "compasión / lástima",
+		"the Scriptures / Hebrew scriptures": "las Escrituras / las escrituras hebreas",
+		"evil spirits": "espíritus malignos",
+		"chief steward": "administrador principal"
+	},
+	"forcedChoices": [
+		{
+			"ref": "159:1.3",
+			"choice": "ustedes (Si su hermano peca contra ustedes, vayan...)",
+			"reason": "Jesus speaks to a group of disciples; Spanish forces plural or singular for the generic 'you'."
+		},
+		{
+			"ref": "159:1.4",
+			"choice": "usted in the servant's plea to the king",
+			"reason": "Packet rule: great respect to a ruler takes usted."
+		},
+		{
+			"ref": "159:1.5",
+			"choice": "tú between the stewards and from the king to the steward",
+			"reason": "Speech between equals and from a superior to one person."
+		},
+		{
+			"ref": "159:2.1",
+			"choice": "tú when John and other apostles speak to Jesus",
+			"reason": "Close disciples address their teacher; the English shows no court-style deference."
+		},
+		{
+			"ref": "159:2.1",
+			"choice": "expulsar diablos",
+			"reason": "Glossary form 'diablo' kept for 'devils'."
+		},
+		{
+			"ref": "159:3.13",
+			"choice": "<em>sin temor</em>",
+			"reason": "Spanish has no one-word 'unafraid'; emphasis kept on the phrase."
+		},
+		{
+			"ref": "159:5.9",
+			"choice": "de manera positiva y enérgica for 'positively and aggressively'",
+			"reason": "Spanish 'agresiva' carries a hostile sense the context does not support."
+		},
+		{
+			"ref": "159:4.7",
+			"choice": "se dividan (ustedes implied)",
+			"reason": "Jesus speaks to Nathaniel but the 'you' refers to the apostles as a group."
+		}
+	]
+}

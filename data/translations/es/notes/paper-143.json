@@ -1,0 +1,46 @@
+{
+	"newTerms": {
+		"Converter": "Convertidor",
+		"self-mastery": "autodominio",
+		"self-denial": "abnegación",
+		"self-forgetfulness": "olvido de sí",
+		"Father-friend": "Padre-amigo",
+		"brother-friend": "hermano-amigo",
+		"superthinking": "superpensamiento",
+		"soul-spirit": "alma-espíritu",
+		"time tension of personality": "tensión temporal de la personalidad",
+		"nonviolence": "no violencia"
+	},
+	"forcedChoices": [
+		{
+			"ref": "143:1.2",
+			"choice": "apostles address Jesus with «tú»",
+			"reason": "one person, close teacher; Spanish rules use tú for one person"
+		},
+		{
+			"ref": "143:5.2",
+			"choice": "Nalda addresses Jesus with «tú» plus «Señor»",
+			"reason": "one person; 'Sir' is courtesy, not a ruler or judge"
+		},
+		{
+			"ref": "143:5.6",
+			"choice": "plural «ustedes adorarán» and «ustedes adoran»",
+			"reason": "Jesus speaks of the Samaritans as a people, contrasted with 'the Jews'"
+		},
+		{
+			"ref": "143:5.7",
+			"choice": "Converter = «Convertidor», capitalized",
+			"reason": "title used only in 143:5.7 and 143:5.10; capital keeps it a title, not a device"
+		},
+		{
+			"ref": "143:7.3",
+			"choice": "realization of the Supreme = «tomar conciencia del Supremo»",
+			"reason": "follows the earlier glossary form for realization; 'realizing' in 7.4 matched"
+		},
+		{
+			"ref": "143:1.4",
+			"choice": "ultimate goal = «meta final»",
+			"reason": "ordinary sense of ultimate, not the absonite level"
+		}
+	]
+}

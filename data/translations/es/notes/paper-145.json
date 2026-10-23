@@ -1,0 +1,50 @@
+{
+	"newTerms": {
+		"Personalized Thought Adjuster": "Ajustador del Pensamiento Personalizado",
+		"the New Way (sermon title; also 'the new way' in the Jeremiah quote)": "el nuevo camino",
+		"Sons of universe administration": "Hijos de la administración del universo",
+		"made whole": "restablecidos"
+	},
+	"forcedChoices": [
+		{
+			"ref": "145:1.2",
+			"choice": "«salgan... echen sus redes» (ustedes)",
+			"reason": "\"your nets\" addresses David and his crew; plural keeps one form for both imperatives."
+		},
+		{
+			"ref": "145:1.2",
+			"choice": "«su patrón, David»",
+			"reason": "\"master\" here is David as Simon's employer, not a title of Jesus; lowercase and a plain word."
+		},
+		{
+			"ref": "145:2.2",
+			"choice": "Exodus text in ustedes; Isaiah text in tú",
+			"reason": "The Exodus promise speaks to the people; the Isaiah text speaks to one addressee (\"Arise and shine... your light\")."
+		},
+		{
+			"ref": "145:2.4",
+			"choice": "«como un hijo de Israel... como un hijo de Dios»",
+			"reason": "Kept the English singular; Spanish forces masculine \"hijo\" for the generic \"child\"."
+		},
+		{
+			"ref": "145:2.12",
+			"choice": "«Sal de eso»",
+			"reason": "Keeps both readings open: come out of the seizure, or the people's reading of a spirit told to come out."
+		},
+		{
+			"ref": "145:3.11",
+			"choice": "«sentimientos» for \"sympathies\"; «compasión» for \"sympathy\" (3.15, 5.1) and \"compassion\" (3.8)",
+			"reason": "Spanish \"simpatía\" mainly means likability, a false friend; \"compasión\" carries both English words."
+		},
+		{
+			"ref": "145:3.11",
+			"choice": "«el acto creador <em>fue.</em>»",
+			"reason": "\"was\" in the sense of came into being; \"fue\" matches the following \"ES\" and keeps the brevity."
+		},
+		{
+			"ref": "145:5.7",
+			"choice": "tú after «No, Andrés» (Ve, prepara, prepárate, tu regreso)",
+			"reason": "Jesus addresses Andrew by name; \"your return\" can be singular or plural, and the address to one person decides it."
+		}
+	]
+}

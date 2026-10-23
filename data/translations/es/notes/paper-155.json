@@ -1,0 +1,47 @@
+{
+	"newTerms": {
+		"heathen": "paganos",
+		"religion of the spirit": "religión del espíritu",
+		"religion of the mind": "religión de la mente",
+		"religion(s) of authority": "religión(es) de autoridad",
+		"mind religions of authority": "religiones mentales de autoridad",
+		"truth-co-ordinated / truth co-ordination": "coordinado por la verdad / coordinación de la verdad",
+		"superendowment (of the religion of the spirit)": "dotación superior",
+		"sonshipped (you)": "los ha hecho hijos suyos",
+		"spirit led": "guiados por el espíritu",
+		"Caesarea-Philippi": "Cesarea de Filipo",
+		"Phoenicia / Phoenician": "Fenicia / fenicio"
+	},
+	"forcedChoices": [
+		{
+			"ref": "155:1.1",
+			"choice": "ustedes",
+			"reason": "Jesus speaks to the group of twenty-four; neutral plural."
+		},
+		{
+			"ref": "155:5.16",
+			"choice": "tú (Peter to Jesus)",
+			"reason": "One person speaks to one person; packet rule."
+		},
+		{
+			"ref": "155:6.3",
+			"choice": "por uno mismo, en uno mismo y desde uno mismo",
+			"reason": "English 'yourself' is singular inside a plural address; a generic form keeps the singular without picking one listener."
+		},
+		{
+			"ref": "155:6.11",
+			"choice": "No hay unas vocaciones santas y otras seculares.",
+			"reason": "A literal word order reads in Spanish as 'some callings are not holy'; the context (all things are sacred) shows the sense of no holy/secular division."
+		},
+		{
+			"ref": "155:6.11",
+			"choice": "subordinados (masculine, agrees with 'quienes')",
+			"reason": "English can attach the list to 'lives' or to 'those'; Spanish forces a gender, and the people reading fits 'spirit led'."
+		},
+		{
+			"ref": "155:4.1",
+			"choice": "llegaron allí",
+			"reason": "Kept the English ambiguity of 'there' (the crossing or Sidon)."
+		}
+	]
+}

@@ -1,0 +1,45 @@
+{
+	"newTerms": {
+		"age-abiding": "perdurable por las edades",
+		"teacher-healer": "maestro-sanador",
+		"temple tax": "impuesto del templo",
+		"shekel": "siclo",
+		"faith-adventure": "aventura de fe",
+		"director-general": "director general",
+		"master teacher": "maestro por excelencia",
+		"combined nature": "naturaleza combinada",
+		"bestowal Son of God": "Hijo de Dios de otorgamiento"
+	},
+	"forcedChoices": [
+		{
+			"ref": "157:1.1",
+			"choice": "tú between the collector and Peter",
+			"reason": "Packet rule: one person speaking to one person uses tú."
+		},
+		{
+			"ref": "157:2.1",
+			"choice": "«Maestro» for the Pharisees' «Teacher»",
+			"reason": "Spanish has no separate natural vocative; same word as the glossary form for Master."
+		},
+		{
+			"ref": "157:2.2",
+			"choice": "evening conference = «conferencia de la noche»",
+			"reason": "The meeting follows the afternoon public meeting; «tarde» would blur it with the afternoon."
+		},
+		{
+			"ref": "157:4.5",
+			"choice": "fellowship = «compañerismo», fraternity = «hermandad», brotherhood = «fraternidad»",
+			"reason": "Earlier-paper glossary forms keep the three English words apart."
+		},
+		{
+			"ref": "157:6.10",
+			"choice": "«si el Hijo es elevado»",
+			"reason": "«elevado» keeps both readings of «lifted up» (raised on the cross, exalted) open."
+		},
+		{
+			"ref": "157:7.2",
+			"choice": "«cuando huyó», «cuando se negó» with no named subject",
+			"reason": "English «he» can be Jesus or Judas; the Spanish keeps the same ambiguity."
+		}
+	]
+}

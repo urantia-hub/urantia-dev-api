@@ -11149,5 +11149,1499 @@
 		"version": 1,
 		"source": "urantia.dev",
 		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "145",
+		"title": "Cuatro días memorables en Cafarnaúm",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "145.1",
+		"title": "La captura de peces",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "145.2",
+		"title": "Una tarde en la sinagoga",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "145.3",
+		"title": "La curación al atardecer",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "145.4",
+		"title": "La noche siguiente",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "145.5",
+		"title": "El domingo de madrugada",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "146",
+		"title": "Primera gira de predicación por Galilea",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "146.1",
+		"title": "La predicación en Rimón",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "146.2",
+		"title": "En Jotapata",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "146.3",
+		"title": "La parada en Ramá",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "146.4",
+		"title": "El evangelio en Irón",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "146.5",
+		"title": "De nuevo en Caná",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "146.6",
+		"title": "Naín y el hijo de la viuda",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "146.7",
+		"title": "En Endor",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "148",
+		"title": "La formación de evangelistas en Betsaida",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "148.1",
+		"title": "Una nueva escuela de los profetas",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "148.2",
+		"title": "El hospital de Betsaida",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "148.3",
+		"title": "Los asuntos del Padre",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "148.4",
+		"title": "El mal, el pecado y la iniquidad",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "148.5",
+		"title": "El propósito de la aflicción",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "148.6",
+		"title": "La incomprensión del sufrimiento - Discurso sobre Job",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "148.7",
+		"title": "El hombre de la mano seca",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "148.8",
+		"title": "La última semana en Betsaida",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "148.9",
+		"title": "La curación del paralítico",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "149",
+		"title": "La segunda gira de predicación",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "149.1",
+		"title": "La amplia fama de Jesús",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "149.2",
+		"title": "La actitud del pueblo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "149.3",
+		"title": "La hostilidad de los líderes religiosos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "149.4",
+		"title": "El progreso de la gira de predicación",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "149.5",
+		"title": "Lección sobre el contentamiento",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "149.6",
+		"title": "El «temor del Señor»",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "149.7",
+		"title": "El regreso a Betsaida",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "152",
+		"title": "Sucesos que condujeron a la crisis de Cafarnaúm",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "152.1",
+		"title": "En la casa de Jairo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "152.2",
+		"title": "La alimentación de los cinco mil",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "152.3",
+		"title": "El episodio de hacerlo rey",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "152.4",
+		"title": "La visión nocturna de Simón Pedro",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "152.5",
+		"title": "De vuelta en Betsaida",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "152.6",
+		"title": "En Genesaret",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "152.7",
+		"title": "En Jerusalén",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "154",
+		"title": "Últimos días en Cafarnaúm",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "154.1",
+		"title": "Una semana de consulta",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "154.2",
+		"title": "Una semana de descanso",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "154.3",
+		"title": "La segunda conferencia de Tiberíades",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "154.4",
+		"title": "Sábado por la noche en Cafarnaúm",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "154.5",
+		"title": "La agitada mañana del domingo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "154.6",
+		"title": "Llega la familia de Jesús",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "154.7",
+		"title": "La huida apresurada",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "157",
+		"title": "En Cesarea de Filipo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "157.1",
+		"title": "El recaudador del impuesto del templo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "157.2",
+		"title": "En Betsaida-Julias",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "157.3",
+		"title": "La confesión de Pedro",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "157.4",
+		"title": "La charla sobre el reino",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "157.5",
+		"title": "El nuevo concepto",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "157.6",
+		"title": "La tarde siguiente",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "157.7",
+		"title": "La conferencia de Andrés",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "158",
+		"title": "El monte de la transfiguración",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "158.1",
+		"title": "La transfiguración",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "158.2",
+		"title": "El descenso de la montaña",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "158.3",
+		"title": "El significado de la transfiguración",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "158.4",
+		"title": "El muchacho epiléptico",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "158.5",
+		"title": "Jesús cura al muchacho",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "158.6",
+		"title": "En el jardín de Celso",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "158.7",
+		"title": "La protesta de Pedro",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "158.8",
+		"title": "En la casa de Pedro",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "140",
+		"title": "La ordenación de los doce",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "140.1",
+		"title": "Instrucción preliminar",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "140.2",
+		"title": "La ordenación",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "140.3",
+		"title": "El sermón de la ordenación",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "140.4",
+		"title": "Ustedes son la sal de la tierra",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "140.5",
+		"title": "Amor paternal y amor fraternal",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "140.6",
+		"title": "La noche de la ordenación",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "140.7",
+		"title": "La semana que siguió a la ordenación",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "140.8",
+		"title": "La tarde del jueves en el lago",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "140.9",
+		"title": "El día de la consagración",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "140.10",
+		"title": "La noche después de la consagración",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "141",
+		"title": "Comienzo de la obra pública",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "141.1",
+		"title": "La partida de Galilea",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "141.2",
+		"title": "La ley de Dios y la voluntad del Padre",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "141.3",
+		"title": "La estancia en Amatus",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "141.4",
+		"title": "La enseñanza sobre el Padre",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "141.5",
+		"title": "La unidad espiritual",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "141.6",
+		"title": "La última semana en Amatus",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "141.7",
+		"title": "En Betania más allá del Jordán",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "141.8",
+		"title": "El trabajo en Jericó",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "141.9",
+		"title": "La partida hacia Jerusalén",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "142",
+		"title": "La Pascua en Jerusalén",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "142.1",
+		"title": "La enseñanza en el templo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "142.2",
+		"title": "La ira de Dios",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "142.3",
+		"title": "El concepto de Dios",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "142.4",
+		"title": "Flavio y la cultura griega",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "142.5",
+		"title": "El discurso sobre la seguridad",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "142.6",
+		"title": "La visita de Nicodemo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "142.7",
+		"title": "La lección sobre la familia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "142.8",
+		"title": "En el sur de Judea",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "143",
+		"title": "A través de Samaria",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "143.1",
+		"title": "La predicación en Arquelais",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "143.2",
+		"title": "Lección sobre el autodominio",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "143.3",
+		"title": "Esparcimiento y relajación",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "143.4",
+		"title": "Los judíos y los samaritanos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "143.5",
+		"title": "La mujer de Sicar",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "143.6",
+		"title": "El despertar samaritano",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "143.7",
+		"title": "Enseñanzas sobre la oración y la adoración",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "144",
+		"title": "En Gilboa y en la Decápolis",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "144.1",
+		"title": "El campamento de Gilboa",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "144.2",
+		"title": "El discurso sobre la oración",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "144.3",
+		"title": "La oración del creyente",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "144.4",
+		"title": "Más sobre la oración",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "144.5",
+		"title": "Otras formas de oración",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "144.6",
+		"title": "Conferencia con los apóstoles de Juan",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "144.7",
+		"title": "En las ciudades de la Decápolis",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "144.8",
+		"title": "En el campamento cerca de Pella",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "144.9",
+		"title": "Muerte de Juan el Bautista",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "147",
+		"title": "La visita a Jerusalén en el interludio",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "147.1",
+		"title": "El siervo del centurión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "147.2",
+		"title": "El viaje a Jerusalén",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "147.3",
+		"title": "En el estanque de Betesda",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "147.4",
+		"title": "La regla de vida",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "147.5",
+		"title": "La visita a Simón el fariseo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "147.6",
+		"title": "El regreso a Cafarnaúm",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "147.7",
+		"title": "De nuevo en Cafarnaúm",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "147.8",
+		"title": "El festín de la bondad espiritual",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "150",
+		"title": "La tercera gira de predicación",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "150.1",
+		"title": "El cuerpo de mujeres evangelistas",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "150.2",
+		"title": "La parada en Magdala",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "150.3",
+		"title": "El sábado en Tiberíades",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "150.4",
+		"title": "Los apóstoles son enviados de dos en dos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "150.5",
+		"title": "¿Qué debo hacer para ser salvo?",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "150.6",
+		"title": "Las lecciones de la noche",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "150.7",
+		"title": "La estancia en Nazaret",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "150.8",
+		"title": "El servicio del sábado",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "150.9",
+		"title": "El rechazo de Nazaret",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "151",
+		"title": "Estancia y enseñanza a orillas del mar",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "151.1",
+		"title": "La parábola del sembrador",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "151.2",
+		"title": "Interpretación de la parábola",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "151.3",
+		"title": "Más sobre las parábolas",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "151.4",
+		"title": "Más parábolas junto al mar",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "151.5",
+		"title": "La visita a Kheresa",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "151.6",
+		"title": "El lunático de Kheresa",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "153",
+		"title": "La crisis en Cafarnaúm",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "153.1",
+		"title": "La preparación del escenario",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "153.2",
+		"title": "El sermón que hizo época",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "153.3",
+		"title": "La reunión posterior",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "153.4",
+		"title": "Últimas palabras en la sinagoga",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "153.5",
+		"title": "La noche del sábado",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "155",
+		"title": "Huida por el norte de Galilea",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "155.1",
+		"title": "¿Por qué se enfurecen los paganos?",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "155.2",
+		"title": "Los evangelistas en Corazín",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "155.3",
+		"title": "En Cesarea de Filipo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "155.4",
+		"title": "De camino a Fenicia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "155.5",
+		"title": "El discurso sobre la religión verdadera",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "155.6",
+		"title": "El segundo discurso sobre la religión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "156",
+		"title": "La estancia en Tiro y Sidón",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "156.1",
+		"title": "La mujer siria",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "156.2",
+		"title": "La enseñanza en Sidón",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "156.3",
+		"title": "El viaje costa arriba",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "156.4",
+		"title": "En Tiro",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "156.5",
+		"title": "La enseñanza de Jesús en Tiro",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "156.6",
+		"title": "El regreso de Fenicia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "159",
+		"title": "La gira por la Decápolis",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "159.1",
+		"title": "El sermón sobre el perdón",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "159.2",
+		"title": "El predicador extraño",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "159.3",
+		"title": "Instrucciones para maestros y creyentes",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "159.4",
+		"title": "La conversación con Natanael",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "159.5",
+		"title": "El carácter positivo de la religión de Jesús",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "159.6",
+		"title": "El regreso a Magadán",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
 	}
 ]

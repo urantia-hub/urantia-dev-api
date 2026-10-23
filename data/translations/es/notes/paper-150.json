@@ -1,0 +1,51 @@
+{
+	"newTerms": {
+		"deaconesses": "diaconisas",
+		"ruler of the synagogue": "jefe de la sinagoga",
+		"preaching tour": "gira de predicación",
+		"messenger service": "servicio de mensajeros",
+		"Lord of the harvest": "Señor de la cosecha",
+		"prayer eulogies": "eulogias de oración",
+		"tented infirmary": "enfermería de tiendas",
+		"soothsayer priests": "sacerdotes adivinos",
+		"spirit endowment": "dotación espiritual",
+		"outpoured spirit of the Son": "espíritu derramado del Hijo"
+	},
+	"forcedChoices": [
+		{
+			"ref": "150:5.1",
+			"choice": "¿Qué debo hacer para ser salva?",
+			"reason": "The speakers are women; 'ser salva' avoids 'salvarme', which can read as saving oneself by one's own effort."
+		},
+		{
+			"ref": "150:5.2",
+			"choice": "ustedes; 'hace de ustedes hijos de Dios'",
+			"reason": "Men and women ask as a group ('what shall we do'), so the answer uses the plural."
+		},
+		{
+			"ref": "150:9.2",
+			"choice": "tú (the crowd to Jesus)",
+			"reason": "A hostile crowd speaks to one man with no sign of respect."
+		},
+		{
+			"ref": "150:8.3",
+			"choice": "tú (the prayers to God)",
+			"reason": "The prayers speak to God directly; liturgical Spanish uses tú."
+		},
+		{
+			"ref": "150:8.8",
+			"choice": "tú (Deuteronomy reading)",
+			"reason": "The passage speaks to the people as one addressee ('your heart')."
+		},
+		{
+			"ref": "150:3.4",
+			"choice": "tiempo atmosférico",
+			"reason": "'tiempo' alone also means 'time'."
+		},
+		{
+			"ref": "150:7.4",
+			"choice": "el jazán que había sido su maestro en la juventud y que tanto lo quería",
+			"reason": "'doting' has no one-word plain equivalent; the clause keeps 'fond of him' without the sense of senility."
+		}
+	]
+}

@@ -1,0 +1,55 @@
+{
+	"newTerms": {
+		"after meeting": "reunión posterior",
+		"oral law": "ley oral",
+		"traditions of the elders": "tradiciones de los ancianos",
+		"bread of life": "pan de vida",
+		"living bread": "pan vivo",
+		"evil spirit": "espíritu malo",
+		"celestial rebels": "rebeldes celestiales",
+		"twelve women": "las doce mujeres",
+		"Pharisaic commissioners": "comisionados fariseos"
+	},
+	"forcedChoices": [
+		{
+			"ref": "153:2.1",
+			"choice": "ustedes (plural) in the Deuteronomy quote",
+			"reason": "The curses address the people as a group; English 'you' does not show number."
+		},
+		{
+			"ref": "153:2.10",
+			"choice": "tú between the Pharisee and Jesus",
+			"reason": "One person speaks to one person, with no sign of formal respect."
+		},
+		{
+			"ref": "153:3.2",
+			"choice": "ustedes in Jesus' answer to the one Pharisee",
+			"reason": "The answer goes on to general statements for all hearers ('You cannot eat my flesh')."
+		},
+		{
+			"ref": "153:3.5",
+			"choice": "tú from 'Are you also hard of understanding?' to the end of the paragraph",
+			"reason": "The English says Jesus spoke to Peter; the later 'you' sentences continue that address."
+		},
+		{
+			"ref": "153:4.1",
+			"choice": "«espíritu malo» for 'evil spirit'",
+			"reason": "«maligno» is a short form of 'devil' in the glossary; «malo» keeps the two terms apart."
+		},
+		{
+			"ref": "153:4.1",
+			"choice": "«diablos» for 'devils' (cast out devils)",
+			"reason": "The glossary gives «diablo/diablos» for 'devil'; «demonios» is kept only for 'prince of devils', as the glossary gives."
+		},
+		{
+			"ref": "153:4.5",
+			"choice": "«Maestro» for the vocative 'Teacher'",
+			"reason": "Spanish has no other natural vocative; it is the same form as the title 'Master', but here it is a plain address."
+		},
+		{
+			"ref": "153:1.2",
+			"choice": "«la marea ... se volvió hacia el reflujo» for 'the outward turning of the tide'",
+			"reason": "Spanish needs a word for the direction of the tide; «reflujo» is the tide that goes out."
+		}
+	]
+}

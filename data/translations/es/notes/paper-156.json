@@ -1,0 +1,62 @@
+{
+	"newTerms": {
+		"the twenty-four": "los veinticuatro",
+		"Syrophoenicians": "sirofenicios",
+		"Alexander's mole": "malecón de Alejandro",
+		"kingdom believers": "creyentes del reino",
+		"spirit livers": "los que viven en el espíritu",
+		"candidates for eternal life": "candidatos a la vida eterna",
+		"righteousness recommender": "recomendador de la rectitud",
+		"God-conscious (mortal)": "(mortal) consciente de Dios",
+		"jointly created soul": "alma creada conjuntamente",
+		"truth lover": "amante de la verdad",
+		"outward fellowship of the kingdom": "compañerismo externo del reino"
+	},
+	"forcedChoices": [
+		{
+			"ref": "156:1.2",
+			"choice": "el sirviente (masculine)",
+			"reason": "The English does not give the gender of the servant of Karuska; Spanish forces one, and the masculine is the generic form."
+		},
+		{
+			"ref": "156:1.3",
+			"choice": "tú for Norana to Peter, Thomas, and Simon",
+			"reason": "One person speaks to one person; no sign of the great respect that calls for usted."
+		},
+		{
+			"ref": "156:1.5",
+			"choice": "un perro (masculine) for Norana herself",
+			"reason": "The feminine 'perra' is an insult with a sexual sense in much of the Spanish-speaking world; the masculine keeps the image of the dogs at the table."
+		},
+		{
+			"ref": "156:1.6",
+			"choice": "ustedes",
+			"reason": "Norana speaks to all the disciples present ('before them all', 'You are not worthy to be his disciples')."
+		},
+		{
+			"ref": "156:5.4",
+			"choice": "tú through 156:5.5",
+			"reason": "Jesus answers the question of Nathaniel; the 'you' can also be general, but the context is the answer to one person."
+		},
+		{
+			"ref": "156:5.5",
+			"choice": "'an actual interest' as 'un interés efectivo'",
+			"reason": "Here 'actual' is the plain word, not the glossary term 'actual' (en acto); 'actual' in Spanish is a false friend."
+		},
+		{
+			"ref": "156:5.8",
+			"choice": "ustedes for 156:5.8 to 156:5.19",
+			"reason": "The thoughts restate answers to the apostles and evangelists as a group; the packet asks for ustedes when the text speaks to the reader."
+		},
+		{
+			"ref": "156:6.2",
+			"choice": "31<sup></sup> with an empty sup",
+			"reason": "Spanish dates take no ordinal suffix; the tag is kept so the HTML stays the same as the English."
+		},
+		{
+			"ref": "156:6.9",
+			"choice": "del año 29 <span class=\"scaps\">d. C.</span>",
+			"reason": "Spanish puts the era after the year; the small-caps span moves with it."
+		}
+	]
+}
