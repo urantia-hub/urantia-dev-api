@@ -1,0 +1,48 @@
+{
+	"newTerms": {
+		"Vicegerent Planetary Prince of Urantia": "Príncipe Planetario Vicegerente de Urantia",
+		"Vicegerent Material Son of Urantia": "Hijo Material Vicegerente de Urantia",
+		"status wife": "esposa de rango",
+		"Melchizedek custodians": "custodios Melquisedec",
+		"planetary titles": "títulos planetarios",
+		"emergency bestowal": "otorgamiento de emergencia",
+		"bestowal Melchizedek": "Melquisedec de otorgamiento",
+		"four and twenty directors": "veinticuatro directores",
+		"resident governor general": "gobernador general residente",
+		"second Adam": "segundo Adán",
+		"Melchizedek church": "iglesia de Melquisedec",
+		"monitor of time and the mentor of the flesh": "monitor del tiempo y mentor de la carne"
+	},
+	"forcedChoices": [
+		{
+			"ref": "93:4.7",
+			"choice": "Commandments 1 to 7 use the second person singular (tú: «No servirás», «No matarás»).",
+			"reason": "Each commandment addresses each believer; Spanish forces singular or plural, and the context supports the individual."
+		},
+		{
+			"ref": "93:5.5",
+			"choice": "«Vengan ... ustedes dos hermanos»",
+			"reason": "The invitation addresses two brothers, so the plural ustedes is required."
+		},
+		{
+			"ref": "93:6.3",
+			"choice": "«Mira ... tu descendencia» with tú",
+			"reason": "Melchizedek speaks to one person, Abraham."
+		},
+		{
+			"ref": "93:0.2",
+			"choice": "«el orden Melquisedec» (masculine)",
+			"reason": "Order of beings is masculine «orden» in Spanish, as in the earlier glossary («orden de los Días»)."
+		},
+		{
+			"ref": "93:2.5",
+			"choice": "«casi seis pies de estatura»",
+			"reason": "The English unit is kept; a conversion to meters would add precision the text does not give."
+		},
+		{
+			"ref": "93:4.5",
+			"choice": "«nacía en deuda con los dioses» for \"born under forfeit to the gods\"",
+			"reason": "Spanish has no direct equivalent of \"under forfeit\"; «en deuda» keeps the sense of an obligation owed from birth."
+		}
+	]
+}

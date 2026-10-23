@@ -1,0 +1,37 @@
+{
+	"newTerms": {
+		"Salemites": "salemitas",
+		"Initial Mind": "Mente Inicial",
+		"henotheistic": "henoteístas",
+		"Urantian (system of belief)": "urantiano",
+		"Occident / Occidental": "Occidente / occidental",
+		"state religion": "religión del Estado"
+	},
+	"forcedChoices": [
+		{
+			"ref": "98:7.1",
+			"choice": "toma de conciencia de su filiación",
+			"reason": "'realization' here reads as awareness after 'recognition'; Spanish 'realización' would mean making real"
+		},
+		{
+			"ref": "98:1.1",
+			"choice": "retroceso",
+			"reason": "plain 'reversion' (relapse), kept apart from the glossary term 'reversión' (Reversion Directors)"
+		},
+		{
+			"ref": "98:6.4",
+			"choice": "compañerismo pleno",
+			"reason": "glossary form for 'fellowship'; avoids the church sense of 'comunión'"
+		},
+		{
+			"ref": "98:2.2",
+			"choice": "siglo sexto",
+			"reason": "English writes the number in words, so no Roman or Arabic numerals"
+		},
+		{
+			"ref": "98:3.8",
+			"choice": "más de cuarenta",
+			"reason": "'twoscore' is archaic; the plain number keeps the meaning"
+		}
+	]
+}

@@ -1,0 +1,36 @@
+{
+	"newTerms": {
+		"mind-adjutants": "ayudantes de la mente",
+		"worship urge": "impulso de adoración",
+		"ghost soul": "alma fantasma",
+		"dream double": "doble onírico",
+		"spirit ghost(s)": "espíritu(s) fantasma(s)",
+		"ghost environment": "entorno de fantasmas",
+		"ghost-spirit": "fantasmas-espíritus",
+		"death-survival": "supervivencia a la muerte",
+		"God-fear / God-love": "temor de Dios / amor a Dios",
+		"visitation(s) (of sickness and death)": "embate(s)"
+	},
+	"forcedChoices": [
+		{
+			"ref": "86:5.2",
+			"choice": "«entregar el espíritu» (en inglés, “giving up the ghost”, literalmente “entregar el fantasma”)",
+			"reason": "The sentence depends on the English idiom that contains the word 'ghost'; packet rule 6 applies."
+		},
+		{
+			"ref": "86:5.9",
+			"choice": "«¡Dios te bendiga!» with tú",
+			"reason": "The blessing is said to one person who sneezes, in a familiar register."
+		},
+		{
+			"ref": "86:6.6",
+			"choice": "«política de vida» for 'life policy'",
+			"reason": "Spanish separates 'política' (course of action) from 'póliza' (insurance policy); the context of the sentence supports a course of conduct, so the possible insurance echo is lost."
+		},
+		{
+			"ref": "86:1.6",
+			"choice": "«destino» for 'fate'",
+			"reason": "Spanish has no plain word that separates 'fate' from 'destiny' here; 'destino' is the natural word."
+		}
+	]
+}

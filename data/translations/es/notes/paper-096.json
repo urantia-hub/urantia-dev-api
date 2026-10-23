@@ -1,0 +1,35 @@
+{
+	"newTerms": {
+		"El Shaddaist": "El Shaddaísta",
+		"El Elyonist": "El Elyonista",
+		"supergod": "superdiós",
+		"three-in-one God": "Dios tres en uno",
+		"the Isaiahs": "los Isaías",
+		"Sundry names": "Nombres diversos",
+		"banshees": "banshees",
+		"brownies": "duendes",
+		"fates": "hados"
+	},
+	"forcedChoices": [
+		{
+			"ref": "96:4.6",
+			"choice": "ustedes (su refugio, los abandonará, sus padres)",
+			"reason": "Moses speaks to the whole people, so the plural form fits; the same choice holds in 96:5.4 to 96:5.7 and 96:6.3."
+		},
+		{
+			"ref": "96:6.4",
+			"choice": "tú (¿Puedes tú, buscando, descubrir a Dios?; Mira)",
+			"reason": "The quote is from one speaker to one person (Job)."
+		},
+		{
+			"ref": "96:6.4",
+			"choice": "¿Será el hombre mortal más justo que Dios?, ¿será un hombre...?",
+			"reason": "The English keeps both questions in one sentence (lowercase 'shall'); the lowercase second question keeps one sentence."
+		},
+		{
+			"ref": "96:1.8",
+			"choice": "hasta después de quedar bajo la influencia política de los babilonios",
+			"reason": "The English 'they' has no clear antecedent; an infinitive keeps the subject open."
+		}
+	]
+}

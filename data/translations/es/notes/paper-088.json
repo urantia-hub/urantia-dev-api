@@ -1,0 +1,46 @@
+{
+	"newTerms": {
+		"fetish": "fetiche",
+		"fetishism": "fetichismo",
+		"fetishistic": "fetichista",
+		"superfetish": "superfetiche",
+		"fetish man / fetish personalities": "hombre fetiche / personalidades fetiche",
+		"totem / totemism": "tótem / totemismo",
+		"charm (magical object)": "amuleto",
+		"black artist": "practicante de las artes negras",
+		"ghost": "fantasma",
+		"phantasms": "fantasmagorías"
+	},
+	"forcedChoices": [
+		{
+			"ref": "88:2.5",
+			"choice": "«No harás...» (tú)",
+			"reason": "The English 'You shall' does not mark number; the commandment addresses each person of the people, so the singular reads as a command to each one."
+		},
+		{
+			"ref": "88:6.7",
+			"choice": "Spanish word followed by the English word in parentheses for each of the nine words",
+			"reason": "The sentence depends on the magical origin of the English words; some Spanish forms (hechizado, encantador, atónito) keep that origin, the others do not, so the English word stays visible."
+		},
+		{
+			"ref": "88:6.7",
+			"choice": "regresión (for 'reversion')",
+			"reason": "The glossary term 'reversión' has the coined sense of the Reversion Directors (30:3.7); here the word means a fall back to older beliefs."
+		},
+		{
+			"ref": "88:6.8",
+			"choice": "fantasmagorías (for 'phantasms')",
+			"reason": "'fantasmas' is the form for 'ghosts' in this paper; a separate word keeps the two apart."
+		},
+		{
+			"ref": "88:3.2",
+			"choice": "símbolos del grupo y su dios",
+			"reason": "The English can mean symbols of the group and of their god, or symbols of the group and also their god; the Spanish keeps both readings open."
+		},
+		{
+			"ref": "88:6.2",
+			"choice": "encantadores (for 'wizards')",
+			"reason": "'magos' is used for 'magicians' in 88:6.1 and 'brujos' is the glossary form for 'witch doctors'; a separate word keeps the three apart."
+		}
+	]
+}

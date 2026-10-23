@@ -1,0 +1,58 @@
+{
+	"newTerms": {
+		"deanthropomorphized": "desantropomorfizaron",
+		"the Strength of Israel": "la Fuerza de Israel",
+		"Judahites / Judahite": "judaítas / judaíta",
+		"Ephraimites / Ephraimite": "efraimitas / efraimita",
+		"the Great Choice": "la Gran Elección",
+		"Messianic kingdom": "reino mesiánico",
+		"ark of Yahweh": "arca de Yahvé",
+		"Mohammedanism": "islam",
+		"political machine": "maquinaria política",
+		"gangster-nobility": "nobleza de gánsteres",
+		"Isaiah the second / the second Isaiah": "Isaías el segundo / el segundo Isaías",
+		"supernal": "excelso"
+	},
+	"forcedChoices": [
+		{
+			"ref": "97:1.5",
+			"choice": "tú for the address to God",
+			"reason": "Spanish prayer to one person; English 'you' is singular here."
+		},
+		{
+			"ref": "97:4.5",
+			"choice": "te (singular) in Hosea's betrothal",
+			"reason": "The image is a marriage to one bride (the nation)."
+		},
+		{
+			"ref": "97:5.1",
+			"choice": "conciencia moral y toma de conciencia",
+			"reason": "Spanish 'conciencia' covers both 'conscience' and 'consciousness'; two forms keep the pair."
+		},
+		{
+			"ref": "97:5.2",
+			"choice": "te/tú for the single addressee; ustedes for 'Come now... your sins'",
+			"reason": "The quotes address one person, then a group ('let us reason together')."
+		},
+		{
+			"ref": "97:5.3",
+			"choice": "tú in 'Arise and shine'",
+			"reason": "The call is to one addressee (the city or the people as one)."
+		},
+		{
+			"ref": "97:7.5",
+			"choice": "los caminos de ustedes",
+			"reason": "Plural 'your' to the people; 'sus' would read as 'his'."
+		},
+		{
+			"ref": "97:7.6",
+			"choice": "tú in 'Fear you not'",
+			"reason": "Address to one (Israel as one servant)."
+		},
+		{
+			"ref": "97:9.12",
+			"choice": "el registro que ustedes tienen",
+			"reason": "'your record' speaks to the readers; plural ustedes."
+		}
+	]
+}

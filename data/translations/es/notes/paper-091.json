@@ -1,0 +1,55 @@
+{
+	"newTerms": {
+		"superself (all that is superself)": "lo que trasciende el yo",
+		"superself-attainment": "logro que trascienda el yo",
+		"ego (praying ego, budding ego)": "yo",
+		"manitou": "manitú",
+		"superpsychologic": "superpsicológico",
+		"pseudo hallucinations": "seudoalucinaciones",
+		"pseudomagical / pseudo magic": "seudomágico / seudomagia",
+		"monologuous": "monológica",
+		"autosuggestive / sociosuggestive": "autosugestivo / sociosugestivo",
+		"anywhere presence": "presencia ubicua",
+		"Maker": "Hacedor",
+		"agency (of religion)": "instrumento",
+		"dairymen priests": "sacerdotes de las lecherías",
+		"magic server": "el que servía a la magia"
+	},
+	"forcedChoices": [
+		{
+			"ref": "91:1.3",
+			"choice": "sus mores económicos, sociales y éticos (masculino)",
+			"reason": "Glossary keeps 'mores'; Spanish needs a gender, and the Latin 'mos' is masculine."
+		},
+		{
+			"ref": "91:3.5",
+			"choice": "lo que trasciende el yo for 'superself'",
+			"reason": "'superyó' is the Freudian superego in Spanish, a sense the authors did not intend."
+		},
+		{
+			"ref": "91:4.3",
+			"choice": "sean equitativos (plural, ustedes)",
+			"reason": "The text speaks to the reader; packet rule uses plural ustedes, which forces masculine plural agreement."
+		},
+		{
+			"ref": "91:6.4",
+			"choice": "hacer efectivos aquellos poderes de reserva",
+			"reason": "'realization' here means bringing the stored powers into use; 'realización' alone can read as 'accomplishment'."
+		},
+		{
+			"ref": "91:9.2",
+			"choice": "orantes poderosos",
+			"reason": "'a potent prayer' means a person who prays; Spanish 'oración' would read as the act."
+		},
+		{
+			"ref": "91:3.7",
+			"choice": "el Ajustador que mora dentro",
+			"reason": "'indwelling' with no stated object; glossary short form avoids naming what it indwells."
+		},
+		{
+			"ref": "91:0.2",
+			"choice": "«Deséame suerte» with tú",
+			"reason": "Spoken to one friend, so tú per the Spanish rules."
+		}
+	]
+}
