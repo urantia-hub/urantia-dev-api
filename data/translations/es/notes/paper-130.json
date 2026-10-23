@@ -1,0 +1,63 @@
+{
+	"newTerms": {
+		"Paradise Pattern": "Patrón del Paraíso",
+		"spirit pilot": "piloto espiritual",
+		"Supreme Ruler of Heaven": "Gobernante Supremo del Cielo",
+		"misadaptation": "mala adaptación",
+		"progressability": "progresabilidad",
+		"decision-conduct": "conducta-decisión",
+		"succession-arrangement": "ordenación en sucesión",
+		"power-presence": "presencia-poder",
+		"circular simultaneity": "simultaneidad circular",
+		"Deity-likeness": "semejanza con la Deidad",
+		"relativity concept": "concepto de relatividad",
+		"children of ultimate destiny": "hijos del destino último"
+	},
+	"forcedChoices": [
+		{
+			"ref": "130:1.6",
+			"choice": "«declaraciones de tanto peso» for 'momentous statements' (also 2.10 'verdad de tanto peso')",
+			"reason": "'trascendental' is a glossary term for the absonite level, so it is not used for 'momentous'."
+		},
+		{
+			"ref": "130:2.8",
+			"choice": "«reflexiva» for 'reflective'",
+			"reason": "Here it means able to reflect and think; 'reflectiva' is the earlier form for 'reflective personalities', a coined sense."
+		},
+		{
+			"ref": "130:4.11",
+			"choice": "«cualidad real del universo» for 'actual universe quality'",
+			"reason": "Ordinary sense of 'actual' (real); no contrast with the potential in this sentence."
+		},
+		{
+			"ref": "130:4.14",
+			"choice": "«mal en acto» for 'actual evil'",
+			"reason": "Here 'actual' is set against 'potential evil', so the glossary form 'en acto' fits."
+		},
+		{
+			"ref": "130:8.2",
+			"choice": "plural «ustedes» forms in the two Jeremiah quotes",
+			"reason": "English 'you' is ambiguous; the prophet speaks to a people, and Spanish forces a choice."
+		},
+		{
+			"ref": "130:6.2",
+			"choice": "the youth says «te» (tú) to Jesus",
+			"reason": "Rule: tú when one person speaks to another, unless great respect is shown."
+		},
+		{
+			"ref": "130:3.10",
+			"choice": "«su propio pueblo»",
+			"reason": "Kept ambiguous between Ganid's people and Jesus' people, as in the English."
+		},
+		{
+			"ref": "130:4.1",
+			"choice": "«reflejos, como sombras,» for 'shadowy reflections'",
+			"reason": "'reflejos sombríos' would read as gloomy."
+		},
+		{
+			"ref": "130:2.4",
+			"choice": "«amabilidad» for 'kindness'",
+			"reason": "'bondad' is the glossary form for 'goodness', which appears in the same paragraph."
+		}
+	]
+}

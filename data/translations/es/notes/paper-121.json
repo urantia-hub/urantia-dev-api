@@ -1,0 +1,50 @@
+{
+	"newTerms": {
+		"Melchizedek of record": "Melquisedec de registro",
+		"Reason-Fate": "Razón-Hado",
+		"religio-philosophy": "filosofía religiosa",
+		"mystery religions / mystery cults": "religiones mistéricas / cultos mistéricos",
+		"emperor worship": "adoración del emperador",
+		"United Brotherhood of Urantia Midwayers": "Fraternidad Unida de los Seres Intermedios de Urantia",
+		"Brotherhood of the United Midwayers of Urantia": "Fraternidad de los Seres Intermedios Unidos de Urantia",
+		"superplanetary": "superplanetario",
+		"self-righteousness": "rectitud propia"
+	},
+	"forcedChoices": [
+		{
+			"ref": "121:0.1",
+			"choice": "la orden (feminine) for 'order' of beings",
+			"reason": "Matches the glossary short form 'orden secundaria de criaturas intermedias'; used the same in 121:8.12."
+		},
+		{
+			"ref": "121:2.11",
+			"choice": "año 39 d. C. (era abbreviation after the number)",
+			"reason": "Spanish puts a. C. / d. C. after the year; the scaps span is kept. Same in all of 121:8."
+		},
+		{
+			"ref": "121:5.12",
+			"choice": "no cometan (ustedes)",
+			"reason": "The text addresses the reader; the Spanish rules ask for plural ustedes."
+		},
+		{
+			"ref": "121:6.7",
+			"choice": "vuelco del sentimiento for 'reversion of feeling'",
+			"reason": "The glossary term 'reversión' carries the coined sense of recall of past memories; here the English means a plain reversal."
+		},
+		{
+			"ref": "121:8.12",
+			"choice": "concepto humano efectivo for 'actual human concept'",
+			"reason": "Plain sense 'real', not the philosophical 'en acto'; 'efectivo' avoids the false friend and the coined term."
+		},
+		{
+			"ref": "121:8.14",
+			"choice": "generaciones transcurridas desde entonces for 'intervening generations'",
+			"reason": "'intermedias' would read as the midwayer term (seres intermedios) in the same sentence."
+		},
+		{
+			"ref": "121:8.3",
+			"choice": "Evangelio de Marcos / de Lucas for 'Gospel by'",
+			"reason": "Spanish has no natural form that separates 'by' from 'of' in a title; 'según' is kept for 'according to'."
+		}
+	]
+}

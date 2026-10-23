@@ -1,0 +1,62 @@
+{
+	"newTerms": {
+		"apostolic corps": "cuerpo apostólico",
+		"inner circle": "círculo interior",
+		"glad tidings": "buenas nuevas",
+		"steward (Philip)": "mayordomo",
+		"ushers": "ujieres",
+		"doubting Thomas": "Tomás el que dudaba",
+		"money-getter": "el que consigue el dinero",
+		"Judges of men": "Jueces de los hombres",
+		"Judean (person of Judea)": "hombre de Judea",
+		"publicans": "publicanos",
+		"Judaizers": "judaizantes"
+	},
+	"forcedChoices": [
+		{
+			"ref": "139:1.2",
+			"choice": "En el año 26 d. C.",
+			"reason": "Spanish puts the era after the number; the scaps span moves with it."
+		},
+		{
+			"ref": "139:4.15",
+			"choice": "en el año 103 d. C.",
+			"reason": "Same as 139:1.2."
+		},
+		{
+			"ref": "139:2.5",
+			"choice": "setenta veces y siete",
+			"reason": "The English 'seventy times and seven' can be read as 77 or 490; the wording keeps both readings open."
+		},
+		{
+			"ref": "139:5.8",
+			"choice": "«Ven» / «ven conmigo; te mostraré el camino» (tú); «Vayan» to hearers (ustedes)",
+			"reason": "Philip speaks to one person (Nathaniel); the dogmatic preacher speaks to many hearers; parents speak to several children."
+		},
+		{
+			"ref": "139:6.5",
+			"choice": "tú (Jesus to Judas)",
+			"reason": "Jesus speaks to one person."
+		},
+		{
+			"ref": "139:10.10",
+			"choice": "tú (Judas to Jesus)",
+			"reason": "An apostle speaks to his Master as a close associate; consistent with the other apostle speech."
+		},
+		{
+			"ref": "139:12.2",
+			"choice": "hombre de Judea",
+			"reason": "'judeo' can be read as 'Jewish'; the English means a native of Judea."
+		},
+		{
+			"ref": "139:8.1",
+			"choice": "Tomás el que dudaba",
+			"reason": "'incrédulo' means 'unbelieving', which changes the idea; Thomas doubted."
+		},
+		{
+			"ref": "139.10",
+			"choice": "y 10. Santiago y Judas Alfeo",
+			"reason": "The packet title starts with 'and 10.' (sections 9 and 10 are joined); kept the same form."
+		}
+	]
+}

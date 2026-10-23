@@ -1,0 +1,55 @@
+{
+	"newTerms": {
+		"seraphim of the churches": "serafines de las iglesias",
+		"seraphim of progress": "serafines del progreso",
+		"Urantia Revelation": "Revelación de Urantia",
+		"revelatory commission": "comisión reveladora",
+		"supersovereignty": "supersoberanía",
+		"overcontrolling (influence)": "supercontroladora",
+		"superconsanguineous": "superconsanguíneas",
+		"supertribe": "supertribu",
+		"superstate (sovereignty)": "superestatal",
+		"supernational": "supranacional",
+		"self-determinism / self-determination": "autodeterminismo / autodeterminación",
+		"mankind government": "gobierno de la humanidad",
+		"circles of mind-understanding and personality-control": "círculos de la comprensión mental y del control de la personalidad",
+		"Caligastia secession": "secesión de Caligastia",
+		"incarnation bestowal": "otorgamiento de la encarnación",
+		"mortal bestowal": "otorgamiento mortal",
+		"day of atonement": "día de la expiación",
+		"feast of tabernacles": "fiesta de los tabernáculos",
+		"spirit sovereignty / spirit sovereign": "soberanía espiritual / soberano espiritual"
+	},
+	"forcedChoices": [
+		{
+			"ref": "134:1.1",
+			"choice": "año 23 <span class=\"scaps\">d. C.</span> (era after the number)",
+			"reason": "Spanish puts the era mark after the year; the scaps tag stays on the era mark."
+		},
+		{
+			"ref": "134:4.5",
+			"choice": "No puede haber igualdad... (impersonal)",
+			"reason": "The generic 'you' reads better as an impersonal form."
+		},
+		{
+			"ref": "134:6.1",
+			"choice": "la libertad—ser libre—",
+			"reason": "Spanish has one word for 'freedom' and 'liberty'; the appositive keeps the doubled idea."
+		},
+		{
+			"ref": "134:8.7",
+			"choice": "tú (a ti, mi hijo rebelde)",
+			"reason": "Jesus speaks to one 'rebellious son' as Creator-father."
+		},
+		{
+			"ref": "134:9.5",
+			"choice": "estar en comunión con (not 'comulgar')",
+			"reason": "'comulgar' carries the sense of taking communion."
+		},
+		{
+			"ref": "134:8.9",
+			"choice": "lo cual por sí mismo regula",
+			"reason": "Keeps open whether 'which' refers to the price paid or to the sovereignty."
+		}
+	]
+}

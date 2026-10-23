@@ -1,0 +1,57 @@
+{
+	"newTerms": {
+		"tarrying time": "tiempo de espera",
+		"disciple-apostles": "discípulos-apóstoles",
+		"father-brother": "padre-hermano",
+		"Universe Creator Sovereign": "Soberano Creador del Universo",
+		"Personalized Thought Adjuster": "Ajustador del Pensamiento Personalizado",
+		"creator prerogative": "prerrogativa de creador"
+	},
+	"forcedChoices": [
+		{
+			"ref": "137:1.1",
+			"choice": "«Maestro» for both 'Teacher' and 'Master'",
+			"reason": "Natural Spanish has one common word for both titles; 'Instructor' reads as a technical rank."
+		},
+		{
+			"ref": "137:1.1",
+			"choice": "tú when a disciple speaks to Jesus",
+			"reason": "Packet rule: tú for one person; the disciples address a teacher they know well, not a ruler."
+		},
+		{
+			"ref": "137:4.7",
+			"choice": "tú from Mary to the bridegroom's mother",
+			"reason": "Two women at a family feast; no sign of formal respect."
+		},
+		{
+			"ref": "137:6.6",
+			"choice": "tú from Jesus to the Father",
+			"reason": "Intimate prayer to 'My Father'."
+		},
+		{
+			"ref": "137:2.3",
+			"choice": "«desde que él llegó» keeps 'he' open (Jesus or Philip)",
+			"reason": "The English pronoun is ambiguous; Spanish 'él' keeps both readings."
+		},
+		{
+			"ref": "137:8.13",
+			"choice": "«servicio de perfeccionamiento»",
+			"reason": "'perfecting service' can mean service that perfects or service being perfected; 'de perfeccionamiento' keeps both open."
+		},
+		{
+			"ref": "137:8.16",
+			"choice": "«los que pretenden ser justos» for 'would-be righteous'",
+			"reason": "Spanish 'pretender' carries both 'aspire to' and 'claim to', as the English does."
+		},
+		{
+			"ref": "137:0.1",
+			"choice": "«26 d. C.» after the year in the scaps span",
+			"reason": "Spanish order for the era; earlier papers use «a. C.» for b.c."
+		},
+		{
+			"ref": "137:8.7",
+			"choice": "«Padre sempiterno» for 'everlasting Father'",
+			"reason": "Kept separate from 'eterno' (eternal), which the same sermon uses for 'eternal life'."
+		}
+	]
+}

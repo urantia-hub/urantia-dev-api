@@ -1,0 +1,60 @@
+{
+	"newTerms": {
+		"segregated worlds": "mundos segregados",
+		"Melchizedeks": "Melquisedecs",
+		"bestowal child": "niño del otorgamiento",
+		"bestowal race": "raza del otorgamiento",
+		"bestowal families": "familias de otorgamiento",
+		"bestowal parents": "padres del otorgamiento",
+		"earth mother": "madre terrenal",
+		"child of promise": "hijo de la promesa",
+		"child of destiny": "hijo del destino",
+		"deliverer": "libertador",
+		"world's deliverer": "libertador del mundo",
+		"soul-healer": "sanador de almas",
+		"spirit-liberator": "liberador del espíritu",
+		"dayspring": "aurora"
+	},
+	"forcedChoices": [
+		{
+			"ref": "122:2.3",
+			"choice": "tú",
+			"reason": "Gabriel speaks to one person (Elizabeth); the same for Mary in 122:3.1 and the messenger to Joseph in 122:4.1."
+		},
+		{
+			"ref": "122:2.6",
+			"choice": "«de este mundo» for «of the realm»",
+			"reason": "«del reino» can be read as the kingdom of heaven; here realm means the world where the child is born."
+		},
+		{
+			"ref": "122:4.1",
+			"choice": "«Aquel»",
+			"reason": "The English capitalizes «Him»; the capital is kept."
+		},
+		{
+			"ref": "122:4.4",
+			"choice": "«una joven» for «a maiden»",
+			"reason": "«doncella» reads as archaic; «joven» keeps the contrast with «virgen» that the sentence depends on."
+		},
+		{
+			"ref": "122:9.2",
+			"choice": "«de Judea», «de Galilea»",
+			"reason": "Spanish has no common gentile noun for «Judean» that is not also «judío»; the place name keeps the sense."
+		},
+		{
+			"ref": "122:9.20",
+			"choice": "«Alégrense» (plural)",
+			"reason": "The hymn is sung to the assembled people; the plural imperative fits and avoids «vosotros»."
+		},
+		{
+			"ref": "122:9.26",
+			"choice": "«el desvelamiento de los gentiles»",
+			"reason": "The English is ambiguous (unveiling to or of the gentiles); a literal form keeps both readings open."
+		},
+		{
+			"ref": "122:10.1",
+			"choice": "«una bolsa de dinero» for «a purse»",
+			"reason": "A bare «bolsa» loses the sense of money that «purse» carries."
+		}
+	]
+}

@@ -1,0 +1,46 @@
+{
+	"newTerms": {
+		"chazan": "jazán",
+		"indwelling Monitor": "Monitor que mora en él",
+		"postbestowal-Son worlds": "mundos posteriores al Hijo de otorgamiento",
+		"brother-father": "hermano-padre",
+		"father-brother": "padre-hermano",
+		"Mother-Mary": "Madre-María",
+		"son of destiny": "hijo del destino",
+		"child of promise": "hijo de la promesa",
+		"life mission": "misión de vida",
+		"man of the realm / babe of the realm / adult of the realm": "hombre del reino / bebé del reino / adulto del reino"
+	},
+	"forcedChoices": [
+		{
+			"ref": "127:2.3",
+			"choice": "«¿cómo has podido?» (tú)",
+			"reason": "Jesus speaks to one person, his mother; the rules ask for tú."
+		},
+		{
+			"ref": "127:3.5",
+			"choice": "comunidad de Israel",
+			"reason": "The earlier-paper form «comunidad política» is for civil government; here the sense is the religious community that James joins."
+		},
+		{
+			"ref": "127:4.2",
+			"choice": "«Harás esto—deberías hacer aquello» (tú)",
+			"reason": "The English 'you' is generic; the singular fits a command to one hearer."
+		},
+		{
+			"ref": "127:5.4",
+			"choice": "«probado en todo, igual que ustedes»",
+			"reason": "The quote speaks to the readers; the rules ask for plural ustedes."
+		},
+		{
+			"ref": "127:3.12",
+			"choice": "Lo que Juan vio en Nazaret le causó la tremenda impresión de que debía volver a casa",
+			"reason": "The English 'impressed ... that he should return' means he was convinced he must return; Spanish needs a different structure."
+		},
+		{
+			"ref": "127:5.6",
+			"choice": "«el todo amable y el más grande entre diez mil»",
+			"reason": "Masculine gender, because the phrase refers to the Son of Man."
+		}
+	]
+}

@@ -1,0 +1,64 @@
+{
+	"newTerms": {
+		"sponsor-brother": "hermano-patrocinador",
+		"bestowal release": "liberación del otorgamiento",
+		"nontime beings": "seres fuera del tiempo",
+		"time miracles": "milagros de tiempo",
+		"time-shortening (ministrations)": "que acortaban el tiempo",
+		"Personalized Mystery Monitor": "Monitor de Misterio Personalizado",
+		"Perean hills": "colinas de Perea",
+		"chazan": "jazán",
+		"pretender (Caligastia)": "pretendiente",
+		"self-preservation": "autoconservación",
+		"policy (of conduct)": "línea de acción",
+		"self-identification": "autoidentificación",
+		"divine-human (will)": "divino-humana"
+	},
+	"forcedChoices": [
+		{
+			"ref": "136:1.6",
+			"choice": "«mortal(es) de este mundo» for «mortal(s) of the realm»",
+			"reason": "«reino» is reserved for «kingdom»; «realm» here means the world where the mortal lives."
+		},
+		{
+			"ref": "136:2.3",
+			"choice": "«para recibir el bautismo de Juan»",
+			"reason": "The English does not say if the two brothers were also baptized; an infinitive with no number keeps both readings open."
+		},
+		{
+			"ref": "136:2.8",
+			"choice": "«reinado efectivo» for «actual rule»",
+			"reason": "Plain sense (the rule in fact), not the philosophical «en acto» of the glossary."
+		},
+		{
+			"ref": "136:3.5",
+			"choice": "«tú» for the Constellation Father speaking to Michael",
+			"reason": "The English shows no formal address; «tú» matches the Adjuster and Gabriel addressing Jesus in this paper."
+		},
+		{
+			"ref": "136:5.4",
+			"choice": "«tú» for the Adjuster speaking to Jesus",
+			"reason": "One person speaks to one person with no mark of formal respect."
+		},
+		{
+			"ref": "136:8.4",
+			"choice": "«transigir» / «concesiones» for «compromise»",
+			"reason": "Spanish «compromiso» means «commitment»; the English sense is to yield or make concessions."
+		},
+		{
+			"ref": "136:7.1",
+			"choice": "«al espacio» for «out into space»",
+			"reason": "Keeps the English word; «al vacío» would add an image."
+		},
+		{
+			"ref": "136:8.7",
+			"choice": "«Al considerar ustedes … deben tener siempre presente»",
+			"reason": "The text speaks to the readers; plural «ustedes» as the Spanish rules require."
+		},
+		{
+			"ref": "136:9.10",
+			"choice": "«del carácter de esta» for «its nature»",
+			"reason": "«su naturaleza» could be read as Jesus' own nature; «its» refers to the mission."
+		}
+	]
+}

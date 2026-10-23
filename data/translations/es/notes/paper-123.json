@@ -1,0 +1,54 @@
+{
+	"newTerms": {
+		"chazan": "jazán",
+		"Universe Rulers": "Gobernantes del Universo",
+		"divine Monitor": "Monitor divino",
+		"midway temporal guardians": "guardianes temporales intermedios",
+		"primary midwayer / secondary midwayer": "ser intermedio primario / ser intermedio secundario",
+		"child of promise": "hijo de la promesa",
+		"child of destiny": "hijo del destino",
+		"men and women of destiny / man of destiny": "hombres y mujeres de destino / hombre de destino",
+		"feast of tabernacles": "fiesta de los tabernáculos",
+		"midwinter festive illumination": "fiesta de las luces de pleno invierno",
+		"feast of the first-fruits": "fiesta de las primicias",
+		"day of atonement": "día de la expiación",
+		"Book of the Law": "Libro de la Ley"
+	},
+	"forcedChoices": [
+		{
+			"ref": "123:4.9",
+			"choice": "«del año 1 d. C.» with the era mark after the number",
+			"reason": "Spanish puts «d. C.» after the year; the English puts a.d. before it."
+		},
+		{
+			"ref": "123:6.7",
+			"choice": "«el 2 d. C.» with the era mark after the number",
+			"reason": "Spanish puts «d. C.» after the year."
+		},
+		{
+			"ref": "123:2.16",
+			"choice": "«si ustedes hubieran estado allí»",
+			"reason": "The text speaks to the reader; the packet asks for plural «ustedes»."
+		},
+		{
+			"ref": "123:3.2",
+			"choice": "«Imaginen»",
+			"reason": "Address to the reader in the plural «ustedes» form."
+		},
+		{
+			"ref": "123:4.8",
+			"choice": "«un muchacho enérgico y decidido» for «an aggressive boy»",
+			"reason": "«agresivo» suggests violence; the sense here is bold and active, not hostile."
+		},
+		{
+			"ref": "123:3.6",
+			"choice": "«mi Padre en el cielo»; 123:6.9 «mi Padre que está en el cielo»",
+			"reason": "Follows the two English wordings «my Father in heaven» and «my Father who is in heaven»."
+		},
+		{
+			"ref": "123:5.2",
+			"choice": "«hijo del mandamiento» instruido",
+			"reason": "Spanish adjective follows the quoted noun phrase; the quote stays at the same place."
+		}
+	]
+}

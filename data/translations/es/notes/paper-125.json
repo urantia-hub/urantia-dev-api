@@ -1,0 +1,53 @@
+{
+	"newTerms": {
+		"son of the law / sons of the law": "hijo de la ley / hijos de la ley",
+		"son of the covenant": "hijo del pacto",
+		"feast of tabernacles": "fiesta de los tabernáculos",
+		"feast of the dedication": "fiesta de la dedicación",
+		"money-changers": "cambistas",
+		"women's gallery": "galería de las mujeres",
+		"Father in heaven": "Padre que está en el cielo"
+	},
+	"forcedChoices": [
+		{
+			"ref": "125:0.6",
+			"choice": "tú for Jesus to Joseph",
+			"reason": "A son speaks to his own father; the packet rule gives tú for one person."
+		},
+		{
+			"ref": "125:4.3",
+			"choice": "tú for the teacher to Jesus",
+			"reason": "The irate teacher speaks to a boy; no sign of respect."
+		},
+		{
+			"ref": "125:6.7",
+			"choice": "ustedes (plural) in Jesus' reply",
+			"reason": "Jesus answers his mother, but Mary said 'your father and I have searched'; the search was by both parents."
+		},
+		{
+			"ref": "125:6.8",
+			"choice": "Vengan (ustedes)",
+			"reason": "Jesus speaks to both parents."
+		},
+		{
+			"ref": "125:6.9",
+			"choice": "ustedes for the people of Jerusalem",
+			"reason": "The address is to the city and its people, a plural."
+		},
+		{
+			"ref": "125:2.8",
+			"choice": "puesto que él no reunía las condiciones",
+			"reason": "Kept 'él' so the subject stays as open as the English 'he'; the context points to Lazarus."
+		},
+		{
+			"ref": "125:6.3",
+			"choice": "sentado a su lado",
+			"reason": "Keeps open who sat beside whom, as the English 'sitting beside him' does."
+		},
+		{
+			"ref": "125:6.12",
+			"choice": "dedicación (not consagración) for 'dedication'",
+			"reason": "Consagración is used for the temple ceremony in this paper."
+		}
+	]
+}

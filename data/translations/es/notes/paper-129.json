@@ -1,0 +1,50 @@
+{
+	"newTerms": {
+		"chazan": "jazán",
+		"contact-training": "formación por contacto",
+		"travel-training": "formación por los viajes",
+		"counterparted (the mortal identity)": "hacerse su contraparte",
+		"posthuman": "poshumano",
+		"God-man": "Dios-hombre",
+		"Paradise pilgrims": "peregrinos del Paraíso",
+		"father-partner": "padre-socio",
+		"sojourners in the flesh": "seres de paso en la carne"
+	},
+	"forcedChoices": [
+		{
+			"ref": "129:1.15",
+			"choice": "hombre de su mundo",
+			"reason": "\"man of the realm\": \"reino\" collides with \"kingdom\", and \"hombre del mundo\" reads as \"worldly man\"."
+		},
+		{
+			"ref": "129:4.2",
+			"choice": "mortal encarnado de su mundo",
+			"reason": "Same rendering of \"realm\" as in 129:1.15; plural \"realms\" is \"mundos\" (129:4.5)."
+		},
+		{
+			"ref": "129:2.3",
+			"choice": "Maestro mío",
+			"reason": "Spanish has one plain word for \"Teacher\" and \"Master\"; John speaks to one person, so \"tú\"."
+		},
+		{
+			"ref": "129:3.5",
+			"choice": "el mundo de ustedes",
+			"reason": "\"your world\" as \"su mundo\" would read as \"his world\" in a sentence about Jesus."
+		},
+		{
+			"ref": "129:4.7",
+			"choice": "no pueden aspirar",
+			"reason": "\"may not aspire\" can mean permission or ability; \"no pueden\" keeps both readings."
+		},
+		{
+			"ref": "129:4.1",
+			"choice": "ni se había hecho plenamente su contraparte",
+			"reason": "\"counterparted\" is a coined verb; medium confidence that it means the Adjuster had not yet become the full spirit counterpart of the mortal identity."
+		},
+		{
+			"ref": "129:1.1",
+			"choice": "año 21 d. C.",
+			"reason": "Spanish puts the era after the year, so the scaps span follows the number."
+		}
+	]
+}
