@@ -1,0 +1,70 @@
+{
+	"newTerms": {
+		"Corps of the Mortal Finality": "Cuerpo de la Finalidad Mortal",
+		"Mortal Corps of (the) Finality": "Cuerpo Mortal de los Finalitarios",
+		"Mortal Finaliter Corps": "Cuerpo de Finalitarios Mortales",
+		"primary Corps of the Finality": "Cuerpo primario de los Finalitarios",
+		"Paradise Corps of Finality": "Cuerpo de los Finalitarios del Paraíso",
+		"finality corps / destiny corps": "cuerpos de finalidad / cuerpos del destino",
+		"finality oath": "juramento de finalidad",
+		"finaliter oath": "juramento de los finalitarios",
+		"finality destiny": "destino de finalidad",
+		"glorified mortals": "mortales glorificados",
+		"adopted seraphim": "serafines adoptados",
+		"midway creatures": "criaturas intermedias",
+		"messenger-recorders": "mensajeros-registradores",
+		"absonitized / absonitize": "absonitizados / absonitizarse",
+		"superspirit beings": "seres superespirituales",
+		"quartan (spirits; space level)": "cuaternario",
+		"seventh-spirit classification": "clasificación de séptimo espíritu",
+		"supercitizens": "superciudadanos",
+		"superadministration": "superadministración",
+		"superco-ordinators": "supercoordinadores",
+		"senior (Master) Architect": "Arquitecto (Maestro) decano",
+		"pre-eventuated": "preeventuado",
+		"personality seizure": "apropiación de la personalidad",
+		"equivalated": "se equiparó",
+		"powerizing": "potenciándose (se está potenciando)",
+		"upstepping": "elevar",
+		"Supreme Person of Deity": "Persona Suprema de la Deidad",
+		"pilgrim-training schools": "escuelas de formación de peregrinos",
+		"finaliter receiving circle": "círculo de recepción de los finalitarios"
+	},
+	"forcedChoices": [
+		{
+			"ref": "31:3.6",
+			"choice": "«Sean ustedes perfectos»",
+			"reason": "English 'Be you perfect' does not mark number; the injunction is to all mortals, so plural ustedes per the Spanish rules."
+		},
+		{
+			"ref": "31:8.3",
+			"choice": "Ustedes, que son criaturas, pueden",
+			"reason": "English singular 'You, being a creature' addresses the reader; the rules ask for plural ustedes when the text speaks to the reader."
+		},
+		{
+			"ref": "31:7.1",
+			"choice": "adscritos que se asignan (plural)",
+			"reason": "'assigned on any single mission' can modify the chief or the Evangels; Spanish agreement forces one; plural keeps the Evangels as the ones assigned to a mission, which 31:7.2 supports."
+		},
+		{
+			"ref": "31:10.21",
+			"choice": "autorizados (plural)",
+			"reason": "'authorized so to function' can refer to the One without Name and Number or to both sponsors; Spanish number forces a choice; plural follows the joint sponsorship."
+		},
+		{
+			"ref": "31:10.22",
+			"choice": "1934 <span class=\"scaps\">d. C.</span>",
+			"reason": "Spanish puts the era mark after the year; the span tag is kept and moved with its text."
+		},
+		{
+			"ref": "31:9.10",
+			"choice": "28 012.<sup>o</sup>",
+			"reason": "The English ordinal suffix 'th' becomes the Spanish ordinal mark 'o' inside the same sup tag."
+		},
+		{
+			"ref": "31:10.19",
+			"choice": "el Cuerpo de los Finalitarios, que se va reuniendo, está destinado",
+			"reason": "English 'Corps ... are' uses a plural verb with a collective; Spanish uses the singular for the one named corps."
+		}
+	]
+}

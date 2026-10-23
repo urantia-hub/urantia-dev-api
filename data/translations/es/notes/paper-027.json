@@ -1,0 +1,57 @@
+{
+	"newTerms": {
+		"superaphic": "supernáfico",
+		"angels of assignment": "ángeles de asignación",
+		"living finders of knowledge": "localizadores vivientes del conocimiento",
+		"recording angels": "ángeles registradores",
+		"transition sleep": "sueño de transición",
+		"Great Source and Center": "Gran Fuente y Centro",
+		"Isle of Light and Life": "Isla de Luz y Vida",
+		"conjoint corps": "cuerpo conjunto",
+		"Trinity oath of eternity": "juramento de eternidad de la Trinidad",
+		"worshipfulness": "disposición a la adoración",
+		"the Gods": "los Dioses"
+	},
+	"forcedChoices": [
+		{
+			"ref": "27:0.11",
+			"choice": "ustedes",
+			"reason": "The text speaks to the readers as a group (packet rule: plural ustedes)."
+		},
+		{
+			"ref": "27:0.2",
+			"choice": "este orden (masculine)",
+			"reason": "Orden as a classification of beings, not a religious order."
+		},
+		{
+			"ref": "27:1.4",
+			"choice": "el último gran esfuerzo de fe",
+			"reason": "'stretch of faith' reads as an exertion of faith; Spanish has no word that keeps both the effort and the span senses."
+		},
+		{
+			"ref": "27:1.5",
+			"choice": "su nombre es el espíritu de ustedes",
+			"reason": "Plain 'su espíritu' would be ambiguous between his and your; the English says 'your'."
+		},
+		{
+			"ref": "27:5.2",
+			"choice": "su lado / desee (generic masculine reference)",
+			"reason": "English 'his' is generic; Spanish keeps the generic form without a gender mark on the verb."
+		},
+		{
+			"ref": "27:6.2",
+			"choice": "del Último",
+			"reason": "Glossary form for 'the Ultimate' is 'el Último'; Spanish forces a gender where 'lo Último' would be impersonal."
+		},
+		{
+			"ref": "27:6.5",
+			"choice": "una satisfacción cierta y duradera",
+			"reason": "'certain' paired with 'lasting' reads as 'sure'; 'cierta satisfacción' would mean 'some satisfaction'."
+		},
+		{
+			"ref": "27:7.7",
+			"choice": "el hijo criatura",
+			"reason": "'child' has no gender in English; Spanish needs one, and the masculine generic matches 'Creator Father'."
+		}
+	]
+}

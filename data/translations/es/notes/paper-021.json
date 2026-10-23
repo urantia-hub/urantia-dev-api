@@ -1,0 +1,71 @@
+{
+	"newTerms": {
+		"vicegerent sovereignty": "soberanía vicegerente",
+		"augmenting (sovereignty)": "creciente",
+		"Trinitarian sovereignty": "soberanía trinitaria",
+		"bestowal Son(s)": "Hijo(s) de otorgamiento",
+		"sevenfold bestowal Sons": "Hijos de otorgamiento séptuple",
+		"sevenfold Master Sons": "Hijos Maestros séptuples",
+		"Master Sovereigns": "Soberanos Maestros",
+		"Eternal and Original Mother Son": "Hijo Madre Eterno y Original",
+		"Creative Spirit focalization": "focalización como Espíritu Creativo",
+		"dual-origin (beings)": "de doble origen",
+		"precreature (factors)": "anteriores a la criatura",
+		"pre-Trinity": "anteriores a la Trinidad",
+		"prebestowal": "anterior al otorgamiento",
+		"cosmic leasehold": "arrendamiento cósmico",
+		"freewill Sons / creatures": "de libre albedrío",
+		"superfinite": "superfinito",
+		"seventh-stage Creative Spirit": "Espíritu Creativo de la séptima etapa",
+		"Deity of the Supreme": "Deidad del Supremo",
+		"liaison (Son and Spirit)": "enlace",
+		"creature-Creator experience": "experiencia criatura-Creador"
+	},
+	"forcedChoices": [
+		{
+			"ref": "21:0.2",
+			"choice": "las Deidades progenitoras",
+			"reason": "Spanish needs a noun phrase for 'Deity parents'; this keeps both Deities without adding gender."
+		},
+		{
+			"ref": "21:0.3",
+			"choice": "el «orden de Miguel» (masculine)",
+			"reason": "'orden' in the sense of a class of beings is masculine; the feminine means a command."
+		},
+		{
+			"ref": "21:1.4",
+			"choice": "como embajador consejero",
+			"reason": "'Unión' is grammatically feminine, but the apposition names the being's role; masculine generic chosen."
+		},
+		{
+			"ref": "21:2.11",
+			"choice": "el jefe ejecutivo (masculine) for the Bright and Morning Star",
+			"reason": "Gabriel is referred to with 'he' in the papers; the feminine noun 'Estrella' does not change the role's gender."
+		},
+		{
+			"ref": "21:0.3",
+			"choice": "su universo de Nebadon",
+			"reason": "'your' is plural (the readers); 'su' can also read as 'their', but context makes it clear."
+		},
+		{
+			"ref": "21:4.6",
+			"choice": "¿Por qué ... universos!",
+			"reason": "The English ends a question with '!'; Spanish allows ¿…! to keep both the question and the exclamation."
+		},
+		{
+			"ref": "21:6.1",
+			"choice": "deben ser (not 'deben de ser')",
+			"reason": "Keeps the English 'must' open between necessity and inference."
+		},
+		{
+			"ref": "21:6.1",
+			"choice": "fases reales",
+			"reason": "'actual' here is the plain sense (real), not the technical 'en acto' of the glossary."
+		},
+		{
+			"ref": "21:2.2",
+			"choice": "el ayudante real y efectivo",
+			"reason": "'actual' in the plain sense; masculine 'ayudante' for the Infinite Spirit as the papers use 'he'."
+		}
+	]
+}

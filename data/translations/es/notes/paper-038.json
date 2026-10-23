@@ -1,0 +1,45 @@
+{
+	"newTerms": {
+		"messenger hosts of space": "huestes mensajeras del espacio",
+		"pattern angels": "ángeles patrón",
+		"unit formation": "formación de unidad",
+		"unrevealed angels": "ángeles no revelados",
+		"noncommissioned observers": "observadores sin comisión",
+		"Mid-phase Cherubim": "Querubines de Fase Intermedia",
+		"Morontia Cherubim": "Querubines Morontiales",
+		"midway creatures": "criaturas intermedias",
+		"mind circuiters": "circuitadores de la mente",
+		"material-circuit manipulators": "manipuladores de los circuitos materiales",
+		"celestial entertainers": "animadores celestiales",
+		"biologic uplifters": "elevadores biológicos",
+		"Chief of the Seraphic Hosts": "Jefe de las Huestes Seráficas",
+		"Lord God of hosts": "Señor Dios de las huestes"
+	},
+	"forcedChoices": [
+		{
+			"ref": "38:2.3",
+			"choice": "un serafín ... su tiempo",
+			"reason": "Spanish 'serafín' is masculine; the possessive 'su' keeps the English feminine pronoun without a contradiction."
+		},
+		{
+			"ref": "38:4.4",
+			"choice": "alterna la asistencia con su complemento",
+			"reason": "Sentence written without a gendered pronoun, so the English 'she' is not contradicted by the masculine noun."
+		},
+		{
+			"ref": "38:2.5",
+			"choice": "tú (Cuida de no hacerlo; soy un siervo como tú)",
+			"reason": "The angel speaks to one person, the seer."
+		},
+		{
+			"ref": "38:2.1",
+			"choice": "no sensuales",
+			"reason": "'nonsensuous' contrasts with the sex emotion of 38:2.2; 'no sensoriales' would limit it to sense perception."
+		},
+		{
+			"ref": "38:1.2",
+			"choice": "la posterior coordinada",
+			"reason": "Feminine agreement with the Mother Spirit, who is 'her' in 38:1.1."
+		}
+	]
+}

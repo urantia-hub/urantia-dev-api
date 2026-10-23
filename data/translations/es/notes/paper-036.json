@@ -1,0 +1,57 @@
+{
+	"newTerms": {
+		"life-planning sphere": "esfera de planificación de la vida",
+		"life-conservation sphere": "esfera de conservación de la vida",
+		"life-designing sphere": "esfera de diseño de la vida",
+		"life-conservation commission": "comisión de conservación de la vida",
+		"life-determining trio": "trío determinador de la vida",
+		"senior Life Carriers": "Portadores de Vida principales",
+		"inheritance carriers": "portadores de herencia",
+		"trait determiners": "determinantes de rasgos",
+		"life-carrying bundle": "haz portador de vida",
+		"pattern units": "unidades de patrón",
+		"enseraphiming": "enserafinamiento",
+		"supernal creatures": "criaturas supernas",
+		"central lodgments (of the adjutants)": "alojamientos centrales",
+		"emplacements (of the adjutants)": "emplazamientos",
+		"differential urge": "impulso diferencial",
+		"preadjutant mind levels": "niveles mentales preayudantes",
+		"superminded": "supermentales",
+		"prepersonality levels": "niveles prepersonales",
+		"directionize": "orientar",
+		"life-activation spark": "chispa de activación de la vida",
+		"Supervising Revelatory Corps": "Cuerpo Revelador Supervisor"
+	},
+	"forcedChoices": [
+		{
+			"ref": "36:0.1",
+			"choice": "LA VIDA",
+			"reason": "The English capitalizes the first word, a noun; Spanish needs the article, so both words are in capitals."
+		},
+		{
+			"ref": "36:2.10",
+			"choice": "se me permite revelar",
+			"reason": "First person singular of the author kept; impersonal 'se' avoids a choice of gender for the author."
+		},
+		{
+			"ref": "36:4.1",
+			"choice": "se ha unido",
+			"reason": "'mated' of persons; 'aparearse' reads as animal breeding in Spanish."
+		},
+		{
+			"ref": "36:4.2",
+			"choice": "el hijo mayor de ella",
+			"reason": "'her eldest son': Spanish 'su' cannot show that the son is the Mother Eve's, so 'de ella' keeps the English sense."
+		},
+		{
+			"ref": "36:4.4",
+			"choice": "la condición presente",
+			"reason": "'present status'; 'actual' is avoided as a false friend in this project."
+		},
+		{
+			"ref": "36:6.7",
+			"choice": "la realización de la vida",
+			"reason": "'life realization' means making life real; 'toma de conciencia' (the glossary form for realization of God) does not fit here."
+		}
+	]
+}

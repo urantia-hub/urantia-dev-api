@@ -1,0 +1,77 @@
+{
+	"newTerms": {
+		"Avonal Sons": "Hijos Avonales",
+		"lesser Christs": "Cristos menores",
+		"superteachers": "superinstructores",
+		"Triune Paradise Deity": "Deidad trina del Paraíso",
+		"Dual Deity": "Deidad dual",
+		"Life Carrier Sons": "Hijos Portadores de Vida",
+		"Vorondadeks (plural)": "Vorondadeks",
+		"beings of personal aid / personal aids": "seres de ayuda personal / ayudantes personales",
+		"coparental prerogatives": "prerrogativas de copaternidad",
+		"midsonite worlds": "mundos midsonitarios",
+		"emergency Sons": "Hijos de emergencia",
+		"magisterial missions": "misiones de magistratura",
+		"self-realization": "autorrealización",
+		"Most High regents": "regentes Altísimos",
+		"dekamillennium": "decamilenio",
+		"en banc": "en pleno",
+		"Universe Co-ordinators": "Coordinadores del Universo",
+		"Constellation Counselors": "Consejeros de las Constelaciones",
+		"Messenger Corps": "Cuerpo de Mensajeros",
+		"Reserve Corps": "Cuerpo de Reserva",
+		"Custodians and Recorders": "Custodios y Registradores",
+		"Trinity observers": "observadores de la Trinidad",
+		"Michael Son": "Hijo Miguel",
+		"bestowal Son": "Hijo de otorgamiento",
+		"supernal": "excelso",
+		"review (of experience, 35:3.14-3.18)": "repaso"
+	},
+	"forcedChoices": [
+		{
+			"ref": "35:3.11",
+			"choice": "nunca olvidarán ustedes",
+			"reason": "The text speaks to the reader; packet rule: plural ustedes."
+		},
+		{
+			"ref": "35:4.2",
+			"choice": "la sede de la constelación de ustedes; encontrarán ustedes",
+			"reason": "'your' addresses the reader; 'su' would read as the Melchizedeks' constellation."
+		},
+		{
+			"ref": "35:6.5",
+			"choice": "la constelación de ustedes",
+			"reason": "Same as 35:4.2."
+		},
+		{
+			"ref": "35:9.1",
+			"choice": "el sistema local de mundos habitados de ustedes",
+			"reason": "Same as 35:4.2."
+		},
+		{
+			"ref": "35:2.6",
+			"choice": "misiones de magistratura",
+			"reason": "Spanish 'magistral' means 'masterly'; the English means missions as magistrates (Magisterial Sons)."
+		},
+		{
+			"ref": "35:6.2",
+			"choice": "cabezas efectivas",
+			"reason": "'actual' here is the plain sense (real, in fact), not the philosophical 'actual' of the glossary (en acto)."
+		},
+		{
+			"ref": "35:5.4",
+			"choice": "se los ha citado ante el Hijo Creador por algún error",
+			"reason": "'citado por error' would read as 'cited by mistake'."
+		},
+		{
+			"ref": "35:2.1",
+			"choice": "los órdenes seráficos",
+			"reason": "'orden' as a class of beings is masculine in Spanish."
+		},
+		{
+			"ref": "35:9.9",
+			"choice": "pueden haberse extraviado",
+			"reason": "Keeps the English 'may have gone astray' open as a possibility."
+		}
+	]
+}

@@ -1,0 +1,63 @@
+{
+	"newTerms": {
+		"Judge-Arbiter": "Juez-Árbitro",
+		"referee trios": "tríos de árbitros",
+		"commissioners": "comisionados",
+		"Chiefs of Records": "Jefes de Registros",
+		"recording angels": "ángeles registradores",
+		"midway creatures": "criaturas intermedias",
+		"arbiter-teachers": "árbitros-maestros",
+		"pupil-teacher": "alumno-maestro",
+		"mercy-justice interpreter": "intérprete de misericordia-justicia",
+		"reception companions": "compañeros de recepción",
+		"prefinaliter": "prefinalitario",
+		"superuniversities": "superuniversidades",
+		"postsuperuniverse": "possuperuniversal",
+		"Supreme Judge": "Juez Supremo",
+		"Orvontonlike": "semejantes a Orvonton",
+		"registry": "registro oficial",
+		"Conciliators to the ...": "Conciliadores para ..."
+	},
+	"forcedChoices": [
+		{
+			"ref": "25:0.1",
+			"choice": "«los órdenes» (masculino)",
+			"reason": "«orden» como clase o rango es masculino; el femenino sugiere una orden religiosa."
+		},
+		{
+			"ref": "25:1.7",
+			"choice": "138 000 millones; 18 y 70 billones (3:15); 61 billones (4:10); «billones y billones» (6:4)",
+			"reason": "El inglés usa la escala corta; en español billion = mil millones y trillion = billón."
+		},
+		{
+			"ref": "25:1.6",
+			"choice": "«tú» en el veredicto citado",
+			"reason": "El juez habla a una sola persona."
+		},
+		{
+			"ref": "25:4.19",
+			"choice": "«físicas, mentales y espirituales» (concuerda con «leyes»)",
+			"reason": "El español obliga a concordar el género; el contexto apunta a las leyes de los tres órdenes."
+		},
+		{
+			"ref": "25:5.4",
+			"choice": "«lista permanente» y no «pase de lista»",
+			"reason": "Aquí roll call es el registro de miembros, no el pase de lista de las resurrecciones."
+		},
+		{
+			"ref": "25:7.1",
+			"choice": "«hijos» de los Espíritus Madre",
+			"reason": "El español obliga a un género para children; el masculino genérico es neutro."
+		},
+		{
+			"ref": "25:8.10",
+			"choice": "«un serafín ... ella elegiría»",
+			"reason": "«serafín» es gramaticalmente masculino, pero el inglés usa she para este ser; se conserva el pronombre."
+		},
+		{
+			"ref": "25:8.5",
+			"choice": "«ustedes, como mortales ascendentes»",
+			"reason": "El texto habla al lector; se usa el plural según las reglas."
+		}
+	]
+}
