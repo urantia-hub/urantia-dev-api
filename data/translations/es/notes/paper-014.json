@@ -1,0 +1,75 @@
+{
+	"newTerms": {
+		"Seven Spirits of the Circuits": "Siete Espíritus de los Circuitos",
+		"Eternal of Days": "Eterno de Días",
+		"pilot world": "mundo piloto",
+		"attainment candidates": "candidatos a la consecución",
+		"ensupernaphimed": "ensupernafinados",
+		"achieved / unachieved space": "espacio «conquistado» / «no conquistado»",
+		"pattern beings": "seres patrón",
+		"Coabsolute": "Coabsoluto",
+		"Havonal": "Havonal",
+		"Paradisiacal": "Paradisíaco",
+		"Universe Mother Spirits": "Espíritus Madre del Universo",
+		"Universe Mother Creator": "Madre Creadora del Universo",
+		"Universe Divine Minister": "Ministra Divina del Universo",
+		"Infinite Mother Spirit": "Espíritu Madre Infinito",
+		"Spirit Daughters / Daughter Spirits": "Hijas Espíritu",
+		"Mind Minister": "Ministro de la Mente",
+		"Paradise Michaels": "Migueles del Paraíso",
+		"Perfector of Wisdom": "Perfeccionador de la Sabiduría",
+		"Havona-circuit time": "tiempo de los circuitos de Havona",
+		"Paradise-Havona standard day": "día estándar Paraíso-Havona",
+		"Daughters of the Spirit": "Hijas del Espíritu",
+		"Daughter Spirits": "Espíritus Hijas",
+		"dark gravity bodies (belt)": "cinturón de cuerpos oscuros de gravedad",
+		"pattern personality": "personalidad patrón"
+	},
+	"forcedChoices": [
+		{
+			"ref": "14:4.2",
+			"choice": "Materiales, Morontiales, ... Absolutos (masculine plural)",
+			"reason": "The list items are adjectives; Spanish needs gender and number, so they agree with 'grupos básicos de vida' in 14:4.1."
+		},
+		{
+			"ref": "14:6.2",
+			"choice": "Havonales, Paradisíacas, Ascendentes-finitas (feminine plural)",
+			"reason": "The adjectives agree with 'las actividades' in 14:6.1."
+		},
+		{
+			"ref": "14:4.13",
+			"choice": "ustedes y ellos disfrutan juntos",
+			"reason": "'you both' names mortals and Havoners together; Spanish needs an explicit subject for the pair."
+		},
+		{
+			"ref": "14:6.18",
+			"choice": "él / ministro (masculine) for the Infinite Spirit",
+			"reason": "The English uses 'he' for the Infinite Spirit; Spanish 'Espíritu' is masculine."
+		},
+		{
+			"ref": "14:6.30",
+			"choice": "cocreadoras (feminine) for the Universe Mother Spirits",
+			"reason": "The papers use 'her' for a Universe Mother Spirit (14:6.34); the feminine apposition keeps that sense although 'Espíritus' is masculine."
+		},
+		{
+			"ref": "14:5.3",
+			"choice": "equidad for 'fairness'",
+			"reason": "Spanish has no single everyday word identical to 'fairness'; 'equidad' carries the combined sense of right reason and justice."
+		},
+		{
+			"ref": "14:3.1",
+			"choice": "<em>auto</em>gobierno",
+			"reason": "The emphasis stays on the prefix, as in the English '<em>self-</em>government'."
+		},
+		{
+			"ref": "14:6.33",
+			"choice": "las Hijas del Espíritu (feminine)",
+			"reason": "The Mother Spirits are referred to as 'she' in the papers (34:0.1); 'Daughters' needs a gender in Spanish."
+		},
+		{
+			"ref": "14:6.37",
+			"choice": "sentence case in the heading",
+			"reason": "Spanish headings use sentence case; the glossary terms 'mortales evolutivos' and 'carrera ascendente' keep their lowercase form."
+		}
+	]
+}

@@ -1,0 +1,69 @@
+{
+	"newTerms": {
+		"Thought-God": "Dios-Pensamiento",
+		"Word-God": "Dios-Palabra",
+		"Father-Father": "Padre-Padre",
+		"Father-Son": "Padre-Hijo",
+		"deitizes": "se deitiza",
+		"eternalizes": "se eterniza",
+		"Unqualified Absolute": "Absoluto Incondicionado",
+		"Original Son": "Hijo Original",
+		"Universe Son": "Hijo del Universo",
+		"Universe Spirit": "Espíritu del Universo",
+		"will creatures": "criaturas volitivas",
+		"encircuitment": "inclusión en el circuito",
+		"Divine Counselor": "Consejero Divino",
+		"Urantians": "urantianos",
+		"fiat creation": "creación por decreto",
+		"Infinite Reality": "Realidad Infinita",
+		"Universal Organizer": "Organizador Universal",
+		"Personality Co-ordinator": "Coordinador de la Personalidad"
+	},
+	"forcedChoices": [
+		{
+			"ref": "8:0.4",
+			"choice": "las tres (feminine)",
+			"reason": "Spanish needs a gender; it agrees with 'las Deidades' of the previous sentence."
+		},
+		{
+			"ref": "8:1.3",
+			"choice": "cada una ... las tres (feminine)",
+			"reason": "Agrees with 'personas' (the three Deity persons)."
+		},
+		{
+			"ref": "8:1.5",
+			"choice": "la conciencia de la mente manifestada",
+			"reason": "Both nouns are feminine, so 'manifestada' keeps open whether consciousness or mind is made manifest."
+		},
+		{
+			"ref": "8:2.2",
+			"choice": "se lo (masculine) for the Third Source and Center",
+			"reason": "The English uses 'he'; 'recibe' avoids a gender clash with the feminine 'Fuente'."
+		},
+		{
+			"ref": "8:3.8",
+			"choice": "la primera de las Deidades; reconocida (feminine)",
+			"reason": "Agrees with 'Deidades' and 'Tercera Persona'."
+		},
+		{
+			"ref": "8:5.3",
+			"choice": "de ustedes instead of su",
+			"reason": "'su' could be read as his (the Spirit's); 'de ustedes' keeps the English 'your'."
+		},
+		{
+			"ref": "8:4.3",
+			"choice": "ustedes lo conocerán (plural you)",
+			"reason": "The text speaks to the readers as a group."
+		},
+		{
+			"ref": "8:2.2",
+			"choice": "se lo confunde (masculine)",
+			"reason": "The English uses 'he' for the Third Source and Center; the pronoun follows the person, not the feminine noun 'Fuente'."
+		},
+		{
+			"ref": "8:5.5",
+			"choice": "Recuerden (ustedes)",
+			"reason": "The text speaks to the readers; the packet requires plural ustedes."
+		}
+	]
+}

@@ -1,0 +1,69 @@
+{
+	"newTerms": {
+		"universe age": "era universal",
+		"Nether Paradise": "Paraíso inferior",
+		"Perfector of Wisdom": "Perfeccionador de la Sabiduría",
+		"Father-endowed personalities": "personalidades dotadas por el Padre",
+		"status sphere": "esfera de estatus",
+		"rendezvous (world)": "lugar de encuentro; mundo de encuentro",
+		"will creatures": "criaturas volitivas",
+		"sub-Paradise": "subparadisíaco",
+		"superangelic": "superangélico",
+		"eventuated": "eventuado",
+		"vicegerents": "vicegerentes",
+		"Paradise cycle": "ciclo del Paraíso",
+		"power focuses": "focos de poder",
+		"mind-spirit balance wheel": "volante de equilibrio mente-espíritu",
+		"seventh-stage spirit beings": "seres espirituales de la séptima etapa",
+		"Godward ascent": "ascenso hacia Dios",
+		"other-than-personal beings": "seres de carácter no personal",
+		"ultimate status spheres": "esferas de estatus último"
+	},
+	"forcedChoices": [
+		{
+			"ref": "13:1.2",
+			"choice": "se me permite decir menos",
+			"reason": "«may tell less» read as permission, because the next sentences speak of what is forbidden to the author."
+		},
+		{
+			"ref": "13:1.9",
+			"choice": "actividades ... que no están asociadas",
+			"reason": "Spanish gender forces the link; «not associated» is read as modifying the activities, the nearest noun."
+		},
+		{
+			"ref": "13:1.20",
+			"choice": "solo se me permite mencionar uno",
+			"reason": "«only one of which I may mention» read as permission, in line with the secrecy of the sphere."
+		},
+		{
+			"ref": "13:1.21",
+			"choice": "el verdadero hogar",
+			"reason": "«actual» here has its plain sense (real), not the glossary sense of «en acto»."
+		},
+		{
+			"ref": "13:2.6",
+			"choice": "verdaderas esferas de residencia",
+			"reason": "«actual residential spheres» has the plain sense of «actual», not the glossary sense."
+		},
+		{
+			"ref": "13:2.8",
+			"choice": "no pueden conocer",
+			"reason": "«may not know» can mean inability or prohibition; «no pueden» keeps both readings open as far as Spanish allows."
+		},
+		{
+			"ref": "13:4.4",
+			"choice": "tales seres finitos que son criaturas",
+			"reason": "«finite creature beings» has no compact Spanish form; the relative clause keeps both «creature» and «beings»."
+		},
+		{
+			"ref": "13:0.6",
+			"choice": "los demás órdenes (masculine)",
+			"reason": "orden as a class of beings is masculine in Spanish."
+		},
+		{
+			"ref": "13:4.6",
+			"choice": "desean / disponen (indicative)",
+			"reason": "The English describes any being who in fact desires and can command transit; the indicative keeps the general statement."
+		}
+	]
+}

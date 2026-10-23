@@ -1,0 +1,48 @@
+{
+	"newTerms": {
+		"Perfector of Wisdom": "Perfeccionador de la Sabiduría",
+		"space reservoirs": "depósitos del espacio",
+		"space respiration": "respiración del espacio",
+		"Holy Land (of Paradise)": "Tierra Santa",
+		"flash stations": "estaciones de destello",
+		"Original Son": "Hijo Original",
+		"triunity": "triunidad",
+		"pervadable / nonpervadable space": "espacio permeable / no permeable",
+		"spheres of the Spirit": "esferas del Espíritu",
+		"abode (of Deity)": "residencia",
+		"Postgravity Stages": "etapas posgravitatorias",
+		"superpower mother systems": "sistemas madre de superpoder"
+	},
+	"forcedChoices": [
+		{
+			"ref": "11:1.3",
+			"choice": "Si ustedes fueran navegantes inteligentes (plural)",
+			"reason": "The Spanish rules use the plural \"ustedes\" for the reader; the English \"an intelligent navigator\" is generic."
+		},
+		{
+			"ref": "11:0.1",
+			"choice": "\"abode\" as \"residencia\", not \"morada\"",
+			"reason": "The glossary gives \"moradas\" to \"mansions\"; one Spanish word for two English terms would merge them."
+		},
+		{
+			"ref": "11:1.3",
+			"choice": "\"actual existence\" and \"actuality\" as \"existencia efectiva\" and \"realidad efectiva\"",
+			"reason": "Plain sense of real existence here, not the actual-versus-potential contrast that \"en acto\" carries; \"en acto\" kept for 11:8.8, 11:9.3, 11:9.5."
+		},
+		{
+			"ref": "11:5.6",
+			"choice": "\"debe de tener\"",
+			"reason": "The English \"must have something to do\" is an inference, not an obligation."
+		},
+		{
+			"ref": "11:8.1",
+			"choice": "\"en quien todas las cosas subsisten\"",
+			"reason": "\"consist\" means to hold together or have being; \"consisten\" in Spanish means \"are made of\"."
+		},
+		{
+			"ref": "11:8.7",
+			"choice": "Sentence case in the heading: «poder del universo» in lowercase",
+			"reason": "The English heading capitalizes every word; Spanish headings use sentence case, and the glossary form is lowercase."
+		}
+	]
+}

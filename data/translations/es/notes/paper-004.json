@@ -1,0 +1,38 @@
+{
+	"newTerms": {
+		"Divine Counselor": "Consejero Divino",
+		"Superuniverse Rulers": "Gobernantes de los Superuniversos",
+		"Supreme Controllers": "Controladores Supremos",
+		"will creatures": "criaturas volitivas",
+		"Urantian": "urantiano",
+		"experience-idea": "idea-experiencia",
+		"supreme Lawmaker": "Legislador supremo"
+	},
+	"forcedChoices": [
+		{
+			"ref": "4.4",
+			"choice": "La comprensión de Dios",
+			"reason": "Spanish 'realización' reads as 'accomplishment'; the section concerns how God is understood (science, religion, philosophy), so 'comprensión' fits the context best."
+		},
+		{
+			"ref": "4:1.3",
+			"choice": "tú (tu palabra, tu fidelidad)",
+			"reason": "The quote addresses the Lord directly as one person in prayer; 'tú' is the natural form of address to God in Spanish prayer."
+		},
+		{
+			"ref": "4:3.1",
+			"choice": "celo por el hombre / celos de él",
+			"reason": "Spanish separates zeal on behalf of someone (celo por) from envy of someone (celos de), which carries the English contrast 'jealous for' versus 'jealous of'."
+		},
+		{
+			"ref": "4:4.9",
+			"choice": "la fe de ustedes",
+			"reason": "Spanish 'su fe' could be read as the faith of the one who lives in me; the quote speaks to the readers, so the plural 'ustedes' is the clearest reading."
+		},
+		{
+			"ref": "4:1.9",
+			"choice": "deben de ser",
+			"reason": "English 'must be' here is an inference, not an obligation; 'deber de' marks the inference in Spanish (also 4:1.10)."
+		}
+	]
+}

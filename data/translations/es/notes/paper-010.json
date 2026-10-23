@@ -1,0 +1,40 @@
+{
+	"newTerms": {
+		"personality-absolute": "absoluto de personalidad",
+		"father-personality": "personalidad-padre",
+		"conjoint personality": "personalidad conjunta",
+		"deitization": "deitización",
+		"Trinity Sons": "Hijos de la Trinidad",
+		"self-bestowal": "autootorgamiento",
+		"Father-personality": "personalidad-Padre",
+		"Son-personality": "personalidad-Hijo",
+		"triunity": "triunidad"
+	},
+	"forcedChoices": [
+		{
+			"ref": "10:4.7",
+			"choice": "ustedes (plural) for 'you' addressed to mortals",
+			"reason": "The packet asks for plural 'ustedes' when the text speaks to the reader."
+		},
+		{
+			"ref": "10:7.6",
+			"choice": "tú (singular) for 'As a son of God you can discern'",
+			"reason": "'a son of God' is singular, so the address is to one reader; plural would break the agreement with 'hijo'."
+		},
+		{
+			"ref": "10:3.4",
+			"choice": "'cuando actúa sola, cada persona'",
+			"reason": "Spanish forces a gender; 'persona' is feminine."
+		},
+		{
+			"ref": "10:2.7",
+			"choice": "'progenitor' (masculine) for 'parent'",
+			"reason": "The Son and the Spirit are referred to with 'he' in the English."
+		},
+		{
+			"ref": "10:2.6",
+			"choice": "ninguno (masculine)",
+			"reason": "Spanish forces a gender; the masculine covers the three persons as a group."
+		}
+	]
+}

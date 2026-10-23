@@ -1,0 +1,57 @@
+{
+	"newTerms": {
+		"Supreme Creator Personalities": "Personalidades Creadoras Supremas",
+		"Divine Counselor": "Consejero Divino",
+		"Circuit Spirits": "Espíritus de los Circuitos",
+		"Spirit consort": "Espíritu consorte",
+		"Universe Mother Spirit": "Espíritu Madre del Universo",
+		"Infinite Mother Spirit": "Espíritu Madre Infinito",
+		"Paradise satellites of the Spirit": "satélites del Paraíso del Espíritu",
+		"executive spheres": "esferas ejecutivas",
+		"trinitized sons": "hijos trinitizados",
+		"personalization ceremonies": "ceremonias de personalización",
+		"sixth-stage spirits": "espíritus de la sexta etapa",
+		"cosovereignty / cosovereign": "cosoberanía / cosoberana",
+		"factualization": "factualización",
+		"deitization": "deitización",
+		"secoraphic": "secoráfico",
+		"Creator Michaels": "Migueles Creadores"
+	},
+	"forcedChoices": [
+		{
+			"ref": "17:0.10",
+			"choice": "«órdenes» in the masculine (estos siete órdenes)",
+			"reason": "Spanish «orden» in the sense of a class or category is masculine; the feminine reads as a religious order or a command."
+		},
+		{
+			"ref": "17:6.3",
+			"choice": "«la futura consorte» (feminine)",
+			"reason": "The English uses «her» for this consort in 17:6.4; «consorte» needs a gender."
+		},
+		{
+			"ref": "17:6.9",
+			"choice": "«la cosoberana» (feminine)",
+			"reason": "The cosovereign is the Mother Spirit, called «her» in 17:6.4."
+		},
+		{
+			"ref": "17:6.7",
+			"choice": "«este mismo Espíritu Madre» (masculine article)",
+			"reason": "«Espíritu» is a masculine noun; the glossary uses «el Espíritu Madre»."
+		},
+		{
+			"ref": "17:4.3",
+			"choice": "«servicio de información» for «intelligence service»",
+			"reason": "«servicio de inteligencia» reads as espionage in Spanish; the context is the gathering and passing of news (17:3.7)."
+		},
+		{
+			"ref": "17:4.1",
+			"choice": "«son prácticamente duplicados» for «virtual duplications»",
+			"reason": "«virtuales» in Spanish often reads as digital or not real."
+		},
+		{
+			"ref": "17:6.9",
+			"choice": "«no podemos describir» for «we may not portray»",
+			"reason": "Spanish must choose ability or permission; «no podemos» covers both readings."
+		}
+	]
+}
