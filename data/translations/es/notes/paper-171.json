@@ -1,0 +1,59 @@
+{
+	"newTerms": {
+		"pound (coin, parable of the pounds)": "libra (parábola de las libras)",
+		"parable of the talents": "parábola de los talentos",
+		"Abnerian": "abneriano",
+		"Pauline": "paulino",
+		"the seventy": "los setenta",
+		"teachers' camp": "campamento de los maestros",
+		"visitors' camp": "campamento de los visitantes",
+		"chief publican": "jefe de los publicanos",
+		"chief priests": "principales sacerdotes",
+		"transfiguration": "transfiguración",
+		"as he passed by": "al pasar",
+		"gracefulness / graciousness": "elegancia de las formas / gracia en el trato",
+		"steward / stewardship (parable)": "administrador / administración"
+	},
+	"forcedChoices": [
+		{
+			"ref": "171:0.4",
+			"choice": "Salomé speaks to Jesus with «tú»",
+			"reason": "Followers address Jesus with tú throughout; the 'Oriental potentate' manner describes her approach, not a form of address."
+		},
+		{
+			"ref": "171:8.6",
+			"choice": "Servants speak to their lord with «usted»; the lord answers with «tú»",
+			"reason": "Packet rule: great respect to a ruler takes usted; the lord speaks down to a servant."
+		},
+		{
+			"ref": "171:4.7",
+			"choice": "«you» after the lament over Jerusalem kept singular (desearás, me buscarás)",
+			"reason": "Spanish forces number; the addressee of the preceding sentences is the city, so the singular keeps the same addressee."
+		},
+		{
+			"ref": "171:4.8",
+			"choice": "«rise» as «levantarse» (also 171:4.2 «se levantará»)",
+			"reason": "The sentence depends on one verb for both the rising of the Son of Man and the 'rising of the kingdom'; «resucitar» would break the link."
+		},
+		{
+			"ref": "171:4.6",
+			"choice": "«that fox» as «ese zorro», masculine",
+			"reason": "«zorra» has a vulgar sense in many countries that the authors did not intend."
+		},
+		{
+			"ref": "171:7.1",
+			"choice": "gracefulness = «elegancia de las formas», graciousness = «gracia en el trato»",
+			"reason": "Spanish «gracia» covers both English words; qualifiers keep the contrast while «gracia» stays linked to «grace» and «gracious» in 171:7.1-7.2."
+		},
+		{
+			"ref": "171:7.5",
+			"choice": "«confesando <em>ante</em> él» / «conversando <em>con</em> él»",
+			"reason": "Spanish needs different prepositions; the emphasis stays on the prepositions as in English."
+		},
+		{
+			"ref": "171:7.3",
+			"choice": "sympathy = «empatía», compassion = «compasión», pity = «lástima»",
+			"reason": "Three distinct English words in one paragraph need three distinct forms; follows earlier-paper term choices."
+		}
+	]
+}

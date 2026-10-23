@@ -1,0 +1,50 @@
+{
+	"newTerms": {
+		"Holy One of Israel": "Santo de Israel",
+		"bond servant": "esclavo",
+		"court of the women": "atrio de las mujeres",
+		"water priest": "sacerdote del agua",
+		"drink offering": "libación",
+		"paradise apple": "manzana del paraíso",
+		"spirit of holiness": "espíritu de santidad",
+		"archenemy": "archienemigo",
+		"east Jordan highway / west Jordan highway": "calzada del este del Jordán / calzada del oeste del Jordán"
+	},
+	"forcedChoices": [
+		{
+			"ref": "162:0.2",
+			"choice": "ustedes (No saben)",
+			"reason": "Jesus speaks to James and John together."
+		},
+		{
+			"ref": "162:2.1",
+			"choice": "tú for the questioner",
+			"reason": "One listener speaks to Jesus; Jesus answers the crowd with ustedes."
+		},
+		{
+			"ref": "162:2.6",
+			"choice": "ustedes (No teman acercarse)",
+			"reason": "Eber comes with two assistants, and 162:2.7 continues the same speech with 'none of you'."
+		},
+		{
+			"ref": "162:2.2",
+			"choice": "tenía un demonio",
+			"reason": "'had a devil' means possession; the glossary gives demonios for that sense. 'child of the devil' keeps diablo."
+		},
+		{
+			"ref": "162:7.4",
+			"choice": "no soy un demonio",
+			"reason": "Kept the same word as 'I have a devil' in the same paragraph."
+		},
+		{
+			"ref": "162:3.1",
+			"choice": "los acusadores de ella y enemigos de él",
+			"reason": "Spanish 'sus' is ambiguous; the form keeps open whether the accusers and the enemies are the same people."
+		},
+		{
+			"ref": "162:7.3",
+			"choice": "en el corazón de ellos",
+			"reason": "'their hearts' refers to the leaders; 'sus corazones' could be read as the listeners."
+		}
+	]
+}

@@ -1,0 +1,52 @@
+{
+	"newTerms": {
+		"Son of Peace": "Hijo de la Paz",
+		"triumphal entry": "entrada triunfal",
+		"chief priests": "principales sacerdotes",
+		"mites (coins)": "blancas",
+		"trumpet (temple offering chest)": "trompeta",
+		"royal Son": "Hijo regio"
+	},
+	"forcedChoices": [
+		{
+			"ref": "172:1.5",
+			"choice": "tú (Judas a Andrés: «Deberías»)",
+			"reason": "One apostle speaks to another apostle; no sign of formal respect."
+		},
+		{
+			"ref": "172:3.4",
+			"choice": "tú (a la hija de Sion)",
+			"reason": "A prophetic address to one personified city."
+		},
+		{
+			"ref": "172:3.6",
+			"choice": "ustedes (el dueño a Pedro y Juan: «su Maestro»)",
+			"reason": "The owner speaks to two persons."
+		},
+		{
+			"ref": "172:3.9",
+			"choice": "Hijo regio, not Hijo real",
+			"reason": "Spanish «real» also means «actual», an accidental meaning."
+		},
+		{
+			"ref": "172:3.10",
+			"choice": "tú for Jerusalem, including «dar la espalda» for «turn your backs»",
+			"reason": "Jesus addresses the city as one person; the plural «backs» is kept inside the singular address."
+		},
+		{
+			"ref": "172:3.13",
+			"choice": "tú (los fariseos a Jesús); «estos niños» for «these children»",
+			"reason": "«Teacher» is not great respect; «niños» is the plain word and keeps both the literal and the figurative reading."
+		},
+		{
+			"ref": "172:4.2",
+			"choice": "«dos blancas (pequeñas monedas de cobre)»",
+			"reason": "«blanca» is the plain Spanish name of a very small old coin; the English gloss in parentheses removes the color sense."
+		},
+		{
+			"ref": "172:5.13",
+			"choice": "tú (el saduceo a Judas)",
+			"reason": "A friend of the family speaks familiarly («my good friend»)."
+		}
+	]
+}

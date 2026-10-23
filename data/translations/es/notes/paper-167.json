@@ -1,0 +1,47 @@
+{
+	"newTerms": {
+		"spirit of infirmity": "espíritu de debilidad",
+		"combined mind": "mente combinada",
+		"Terms of Salvation": "Condiciones de la salvación",
+		"Makers of heaven and earth": "Hacedores del cielo y de la tierra",
+		"lawyers (Jewish legal experts)": "expertos en la ley",
+		"spirit abodes": "residencias del espíritu"
+	},
+	"forcedChoices": [
+		{
+			"ref": "167:1.5",
+			"choice": "pueda decirles: “Amigo mío, ¿por qué te sientas…?”",
+			"reason": "Jesus speaks to a group (ustedes); the host's words inside go to one guest (tú)."
+		},
+		{
+			"ref": "167:2.2",
+			"choice": "te ruego que me disculpes",
+			"reason": "Each guest answers one servant; Spanish needs tú or usted, and a guest to a servant takes tú."
+		},
+		{
+			"ref": "167:4.1",
+			"choice": "No dudes",
+			"reason": "Jesus addresses the one messenger, so tú."
+		},
+		{
+			"ref": "167:4.4",
+			"choice": "estuviste / tu muerte (tú to Jesus)",
+			"reason": "The apostles speak to the Master as a close associate, as elsewhere in these papers."
+		},
+		{
+			"ref": "167:6.1",
+			"choice": "los reprendió",
+			"reason": "Masculine pronoun points to the apostles, whom the context shows Jesus rebuked; Spanish gender forces the choice that the English 'them' leaves to context."
+		},
+		{
+			"ref": "167:3.1",
+			"choice": "si tan solo creyeras (tú)",
+			"reason": "Jesus speaks to one woman."
+		},
+		{
+			"ref": "167:7.2",
+			"choice": "« at the start of each continued paragraph of the speech",
+			"reason": "The English opens each paragraph of the speech with a quote mark and closes only at 7.6; the packet asks for « »."
+		}
+	]
+}

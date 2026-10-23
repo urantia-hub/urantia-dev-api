@@ -1,0 +1,42 @@
+{
+	"newTerms": {
+		"faith-enlightened": "iluminados por la fe",
+		"spirit-liberated": "liberados por el espíritu",
+		"Moses' seat": "cátedra de Moisés",
+		"upper room": "sala de arriba",
+		"ambassadors of the kingdom (chosen)": "embajadores escogidos del reino",
+		"power-multiplying fulcrum": "fulcro multiplicador de poder"
+	},
+	"forcedChoices": [
+		{
+			"ref": "178:2.4",
+			"choice": "tú (Sigue, ti, te, contigo)",
+			"reason": "The message is addressed to Abner by name; the singular reads best, though a plural to Abner and his group is possible in English."
+		},
+		{
+			"ref": "178:2.5",
+			"choice": "tú for Philip to Jesus (quieres); tú for Jesus to Philip (Ve)",
+			"reason": "Packet rule: Jesus to one person uses tú; the apostles address Jesus as a close companion."
+		},
+		{
+			"ref": "178:2.10",
+			"choice": "tú between David and Judas",
+			"reason": "Two fellow workers in close association speak to each other."
+		},
+		{
+			"ref": "178:1.13",
+			"choice": "que mora en su interior",
+			"reason": "English leaves open whether the spirit indwells the mind or the man; 'su interior' keeps both readings."
+		},
+		{
+			"ref": "178:1.6",
+			"choice": "No deben adorar",
+			"reason": "'may not' here states a prohibition, not a possibility."
+		},
+		{
+			"ref": "178:1.14",
+			"choice": "enérgicos for 'aggressive'",
+			"reason": "Spanish 'agresivos' implies hostility; the context means forceful and active preaching."
+		}
+	]
+}

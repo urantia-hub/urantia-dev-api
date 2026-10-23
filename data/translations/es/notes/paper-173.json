@@ -1,0 +1,36 @@
+{
+	"newTerms": {
+		"temple dues": "contribución del templo",
+		"temple head tax": "impuesto personal del templo",
+		"tenants (parable of the absent landlord)": "arrendatarios",
+		"wedding garment": "traje de bodas",
+		"call (of the king, to repentance)": "llamamiento"
+	},
+	"forcedChoices": [
+		{
+			"ref": "173:1.3",
+			"choice": "15<sup>º</sup> / 25<sup>º</sup> with «del día»",
+			"reason": "The tags must stay; Spanish has no 'th' suffix, so the ordinal sign º fills them."
+		},
+		{
+			"ref": "173:1.8",
+			"choice": "tú for the priest to Jesus («¿No oyes…?»)",
+			"reason": "One person speaks to one person; no sign of formal respect."
+		},
+		{
+			"ref": "173:2.2",
+			"choice": "tú for the elders to Jesus («haces», «te dio»)",
+			"reason": "Challengers address one teacher; no sign of formal respect."
+		},
+		{
+			"ref": "173:5.3",
+			"choice": "» at the start of the paragraph",
+			"reason": "Spanish marks a quote that continues into a new paragraph with »."
+		},
+		{
+			"ref": "173:5.4",
+			"choice": "tú for the believer to Jesus («nos darás», «tú eres»)",
+			"reason": "One person speaks to one person; the Master is addressed as teacher, not ruler."
+		}
+	]
+}

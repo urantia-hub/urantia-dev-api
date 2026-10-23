@@ -1,0 +1,48 @@
+{
+	"newTerms": {
+		"Magadan": "Magadán",
+		"drives (urges, desires, lures)": "fuerzas impulsoras (impulsos, deseos, atractivos)",
+		"urge": "impulso",
+		"lure": "atractivo",
+		"longings": "anhelos",
+		"art of living": "arte de vivir",
+		"maturity / immaturity": "madurez / inmadurez",
+		"worshipful meditation": "meditación de adoración",
+		"Godlike / be like God": "semejante a Dios",
+		"superknowledge": "superconocimiento",
+		"God-seeking (man)": "(hombre) que busca a Dios",
+		"eternal venture": "empresa eterna",
+		"eternal adventure": "aventura eterna",
+		"evangel (of a religion)": "evangelista",
+		"wedlock": "unión conyugal",
+		"ability / skill": "aptitud / destreza",
+		"fellow sojourners": "compañeros de paso"
+	},
+	"forcedChoices": [
+		{
+			"ref": "160:1.9",
+			"choice": "ustedes for Rodan's 'you' throughout (also 1.10, 2.7, 4.1, 4.10-4.13, 5.3, 5.5, 5.9)",
+			"reason": "Rodan speaks to Nathaniel, Thomas, and a group of believers; the plural fits the setting and the rule for addressing readers."
+		},
+		{
+			"ref": "160:1.11",
+			"choice": "«No se haga mi voluntad, sino la tuya» (tú)",
+			"reason": "The prayer speaks to the Father as one person; the rule asks for tú when Jesus speaks to one person."
+		},
+		{
+			"ref": "160:1.10",
+			"choice": "su Maestro for 'your Master'",
+			"reason": "vuestro is not allowed; su is the ustedes possessive, and the context makes the owner clear."
+		},
+		{
+			"ref": "160:3.1",
+			"choice": "intercambio de fuerza por debilidad, de valor por temor, de la voluntad de Dios por la mente del yo",
+			"reason": "The English order is kept so the direction of the exchange stays as open as in the English."
+		},
+		{
+			"ref": "160:5.10",
+			"choice": "No piensen (plural)",
+			"reason": "The quoted saying of Jesus speaks to his hearers as a group."
+		}
+	]
+}

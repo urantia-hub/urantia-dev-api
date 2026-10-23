@@ -1,0 +1,37 @@
+{
+	"newTerms": {
+		"upper chamber": "sala de arriba",
+		"reclining couches": "lechos para reclinarse",
+		"cup of blessing": "copa de bendición",
+		"new dispensation": "nueva dispensación",
+		"Son-believing": "que creen en el Hijo",
+		"spirit-conscious": "consciente del espíritu"
+	},
+	"forcedChoices": [
+		{
+			"ref": "179:3.3",
+			"choice": "Peter and Jesus speak to each other with «tú»",
+			"reason": "Spanish rule: one person to one person uses tú; the Master is a teacher, not a ruler or judge."
+		},
+		{
+			"ref": "179:2.1",
+			"choice": "Jesus speaks to the apostles with «ustedes»",
+			"reason": "Spanish rule: plural you is ustedes."
+		},
+		{
+			"ref": "179:3.9",
+			"choice": "Opening » at the start of the continued speech",
+			"reason": "Spanish marks a quote that continues into a new paragraph with »."
+		},
+		{
+			"ref": "179:4.3",
+			"choice": "«Ya te lo he dicho» (singular)",
+			"reason": "English 'you' can be John or all; Jesus answers John's question, so the singular fits the context best."
+		},
+		{
+			"ref": "179:5.6",
+			"choice": "«el fragmento de su Padre que mora dentro»",
+			"reason": "Spanish needs a possessive; 'su' keeps 'his Father' open as in the English, and 'que mora dentro' does not add a named person."
+		}
+	]
+}

@@ -1,0 +1,69 @@
+{
+	"newTerms": {
+		"not to the death": "no termina en la muerte",
+		"angel of death": "ángel de la muerte",
+		"abode of departed spirits": "morada de los espíritus difuntos",
+		"gospel of the kingdom": "evangelio del reino",
+		"prayer hearers": "quienes escuchan sus oraciones",
+		"spirit beings (vs spiritual beings)": "seres del espíritu (vs seres espirituales)",
+		"spirit level": "nivel del espíritu",
+		"time-space factor": "factor tiempo-espacio"
+	},
+	"forcedChoices": [
+		{
+			"ref": "168:0.6",
+			"choice": "tú (Marta a Jesús)",
+			"reason": "One person speaks to one person; Spanish rule 5."
+		},
+		{
+			"ref": "168:0.8",
+			"choice": "tú (Marta a María)",
+			"reason": "One sister speaks to the other."
+		},
+		{
+			"ref": "168:1.1",
+			"choice": "«¿Dónde lo han puesto?» with ustedes; «Ven a ver» with tú; «Miren» plural",
+			"reason": "Jesus asks both sisters; Martha answers Jesus alone; the Jew speaks to the group."
+		},
+		{
+			"ref": "168:1.12",
+			"choice": "ustedes in Jesus' reply",
+			"reason": "Jesus answers the group that hesitates (they hesitated), and the first message went to both sisters."
+		},
+		{
+			"ref": "168:2.2",
+			"choice": "tú (Jesús al Padre)",
+			"reason": "Jesus addresses one person, the Father, with intimacy."
+		},
+		{
+			"ref": "168:2.3",
+			"choice": "«Desátenlo y déjenlo ir» plural",
+			"reason": "The command goes to those present."
+		},
+		{
+			"ref": "168:2.4",
+			"choice": "Kept 'salvo los apóstoles, con Marta y María' with the English commas",
+			"reason": "English leaves open whether Martha and Mary fled; the Spanish keeps the same ambiguity."
+		},
+		{
+			"ref": "168:4.5",
+			"choice": "No subject pronoun in 'ya llevaba once horas muerto'",
+			"reason": "Keeps the referent implicit as in English 'he'; context points to Lazarus."
+		},
+		{
+			"ref": "168:4.10",
+			"choice": "ustedes",
+			"reason": "Jesus speaks to the ten apostles."
+		},
+		{
+			"ref": "168:4.11",
+			"choice": "el hijo / el progenitor (masculine grammatical gender)",
+			"reason": "English 'child' and 'parent' have no gender; 'progenitor' keeps the parent unspecified, and Spanish forces a masculine generic for 'his'."
+		},
+		{
+			"ref": "168:4.8",
+			"choice": "el peticionario (masculine generic)",
+			"reason": "Spanish forces a gender for 'the petitioner'; the English 'his' supports the generic masculine."
+		}
+	]
+}

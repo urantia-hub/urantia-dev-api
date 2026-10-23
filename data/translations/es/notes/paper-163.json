@@ -1,0 +1,51 @@
+{
+	"newTerms": {
+		"Magadan": "Magadán",
+		"the seventy": "los setenta",
+		"gospel messengers": "mensajeros del evangelio",
+		"evangelistic corps": "cuerpo evangelístico",
+		"mammon": "riquezas",
+		"invitation-call": "invitación-llamada",
+		"children of light": "hijos de la luz",
+		"headquarters": "centro de operaciones",
+		"Near East": "Cercano Oriente",
+		"householder (parable)": "dueño de casa"
+	},
+	"forcedChoices": [
+		{
+			"ref": "163:2.2",
+			"choice": "tú for disciples addressing Jesus, and Jesus to one person",
+			"reason": "Spanish rules: tú for one person; the disciples speak to their teacher, not to a ruler."
+		},
+		{
+			"ref": "163:1.3",
+			"choice": "ustedes for Jesus speaking to the seventy",
+			"reason": "Plural you; Spanish rules forbid vosotros."
+		},
+		{
+			"ref": "163:6.3",
+			"choice": "tú for Jesus speaking to the Father",
+			"reason": "Intimate address of a son to his Father in prayer."
+		},
+		{
+			"ref": "163:1.4",
+			"choice": "Aquel que me envió (capital A)",
+			"reason": "Keeps the capital of the English 'Him'."
+		},
+		{
+			"ref": "163:6.2",
+			"choice": "demonios for 'devils'",
+			"reason": "The context is spirit possession; the glossary gives demonios for devils in possession."
+		},
+		{
+			"ref": "163:6.3",
+			"choice": "a ti y a la obra que me has dado",
+			"reason": "Keeps open whether Jesus returns to the work or finishes it, as the English does."
+		},
+		{
+			"ref": "163:2.9",
+			"choice": "el líder definitivo",
+			"reason": "'ultimate' in its ordinary sense; 'último' could read as 'last'."
+		}
+	]
+}

@@ -1,0 +1,45 @@
+{
+	"newTerms": {
+		"chief priests": "principales sacerdotes",
+		"errand boy": "muchacho de los recados",
+		"Supreme Desire (speech title)": "Deseo supremo",
+		"low-tide mark": "punto de marea más baja"
+	},
+	"forcedChoices": [
+		{
+			"ref": "177:0.3",
+			"choice": "tú (David to Jesus and Jesus to David)",
+			"reason": "One person speaks to one person."
+		},
+		{
+			"ref": "177:3.7",
+			"choice": "«Les dejo su casa desolada» (plural)",
+			"reason": "Jesus speaks to the temple leaders as a group."
+		},
+		{
+			"ref": "177:4.7",
+			"choice": "¿qué están dispuestos…? (plural)",
+			"reason": "Judas speaks to Caiaphas and the rulers together."
+		},
+		{
+			"ref": "177:4.8",
+			"choice": "tú (Caiaphas to Judas); 'miró desde lo alto' for 'looked down upon'",
+			"reason": "One person to one person; the Spanish keeps both the physical and the disdainful reading."
+		},
+		{
+			"ref": "177:4.11",
+			"choice": "No deben olvidar (plural)",
+			"reason": "The authors speak to the readers."
+		},
+		{
+			"ref": "177:3.3",
+			"choice": "de su familia",
+			"reason": "'his family' can be David's or Jesus'; the Spanish 'su' keeps both readings."
+		},
+		{
+			"ref": "177:2.7",
+			"choice": "«Padre nuestro que estás en el cielo»",
+			"reason": "Own translation of the book's English, with tú in the prayer as Spanish requires."
+		}
+	]
+}
