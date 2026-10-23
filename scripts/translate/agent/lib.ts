@@ -431,6 +431,18 @@ export function loadTerms(lang: string): {
 const SMALL_START = /^(the|a|an|his|her|its|their|my|our|your)\s/i;
 let textMatchers: { term: Term; res: RegExp[] }[] | null = null;
 
+/** The singular of a plural name of two or more words: its head noun, before "of" or last ("Perfectors of Wisdom"). */
+export function singular(form: string): string {
+	const words = form.split(" ");
+	if (words.length < 2) return form;
+	const of = words.indexOf("of");
+	const i = of > 0 ? of - 1 : words.length - 1;
+	const w = words[i]!;
+	if (w.length < 4 || !/s$/.test(w) || /(ss|us|is)$/.test(w)) return form;
+	words[i] = /ies$/.test(w) ? `${w.slice(0, -3)}y` : w.slice(0, -1);
+	return words.join(" ");
+}
+
 /**
  * Glossary terms whose English form stands in the text. The entity map is a topic index, not word
  * positions: it misses terms that the text uses ("bestowal", "Michael" in Paper 196) and adds others.
@@ -441,7 +453,7 @@ export function termsInText(lang: string, text: string): Term[] {
 		textMatchers = [...loadTerms(lang).byEntity.values()].map((term) => {
 			const [name, ...aliases] = term.enForms.map((f) => f.replace(/\s*\([^)]*\)\s*$/, "").trim());
 			const forms = [name!, ...aliases.filter((a) => (/[A-Z]/.test(a) || /\s/.test(a)) && !SMALL_START.test(a))];
-			const res = [...new Set(forms)]
+			const res = [...new Set(forms.flatMap((f) => [f, singular(f)]))]
 				.filter((f) => f.length >= 3 && !/^\d+$/.test(f))
 				.map((f) => new RegExp(`(?<![\\p{L}\\d])${escape(f)}(?:s|es)?(?![\\p{L}\\d])`, /[A-Z]/.test(f) ? "u" : "iu"));
 			return { term, res };
