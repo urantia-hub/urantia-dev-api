@@ -1,0 +1,58 @@
+{
+	"newTerms": {
+		"Dawn Races (title)": "razas del alba",
+		"planetary reception-focus": "foco planetario de recepción",
+		"planetize": "planetizarse",
+		"archangel of initial planetary circuit establishment": "arcángel del establecimiento inicial del circuito planetario",
+		"mind circuit": "circuito mental",
+		"apes": "antropoides",
+		"will creatures / will dignity": "criaturas volitivas / dignidad volitiva (from the earlier list)"
+	},
+	"forcedChoices": [
+		{
+			"ref": "62:0.1",
+			"choice": "producción efectiva",
+			"reason": "Here 'actual' is the plain adjective (real), not the glossary term 'en acto'."
+		},
+		{
+			"ref": "62:1.1",
+			"choice": "gibones y antropoides",
+			"reason": "'simios' is reserved for 'simians'; 'apes' next to gibbons gets a separate form so the two do not merge."
+		},
+		{
+			"ref": "62:3.12",
+			"choice": "el hombre y el simio",
+			"reason": "'the ape' here names the simian line as a whole, so the glossary form for simians fits."
+		},
+		{
+			"ref": "62:5.1",
+			"choice": "1934 <span class=\"scaps\">d. c.</span>",
+			"reason": "Spanish puts the era mark after the year; the span moves with it and keeps lowercase text for small caps."
+		},
+		{
+			"ref": "62:7.7",
+			"choice": "1934 <span class=\"scaps\">d. c.</span>",
+			"reason": "Same as 62:5.1."
+		},
+		{
+			"ref": "62:5.8",
+			"choice": "incluido yo mismo",
+			"reason": "Spanish forces a gender for the narrator; masculine is the generic default, the English gives no gender."
+		},
+		{
+			"ref": "62:7.6",
+			"choice": "yo fui elegido",
+			"reason": "Same narrator gender choice as 62:5.8."
+		},
+		{
+			"ref": "62:3.10",
+			"choice": "la orgullosa madre y el orgulloso padre",
+			"reason": "Spanish 'padres' with an adjective forces gender; naming both keeps 'proud parents' exact."
+		},
+		{
+			"ref": "62:2.1",
+			"choice": "tres pies",
+			"reason": "Kept the English units (feet, inches, miles); no conversion, which would add content."
+		}
+	]
+}

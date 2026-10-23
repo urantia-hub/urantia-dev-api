@@ -1,0 +1,50 @@
+{
+	"newTerms": {
+		"mid-phase (Sons, existence)": "de fase intermedia / fase intermedia",
+		"quasi-morontial": "cuasimorontial",
+		"archangel commission of Life Carrier transmutation": "comisión de arcángeles para la transmutación de los Portadores de Vida",
+		"renunciation vows": "votos de renuncia",
+		"mechanical-nonteachable": "mecánico-no-educable",
+		"nonmechanical-teachable": "no-mecánico-educable",
+		"preintelligent": "preinteligente",
+		"superphysical": "superfísico",
+		"border phenomena / borderland, borderline organisms": "fenómenos limítrofes / organismos limítrofes",
+		"adjutant spirit mobilization": "movilización de los espíritus ayudantes",
+		"precolored race": "raza anterior a las razas de color",
+		"dawn races": "razas del alba",
+		"Andonic race": "raza Andónica",
+		"Melchizedek observers": "observadores Melquisedec"
+	},
+	"forcedChoices": [
+		{
+			"ref": "65:2.4",
+			"choice": "se desenvuelve (sin pronombre)",
+			"reason": "La ameba es femenina en español; el inglés usa he. Se omite el pronombre y la concordancia sigue a la ameba."
+		},
+		{
+			"ref": "65:4.1",
+			"choice": "Urantia nos fue asignado (masculino)",
+			"reason": "Concordancia con mundo/planeta, que es el sentido del nombre; igual en 65:4.9."
+		},
+		{
+			"ref": "65:6.8",
+			"choice": "La capacidad de aprender, memoria y respuesta diferencial al entorno, es",
+			"reason": "El inglés usa un verbo singular con la coma; se mantiene la construcción para no decidir si es lista o aposición."
+		},
+		{
+			"ref": "65:2.8",
+			"choice": "los reptiles",
+			"reason": "Reptilia es el nombre latino de la clase; el español usa reptiles para el mismo grupo."
+		},
+		{
+			"ref": "65:2.13",
+			"choice": "<em>grupos oriental</em> y <em>central</em>",
+			"reason": "El orden de palabras del español cambia; el énfasis cubre las mismas palabras que el inglés."
+		},
+		{
+			"ref": "65:3.3",
+			"choice": "ustedes",
+			"reason": "El texto se dirige a los lectores en plural."
+		}
+	]
+}

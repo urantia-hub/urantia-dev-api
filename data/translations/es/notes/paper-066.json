@@ -1,0 +1,48 @@
+{
+	"newTerms": {
+		"associate-assistant": "asociado-asistente",
+		"primary midway creatures": "criaturas intermedias primarias",
+		"Danite group": "grupo danita",
+		"antidotal complements": "complementos antídotos",
+		"supersustenance": "supersustento",
+		"superparents": "superpadres",
+		"supermen / superwomen": "superhombres / supermujeres",
+		"advisers regarding the conquest of predatory animals": "consejeros sobre la conquista de los animales depredadores",
+		"promised uplifter": "elevador prometido",
+		"praise-phrase": "frase de alabanza",
+		"secession upheaval": "convulsión de la secesión",
+		"Creator fear / creature fear": "temor al Creador / temor a la criatura"
+	},
+	"forcedChoices": [
+		{
+			"ref": "66:5.15",
+			"choice": "tú (míranos, líbranos, tu voluntad)",
+			"reason": "A prayer to the Father of all; Spanish prayer uses the familiar form."
+		},
+		{
+			"ref": "66:7.9",
+			"choice": "tú future (No temerás...), 66:7.9-66:7.15",
+			"reason": "Commands of a moral code to each person; English 'you' is unmarked for number."
+		},
+		{
+			"ref": "66:7.19",
+			"choice": "tu rostro, comerás (singular)",
+			"reason": "The saying addresses man as one person."
+		},
+		{
+			"ref": "66:4.11",
+			"choice": "ellos = the midwayers (los semiespíritus)",
+			"reason": "English 'they' refers to the semispirits; Spanish pronoun kept masculine plural."
+		},
+		{
+			"ref": "66:4.4",
+			"choice": "plasma de vida real (actual)",
+			"reason": "'actual' here means real, not the glossary sense of 'en acto'."
+		},
+		{
+			"ref": "66:5.12",
+			"choice": "objetos reales (actual objects)",
+			"reason": "Plain sense of 'actual'."
+		}
+	]
+}

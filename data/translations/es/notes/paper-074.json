@@ -1,0 +1,47 @@
+{
+	"newTerms": {
+		"senior corps of Material Sons": "cuerpo decano de Hijos Materiales",
+		"third physical series": "tercera serie física",
+		"Adamic adventure": "aventura adánica",
+		"Melchizedek examiners": "examinadores Melquisedec",
+		"council of receivership": "consejo de administración provisional",
+		"judgment roll call": "pase de lista de juicio",
+		"pure-line": "de linaje puro",
+		"seraphic transports (the transport seraphim)": "transportes seráficos",
+		"Garden dwellers": "habitantes del Jardín",
+		"east of Eden": "el oriente del Edén",
+		"carrier pigeons": "palomas mensajeras"
+	},
+	"forcedChoices": [
+		{
+			"ref": "74:6.6",
+			"choice": "cámaras gaseosas",
+			"reason": "«cámaras de gas» carries the sense of an execution chamber; the English means small chambers of gas near the brain."
+		},
+		{
+			"ref": "74:4.5",
+			"choice": "Vayan ahora (ustedes)",
+			"reason": "Adam and Eve speak to the whole throng, so the plural ustedes is required."
+		},
+		{
+			"ref": "74:3.5",
+			"choice": "¡Tomen nota!",
+			"reason": "The narrator speaks to the readers; the packet requires the plural ustedes."
+		},
+		{
+			"ref": "74:1.5",
+			"choice": "desearles un viaje bajo la protección divina",
+			"reason": "Spanish has no direct form for 'bid them divine speed'; this keeps the sense of a divine blessing on the journey."
+		},
+		{
+			"ref": "74:1.1",
+			"choice": "ocho pies",
+			"reason": "The English unit is kept and not converted, to not add content."
+		},
+		{
+			"ref": "74:0.1",
+			"choice": "1934 d. C.",
+			"reason": "The era mark follows the year in Spanish; the scaps tag is kept around it."
+		}
+	]
+}

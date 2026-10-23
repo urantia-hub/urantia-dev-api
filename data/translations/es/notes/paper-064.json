@@ -1,0 +1,35 @@
+{
+	"newTerms": {
+		"Andonic": "Andónico",
+		"Badonites": "Badonitas",
+		"pre-Planetary Prince days": "días anteriores al Príncipe Planetario",
+		"post-Planetary Prince days": "días posteriores al Príncipe Planetario",
+		"dawn civilization": "civilización del alba",
+		"Caligastia apostasy": "apostasía de Caligastia",
+		"primary / secondary Sangik peoples": "pueblos sangiks primarios / secundarios",
+		"Urantia aborigines": "aborígenes de Urantia",
+		"giant order": "orden de los gigantes"
+	},
+	"forcedChoices": [
+		{
+			"ref": "64:6.26",
+			"choice": "adorar a lo Desconocido",
+			"reason": "Spanish forces a gender; the neuter «lo» keeps the English open between a being and an unknown power."
+		},
+		{
+			"ref": "64:7.20",
+			"choice": "los primeros antepasados de ustedes (then «sus»)",
+			"reason": "«sus» alone can read as «their»; the first mention names «ustedes» so the address to the reader is clear."
+		},
+		{
+			"ref": "64:1.1",
+			"choice": "30 000 pies",
+			"reason": "Kept the English unit; no conversion, which would add content."
+		},
+		{
+			"ref": "64:6.18",
+			"choice": "lowercase after the colon",
+			"reason": "Spanish does not capitalize after a colon; the sentence stays one sentence."
+		}
+	]
+}

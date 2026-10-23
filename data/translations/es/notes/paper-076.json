@@ -1,0 +1,38 @@
+{
+	"newTerms": {
+		"Sethite": "setita",
+		"dual nutrition": "nutrición dual",
+		"advisory-control body": "organismo consultivo y de control",
+		"repersonalized": "repersonalizados",
+		"acting Most High": "Altísimo interino",
+		"mortal slumber": "sopor mortal",
+		"Adam ben Adam": "Adam ben Adam"
+	},
+	"forcedChoices": [
+		{
+			"ref": "76:5.3",
+			"choice": "ustedes / los (plural) for Michael speaking to Adam and Eve together",
+			"reason": "The message speaks to the pair; the packet rule gives ustedes for the plural you."
+		},
+		{
+			"ref": "76:3.3",
+			"choice": "Adam ben Adam kept in its English form",
+			"reason": "It is a patronymic name form, not the plain name Adam; changing it to Adán ben Adán would alter the name."
+		},
+		{
+			"ref": "76:2.6",
+			"choice": "inheritance = herencia; heredity = herencia biológica",
+			"reason": "Spanish has one common word for both; the qualifier keeps the two English words apart."
+		},
+		{
+			"ref": "76:6.4",
+			"choice": "ultimate triumph = triunfo final",
+			"reason": "Here ultimate has its ordinary sense of final, not the absonite sense."
+		},
+		{
+			"ref": "76:4.1",
+			"choice": "aside set off with paired long dashes",
+			"reason": "Spanish closes a dashed aside with a second dash before the period."
+		}
+	]
+}

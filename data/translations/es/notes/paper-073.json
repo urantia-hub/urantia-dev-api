@@ -1,0 +1,32 @@
+{
+	"newTerms": {
+		"superplant": "superplanta",
+		"superchemical storage battery": "acumulador superquímico",
+		"life-extension force": "fuerza de prolongación de la vida",
+		"mighty men of old": "hombres poderosos de la antigüedad",
+		"committee on location": "comité de ubicación",
+		"decimal or experimental worlds": "mundos decimales o experimentales"
+	},
+	"forcedChoices": [
+		{
+			"ref": "73:2.1",
+			"choice": "recepción efectiva",
+			"reason": "actual here is the plain word, not the glossary sense 'en acto'; 'real' could read as 'royal'."
+		},
+		{
+			"ref": "73:5.4",
+			"choice": "siglos XIX y XX",
+			"reason": "Spanish writes centuries in Roman numerals; the English uses words, not digits."
+		},
+		{
+			"ref": "73:3.4",
+			"choice": "millas",
+			"reason": "The English unit is kept; no conversion to kilometers."
+		},
+		{
+			"ref": "73:7.1",
+			"choice": "en distintos momentos",
+			"reason": "'variously' does not say whether the groups came in sequence or together; this form keeps it open."
+		}
+	]
+}

@@ -1,0 +1,59 @@
+{
+	"newTerms": {
+		"mores": "mores (masculine plural, 'los mores'; the sociological term, kept apart from 'custom' = costumbre)",
+		"medicine men": "curanderos",
+		"witch doctors": "brujos",
+		"headmen (of clans)": "cabezas (de los clanes)",
+		"branch (executive, legislative, judicial)": "rama",
+		"in-group / out-group": "grupo propio / grupo ajeno",
+		"kinglet": "reyezuelo",
+		"sachems": "sachems",
+		"palavers": "«deliberaciones»",
+		"lynch law": "ley de Lynch",
+		"trial by ordeal / ordeals": "juicio por ordalía / ordalías",
+		"blood money": "«precio de la sangre»",
+		"governors (upon the engines)": "reguladores (de las máquinas)"
+	},
+	"forcedChoices": [
+		{
+			"ref": "70:2.21",
+			"choice": "aun de paso",
+			"reason": "'even in passing' can mean 'as war passes away' or 'mentioned in passing'; 'de paso' keeps both as far as Spanish allows."
+		},
+		{
+			"ref": "70:3.8",
+			"choice": "ustedes ... lo amarán como a ustedes mismos",
+			"reason": "English 'you' is open for number; the quote addresses the people, so plural throughout."
+		},
+		{
+			"ref": "70:7.12",
+			"choice": "«hacer locuras de juventud»",
+			"reason": "'sowing wild oats' is an English idiom; translated by meaning, no Spanish idiom with regional or sexual overtones."
+		},
+		{
+			"ref": "70:9.14",
+			"choice": "de derecho",
+			"reason": "'right' can be 'correct' or 'a right'; 'de derecho' (legitimate, by right) keeps the two readings closest."
+		},
+		{
+			"ref": "70:11.2",
+			"choice": "«no matarás»",
+			"reason": "Spanish forces singular or plural in the command; singular is the natural form of a general prohibition."
+		},
+		{
+			"ref": "70:2.1",
+			"choice": "estas ventajas determinadas",
+			"reason": "'certain' could be 'particular' or 'sure'; 'determinadas' reads as 'particular', which the context supports."
+		},
+		{
+			"ref": "70:3.2, 70:6.2",
+			"choice": "verdadero gobierno / verdadero rey",
+			"reason": "'real' as 'real' in Spanish also means 'royal'; 'verdadero' avoids it."
+		},
+		{
+			"ref": "70:6.5",
+			"choice": "El primer miembro del gabinete",
+			"reason": "'first cabinet officer' as 'primer ministro' would clash with 'prime ministers' in the sentence before."
+		}
+	]
+}

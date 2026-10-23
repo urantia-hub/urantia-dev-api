@@ -1,0 +1,31 @@
+{
+	"newTerms": {
+		"mores": "mores",
+		"folkways": "usos populares",
+		"ghost fear": "miedo a los fantasmas",
+		"ghost dream": "sueño de fantasmas",
+		"land-man ratio": "proporción tierra-hombre",
+		"maintenance arts": "artes de mantenimiento",
+		"self-maintenance": "automantenimiento",
+		"self-gratification": "autogratificación",
+		"self-perpetuation": "autoperpetuación",
+		"standards of living": "niveles de vida"
+	},
+	"forcedChoices": [
+		{
+			"ref": "68:4.2",
+			"choice": "mores (sociological term kept)",
+			"reason": "The text sets 'mores' apart from 'customs' and 'folkways'; Spanish sociology uses 'mores' as a term, and 'costumbres' would merge it with 'customs'."
+		},
+		{
+			"ref": "68:4.1",
+			"choice": "los antepasados salvajes de ustedes",
+			"reason": "'your' addresses the readers in the plural; 'sus' would be ambiguous."
+		},
+		{
+			"ref": "68:2.7",
+			"choice": "colaboradora esencial",
+			"reason": "'partner' takes the feminine because it refers to woman; 'compañera' is kept for 'companion' in the next sentence."
+		}
+	]
+}

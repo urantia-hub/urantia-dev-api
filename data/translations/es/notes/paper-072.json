@@ -1,0 +1,31 @@
+{
+	"newTerms": {
+		"elder statesmen (house of)": "estadistas mayores (cámara de los estadistas mayores)",
+		"supercabinet": "supergabinete",
+		"schools of statesmanship / statesmanship degrees": "escuelas de arte de gobernar / títulos de arte de gobernar",
+		"socioeconomic courts": "tribunales socioeconómicos",
+		"parental courts / parental schools": "tribunales parentales / escuelas parentales",
+		"superfranchises": "supersufragios",
+		"temples of philosophy": "templos de filosofía",
+		"precollege / colleges (special colleges)": "preuniversitario / universidades (universidades especiales)",
+		"guardians of civilization": "guardianes de la civilización",
+		"chief executive": "jefe ejecutivo"
+	},
+	"forcedChoices": [
+		{
+			"ref": "72:0.1",
+			"choice": "autorizado (masculine)",
+			"reason": "Spanish forces a gender for the narrator; 72:12.6 names a Melchizedek, and the papers use masculine forms for Melchizedeks."
+		},
+		{
+			"ref": "72:4.3",
+			"choice": "nueve meses del año de diez",
+			"reason": "Kept the English wording; the context (one month of vacation, nine of school) supports a year of ten months, but the phrase is not expanded."
+		},
+		{
+			"ref": "72:6.9",
+			"choice": "La deslealtad social y la política se consideran",
+			"reason": "Plural verb as in the English 'are looked upon'; both kinds of disloyalty stay in one class of crime."
+		}
+	]
+}
