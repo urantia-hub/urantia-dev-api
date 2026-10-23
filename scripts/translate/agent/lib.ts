@@ -451,7 +451,11 @@ export function singular(form: string): string {
 export function termsInText(lang: string, text: string): Term[] {
 	if (!textMatchers) {
 		const escape = (f: string) => f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-		textMatchers = [...loadTerms(lang).byEntity.values()].map((term) => {
+		const bare = (f: string) => f.replace(/\s*\([^)]*\)\s*$/, "").trim();
+		const terms = [...loadTerms(lang).byEntity.values()];
+		// "Adam (village)" shares its bare name with "Adam", so its English form cannot tell the two apart.
+		const names = new Set(terms.filter((t) => bare(t.en) === t.en).map((t) => t.en));
+		textMatchers = terms.filter((t) => bare(t.en) === t.en || !names.has(bare(t.en))).map((term) => {
 			const [name, ...aliases] = term.enForms.map((f) => f.replace(/\s*\([^)]*\)\s*$/, "").trim());
 			const forms = [name!, ...aliases.filter((a) => (/[A-Z]/.test(a) || /\s/.test(a)) && !SMALL_START.test(a))];
 			const res = [...new Set(forms.flatMap((f) => [f, singular(f)]))]
