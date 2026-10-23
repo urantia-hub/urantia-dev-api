@@ -1,0 +1,72 @@
+{
+	"newTerms": {
+		"Original Son": "Hijo Original",
+		"Absolute Son": "Hijo Absoluto",
+		"spirit gravity": "gravedad espiritual",
+		"spiritual gravity": "gravedad espiritual",
+		"spirit-gravity circuit": "circuito de gravedad espiritual",
+		"grasp (of gravity)": "dominio",
+		"spiritized": "espiritizado",
+		"Havoner": "havoniano",
+		"Father-Adjuster": "Padre-Ajustador",
+		"Eternal Mother Son": "Hijo Madre Eterno",
+		"Absolute Spirit Personality": "Personalidad Espiritual Absoluta",
+		"Plan of Progressive Attainment": "Plan de Logro Progresivo",
+		"Bestowal Plan": "Plan de Otorgamiento",
+		"Plan of Mercy Ministry": "Plan de Ministerio de Misericordia",
+		"conjoint executive": "ejecutivo conjunto",
+		"will creatures": "criaturas volitivas",
+		"Morning Stars": "Estrellas Matutinas",
+		"Divine Counselor": "Consejero Divino",
+		"grasp (of spirit gravity, of the Supreme)": "captación",
+		"offspring-person": "la persona que es fruto de",
+		"post-Havona universes": "universos posteriores a Havona"
+	},
+	"forcedChoices": [
+		{
+			"ref": "7:1.7",
+			"choice": "«su sistema», «su planeta» (de ustedes)",
+			"reason": "The plural «your» addresses the readers; the packet requires «ustedes»."
+		},
+		{
+			"ref": "7:3.3",
+			"choice": "«Cada una se ocupará»",
+			"reason": "«Each» refers to «personalidades divinas», a feminine noun in Spanish; the English «himself» has no match."
+		},
+		{
+			"ref": "7:4.5",
+			"choice": "«rasgo eventual»",
+			"reason": "English «provisional» here means a contingent provision; Spanish «provisional» means temporary, so «eventual» (contingent) keeps the sense."
+		},
+		{
+			"ref": "7:4.7",
+			"choice": "«Sean ustedes perfectos»",
+			"reason": "The mandate goes to all creation, so the plural form fits; Spanish forces a number."
+		},
+		{
+			"ref": "7:5.1",
+			"choice": "«Sean ustedes perfectos, así como su Padre»",
+			"reason": "Same plural mandate to all creation."
+		},
+		{
+			"ref": "7:1.8",
+			"choice": "«grado de existencia en acto»",
+			"reason": "«actualidad» is a false friend (current-ness); the glossary gives «en acto» for «actual»."
+		},
+		{
+			"ref": "7:7.6",
+			"choice": "«Deberían comprender»",
+			"reason": "English «you should comprehend» can mean duty or expectation; the Spanish conditional of «deber» keeps both readings."
+		},
+		{
+			"ref": "7:5.5",
+			"choice": "«con un humano u otro peregrino ni como uno de ellos»",
+			"reason": "Spanish needs the object after each preposition; the <em> tags stay on «con» and «como»."
+		},
+		{
+			"ref": "7:2.1",
+			"choice": "son profundas (plural)",
+			"reason": "Spanish agreement with two coordinated subjects, presence and activity."
+		}
+	]
+}

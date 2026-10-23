@@ -1,0 +1,66 @@
+{
+	"newTerms": {
+		"unqualified": "incondicionado",
+		"Original Son": "Hijo Original",
+		"First Great Source and Center": "Primera Gran Fuente y Centro",
+		"Second Great Source and Center": "Segunda Gran Fuente y Centro",
+		"Volitional Absolute": "Absoluto Volitivo",
+		"Personality Absolute": "Absoluto de la Personalidad",
+		"Co-ordinate Source": "Fuente Coordinada",
+		"Cocreator": "Cocreador",
+		"Associate Absolute": "Absoluto Asociado",
+		"Co-ordinate Spirit Center": "Centro Espiritual Coordinado",
+		"Eternal Spirit Administrator": "Administrador Espiritual Eterno",
+		"Second Eternal Source and Center": "Segunda Fuente y Centro Eterna",
+		"Son of Sons": "Hijo de Hijos",
+		"spirit gravity": "gravedad espiritual",
+		"Mystery Monitor": "Monitor de Misterio",
+		"premind": "premente",
+		"spiritize": "espiritizarse",
+		"Divine Counselor": "Consejero Divino",
+		"only-begotten": "unigénito",
+		"spirit personalities": "personalidades de espíritu"
+	},
+	"forcedChoices": [
+		{
+			"ref": "6.8",
+			"choice": "Comprensión del Hijo Eterno",
+			"reason": "«Realización» in Spanish reads as accomplishment; the section is about the Son becoming real and known to the creature."
+		},
+		{
+			"ref": "6:2.3",
+			"choice": "Padre espíritu",
+			"reason": "«Padre espiritual» also means a spiritual director or godfather; the noun form keeps 'the Father who is spirit'."
+		},
+		{
+			"ref": "6:4.4",
+			"choice": "ha de ser",
+			"reason": "English 'must be' can be necessity or inference; «ha de ser» keeps both readings."
+		},
+		{
+			"ref": "6:4.4",
+			"choice": "es coordinado (ser, not estar)",
+			"reason": "'Co-ordinate' here means equal in rank, a status, not a state of being brought into order."
+		},
+		{
+			"ref": "6:8.1",
+			"choice": "el Hijo es la Madre Universal",
+			"reason": "Spanish forces gender agreement; the title stays feminine as in English, the subject stays masculine."
+		},
+		{
+			"ref": "6:0.2",
+			"choice": "mediante una solución de compromiso",
+			"reason": "«compromiso» alone reads as commitment; 'contact-compromise' means a concession in language for contact."
+		},
+		{
+			"ref": "6:4.5",
+			"choice": "es coordinado",
+			"reason": "\"co-ordinate\" here is the adjective of equal rank or status (glossary), so \"ser\" fits better than \"estar\", which would suggest a passing state."
+		},
+		{
+			"ref": "6:8.1",
+			"choice": "su familia universal",
+			"reason": "\"their\" refers to the Father and the Son together; \"su\" keeps the reference without adding words."
+		}
+	]
+}

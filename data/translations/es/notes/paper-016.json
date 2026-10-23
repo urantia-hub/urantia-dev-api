@@ -1,0 +1,60 @@
+{
+	"newTerms": {
+		"subabsolute inevitability": "inevitabilidad subabsoluta",
+		"Sevenfold Spirit": "Espíritu Séptuple",
+		"College of Personalized Adjusters": "Colegio de Ajustadores Personalizados",
+		"Creative Spirit (local universe)": "Espíritu Creativo",
+		"reality response": "respuesta a la realidad",
+		"spirit ministers": "ministros espirituales",
+		"Value-Giver": "Dador de Valores",
+		"God-consciousness": "conciencia de Dios",
+		"personality-gravity circuit": "circuito de gravedad de la personalidad",
+		"Universal Censor": "Censor Universal",
+		"Seventh Master Spirit": "Séptimo Espíritu Maestro",
+		"absolute inevitability": "inevitabilidad absoluta",
+		"Sevenfold-Spirit-union": "unión del Espíritu Séptuple",
+		"Threefold-Deity-union": "unión de la Deidad Triple"
+	},
+	"forcedChoices": [
+		{
+			"ref": "16:5.3",
+			"choice": "la consorte y asociada; esta misma Espíritu Madre Creativo ... muy parecida",
+			"reason": "The glossary treats the local universe Mother Spirit as feminine (Ministra Divina, asociada creativa); the English 'consort' and 'Mother' support it."
+		},
+		{
+			"ref": "16:3.10",
+			"choice": "es la consejera",
+			"reason": "The subject is 'esta personalidad divina' (feminine noun); the agreement follows the noun, not the Spirit's 'he'."
+		},
+		{
+			"ref": "16:9.4",
+			"choice": "ustedes / dentro de ustedes",
+			"reason": "The English 'you' addresses the readers in general; the Spanish rules ask for plural 'ustedes'."
+		},
+		{
+			"ref": "16:9.14",
+			"choice": "él es; él está en nosotros; nosotros estamos en él",
+			"reason": "Spanish must choose 'ser' or 'estar': 'he is' (existence) takes 'ser'; 'is in us' and 'are in him' (location, indwelling) take 'estar'."
+		},
+		{
+			"ref": "16:4.1",
+			"choice": "no olviden ustedes",
+			"reason": "The English imperative 'do not forget' addresses the readers; plural 'ustedes' per the Spanish rules."
+		},
+		{
+			"ref": "16:6.2",
+			"choice": "fuentes reales",
+			"reason": "Here 'actual' means real, not the philosophical 'actual' of the glossary; 'fuentes en acto' would add a sense the authors did not intend."
+		},
+		{
+			"ref": "16:3.16",
+			"choice": "unión del Espíritu Séptuple / unión de la Deidad Triple",
+			"reason": "Spanish does not join words with hyphens as English does; the plain genitive keeps the meaning."
+		},
+		{
+			"ref": "16:8.3",
+			"choice": "modificada",
+			"reason": "'qualified' means changed in quality; 'calificada' reads as 'rated' or 'skilled' in Spanish."
+		}
+	]
+}

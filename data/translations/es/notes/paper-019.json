@@ -1,0 +1,64 @@
+{
+	"newTerms": {
+		"Eternal of Days": "Eterno de Días",
+		"Paradise Rulers": "Gobernantes del Paraíso",
+		"Paradise-Havona personalities": "personalidades Paraíso-Havona",
+		"Urantians": "urantianos",
+		"will creatures": "criaturas volitivas",
+		"trinitized sons": "hijos trinitizados",
+		"Trinity-embraced": "abrazados por la Trinidad",
+		"service-factualize": "factualizar mediante el servicio",
+		"eventuates": "eventúa (eventuar)",
+		"insight (perfect divine insight)": "comprensión profunda",
+		"volume of power presence": "volumen de presencia de poder",
+		"transport personalities": "personalidades de transporte",
+		"Paradise bestowal Sons": "Hijos de otorgamiento del Paraíso"
+	},
+	"forcedChoices": [
+		{
+			"ref": "19:1.2",
+			"choice": "billion = mil millones throughout (7 000 000 000 as siete mil millones)",
+			"reason": "The English uses the short-scale billion; Spanish billón means 10^12."
+		},
+		{
+			"ref": "19:4.8",
+			"choice": "Dos mil millones setenta",
+			"reason": "The English 'Two billion and seventy' is 2 000 000 070; the Spanish keeps the words in the same form."
+		},
+		{
+			"ref": "19:4.4",
+			"choice": "«Yo era»",
+			"reason": "Spanish forces imperfect or preterite for 'I was'; the imperfect fits a lasting state of being."
+		},
+		{
+			"ref": "19:4.6",
+			"choice": "un nuevo valor en lo último",
+			"reason": "'ultimates' is a noun for the ultimate (absonite) level; the neuter 'lo último' keeps the level sense without adding words, and it avoids 'los últimos' (the last ones)."
+		},
+		{
+			"ref": "19:6.8",
+			"choice": "la Havona (feminine)",
+			"reason": "Spanish forces a gender on the place name with an article; feminine follows 'la' used for proper names of worlds and regions in natural usage."
+		},
+		{
+			"ref": "19:5.11",
+			"choice": "jugando a esconderse de mí",
+			"reason": "'hide and seek' has different names by country (escondite, escondidas); a neutral phrase keeps the meaning for all readers."
+		},
+		{
+			"ref": "19:5.7",
+			"choice": "veinticinco pies",
+			"reason": "The English unit is kept; no conversion added."
+		},
+		{
+			"ref": "19:2.1",
+			"choice": "siete mil millones; mil millones",
+			"reason": "English billion is 10^9; Spanish billón is 10^12."
+		},
+		{
+			"ref": "19:3.2",
+			"choice": "las tres órdenes (feminine)",
+			"reason": "Spanish forces a gender for 'orden'; the feminine is the usual form for an order of beings."
+		}
+	]
+}

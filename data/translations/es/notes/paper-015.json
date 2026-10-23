@@ -1,0 +1,82 @@
+{
+	"newTerms": {
+		"headquarters world": "mundo sede",
+		"superuniverse space level": "nivel espacial de los superuniversos",
+		"post-Havona": "posterior a Havona",
+		"supergovernment": "supergobierno",
+		"supercreation": "supercreación",
+		"will creatures": "criaturas volitivas",
+		"mother wheels": "ruedas madre",
+		"star observers": "observadores de estrellas",
+		"power directors": "directores del poder",
+		"Whirled Stars": "estrellas de torbellino",
+		"Co-ordinate Trinity Personalities": "Personalidades Coordinadas de la Trinidad",
+		"presence-performances": "actuaciones de presencia",
+		"flash presence": "presencia instantánea",
+		"liaison reflectivators": "reflectivadores de enlace",
+		"Paradise clearinghouse": "centro de intercambio del Paraíso",
+		"eventuated": "eventuado",
+		"factualization": "factualización",
+		"Paradise Rulers": "Gobernantes del Paraíso",
+		"Planetary Prince": "Príncipe Planetario",
+		"System Sovereign": "Soberano de Sistema",
+		"Councils of the Trinity": "Consejos de la Trinidad",
+		"rendezvous worlds": "mundos de encuentro",
+		"transition culture": "cultura de transición",
+		"morontia detention": "detención morontial",
+		"deliberative assembly": "asamblea deliberativa",
+		"minor sector": "sector menor"
+	},
+	"forcedChoices": [
+		{
+			"ref": "15:0.3",
+			"choice": "ustedes",
+			"reason": "The authors speak to the readers of Urantia as a group; plural 'you' per the Spanish rules."
+		},
+		{
+			"ref": "15:8.2",
+			"choice": "las órdenes (feminine) for orders of beings",
+			"reason": "Spanish forces a gender; the feminine 'orden' carries the sense of a class of beings. 'Órdenes' of motions (15:3.15) stays masculine, the sense of category."
+		},
+		{
+			"ref": "15:8.10",
+			"choice": "quedarse sin cuerda / cobrar cuerda",
+			"reason": "'Running down' and 'winding up' are a clock image; the Spanish clock phrase keeps the pair and the last sentence consistent."
+		},
+		{
+			"ref": "15:8.7",
+			"choice": "energía positiva / energía negativa",
+			"reason": "'Plus energy' and 'minus energy' need a noun phrase; positive/negative keeps the sign without more interpretation."
+		},
+		{
+			"ref": "15:2.9",
+			"choice": "billion = mil millones, trillion = billón",
+			"reason": "The English uses the short scale; Spanish uses the long scale, so the words change to keep the numbers."
+		},
+		{
+			"ref": "15.4",
+			"choice": "antepasadas (feminine)",
+			"reason": "The apposition agrees with 'nebulosas', a feminine noun."
+		},
+		{
+			"ref": "15:12.1",
+			"choice": "personalidades comprensivas",
+			"reason": "'Understanding personalities' can mean wise or sympathetic; 'comprensivo' keeps both readings open."
+		},
+		{
+			"ref": "15:6.10",
+			"choice": "diez billones; dos billones",
+			"reason": "The English short-scale trillion (10^12) is the Spanish billón."
+		},
+		{
+			"ref": "15:7.12",
+			"choice": "quinientos mil millones",
+			"reason": "The English short-scale billion (10^9) is mil millones in Spanish."
+		},
+		{
+			"ref": "15:11.1",
+			"choice": "los seres que representan ... y los que representan ...",
+			"reason": "Spanish needs the repeated relative clause to keep the two groups of beings clear."
+		}
+	]
+}
