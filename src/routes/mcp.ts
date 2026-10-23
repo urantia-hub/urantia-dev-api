@@ -24,6 +24,12 @@ import { searchPapers } from "../lib/paper-search.ts";
 import { semanticSearchPapers } from "../lib/paper-semantic.ts";
 import { databaseCandidates } from "../lib/quote-candidates.ts";
 import { normalizeQuery } from "../lib/search-text.ts";
+import {
+	applyParagraphTranslations,
+	applyTitleTranslations,
+	loadTitleMap,
+	type TranslationLabel,
+} from "../lib/translations.ts";
 import { enrichWithUrantiaParallels } from "../lib/urantia-parallels.ts";
 import {
 	listWorks,
@@ -90,6 +96,30 @@ async function findParagraphByRef(db: ReturnType<typeof getDb>["db"], ref: strin
 	}
 }
 
+// The paper and paragraph tools read Spanish with `lang: "es"`. Search stays English.
+const langInput = z
+	.enum(["eng", "es"])
+	.default("eng")
+	.describe(
+		'Language of the text and titles. "es" gives the Spanish translation (a machine translation, CC0); each paragraph then has `language` and a `translation` label. Default "eng".',
+	);
+
+type Lang = z.infer<typeof langInput>;
+
+// Puts the translated text and titles on paragraph rows. English rows stay as they are.
+async function localizeParagraphs<
+	T extends {
+		id: string;
+		text: string;
+		paperId: string;
+		paperTitle: string;
+		sectionTitle: string | null;
+	},
+>(db: ReturnType<typeof getDb>["db"], rows: T[], lang: Lang) {
+	if (lang === "eng") return rows;
+	return applyTitleTranslations(db, await applyParagraphTranslations(db, rows, lang), lang);
+}
+
 // === Reusable Zod schemas for output validation ===
 
 const entityTypeEnum = z.enum(["being", "place", "order", "race", "religion", "concept"]);
@@ -127,6 +157,12 @@ const urantiaParallelSchema = z.object({
 	embeddingModel: z.string(),
 });
 
+const translationLabelSchema = z.object({
+	method: z.literal("machine"),
+	license: z.literal("CC0-1.0"),
+	review: z.string().nullable(),
+});
+
 const paragraphResultSchema = z.object({
 	id: z.string(),
 	standardReferenceId: z.string(),
@@ -142,6 +178,8 @@ const paragraphResultSchema = z.object({
 	entities: z.array(paragraphEntityMentionSchema).optional(),
 	bibleParallels: z.array(bibleParallelSchema).optional(),
 	urantiaParallels: z.array(urantiaParallelSchema).optional(),
+	language: z.string().optional(),
+	translation: translationLabelSchema.optional(),
 });
 
 // papers.get paragraphs: what an agent needs to read and cite a whole paper.
@@ -151,6 +189,8 @@ const paragraphTextSchema = z.object({
 	sectionTitle: z.string().nullable(),
 	text: z.string(),
 	entities: z.array(paragraphEntityMentionSchema).optional(),
+	language: z.string().optional(),
+	translation: translationLabelSchema.optional(),
 });
 
 const bibleCanonEnum = z.enum(["ot", "deuterocanon", "nt"]);
@@ -345,7 +385,7 @@ function createMcpServer() {
 			title: "Get Table of Contents",
 			description:
 				"Get the full table of contents of the Urantia Papers. Returns the Foreword and the 4 parts, with all 197 papers and their titles.",
-			inputSchema: {},
+			inputSchema: { lang: langInput },
 			outputSchema: {
 				parts: z.array(
 					z.object({
@@ -364,8 +404,9 @@ function createMcpServer() {
 			},
 			annotations: { title: "Get Table of Contents", ...READ_ONLY_LOCAL },
 		},
-		async () => {
+		async ({ lang }) => {
 			const { db } = getDb();
+			const titles = await loadTitleMap(db, lang, ["part", "part-sponsorship", "paper"]);
 			const allParts = await db.select().from(parts).orderBy(parts.sortId);
 			const allPapers = await db
 				.select({
@@ -378,11 +419,15 @@ function createMcpServer() {
 				.orderBy(papers.sortId);
 			const tocParts = allParts.map((part) => ({
 				id: part.id,
-				title: part.title,
-				sponsorship: part.sponsorship,
+				title: titles.get(`part:${part.id}`) ?? part.title,
+				sponsorship: titles.get(`part-sponsorship:${part.id}`) ?? part.sponsorship,
 				papers: allPapers
 					.filter((p) => p.partId === part.id)
-					.map((p) => ({ id: p.id, title: p.title, labels: p.labels })),
+					.map((p) => ({
+						id: p.id,
+						title: titles.get(`paper:${p.id}`) ?? p.title,
+						labels: p.labels,
+					})),
 			}));
 			return structured({ parts: tocParts });
 		},
@@ -395,7 +440,7 @@ function createMcpServer() {
 			title: "List Papers",
 			description:
 				"List all 197 papers of the Urantia Papers with their metadata (id, title, partId, labels), as a flat list.",
-			inputSchema: {},
+			inputSchema: { lang: langInput },
 			outputSchema: {
 				papers: z.array(
 					z.object({
@@ -409,9 +454,10 @@ function createMcpServer() {
 			},
 			annotations: { title: "List Papers", ...READ_ONLY_LOCAL },
 		},
-		async () => {
+		async ({ lang }) => {
 			const { db } = getDb();
-			const allPapers = await db
+			const titles = await loadTitleMap(db, lang, ["paper"]);
+			const paperRows = await db
 				.select({
 					id: papers.id,
 					partId: papers.partId,
@@ -421,6 +467,10 @@ function createMcpServer() {
 				})
 				.from(papers)
 				.orderBy(papers.sortId);
+			const allPapers = paperRows.map((p) => ({
+				...p,
+				title: titles.get(`paper:${p.id}`) ?? p.title,
+			}));
 			return structured({ papers: allPapers });
 		},
 	);
@@ -438,6 +488,7 @@ function createMcpServer() {
 					.boolean()
 					.default(false)
 					.describe("Include entity mentions in each paragraph"),
+				lang: langInput,
 			},
 			outputSchema: {
 				paper: z.object({
@@ -452,7 +503,7 @@ function createMcpServer() {
 			},
 			annotations: { title: "Get Paper", ...READ_ONLY_LOCAL },
 		},
-		async ({ paper_id, include_entities }) => {
+		async ({ paper_id, include_entities, lang }) => {
 			const { db } = getDb();
 			const paper = await db
 				.select({
@@ -471,25 +522,41 @@ function createMcpServer() {
 			if (!row) return errorResult(`Paper ${paper_id} not found`);
 			// The file and its length only: the start times are for players, and long.
 			const voice = row.audio?.["tts-1-hd"]?.nova;
-			const found = { ...row, audio: voice ? { url: voice.url, duration: voice.duration } : null };
+			const titles = await loadTitleMap(db, lang, ["paper"]);
+			const found = {
+				...row,
+				title: titles.get(`paper:${row.id}`) ?? row.title,
+				audio: voice ? { url: voice.url, duration: voice.duration } : null,
+			};
 
-			const paperParagraphs = await db
-				.select(mcpParagraphFields)
-				.from(paragraphs)
-				.where(eq(paragraphs.paperId, paper_id))
-				.orderBy(paragraphs.sortId);
+			const paperParagraphs = await localizeParagraphs(
+				db,
+				await db
+					.select(mcpParagraphFields)
+					.from(paragraphs)
+					.where(eq(paragraphs.paperId, paper_id))
+					.orderBy(paragraphs.sortId),
+				lang,
+			);
 
 			const enrichedParagraphs = include_entities
 				? await enrichWithEntities(db, paperParagraphs)
 				: paperParagraphs;
 
-			const textParagraphs = enrichedParagraphs.map((p) => ({
-				standardReferenceId: p.standardReferenceId,
-				sectionId: p.sectionId,
-				sectionTitle: p.sectionTitle,
-				text: p.text,
-				...("entities" in p ? { entities: p.entities } : {}),
-			}));
+			const textParagraphs = enrichedParagraphs.map((p) => {
+				const { language, translation } = p as {
+					language?: string;
+					translation?: TranslationLabel;
+				};
+				return {
+					standardReferenceId: p.standardReferenceId,
+					sectionId: p.sectionId,
+					sectionTitle: p.sectionTitle,
+					text: p.text,
+					...("entities" in p ? { entities: p.entities } : {}),
+					...(language ? { language, translation } : {}),
+				};
+			});
 			return structured({ paper: found, paragraphs: textParagraphs });
 		},
 	);
@@ -503,6 +570,7 @@ function createMcpServer() {
 				"Get all sections within a paper, ordered by section number. Useful for understanding paper structure before reading specific sections.",
 			inputSchema: {
 				paper_id: z.string().describe("Paper ID (0-196). Example: '1'"),
+				lang: langInput,
 			},
 			outputSchema: {
 				sections: z.array(
@@ -518,7 +586,7 @@ function createMcpServer() {
 			},
 			annotations: { title: "Get Paper Sections", ...READ_ONLY_LOCAL },
 		},
-		async ({ paper_id }) => {
+		async ({ paper_id, lang }) => {
 			const { db } = getDb();
 			const paper = await db
 				.select({ id: papers.id })
@@ -527,11 +595,16 @@ function createMcpServer() {
 				.limit(1);
 			if (paper.length === 0) return errorResult(`Paper ${paper_id} not found`);
 
-			const paperSections = await db
+			const sectionRows = await db
 				.select()
 				.from(sections)
 				.where(eq(sections.paperId, paper_id))
 				.orderBy(sections.sortId);
+			const titles = await loadTitleMap(db, lang, ["section"]);
+			const paperSections = sectionRows.map((s) => ({
+				...s,
+				title: titles.get(`section:${s.id}`) ?? s.title,
+			}));
 
 			return structured({ sections: paperSections });
 		},
@@ -558,11 +631,12 @@ function createMcpServer() {
 					.describe(
 						"Include the top-10 most-similar OTHER Urantia paragraphs ('see also'). Pre-computed via text-embedding-3-large cosine similarity.",
 					),
+				lang: langInput,
 			},
 			outputSchema: { paragraph: paragraphResultSchema },
 			annotations: { title: "Get Random Paragraph", ...READ_ONLY_RANDOM },
 		},
-		async ({ include_entities, include_bible_parallels, include_urantia_parallels }) => {
+		async ({ include_entities, include_bible_parallels, include_urantia_parallels, lang }) => {
 			const { db } = getDb();
 			const result = await db
 				.select(mcpParagraphFields)
@@ -570,7 +644,7 @@ function createMcpServer() {
 				.orderBy(sql`RANDOM()`)
 				.limit(1);
 			if (result.length === 0) return errorResult("No paragraphs found");
-			const enriched = await enrichParagraphs(db, result, {
+			const enriched = await enrichParagraphs(db, await localizeParagraphs(db, result, lang), {
 				entities: include_entities,
 				bibleParallels: include_bible_parallels,
 				urantiaParallels: include_urantia_parallels,
@@ -603,11 +677,12 @@ function createMcpServer() {
 					.describe(
 						"Include the top-10 most-similar OTHER Urantia paragraphs ('see also' across the corpus).",
 					),
+				lang: langInput,
 			},
 			outputSchema: { paragraph: paragraphResultSchema },
 			annotations: { title: "Get Paragraph", ...READ_ONLY_LOCAL },
 		},
-		async ({ ref, include_entities, include_bible_parallels, include_urantia_parallels }) => {
+		async ({ ref, include_entities, include_bible_parallels, include_urantia_parallels, lang }) => {
 			const { db } = getDb();
 			const format = detectRefFormat(ref);
 			if (format === "unknown") {
@@ -619,7 +694,7 @@ function createMcpServer() {
 			const result = await findParagraphByRef(db, ref);
 			if (result.length === 0) return errorResult(`Paragraph "${ref}" not found`);
 
-			const enriched = await enrichParagraphs(db, result, {
+			const enriched = await enrichParagraphs(db, await localizeParagraphs(db, result, lang), {
 				entities: include_entities,
 				bibleParallels: include_bible_parallels,
 				urantiaParallels: include_urantia_parallels,
@@ -644,6 +719,7 @@ function createMcpServer() {
 					.default(2)
 					.describe("Number of paragraphs before and after (1-10, default 2)"),
 				include_entities: z.boolean().default(false).describe("Include entity mentions"),
+				lang: langInput,
 			},
 			outputSchema: {
 				target: paragraphResultSchema,
@@ -652,7 +728,7 @@ function createMcpServer() {
 			},
 			annotations: { title: "Get Paragraph with Context", ...READ_ONLY_LOCAL },
 		},
-		async ({ ref, window: windowSize, include_entities }) => {
+		async ({ ref, window: windowSize, include_entities, lang }) => {
 			const { db } = getDb();
 			const format = detectRefFormat(ref);
 			if (format === "unknown") return errorResult(`Invalid reference format: "${ref}"`);
@@ -660,31 +736,35 @@ function createMcpServer() {
 			const target = await findParagraphByRef(db, ref);
 			if (target.length === 0) return errorResult(`Paragraph "${ref}" not found`);
 
-			const targetParagraph = target[0]!;
+			const targetRow = target[0]!;
 
-			const before = await db
+			const beforeRows = await db
 				.select(mcpParagraphFields)
 				.from(paragraphs)
 				.where(
-					and(
-						eq(paragraphs.paperId, targetParagraph.paperId),
-						lt(paragraphs.sortId, targetParagraph.sortId),
-					),
+					and(eq(paragraphs.paperId, targetRow.paperId), lt(paragraphs.sortId, targetRow.sortId)),
 				)
 				.orderBy(sql`${paragraphs.sortId} DESC`)
 				.limit(windowSize);
 
-			const after = await db
+			const afterRows = await db
 				.select(mcpParagraphFields)
 				.from(paragraphs)
 				.where(
-					and(
-						eq(paragraphs.paperId, targetParagraph.paperId),
-						gt(paragraphs.sortId, targetParagraph.sortId),
-					),
+					and(eq(paragraphs.paperId, targetRow.paperId), gt(paragraphs.sortId, targetRow.sortId)),
 				)
 				.orderBy(paragraphs.sortId)
 				.limit(windowSize);
+
+			// One call localizes the whole window: the target, then before, then after.
+			const localized = await localizeParagraphs(
+				db,
+				[targetRow, ...beforeRows, ...afterRows],
+				lang,
+			);
+			const targetParagraph = localized[0]!;
+			const before = localized.slice(1, 1 + beforeRows.length);
+			const after = localized.slice(1 + beforeRows.length);
 
 			if (include_entities) {
 				const allParagraphs = [targetParagraph, ...before, ...after];
