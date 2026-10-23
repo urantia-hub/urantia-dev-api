@@ -1,0 +1,91 @@
+{
+	"newTerms": {
+		"Divine Counselor": "Consejero Divino",
+		"Daughters of the Conjoint Actor": "Hijas del Actor Conjunto",
+		"First Great Source and Center": "Primera Gran Fuente y Centro",
+		"God the Sons": "Dios los Hijos",
+		"spirit Monitors": "Monitores espirituales",
+		"eventuating (presence)": "(presencia) en eventuación",
+		"experiential": "experiencial",
+		"post-Havona creations": "creaciones posteriores a Havona",
+		"ascension candidate": "candidato a la ascensión",
+		"all-wisdom": "sabiduría total"
+	},
+	"forcedChoices": [
+		{
+			"ref": "3:1.2",
+			"choice": "«Dios es todo y está en todo»",
+			"reason": "Spanish forces ser/estar; 'is all' is identity (ser), 'in all' is location (estar)."
+		},
+		{
+			"ref": "3:1.7",
+			"choice": "«pasa al acto»",
+			"reason": "'becomes actual' in the potential/actual sense; glossary form 'en acto'."
+		},
+		{
+			"ref": "3:1.7",
+			"choice": "«se adhieran y se sostengan en él» (also 3:5.4 «se sostienen»)",
+			"reason": "'consist' in the older sense of hold together, not 'consist of'."
+		},
+		{
+			"ref": "3:1.12",
+			"choice": "«(con respecto a Él)»",
+			"reason": "The English capitalizes 'Himself' here only; the capital is kept."
+		},
+		{
+			"ref": "3:2.5",
+			"choice": "«Dios se <em>ajusta</em> con la mente»",
+			"reason": "'ajustarse con' keeps both readings (adapts to / works together with) and the link to 'Ajustadores'."
+		},
+		{
+			"ref": "3:2.7",
+			"choice": "«del punto de vista de ustedes»",
+			"reason": "A bare 'su' could be read as God's viewpoint; the plural 'ustedes' marks the reader."
+		},
+		{
+			"ref": "3:3.2",
+			"choice": "«él conoce la hechura de ustedes; recuerda que son polvo»",
+			"reason": "'you' addressed to every human being; plural 'ustedes' per the variety rules."
+		},
+		{
+			"ref": "3:4.4",
+			"choice": "«que él puede enviar y que puede llegar a enviar»",
+			"reason": "'can and may' keeps capacity and possibility without choosing permission."
+		},
+		{
+			"ref": "3:5.17",
+			"choice": "feminine adjectives (valerosas, desprendidas)",
+			"reason": "Agree with 'las criaturas de Havona'; no claim about sex."
+		},
+		{
+			"ref": "3:5.6",
+			"choice": "courage «valor», brave «valientes», valor (3:5.12) «valentía», courageous «valerosas»",
+			"reason": "Spanish has no exact pair for brave/courageous; distinct words keep the contrast in 3:5.17."
+		},
+		{
+			"ref": "3:5.13",
+			"choice": "unselfishness «desprendimiento»",
+			"reason": "«altruismo» is used for 'altruism' in 3:5.7; a different word keeps the two items apart."
+		},
+		{
+			"ref": "3:6.1",
+			"choice": "selflessness «abnegación»",
+			"reason": "Plain word distinct from «desprendimiento» (unselfishness)."
+		},
+		{
+			"ref": "3:1.4",
+			"choice": "hijo mortal / el hijo",
+			"reason": "Spanish needs a gender; the masculine generic matches the English general sense of 'child'."
+		},
+		{
+			"ref": "3:5.14",
+			"choice": "son (indicative)",
+			"reason": "The English states a condition of the world; the indicative keeps it a statement."
+		},
+		{
+			"ref": "3:6.3",
+			"choice": "de su manifestación",
+			"reason": "'su' keeps open whether 'their' refers to the streams, the life, or the mind."
+		}
+	]
+}

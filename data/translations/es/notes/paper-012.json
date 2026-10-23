@@ -1,0 +1,82 @@
+{
+	"newTerms": {
+		"power directors": "directores del poder",
+		"Perfector of Wisdom": "Perfeccionador de la Sabiduría",
+		"space respiration": "respiración del espacio",
+		"linear gravity": "gravedad lineal",
+		"absolute gravity": "gravedad absoluta",
+		"eventuate": "eventuar",
+		"post-Havona": "posterior a Havona",
+		"Father fragment": "fragmento del Padre",
+		"spirit-mind / mind-spirit": "espíritu-mente / mente-espíritu",
+		"time-space": "tiempo-espacio",
+		"nontemporal space / nonspatial time": "espacio no temporal / tiempo no espacial",
+		"sequentiality": "secuencialidad",
+		"presence-performances": "actuaciones de presencia",
+		"overcare": "supercuidado",
+		"morontial": "morontial",
+		"supergravity presence": "presencia de supergravedad"
+	},
+	"forcedChoices": [
+		{
+			"ref": "12:1.10",
+			"choice": "mil millones",
+			"reason": "The English billion is 10^9; Spanish «billón» is 10^12."
+		},
+		{
+			"ref": "12:1.13",
+			"choice": "siete billones",
+			"reason": "The English trillion is 10^12, which is «billón» in Spanish."
+		},
+		{
+			"ref": "12:4.12",
+			"choice": "dos mil millones de años",
+			"reason": "The English two billion is 2 x 10^9."
+		},
+		{
+			"ref": "12:3.1",
+			"choice": "<em>los</em> cuatro circuitos",
+			"reason": "The emphasis on «all» moves to the article; «todos los cuatro» is not natural Spanish."
+		},
+		{
+			"ref": "12:7.8",
+			"choice": "a <em>cada</em> individuo ... a <em>todos</em> los individuos",
+			"reason": "The «each» against «every» contrast needs «todos» in Spanish, with the plural."
+		},
+		{
+			"ref": "12:7.10",
+			"choice": "<em>cada uno</em> / <em>todos</em>",
+			"reason": "The emphasized words «each» and «all» need two words in Spanish."
+		},
+		{
+			"ref": "12:9.3",
+			"choice": "algo <em>más</em> que ... o algo <em>diferente</em> de ellas",
+			"reason": "Spanish needs different prepositions after «más» and «diferente», so the object moves to after the first phrase."
+		},
+		{
+			"ref": "12:4.14",
+			"choice": "millas",
+			"reason": "The English uses miles; the unit is kept, not converted."
+		},
+		{
+			"ref": "12:7.14",
+			"choice": "¿ placed at «cómo»",
+			"reason": "The question begins at «how»; the concessive clauses before it are not part of the question."
+		},
+		{
+			"ref": "12:7.1",
+			"choice": "el total",
+			"reason": "The English uses «the total» against «the individual»; kept as a noun, distinct from «el todo» (the whole)."
+		},
+		{
+			"ref": "12:7.8",
+			"choice": "él (lowercase)",
+			"reason": "The English uses lowercase \"he\" for God; Spanish keeps the pronoun for clarity."
+		},
+		{
+			"ref": "12:8.5",
+			"choice": "se hace (ser/estar avoided)",
+			"reason": "\"becomes\" shows a gradual change; \"hacerse\" carries it without a ser/estar choice."
+		}
+	]
+}

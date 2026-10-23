@@ -1,0 +1,74 @@
+{
+	"newTerms": {
+		"six absolute co-ordinates": "seis coordinados absolutos",
+		"God-consciousness": "conciencia de Dios",
+		"realization (of God, of the ideal, etc.)": "toma de conciencia",
+		"adoration": "veneración",
+		"spirit-gravity circuits": "circuitos de gravedad espiritual",
+		"betrothed Adjuster": "Ajustador desposado",
+		"faith son": "hijo por la fe",
+		"supremacy (of God)": "supremacía",
+		"Original and Eternal Personality": "Personalidad Original y Eterna",
+		"Divine Counselor": "Consejero Divino",
+		"Confucianists": "confucianos",
+		"Mohammedanism": "islam",
+		"religionist": "hombre religioso"
+	},
+	"forcedChoices": [
+		{
+			"ref": "5:3.1",
+			"choice": "worship = adoración (glossary); adoration = veneración",
+			"reason": "Spanish has one common word for both; the text pairs them, so 'adoration' gets 'veneración' to keep the two apart (also 5:3.2, 5:3.3, 5:3.6, 5:5.4)."
+		},
+		{
+			"ref": "5:3.6",
+			"choice": "las asociadas administrativas y creativas",
+			"reason": "Spanish forces a gender; the Mother Spirits take the feminine in the glossary ('asociada creativa')."
+		},
+		{
+			"ref": "5:3.2",
+			"choice": "sujetos (Adjusters' subjects) vs súbditos (5:3.6, Universe Sons' subjects)",
+			"reason": "Spanish separates persons indwelt from persons ruled; the context decides each case."
+		},
+		{
+			"ref": "5:4.8",
+			"choice": "«Conócete a ti mismo», «Conoce a tu Dios», «a ti mismo»",
+			"reason": "Maxims addressed to one person take 'tú'."
+		},
+		{
+			"ref": "5:1.2",
+			"choice": "lo cual hace que él anhele",
+			"reason": "Neutral 'lo cual' keeps open whether the grandeur, the generosity, or the majesty causes the yearning."
+		},
+		{
+			"ref": "5:5.13",
+			"choice": "la mente cree a Dios",
+			"reason": "English 'believes God' (not 'in God'); 'creer a' keeps the sense of trusting him."
+		},
+		{
+			"ref": "5:6.6",
+			"choice": "queda así lanzada (feminine)",
+			"reason": "Spanish forces agreement; the phrase 'as a ... personality' points to the personality, not the vehicle."
+		},
+		{
+			"ref": "5:6.4",
+			"choice": "si no es por Dios el Padre",
+			"reason": "English 'except for' can mean 'because of' or 'for the sake of'; 'por' covers both better than 'para'."
+		},
+		{
+			"ref": "5:1.11",
+			"choice": "sus descendientes",
+			"reason": "'offspring' kept distinct from 'children' (hijos) in the sentence before."
+		},
+		{
+			"ref": "5:5.3",
+			"choice": "la persona religiosa de fe",
+			"reason": "The noun 'el religioso' commonly means a member of a religious order, which the English 'religionist' does not mean."
+		},
+		{
+			"ref": "5:4.9",
+			"choice": "llevó (pretérito) for 'has elevated'",
+			"reason": "The simple past reads naturally in neutral Spanish for a completed historical change."
+		}
+	]
+}

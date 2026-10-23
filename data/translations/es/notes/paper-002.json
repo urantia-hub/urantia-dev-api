@@ -1,0 +1,85 @@
+{
+	"newTerms": {
+		"Universe Sovereigns": "Soberanos del Universo",
+		"Divine Counselor": "Consejero Divino",
+		"Universal Disposer": "Disponedor Universal",
+		"Supreme Soul": "Alma Suprema",
+		"Primal Mind": "Mente Primordial",
+		"Unlimited Spirit": "Espíritu Ilimitado",
+		"Controller (great)": "Controlador",
+		"First Great Source and Center": "Primera Gran Fuente y Centro",
+		"Father of Fathers": "Padre de los Padres",
+		"First Father": "Primer Padre",
+		"Truth Spirit": "Espíritu de la Verdad",
+		"will creatures": "criaturas volitivas",
+		"God-consciousness": "conciencia de Dios",
+		"loving-kindness": "bondad amorosa",
+		"righteousness": "rectitud",
+		"fairness": "equidad",
+		"adjudication": "juicio",
+		"faith-trust": "fe-confianza",
+		"free-willness": "libre albedrío"
+	},
+	"forcedChoices": [
+		{
+			"ref": "2:1.1",
+			"choice": "«Miren» for «Behold»",
+			"reason": "Spanish needs a person for the imperative; plural matches the rule for addressing readers and avoids the archaic «He aquí»."
+		},
+		{
+			"ref": "2:1.2",
+			"choice": "«Disponedor Universal» for «Universal Disposer»",
+			"reason": "«Ordenador» also means computer in Spain; «disponer» keeps the sense of the one who decides outcomes. Medium confidence."
+		},
+		{
+			"ref": "2:3.3",
+			"choice": "«juicio» for «adjudication»",
+			"reason": "Spanish «adjudicación» means an award or allotment (false friend)."
+		},
+		{
+			"ref": "2:3.5",
+			"choice": "«existencia en acto» for «actuality»",
+			"reason": "Spanish «actualidad» means the present time (false friend); glossary uses «en acto» for actual."
+		},
+		{
+			"ref": "2:5.4",
+			"choice": "«tus» for «your»",
+			"reason": "English «your» does not show number; the quoted promise addresses one people as one addressee."
+		},
+		{
+			"ref": "2:5.7",
+			"choice": "«mientras sea» (subjunctive) for «as long as he is»",
+			"reason": "Spanish requires the subjunctive after «mientras» in a condition."
+		},
+		{
+			"ref": "2:5.9",
+			"choice": "«un padre de verdad» for «a real father»; «un hijo» for «a child»",
+			"reason": "«un padre real» can read as «a royal father»; «hijo» matches the parent-child relation of the sentence."
+		},
+		{
+			"ref": "2:5.10",
+			"choice": "«paternal» for «parental»",
+			"reason": "Spanish has no common gender-neutral adjective; the text itself frames God as Father."
+		},
+		{
+			"ref": "2:6.4",
+			"choice": "«a la manera de un padre» / «como padre»",
+			"reason": "Spanish «como» covers both «like» and «as»; the contrast needs two forms, with emphasis kept on each."
+		},
+		{
+			"ref": "2:7.11",
+			"choice": "«belleza auténtica» for «real beauty»",
+			"reason": "«belleza real» can read as «royal beauty»."
+		},
+		{
+			"ref": "2:6.5",
+			"choice": "padre e hijo",
+			"reason": "Spanish needs a gender; the masculine generic matches the father image of the sentence."
+		},
+		{
+			"ref": "2:6.5",
+			"choice": "cualidad de libre albedrío",
+			"reason": "The English coins 'free-willness'; Spanish has no single noun, so a term built on the glossary form keeps the sense."
+		}
+	]
+}

@@ -1,0 +1,36 @@
+{
+	"newTerms": {
+		"will creatures": "criaturas volitivas",
+		"Trinity Teacher Son": "Hijo Instructor de la Trinidad",
+		"Trinity-embraced": "abrazados por la Trinidad",
+		"pilgrims of time": "peregrinos del tiempo",
+		"retrinitized": "retrinitizados"
+	},
+	"forcedChoices": [
+		{
+			"ref": "18:4.2",
+			"choice": "las tres (Perfecciones) / uno de este trío",
+			"reason": "Spanish agreement: feminine with the noun Perfecciones, masculine with trío and for the English 'himself'."
+		},
+		{
+			"ref": "18:6.5",
+			"choice": "Una Unión de Días ... como observador ... miembro",
+			"reason": "The noun Unión is feminine; the English 'he' and the role nouns stay masculine."
+		},
+		{
+			"ref": "18:4.3",
+			"choice": "su lengua",
+			"reason": "'your tongue' means English in the source; kept as the reader's language without naming it."
+		},
+		{
+			"ref": "18:2.4",
+			"choice": "hacia arriba / hacia dentro",
+			"reason": "Adverbs of direction for 'upward' and 'inward', also used for 'on your way inward' in 18:2.4 and 18:5.5."
+		},
+		{
+			"ref": "18:6.7",
+			"choice": "de origen dual en la Deidad",
+			"reason": "Keeps open 'dual Deity origin' (origin from two Deities) without naming them."
+		}
+	]
+}

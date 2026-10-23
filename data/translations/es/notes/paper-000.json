@@ -1,0 +1,109 @@
+{
+	"newTerms": {
+		"First Source and Center": "Primera Fuente y Centro",
+		"midwayer": "ser intermedio",
+		"Absoluteness": "Absolutez",
+		"deified": "deificado",
+		"undeified": "no deificado",
+		"subabsolute": "subabsoluto",
+		"supersupreme": "supersupremo",
+		"superabsonite": "superabsonito",
+		"experientialize": "experiencializar",
+		"power-personalize": "personalizarse en poder",
+		"factualize": "factualizar",
+		"Ultimate Trinity": "Trinidad Última",
+		"Absolute Trinity": "Trinidad Absoluta",
+		"Supreme Creator Personalities": "Personalidades Creadoras Supremas",
+		"Conjoint Executive": "Ejecutivo Conjunto",
+		"Co-ordinate Creator": "Creador Coordinado",
+		"Spirit Controller": "Controlador del Espíritu",
+		"Spiritual Administrator": "Administrador Espiritual",
+		"Universal Integrator": "Integrador Universal",
+		"Mind Bestower": "Otorgador de la Mente",
+		"Upholder": "Sostenedor",
+		"Original Son": "Hijo Original",
+		"Isle of Light": "Isla de Luz",
+		"Divine Presence": "Presencia Divina",
+		"Divine Counselor": "Consejero Divino",
+		"Corps of Superuniverse Personalities": "Cuerpo de Personalidades del Superuniverso",
+		"eternity-intension": "intensión de eternidad",
+		"ancestor-source": "fuente ancestral"
+	},
+	"forcedChoices": [
+		{
+			"ref": "0:0.1",
+			"choice": "su mundo",
+			"reason": "Plural 'your' addressed to the readers of Urantia; 'su' (ustedes) per the variety rules."
+		},
+		{
+			"ref": "0:1.4",
+			"choice": "Estática, Potencial, Asociativa, Creativa, Evolutiva, Suprema, Última (feminine)",
+			"reason": "The labels qualify 'Deidad', a feminine noun (0:1.4 to 0:1.10)."
+		},
+		{
+			"ref": "0:3.9",
+			"choice": "la Primera Fuente y Centro (feminine)",
+			"reason": "Spanish needs a gender; 'Fuente' is the head noun, so the adjectives are feminine (infinita, eterna, limitada)."
+		},
+		{
+			"ref": "0:3.24",
+			"choice": "intensión de eternidad",
+			"reason": "English 'intension' (the logical sense, not 'intention'); Spanish 'intensión' keeps the same logical term."
+		},
+		{
+			"ref": "0:4.7",
+			"choice": "En acto y en potencia",
+			"reason": "Spanish 'actual' means 'current'; the glossary form 'en acto' is used for the label 'Actual and Potential'."
+		},
+		{
+			"ref": "0:5.10",
+			"choice": "A medida que",
+			"reason": "English 'As ... so' gives a correlation; 'a medida que' keeps the correlation and does not narrow it to one moment."
+		},
+		{
+			"ref": "0:5.10",
+			"choice": "«hacer la voluntad del Padre en el cielo»",
+			"reason": "Translated from the book's own English words, not from a published Bible version."
+		},
+		{
+			"ref": "0:8.9",
+			"choice": "en algún momento",
+			"reason": "'sometime' can mean 'at some time'; the form keeps the time open."
+		},
+		{
+			"ref": "0:11.4",
+			"choice": "coordinado de forma última",
+			"reason": "Spanish 'últimamente' means 'recently'; this form keeps the sense of the ultimate level and of finality open."
+		},
+		{
+			"ref": "0:11.9",
+			"choice": "la antigua hipótesis del éter",
+			"reason": "'sometime' here means 'former'."
+		},
+		{
+			"ref": "0:12.14",
+			"choice": "asignado",
+			"reason": "Masculine singular agrees with both 'Jefe' and 'Cuerpo', so the English ambiguity stays open."
+		},
+		{
+			"ref": "0:3.24",
+			"choice": "«lo definitivo» for «finality»",
+			"reason": "Spanish «finalidad» means purpose, a false friend."
+		},
+		{
+			"ref": "0:3.24",
+			"choice": "«intensión» (not «intención»)",
+			"reason": "The English says intension (inner content), not intention."
+		},
+		{
+			"ref": "0:5.10",
+			"choice": "«A medida que» for «As ... so»",
+			"reason": "Keeps both the time reading and the degree reading of the English open."
+		},
+		{
+			"ref": "0:12.9",
+			"choice": "«infinito en acto» for «actually is infinite»",
+			"reason": "The sentence contrasts actual with potential infinity; glossary form for actual."
+		}
+	]
+}

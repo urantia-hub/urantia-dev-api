@@ -1,0 +1,62 @@
+{
+	"newTerms": {
+		"Divine Counselor": "Consejero Divino",
+		"power directors": "directores del poder",
+		"power-control creatures": "criaturas de control del poder",
+		"Universal Manipulator": "Manipulador Universal",
+		"Omnipresent Spirit": "Espíritu Omnipresente",
+		"mind gravity / mind-gravity circuit": "gravedad mental / circuito de gravedad mental",
+		"spirit gravity": "gravedad espiritual",
+		"personality gravity": "gravedad de la personalidad",
+		"experiential": "experiencial",
+		"will creatures": "criaturas volitivas",
+		"Creative Daughter": "Hija Creativa",
+		"reflective personalities": "personalidades reflectivas",
+		"presence-consciousness": "conciencia-presencia",
+		"Ministering Spirits of Time": "Espíritus Ministradores del Tiempo",
+		"Urantians": "urantianos",
+		"adjutant levels of mind": "niveles ayudantes de la mente"
+	},
+	"forcedChoices": [
+		{
+			"ref": "9:1.1",
+			"choice": "Adjectives agree in the feminine with «la Tercera Fuente y Centro» (conocida, infinita, representada), while the pronoun stays «él» as in the English «he».",
+			"reason": "Spanish grammar makes the adjective agree with «Fuente»; the English pronoun is personal and masculine."
+		},
+		{
+			"ref": "9:0.3",
+			"choice": "«ellas los conocen» refers to the personalities.",
+			"reason": "The English «they» can refer to «his influence and personalities»; only personalities can know, and Spanish forces a gender."
+		},
+		{
+			"ref": "9:8.4",
+			"choice": "«el estrecho asociado» (masculine) for the Creative Spirit.",
+			"reason": "Agrees with «Espíritu Creativo»; this paper gives no pronoun for the Creative Spirit."
+		},
+		{
+			"ref": "9:5.7",
+			"choice": "«adoration or worship» became «veneración o adoración».",
+			"reason": "The glossary fixes «adoración» for «worship», so «adoration» needs another word."
+		},
+		{
+			"ref": "9:8.2",
+			"choice": "«que funcionaba» can refer to the act or to the Infinite Spirit.",
+			"reason": "Keeps the English ambiguity of «functioning»; both nouns are masculine."
+		},
+		{
+			"ref": "9:2.4",
+			"choice": "«urantianos» in lowercase.",
+			"reason": "Spanish writes names of inhabitants in lowercase."
+		},
+		{
+			"ref": "9:6.9",
+			"choice": "posiblemente son tangentes (indicativo)",
+			"reason": "The English states a possibility with 'may possibly'; the adverb carries it, so the verb stays plain."
+		},
+		{
+			"ref": "9:7.5",
+			"choice": "surgimiento",
+			"reason": "'emergencia' also reads as 'emergency' in Spanish."
+		}
+	]
+}
