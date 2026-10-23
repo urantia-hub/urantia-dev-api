@@ -104,3 +104,12 @@ describe("GET /entities/:id/paragraphs", () => {
 		expect(json.detail).toContain("not found");
 	});
 });
+
+describe("GET /entities/:id/paragraphs with lang", () => {
+	it('with lang "es" gives Spanish text and Spanish paper titles', async () => {
+		const res = await get("/entities/machiventa-melchizedek/paragraphs?limit=1&lang=es");
+		const { data } = await res.json();
+		expect(data[0].language).toBe("es");
+		expect(data[0].paperTitle).toBe("Los Hijos de Dios del Universo Local");
+	});
+});
