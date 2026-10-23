@@ -7,6 +7,7 @@ import { join } from "node:path";
 import {
 	type EnglishPaper,
 	fold,
+	loadTerms,
 	pad,
 	stripTags,
 	type Term,
@@ -61,8 +62,40 @@ function termPresent(term: Term, text: string): boolean {
 	);
 }
 
-function shingles(text: string, n = 6): Set<string> {
-	const words = fold(text).match(/\p{L}+/gu) ?? [];
+const glossaryCache = new Map<string, Map<string, string[][]>>();
+
+/** The glossary's target forms of two or more words, by first word, longest first. */
+function glossaryForms(lang: string): Map<string, string[][]> {
+	if (glossaryCache.has(lang)) return glossaryCache.get(lang)!;
+	const byFirst = new Map<string, string[][]>();
+	for (const t of loadTerms(lang).byEntity.values()) {
+		for (const form of [t.target, ...t.aliases]) {
+			const ws = fold(form).match(/\p{L}+/gu) ?? [];
+			if (ws.length >= 2) byFirst.set(ws[0]!, [...(byFirst.get(ws[0]!) ?? []), ws]);
+		}
+	}
+	for (const list of byFirst.values()) list.sort((a, b) => b.length - a.length);
+	glossaryCache.set(lang, byFirst);
+	return byFirst;
+}
+
+/**
+ * The words of a text, with each glossary form of two or more words as one word. The glossary fixes
+ * those words, so a list of titles (0:2.13) matches every edition; as one word, a name weighs as one.
+ */
+function collapsedWords(lang: string, text: string): string[] {
+	const ws = fold(text).match(/\p{L}+/gu) ?? [];
+	const forms = glossaryForms(lang);
+	const out: string[] = [];
+	for (let i = 0; i < ws.length; ) {
+		const f = forms.get(ws[i]!)?.find((f) => f.every((w, j) => ws[i + j] === w));
+		out.push(f ? f.join("_") : ws[i]!);
+		i += f ? f.length : 1;
+	}
+	return out;
+}
+
+function shingles(words: string[], n = 6): Set<string> {
 	const out = new Set<string>();
 	for (let i = 0; i + n <= words.length; i++) out.add(words.slice(i, i + n).join(" "));
 	return out;
@@ -101,13 +134,13 @@ function loadEditions(lang: string, paper: number): Map<string, string>[] {
 }
 
 export function copyScore(lang: string, paper: number, ref: string, text: string): number {
-	const ours = shingles(text);
+	const ours = shingles(collapsedWords(lang, text));
 	if (ours.size < COPY_MIN_SHINGLES) return 0;
 	let max = 0;
 	for (const edition of loadEditions(lang, paper)) {
 		const theirs = edition.get(ref);
 		if (!theirs) continue;
-		const other = shingles(theirs);
+		const other = shingles(collapsedWords(lang, theirs));
 		let shared = 0;
 		for (const s of ours) if (other.has(s)) shared++;
 		max = Math.max(max, shared / ours.size);
