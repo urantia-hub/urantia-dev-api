@@ -1,5 +1,86 @@
 [
 	{
+		"sourceType": "part",
+		"sourceId": "0",
+		"title": "Prólogo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "part",
+		"sourceId": "1",
+		"title": "El universo central y los superuniversos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "part-sponsorship",
+		"sourceId": "1",
+		"title": "Patrocinado por un Cuerpo de Personalidades del Superuniverso de Uversa que actúa con la autoridad de los Ancianos de Días de Orvonton",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "part",
+		"sourceId": "2",
+		"title": "El universo local",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "part-sponsorship",
+		"sourceId": "2",
+		"title": "Patrocinado por un Cuerpo de Personalidades del Universo Local de Nebadon que actúa con la autoridad de Gabriel de Salvington",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "part",
+		"sourceId": "3",
+		"title": "La historia de Urantia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "part-sponsorship",
+		"sourceId": "3",
+		"title": "Estos documentos fueron patrocinados por un Cuerpo de Personalidades del Universo Local que actúa con la autoridad de Gabriel de Salvington",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "part",
+		"sourceId": "4",
+		"title": "La vida y las enseñanzas de Jesús",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "part-sponsorship",
+		"sourceId": "4",
+		"title": "La base de esta narración la proporcionó un ser intermedio secundario que en otro tiempo fue asignado a la vigilancia y el cuidado sobrehumanos del apóstol Andrés.",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
 		"sourceType": "paper",
 		"sourceId": "0",
 		"title": "Prólogo",
@@ -3114,87 +3195,6 @@
 		"confidence": "auto_checked"
 	},
 	{
-		"sourceType": "part",
-		"sourceId": "0",
-		"title": "Prólogo",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "part",
-		"sourceId": "1",
-		"title": "El universo central y los superuniversos",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "part-sponsorship",
-		"sourceId": "1",
-		"title": "Patrocinado por un Cuerpo de Personalidades del Superuniverso de Uversa que actúa con la autoridad de los Ancianos de Días de Orvonton",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "part",
-		"sourceId": "2",
-		"title": "El universo local",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "part-sponsorship",
-		"sourceId": "2",
-		"title": "Patrocinado por un Cuerpo de Personalidades del Universo Local de Nebadon que actúa con la autoridad de Gabriel de Salvington",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "part",
-		"sourceId": "3",
-		"title": "La historia de Urantia",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "part-sponsorship",
-		"sourceId": "3",
-		"title": "Estos documentos fueron patrocinados por un Cuerpo de Personalidades del Universo Local que actúa con la autoridad de Gabriel de Salvington",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "part",
-		"sourceId": "4",
-		"title": "La vida y las enseñanzas de Jesús",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "part-sponsorship",
-		"sourceId": "4",
-		"title": "La base de esta narración la proporcionó un ser intermedio secundario que en otro tiempo fue asignado a la vigilancia y el cuidado sobrehumanos del apóstol Andrés.",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
 		"sourceType": "paper",
 		"sourceId": "40",
 		"title": "Los Hijos de Dios ascendentes",
@@ -4447,123 +4447,6 @@
 	},
 	{
 		"sourceType": "paper",
-		"sourceId": "55",
-		"title": "Las esferas de luz y vida",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "55.1",
-		"title": "El templo morontial",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "55.2",
-		"title": "La muerte y la traslación",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "55.3",
-		"title": "Las eras de oro",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "55.4",
-		"title": "Reajustes administrativos",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "55.5",
-		"title": "La cumbre del desarrollo material",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "55.6",
-		"title": "El mortal individual",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "55.7",
-		"title": "La primera etapa, o etapa planetaria",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "55.8",
-		"title": "La segunda etapa, o etapa del sistema",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "55.9",
-		"title": "La tercera etapa, o etapa de la constelación",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "55.10",
-		"title": "La cuarta etapa, o etapa del universo local",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "55.11",
-		"title": "Las etapas del sector menor y del sector mayor",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "55.12",
-		"title": "La séptima etapa, o etapa del superuniverso",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "paper",
 		"sourceId": "56",
 		"title": "Unidad universal",
 		"language": "es",
@@ -4924,6 +4807,78 @@
 	},
 	{
 		"sourceType": "paper",
+		"sourceId": "61",
+		"title": "La era de los mamíferos en Urantia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "61.1",
+		"title": "La etapa de la nueva tierra continental - La edad de los primeros mamíferos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "61.2",
+		"title": "La etapa de la inundación reciente - La edad de los mamíferos avanzados",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "61.3",
+		"title": "La etapa de las montañas modernas - Edad del elefante y del caballo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "61.4",
+		"title": "La etapa de la elevación continental reciente - La última gran migración de los mamíferos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "61.5",
+		"title": "La edad de hielo temprana",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "61.6",
+		"title": "El hombre primitivo en la edad de hielo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "61.7",
+		"title": "La continuación de la edad de hielo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
 		"sourceId": "62",
 		"title": "Las razas del alba del hombre primitivo",
 		"language": "es",
@@ -5061,312 +5016,6 @@
 		"sourceType": "section",
 		"sourceId": "63.7",
 		"title": "La supervivencia de Andon y Fonta",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "paper",
-		"sourceId": "67",
-		"title": "La rebelión planetaria",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "67.1",
-		"title": "La traición de Caligastia",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "67.2",
-		"title": "El estallido de la rebelión",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "67.3",
-		"title": "Los siete años cruciales",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "67.4",
-		"title": "Los cien de Caligastia después de la rebelión",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "67.5",
-		"title": "Resultados inmediatos de la rebelión",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "67.6",
-		"title": "Van, el inquebrantable",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "67.7",
-		"title": "Repercusiones lejanas del pecado",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "67.8",
-		"title": "El héroe humano de la rebelión",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "paper",
-		"sourceId": "76",
-		"title": "El segundo jardín",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "76.1",
-		"title": "Los Edenitas entran en Mesopotamia",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "76.2",
-		"title": "Caín y Abel",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "76.3",
-		"title": "La vida en Mesopotamia",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "76.4",
-		"title": "La raza violeta",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "76.5",
-		"title": "Muerte de Adán y Eva",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "76.6",
-		"title": "Supervivencia de Adán y Eva",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "paper",
-		"sourceId": "77",
-		"title": "Las criaturas intermedias",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "77.1",
-		"title": "Los seres intermedios primarios",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "77.2",
-		"title": "La raza Nodita",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "77.3",
-		"title": "La torre de Babel",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "77.4",
-		"title": "Centros Noditas de civilización",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "77.5",
-		"title": "Adamson y Ratta",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "77.6",
-		"title": "Los seres intermedios secundarios",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "77.7",
-		"title": "Los seres intermedios rebeldes",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "77.8",
-		"title": "Los Seres Intermedios Unidos",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "77.9",
-		"title": "Los ciudadanos permanentes de Urantia",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "paper",
-		"sourceId": "61",
-		"title": "La era de los mamíferos en Urantia",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "61.1",
-		"title": "La etapa de la nueva tierra continental - La edad de los primeros mamíferos",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "61.2",
-		"title": "La etapa de la inundación reciente - La edad de los mamíferos avanzados",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "61.3",
-		"title": "La etapa de las montañas modernas - Edad del elefante y del caballo",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "61.4",
-		"title": "La etapa de la elevación continental reciente - La última gran migración de los mamíferos",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "61.5",
-		"title": "La edad de hielo temprana",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "61.6",
-		"title": "El hombre primitivo en la edad de hielo",
-		"language": "es",
-		"version": 1,
-		"source": "urantia.dev",
-		"confidence": "auto_checked"
-	},
-	{
-		"sourceType": "section",
-		"sourceId": "61.7",
-		"title": "La continuación de la edad de hielo",
 		"language": "es",
 		"version": 1,
 		"source": "urantia.dev",
@@ -5601,6 +5250,87 @@
 		"sourceType": "section",
 		"sourceId": "66.8",
 		"title": "Las desventuras de Caligastia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "67",
+		"title": "La rebelión planetaria",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "67.1",
+		"title": "La traición de Caligastia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "67.2",
+		"title": "El estallido de la rebelión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "67.3",
+		"title": "Los siete años cruciales",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "67.4",
+		"title": "Los cien de Caligastia después de la rebelión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "67.5",
+		"title": "Resultados inmediatos de la rebelión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "67.6",
+		"title": "Van, el inquebrantable",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "67.7",
+		"title": "Repercusiones lejanas del pecado",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "67.8",
+		"title": "El héroe humano de la rebelión",
 		"language": "es",
 		"version": 1,
 		"source": "urantia.dev",
@@ -6310,6 +6040,159 @@
 	},
 	{
 		"sourceType": "paper",
+		"sourceId": "76",
+		"title": "El segundo jardín",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "76.1",
+		"title": "Los Edenitas entran en Mesopotamia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "76.2",
+		"title": "Caín y Abel",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "76.3",
+		"title": "La vida en Mesopotamia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "76.4",
+		"title": "La raza violeta",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "76.5",
+		"title": "Muerte de Adán y Eva",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "76.6",
+		"title": "Supervivencia de Adán y Eva",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "77",
+		"title": "Las criaturas intermedias",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "77.1",
+		"title": "Los seres intermedios primarios",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "77.2",
+		"title": "La raza Nodita",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "77.3",
+		"title": "La torre de Babel",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "77.4",
+		"title": "Centros Noditas de civilización",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "77.5",
+		"title": "Adamson y Ratta",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "77.6",
+		"title": "Los seres intermedios secundarios",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "77.7",
+		"title": "Los seres intermedios rebeldes",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "77.8",
+		"title": "Los Seres Intermedios Unidos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "77.9",
+		"title": "Los ciudadanos permanentes de Urantia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
 		"sourceId": "78",
 		"title": "La raza violeta después de los días de Adán",
 		"language": "es",
@@ -6465,6 +6348,123 @@
 		"sourceType": "section",
 		"sourceId": "79.8",
 		"title": "La civilización china posterior",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "55",
+		"title": "Las esferas de luz y vida",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "55.1",
+		"title": "El templo morontial",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "55.2",
+		"title": "La muerte y la traslación",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "55.3",
+		"title": "Las eras de oro",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "55.4",
+		"title": "Reajustes administrativos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "55.5",
+		"title": "La cumbre del desarrollo material",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "55.6",
+		"title": "El mortal individual",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "55.7",
+		"title": "La primera etapa, o etapa planetaria",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "55.8",
+		"title": "La segunda etapa, o etapa del sistema",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "55.9",
+		"title": "La tercera etapa, o etapa de la constelación",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "55.10",
+		"title": "La cuarta etapa, o etapa del universo local",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "55.11",
+		"title": "Las etapas del sector menor y del sector mayor",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "55.12",
+		"title": "La séptima etapa, o etapa del superuniverso",
 		"language": "es",
 		"version": 1,
 		"source": "urantia.dev",
