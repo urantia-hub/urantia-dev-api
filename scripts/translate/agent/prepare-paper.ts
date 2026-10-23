@@ -12,7 +12,7 @@
  * agent. It shows the English only, never the failed wording. assemble-paper.ts merges the answer.
  */
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { COPY_LIMIT_PARAGRAPH, copyScore } from "./checks.ts";
 import {
@@ -20,13 +20,14 @@ import {
 	draftPath,
 	glossaryPath,
 	LANG_NAMES,
+	loadDraft,
 	loadEnglishPaper,
 	loadTermDecisions,
 	pad,
 	parseArgs,
 	redoPath,
-	stripTags,
 	STYLE_GUIDE_DIR,
+	stripTags,
 	termsInText,
 	WORK_DIR,
 } from "./lib.ts";
@@ -55,7 +56,13 @@ for (const paper of papers) {
 	const en = loadEnglishPaper(paper);
 	let paragraphs = en.paragraphs;
 	if (REDO) {
-		const draft: Draft = JSON.parse(readFileSync(draftPath(lang, paper, candidate), "utf-8"));
+		// The next round writes the same redo file, so fold the last round into the draft first.
+		const last = redoPath(lang, paper, candidate);
+		const draft = loadDraft(lang, paper, candidate)!;
+		if (existsSync(last)) {
+			writeFileSync(draftPath(lang, paper, candidate), `${JSON.stringify(draft, null, 2)}\n`);
+			renameSync(last, last.replace(/\.json$/, `-${Date.now().toString(36)}.json`));
+		}
 		paragraphs = paragraphs.filter((p) => {
 			const html = draft.paragraphs?.[p.ref];
 			return html && copyScore(lang, paper, p.ref, stripTags(html)) > COPY_LIMIT_PARAGRAPH;
@@ -77,7 +84,9 @@ for (const paper of papers) {
 		: "(none)";
 
 	const sections = REDO ? [] : en.sections.filter((s) => s.title);
-	const example = Object.fromEntries(paragraphs.slice(0, 2).map((p) => [p.ref, "<span …>…</span>"]));
+	const example = Object.fromEntries(
+		paragraphs.slice(0, 2).map((p) => [p.ref, "<span …>…</span>"]),
+	);
 	const draftExample = REDO
 		? { paragraphs: example }
 		: {
@@ -105,7 +114,7 @@ ${JSON.stringify(draftExample, null, 2)}
 
 - \`paragraphs\` has one key for each paragraph reference below (${paragraphs.length} in total). The value is the translated HTML.
 - Keep every HTML tag and class exactly as in the English. Translate only the text between the tags.
-${REDO ? "" : "- \`sectionTitles\` has one key for each section id below. Leave out sections with no title."}
+${REDO ? "" : "- `sectionTitles` has one key for each section id below. Leave out sections with no title."}
 
 ${method}
 
@@ -145,7 +154,12 @@ ${sections.map((s) => `- Section ${s.id}: ${s.title}`).join("\n")}
 ${paragraphs.map((p) => `### ${p.ref}\n\n${p.htmlText}`).join("\n\n")}
 `;
 
-	const out = join(WORK_DIR, lang, candidate, `paper-${pad(paper)}${REDO ? ".redo" : ""}.packet.md`);
+	const out = join(
+		WORK_DIR,
+		lang,
+		candidate,
+		`paper-${pad(paper)}${REDO ? ".redo" : ""}.packet.md`,
+	);
 	mkdirSync(dirname(out), { recursive: true });
 	writeFileSync(out, packet);
 	console.log(`Paper ${paper}: ${paragraphs.length} paragraphs, ${terms.length} terms → ${out}`);
