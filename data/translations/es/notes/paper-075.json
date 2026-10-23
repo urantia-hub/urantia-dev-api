@@ -1,0 +1,44 @@
+{
+	"newTerms": {
+		"default (Adamic, of Eve)": "incumplimiento",
+		"Garden covenant": "pacto del Jardín",
+		"archangel custodian": "arcángel custodio",
+		"the voice in the Garden": "la voz en el Jardín",
+		"misstep": "paso en falso",
+		"Mother Eve (epithet of Eve)": "Madre Eva",
+		"superenergy": "superenergía",
+		"supermortal": "supermortal",
+		"planetary trust": "encargo planetario que se les había confiado",
+		"default of trust": "incumplimiento de su cargo de confianza",
+		"life trust": "depósito de vida",
+		"trusteeship": "custodia",
+		"multiple mating": "unión con varias parejas"
+	},
+	"forcedChoices": [
+		{
+			"ref": "75:4.8",
+			"choice": "«¿Dónde están?» (plural)",
+			"reason": "Spanish forces a number for 'you'; the text says the call was to Adam and Eve together."
+		},
+		{
+			"ref": "75:4.7",
+			"choice": "percibió",
+			"reason": "'realized' can mean 'understood' or 'obtained'; the context supports that she perceived what was promised."
+		},
+		{
+			"ref": "75:4.5",
+			"choice": "su descendencia",
+			"reason": "'offspring' has no number in English; 'descendencia' keeps it open."
+		},
+		{
+			"ref": "75:5.4",
+			"choice": "se dio muerte ahogándose",
+			"reason": "Spanish 'se ahogó' alone reads as an accident; 'drowned himself' is deliberate."
+		},
+		{
+			"ref": "75:8.8",
+			"choice": "Presentado",
+			"reason": "The masculine agrees with the implied 'documento', not with Solonia."
+		}
+	]
+}

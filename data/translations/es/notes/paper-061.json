@@ -1,0 +1,52 @@
+{
+	"newTerms": {
+		"ice age": "edad de hielo",
+		"placental mammals": "mamíferos placentarios",
+		"inhabited world": "mundo habitado",
+		"southern land bridge": "puente terrestre del sur",
+		"Iceland land bridge": "puente terrestre de Islandia",
+		"ice sheet": "capa de hielo",
+		"ice invasion": "invasión de hielo",
+		"pressure centers": "centros de presión",
+		"drift(s) (glacial)": "acarreos",
+		"ground, lateral, and terminal moraines": "morrenas de fondo, laterales y terminales",
+		"Resident Life Carrier": "Portador de Vida residente"
+	},
+	"forcedChoices": [
+		{
+			"ref": "61:6.2",
+			"choice": "se registró a Urantia como mundo habitado",
+			"reason": "An impersonal form avoids a gender for Urantia, which the English does not give."
+		},
+		{
+			"ref": "61:7.15",
+			"choice": "capibaras",
+			"reason": "\"water hogs\" names the capybara; a literal \"cerdos de agua\" reads as a kind of pig."
+		},
+		{
+			"ref": "61:2.7",
+			"choice": "geómidos",
+			"reason": "\"tuzas\" is regional (Mexico); \"geómidos\" is the neutral name for gophers."
+		},
+		{
+			"ref": "61:0.3",
+			"choice": "aparición real",
+			"reason": "\"actual\" here has the plain sense \"real\", not the glossary sense \"en acto\"."
+		},
+		{
+			"ref": "61:6.2",
+			"choice": "antepasados reales",
+			"reason": "Plain sense of \"actual\", as in 61:0.3."
+		},
+		{
+			"ref": "61:3.11",
+			"choice": "ustedes deberían",
+			"reason": "The text speaks to the readers; plural \"ustedes\" per the variety rules."
+		},
+		{
+			"ref": "61:1.12",
+			"choice": "circuito de tierra firme alrededor del globo",
+			"reason": "\"earth circuit of land\" read as the ring of land around the globe; the context supports it."
+		}
+	]
+}

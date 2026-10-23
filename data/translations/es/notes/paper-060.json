@@ -1,0 +1,54 @@
+{
+	"newTerms": {
+		"dolomite limestone": "caliza dolomítica",
+		"lithographic stone": "piedra litográfica",
+		"greensand marl": "marga de arena verde",
+		"chalk": "creta",
+		"Chalk Period": "período de la creta",
+		"foraminifers": "foraminíferos",
+		"angiosperms": "angiospermas",
+		"ammonites": "amonites",
+		"crinoids": "crinoideos",
+		"ichthyosaurs": "ictiosaurios",
+		"pterosaurs": "pterosaurios",
+		"prebirds": "preaves",
+		"modern mountain-building stage": "etapa moderna de formación de montañas",
+		"circumpacific": "circumpacífico",
+		"overthrust": "cabalgamiento",
+		"mid-age mountains": "montañas de edad intermedia",
+		"front range": "cordillera frontal",
+		"agelong": "que dura edades / de edades"
+	},
+	"forcedChoices": [
+		{
+			"ref": "60:1.12",
+			"choice": "si quieren estudiar ... examinen",
+			"reason": "The English speaks to the reader; the Spanish rules ask for the plural ustedes."
+		},
+		{
+			"ref": "60:3.8",
+			"choice": "las aguas frías de los mares del norte",
+			"reason": "\"cooling waters\" can mean waters that cool other waters or waters that are cold; \"frías\" is the plain form that keeps the effect on temperature without an added clause."
+		},
+		{
+			"ref": "60:3.12",
+			"choice": "Hace 75 000 000 años se marca el fin",
+			"reason": "The English uses a time phrase as the subject; Spanish cannot do this, so an impersonal verb keeps the sentence and the emphasis on the number."
+		},
+		{
+			"ref": "60:3.22",
+			"choice": "el antepasado",
+			"reason": "Spanish forces a gender; the masculine generic form refers to the type of bird, not to the noun criatura."
+		},
+		{
+			"ref": "60:3.5",
+			"choice": "Las numerosas capas de colores",
+			"reason": "\"many colored\" can mean many-colored or many layers that are colored; the Spanish keeps both readings open as far as it can."
+		},
+		{
+			"ref": "60:3.1",
+			"choice": "período cretácico ... formadores de creta",
+			"reason": "The English links the name Cretaceous to chalk; the Spanish \"cretácico\" also comes from \"creta\", so no English word in parentheses is necessary."
+		}
+	]
+}

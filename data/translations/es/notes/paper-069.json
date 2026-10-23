@@ -1,0 +1,51 @@
+{
+	"newTerms": {
+		"Competition-gravity": "gravedad de la competencia",
+		"silent barter": "trueque silencioso",
+		"medicine men": "curanderos",
+		"the Prince's staff": "el personal del Príncipe",
+		"Caligastia confusion": "confusión de Caligastia",
+		"self-maintenance / self-perpetuation / self-gratification": "automantenimiento / autoperpetuación / autogratificación",
+		"cities of refuge": "ciudades de refugio",
+		"message stick": "bastón de mensajes",
+		"commons": "tierras comunales",
+		"dog-fetish cults": "cultos del perro-fetiche"
+	},
+	"forcedChoices": [
+		{
+			"ref": "69:3.5",
+			"choice": "«herreros blancos» y «herreros negros» (en inglés, white smiths y black smiths)",
+			"reason": "The link to white and black magic rests on the English word blacksmith; Spanish herrero carries no color, so the English is given in parentheses per rule 6 (no asterisks, to add no markup)."
+		},
+		{
+			"ref": "69:6.5",
+			"choice": "sacerdotisas",
+			"reason": "Spanish forces gender; the subject is women."
+		},
+		{
+			"ref": "69:3.11",
+			"choice": "Los primeros comerciantes fueron mujeres",
+			"reason": "Kept the generic masculine noun with the women as predicate, as the English states the trader role."
+		},
+		{
+			"ref": "69:9.18",
+			"choice": "ustedes / imperatives in ustedes form",
+			"reason": "The text addresses the readers in the plural; packet rule."
+		},
+		{
+			"ref": "69:8.12",
+			"choice": "power → energía",
+			"reason": "Here power means motive energy from the inorganic world, not sovereignty; 'poder' would read as political power."
+		},
+		{
+			"ref": "69:6.8",
+			"choice": "steam power → fuerza del vapor",
+			"reason": "Physical motive power, not authority."
+		},
+		{
+			"ref": "69:2.5",
+			"choice": "creador y sostenedor (lowercase)",
+			"reason": "The English is lowercase; kept lowercase and no capitals added."
+		}
+	]
+}

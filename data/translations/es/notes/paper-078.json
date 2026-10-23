@@ -1,0 +1,47 @@
+{
+	"newTerms": {
+		"Pre-Sumerians": "presumerios",
+		"Sethite priesthood / Sethite priests": "sacerdocio setita / sacerdotes setitas",
+		"Andonic dialect": "dialecto Andónico",
+		"Andite-yellow": "andito-amarillos",
+		"pure-line (violet race)": "de linaje puro",
+		"default of Adam": "incumplimiento de Adán",
+		"Kopet mountains": "montes Kopet",
+		"Elamite highlands": "tierras altas elamitas",
+		"Caucasoid": "caucasoide",
+		"Pre-Dravidian India": "la India predravídica",
+		"b.c.": "a. C."
+	},
+	"forcedChoices": [
+		{
+			"ref": "78:1.3",
+			"choice": "civilizaciones occidental y de la India",
+			"reason": "\"india\" alone can be read as American Indian; \"de la India\" keeps the sense of the land."
+		},
+		{
+			"ref": "78:1.8",
+			"choice": "emprendedor",
+			"reason": "Spanish \"agresivo\" reads as violent; the context lists it with adventurous and exploratory, so the sense is energetic and expansive."
+		},
+		{
+			"ref": "78:0.1",
+			"choice": "Anditas (noun, capital) / andita (adjective, lowercase)",
+			"reason": "The glossary capitalizes the people names (Adamitas, Noditas, Andonitas); the adjectives follow Spanish lowercase use, as the glossary short form \"nodita\" does."
+		},
+		{
+			"ref": "78:5.3",
+			"choice": "esta habla temprana",
+			"reason": "\"habla\" is feminine; \"esta\" is required before it."
+		},
+		{
+			"ref": "78:6.6",
+			"choice": "que se había mantenido libre",
+			"reason": "Spanish forces a number; the subject is the group (el cinco por ciento, la cultura), so the singular fits."
+		},
+		{
+			"ref": "78:2.5",
+			"choice": "con cuatro millones y medio de miembros",
+			"reason": "Spanish \"numbering\" needs a noun; \"miembros\" says only the count of the nation, with no added sense."
+		}
+	]
+}

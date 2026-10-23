@@ -1,0 +1,45 @@
+{
+	"newTerms": {
+		"Turanian": "turanio",
+		"Amerindian": "amerindio",
+		"teacher-priests": "sacerdotes-maestros",
+		"sons of Han": "hijos de Han",
+		"Hellenistic peoples": "pueblos helenísticos",
+		"Mohammedan invasion": "invasión musulmana",
+		"Gangetic plain": "llanura gangética",
+		"land-man ratio": "proporción tierra-hombre",
+		"ancestor veneration": "veneración de los antepasados",
+		"ancestor worship": "adoración de los antepasados",
+		"racial obliteration": "desaparición racial",
+		"Andonic": "Andónico",
+		"Andite (adjective)": "Andita",
+		"Sangik (adjective)": "Sangik (invariable)"
+	},
+	"forcedChoices": [
+		{
+			"ref": "79:1.1",
+			"choice": "b.c. → a. C. after the number",
+			"reason": "Spanish era abbreviation; the span tag is kept."
+		},
+		{
+			"ref": "79:1.9",
+			"choice": "a.d. 1200 → el 1200 d. C.",
+			"reason": "Spanish puts the era after the year; the span tag is kept, only its position moves."
+		},
+		{
+			"ref": "79:5.2",
+			"choice": "«fueron las primeras» (feminine)",
+			"reason": "'they' refers to the red races (razas) in the same sentence."
+		},
+		{
+			"ref": "79:5.9",
+			"choice": "«el plan Melquisedec original»",
+			"reason": "Keeps open whether the plan was of one Melchizedek or of the Melchizedek receivers, as the English does."
+		},
+		{
+			"ref": "79:8.1",
+			"choice": "statehood → «el desarrollo del Estado»",
+			"reason": "Spanish needs a noun; Estado capitalized per RAE for the political entity."
+		}
+	]
+}

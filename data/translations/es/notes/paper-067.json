@@ -1,0 +1,42 @@
+{
+	"newTerms": {
+		"iniquiter (established iniquiter)": "inicuo (inicuo empedernido)",
+		"supreme council of co-ordination / court of co-ordination": "consejo supremo de coordinación / corte de coordinación",
+		"administrator seraphim": "serafines administradores",
+		"primary midway creatures": "criaturas intermedias primarias",
+		"council of planetary receivers": "consejo de síndicos planetarios",
+		"relay energy transmitter": "transmisor de energía de retransmisión",
+		"affect-range": "radio de efecto",
+		"time-penalized / eternity-jeopardized": "penalizado en el tiempo / puesto en peligro en la eternidad",
+		"Badonite": "Badonita",
+		"staff of sedition / secession staff": "personal de la sedición / personal de la secesión",
+		"Melchizedek council": "consejo Melquisedec"
+	},
+	"forcedChoices": [
+		{
+			"ref": "67:1.2",
+			"choice": "tú (Eres como tu jefe)",
+			"reason": "The Creator Son speaks to one person who is a subordinate."
+		},
+		{
+			"ref": "67:6.5",
+			"choice": "una Brillante Estrella Vespertina",
+			"reason": "Spanish forces a gender; the noun estrella is feminine and the glossary form is feminine."
+		},
+		{
+			"ref": "67:3.5",
+			"choice": "al negarse dieciséis ... a entrar en rebelión",
+			"reason": "Kept the loose participial link of the English so the relation of the 16 to the 56 stays open."
+		},
+		{
+			"ref": "67:7.4",
+			"choice": "compartida ... por todos",
+			"reason": "Generic masculine keeps 'all' open to all beings, not only all personalities."
+		},
+		{
+			"ref": "67:3.2",
+			"choice": "su jefe",
+			"reason": "Kept 'their leader' as su jefe, which stays open as to whose leader."
+		}
+	]
+}

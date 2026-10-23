@@ -1,0 +1,44 @@
+{
+	"newTerms": {
+		"state (political)": "Estado",
+		"statehood": "estatalidad",
+		"mores": "costumbres",
+		"profit motive / profit motivation": "motivo de lucro / motivación del lucro",
+		"commonwealth": "comunidad política",
+		"golden rulers": "«seguidores de la regla de oro» (en inglés, golden rulers)",
+		"semistates": "semiestados",
+		"prestate": "preestatal"
+	},
+	"forcedChoices": [
+		{
+			"ref": "71:0.1",
+			"choice": "Estado with a capital E",
+			"reason": "Spanish orthography capitalizes the political institution to separate it from 'estado' (condition); not added for importance."
+		},
+		{
+			"ref": "71:2.1",
+			"choice": "¡Avancen despacio!, ¡elijan con cuidado!",
+			"reason": "The imperatives speak to the readers; plural 'ustedes' per the Spanish rules."
+		},
+		{
+			"ref": "71:4.16",
+			"choice": "los «seguidores de la regla de oro» (en inglés, golden rulers)",
+			"reason": "The English plays on 'golden rule'; the meaning is kept and the English word is added in parentheses per rule 6. No <em> tag added, so the HTML tags stay the same."
+		},
+		{
+			"ref": "71:5.2",
+			"choice": "¿cómo se puede garantizar...?",
+			"reason": "The generic 'you' is rendered with an impersonal form, which reads better than 'ustedes' here."
+		},
+		{
+			"ref": "71:2.8",
+			"choice": "acertadamente / la manera acertada / algo desacertado",
+			"reason": "Keeps the play on 'rightly / right way / wrong thing' with one word family."
+		},
+		{
+			"ref": "71:3.10",
+			"choice": "La condición de cualquier nivel (lowercase)",
+			"reason": "'status' here is a condition, not the political State, so lowercase separates the two senses."
+		}
+	]
+}

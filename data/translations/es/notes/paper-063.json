@@ -1,0 +1,46 @@
+{
+	"newTerms": {
+		"Man-mind": "la mente humana",
+		"perfection hunger": "hambre de perfección",
+		"Fatherlike creature / Sonlike creature": "criatura semejante al Padre / criatura semejante al Hijo",
+		"Primates tribes": "tribus de los Primates",
+		"Andonic": "Andónico (Andónica, Andónicos)",
+		"word of Urantia": "la palabra de Urantia",
+		"pre-Planetary Prince days": "días anteriores al Príncipe Planetario",
+		"Breath of Life (as address in prayer)": "Aliento de Vida",
+		"tarrying place": "lugar de parada",
+		"master mind": "mente maestra"
+	},
+	"forcedChoices": [
+		{
+			"ref": "63:0.3",
+			"choice": "«amado por la madre» / «amada por el padre»",
+			"reason": "Spanish forces gender; Sonta-an is Andon and Sonta-en is Fonta."
+		},
+		{
+			"ref": "63:0.1",
+			"choice": "los gemelos",
+			"reason": "Generic masculine plural for a male and female pair."
+		},
+		{
+			"ref": "63:3.1",
+			"choice": "los infantes cada vez más débiles que caracterizarían",
+			"reason": "Plural verb ties 'which' to the infants, the nearest antecedent and the most natural English reading."
+		},
+		{
+			"ref": "63:6.6",
+			"choice": "tú forms (danos, líbranos, recíbenos)",
+			"reason": "Spanish forces a pronoun; prayer address to Deity reads naturally with tú."
+		},
+		{
+			"ref": "63:6.8",
+			"choice": "(contados desde el año 1934 <span class=\"scaps\">d. C.</span>)",
+			"reason": "Spanish puts the era mark after the year; the tag is kept but moved after the number."
+		},
+		{
+			"ref": "63:2.2",
+			"choice": "los había despertado",
+			"reason": "Masculine plural object pronoun for the pair."
+		}
+	]
+}
