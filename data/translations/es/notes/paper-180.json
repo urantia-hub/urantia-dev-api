@@ -1,0 +1,47 @@
+{
+	"newTerms": {
+		"husbandman": "labrador",
+		"vine / branches": "vid / sarmientos",
+		"will-union": "unión de voluntades",
+		"truth-conviction / conviction of truth": "convicción de la verdad",
+		"fear-consciousness": "conciencia del temor",
+		"sons of light / children of light": "hijos de la luz",
+		"universe insight": "discernimiento del universo",
+		"spirit-led": "guiado por el espíritu",
+		"readaptative interpretation": "interpretación readaptativa",
+		"abodes (6.3)": "moradas",
+		"Promised Helper / new helper": "auxiliar prometido / nuevo auxiliar"
+	},
+	"forcedChoices": [
+		{
+			"ref": "180:3.6",
+			"choice": "tú for the apostles speaking to Jesus",
+			"reason": "One person addressed; the Spanish rule asks for tú, and the tone is of a friend and teacher, not a ruler."
+		},
+		{
+			"ref": "180:3.7",
+			"choice": "tú (singular) in 'If you know me ... you have lived with me'",
+			"reason": "Jesus addresses Thomas by name; the context supports the singular, though the English 'you' could include all."
+		},
+		{
+			"ref": "180:3.9",
+			"choice": "tú (singular) for Philip",
+			"reason": "Jesus addresses Philip by name; English 'you' could also include the group."
+		},
+		{
+			"ref": "180:5.2",
+			"choice": "realización (not toma de conciencia) in 'eventuate only in the realization of a peculiar form of ... wisdom'",
+			"reason": "Here the sense is the outcome or attainment of a form of wisdom, not awareness."
+		},
+		{
+			"ref": "180:5.7",
+			"choice": "impersonal plural 'que amen a su prójimo como a sí mismos'",
+			"reason": "Generic 'you' of a maxim; the Spanish rule asks for ustedes or an impersonal form."
+		},
+		{
+			"ref": "180:6.7",
+			"choice": "volverá a levantarse for 'will rise again'",
+			"reason": "Keeps the plain English verb; resucitará would also fit, but the English does not use the technical word."
+		}
+	]
+}

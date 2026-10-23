@@ -1,0 +1,58 @@
+{
+	"newTerms": {
+		"high priest": "sumo sacerdote",
+		"chief priest (singular, 184:3.1)": "principal sacerdote",
+		"court of Sanhedrists / Sanhedrist court": "tribunal de sanedritas / tribunal sanedrita",
+		"portress": "portera",
+		"gate-keeper": "guardiana de la puerta",
+		"traducer": "difamador",
+		"preparation day": "día de la preparación"
+	},
+	"forcedChoices": [
+		{
+			"ref": "184:1.4",
+			"choice": "Anás trata a Jesús de «tú»",
+			"reason": "Anás habla desde su autoridad a un prisionero."
+		},
+		{
+			"ref": "184:1.5",
+			"choice": "Jesús trata a Anás de «tú»",
+			"reason": "Jesús lo llama «amigo»; el trato no es de deferencia formal."
+		},
+		{
+			"ref": "184:2.12",
+			"choice": "«concesiones» para «compromise»",
+			"reason": "«compromiso» en español significa obligación; el sentido es ceder en lo moral."
+		},
+		{
+			"ref": "184:3.10",
+			"choice": "«difamador» para «traducer»",
+			"reason": "Sentido de diccionario (calumniador). El contexto puede sugerir «el que extravía»; confianza media, para revisión."
+		},
+		{
+			"ref": "184:3.19",
+			"choice": "«porte magnífico» para «superb bearing»",
+			"reason": "«soberbio» también significa arrogante."
+		},
+		{
+			"ref": "184:4.3",
+			"choice": "«apacible» para «gentle»",
+			"reason": "«gentil» también significa no judío."
+		},
+		{
+			"ref": "184:4.4",
+			"choice": "género femenino para Urantia («la desdichada Urantia»)",
+			"reason": "El español exige un género; se elige el femenino, como con los nombres de lugar en -a."
+		},
+		{
+			"ref": "184:4.6",
+			"choice": "«realización de su identidad»",
+			"reason": "Conserva los dos sentidos de «realization» (hacer real y comprender) mejor que «toma de conciencia»."
+		},
+		{
+			"ref": "184:5.10",
+			"choice": "«sus amistades» para «their friends»",
+			"reason": "Evita fijar el género de los amigos."
+		}
+	]
+}

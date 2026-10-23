@@ -1,0 +1,36 @@
+{
+	"newTerms": {
+		"mount of ordination": "monte de la ordenación",
+		"morontia manifestation": "manifestación morontial",
+		"morontia transition": "transición morontial",
+		"drying establishments": "establecimientos de secado",
+		"eventful (upper chamber)": "tan llena de acontecimientos"
+	},
+	"forcedChoices": [
+		{
+			"ref": "192:1.3",
+			"choice": "«Muchachos» with ustedes",
+			"reason": "Jesus speaks to the whole group"
+		},
+		{
+			"ref": "192:2.1",
+			"choice": "tú for Jesus to one apostle",
+			"reason": "Spanish rules: one person addressed by Jesus"
+		},
+		{
+			"ref": "192:2.13",
+			"choice": "ustedes, and «cuando son hijos de Dios por la fe»",
+			"reason": "Jesus speaks to both twins; the singular 'a faith son' is plural to match the address"
+		},
+		{
+			"ref": "192:2.7",
+			"choice": "Santiago without a surname",
+			"reason": "the English does not name which James walks with Andrew; the short form keeps it open"
+		},
+		{
+			"ref": "192:4.1",
+			"choice": "«junto al mar»",
+			"reason": "the English says 'seaside' for the Sea of Galilee"
+		}
+	]
+}

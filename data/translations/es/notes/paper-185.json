@@ -1,0 +1,46 @@
+{
+	"newTerms": {
+		"procurator": "procurador",
+		"legatus (of Syria)": "legado (de Siria)",
+		"Sanhedrist court / Sanhedrist tribunal": "tribunal sanedrita",
+		"Sanhedrin court": "tribunal del Sanedrín",
+		"clerk (of the court)": "secretario (del tribunal)",
+		"judgment seat": "estrado de juez",
+		"judgment hall": "sala de juicio",
+		"day of preparation": "día de la preparación",
+		"tetrarch": "tetrarca",
+		"Idumean": "idumeo",
+		"Caesar": "el César",
+		"Caesar worship": "adoración del César",
+		"blunder(s)": "desacierto(s)",
+		"scourge / scourging / scourgers": "azotar / flagelación / flageladores",
+		"Behold the man / Behold your king": "Aquí tienen al hombre / Aquí tienen a su rey"
+	},
+	"forcedChoices": [
+		{
+			"ref": "185:2.1",
+			"choice": "The Jews, the Sanhedrists, and Caiaphas address Pilate with «tú»",
+			"reason": "The English shows no great respect here (185:2.4 calls it effrontery), and one form keeps the crowd's shouts «¡Crucifícalo!» consistent."
+		},
+		{
+			"ref": "185:5.8",
+			"choice": "Claudia writes to Pilate with «tú»",
+			"reason": "A wife writes to her husband."
+		},
+		{
+			"ref": "185:1.1",
+			"choice": "«religión <em>auténtica</em>» for «<em>real</em> religion»",
+			"reason": "Spanish «real» can also read as «royal»."
+		},
+		{
+			"ref": "185:1.6",
+			"choice": "«no reveló» with no stated subject",
+			"reason": "The English «he» can be Pilate or the false Messiah; Spanish keeps the subject implicit, so both readings stay open."
+		},
+		{
+			"ref": "185:3.5",
+			"choice": "«Verdad, ¿qué es la verdad?, ¿quién lo sabe?»",
+			"reason": "Two questions joined by a comma keep one sentence, as the English dash does."
+		}
+	]
+}

@@ -1,0 +1,57 @@
+{
+	"newTerms": {
+		"Sanhedrist court": "tribunal sanedrita",
+		"hall of hewn stone": "sala de piedra labrada",
+		"co-ordinating station": "estación de coordinación",
+		"runners (of David)": "corredores",
+		"universe bestowal": "otorgamiento en el universo",
+		"copartnership of man and God": "coasociación del hombre y Dios",
+		"mortal of the realms": "mortal de los reinos",
+		"man-managed": "dirigido por los hombres",
+		"bestowal enactments": "representaciones de otorgamiento",
+		"pieces of silver": "monedas de plata",
+		"chief priest / high priest": "sumo sacerdote"
+	},
+	"forcedChoices": [
+		{
+			"ref": "186:1.2",
+			"choice": "Imaginen",
+			"reason": "The text speaks to the reader; plural ustedes per the Spanish rules."
+		},
+		{
+			"ref": "186:1.4",
+			"choice": "Ustedes me han insultado",
+			"reason": "Judas speaks to the council as a group; ustedes."
+		},
+		{
+			"ref": "186:1.5",
+			"choice": "Tu Maestro ... Allá tú con eso, y vete",
+			"reason": "One ruler speaks with contempt to one person; tú."
+		},
+		{
+			"ref": "186:2.10",
+			"choice": "Profetízanos ... te golpeó",
+			"reason": "Mocking address to one person; tú."
+		},
+		{
+			"ref": "186:2.11",
+			"choice": "revelar Dios al hombre (no personal 'a')",
+			"reason": "Keeps the parallel 'revelation of God to man / of man to God' without a doubled 'a'."
+		},
+		{
+			"ref": "186:5.4",
+			"choice": "llegar a ser consciente en el espíritu de que es un hijo de Dios",
+			"reason": "Glossary form 'consciente del espíritu' cannot take the 'that' clause; 'en el espíritu' keeps the sense of spirit-consciousness."
+		},
+		{
+			"ref": "186:5.6",
+			"choice": "todas las demás inteligencias celestiales sí nos aman más",
+			"reason": "Spanish needs the elided verb of 'all other celestial intelligences do' to be stated."
+		},
+		{
+			"ref": "186:5.7",
+			"choice": "no va a morir / no va a expiar",
+			"reason": "'is not about to' and 'is not going to' both rendered with the periphrastic future, which keeps the present viewpoint."
+		}
+	]
+}

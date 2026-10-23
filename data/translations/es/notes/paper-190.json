@@ -1,0 +1,32 @@
+{
+	"newTerms": {
+		"chief of communication and intelligence": "jefe de comunicaciones e información",
+		"believer centers": "centros de creyentes",
+		"runners (David's messengers)": "corredores",
+		"spirit ascension": "ascensión espiritual",
+		"grave cloths": "lienzos funerarios",
+		"the desire of all nations": "el anhelo de todas las naciones"
+	},
+	"forcedChoices": [
+		{
+			"ref": "190:3.1",
+			"choice": "llamadas (feminine)",
+			"reason": "Jesus speaks to a group of women only."
+		},
+		{
+			"ref": "190:4.1",
+			"choice": "Aunque",
+			"reason": "'While' reads as a contrast here; Spanish 'mientras' with the preterite reads as time only."
+		},
+		{
+			"ref": "190:5.3",
+			"choice": "tú for Cleopas to Jesus",
+			"reason": "Cleopas speaks to one stranger on the road, with no sign of formal respect."
+		},
+		{
+			"ref": "190:5.4",
+			"choice": "el anhelo de todas las naciones",
+			"reason": "The English 'desire' is a thing, not a person; 'el deseado' would add a reading."
+		}
+	]
+}

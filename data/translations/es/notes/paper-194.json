@@ -1,0 +1,51 @@
+{
+	"newTerms": {
+		"sonship-brotherhood of men": "filiación-fraternidad de los hombres",
+		"believer-fellowship": "compañerismo de los creyentes",
+		"new teacher (the Spirit of Truth)": "nuevo maestro",
+		"baptism of the spirit": "bautismo del espíritu",
+		"Jesus brotherhood": "fraternidad de Jesús",
+		"Jesus sect": "secta de Jesús",
+		"equal-sharing": "reparto igualitario",
+		"spirit-infused": "infundidos del espíritu",
+		"spirit-filled": "llenos del espíritu",
+		"spirit-led": "guiada por el espíritu",
+		"truth-taught": "enseñado por la verdad",
+		"truth-learning": "que aprende la verdad",
+		"truth-seeking": "que busca la verdad",
+		"sevenfold appeal": "apelación séptuple",
+		"pupils (of Rodan)": "alumnos"
+	},
+	"forcedChoices": [
+		{
+			"ref": "194:0.2",
+			"choice": "debía de ser",
+			"reason": "English 'must be' is a deduction by Peter, not an obligation."
+		},
+		{
+			"ref": "194:2.4",
+			"choice": "él / sí mismo for the spirit",
+			"reason": "The English uses 'himself' for the spirit; espíritu is masculine in Spanish, so the personal reading stays."
+		},
+		{
+			"ref": "194:2.4",
+			"choice": "ustedes (No cometan, su compañerismo)",
+			"reason": "The text speaks to the reader; the packet asks for the plural."
+		},
+		{
+			"ref": "194:3.2",
+			"choice": "falta de rectitud",
+			"reason": "'righteousness' is 'rectitud' in earlier papers, so 'unrighteousness' keeps the same root."
+		},
+		{
+			"ref": "194:3.4",
+			"choice": "opiáceo",
+			"reason": "Follows the English 'opiate'; 'opio' would add the wording of a well-known phrase."
+		},
+		{
+			"ref": "194:4.11",
+			"choice": "alumnos de Rodan",
+			"reason": "'discípulos' is kept for the disciples of Jesus, so the pupils of a philosopher get another word."
+		}
+	]
+}

@@ -13768,5 +13768,950 @@
 		"version": 1,
 		"source": "urantia.dev",
 		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "181",
+		"title": "Exhortaciones y advertencias finales",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "181.1",
+		"title": "Últimas palabras de consuelo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "181.2",
+		"title": "Exhortaciones personales de despedida",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "189",
+		"title": "La resurrección",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "189.1",
+		"title": "El tránsito morontial",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "189.2",
+		"title": "El cuerpo material de Jesús",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "189.3",
+		"title": "La resurrección dispensacional",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "189.4",
+		"title": "El descubrimiento de la tumba vacía",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "189.5",
+		"title": "Pedro y Juan en la tumba",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "193",
+		"title": "Apariciones finales y ascensión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "193.1",
+		"title": "La aparición en Sicar",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "193.2",
+		"title": "La aparición en Fenicia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "193.3",
+		"title": "La última aparición en Jerusalén",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "193.4",
+		"title": "Las causas de la caída de Judas",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "193.5",
+		"title": "La ascensión del Maestro",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "193.6",
+		"title": "Pedro convoca una reunión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "180",
+		"title": "El discurso de despedida",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "180.1",
+		"title": "El nuevo mandamiento",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "180.2",
+		"title": "La vid y los sarmientos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "180.3",
+		"title": "La enemistad del mundo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "180.4",
+		"title": "El auxiliar prometido",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "180.5",
+		"title": "El Espíritu de la Verdad",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "180.6",
+		"title": "La necesidad de partir",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "182",
+		"title": "En Getsemaní",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "182.1",
+		"title": "La última oración en grupo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "182.2",
+		"title": "La última hora antes de la traición",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "182.3",
+		"title": "Solo en Getsemaní",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "183",
+		"title": "La traición y el arresto de Jesús",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "183.1",
+		"title": "La voluntad del Padre",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "183.2",
+		"title": "Judas en la ciudad",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "183.3",
+		"title": "El arresto del Maestro",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "183.4",
+		"title": "Discusión junto a la prensa de olivas",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "183.5",
+		"title": "De camino al palacio del sumo sacerdote",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "184",
+		"title": "Ante el tribunal del Sanedrín",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "184.1",
+		"title": "El interrogatorio de Anás",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "184.2",
+		"title": "Pedro en el patio",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "184.3",
+		"title": "Ante el tribunal de los sanedritas",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "184.4",
+		"title": "La hora de la humillación",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "184.5",
+		"title": "La segunda reunión del tribunal",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "185",
+		"title": "El juicio ante Pilato",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "185.1",
+		"title": "Poncio Pilato",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "185.2",
+		"title": "Jesús comparece ante Pilato",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "185.3",
+		"title": "El interrogatorio privado de Pilato",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "185.4",
+		"title": "Jesús ante Herodes",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "185.5",
+		"title": "Jesús vuelve ante Pilato",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "185.6",
+		"title": "La última apelación de Pilato",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "185.7",
+		"title": "La última entrevista de Pilato",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "185.8",
+		"title": "La trágica rendición de Pilato",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "186",
+		"title": "Poco antes de la crucifixión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "186.1",
+		"title": "El fin de Judas Iscariote",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "186.2",
+		"title": "La actitud del Maestro",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "186.3",
+		"title": "El fiable David Zebedeo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "186.4",
+		"title": "Preparación para la crucifixión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "186.5",
+		"title": "La muerte de Jesús en relación con la Pascua",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "187",
+		"title": "La crucifixión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "187.1",
+		"title": "En el camino al Gólgota",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "187.2",
+		"title": "La crucifixión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "187.3",
+		"title": "Los que vieron la crucifixión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "187.4",
+		"title": "El ladrón en la cruz",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "187.5",
+		"title": "La última hora en la cruz",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "187.6",
+		"title": "Después de la crucifixión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "188",
+		"title": "El tiempo de la tumba",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "188.1",
+		"title": "El entierro de Jesús",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "188.2",
+		"title": "La custodia de la tumba",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "188.3",
+		"title": "Durante el día de sábado",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "188.4",
+		"title": "El significado de la muerte en la cruz",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "188.5",
+		"title": "Lecciones de la cruz",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "190",
+		"title": "Apariciones morontiales de Jesús",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "190.1",
+		"title": "Los heraldos de la resurrección",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "190.2",
+		"title": "La aparición de Jesús en Betania",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "190.3",
+		"title": "En la casa de José",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "190.4",
+		"title": "Aparición a los griegos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "190.5",
+		"title": "La caminata con dos hermanos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "191",
+		"title": "Apariciones a los apóstoles y a otros dirigentes",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "191.1",
+		"title": "La aparición a Pedro",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "191.2",
+		"title": "Primera aparición a los apóstoles",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "191.3",
+		"title": "Con las criaturas morontiales",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "191.4",
+		"title": "La décima aparición (en Filadelfia)",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "191.5",
+		"title": "Segunda aparición a los apóstoles",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "191.6",
+		"title": "La aparición en Alejandría",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "192",
+		"title": "Apariciones en Galilea",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "192.1",
+		"title": "Aparición junto al lago",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "192.2",
+		"title": "Conversaciones con los apóstoles de dos en dos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "192.3",
+		"title": "En el monte de la ordenación",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "192.4",
+		"title": "La reunión a orillas del lago",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "194",
+		"title": "Otorgamiento del Espíritu de la Verdad",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "194.1",
+		"title": "El sermón de Pentecostés",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "194.2",
+		"title": "El significado de Pentecostés",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "194.3",
+		"title": "Lo que sucedió en Pentecostés",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "194.4",
+		"title": "Los comienzos de la iglesia cristiana",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "195",
+		"title": "Después de Pentecostés",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "195.1",
+		"title": "La influencia de los griegos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "195.2",
+		"title": "La influencia romana",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "195.3",
+		"title": "Bajo el Imperio romano",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "195.4",
+		"title": "Las edades oscuras europeas",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "195.5",
+		"title": "El problema moderno",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "195.6",
+		"title": "El materialismo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "195.7",
+		"title": "La vulnerabilidad del materialismo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "195.8",
+		"title": "El totalitarismo secular",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "195.9",
+		"title": "El problema del cristianismo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "195.10",
+		"title": "El futuro",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "196",
+		"title": "La fe de Jesús",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "196.1",
+		"title": "Jesús, el hombre",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "196.2",
+		"title": "La religión de Jesús",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "196.3",
+		"title": "La supremacía de la religión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
 	}
 ]

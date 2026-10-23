@@ -1,0 +1,46 @@
+{
+	"newTerms": {
+		"morontia manifestation / morontia appearance": "manifestación morontial / aparición morontial",
+		"morontia Master": "Maestro morontial",
+		"God-revealing": "que revela a Dios / revelar a Dios",
+		"God-knowing career": "carrera de conocer a Dios",
+		"faith-grasp": "captar por la fe",
+		"confide in": "abrirse a",
+		"spirit of truth-seeking and God-finding": "espíritu de la búsqueda de la verdad y del hallazgo de Dios",
+		"Paradise sonship": "filiación del Paraíso",
+		"“shut-in”": "«encerrado en sí mismo»",
+		"“get even”": "«desquitarse»"
+	},
+	"forcedChoices": [
+		{
+			"ref": "193:0.1",
+			"choice": "sus asociados",
+			"reason": "Masculine generic keeps open whether the associates of the women's corps were women, men, or both."
+		},
+		{
+			"ref": "193:0.2",
+			"choice": "« at the start of each paragraph of a continued speech",
+			"reason": "Mirrors the English, which opens each paragraph of the speech with a quote mark."
+		},
+		{
+			"ref": "193:0.4",
+			"choice": "el servicio del hombre / el servicio de sus hijos",
+			"reason": "Spanish 'de' keeps both readings open: service given to or by them."
+		},
+		{
+			"ref": "193:1.2",
+			"choice": "no adoran (indicative)",
+			"reason": "The English states a fact ('you worship'), not a wish."
+		},
+		{
+			"ref": "193:3.2",
+			"choice": "tú for Simon to Jesus and Jesus to Simon; ustedes from 'But you will receive'",
+			"reason": "The following sentences speak to all the apostles."
+		},
+		{
+			"ref": "193:4.13",
+			"choice": "era una persona aislada (ser)",
+			"reason": "The list gives traits of character, not a passing state."
+		}
+	]
+}
