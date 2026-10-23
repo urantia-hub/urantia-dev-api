@@ -1,0 +1,69 @@
+{
+	"newTerms": {
+		"Trinitized Corps": "Cuerpo Trinitizado",
+		"Trinity-origin": "de origen trinitario",
+		"Trinity attainment": "logro trinitario",
+		"Translated Midwayers": "Seres Intermedios Trasladados",
+		"Evolutionary Seraphim": "Serafines Evolutivos",
+		"Evolutionary Cherubim": "Querubines Evolutivos",
+		"Ascending Material Sons": "Hijos Materiales Ascendentes",
+		"Father-fused being": "ser fusionado con el Padre",
+		"Unrevealed Creative Agencies of the Ancients of Days": "Agentes Creativos No Revelados de los Ancianos de Días",
+		"Midsonite Orders": "Órdenes Midsonitas",
+		"Corps of Permanent Citizenship": "Cuerpo de Ciudadanía Permanente",
+		"Uversa Personality Register": "Registro de Personalidades de Uversa",
+		"composite personality groups": "grupos compuestos de personalidades",
+		"Planetary Mortals": "Mortales Planetarios",
+		"Paradise-Havoners": "seres del Paraíso y Havona",
+		"stopovers": "viajeros de paso",
+		"Paradise graduates": "graduados del Paraíso",
+		"finaliter oath": "juramento de los finalitarios",
+		"transport seconaphim": "seconafín de transporte",
+		"absonitized": "absonitizado",
+		"Adjuster-indwelt": "en quien mora un Ajustador",
+		"eventuators": "eventuadores",
+		"uncreated noncreators": "no creadores increados"
+	},
+	"forcedChoices": [
+		{
+			"ref": "30:1.6",
+			"choice": "Los Siete Órdenes (masculino)",
+			"reason": "«orden» como categoría de seres es masculino, igual que «órdenes estacionarios» del glosario."
+		},
+		{
+			"ref": "30:1.99",
+			"choice": "se fragmenta",
+			"reason": "El inglés usa «fragments» sin objeto; el español necesita la forma pronominal para el uso intransitivo."
+		},
+		{
+			"ref": "30:1.114",
+			"choice": "se les podría explicar",
+			"reason": "El texto habla a los lectores; se usa «ustedes» según las reglas de variedad."
+		},
+		{
+			"ref": "30:2.148",
+			"choice": "el universo local de ustedes",
+			"reason": "«su universo local» se podría leer como el de los Hijos Creadores; «de ustedes» mantiene el sentido del inglés «your»."
+		},
+		{
+			"ref": "30:4.15",
+			"choice": "El serafín asignado (singular)",
+			"reason": "El inglés «seraphim» es singular aquí («the seraphim of assignment sponsors»); el español requiere elegir número."
+		},
+		{
+			"ref": "30:4.26",
+			"choice": "ustedes eran criaturas ... espíritus perfeccionados (plural)",
+			"reason": "El inglés «you» se dirige al lector; las reglas piden el plural «ustedes», lo que obliga a poner en plural los sustantivos predicativos."
+		},
+		{
+			"ref": "30:4.28",
+			"choice": "su seconafín de transporte (singular)",
+			"reason": "«seconaphim» puede ser singular o plural; cada ascendente viaja con un transporte, y «su» con lectores plurales deja abierta la lectura distributiva."
+		},
+		{
+			"ref": "30:4.11",
+			"choice": "juzgar el reino",
+			"reason": "«adjudicate the realm»: «reino» en el sentido de dominio o mundo, no de monarquía; el contexto lo aclara."
+		}
+	]
+}

@@ -1,0 +1,83 @@
+{
+	"newTerms": {
+		"Universe Daughter": "Hija del Universo",
+		"Adjuster-spirit": "espíritu-Ajustador",
+		"faith-fact": "hecho de fe",
+		"overministry": "superministerio",
+		"Deity-embraced": "abrazado por la Deidad",
+		"creative focalization": "focalización creativa",
+		"four and twenty sentinels": "veinticuatro centinelas",
+		"intelligence-ministry circuit": "circuito del ministerio de la inteligencia",
+		"superevolutionary": "superevolutivo",
+		"direction cells": "células de dirección",
+		"timelessly": "de forma atemporal",
+		"space conscious": "consciente del espacio",
+		"space domain": "dominio espacial",
+		"Life Carrier Sons": "Hijos Portadores de Vida",
+		"Caligastia upheaval": "convulsión de Caligastia",
+		"Caligastic rebellion": "rebelión caligástica",
+		"Adamic default": "incumplimiento adánico",
+		"Adamized": "adamizados",
+		"Edenic bestowal": "otorgamiento edénico",
+		"pre-Adamic": "preadánico",
+		"spirit kingdom": "reino del espíritu",
+		"spirits of promise": "espíritus de promesa"
+	},
+	"forcedChoices": [
+		{
+			"ref": "34:0.1",
+			"choice": "su compañera",
+			"reason": "The companion is the new representation (feminine noun) that later becomes the Mother Spirit, called 'she' in the paper."
+		},
+		{
+			"ref": "34:0.3",
+			"choice": "el Espíritu asociado",
+			"reason": "'Spirit associate' has no gender in English; 'Espíritu' is grammatically masculine and the Spirit is not yet personalized here."
+		},
+		{
+			"ref": "34:1.2",
+			"choice": "del asociado preexistente",
+			"reason": "The pre-personal phase of the Spirit; masculine agreement with the implied 'Espíritu'."
+		},
+		{
+			"ref": "34:2.1",
+			"choice": "el Espíritu Madre Creativo ... la reconocen ... con ella",
+			"reason": "Adjectives agree with the masculine noun 'Espíritu'; pronouns follow the English 'she'. The same rule holds in 34:3.3, 34:3.4, 34:3.8, 34:4.7."
+		},
+		{
+			"ref": "34:4.8",
+			"choice": "hasta que recibe la dotación de prerrogativas personales",
+			"reason": "Avoids a clash between masculine 'Espíritu' and the English 'she is endowed'."
+		},
+		{
+			"ref": "34:5.1",
+			"choice": "el séptimo otorgamiento de él ... la elevación de él",
+			"reason": "'his' refers to the Creator Son; Spanish 'su' would be ambiguous with the Divine Minister."
+		},
+		{
+			"ref": "34:5.7",
+			"choice": "darse cuenta conscientemente",
+			"reason": "'realize' read as 'become aware of', per the Spanish rule on the false friend 'realizar'."
+		},
+		{
+			"ref": "34:6.11",
+			"choice": "Si ustedes son aprendices dispuestos",
+			"reason": "The English singular 'you' addresses the reader; the Spanish rules ask for plural 'ustedes'."
+		},
+		{
+			"ref": "34:6.12",
+			"choice": "de que ustedes son hijos de Dios",
+			"reason": "Quote addressed to the reader; plural 'ustedes' per the rules, with 'hijos' as the general plural."
+		},
+		{
+			"ref": "34:4.5",
+			"choice": "Aquel",
+			"reason": "The English capitalizes 'Him'; the capital is kept, not added."
+		},
+		{
+			"ref": "34:6.10",
+			"choice": "Su espíritu",
+			"reason": "The English capitalizes 'His' in this quote; the capital is kept, not added."
+		}
+	]
+}

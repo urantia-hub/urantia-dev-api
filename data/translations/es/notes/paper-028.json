@@ -1,0 +1,66 @@
+{
+	"newTerms": {
+		"superaphic": "supernáfico",
+		"serials (of seconaphim)": "los de la serie (el quinto de la serie, los séptimos de la serie)",
+		"living mirrors": "espejos vivientes",
+		"voice-flash": "destello de voz",
+		"Chief of Nebadon Voices": "Jefe de las Voces de Nebadon",
+		"reflectible": "reflejable",
+		"reflective transference": "transferencia reflectiva",
+		"The Voice of the Conjoint Actor": "La Voz del Actor Conjunto",
+		"The Voice of the Seven Master Spirits": "La Voz de los Siete Espíritus Maestros",
+		"The Voice of the Angelic Hosts": "La Voz de las Huestes Angélicas",
+		"directionize": "direccionar",
+		"enminded (wisdom)": "(sabiduría) dotada de mente",
+		"mentation / mindedness": "actividad mental",
+		"joy clearinghouses": "centros de intercambio de alegría",
+		"superhumor": "superhumor",
+		"superservice": "superservicio",
+		"trial balance": "balance de comprobación",
+		"trusts (charges given)": "cargos de confianza",
+		"tarrying worlds": "mundos de permanencia",
+		"finishing schools": "escuelas de perfeccionamiento",
+		"seven-circuited university of Havona": "universidad de siete circuitos de Havona",
+		"Havona sleep": "sueño de Havona",
+		"millennial tourists": "turistas milenarios",
+		"presence projectors": "proyectores de presencia",
+		"eternity cycle": "ciclo de la eternidad"
+	},
+	"forcedChoices": [
+		{
+			"ref": "28:0.2",
+			"choice": "«orden» (class of beings) as masculine: «los órdenes»",
+			"reason": "The feminine «las órdenes» reads first as 'commands'; masculine is the sense of category."
+		},
+		{
+			"ref": "28:1.3",
+			"choice": "«la Resplandeciente Estrella Matutina, el primogénito»",
+			"reason": "The noun «Estrella» is feminine, but the first-born of Nebadon is Gabriel, a male being; the masculine noun stands for the being."
+		},
+		{
+			"ref": "28:4.8",
+			"choice": "«divergente» after «la técnica del ciclo de la eternidad»",
+			"reason": "The English 'divergent' can modify the technique or the cycle; «divergente» has one form for both genders and keeps both readings open."
+		},
+		{
+			"ref": "28:4.11",
+			"choice": "«la jefa de los serafines de Urantia ... ella»",
+			"reason": "The English uses 'she' for this chief; the feminine noun keeps that."
+		},
+		{
+			"ref": "28:5.22",
+			"choice": "«los conoce» / «de ustedes» (plural) for 'knows you'",
+			"reason": "The text speaks to the reader; the packet rule asks for the plural «ustedes»."
+		},
+		{
+			"ref": "28:6.4",
+			"choice": "«dispuestas» (feminine) for the Significances of Origins",
+			"reason": "Agreement with the feminine noun «Significaciones»; it states no gender of the beings."
+		},
+		{
+			"ref": "28:6.13",
+			"choice": "«confianza» for 'trust' in both senses (faith placed in a person and a charge entrusted); «cargos de confianza» for the plural 'trusts'",
+			"reason": "Spanish «confianza» does not take the sense of an entrusted charge in the plural, so the plural needs a noun of office."
+		}
+	]
+}

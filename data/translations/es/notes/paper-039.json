@@ -1,0 +1,53 @@
+{
+	"newTerms": {
+		"Paradise Avonals": "Avonales del Paraíso",
+		"attainment seraphim": "serafines de consecución",
+		"Unattached Ministers": "Ministros No Vinculados",
+		"Transporters (seraphic group)": "Transportadores",
+		"Recorders (seraphic group)": "Registradores",
+		"Reserves (seraphic group)": "Reservas",
+		"referee trios": "tríos de árbitros",
+		"combustion bodies": "cuerpos de combustión",
+		"transit slumber": "sopor de tránsito",
+		"identification mansion world": "mundo morada de identificación",
+		"first-stage spirit being": "ser espiritual de la primera etapa",
+		"Spirit-fused": "fusionados con el Espíritu",
+		"Adjuster-fusion destiny": "destino de fusión con el Ajustador",
+		"universe energy pole": "polo de energía del universo",
+		"chief of transport": "jefe de transporte",
+		"transport dispatcher": "despachador de transporte",
+		"unrevealed co-ordinates of the Evening Stars": "coordinados no revelados de las Estrellas Vespertinas",
+		"Mortal Finaliter Corps": "Cuerpo de Finalitarios Mortales",
+		"Father of spirits": "Padre de los espíritus",
+		"space traversers": "viajeros del espacio",
+		"divine attunement": "sintonía divina",
+		"Chief of the Seraphic Hosts": "Jefe de las Huestes Seráficas"
+	},
+	"forcedChoices": [
+		{
+			"ref": "39:0.9",
+			"choice": "asociada; jefa asociada",
+			"reason": "The English uses 'she' for Manotia, so the feminine forms follow it."
+		},
+		{
+			"ref": "39:5.5",
+			"choice": "Vevona: jefe, dejado, vinculado (masculine)",
+			"reason": "The English gives no gender for Vevona; Spanish forces one, and the masculine is the unmarked form."
+		},
+		{
+			"ref": "39:0.1",
+			"choice": "está personalizado (estar)",
+			"reason": "'as personalized' describes a state of the Spirit at the headquarters, not an identity."
+		},
+		{
+			"ref": "39:4.11",
+			"choice": "la plenitud final de la libertad",
+			"reason": "Spanish 'finalidad' reads as 'purpose' here; 'plenitud final' keeps the sense of 'finality of liberty'."
+		},
+		{
+			"ref": "39:2.12",
+			"choice": "ustedes",
+			"reason": "The text speaks to the reader; plural address per the Spanish rules, used through the paper."
+		}
+	]
+}

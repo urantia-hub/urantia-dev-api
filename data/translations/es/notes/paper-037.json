@@ -1,0 +1,61 @@
+{
+	"newTerms": {
+		"Creator and Master Son": "Hijo Creador y Maestro",
+		"Spirit-Mother": "Espíritu-Madre",
+		"Avonal bestowal Sons": "Hijos Avonales de otorgamiento",
+		"cocommanders": "cocomandantes",
+		"personality record keepers": "guardianes de los registros de la personalidad",
+		"personality recorders": "registradores de la personalidad",
+		"record worlds": "mundos de registro",
+		"identification sureties": "garantías de identificación",
+		"oversupervision": "supervisión superior",
+		"Melchizedek teaching corps": "cuerpo docente Melquisedec",
+		"mortal-wise": "conocedores de los mortales",
+		"Midway Creatures": "Criaturas Intermedias",
+		"midway ministers": "ministros intermedios",
+		"Isle of Light and Life": "Isla de Luz y Vida",
+		"Created Corps": "Cuerpo Creado"
+	},
+	"forcedChoices": [
+		{
+			"ref": "37:0.1",
+			"choice": "Coordinado ... complementario ... el Espíritu Madre",
+			"reason": "The adjectives agree with the masculine noun «Espíritu»; the English has no gender. «la Ministra Divina» keeps the feminine title from the glossary."
+		},
+		{
+			"ref": "37:1.9",
+			"choice": "su consorte creativa",
+			"reason": "Spanish forces a gender on the adjective; feminine matches the glossary forms «Ministra Divina» and «asociada creativa» for the Mother Spirit."
+		},
+		{
+			"ref": "37:2.8",
+			"choice": "«Ocúpate de los asuntos de tu hermano»",
+			"reason": "The words go to one Son, so «tú»."
+		},
+		{
+			"ref": "37:5.3",
+			"choice": "«Sean perfectos»",
+			"reason": "The command goes to all mortals, so the plural «ustedes» form."
+		},
+		{
+			"ref": "37:3.4",
+			"choice": "«Vendré otra vez»",
+			"reason": "Keeps «come again» literally instead of «volveré», which reads as a return only."
+		},
+		{
+			"ref": "37:5.11",
+			"choice": "Puede que estos seres no alcancen el Paraíso",
+			"reason": "English «may not» is open between possibility and permission; «puede que no» keeps it open as far as Spanish allows."
+		},
+		{
+			"ref": "37:9.9",
+			"choice": "el representante en el universo del Espíritu Infinito",
+			"reason": "Masculine agrees with «Espíritu Madre»; same choice as 37:0.1."
+		},
+		{
+			"ref": "37:10.7",
+			"choice": "Cuerpo Creado",
+			"reason": "Kept as close to the English «Created Corps» as possible, so the reading (the corps of the created Evening Stars) stays as open as in English."
+		}
+	]
+}

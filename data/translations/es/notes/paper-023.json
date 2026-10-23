@@ -1,0 +1,60 @@
+{
+	"newTerms": {
+		"gravity traversers": "transitadores de la gravedad",
+		"space contemplators": "contempladores del espacio",
+		"messenger-explorers": "mensajeros-exploradores",
+		"guardian-companion": "guardián-compañero",
+		"overcontrollers": "supercontroladores",
+		"Paradise-Havoners": "seres del Paraíso y Havona",
+		"Supreme-Ultimate Mind": "Mente Suprema-Última",
+		"child of time and eternity": "hijo del tiempo y de la eternidad",
+		"Explorers of Undirected Assignment": "Exploradores de Asignación No Dirigida",
+		"Ambassadors and Emissaries of Special Assignment": "Embajadores y Emisarios de Asignación Especial",
+		"Revelators of Truth": "Reveladores de la Verdad",
+		"Great Centers": "Grandes Centros",
+		"midway creatures": "criaturas intermedias",
+		"single- and dual-origin creatures": "criaturas de origen simple y de origen dual"
+	},
+	"forcedChoices": [
+		{
+			"ref": "23:0.2",
+			"choice": "7690 billones",
+			"reason": "English trillion (10^12) is the Spanish billón; 7,690 trillion = 7690 billones."
+		},
+		{
+			"ref": "23:1.9",
+			"choice": "ustedes",
+			"reason": "Generic 'you' addressed to readers; plural per Spanish rules."
+		},
+		{
+			"ref": "23:2.11",
+			"choice": "no para presumir de su perfección",
+			"reason": "Infinitive keeps open who would appear boastful (author or the order)."
+		},
+		{
+			"ref": "23:2.12",
+			"choice": "el mundo de ustedes / la esfera de ustedes",
+			"reason": "'su mundo' would read as the Gods' world; explicit 'de ustedes' keeps the English referent."
+		},
+		{
+			"ref": "23:2.17",
+			"choice": "ejecutores",
+			"reason": "'executioners' of tribunals: 'ejecutor de la justicia' carries the sense of one who carries out sentences; 'verdugos' would narrow to capital punishment."
+		},
+		{
+			"ref": "23:2.22",
+			"choice": "millas",
+			"reason": "Kept miles as the English unit; no conversion."
+		},
+		{
+			"ref": "23:2.23",
+			"choice": "embajador ad interim",
+			"reason": "The Latin phrase is current in Spanish diplomatic usage."
+		},
+		{
+			"ref": "23:3.3",
+			"choice": "millas de ustedes ... tiempo de ustedes",
+			"reason": "'your miles ... your time' plural reader; 'sus' would be ambiguous."
+		}
+	]
+}
