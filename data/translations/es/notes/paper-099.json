@@ -1,0 +1,45 @@
+{
+	"newTerms": {
+		"nonreligionists": "no religiosos",
+		"religious collectivism": "colectivismo religioso",
+		"social reconstructionists": "reconstructores sociales",
+		"value-lure": "atractivo de valor",
+		"superemotional": "superemocional",
+		"spiritistic belief": "creencia espiritualista",
+		"revelatory (religion, presentation)": "revelatoria",
+		"kingdom builders": "constructores del reino",
+		"social fraternity": "confraternidad social"
+	},
+	"forcedChoices": [
+		{
+			"ref": "99:4.13",
+			"choice": "que proceden ... y alcanzan (plural)",
+			"reason": "English 'proceeding' can attach to 'existence' or to 'spirit, mind, and energy'; Spanish forces number; plural follows the nearest nouns, which the Trinity-origin context supports"
+		},
+		{
+			"ref": "99:5.2",
+			"choice": "Tengan ... su Padre ... su hermano (ustedes)",
+			"reason": "the text addresses the reader; packet rule calls for ustedes"
+		},
+		{
+			"ref": "99:5.7",
+			"choice": "«¿Tienes fe? Entonces tenla para ti mismo.» (tú)",
+			"reason": "quoted saying addressed to one person"
+		},
+		{
+			"ref": "99:4.2",
+			"choice": "hijos for 'children'",
+			"reason": "family context; children of the family"
+		},
+		{
+			"ref": "99:2.1",
+			"choice": "que está destinado (singular)",
+			"reason": "English 'is' is singular; agreement with sistema económico keeps the English reading"
+		},
+		{
+			"ref": "99:5.11",
+			"choice": "exclamation marks ¡...!",
+			"reason": "English 'What a mistake...' is exclamatory in form; Spanish needs ¡! for that form"
+		}
+	]
+}

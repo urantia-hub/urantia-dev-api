@@ -1,0 +1,52 @@
+{
+	"newTerms": {
+		"Salemites / Salemite": "salemitas / salemita",
+		"Melchizedek missionaries": "misioneros de Melquisedec",
+		"Salem missionaries": "misioneros de Salem",
+		"Adamite (peoples)": "Adamitas",
+		"Nodite": "nodita",
+		"temple harlotry": "prostitución en los templos",
+		"The Book of the Dead": "el Libro de los Muertos",
+		"Jesusonian gospel": "evangelio jesusoniano",
+		"Right Law, Good Thought, Noble Government, Holy Character, Health, and Immortality": "Ley Recta, Buen Pensamiento, Gobierno Noble, Carácter Santo, Salud e Inmortalidad",
+		"Lord of light": "Señor de la luz",
+		"Mithra": "Mitra",
+		"Kush": "Kush",
+		"Ea": "Ea",
+		"the one God (lowercase one)": "el único Dios / un solo Dios (kept apart from «Dios Único» for capitalized One God)",
+		"Mohammedanism": "islam",
+		"compromisers": "contemporizadores"
+	},
+	"forcedChoices": [
+		{
+			"ref": "95:4.1",
+			"choice": "«hijo del hombre» in lowercase",
+			"reason": "The English uses lowercase for Amenemope's title; the glossary short form allows it."
+		},
+		{
+			"ref": "95:6.2",
+			"choice": "«las tradiciones de Caligastia y de la rebelión de Lucifer»",
+			"reason": "English 'the Caligastia and the Lucifer rebellion' can read as two rebellions; the Spanish keeps Caligastia as a separate tradition and does not add a second 'rebelión'."
+		},
+		{
+			"ref": "95:6.5",
+			"choice": "«el mal quedaba claramente sumergido, en la eternidad»",
+			"reason": "Spanish 'este' would be ambiguous between evil and goodness; the English 'it' refers to evil, so the noun is repeated."
+		},
+		{
+			"ref": "95:5.11",
+			"choice": "«unir sus nombres con guiones»",
+			"reason": "'hyphenate their gods' depends on the written form of compound god names; Spanish needs the word 'nombres' to carry it."
+		},
+		{
+			"ref": "95:2.10",
+			"choice": "«La palabra juicio»",
+			"reason": "The English refers to the word itself; Spanish 'juicio' carries the same sense, so no English word in parentheses is needed."
+		},
+		{
+			"ref": "95:7.6",
+			"choice": "«Él es el misericordioso…» with capital É",
+			"reason": "Capital only because it starts a sentence inside the quote; other pronouns for God stay lowercase."
+		}
+	]
+}

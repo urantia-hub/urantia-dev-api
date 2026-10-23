@@ -1,0 +1,50 @@
+{
+	"newTerms": {
+		"man power": "fuerza de trabajo humana",
+		"place-finding (devices, methods)": "colocación laboral (medios, métodos)",
+		"torchbearers": "portadores de la antorcha",
+		"capital goods": "bienes de capital",
+		"Andonic-yellow race": "raza Andónico-amarilla",
+		"Lapps": "lapones",
+		"long-headed / broad-headed / medium-headed": "de cabeza larga / de cabeza ancha / de cabeza mediana",
+		"man-land ratio": "proporción hombre-tierra",
+		"earth workers": "trabajadores terrestres"
+	},
+	"forcedChoices": [
+		{
+			"ref": "81:2.16",
+			"choice": "colonos pioneros norteamericanos",
+			"reason": "Spanish 'americanos' names the whole continent; the log cabins are the North American frontier."
+		},
+		{
+			"ref": "81:4.11",
+			"choice": "algunos pueblos de la India",
+			"reason": "Spanish 'indios' also means Amerindians; the Andite context points to India."
+		},
+		{
+			"ref": "81:4.13",
+			"choice": "el negro",
+			"reason": "Kept the racial term of the English, lowercase as Spanish requires; no softening."
+		},
+		{
+			"ref": "81:5.3",
+			"choice": "con ingreso gratuito",
+			"reason": "'free membership' stands against the 'costly admission fees' later in the paragraph, so 'free of charge' is the reading the context supports."
+		},
+		{
+			"ref": "81:6.14",
+			"choice": "sabios amos sociales",
+			"reason": "'masters' here exert force; 'maestros' would read as teachers."
+		},
+		{
+			"ref": "81:6.25",
+			"choice": "siglo XX",
+			"reason": "English writes the century in words; Spanish writes centuries in Roman numerals."
+		},
+		{
+			"ref": "81:6.24",
+			"choice": "dash pair closed before the period",
+			"reason": "Spanish punctuation requires the closing dash."
+		}
+	]
+}

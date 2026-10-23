@@ -6469,5 +6469,1580 @@
 		"version": 1,
 		"source": "urantia.dev",
 		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "90",
+		"title": "Chamanismo—curanderos y sacerdotes",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "90.1",
+		"title": "Los primeros chamanes—los curanderos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "90.2",
+		"title": "Prácticas chamanísticas",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "90.3",
+		"title": "La teoría chamánica de la enfermedad y la muerte",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "90.4",
+		"title": "La medicina bajo los chamanes",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "90.5",
+		"title": "Los sacerdotes y los rituales",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "80",
+		"title": "La expansión Andita en Occidente",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "80.1",
+		"title": "Los Adamitas entran en Europa",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "80.2",
+		"title": "Cambios climáticos y geológicos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "80.3",
+		"title": "El hombre azul cromañoide",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "80.4",
+		"title": "Las invasiones Anditas de Europa",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "80.5",
+		"title": "La conquista Andita del norte de Europa",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "80.6",
+		"title": "Los Anditas a lo largo del Nilo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "80.7",
+		"title": "Los Anditas de las islas mediterráneas",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "80.8",
+		"title": "Los Andonitas danubianos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "80.9",
+		"title": "Las tres razas blancas",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "81",
+		"title": "Desarrollo de la civilización moderna",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "81.1",
+		"title": "La cuna de la civilización",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "81.2",
+		"title": "Las herramientas de la civilización",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "81.3",
+		"title": "Ciudades, manufactura y comercio",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "81.4",
+		"title": "Las razas mezcladas",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "81.5",
+		"title": "La sociedad cultural",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "81.6",
+		"title": "El mantenimiento de la civilización",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "82",
+		"title": "La evolución del matrimonio",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "82.1",
+		"title": "El instinto de apareamiento",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "82.2",
+		"title": "Los tabúes restrictivos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "82.3",
+		"title": "Los primeros mores del matrimonio",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "82.4",
+		"title": "El matrimonio bajo los mores de la propiedad",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "82.5",
+		"title": "Endogamia y exogamia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "82.6",
+		"title": "Las mezclas raciales",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "83",
+		"title": "La institución del matrimonio",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "83.1",
+		"title": "El matrimonio como institución social",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "83.2",
+		"title": "El cortejo y el compromiso",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "83.3",
+		"title": "La compra y la dote",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "83.4",
+		"title": "La ceremonia nupcial",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "83.5",
+		"title": "Los matrimonios plurales",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "83.6",
+		"title": "La verdadera monogamia: el matrimonio de pareja",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "83.7",
+		"title": "La disolución del vínculo matrimonial",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "83.8",
+		"title": "La idealización del matrimonio",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "84",
+		"title": "El matrimonio y la vida familiar",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "84.1",
+		"title": "Las asociaciones primitivas de pareja",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "84.2",
+		"title": "La primitiva familia-madre",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "84.3",
+		"title": "La familia bajo el dominio del padre",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "84.4",
+		"title": "La condición de la mujer en la sociedad primitiva",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "84.5",
+		"title": "La mujer bajo las mores en desarrollo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "84.6",
+		"title": "La asociación del hombre y la mujer",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "84.7",
+		"title": "Los ideales de la vida familiar",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "84.8",
+		"title": "Los peligros de la autogratificación",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "85",
+		"title": "Los orígenes de la adoración",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "85.1",
+		"title": "La adoración de las piedras y las colinas",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "85.2",
+		"title": "La adoración de las plantas y los árboles",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "85.3",
+		"title": "La adoración de los animales",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "85.4",
+		"title": "La adoración de los elementos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "85.5",
+		"title": "La adoración de los cuerpos celestes",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "85.6",
+		"title": "La adoración del hombre",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "85.7",
+		"title": "Los ayudantes de la adoración y la sabiduría",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "86",
+		"title": "La evolución temprana de la religión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "86.1",
+		"title": "El azar: la buena suerte y la mala suerte",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "86.2",
+		"title": "La personificación del azar",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "86.3",
+		"title": "La muerte: lo inexplicable",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "86.4",
+		"title": "El concepto de la supervivencia a la muerte",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "86.5",
+		"title": "El concepto del alma fantasma",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "86.6",
+		"title": "El entorno de los fantasmas-espíritus",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "86.7",
+		"title": "La función de la religión primitiva",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "87",
+		"title": "Los cultos a los fantasmas",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "87.1",
+		"title": "El miedo a los fantasmas",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "87.2",
+		"title": "El aplacamiento de los fantasmas",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "87.3",
+		"title": "La adoración de los antepasados",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "87.4",
+		"title": "Los fantasmas-espíritu buenos y malos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "87.5",
+		"title": "El avance del culto a los fantasmas",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "87.6",
+		"title": "Coerción y exorcismo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "87.7",
+		"title": "La naturaleza del culto",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "88",
+		"title": "Fetiches, amuletos y magia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "88.1",
+		"title": "La creencia en los fetiches",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "88.2",
+		"title": "La evolución del fetiche",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "88.3",
+		"title": "El totemismo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "88.4",
+		"title": "La magia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "88.5",
+		"title": "Los amuletos mágicos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "88.6",
+		"title": "La práctica de la magia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "89",
+		"title": "Pecado, sacrificio y expiación",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "89.1",
+		"title": "El tabú",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "89.2",
+		"title": "El concepto de pecado",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "89.3",
+		"title": "Renuncia y humillación",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "89.4",
+		"title": "Los orígenes del sacrificio",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "89.5",
+		"title": "Los sacrificios y el canibalismo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "89.6",
+		"title": "La evolución del sacrificio humano",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "89.7",
+		"title": "Modificaciones del sacrificio humano",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "89.8",
+		"title": "La redención y los pactos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "89.9",
+		"title": "Los sacrificios y los sacramentos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "89.10",
+		"title": "El perdón del pecado",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "91",
+		"title": "La evolución de la oración",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "91.1",
+		"title": "La oración primitiva",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "91.2",
+		"title": "La oración en evolución",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "91.3",
+		"title": "La oración y el alter ego",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "91.4",
+		"title": "La oración ética",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "91.5",
+		"title": "Repercusiones sociales de la oración",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "91.6",
+		"title": "El ámbito de la oración",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "91.7",
+		"title": "Misticismo, éxtasis e inspiración",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "91.8",
+		"title": "La oración como experiencia personal",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "91.9",
+		"title": "Condiciones de la oración eficaz",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "92",
+		"title": "La evolución posterior de la religión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "92.1",
+		"title": "La naturaleza evolutiva de la religión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "92.2",
+		"title": "La religión y los mores",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "92.3",
+		"title": "La naturaleza de la religión evolutiva",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "92.4",
+		"title": "El don de la revelación",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "92.5",
+		"title": "Los grandes líderes religiosos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "92.6",
+		"title": "Las religiones compuestas",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "92.7",
+		"title": "La evolución ulterior de la religión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "93",
+		"title": "Machiventa Melquisedec",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "93.1",
+		"title": "La encarnación de Machiventa",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "93.2",
+		"title": "El sabio de Salem",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "93.3",
+		"title": "Las enseñanzas de Melquisedec",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "93.4",
+		"title": "La religión de Salem",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "93.5",
+		"title": "La elección de Abraham",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "93.6",
+		"title": "El pacto de Melquisedec con Abraham",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "93.7",
+		"title": "Los misioneros de Melquisedec",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "93.8",
+		"title": "La partida de Melquisedec",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "93.9",
+		"title": "Después de la partida de Melquisedec",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "93.10",
+		"title": "La condición presente de Machiventa Melquisedec",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "94",
+		"title": "Las enseñanzas de Melquisedec en Oriente",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "94.1",
+		"title": "Las enseñanzas de Salem en la India védica",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "94.2",
+		"title": "El brahmanismo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "94.3",
+		"title": "La filosofía brahmánica",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "94.4",
+		"title": "La religión hindú",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "94.5",
+		"title": "La lucha por la verdad en China",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "94.6",
+		"title": "Lao-Tse y Confucio",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "94.7",
+		"title": "Gautama Siddhartha",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "94.8",
+		"title": "La fe budista",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "94.9",
+		"title": "La expansión del budismo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "94.10",
+		"title": "La religión en el Tíbet",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "94.11",
+		"title": "La filosofía budista",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "94.12",
+		"title": "El concepto de Dios en el budismo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "95",
+		"title": "Las enseñanzas de Melquisedec en el Levante",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "95.1",
+		"title": "La religión de Salem en Mesopotamia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "95.2",
+		"title": "La religión egipcia primitiva",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "95.3",
+		"title": "Evolución de los conceptos morales",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "95.4",
+		"title": "Las enseñanzas de Amenemope",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "95.5",
+		"title": "El notable Akenatón",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "95.6",
+		"title": "Las doctrinas de Salem en Irán",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "95.7",
+		"title": "Las enseñanzas de Salem en Arabia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "96",
+		"title": "Yahvé—Dios de los hebreos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "96.1",
+		"title": "Los conceptos de la Deidad entre los semitas",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "96.2",
+		"title": "Los pueblos semitas",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "96.3",
+		"title": "El incomparable Moisés",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "96.4",
+		"title": "La proclamación de Yahvé",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "96.5",
+		"title": "Las enseñanzas de Moisés",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "96.6",
+		"title": "El concepto de Dios después de la muerte de Moisés",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "96.7",
+		"title": "Los Salmos y el Libro de Job",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "97",
+		"title": "La evolución del concepto de Dios entre los hebreos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "97.1",
+		"title": "Samuel—el primero de los profetas hebreos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "97.2",
+		"title": "Elías y Eliseo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "97.3",
+		"title": "Yahvé y Baal",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "97.4",
+		"title": "Amós y Oseas",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "97.5",
+		"title": "El primer Isaías",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "97.6",
+		"title": "Jeremías el intrépido",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "97.7",
+		"title": "El segundo Isaías",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "97.8",
+		"title": "Historia sagrada e historia profana",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "97.9",
+		"title": "Historia hebrea",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "97.10",
+		"title": "La religión hebrea",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "98",
+		"title": "Las enseñanzas de Melquisedec en Occidente",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "98.1",
+		"title": "La religión de Salem entre los griegos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "98.2",
+		"title": "El pensamiento filosófico griego",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "98.3",
+		"title": "Las enseñanzas de Melquisedec en Roma",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "98.4",
+		"title": "Los cultos mistéricos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "98.5",
+		"title": "El culto de Mitra",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "98.6",
+		"title": "El mitraísmo y el cristianismo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "98.7",
+		"title": "La religión cristiana",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "99",
+		"title": "Los problemas sociales de la religión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "99.1",
+		"title": "La religión y la reconstrucción social",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "99.2",
+		"title": "Debilidad de la religión institucional",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "99.3",
+		"title": "La religión y el hombre religioso",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "99.4",
+		"title": "Dificultades de la transición",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "99.5",
+		"title": "Aspectos sociales de la religión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "99.6",
+		"title": "La religión institucional",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "99.7",
+		"title": "La contribución de la religión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
 	}
 ]

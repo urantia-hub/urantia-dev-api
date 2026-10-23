@@ -1,0 +1,59 @@
+{
+	"newTerms": {
+		"mother-family": "familia-madre",
+		"father-family": "familia-padre",
+		"husband-father": "marido-padre",
+		"home-marriage institution / marriage-home institution": "institución hogar-matrimonio / institución matrimonio-hogar",
+		"home building": "edificación del hogar",
+		"homemaking": "formación del hogar",
+		"child culture": "crianza de los hijos",
+		"blood-bond": "vínculo de sangre",
+		"bride price": "precio de la novia",
+		"spiritland": "tierra de los espíritus",
+		"spirit adultery": "adulterio con un espíritu",
+		"pair marriage": "matrimonio de pareja",
+		"pleasure mania": "manía del placer",
+		"pleasure lures": "atractivos del placer",
+		"potential of pleasure": "potencial del placer",
+		"service-ministry": "ministerio de servicio",
+		"family-council practices": "prácticas de consejo familiar",
+		"name pride": "orgullo del nombre"
+	},
+	"forcedChoices": [
+		{
+			"ref": "84:2.2",
+			"choice": "familia-madre / familia-padre",
+			"reason": "«familia materna/paterna» reads as the mother's or father's relatives; the hyphen form reads as a term for the family type."
+		},
+		{
+			"ref": "84:4.7",
+			"choice": "adulterio con un espíritu",
+			"reason": "«adulterio espiritual» reads as a figurative sin; context (1.3, 1.5) shows a spirit as the partner."
+		},
+		{
+			"ref": "84:5.8",
+			"choice": "capacidad de decidir en lo sexual",
+			"reason": "«determinación sexual» reads as biological sex determination."
+		},
+		{
+			"ref": "84:7.26",
+			"choice": "El verdadero progenitor",
+			"reason": "Spanish forces a gender for 'parent'; the generic masculine «progenitor» covers both parents without reading as 'father' only."
+		},
+		{
+			"ref": "84:7.30",
+			"choice": "progenitor del Paraíso; manifestaciones ascendentes",
+			"reason": "'Paradise parent' needs a gender; generic «progenitor». 'disclosures' as «manifestaciones» to avoid the glossary term «revelaciones»."
+		},
+		{
+			"ref": "84:8.4",
+			"choice": "ustedes",
+			"reason": "The text speaks to the reader; plural per the Spanish rules."
+		},
+		{
+			"ref": "84:3.1",
+			"choice": "llevara (subjunctive)",
+			"reason": "'It may be that' requires the subjunctive after «Es posible que»."
+		}
+	]
+}

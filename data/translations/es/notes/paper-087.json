@@ -1,0 +1,55 @@
+{
+	"newTerms": {
+		"ghost cult": "culto a los fantasmas",
+		"ghostland": "tierra de los fantasmas",
+		"spiritland": "tierra de los espíritus",
+		"ghost homeland": "patria de los fantasmas",
+		"spirit ghosts / spirit-ghost cult": "fantasmas-espíritu / culto a los fantasmas-espíritu",
+		"ghost-spirit (fear)": "(miedo a los) fantasmas-espíritus",
+		"monospiritism": "monoespiritismo",
+		"superghost": "superfantasma",
+		"evil eye": "mal de ojo",
+		"ghost placation": "aplacamiento de los fantasmas",
+		"lay the ghost": "dar reposo al fantasma",
+		"advancing ghost cult": "culto a los fantasmas en su avance",
+		"pseudo heaven": "seudocielo",
+		"cultism (title 87.7)": "culto"
+	},
+	"forcedChoices": [
+		{
+			"ref": "87:1.5",
+			"choice": "deudos",
+			"reason": "Here 'survivors' means the living relatives; 'supervivientes' is the glossary term for survival of death."
+		},
+		{
+			"ref": "87:2.5",
+			"choice": "dolientes profesionales",
+			"reason": "Spanish 'plañideras' adds a female gender that the English does not give."
+		},
+		{
+			"ref": "87:5.2",
+			"choice": "la existencia de dos sexos",
+			"reason": "Spanish 'bisexualidad' now reads as a sexual orientation; the English means two sexes."
+		},
+		{
+			"ref": "87:5.12",
+			"choice": "Lo correcto",
+			"reason": "'Right' here is right conduct; 'Derecho' reads as law or a legal right."
+		},
+		{
+			"ref": "87:7.8",
+			"choice": "verdadera nobleza",
+			"reason": "'nobleza real' reads as royal nobility."
+		},
+		{
+			"ref": "87.7",
+			"choice": "title 'La naturaleza del culto'",
+			"reason": "Spanish 'cultismo' is a literary style (culteranismo), not the practice of cults."
+		},
+		{
+			"ref": "87:3.2",
+			"choice": "del miedo a los fantasmas y de la adoración",
+			"reason": "Keeps open whether 'worship' is of ghosts or worship in general."
+		}
+	]
+}

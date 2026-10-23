@@ -1,0 +1,57 @@
+{
+	"newTerms": {
+		"ghost cult": "culto a los fantasmas",
+		"ghost-spirit world": "mundo de fantasmas-espíritus",
+		"revelatory religion": "religión reveladora",
+		"evolutionary religion / evolved religion": "religión evolutiva / religión evolucionada",
+		"composite religions": "religiones compuestas",
+		"chosen-people delusion": "ilusión del pueblo elegido",
+		"supermind bestowal": "otorgamiento supermental",
+		"emergency Son": "Hijo de emergencia",
+		"creature son": "hijo criatura",
+		"personality fulcrums": "fulcros de personalidad",
+		"belief-reflex": "reflejo de creencia",
+		"adjutant of worship / adjutant of wisdom": "ayudante de adoración / ayudante de sabiduría",
+		"Joshua ben Joseph": "Josué ben José",
+		"Lord of Hosts": "Señor de las huestes",
+		"Mohammedans": "mahometanos",
+		"Sikh (person)": "sij (plural sijs)"
+	},
+	"forcedChoices": [
+		{
+			"ref": "92:2.1",
+			"choice": "los mores (masculine)",
+			"reason": "Spanish has no fixed gender for the loanword; masculine follows the Latin mos."
+		},
+		{
+			"ref": "92:2.2",
+			"choice": "tú in the altar command",
+			"reason": "The quoted command speaks to one person."
+		},
+		{
+			"ref": "92:3.1",
+			"choice": "Recuerden (ustedes)",
+			"reason": "The text speaks to the readers; packet rule 4 of Variety."
+		},
+		{
+			"ref": "92:3.6",
+			"choice": "fue la madre de",
+			"reason": "The glossary form 'llega a tener madre' is passive; here religion is the mother, so an active form is needed."
+		},
+		{
+			"ref": "92:5.11",
+			"choice": "Escucha (tú) for 'Hear, O Israel'",
+			"reason": "The address is to Israel as one collective hearer."
+		},
+		{
+			"ref": "92:6.17",
+			"choice": "tú for the address to God",
+			"reason": "The prayer speaks to one person; tú is the normal form of prayer address."
+		},
+		{
+			"ref": "92:4.9",
+			"choice": "salvo la consecución del Padre Universal",
+			"reason": "Keeps 'short of the attainment' open between reaching the Father and the Father's own attainment."
+		}
+	]
+}

@@ -1,0 +1,38 @@
+{
+	"newTerms": {
+		"pair marriage": "matrimonio de pareja",
+		"group marriage": "matrimonio de grupo",
+		"status wife / status companion": "esposa de rango / compañera de rango",
+		"love wife": "esposa por amor",
+		"taboo wife": "esposa tabú",
+		"one-man-at-a-time": "un-hombre-a-la-vez",
+		"Chief of Seraphim stationed on Urantia": "Jefe de los Serafines destacado en Urantia"
+	},
+	"forcedChoices": [
+		{
+			"ref": "83:1.5",
+			"choice": "de carácter laboral",
+			"reason": "'industrial' here means work and subsistence; Spanish 'industrial' suggests factories."
+		},
+		{
+			"ref": "83:2.6",
+			"choice": "compromiso (betrothal and engagement)",
+			"reason": "English uses both words for one state; Spanish uses one plain word."
+		},
+		{
+			"ref": "83:7.6",
+			"choice": "concesiones mutuas",
+			"reason": "'compromise' as 'compromiso' clashes with betrothal in this paper."
+		},
+		{
+			"ref": "83:8.10",
+			"choice": "Jefe de los Serafines",
+			"reason": "The English capitalizes 'Chief of Seraphim'; the glossary short form is lowercase."
+		},
+		{
+			"ref": "83:5.2",
+			"choice": "Los matrimonios de hermanos con hermanas",
+			"reason": "Keeps the sense of the example (brothers of one family with sisters of another), not incest."
+		}
+	]
+}

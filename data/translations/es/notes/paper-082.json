@@ -1,0 +1,36 @@
+{
+	"newTerms": {
+		"mating": "apareamiento",
+		"sex urge": "impulso sexual",
+		"in-marriage": "matrimonio endogámico",
+		"outmarriage": "matrimonio exogámico",
+		"in-mating / out-mating": "unión endogámica / unión exogámica",
+		"inbreeding": "cruzamiento consanguíneo",
+		"outbreeding": "cruzamiento con extraños",
+		"spiritland": "tierra de los espíritus",
+		"strains / stocks": "linajes",
+		"self-propagation": "autopropagación"
+	},
+	"forcedChoices": [
+		{
+			"ref": "82:0.3",
+			"choice": "ustedes deben reconocer",
+			"reason": "The text speaks to the reader; the Spanish rules ask for the plural ustedes."
+		},
+		{
+			"ref": "82:3.8",
+			"choice": "Un padre o una madre",
+			"reason": "English 'one parent' has no gender; Spanish forces one, so both are named."
+		},
+		{
+			"ref": "82:5.1",
+			"choice": "cruzamiento consanguíneo / cruzamiento con extraños",
+			"reason": "Spanish 'endogamia' also means inbreeding, so it is kept for in-marriage only, to keep the two English terms apart."
+		},
+		{
+			"ref": "82:6.3",
+			"choice": "«de sangre mezclada» for 'mongrels'",
+			"reason": "Spanish has no neutral word for a human 'mongrel' that is not also 'mestizo'; this keeps the three labels distinct."
+		}
+	]
+}

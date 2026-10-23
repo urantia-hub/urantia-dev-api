@@ -1,0 +1,54 @@
+{
+	"newTerms": {
+		"shaman": "chamán",
+		"shamaness / female shaman": "chamana",
+		"shamanism": "chamanismo",
+		"shamancraft": "chamanería",
+		"witchcraft": "brujería",
+		"fetishman": "hombre fetiche",
+		"shaman-medicine men": "chamanes-curanderos",
+		"shaman-priests": "chamanes-sacerdotes",
+		"priest-king": "sacerdote-rey",
+		"rain makers": "hacedores de lluvia",
+		"weather shamans": "chamanes del clima",
+		"spiritland": "tierra de los espíritus",
+		"spirit possession": "posesión por espíritus",
+		"black art / white art": "arte negro / arte blanco",
+		"temple sleep / temple slumber": "sueño en el templo",
+		"magic pointing bow": "arco mágico que apunta",
+		"spirit ghosts": "espíritus fantasmas",
+		"counting-out rhymes": "rimas «para echar a suertes»"
+	},
+	"forcedChoices": [
+		{
+			"ref": "90:2.3",
+			"choice": "la bruja",
+			"reason": "Spanish forces a gender for 'the witch'; feminine is the common referent of the persecutions alluded to."
+		},
+		{
+			"ref": "90:3.7",
+			"choice": "la bruja responsable; supuestas brujas",
+			"reason": "Same forced gender for 'witch'; kept consistent with 90:2.3."
+		},
+		{
+			"ref": "90:2.4",
+			"choice": "la que <em>la lleva</em>",
+			"reason": "English 'it' in a tag game; 'la lleva' is the widely understood Spanish form, emphasis kept on it."
+		},
+		{
+			"ref": "90:2.5",
+			"choice": "tú (oigas, te pondrás)",
+			"reason": "The quoted omen addresses one person."
+		},
+		{
+			"ref": "90:2.11",
+			"choice": "dividir sus bienes a partes iguales con el chamán y alguna obra pública",
+			"reason": "Kept 'con' to leave open whether heirs also shared, as in the English."
+		},
+		{
+			"ref": "90:3.10",
+			"choice": "que es el andamiaje",
+			"reason": "English singular 'which is' treats fear and dread as one; kept singular."
+		}
+	]
+}

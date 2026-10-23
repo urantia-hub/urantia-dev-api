@@ -1,0 +1,104 @@
+{
+	"newTerms": {
+		"Jesusonian gospel": "evangelio jesusoniano",
+		"Salemites": "salemitas",
+		"proto-Taoism": "prototaoísmo",
+		"henotheistic": "henoteísta",
+		"IT IS (Brahman)": "ELLO ES",
+		"Universal One / One Universal": "Uno Universal",
+		"Infinite One (Hindu)": "Uno Infinito",
+		"Eternal One": "Uno Eterno",
+		"Buddha Eternal / Eternal Buddha": "Buda Eterno",
+		"Buddha Absolute": "Buda Absoluto",
+		"Universal Self": "Yo Universal",
+		"self-soul": "yo-alma",
+		"Brahman-Absolute": "Brahman-Absoluto",
+		"deity-father principle": "principio de deidad-padre",
+		"energy-divinity principle": "principio de energía-divinidad",
+		"Most High God": "Dios Altísimo",
+		"God of Heaven / Spirit of Heaven": "Dios del Cielo / Espíritu del Cielo",
+		"One First Cause": "Única Primera Causa",
+		"Absolute Tao": "Tao Absoluto",
+		"Absolute God": "Dios Absoluto",
+		"Creator Absolute": "Creador Absoluto",
+		"Primal Source of universes": "Fuente Primordial de los universos",
+		"repercussional synthesis": "síntesis repercusional",
+		"morontial counterpart": "contraparte morontial",
+		"the enlightened one": "el iluminado",
+		"living Buddha": "Buda viviente",
+		"Mahayana / Hinayana / Mahayanists": "mahayana / hinayana / mahayanistas",
+		"Shin sect": "secta Shin",
+		"Vedism": "vedismo",
+		"trinitarianism": "trinitarismo",
+		"life bestowal (of Michael)": "vida de otorgamiento",
+		"miraculized gospel": "evangelio revestido de milagros",
+		"propaganda (spread of a faith)": "labor de difusión"
+	},
+	"forcedChoices": [
+		{
+			"ref": "94:0.1",
+			"choice": "labor de difusión for 'propaganda'",
+			"reason": "Spanish 'propaganda' reads as political or commercial advertising; the English means the spread of a teaching. Same at 94:9.1."
+		},
+		{
+			"ref": "94:2.7",
+			"choice": "<em>ello</em> for 'it'",
+			"reason": "Spanish needs a neuter pronoun to keep the impersonal sense; 'ello' is neuter and matches 'ELLO ES' (94:3.3, 94:4.3)."
+		},
+		{
+			"ref": "94:3.3",
+			"choice": "ELLO ES for 'IT IS'",
+			"reason": "Kept in capitals as in English; neuter 'ello' keeps the impersonal sense."
+		},
+		{
+			"ref": "94:3.6",
+			"choice": "el Brahman que mora dentro",
+			"reason": "'the indwelling of the Brahman' means the Brahman that dwells within; 'morada interior del Brahman' could read as the Brahman's own dwelling place."
+		},
+		{
+			"ref": "94:3.7",
+			"choice": "que el yo-alma se funde con la Superalma",
+			"reason": "Verb form instead of the noun 'fusión', so the merging does not read as the term 'Adjuster fusion'."
+		},
+		{
+			"ref": "94:4.4",
+			"choice": "hado for 'fate'",
+			"reason": "'destino' is the glossary form for 'destiny', a different idea in the papers."
+		},
+		{
+			"ref": "94:4.5",
+			"choice": "Tanto Siva como Visnú son considerados por algunos como supremos",
+			"reason": "Keeps open which group holds which god supreme, as the English does."
+		},
+		{
+			"ref": "94:4.7",
+			"choice": "seres semidivinos for 'semigods'",
+			"reason": "'semidioses' is already used for 'demigods' in the same sentence."
+		},
+		{
+			"ref": "94:6.3",
+			"choice": "las realidades en acto for 'the actuals'",
+			"reason": "Spanish 'los actuales' is a false friend ('current'); glossary form for 'actual' is 'en acto', which needs a noun."
+		},
+		{
+			"ref": "94:7.6",
+			"choice": "Realicen (ustedes)",
+			"reason": "Dying words to his followers; plural address uses 'ustedes'."
+		},
+		{
+			"ref": "94:8.8",
+			"choice": "recto/recta repeated before each item",
+			"reason": "English 'right' governs all eight items; Spanish adjective agreement forces a repeat."
+		},
+		{
+			"ref": "94:8.10",
+			"choice": "No matarás (tú, future)",
+			"reason": "Commandment to the individual believer; the singular future is the natural form for a commandment. Same for 94:8.11-94:8.14."
+		},
+		{
+			"ref": "94:11.3",
+			"choice": "disidente for 'protestant'",
+			"reason": "Spanish 'protestante' reads as a Protestant Christian; the English means one who protests."
+		}
+	]
+}

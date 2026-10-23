@@ -1,0 +1,51 @@
+{
+	"newTerms": {
+		"nature spirits": "espíritus de la naturaleza",
+		"nature gods": "dioses de la naturaleza",
+		"ghost gods": "dioses fantasma",
+		"ghost cults": "cultos a los fantasmas",
+		"nature worship": "adoración de la naturaleza",
+		"worship urge": "impulso de adoración",
+		"mind-adjutant-activated": "activado por los ayudantes de la mente",
+		"sixth / seventh adjutant spirit": "sexto / séptimo espíritu ayudante",
+		"snake love cult": "culto del amor a la serpiente",
+		"sky father / earth mother": "padre cielo / madre tierra"
+	},
+	"forcedChoices": [
+		{
+			"ref": "85:0.4",
+			"choice": "«misteriosas disposiciones de la Providencia»",
+			"reason": "Here 'dispensations' means acts that Providence allots, not the planetary ages of the glossary term; 'dispensaciones' would suggest the ages."
+		},
+		{
+			"ref": "85:2.1",
+			"choice": "«espirituosas» for 'spirits'",
+			"reason": "Spanish 'bebidas espirituosas' keeps the link to 'spirit' with no English note."
+		},
+		{
+			"ref": "85:5.2",
+			"choice": "added (en inglés, Sunday, «día del sol»)",
+			"reason": "Spanish 'domingo' does not carry the sun's name; packet rule 6."
+		},
+		{
+			"ref": "85:1.2",
+			"choice": "1880 <span class=\"scaps\">d. C.</span>",
+			"reason": "Spanish puts the era after the year; the tag is kept on the era mark."
+		},
+		{
+			"ref": "85:3.1",
+			"choice": "«vestigio» for 'survival'",
+			"reason": "Avoid confusion with the glossary sense of survival of death (also 85:3.3)."
+		},
+		{
+			"ref": "85:7.2",
+			"choice": "«Deben recordar» (ustedes)",
+			"reason": "The text speaks to the readers; Spanish rule 4."
+		},
+		{
+			"ref": "85:6.3",
+			"choice": "«santificadas» for 'sainted'",
+			"reason": "Feminine agrees with 'almas'; plain word for declared holy."
+		}
+	]
+}

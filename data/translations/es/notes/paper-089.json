@@ -1,0 +1,59 @@
+{
+	"newTerms": {
+		"taboo": "tabú",
+		"spirit ghost / ghost spirit": "espíritu fantasma",
+		"fetish men": "hombres fetiche",
+		"shaman": "chamán",
+		"scapeman": "hombre expiatorio",
+		"self-control": "dominio de sí",
+		"atonement": "expiación",
+		"propitiation": "propiciación",
+		"man-eating / man-eaters": "antropofagia / antropófagos",
+		"gift sacrifice / debt sacrifice": "sacrificio de ofrenda / sacrificio de deuda",
+		"neutrality assessment": "tributo de neutralidad",
+		"foundation sacrifice": "sacrificio de fundación",
+		"covenant": "pacto"
+	},
+	"forcedChoices": [
+		{
+			"ref": "89:0.1",
+			"choice": "EL hombre primitivo",
+			"reason": "The packet asks for the first word in capitals; Spanish needs the article, so only the article is in capitals."
+		},
+		{
+			"ref": "89:0.1",
+			"choice": "hombre expiatorio",
+			"reason": "The English coins 'scapeman' on 'scapegoat'; the Spanish pairs it with 'chivo expiatorio' to keep the same echo without a note."
+		},
+		{
+			"ref": "89:1.3",
+			"choice": "profano",
+			"reason": "Spanish has no plain 'unholy' for objects; 'profano' gives 'not holy' and avoids the moral sense of 'impío'."
+		},
+		{
+			"ref": "89:2.4",
+			"choice": "los que quebrantaban los tabúes",
+			"reason": "'violadores' alone also reads as 'rapists'."
+		},
+		{
+			"ref": "89:8.7",
+			"choice": "orantes",
+			"reason": "'prayers' here means people who pray, not prayers; 'orantes' carries that sense."
+		},
+		{
+			"ref": "89:9.2",
+			"choice": "panecillos",
+			"reason": "'tortas' means a sandwich in Mexico and 'pasteles' reads as dessert; 'panecillos' keeps small baked cakes neutral."
+		},
+		{
+			"ref": "89:10.3",
+			"choice": "sensación",
+			"reason": "'sense' and 'feeling' are separate words in the English; 'sensación' and 'sentimiento' keep both, and 'sensación de culpa' stays in 89:10.4."
+		},
+		{
+			"ref": "89:6.7",
+			"choice": "ustedes dicen",
+			"reason": "The text speaks to the reader in the plural; the packet asks for 'ustedes'."
+		}
+	]
+}
