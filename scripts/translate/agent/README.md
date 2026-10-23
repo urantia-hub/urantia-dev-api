@@ -138,6 +138,17 @@ Use a fresh agent for each packet. For the second opinions, a different model gi
 
    The glossary table and the term check use the terms whose English form stands in the text. The entity map is a topic index: it missed "Michael" and "bestowal" in Paper 196.
 
+   For a batch of papers, two scripts do the same steps:
+
+   ```sh
+   bun scripts/translate/agent/term-splits.ts --lang=es --papers=140-159   # coined terms that drafts wrote in different forms
+   bun scripts/translate/agent/check-papers.ts --lang=es --papers=140-159  # assemble each paper, write redo packets for copy errors
+   ```
+
+   Run `term-splits.ts` after the drafts and before assembly, and settle each split in the drafts. It sees only the `newTerms` that agents report, so a term that an agent did not list can still drift. Give each redo packet to a fresh agent, and compare the terms of its answer with the draft before you check again: redo agents change terms often.
+
+   The redo prompt must keep one target sentence for each English sentence (the audio needs it). Ask for a structure of its own inside each sentence: another clause order, other natural words.
+
 4. See the progress and the next papers:
 
    ```sh
