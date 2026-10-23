@@ -1,0 +1,60 @@
+{
+	"newTerms": {
+		"Son-seized": "tomados por el Hijo",
+		"presettled worlds": "mundos aún no establecidos",
+		"settled (in light and life)": "establecido (en luz y vida)",
+		"settledness": "establecimiento",
+		"translation flash / fusion flash": "destello de traslación / destello de fusión",
+		"prespirit progression": "progresión preespiritual",
+		"ministering-spirit quartet": "cuarteto de espíritus ministradores",
+		"archangel of translations": "arcángel de las traslaciones",
+		"secoraphic counselor": "consejero secoráfico",
+		"Prince-Sovereign": "Príncipe-Soberano",
+		"Melchizedek-Sovereign": "Soberano-Melquisedec",
+		"teacher-students": "maestros-alumnos",
+		"absonite ministers": "ministros absonitos",
+		"outer-spacers": "seres del espacio exterior",
+		"house of System Sovereigns": "cámara de los Soberanos de Sistema",
+		"Archangel Council": "Consejo de los Arcángeles",
+		"Sovereign Creator Son / Master Creator Son": "Hijo Creador Soberano / Hijo Creador Maestro",
+		"Most High Fathers": "Padres Altísimos",
+		"susatia": "susatia"
+	},
+	"forcedChoices": [
+		{
+			"ref": "55:2.9",
+			"choice": "tomados por el Hijo",
+			"reason": "49:6.18 'Son seizure': translated directly into the presence of the Sovereign Son; 'tomados' keeps the sense without the violent tone of 'apresados'."
+		},
+		{
+			"ref": "55:1.6",
+			"choice": "mundos aún no establecidos",
+			"reason": "'preestablecidos' reads as 'predetermined' in Spanish."
+		},
+		{
+			"ref": "55:12.5",
+			"choice": "el propio Ser Supremo ... su persona espiritual",
+			"reason": "Masculine follows the English 'himself'/'his'."
+		},
+		{
+			"ref": "55:10.9",
+			"choice": "la Ministra Divina ... su ministerio",
+			"reason": "Feminine follows the English 'her'."
+		},
+		{
+			"ref": "55:2.10",
+			"choice": "ustedes",
+			"reason": "Generic 'you' addressed to the readers, plural per the Spanish rules."
+		},
+		{
+			"ref": "55:1.5",
+			"choice": "un mundo del lejano norte",
+			"reason": "English does not say north of what; kept open."
+		},
+		{
+			"ref": "55:6.4",
+			"choice": "«las cosas viejas van pasando; miren, todas las cosas se van haciendo nuevas»",
+			"reason": "Book's own wording, progressive kept; no published Bible text used."
+		}
+	]
+}

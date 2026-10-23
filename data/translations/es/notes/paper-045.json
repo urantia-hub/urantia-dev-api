@@ -1,0 +1,64 @@
+{
+	"newTerms": {
+		"transitional culture spheres / worlds": "esferas / mundos de cultura de transición",
+		"Finaliter World": "Mundo de los Finalitarios",
+		"assistant System Sovereign / first (second) assistant Sovereign": "Soberano de Sistema adjunto / primer (segundo) Soberano adjunto",
+		"Jerusemites": "jerusemitas",
+		"bestowal director": "director de otorgamiento",
+		"system recorder": "registrador del sistema",
+		"custodian of the system": "custodio del sistema",
+		"Jerusem executive council": "consejo ejecutivo de Jerusem",
+		"legislature (constellation, Edentia)": "asamblea legislativa",
+		"council of one thousand": "consejo de los mil",
+		"postbestowal Son age": "era posterior al Hijo de otorgamiento",
+		"pre-/post-Planetary Prince age": "era anterior / posterior al Príncipe Planetario",
+		"post-Material Son age": "era posterior al Hijo Material",
+		"Paradise-ascension career": "carrera de ascensión al Paraíso",
+		"midsonite parental groups": "grupos parentales midsonitas",
+		"mota personality": "personalidad de mota",
+		"The Great Light": "Gran Luz",
+		"The Great Teacher": "Gran Maestro",
+		"The One Source of Life": "Fuente Única de Vida",
+		"The God of Gods": "Dios de Dioses",
+		"The God of Israel": "Dios de Israel",
+		"continuing planets": "planetas de continuación",
+		"finaliter visualization": "visualización de los finalitarios"
+	},
+	"forcedChoices": [
+		{
+			"ref": "45:1.2",
+			"choice": "ustedes",
+			"reason": "The text speaks to the reader; the Spanish rules ask for plural ustedes."
+		},
+		{
+			"ref": "45:1.2",
+			"choice": "tienen la posibilidad y la capacidad de completar",
+			"reason": "Spanish poder covers both may and can; two nouns keep both senses of 'may and can'."
+		},
+		{
+			"ref": "45:6.1",
+			"choice": "las propias razas materiales sexuadas de ustedes",
+			"reason": "Spanish 'sus' is ambiguous between the readers and the Material Sons; 'de ustedes' keeps the English reference."
+		},
+		{
+			"ref": "45:6.5",
+			"choice": "experiencia de ser padres",
+			"reason": "Spanish 'paternidad' reads as fatherhood only; 'ser padres' covers both parents as 'parenthood' does."
+		},
+		{
+			"ref": "45:6.7",
+			"choice": "hijo (masculine generic) for 'child ... it'",
+			"reason": "Spanish has no neuter pronoun for a person; the masculine generic is the neutral form, and the paragraph states these children have no sex differentiation."
+		},
+		{
+			"ref": "45:4.7",
+			"choice": "Gran Maestro",
+			"reason": "'Teacher' as the name of a deity reads best as Maestro; with 'Gran' it does not collide with the glossary 'Master' (Maestro) for Jesus."
+		},
+		{
+			"ref": "45:4.16",
+			"choice": "habiendo residido",
+			"reason": "The English participle does not say cause or time; the Spanish gerund keeps both readings open."
+		}
+	]
+}

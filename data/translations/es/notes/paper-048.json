@@ -1,0 +1,55 @@
+{
+	"newTerms": {
+		"morontia material": "material morontial",
+		"first-stage spirit": "espíritu de la primera etapa",
+		"re-keyed / re-keying": "reajustados de clave / reajuste de clave",
+		"advance-tuned": "sintonizados por adelantado",
+		"physicalization": "fisicalización",
+		"spiritization / spiritizing": "espiritización / se espiritiza",
+		"mansonia career": "carrera de mansonia",
+		"consciousize": "despertar a la conciencia",
+		"prespirit career": "carrera preespiritual",
+		"aggressive / retiring (Morontia Companions)": "emprendedor / reservado",
+		"smile-equivalent": "equivalente de la sonrisa",
+		"Supreme Directors": "Directores Supremos",
+		"will-to-service": "voluntad de servicio",
+		"Adjuster souls": "almas del Ajustador",
+		"Spirit fusion": "fusión con el Espíritu",
+		"seraphic evangels (heading)": "Evangelizadores Seráficos",
+		"receivers (of the system co-ordinators)": "receptores",
+		"chambers of transition": "cámaras de transición",
+		"self-rejuvenators": "autorrejuvenecedores"
+	},
+	"forcedChoices": [
+		{
+			"ref": "48:5.1",
+			"choice": "el serafín ... su pupilo mortal (masculine noun)",
+			"reason": "Spanish 'serafín' is masculine; the English 'her' cannot carry over without an ungrammatical agreement, so the possessive 'su' keeps it neutral."
+		},
+		{
+			"ref": "48:6.15",
+			"choice": "tú (tu buen espíritu, de ti, contigo)",
+			"reason": "English 'you' in the psalm is singular or plural; 'your name' and 'this Divine Presence' support one addressee."
+		},
+		{
+			"ref": "48:6.27",
+			"choice": "la mota (feminine)",
+			"reason": "Spanish forces a gender; feminine matches 'sabiduría' and 'filosofía', the nouns it is compared with."
+		},
+		{
+			"ref": "48:3.4",
+			"choice": "emprendedor / reservado for aggressive / retiring",
+			"reason": "Spanish 'agresivo' reads as hostile; 'emprendedor' keeps the sense of outgoing initiative."
+		},
+		{
+			"ref": "48:6.25",
+			"choice": "«a verse a sí mismos ...» plural",
+			"reason": "English 'yourself' is singular, but the passage addresses the readers, and the Spanish rules ask for 'ustedes'."
+		},
+		{
+			"ref": "48:6.33",
+			"choice": "mentira for 'Falsehood', falsedad for 'falseness'",
+			"reason": "Two English words need two Spanish words so the sentences keep their distinction."
+		}
+	]
+}

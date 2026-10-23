@@ -1,0 +1,43 @@
+{
+	"newTerms": {
+		"Adamic mission": "misión adánica",
+		"Adamic uplifters": "elevadores adánicos",
+		"Material Son": "Hijo Material",
+		"Most High Fathers": "Padres Altísimos",
+		"Voices of the Garden": "Voces del Jardín",
+		"seraphic slumber": "sopor seráfico",
+		"super-Fathers": "superPadres",
+		"Edenic regime": "régimen edénico",
+		"biologic disfellowshiping": "exclusión biológica",
+		"single-matedness": "unión con una sola pareja",
+		"garden homes": "hogares de jardín",
+		"Secondary Lanonandek Son": "Hijo Lanonandek Secundario"
+	},
+	"forcedChoices": [
+		{
+			"ref": "51:1.3",
+			"choice": "ocho a diez pies",
+			"reason": "The English uses feet; the unit is kept, not converted, so the text adds nothing."
+		},
+		{
+			"ref": "51:3.4",
+			"choice": "su compañera",
+			"reason": "Spanish forces a gender for 'companion'; the context is Eve."
+		},
+		{
+			"ref": "51:3.5",
+			"choice": "Este serafín",
+			"reason": "The English uses the plural form 'seraphim' for one being; Spanish uses the singular 'serafín' for one being."
+		},
+		{
+			"ref": "51:5.5",
+			"choice": "sus hijos",
+			"reason": "'his or her children' becomes 'sus hijos', which covers both in Spanish."
+		},
+		{
+			"ref": "51:6.11",
+			"choice": "El Padre de universo",
+			"reason": "Follows the earlier-paper form 'universe Father: Padre de universo'."
+		}
+	]
+}

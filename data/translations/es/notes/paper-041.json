@@ -1,0 +1,58 @@
+{
+	"newTerms": {
+		"circuitizing": "circuitación",
+		"circuitized (power)": "(poder) circuitado",
+		"preuniverse": "preuniverso",
+		"power inspectors": "inspectores del poder",
+		"physical custodians": "custodios físicos",
+		"power lanes": "vías de poder",
+		"collisional dwarfs": "enanas de colisión",
+		"supergas": "supergás",
+		"ultimatonic condensation": "condensación ultimatónica",
+		"runaway particles": "partículas fugitivas",
+		"preliving": "previtales",
+		"way stations": "estaciones intermedias"
+	},
+	"forcedChoices": [
+		{
+			"ref": "41:1.4",
+			"choice": "«ustedes» (la constelación de ustedes, el sol de ustedes) for the reader's 'your'",
+			"reason": "Packet rule: plural ustedes; 'el ... de ustedes' where 'su' would be read as the sun's or the star's."
+		},
+		{
+			"ref": "41:3.5",
+			"choice": "en el año 1572 <span class=\"scaps\">d. C.</span>",
+			"reason": "Spanish puts the era after the year; the scaps span is kept and moved after the number."
+		},
+		{
+			"ref": "41:4.1",
+			"choice": "dos mil cuatrillones (2 x 10^27)",
+			"reason": "The English octillion is short scale (10^27); Spanish octillón is 10^48, so the long-scale name is used."
+		},
+		{
+			"ref": "41:7.13",
+			"choice": "mil trillones",
+			"reason": "English 'one billion trillions' is 10^21; in Spanish long scale that is mil trillones."
+		},
+		{
+			"ref": "41:9.5",
+			"choice": "seis mil millones; veinticinco mil millones",
+			"reason": "English billion is 10^9 = mil millones in Spanish (billón is 10^12)."
+		},
+		{
+			"ref": "41:3.2",
+			"choice": "millas, libras, pies, pulgada cúbica kept",
+			"reason": "The English units are kept and not converted, so the numbers stay as in the text."
+		},
+		{
+			"ref": "41:2.3",
+			"choice": "sirviendo ... y funcionando (gerunds)",
+			"reason": "Keeps open whether the Controller or the inspectors function throughout the system, as in the English."
+		},
+		{
+			"ref": "41:10.5",
+			"choice": "y su sistema solar, con una excepción, es el más alejado de Jerusem",
+			"reason": "Spanish needs a finite verb; the reading follows the English comma structure that Urantia's solar system is the farthest from Jerusem."
+		}
+	]
+}

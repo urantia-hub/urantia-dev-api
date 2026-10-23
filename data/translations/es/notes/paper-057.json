@@ -1,0 +1,52 @@
+{
+	"newTerms": {
+		"acting inspector": "inspector en funciones",
+		"recaptive period": "período de recaptura",
+		"sun dispersion": "dispersión de soles",
+		"sun systems": "sistemas de soles",
+		"condensation tension": "tensión de condensación",
+		"gravity-tidal (pull, disruption, explosion)": "gravitatorio de marea",
+		"tidal gravity / tidal-gravity": "gravedad de marea",
+		"physical registry": "registro físico",
+		"life registry / life-experiment registry": "registro de la vida / registro de experimentación de la vida",
+		"life-experiment station": "estación de experimentación de la vida",
+		"scouting party": "grupo de reconocimiento",
+		"combustion atmosphere": "atmósfera de combustión",
+		"Urantia Corps": "Cuerpo de Urantia",
+		"resident observer": "observador residente",
+		"advisory counselors": "consejeros asesores",
+		"space-energies": "energías del espacio"
+	},
+	"forcedChoices": [
+		{
+			"ref": "57:1.1",
+			"choice": "el sol de ustedes",
+			"reason": "«su sol» is ambiguous in Spanish; the plural 'you' of the reader is made explicit (also 2.1, 5.1-5.3, 5.13, 6.9, 7.3, 8.8)."
+		},
+		{
+			"ref": "57:1.3",
+			"choice": "Hace <em>N</em> años",
+			"reason": "Spanish puts «hace» before the number; the <em> stays on the number only."
+		},
+		{
+			"ref": "57:8.1",
+			"choice": "Hace … años: esa es la fecha",
+			"reason": "Spanish cannot make «hace N años» the subject of 'is the date'; a colon keeps one sentence."
+		},
+		{
+			"ref": "57:6.3",
+			"choice": "pueden reunirse … o pueden ser atraídas",
+			"reason": "indicative 'can' keeps the English 'may' open without a subjunctive that sounds like a wish."
+		},
+		{
+			"ref": "57:6.5",
+			"choice": "reclamada por el planeta",
+			"reason": "keeps 'claimed' literal; «absorbida» would add a mechanism."
+		},
+		{
+			"ref": "57:7.9",
+			"choice": "lutitas",
+			"reason": "'shales' as the geological rock; «pizarras» is slate."
+		}
+	]
+}

@@ -1,0 +1,55 @@
+{
+	"newTerms": {
+		"Creator-father": "padre-Creador",
+		"time lag": "desfase temporal",
+		"Lucifer upheaval": "convulsión de Lucifer",
+		"Lucifer manifesto": "manifiesto de Lucifer",
+		"superaphic philosophers": "filósofos supernáficos",
+		"Paradise career": "carrera del Paraíso",
+		"self-obliteration": "autoaniquilación",
+		"license (vs. liberty)": "libertinaje",
+		"mercy delays": "demoras de misericordia"
+	},
+	"forcedChoices": [
+		{
+			"ref": "54:0.1",
+			"choice": "EL HOMBRE evolutivo",
+			"reason": "Spanish needs the article before the noun; the capitals cover the first noun phrase."
+		},
+		{
+			"ref": "54:1.3",
+			"choice": "equidad social, imparcialidad cósmica",
+			"reason": "The glossary gives equidad for fairness, but equity and fairness are in one list here; imparcialidad keeps the two words distinct."
+		},
+		{
+			"ref": "54:2.2",
+			"choice": "compañera",
+			"reason": "Spanish noun gender follows 'criatura' (feminine)."
+		},
+		{
+			"ref": "54:2.3",
+			"choice": "del sistema de ustedes",
+			"reason": "'su sistema' could read as Lucifer's system; the English 'your' addresses the readers."
+		},
+		{
+			"ref": "54:5.9",
+			"choice": "El Fiel de Días ... aconsejó",
+			"reason": "English 'The Faithful of Days' is number-ambiguous; a constellation has one Faithful of Days (18:7), so singular."
+		},
+		{
+			"ref": "54:6.3",
+			"choice": "progenitor amoroso",
+			"reason": "English 'parent' is gender-neutral; 'padre' would narrow it to father."
+		},
+		{
+			"ref": "54:6.4",
+			"choice": "ustedes",
+			"reason": "The text addresses the readers; plural 'ustedes' per the Spanish rules."
+		},
+		{
+			"ref": "54:4.8",
+			"choice": "<em>contra</em>",
+			"reason": "Legal 'vs.' rendered as 'contra', emphasis kept on the matching word."
+		}
+	]
+}

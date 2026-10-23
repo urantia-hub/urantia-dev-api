@@ -1,0 +1,63 @@
+{
+	"newTerms": {
+		"preresponsive (to gravity)": "prerresponsivo",
+		"monothetic": "monotético",
+		"Thought-Father": "Padre-Pensamiento",
+		"Word-Son": "Hijo-Palabra",
+		"the mind God": "el Dios mente",
+		"Spirit Son": "Hijo Espíritu",
+		"Infinite Mind Spirit": "Espíritu Mente Infinita",
+		"rebound momentum": "impulso de rebote",
+		"outer-spacers": "seres del espacio exterior",
+		"postultimate": "posúltimo",
+		"energy-shining": "resplandor de energía",
+		"Creator-Creative manifestations": "manifestaciones Creador-Creativas"
+	},
+	"forcedChoices": [
+		{
+			"ref": "56:0.1",
+			"choice": "«Sean ustedes perfectos»",
+			"reason": "The mandate goes to all creatures; Spanish forces plural vs singular, and the packet asks for ustedes."
+		},
+		{
+			"ref": "56:1.1",
+			"choice": "en ningún <em>tiempo—</em>",
+			"reason": "Kept 'tiempo' (not 'momento') to keep the eternity/time contrast that the emphasis marks."
+		},
+		{
+			"ref": "56:3.2",
+			"choice": "un tercer fenómeno",
+			"reason": "'un tercero' alone reads as 'a third party'; the antecedent is the dual phenomena."
+		},
+		{
+			"ref": "56:4.4",
+			"choice": "el Padre de ustedes y el Padre de ellas",
+			"reason": "'su Padre' would not show whose father; ellas agrees with criaturas."
+		},
+		{
+			"ref": "56:8.4",
+			"choice": "En el tiempo",
+			"reason": "Kept the time/eternity contrast with the next sentence instead of 'con el tiempo' (eventually)."
+		},
+		{
+			"ref": "56:9.8",
+			"choice": "realizada por la Deidad",
+			"reason": "'Deity-realized' needs a preposition in Spanish; 'por' reads Deity as the agent, against other orders that self-realize."
+		},
+		{
+			"ref": "56:9.11",
+			"choice": "de manera suprema, e incluso última",
+			"reason": "'últimamente' means 'lately' in Spanish."
+		},
+		{
+			"ref": "56:10.14",
+			"choice": "Solo el pecado está aislado y es malo y resistente a la gravedad",
+			"reason": "The English 'isolated and evil gravity resisting' is compressed; Spanish needs a verb, so sin is read as the subject of all three."
+		},
+		{
+			"ref": "56:10.14",
+			"choice": "«Ningún hombre vive por sí solo»",
+			"reason": "'by himself' read as 'alone', the book's wording, not a Bible form."
+		}
+	]
+}
