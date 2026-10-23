@@ -133,8 +133,9 @@ export function loadEnglishPaper(paper: number): EnglishPaper {
 		sections: nodes
 			.filter((n) => n.type === "section")
 			.map((n) => ({ id: n.paperSectionId!, title: n.sectionTitle })),
+		// A "* * *" separator shares its reference with a real paragraph (31:10.21, 56:10.22, 120:3.11).
 		paragraphs: nodes
-			.filter((n) => n.type === "paragraph" && n.text && n.htmlText)
+			.filter((n) => n.type === "paragraph" && n.text && n.htmlText && !/^[\s*]+$/.test(n.text))
 			.map((n) => ({
 				globalId: n.globalId,
 				ref: n.standardReferenceId!,
