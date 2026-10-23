@@ -1,0 +1,42 @@
+{
+	"newTerms": {
+		"spirit unity": "unidad de espíritu",
+		"faith-discover (oneself)": "descubrirse por la fe",
+		"son-conscious": "consciente de su filiación",
+		"kingdom conscious": "consciente(s) del reino",
+		"Universe Ruler": "Gobernante del Universo",
+		"Pure and Holy One": "el Puro y Santo",
+		"fire worshiper": "adorador del fuego",
+		"associate on high": "asociado en lo alto",
+		"heaven of heavens": "cielo de los cielos",
+		"law-subject creatures": "criaturas sujetas a la ley",
+		"good news": "buena nueva"
+	},
+	"forcedChoices": [
+		{
+			"ref": "141:0.2",
+			"choice": "Andrés trata a Jesús de «tú»",
+			"reason": "Discípulo cercano que habla a una persona; el texto no muestra trato de gran distancia."
+		},
+		{
+			"ref": "141:4.2",
+			"choice": "«Dios es tu Padre ... tú eres su hijo» en singular",
+			"reason": "Jesús responde a la pregunta de Tomás; la frase siguiente ('entre ustedes') pasa al grupo."
+		},
+		{
+			"ref": "141:6.2",
+			"choice": "«tú» en «vino a ti», «quitarte», «tus antepasados», «tus padres»",
+			"reason": "Jesús habla a Simón solo; el inglés 'you' puede incluir al pueblo judío, pero la escena es a solas."
+		},
+		{
+			"ref": "141:5.1",
+			"choice": "«ver igual ... ser iguales»",
+			"reason": "Se mantiene el paralelo de 'see alike / be alike' con una misma palabra."
+		},
+		{
+			"ref": "141:3.6",
+			"choice": "«los artistas de ustedes»",
+			"reason": "«sus artistas» se podría leer como los artistas de Jesús."
+		}
+	]
+}

@@ -1,0 +1,49 @@
+{
+	"newTerms": {
+		"Father of lights": "Padre de las luces",
+		"spirit Ruler": "Gobernante espiritual",
+		"nature miracle": "milagro de la naturaleza",
+		"ruler(s) of the synagogue": "jefe(s) de la sinagoga",
+		"Mark lad / chore boy / boy of all chores": "el muchacho Marcos / el muchacho de los encargos / su muchacho para todos los encargos",
+		"Father in heaven": "Padre que está en el cielo",
+		"creative power / creative energy": "poder creador / energía creadora",
+		"appeal (to feelings, intellect, spirit)": "apelación"
+	},
+	"forcedChoices": [
+		{
+			"ref": "152:0.1",
+			"choice": "Jairo trata a Jesús de «tú» (Te ruego)",
+			"reason": "Regla del paquete: una persona que habla a Jesús usa «tú»; el inglés no marca un trato de gran respeto."
+		},
+		{
+			"ref": "152:1.1",
+			"choice": "El siervo habla a Jairo de «usted» (No moleste, su hija)",
+			"reason": "Un siervo habla a su señor, un jefe de la sinagoga; el contexto indica respeto."
+		},
+		{
+			"ref": "152:1.1",
+			"choice": "«los dolientes» (masculino genérico) para «mourners»",
+			"reason": "El español obliga a un género; el masculino genérico no fija que fueran mujeres, como haría «plañideras»."
+		},
+		{
+			"ref": "152:4.2",
+			"choice": "«Tengan ánimo; ... no tengan miedo» en plural",
+			"reason": "En el sueño Jesús habla a todos los de la barca."
+		},
+		{
+			"ref": "152:5.3",
+			"choice": "Las citas de las Escrituras van en plural (ustedes)",
+			"reason": "Jesús las dirige al grupo; el «your» del inglés no distingue número."
+		},
+		{
+			"ref": "152:6.5",
+			"choice": "«para lograr su destrucción»",
+			"reason": "Se mantiene «su» porque el inglés «their» deja abierto de quién es la destrucción."
+		},
+		{
+			"ref": "152:2.3",
+			"choice": "«y después de él habló Pedro» para «being followed by Peter»",
+			"reason": "Se entiende que Pedro habló después de Jesús, no que lo siguió físicamente; el contexto de discursos lo apoya."
+		}
+	]
+}

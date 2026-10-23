@@ -1,0 +1,37 @@
+{
+	"newTerms": {
+		"nature miracle": "milagro de la naturaleza",
+		"nature parables": "parábolas de la naturaleza",
+		"evil spirits / unclean spirits": "espíritus malos / espíritus impuros",
+		"devils / demons (possession)": "demonios",
+		"weeds": "mala hierba",
+		"swine": "cerdos"
+	},
+	"forcedChoices": [
+		{
+			"ref": "151:2.1",
+			"choice": "«tu interpretación» (singular), with «de qué han estado hablando» (plural)",
+			"reason": "Jesus speaks to Peter, and Peter answers with the interpretation he himself decided upon (151:2.2); the talk was the group's."
+		},
+		{
+			"ref": "151:4.1",
+			"choice": "the servants address the householder with «usted»",
+			"reason": "They call him 'Sir' and 'master'; the English shows respect to one person of higher station."
+		},
+		{
+			"ref": "151:5.5",
+			"choice": "«Paz; calma» (nouns, no imperative)",
+			"reason": "Spanish imperative forces singular or plural; the English 'be quiet' can address Peter alone or all of them, so the noun keeps both readings open."
+		},
+		{
+			"ref": "151:6.4",
+			"choice": "«espíritus malos» for 'evil spirits'",
+			"reason": "«maligno» is the glossary form for 'the evil one'; «malos» avoids the same form for a different term."
+		},
+		{
+			"ref": "151:6.4",
+			"choice": "«demonios» for 'devils' in possession passages",
+			"reason": "The glossary gives 'prince of devils' as «príncipe de los demonios»; «diablo» is kept for 'the devil' (Caligastia)."
+		}
+	]
+}

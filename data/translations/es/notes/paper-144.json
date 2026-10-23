@@ -1,0 +1,58 @@
+{
+	"newTerms": {
+		"supercommunion": "supercomunión",
+		"soul helpers": "ayudantes del alma",
+		"Holy Influence": "Santa Influencia",
+		"Supreme Father": "Padre Supremo",
+		"creative Parent": "Progenitor creador",
+		"spirit receptivity": "receptividad al espíritu",
+		"God of universes": "Dios de universos"
+	},
+	"forcedChoices": [
+		{
+			"ref": "144:1.8",
+			"choice": "estar en comunión (no «comulgar»)",
+			"reason": "«comulgar» tiene el sentido sacramental de recibir la comunión, que el texto no quiere decir."
+		},
+		{
+			"ref": "144:2.3",
+			"choice": "tercera persona singular para «you will persist» y lo que sigue",
+			"reason": "la historia sigue a «alguno de ustedes»; el plural «ustedes» no concuerda con un solo vecino en español."
+		},
+		{
+			"ref": "144:3.3",
+			"choice": "tú para Dios en todas las oraciones",
+			"reason": "la oración se dirige a una persona en tono íntimo; el español exige elegir."
+		},
+		{
+			"ref": "144:3.12",
+			"choice": "«perfectos» en masculino genérico",
+			"reason": "el español exige género; el grupo que ora es mixto."
+		},
+		{
+			"ref": "144:4.9",
+			"choice": "«Padre espíritu» (no «Padre espiritual»)",
+			"reason": "«padre espiritual» designa en español a un director de conciencia humano."
+		},
+		{
+			"ref": "144:6.2",
+			"choice": "«comprensión» y «comprensivo» para «sympathy» y «sympathetic»",
+			"reason": "«simpatía» en español significa sobre todo agrado o encanto personal, un falso amigo."
+		},
+		{
+			"ref": "144:5.10",
+			"choice": "«Así sea» para «Even so» al cierre de las oraciones",
+			"reason": "es la fórmula natural de cierre de una oración en español."
+		},
+		{
+			"ref": "144:8.2",
+			"choice": "tú cuando los amigos de Juan hablan a Jesús",
+			"reason": "hablan a una sola persona, y el texto no muestra un trato de gran respeto formal."
+		},
+		{
+			"ref": "144:8.3",
+			"choice": "tú en la cita «envío a mi mensajero delante de tu rostro»",
+			"reason": "la cita se dirige a una sola persona."
+		}
+	]
+}

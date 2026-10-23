@@ -1,0 +1,42 @@
+{
+	"newTerms": {
+		"rule of living / rule of life": "regla de vida",
+		"sons (children) of the bridechamber": "hijos de la cámara nupcial",
+		"showbread": "panes consagrados",
+		"Sabbath day's journey": "recorrido legal que los judíos permitían en día de sábado",
+		"status with God": "posición ante Dios",
+		"Interlude (paper title)": "interludio"
+	},
+	"forcedChoices": [
+		{
+			"ref": "147:1.2",
+			"choice": "tú for the centurion's message to Jesus",
+			"reason": "The packet rule uses tú when one person speaks to Jesus; the respect is in 'Señor' and the humble words."
+		},
+		{
+			"ref": "147:1.1",
+			"choice": "tú for the elders and for 'Teacher' addresses (also 5.4, 6.4, 7.2)",
+			"reason": "Jesus is a teacher, not a ruler or judge; tú matches the rule for one person."
+		},
+		{
+			"ref": "147:4.2",
+			"choice": "plural 'les exhorté' in 'When I admonished you'",
+			"reason": "The rule was given to all the apostles; the rest of the speech to Nathaniel stays singular."
+		},
+		{
+			"ref": "147:5.6",
+			"choice": "feminine 'huésped no invitada y mal recibida'",
+			"reason": "The guest is the woman of 5.3."
+		},
+		{
+			"ref": "147:3.2",
+			"choice": "'no puedo hacer' for 'I may not do'",
+			"reason": "Spanish must choose ability or permission; 'no puedo' covers both readings best."
+		},
+		{
+			"ref": "147:8.2",
+			"choice": "ustedes for the 'you' of the Isaiah quote",
+			"reason": "The prophet speaks to the people as a group."
+		}
+	]
+}

@@ -1,0 +1,61 @@
+{
+	"newTerms": {
+		"King-God": "Dios-Rey",
+		"Father-God": "Dios-Padre",
+		"Father-son relationship": "relación Padre-hijo",
+		"bestowal spirit (of my Father)": "espíritu de otorgamiento",
+		"faith candidates": "candidatos por la fe",
+		"vale of soul making": "valle donde se forman las almas",
+		"contentment": "contentamiento",
+		"clearinghouse": "centro de intercambio",
+		"intelligence division": "división de información",
+		"sympathy": "empatía"
+	},
+	"forcedChoices": [
+		{
+			"ref": "149:1.6",
+			"choice": "empatía for 'sympathy' (also 4.3, 4.4)",
+			"reason": "Spanish 'simpatía' means likeability, a false friend."
+		},
+		{
+			"ref": "149:1.8",
+			"choice": "<em>apremiantes</em> for 'compelling'",
+			"reason": "Keeps the sense of a force that compels, not only one that convinces."
+		},
+		{
+			"ref": "149:2.10",
+			"choice": "disposiciones de la Providencia",
+			"reason": "'dispensations' here is the plain sense (arrangements), not the coined term for planetary ages."
+		},
+		{
+			"ref": "149:2.11",
+			"choice": "puso los corazones limpios en lugar de las manos limpias",
+			"reason": "Spanish 'sustituir A por B' is read both ways; this form keeps the direction of the English."
+		},
+		{
+			"ref": "149:5.2",
+			"choice": "tú",
+			"reason": "Jesus speaks to Simon alone; 5.4 keeps tú as the same speech."
+		},
+		{
+			"ref": "149:6.1",
+			"choice": "tú for Philip to Jesus",
+			"reason": "A disciple speaks to his Master with familiar closeness; the English shows no court-style respect."
+		},
+		{
+			"ref": "149:6.3",
+			"choice": "temer al Supremo",
+			"reason": "Kept as the glossary form; context reads it as God seen as supreme, and the capital follows the English."
+		},
+		{
+			"ref": "149:6.10",
+			"choice": "pendiente de sí misma for 'self-conscious' (also 6.11)",
+			"reason": "'cohibida' means shy, which the English does not intend here."
+		},
+		{
+			"ref": "149:2.3",
+			"choice": "colon for the English dash",
+			"reason": "The dash phrase runs to the sentence end; a colon reads more naturally in Spanish."
+		}
+	]
+}

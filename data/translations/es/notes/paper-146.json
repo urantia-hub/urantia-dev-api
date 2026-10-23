@@ -1,0 +1,36 @@
+{
+	"newTerms": {
+		"semispirit beings": "seres semiespirituales",
+		"unclean spirits": "espíritus impuros",
+		"preknowledge": "conocimiento previo",
+		"miracle minded": "mentalidad de milagro",
+		"the twenty-four": "los veinticuatro"
+	},
+	"forcedChoices": [
+		{
+			"ref": "146:3.1",
+			"choice": "tú al filósofo griego",
+			"reason": "Jesús habla a una sola persona; el inglés no marca un respeto especial."
+		},
+		{
+			"ref": "146:5.2",
+			"choice": "«soportarlos» en plural",
+			"reason": "«in your midst» y «you refuse» señalan a los presentes, no solo al noble."
+		},
+		{
+			"ref": "146:3.6",
+			"choice": "«el espíritu de ustedes»",
+			"reason": "«su espíritu» se leería como el espíritu del Padre; el inglés dice «your spirit»."
+		},
+		{
+			"ref": "146:2.17",
+			"choice": "«lo finito» (neutro)",
+			"reason": "«the finite» se refiere al nivel o ser finito en general; el neutro deja abierto el alcance."
+		},
+		{
+			"ref": "146:4.3",
+			"choice": "«adoró» sin complemento",
+			"reason": "El inglés no dice a quién adoró; no se añade «lo»."
+		}
+	]
+}

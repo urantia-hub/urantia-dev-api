@@ -1,0 +1,49 @@
+{
+	"newTerms": {
+		"ordination": "ordenación",
+		"consecration": "consagración",
+		"fatherly love / brotherly love": "amor paternal / amor fraternal",
+		"apostleship / discipleship": "apostolado / discipulado",
+		"son-conscious": "tener conciencia de su filiación",
+		"faith-realize / faith-realization": "comprender por la fe / comprensión por la fe",
+		"child-father relationship": "relación hijo-padre",
+		"Adjuster guidance": "guía del Ajustador",
+		"spirit-discerning": "que disciernen el espíritu",
+		"anticynical": "anticínico",
+		"fatherliness": "cualidad paternal",
+		"peacemakers": "los que trabajan por la paz",
+		"the twins": "los gemelos"
+	},
+	"forcedChoices": [
+		{
+			"ref": "140:6.1",
+			"choice": "tú for an apostle speaking to Jesus",
+			"reason": "One person speaks to one person; the Spanish rules ask for tú."
+		},
+		{
+			"ref": "140:10.4",
+			"choice": "tú to Thomas, but «les pedí» for the earlier request",
+			"reason": "Jesus answers Thomas alone, but the request to become as little children went to all the apostles."
+		},
+		{
+			"ref": "140:5.12",
+			"choice": "padre for parent",
+			"reason": "Spanish has no common neutral singular for parent; the sentence goes on with 'as a father would love them'."
+		},
+		{
+			"ref": "140:6.13",
+			"choice": "las riquezas for mammon",
+			"reason": "The Spanish form 'mamón' is a vulgar word in several countries."
+		},
+		{
+			"ref": "140:3.8",
+			"choice": "los que están de duelo (mourn) / los que lloran (weep)",
+			"reason": "The verse has both verbs; the two forms keep them apart, and 140:5.16 uses the same form."
+		},
+		{
+			"ref": "140:4.3",
+			"choice": "no English word in parentheses",
+			"reason": "Spanish 'salario' also comes from 'sal', so the sentence stays true."
+		}
+	]
+}

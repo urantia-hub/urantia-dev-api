@@ -1,0 +1,42 @@
+{
+	"newTerms": {
+		"iniquitous one": "inicuo",
+		"son of self-love": "hijo del amor a sí mismo",
+		"Vindicator (Job)": "Vindicador",
+		"school of the prophets": "escuela de los profetas",
+		"trance prophet": "profeta de trance",
+		"about the Father's business": "ocupado en los asuntos del Padre"
+	},
+	"forcedChoices": [
+		{
+			"ref": "148:5.1",
+			"choice": "Natanael trata a Jesús de «tú»",
+			"reason": "A disciple speaks to one person; the packet rule gives «tú»."
+		},
+		{
+			"ref": "148:4.7",
+			"choice": "Jesús trata a Tomás de «tú»",
+			"reason": "Jesus speaks to one person."
+		},
+		{
+			"ref": "148:6.10",
+			"choice": "«tú ya has aprendido», «anda por él», «Dios mora en ti»",
+			"reason": "Jesus speaks to John alone in this paragraph (6.2 'My son'); English 'you' does not mark number."
+		},
+		{
+			"ref": "148:6.6",
+			"choice": "«¿No pueden discernir…?» (plural)",
+			"reason": "Job speaks to his three friends."
+		},
+		{
+			"ref": "148:4.8",
+			"choice": "«malos por naturaleza»",
+			"reason": "Spanish needs an adjective; «malos» keeps the same moral range as English 'evil' here."
+		},
+		{
+			"ref": "148:6.10",
+			"choice": "«¿No comprendes…!» keeps the English exclamation mark",
+			"reason": "The English closes a question with '!'; Spanish allows ¿…! for an exclamatory question."
+		}
+	]
+}

@@ -1,0 +1,35 @@
+{
+	"newTerms": {
+		"Sons of ministry": "Hijos de ministerio",
+		"Eternal Mother-Son of Paradise": "Hijo-Madre Eterno del Paraíso",
+		"time-shorten": "acortar en el tiempo",
+		"the adversary, the tempter": "el adversario, el tentador"
+	},
+	"forcedChoices": [
+		{
+			"ref": "158:3.3",
+			"choice": "la representante ... la asociada ... su colaboradora (feminine)",
+			"reason": "The universe representative of the Infinite Spirit is the local universe Mother Spirit, whom the papers call 'she'."
+		},
+		{
+			"ref": "158:1.10",
+			"choice": "préstenle atención (plural)",
+			"reason": "The voice speaks to the three apostles present, so the plural fits the context."
+		},
+		{
+			"ref": "158:7.4",
+			"choice": "Pónganse detrás de mí (plural)",
+			"reason": "Jesus turns upon Peter and the other apostles, so the rebuke addresses all of them."
+		},
+		{
+			"ref": "158:4.5",
+			"choice": "¿A quién buscan? (plural); Buen hombre, busco a tu Maestro (tú)",
+			"reason": "Andrew greets the father and his son; James speaks to one man with no special rank."
+		},
+		{
+			"ref": "158:5.2",
+			"choice": "No pongas en duda el poder del amor de mi Padre, solo la sinceridad y el alcance de tu fe",
+			"reason": "Kept the English ellipsis so the reader supplies the implied verb, as in the English."
+		}
+	]
+}

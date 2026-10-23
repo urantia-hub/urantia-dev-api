@@ -1,0 +1,38 @@
+{
+	"newTerms": {
+		"women's ministering corps": "cuerpo ministrante de las mujeres",
+		"eventful": "agitado (lleno de acontecimientos en 154:5.1)"
+	},
+	"forcedChoices": [
+		{
+			"ref": "154:5.3",
+			"choice": "tú (Ve, tu obra, te)",
+			"reason": "David speaks to Jesus as a close follower; the rule gives tú for one person unless great respect is shown."
+		},
+		{
+			"ref": "154:6.5",
+			"choice": "Di / Diles (tú)",
+			"reason": "The message goes back through Simon Peter, who passed it in, so one person is addressed."
+		},
+		{
+			"ref": "154:6.12",
+			"choice": "Di / Exhórtalos (tú)",
+			"reason": "Jesus speaks to David Zebedee alone."
+		},
+		{
+			"ref": "154:6.7",
+			"choice": "te llevó, te amamantaron (tú)",
+			"reason": "The woman speaks to Jesus directly, one person."
+		},
+		{
+			"ref": "154:4.4",
+			"choice": "demonios for 'devils'",
+			"reason": "Matches the glossary form 'príncipe de los demonios' in the same sentence."
+		},
+		{
+			"ref": "154:6.5",
+			"choice": "¡Miren a mi madre y miren a mis hermanos! (ustedes)",
+			"reason": "Jesus points to all the disciples in the room; 'behold' rendered in a modern form, not 'he aquí'."
+		}
+	]
+}

@@ -1,0 +1,42 @@
+{
+	"newTerms": {
+		"proselyte of the gate": "prosélito de la puerta",
+		"universal Spirit Ruler": "Gobernante espiritual universal",
+		"fatherhead": "cabeza paterna",
+		"life stations": "estaciones de vida",
+		"Supreme Yahweh": "Yahvé Supremo",
+		"Rabbi": "Rabí"
+	},
+	"forcedChoices": [
+		{
+			"ref": "142:0.2",
+			"choice": "tú for Jesus to Annas",
+			"reason": "Annas is an old friend; Jesus speaks to individuals with tú."
+		},
+		{
+			"ref": "142:2.1",
+			"choice": "tú for Jacob, Nicodemus, and the man of Damascus to Jesus (Rabí, Maestro)",
+			"reason": "Teacher addressed as one person; the packet gives usted only for rulers and judges."
+		},
+		{
+			"ref": "142:1.4",
+			"choice": "aman a su prójimo como a sí mismos (ustedes)",
+			"reason": "The list speaks to the hearers as in 1.3; English 'your' is open between singular and plural."
+		},
+		{
+			"ref": "142:7.17",
+			"choice": "tú for the first two questions, then ustedes",
+			"reason": "Jesus first answers Thomas, then speaks of 'spiritual children' and the apostles' calling, which is plural."
+		},
+		{
+			"ref": "142:6.2",
+			"choice": "se mostró tranquilo",
+			"reason": "Avoids the ser/estar choice for 'was calm' that English leaves open."
+		},
+		{
+			"ref": "142:3.11",
+			"choice": "tú (future tense) in the commandments",
+			"reason": "Commands to each Israelite."
+		}
+	]
+}
