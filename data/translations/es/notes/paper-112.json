@@ -1,0 +1,50 @@
+{
+	"newTerms": {
+		"reconsciousize": "devolver a la conciencia",
+		"dis-Adjustered": "sin Ajustador",
+		"enseconaphim": "enseconafinarse",
+		"Adjusterized": "ajustadorizados",
+		"Adjusterlikeness": "semejanza con el Ajustador",
+		"at-onement authorization": "autorización de hacerse uno",
+		"mandate of advanced standing": "mandato de categoría avanzada",
+		"decrees of probation extension": "decretos de prórroga del período de prueba",
+		"life-assembly chambers": "cámaras de ensamblaje de la vida",
+		"vanished Monitors": "Monitores desaparecidos",
+		"postfinaliter": "posfinalitario",
+		"premorontia": "premorontial",
+		"superadjutant": "superayudante",
+		"manifestability": "manifestabilidad",
+		"nonaddable / nontotalable": "no sumables / no totalizables",
+		"organismal": "organísmico",
+		"registered out": "darse de baja en el registro",
+		"mansonia conduct": "conducta en mansonia",
+		"Position / Meaning / Value status": "Estatus de posición / de significado / de valor"
+	},
+	"forcedChoices": [
+		{
+			"ref": "112:0.1",
+			"choice": "ustedes",
+			"reason": "The text speaks to the readers; the Spanish rules ask for plural ustedes."
+		},
+		{
+			"ref": "112:5.11",
+			"choice": "a lo que de <em>ustedes</em> sobrevive",
+			"reason": "'the surviving you' has no natural plural form; the emphasis stays on ustedes."
+		},
+		{
+			"ref": "112:5.12",
+			"choice": "lo humano de ustedes ... lo divino de ustedes",
+			"reason": "'the human you ... the divine you' needs a neuter form with plural ustedes."
+		},
+		{
+			"ref": "112:3.2",
+			"choice": "los serafines supervivientes",
+			"reason": "Kept literal; the English 'surviving seraphim' can mean seraphim of survival, and the literal form leaves that open."
+		},
+		{
+			"ref": "112:2.2",
+			"choice": "son subordinados / son coordinados / es superordinada",
+			"reason": "ser shows rank (equal status), not a process of co-ordination."
+		}
+	]
+}

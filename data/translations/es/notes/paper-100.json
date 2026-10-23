@@ -1,0 +1,56 @@
+{
+	"newTerms": {
+		"upreach (psychic upreach)": "alcance ascendente",
+		"down-grasp (of the indwelling spirit)": "captación descendente",
+		"conscience": "conciencia moral",
+		"religious daydreaming": "ensoñación religiosa",
+		"uprush (of memories)": "afloramiento súbito"
+	},
+	"forcedChoices": [
+		{
+			"ref": "100:1.5",
+			"choice": "conciencia moral",
+			"reason": "Spanish 'conciencia' also means consciousness, a separate term in the same sentence."
+		},
+		{
+			"ref": "100:2.5",
+			"choice": "real (not 'en acto')",
+			"reason": "'Actual spiritual status' uses 'actual' in its plain sense, not the actual/potential sense."
+		},
+		{
+			"ref": "100:4.5",
+			"choice": "acabarían amándolos",
+			"reason": "'enamorarse' reads as romantic love in Spanish; the context is love of fellows."
+		},
+		{
+			"ref": "100:5.11",
+			"choice": "para la comunión con",
+			"reason": "'comulgar' carries the sense of taking the Eucharist."
+		},
+		{
+			"ref": "100:6.1",
+			"choice": "su hijo",
+			"reason": "Spanish forces a gender for 'her child'; the masculine generic keeps the sense general."
+		},
+		{
+			"ref": "100:7.1",
+			"choice": "¡Miren al hombre!",
+			"reason": "Spoken to a crowd, so plural 'ustedes'; 'he aquí' reads as archaic."
+		},
+		{
+			"ref": "100:7.5",
+			"choice": "magnífica",
+			"reason": "'soberbia' also means arrogant."
+		},
+		{
+			"ref": "100:7.7",
+			"choice": "progenitor",
+			"reason": "'parent' has no gender in English; 'padre' would close it to father."
+		},
+		{
+			"ref": "100:7.11",
+			"choice": "equitativo; directo / franco",
+			"reason": "Glossary gives fairness = equidad; 'candid' as 'cándido' is a false friend (naive), so 'directo' for candid and 'franco' for frank."
+		}
+	]
+}

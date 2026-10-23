@@ -1,0 +1,63 @@
+{
+	"newTerms": {
+		"superalmighty": "supertodopoderoso",
+		"eternaliter": "eternalitario",
+		"God-attainment": "consecución de Dios",
+		"divinity attainment": "consecución de la divinidad",
+		"Supreme Whole": "Todo Supremo",
+		"Spirit Dominance / spirit dominance": "predominio del espíritu",
+		"field fulcrums": "fulcros de campo",
+		"source-centers": "centros-fuente",
+		"energy lanes": "vías de energía",
+		"Seven Circuit Spirits": "Siete Espíritus de los Circuitos",
+		"Master Creator Sons": "Hijos Creadores Maestros",
+		"Michael Creators": "Migueles Creadores",
+		"Original Deity": "Deidad Original",
+		"quasi-material": "cuasimaterial",
+		"subsupreme": "subsupremo",
+		"mind God": "Dios mente",
+		"meaning values": "valores de significado"
+	},
+	"forcedChoices": [
+		{
+			"ref": "116:0.1",
+			"choice": "SI EL HOMBRE",
+			"reason": "The English sets the first two words in capitals; the article is needed in Spanish, so the three words are in capitals."
+		},
+		{
+			"ref": "116:0.2",
+			"choice": "su mundo",
+			"reason": "Plural 'you' to the reader; 'su' is the neutral form, and the context shows it is the reader's world."
+		},
+		{
+			"ref": "116:1.5",
+			"choice": "lo físico",
+			"reason": "'physique' as the physical aspect; 'el físico' reads as a person's body or a physicist."
+		},
+		{
+			"ref": "116:5.1",
+			"choice": "Se les ha instruido ... deberían reconocer",
+			"reason": "Plural 'ustedes' to the reader."
+		},
+		{
+			"ref": "116:5.12",
+			"choice": "ese es su destino",
+			"reason": "Kept as open as the English: 'ese' can point to perfection or to the state of not being perfect."
+		},
+		{
+			"ref": "116:5.15",
+			"choice": "de la mente sujeta al supercontrol del espíritu",
+			"reason": "Feminine 'sujeta' fits both 'mente' and 'energía', so the two English readings stay open."
+		},
+		{
+			"ref": "116:7.1",
+			"choice": "si ustedes supieran ... decirles",
+			"reason": "Plural 'ustedes' to the reader."
+		},
+		{
+			"ref": "116:7.7",
+			"choice": "que reside temporalmente",
+			"reason": "Present tense, as in the English 'sojourning'."
+		}
+	]
+}

@@ -1,0 +1,78 @@
+{
+	"newTerms": {
+		"ubiquity": "ubicuidad",
+		"omnipresence": "omnipresencia",
+		"self-existent self / coexistent self / conjoint-existent self": "yo autoexistente / yo coexistente / yo de existencia conjunta",
+		"self-distributive divinity": "divinidad autodistributiva",
+		"inconcussible": "inconmovible",
+		"overworld / underworld": "mundo superior / mundo inferior",
+		"supertime": "supratiempo",
+		"causation": "causación",
+		"foreordination / foreordained": "preordenación / preordenado",
+		"foreknowledge": "presciencia",
+		"omnificent": "omnífico",
+		"time governor": "regulador temporal",
+		"self-restraint": "autorrestricción",
+		"restraint(s)": "restricción(es)",
+		"Primal Ancestor (of universes)": "Antepasado Primordial",
+		"Final Father (of personalities)": "Padre Final",
+		"Father-I AM": "Padre-YO SOY",
+		"I WAS and I WILL BE": "YO FUI y YO SERÉ",
+		"Absolutes of actuality / Absolutes of potentiality": "Absolutos del acto / Absolutos de la potencia",
+		"subdeity (creations)": "(creaciones) de subdeidad",
+		"Godlike / ungodlike (118:5.1)": "propio de Dios / impropio de Dios",
+		"superadministrator": "superadministrador",
+		"the Unqualified": "el Incondicionado",
+		"Creator Fathers / Creative Mothers": "Padres Creadores / Madres Creativas",
+		"God the Infinite": "Dios el Infinito",
+		"everlasting now": "sempiterno ahora",
+		"fate (118:10.9)": "sino"
+	},
+	"forcedChoices": [
+		{
+			"ref": "118:2.2",
+			"choice": "alcanzar a Dios en lo absoluto",
+			"reason": "«en absoluto» means «not at all» in Spanish; «en lo absoluto» keeps the sense of the absolute level."
+		},
+		{
+			"ref": "118:3.4",
+			"choice": "mundo superior / mundo inferior",
+			"reason": "«inframundo» carries the sense of the realm of the dead, which the authors did not intend."
+		},
+		{
+			"ref": "118:3.3",
+			"choice": "inconmovible",
+			"reason": "«inconcuso» exists but is rare and means beyond doubt; «inconmovible» carries 'unshakable' plainly."
+		},
+		{
+			"ref": "118:8.11",
+			"choice": "tu voluntad",
+			"reason": "The quoted words address God as one person in a prayer form; Spanish prayer uses «tú»."
+		},
+		{
+			"ref": "118:3.2",
+			"choice": "ustedes (conocen, son, pueden)",
+			"reason": "The text addresses the reader; the plural «ustedes» per the Spanish rules."
+		},
+		{
+			"ref": "118:10.9",
+			"choice": "sino perverso",
+			"reason": "«destino» is the glossary form for destiny; «fate» here is blind chance, so «sino» keeps the two apart."
+		},
+		{
+			"ref": "118:9.9",
+			"choice": "los significados mentales cósmicos",
+			"reason": "Keeps both readings open: meanings of the cosmic mind, or cosmic 'mind meanings' (0:0.3)."
+		},
+		{
+			"ref": "118:4.6",
+			"choice": "el concepto de Deidad de los universos",
+			"reason": "Keeps open whether it is Deity's concept of the universes or the universes' Deity concept."
+		},
+		{
+			"ref": "118:10.17",
+			"choice": "se hace efectivo",
+			"reason": "«actual» here is the plain sense of 'made real in fact'; «efectivo» avoids the false friend «actual»."
+		}
+	]
+}

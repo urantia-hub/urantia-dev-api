@@ -1,0 +1,58 @@
+{
+	"newTerms": {
+		"Adjusterlikeness": "semejanza con el Ajustador",
+		"entity-point": "punto-entidad",
+		"reality-izes": "hace real",
+		"meaning-value": "significado-valor",
+		"mind arena (arena of choice)": "escenario",
+		"intellectual selves / selves": "yoes intelectuales / yoes",
+		"contactual spiritualization": "espiritualización por contacto",
+		"value-realization": "realización del valor",
+		"superanimal": "superior a lo animal",
+		"decision-choice": "decidir y elegir",
+		"morontia-soul entity": "entidad del alma morontial",
+		"Paradise adventure": "aventura del Paraíso",
+		"God identification": "identificación con Dios",
+		"spirit identification": "identificación espiritual",
+		"thought adjustment": "ajuste del pensamiento",
+		"finaliter": "finalitario",
+		"supernal": "excelso"
+	},
+	"forcedChoices": [
+		{
+			"ref": "111:0.6",
+			"choice": "«el Dios que está en ti» (tú)",
+			"reason": "The English 'you' in the quoted Egyptian saying addresses each person; Spanish forces singular or plural, and the saying speaks to one person."
+		},
+		{
+			"ref": "111:1.4",
+			"choice": "ustedes for the generic 'you' in the reader-address passages (1.4, 1.5, 1.9, 3.7, 4.5, 4.8, 4.11, 7.2, 7.3)",
+			"reason": "Spanish rules: the text speaks to the readers, so the plural ustedes."
+		},
+		{
+			"ref": "111:4.7",
+			"choice": "«Nadie puede experimentar...» (impersonal)",
+			"reason": "The 'you' is generic; an impersonal form reads better than ustedes with 'all by yourself'."
+		},
+		{
+			"ref": "111:5.6",
+			"choice": "«No se haga mi voluntad, sino la tuya» and «tu voluntad» (tú)",
+			"reason": "The creature speaks to God in prayer; tú follows the address of Jesus' prayer form."
+		},
+		{
+			"ref": "111:6.2",
+			"choice": "coraje for 'courage' (also 111:6.9)",
+			"reason": "Spanish 'valor' also means 'value', a key term in this paper, so it gives an accidental meaning."
+		},
+		{
+			"ref": "111:7.4",
+			"choice": "«un guardián del destino ... Este serafín dijo»",
+			"reason": "The English uses 'her' for the seraphim; Spanish 'serafín' and the glossary 'guardián del destino' are grammatically masculine. 'su sujeto' keeps the possessive neutral."
+		},
+		{
+			"ref": "111:7.5",
+			"choice": "«la amargura de su cumplimiento» for 'the bitterness of realization'",
+			"reason": "'realization' here is the coming true of what was anticipated; Spanish 'realización' alone can read as awareness or achievement."
+		}
+	]
+}

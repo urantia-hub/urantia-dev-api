@@ -1,0 +1,72 @@
+{
+	"newTerms": {
+		"supermind endowment": "dotación supermental",
+		"Universe Creative Spirit": "Espíritu Creativo del Universo",
+		"faith-glimpse": "vislumbrar por la fe",
+		"superideational": "superideacional",
+		"infrahuman": "infrahumano",
+		"mana": "mana",
+		"spiritism (philosophic system)": "espiritualismo",
+		"ego-will / other-than-self-will": "voluntad del ego / voluntad hacia lo que no es el yo",
+		"turning the universe outside in / inside out": "volver el universo de fuera hacia dentro / de dentro hacia fuera",
+		"energy-material": "energético-material",
+		"energy-things": "cosas-energía",
+		"knowledge-reason / faith-insight": "conocimiento-razón / fe-discernimiento",
+		"superphilosophical": "superfilosófico",
+		"mota logic": "lógica de la mota",
+		"Paradise finaliter": "finalitario del Paraíso",
+		"conscience": "conciencia moral"
+	},
+	"forcedChoices": [
+		{
+			"ref": "103:0.6",
+			"choice": "vigente",
+			"reason": "\"current\" religion; \"actual\" is a false friend."
+		},
+		{
+			"ref": "103:1.3",
+			"choice": "ustedes",
+			"reason": "The text speaks to the readers; plural form per the Spanish rules."
+		},
+		{
+			"ref": "103:2.1",
+			"choice": "niño (masculine generic)",
+			"reason": "Spanish forces a gender for \"child\"; the English uses \"he\" for the child elsewhere in the section."
+		},
+		{
+			"ref": "103:2.10",
+			"choice": "conciencia moral",
+			"reason": "Spanish \"conciencia\" covers both conscience and consciousness; \"moral\" keeps \"conscience\" apart."
+		},
+		{
+			"ref": "103:4.1",
+			"choice": "culmina en",
+			"reason": "\"eventuates\" is used in its plain sense here, not the technical sense of the glossary form \"eventuar\"."
+		},
+		{
+			"ref": "103:4.5",
+			"choice": "efectivos",
+			"reason": "\"actual virtue\" is plain \"real\", not the philosophic \"en acto\"."
+		},
+		{
+			"ref": "103:6.1",
+			"choice": "la religión <em>propia</em>",
+			"reason": "Spanish \"su\" is ambiguous (his/your); the generic \"your\" becomes \"propia\" with the emphasis kept."
+		},
+		{
+			"ref": "103:6.5",
+			"choice": "espiritualismo",
+			"reason": "\"spiritism\" here is a philosophic system opposite materialism; \"espiritismo\" is the glossary form for séance spiritualism."
+		},
+		{
+			"ref": "103:7.2",
+			"choice": "realidad en acto",
+			"reason": "\"actuality\" paired with \"potentials\" takes the philosophic glossary sense."
+		},
+		{
+			"ref": "103:9.3",
+			"choice": "sin dios (lowercase)",
+			"reason": "\"godless\" with no capital keeps open whether a God or gods came in."
+		}
+	]
+}

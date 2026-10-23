@@ -1,0 +1,80 @@
+{
+	"newTerms": {
+		"actuals / actualities (noun)": "realidades en acto",
+		"the actual (noun)": "lo que está en acto",
+		"preactual": "anterior al acto",
+		"qualify / qualification / qualifier": "condicionar / condicionamiento / condicionador",
+		"the Unqualified": "el Incondicionado",
+		"self-qualified": "autocondicionado",
+		"nondeity": "de no deidad",
+		"statics": "lo estático",
+		"bench mark": "punto de referencia",
+		"self-segmentation": "autosegmentación",
+		"self-metamorphosis": "autometamorfosis",
+		"eternalize / eternalization": "eternizarse / eternización",
+		"chronicity": "cronicidad",
+		"absolutizer": "absolutizador",
+		"destiny inceptor": "iniciador del destino",
+		"pre-existentials": "preexistenciales",
+		"Transcendental ultimates": "ultimidades trascendentales",
+		"super-Supreme": "super-Supremo",
+		"superexperience": "superexperiencia",
+		"superevolutional": "superevolutivo",
+		"supercreatural": "supercriatural",
+		"dualization": "dualización",
+		"pre-echo": "preeco",
+		"God-as-love / God-as-pattern": "Dios-como-amor / Dios-como-patrón",
+		"eternity-infinity / infinity-reality / reality-infinity": "eternidad-infinitud / infinitud-realidad / realidad-infinitud",
+		"realization-revelation": "realización-revelación",
+		"self-will": "voluntad propia",
+		"personal-spirit / personal-power supremacy": "supremacía de espíritu personal / supremacía de poder personal",
+		"ultimaton": "ultimatón"
+	},
+	"forcedChoices": [
+		{
+			"ref": "105:0.3",
+			"choice": "traducción-modificación",
+			"reason": "Here 'translation' is the passage of a concept into mortal terms, not the glossary sense of mortal translation (traslación)."
+		},
+		{
+			"ref": "105:1.7",
+			"choice": "la Primera Fuente y Centro es infinitamente más compleja",
+			"reason": "Spanish needs a gender; the feminine follows the head noun 'Fuente', as in the fixed form."
+		},
+		{
+			"ref": "105:1.6",
+			"choice": "como Padre espiritual de ustedes; el Padre de ustedes y mi Padre",
+			"reason": "Avoids 'su', which can also read 'his'; the text speaks to the reader in the plural."
+		},
+		{
+			"ref": "105:3.2",
+			"choice": "es realmente infinito",
+			"reason": "'actually' can mean 'in fact' or 'in act'; 'realmente' keeps both readings open better than 'en acto'."
+		},
+		{
+			"ref": "105:4.4",
+			"choice": "en cuanto su unidad se concibe",
+			"reason": "'as' can be temporal or 'insofar as'; 'en cuanto' keeps both readings."
+		},
+		{
+			"ref": "105:5.3",
+			"choice": "Las ultimidades trascendentales",
+			"reason": "'los últimos' as a plural noun reads as 'the last ones'; the glossary short form 'Ultimidad' carries the absonite sense."
+		},
+		{
+			"ref": "105:7.2",
+			"choice": "Havona es eterno",
+			"reason": "Gender forced; masculine because Havona is a universe (el universo central)."
+		},
+		{
+			"ref": "105:7.8",
+			"choice": "Los dos órdenes",
+			"reason": "'orden' as a class of beings is masculine in Spanish."
+		},
+		{
+			"ref": "105:6.5",
+			"choice": "asociadas",
+			"reason": "Feminine agrees with 'personalidades' and 'la mente', the subjects of each sentence."
+		}
+	]
+}

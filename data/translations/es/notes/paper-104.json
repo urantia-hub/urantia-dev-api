@@ -1,0 +1,49 @@
+{
+	"newTerms": {
+		"supersummative": "supersumativo",
+		"actuality": "realidad en acto",
+		"actualized (reality)": "realizada en acto",
+		"nondeity": "no deidad",
+		"First Universal Father-Source": "Primer Padre-Fuente Universal",
+		"Universal Father-Force": "Padre-Fuerza Universal",
+		"Father-Spirit": "Padre-Espíritu",
+		"Son-Spirit": "Hijo-Espíritu",
+		"Father-I AM": "Padre-YO SOY",
+		"Infinite Energizer / Limitless Energizer": "Energizador Infinito / Energizador Ilimitado",
+		"Deity-in-the-cosmos": "Deidad-en-el-cosmos",
+		"Seven Infinity Absolutes": "Siete Absolutos de la Infinitud",
+		"power-pattern": "poder-patrón",
+		"personal-purposive": "personal-intencional",
+		"spirit-evolutional": "espíritu-evolutiva",
+		"Michael Creators": "Migueles Creadores",
+		"ultimaton": "ultimatón",
+		"finaliter sons of God": "hijos finalitarios de Dios"
+	},
+	"forcedChoices": [
+		{
+			"ref": "104:4.45",
+			"choice": "ustedes",
+			"reason": "The text speaks to the readers in the plural; the packet requires ustedes."
+		},
+		{
+			"ref": "104:4.46",
+			"choice": "«en él todas las cosas subsisten»",
+			"reason": "'consist' in the old sense of 'hold together'; 'subsistir' carries that sense without a published wording forced in."
+		},
+		{
+			"ref": "104:3.13",
+			"choice": "mientras funciona eternamente (no subject pronoun)",
+			"reason": "Spanish drops the pronoun, which keeps the English 'he' as open as the original."
+		},
+		{
+			"ref": "104:3.15",
+			"choice": "indivisa",
+			"reason": "'undivided' is distinct from 'indivisible'; Spanish has both words, so the pair stays."
+		},
+		{
+			"ref": "104:1.3",
+			"choice": "la asociación del Padre, el Hijo y el Espíritu en el Paraíso",
+			"reason": "'Paradise association' as an adjective has no natural Spanish form; the place phrase moves after the names."
+		}
+	]
+}
