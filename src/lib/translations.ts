@@ -9,16 +9,23 @@ import {
 	titleTranslations,
 } from "../db/schema.ts";
 
+/** What a reader must know about a translated paragraph: a machine made it, and it is CC0. */
+export type TranslationLabel = {
+	method: "machine";
+	license: "CC0-1.0";
+	review: string | null;
+};
+
 /**
  * Overlay translated text/htmlText onto paragraph results.
  * Returns the original paragraph with `text`, `htmlText`, and `language` replaced
- * if a translation exists. Falls back to English with `language: "eng"`.
+ * if a translation exists, with a `translation` label. Falls back to English with `language: "eng"`.
  */
 export async function applyParagraphTranslations<T extends { id: string; text: string; htmlText: string }>(
 	db: any,
 	paragraphs: T[],
 	lang: string,
-): Promise<(T & { language: string })[]> {
+): Promise<(T & { language: string; translation?: TranslationLabel })[]> {
 	if (!lang || lang === "eng" || paragraphs.length === 0) {
 		return paragraphs.map((p) => ({ ...p, language: "eng" }));
 	}
@@ -30,6 +37,7 @@ export async function applyParagraphTranslations<T extends { id: string; text: s
 			paragraphId: paragraphTranslations.paragraphId,
 			text: paragraphTranslations.text,
 			htmlText: paragraphTranslations.htmlText,
+			confidence: paragraphTranslations.confidence,
 		})
 		.from(paragraphTranslations)
 		.where(
@@ -45,9 +53,17 @@ export async function applyParagraphTranslations<T extends { id: string; text: s
 	);
 
 	return paragraphs.map((p) => {
-		const translation = translationMap.get(p.id) as { text: string; htmlText: string } | undefined;
+		const translation = translationMap.get(p.id) as
+			| { text: string; htmlText: string; confidence: string | null }
+			| undefined;
 		if (translation) {
-			return { ...p, text: translation.text, htmlText: translation.htmlText, language: lang };
+			return {
+				...p,
+				text: translation.text,
+				htmlText: translation.htmlText,
+				language: lang,
+				translation: { method: "machine", license: "CC0-1.0", review: translation.confidence },
+			};
 		}
 		return { ...p, language: "eng" }; // fallback
 	});
@@ -60,7 +76,7 @@ export async function applyEntityTranslations<T extends { id: string; name: stri
 	db: any,
 	entities: T[],
 	lang: string,
-): Promise<(T & { language: string })[]> {
+): Promise<(T & { language: string; translation?: TranslationLabel })[]> {
 	if (!lang || lang === "eng" || entities.length === 0) {
 		return entities.map((e) => ({ ...e, language: "eng" }));
 	}
