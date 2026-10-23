@@ -120,6 +120,7 @@ export async function applyEntityTranslations<T extends { id: string; name: stri
 
 /**
  * Overlay translated paper/section titles onto results that have paperTitle/sectionTitle.
+ * A section title is keyed by "paperId.sectionId"; a part title by its part id.
  */
 export async function applyTitleTranslations<T extends { paperId: string; paperTitle: string; sectionTitle: string | null }>(
 	db: any,
@@ -142,7 +143,7 @@ export async function applyTitleTranslations<T extends { paperId: string; paperT
 		.from(titleTranslations)
 		.where(
 			and(
-				sql`${titleTranslations.sourceId} IN (${sql.join(paperIds.map((id) => sql`${id}`), sql`, `)})`,
+				sql`split_part(${titleTranslations.sourceId}, '.', 1) IN (${sql.join(paperIds.map((id) => sql`${id}`), sql`, `)})`,
 				eq(titleTranslations.language, lang),
 			),
 		);
@@ -154,6 +155,36 @@ export async function applyTitleTranslations<T extends { paperId: string; paperT
 
 	return paragraphs.map((p) => {
 		const paperTitle = titleMap.get(`paper:${p.paperId}`) ?? p.paperTitle;
-		return { ...p, paperTitle };
+		const sectionId = (p as { sectionId?: string | null }).sectionId;
+		const sectionTitle =
+			(sectionId != null && titleMap.get(`section:${p.paperId}.${sectionId}`)) || p.sectionTitle;
+		return { ...p, paperTitle, sectionTitle };
 	});
+}
+
+/**
+ * Translated titles of one kind ("paper", "section", "part", "part-sponsorship"), keyed by source id.
+ * Empty for English, so a caller can always fall back to the English value.
+ */
+export async function loadTitleMap(
+	db: any,
+	lang: string | undefined,
+	sourceTypes: string[],
+): Promise<Map<string, string>> {
+	if (!lang || lang === "eng") return new Map();
+	const rows = await db
+		.select({
+			sourceType: titleTranslations.sourceType,
+			sourceId: titleTranslations.sourceId,
+			title: titleTranslations.title,
+		})
+		.from(titleTranslations)
+		.where(
+			and(
+				eq(titleTranslations.language, lang),
+				sql`${titleTranslations.sourceType} IN (${sql.join(sourceTypes.map((t) => sql`${t}`), sql`, `)})`,
+			),
+		);
+	// biome-ignore lint: Drizzle select result type
+	return new Map(rows.map((t: any) => [`${t.sourceType}:${t.sourceId}`, t.title]));
 }

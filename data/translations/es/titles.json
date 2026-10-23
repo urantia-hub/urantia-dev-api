@@ -3112,5 +3112,86 @@
 		"version": 1,
 		"source": "urantia.dev",
 		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "part",
+		"sourceId": "0",
+		"title": "Prólogo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "part",
+		"sourceId": "1",
+		"title": "El universo central y los superuniversos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "part-sponsorship",
+		"sourceId": "1",
+		"title": "Patrocinado por un Cuerpo de Personalidades del Superuniverso de Uversa que actúa con la autoridad de los Ancianos de Días de Orvonton",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "part",
+		"sourceId": "2",
+		"title": "El universo local",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "part-sponsorship",
+		"sourceId": "2",
+		"title": "Patrocinado por un Cuerpo de Personalidades del Universo Local de Nebadon que actúa con la autoridad de Gabriel de Salvington",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "part",
+		"sourceId": "3",
+		"title": "La historia de Urantia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "part-sponsorship",
+		"sourceId": "3",
+		"title": "Estos documentos fueron patrocinados por un Cuerpo de Personalidades del Universo Local que actúa con la autoridad de Gabriel de Salvington",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "part",
+		"sourceId": "4",
+		"title": "La vida y las enseñanzas de Jesús",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "part-sponsorship",
+		"sourceId": "4",
+		"title": "La base de esta narración la proporcionó un ser intermedio secundario que en otro tiempo fue asignado a la vigilancia y el cuidado sobrehumanos del apóstol Andrés.",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
 	}
 ]
