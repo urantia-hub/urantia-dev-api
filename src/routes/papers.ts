@@ -11,8 +11,14 @@ import {
 } from "../lib/entities.ts";
 import { problemJson } from "../lib/errors.ts";
 import {
+	applyParagraphTranslations,
+	applyTitleTranslations,
+	loadTitleMap,
+} from "../lib/translations.ts";
+import {
 	ErrorResponse,
 	IncludeQuery,
+	LangQuery,
 	PaperDetailResponse,
 	PaperIdParam,
 	PapersListResponse,
@@ -47,9 +53,9 @@ const listPapersRoute = createRoute({
 
 papersRoute.openapi(listPapersRoute, async (c) => {
 	const { db } = getDb(c.env?.HYPERDRIVE);
-	const { include } = c.req.valid("query");
+	const { include, lang } = c.req.valid("query");
 
-	const allPapers = await db
+	const paperRows = await db
 		.select({
 			id: papers.id,
 			partId: papers.partId,
@@ -60,6 +66,8 @@ papersRoute.openapi(listPapersRoute, async (c) => {
 		})
 		.from(papers)
 		.orderBy(papers.sortId);
+	const titles = await loadTitleMap(db, lang, ["paper"]);
+	const allPapers = paperRows.map((p) => ({ ...p, title: titles.get(`paper:${p.id}`) ?? p.title }));
 
 	if (wantsTopEntities(include)) {
 		// Fetch all paragraphs across all papers in a single query, enrich with
@@ -122,9 +130,9 @@ const getPaperRoute = createRoute({
 papersRoute.openapi(getPaperRoute, async (c) => {
 	const { db } = getDb(c.env?.HYPERDRIVE);
 	const { id } = c.req.valid("param");
-	const { include } = c.req.valid("query");
+	const { include, lang } = c.req.valid("query");
 
-	const paper = await db
+	const paperRow = await db
 		.select({
 			id: papers.id,
 			partId: papers.partId,
@@ -138,11 +146,13 @@ papersRoute.openapi(getPaperRoute, async (c) => {
 		.where(eq(papers.id, id))
 		.limit(1);
 
-	if (paper.length === 0) {
+	if (paperRow.length === 0) {
 		return problemJson(c, 404, `Paper ${id} not found`);
 	}
+	const titles = await loadTitleMap(db, lang, ["paper"]);
+	const paper = paperRow.map((p) => ({ ...p, title: titles.get(`paper:${p.id}`) ?? p.title }));
 
-	const paperParagraphs = await db
+	const englishParagraphs = await db
 		.select({
 			id: paragraphs.id,
 			standardReferenceId: paragraphs.standardReferenceId,
@@ -165,6 +175,14 @@ papersRoute.openapi(getPaperRoute, async (c) => {
 		.from(paragraphs)
 		.where(eq(paragraphs.paperId, id))
 		.orderBy(paragraphs.sortId);
+	const paperParagraphs =
+		lang && lang !== "eng"
+			? await applyTitleTranslations(
+					db,
+					await applyParagraphTranslations(db, englishParagraphs, lang),
+					lang,
+				)
+			: englishParagraphs;
 
 	const needEntities = wantsEntities(include);
 	const needTopEntities = needEntities || wantsTopEntities(include);
@@ -210,6 +228,7 @@ const getPaperSectionsRoute = createRoute({
 	description: "Returns all sections for a given paper, ordered by section number.",
 	request: {
 		params: PaperIdParam,
+		query: LangQuery,
 	},
 	responses: {
 		200: {
@@ -230,6 +249,7 @@ const getPaperSectionsRoute = createRoute({
 papersRoute.openapi(getPaperSectionsRoute, async (c) => {
 	const { db } = getDb(c.env?.HYPERDRIVE);
 	const { id } = c.req.valid("param");
+	const { lang } = c.req.valid("query");
 
 	const paper = await db.select({ id: papers.id }).from(papers).where(eq(papers.id, id)).limit(1);
 
@@ -237,11 +257,16 @@ papersRoute.openapi(getPaperSectionsRoute, async (c) => {
 		return problemJson(c, 404, `Paper ${id} not found`);
 	}
 
-	const paperSections = await db
+	const sectionRows = await db
 		.select()
 		.from(sections)
 		.where(eq(sections.paperId, id))
 		.orderBy(sections.sortId);
+	const titles = await loadTitleMap(db, lang, ["section"]);
+	const paperSections = sectionRows.map((s) => ({
+		...s,
+		title: titles.get(`section:${s.id}`) ?? s.title,
+	}));
 
 	return c.json({ data: paperSections }, 200);
 });
