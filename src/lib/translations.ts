@@ -21,7 +21,7 @@ export type TranslationLabel = {
  * Returns the original paragraph with `text`, `htmlText`, and `language` replaced
  * if a translation exists, with a `translation` label. Falls back to English with `language: "eng"`.
  */
-export async function applyParagraphTranslations<T extends { id: string; text: string; htmlText: string }>(
+export async function applyParagraphTranslations<T extends { id: string; text: string; htmlText?: string }>(
 	db: any,
 	paragraphs: T[],
 	lang: string,
@@ -60,7 +60,8 @@ export async function applyParagraphTranslations<T extends { id: string; text: s
 			return {
 				...p,
 				text: translation.text,
-				htmlText: translation.htmlText,
+				// MCP rows carry no htmlText, so they get none.
+				...("htmlText" in p ? { htmlText: translation.htmlText } : {}),
 				language: lang,
 				translation: { method: "machine", license: "CC0-1.0", review: translation.confidence },
 			};

@@ -50,6 +50,14 @@ const includeUrantiaParallelsProp: JSONSchemaProperty = {
 	default: false,
 };
 
+const langProp: JSONSchemaProperty = {
+	type: "string",
+	description:
+		'Language of the text and titles. "es" gives the Spanish translation (a machine translation, CC0); each paragraph then has `language` and a `translation` label. Default "eng".',
+	enum: ["eng", "es"],
+	default: "eng",
+};
+
 const bookCodeProp: JSONSchemaProperty = {
 	type: "string",
 	description:
@@ -115,13 +123,13 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 		name: "get_table_of_contents",
 		description:
 			"Get the full table of contents of the Urantia Papers. Returns the Foreword and the 4 parts, with all 197 papers and their titles.",
-		parameters: { type: "object", properties: {} },
+		parameters: { type: "object", properties: { lang: langProp } },
 	},
 	{
 		name: "list_papers",
 		description:
 			"List all 197 Urantia Papers with their metadata (id, title, partId, labels). Use get_table_of_contents for a hierarchical view.",
-		parameters: { type: "object", properties: {} },
+		parameters: { type: "object", properties: { lang: langProp } },
 	},
 	{
 		name: "get_paper",
@@ -132,6 +140,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 			properties: {
 				paper_id: paperIdProp,
 				include_entities: includeEntitiesProp,
+				lang: langProp,
 			},
 			required: ["paper_id"],
 		},
@@ -142,7 +151,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 			"Get all sections within a paper, ordered by section number. Useful for understanding paper structure before reading specific sections.",
 		parameters: {
 			type: "object",
-			properties: { paper_id: paperIdProp },
+			properties: { paper_id: paperIdProp, lang: langProp },
 			required: ["paper_id"],
 		},
 	},
@@ -156,6 +165,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 				include_entities: includeEntitiesProp,
 				include_bible_parallels: includeBibleParallelsProp,
 				include_urantia_parallels: includeUrantiaParallelsProp,
+				lang: langProp,
 			},
 		},
 	},
@@ -170,6 +180,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 				include_entities: includeEntitiesProp,
 				include_bible_parallels: includeBibleParallelsProp,
 				include_urantia_parallels: includeUrantiaParallelsProp,
+				lang: langProp,
 			},
 			required: ["ref"],
 		},
@@ -190,6 +201,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 					maximum: 10,
 				},
 				include_entities: includeEntitiesProp,
+				lang: langProp,
 			},
 			required: ["ref"],
 		},
