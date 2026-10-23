@@ -1,0 +1,50 @@
+{
+	"newTerms": {
+		"supremacizes": "supremaciza",
+		"postfinaliter": "posfinalitario",
+		"segmentized": "se segmentaron",
+		"Advanced Adjusters": "Ajustadores avanzados",
+		"Supreme Adjusters": "Ajustadores supremos",
+		"Vanished Adjusters": "Ajustadores desaparecidos",
+		"Liberated Adjusters": "Ajustadores liberados",
+		"Fused Adjusters": "Ajustadores fusionados",
+		"spirit-fusion series": "serie de fusión con el Espíritu",
+		"qualified absolute fragments": "fragmentos absolutos condicionados",
+		"triune destinies": "destinos trinos",
+		"age of discretion": "edad del buen juicio",
+		"Supreme Creator Personalities": "Personalidades Creadoras Supremas",
+		"fusion creatures": "criaturas de fusión"
+	},
+	"forcedChoices": [
+		{
+			"ref": "107:0.6",
+			"choice": "«que, según lo que elija ese mortal, puede consumar»",
+			"reason": "The relative «que» keeps open whether the Adjuster or the essence (or the mind) consummates the union, as the English «which» does."
+		},
+		{
+			"ref": "107:0.7",
+			"choice": "«edad del buen juicio» for «age of discretion»",
+			"reason": "Spanish «discreción» reads as tact or reserve; «buen juicio» carries the mature judgment that the English means."
+		},
+		{
+			"ref": "107:2.1",
+			"choice": "«los órdenes» (masculine)",
+			"reason": "Spanish «orden» in the sense of a class or rank of beings is masculine; the feminine «la orden» is kept only for «la orden de Miguel» (an order as a body, 107:3.9)."
+		},
+		{
+			"ref": "107:6.2",
+			"choice": "«para que termine la soledad de ellos»",
+			"reason": "Spanish «su» would be ambiguous between the readers and the Adjusters; the English «their loneliness» is the Adjusters' loneliness."
+		},
+		{
+			"ref": "107:7.3",
+			"choice": "«adaptan, modifican y sustituyen» without a reflexive «se»",
+			"reason": "The English verbs have no object; the plain transitive form without an object keeps both readings (they adapt themselves, or they adapt their plans)."
+		},
+		{
+			"ref": "107:5.6",
+			"choice": "«supremaciza y después aumenta la dotación»",
+			"reason": "Both verbs share the object, as in English, so the reading of «supremacizes» as transitive or intransitive stays open."
+		}
+	]
+}

@@ -1,0 +1,75 @@
+{
+	"newTerms": {
+		"grand universers": "habitantes del gran universo",
+		"God-in-time": "Dios-en-el-tiempo",
+		"Trinity embrace": "abrazo de la Trinidad",
+		"creaturehood": "condición de criatura",
+		"nonsurvivor": "no superviviente",
+		"nonascender": "no ascendente",
+		"culminator": "culminador",
+		"catalyzer": "catalizador",
+		"Supreme Whole": "Todo Supremo",
+		"Mother Supreme": "Madre Suprema",
+		"God of Supremacy": "Dios de la Supremacía",
+		"finaliter transcendation": "trascendación de los finalitarios",
+		"meaning value / meaning-value": "significado-valor",
+		"experiencible value meanings": "significados de valor experienciables",
+		"completion (of the Supreme, of finite reality)": "compleción",
+		"incompleteness / incompletion": "incompleción",
+		"wisdom-action": "acción sabia",
+		"decision-action": "acción-decisión",
+		"postsuperuniverse": "possuperuniversal"
+	},
+	"forcedChoices": [
+		{
+			"ref": "117:1.9",
+			"choice": "está en potencia / está en acto",
+			"reason": "Spanish needs ser or estar; 'estar en acto' and 'estar en potencia' are the standard phrases and avoid the false friend 'actual'."
+		},
+		{
+			"ref": "117:2.3",
+			"choice": "Consideren (ustedes)",
+			"reason": "The imperative speaks to the readers; the Spanish rules ask for the plural 'ustedes'."
+		},
+		{
+			"ref": "117:2.4",
+			"choice": "Mi propia orden ... abrazada ... no participa",
+			"reason": "Spanish forces the gender of 'orden'; the feminine (an order of beings) and a singular verb keep the subject of the English."
+		},
+		{
+			"ref": "117:3.4",
+			"choice": "El Hijo Creador de ustedes",
+			"reason": "'Su Hijo Creador' can read as 'his'; 'de ustedes' keeps the reader as the owner, as the English 'your' does."
+		},
+		{
+			"ref": "117:4.10",
+			"choice": "ustedes; 'la contribución de aquella criatura'",
+			"reason": "The challenge speaks to the reader, so plural 'ustedes'; 'su contribución' would be ambiguous with 'ustedes', so the noun is named."
+		},
+		{
+			"ref": "117:4.11",
+			"choice": "entre el potencial y el acto",
+			"reason": "Spanish 'lo actual' means 'the current'; 'el acto' carries the sense of the glossary term."
+		},
+		{
+			"ref": "117:5.11",
+			"choice": "al experimentar, los Ajustadores son como el Supremo",
+			"reason": "English 'as' can mean 'while' or 'because'; the infinitive construction keeps both readings open."
+		},
+		{
+			"ref": "117:6.1",
+			"choice": "progenitor; 'ser progenitor divino' for 'divine parenthood'",
+			"reason": "Spanish 'paternidad' would fix a male sense; the text later calls the Supreme 'Mother', so a sex-neutral form keeps the English open."
+		},
+		{
+			"ref": "117:6.5",
+			"choice": "hijo ... e hijo",
+			"reason": "Spanish has no plain pair for 'son' and 'child' here; 'hijo' fits both without adding a sense."
+		},
+		{
+			"ref": "117:7.1",
+			"choice": "diferenciadamente personalizado",
+			"reason": "Spanish 'discretamente' means 'discreetly'; the English 'discretely' means 'as a distinct entity'."
+		}
+	]
+}

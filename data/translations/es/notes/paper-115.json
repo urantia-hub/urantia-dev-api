@@ -1,0 +1,57 @@
+{
+	"newTerms": {
+		"universe frame": "marco de universo",
+		"concept frames / conceptual frames": "marcos conceptuales",
+		"actuality": "acto",
+		"actuals": "realidades en acto",
+		"potentiality": "potencialidad",
+		"originality": "originalidad",
+		"Absolute Actual / Absolute Potential": "lo Actual Absoluto / lo Potencial Absoluto",
+		"Father-I AM": "Padre-YO SOY",
+		"First Father-Cause and Source-Pattern": "Primer Padre-Causa y Fuente-Patrón",
+		"outsurge / insurge (of Supremacy)": "flujo hacia fuera / flujo hacia dentro",
+		"chronicity": "cronicidad",
+		"existents": "existentes",
+		"potentializing": "potencialización",
+		"power controllers": "controladores del poder",
+		"experience-evolution": "experiencia-evolución",
+		"Conjoint action": "acción Conjunta"
+	},
+	"forcedChoices": [
+		{
+			"ref": "115:0.1",
+			"choice": "ser algo",
+			"reason": "Spanish forces ser or estar; status is a state of being, so ser."
+		},
+		{
+			"ref": "115:2.1",
+			"choice": "realidad presente en acto",
+			"reason": "Spanish 'actualidad' reads as 'the present time'; 'en acto' follows the glossary for actual."
+		},
+		{
+			"ref": "115:3.10",
+			"choice": "el Padre es",
+			"reason": "Absolute existence, so ser, not estar."
+		},
+		{
+			"ref": "115:3.11",
+			"choice": "En la eternidad todo es",
+			"reason": "Existential sense; ser keeps the unqualified 'is'."
+		},
+		{
+			"ref": "115:4.3",
+			"choice": "deténganse",
+			"reason": "The text speaks to the reader; plural ustedes per the Spanish rules."
+		},
+		{
+			"ref": "115:5.2",
+			"choice": "como creador inmediato (masculine)",
+			"reason": "Spanish forces gender on 'creator'; Trinidad is grammatically feminine, but 'creador' as a role noun follows the English generic form."
+		},
+		{
+			"ref": "115:7.6",
+			"choice": "parece serlo",
+			"reason": "Elided English 'seems to be [inevitable]'; 'serlo' refers back to inevitable, the reading the context gives."
+		}
+	]
+}

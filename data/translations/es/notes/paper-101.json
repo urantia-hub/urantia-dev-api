@@ -1,0 +1,68 @@
+{
+	"newTerms": {
+		"conviction-faith": "fe-convicción",
+		"faith-insight": "discernimiento de fe",
+		"insight (spiritual, morontia)": "discernimiento",
+		"morontia insight": "discernimiento morontial",
+		"autorevelation": "autorrevelación",
+		"faith-child": "hija de fe",
+		"mind adjutant": "ayudante de la mente",
+		"worship trait": "rasgo de la adoración",
+		"bestowal spirits": "espíritus de otorgamiento",
+		"Adjuster essence": "esencia-Ajustador",
+		"idea-decisions": "ideas-decisiones",
+		"postfinaliter": "posfinalitario",
+		"Final Father": "Padre Final",
+		"Father discovery": "descubrimiento del Padre",
+		"God-recognition / God-service": "reconocimiento de Dios / servicio a Dios",
+		"God-knowing and man-serving": "conocer a Dios y servir al hombre",
+		"service-discovery / ministry-revelation": "descubrimiento por medio del servicio / revelación por medio del ministerio",
+		"superphilosophic": "superfilosófico",
+		"terminal bestowal": "otorgamiento terminal",
+		"living way": "camino vivo",
+		"assurance": "seguridad",
+		"brotherhood / fraternity": "fraternidad / hermandad"
+	},
+	"forcedChoices": [
+		{
+			"ref": "101:0.1",
+			"choice": "LA RELIGIÓN",
+			"reason": "Spanish needs the article; both words in capitals to mark the first word of the paper."
+		},
+		{
+			"ref": "101:0.3",
+			"choice": "conciencia for both 'conscience' and 'consciousness'",
+			"reason": "Spanish uses one word; glossary forms (conciencia de sí, conciencia de Dios) fix it; context separates the senses (3.1, 5.10, 9.5)."
+		},
+		{
+			"ref": "101:2.13",
+			"choice": "la hija de fe",
+			"reason": "Spanish forces a gender; feminine agrees with 'la religión'."
+		},
+		{
+			"ref": "101:6.3",
+			"choice": "acrecentadas ... sancionadas (agree with 'decisiones')",
+			"reason": "Spanish forces agreement; the parallel participles read best as modifying 'decisions'."
+		},
+		{
+			"ref": "101:6.7",
+			"choice": "las ideas que posee el yo",
+			"reason": "'self-possessed ideas' has no single Spanish form; chose 'ideas held by the self', the reading the context supports best."
+		},
+		{
+			"ref": "101:6.11",
+			"choice": "hermandad (fraternity) / fraternidad (brotherhood)",
+			"reason": "Glossary fixes brotherhood = fraternidad; 'fraternity' needs another word in the same sentence."
+		},
+		{
+			"ref": "101:10.8",
+			"choice": "hijos volitivos y liberados (plural)",
+			"reason": "Spanish 'ustedes' needs a plural predicate; the next sentence keeps the singular 'son'."
+		},
+		{
+			"ref": "title",
+			"choice": "La verdadera naturaleza",
+			"reason": "'naturaleza real' can also read as 'royal nature' in Spanish."
+		}
+	]
+}

@@ -1,0 +1,64 @@
+{
+	"newTerms": {
+		"other-mindness": "otredad de la mente",
+		"other-thingness": "otredad de las cosas",
+		"other-spiritness": "otredad del espíritu",
+		"faither / faithers": "hombre de fe / hombres de fe",
+		"God-knowing": "que conoce a Dios",
+		"God-knowingness": "conocimiento de Dios",
+		"God-ascension": "ascenso a Dios",
+		"upreach / downreach": "alcance ascendente / alcance descendente",
+		"idea-of-the-whole": "idea-del-todo",
+		"will-to-believe": "voluntad-de-creer",
+		"certainty / certitude": "certeza / certidumbre",
+		"purposive": "intencional",
+		"Universal (of truth)": "Universal (de la verdad)"
+	},
+	"forcedChoices": [
+		{
+			"ref": "102:0.3",
+			"choice": "transferirse (not «trasladarse»)",
+			"reason": "«traslación» is the glossary form for Adjuster-fusion translation; here 'translated' means carried over from one level to another."
+		},
+		{
+			"ref": "102:1.1",
+			"choice": "la explicación del paso del sentido del deber ... a esa fe",
+			"reason": "Avoids «traslación», which the glossary reserves for the technical sense."
+		},
+		{
+			"ref": "102:1.3",
+			"choice": "impersonal «se conoce ... se tiene»",
+			"reason": "The general 'you' reads better as an impersonal form."
+		},
+		{
+			"ref": "102:3.4",
+			"choice": "la realización de la conciencia",
+			"reason": "«toma de conciencia de la conciencia» is redundant; «realización» keeps the sense of making real."
+		},
+		{
+			"ref": "102:3.7",
+			"choice": "como a uno mismo",
+			"reason": "The English 'even as yourself' is general; an impersonal form avoids choosing tú or ustedes."
+		},
+		{
+			"ref": "102:3.13",
+			"choice": "realización (both uses)",
+			"reason": "English 'realization' can mean 'becoming real' or 'becoming aware'; Spanish cannot hold both, and «realización» fits the parallel with science best."
+		},
+		{
+			"ref": "102:6.5",
+			"choice": "tú in «¿Cómo sabes tú que yo no sé?»",
+			"reason": "One believer answers one doubter; the rule for one person is tú."
+		},
+		{
+			"ref": "102:6.9",
+			"choice": "refinanciar sus objeciones corrientes",
+			"reason": "Keeps the bankruptcy image of 'refunding its current objections'; «corrientes» avoids the false friend «actuales»."
+		},
+		{
+			"ref": "102:7.8",
+			"choice": "dogmática (feminine)",
+			"reason": "Agrees with «una realidad no cualificada, un absoluto»; the nearest head noun is «realidad»."
+		}
+	]
+}

@@ -1,0 +1,101 @@
+{
+	"newTerms": {
+		"incomplete finites": "finitos incompletos",
+		"maximum finites": "finitos máximos",
+		"Transcendentals (level)": "Trascendentales",
+		"Ultimates (level)": "Últimos",
+		"Coabsolutes (level)": "Coabsolutos",
+		"pre-existential / pre-existentials": "preexistencial / preexistenciales",
+		"postexperiential / postexperientials": "posexperiencial / posexperienciales",
+		"pre-experiential": "preexperiencial",
+		"prefinite / postfinite": "prefinito / posfinito",
+		"supermaster universe": "universo supramaestro",
+		"interassociation": "interasociación",
+		"existents and latents": "existentes y latentes",
+		"Repletion ... completion": "plenitud ... compleción",
+		"finite functionals": "funcionales finitos",
+		"tertiary finites": "finitos terciarios",
+		"survival personality": "personalidad de supervivencia",
+		"universe Fathers": "Padres del universo",
+		"power-personality synthesis": "síntesis de poder-personalidad",
+		"spirit person": "persona de espíritu",
+		"spirit nucleus": "núcleo de espíritu",
+		"Adjuster bestowals / life bestowals": "otorgamientos de los Ajustadores / otorgamientos de vida",
+		"Creator divinities": "divinidades Creadoras",
+		"pilot sphere": "esfera piloto",
+		"prayer-worship attitude": "actitud de oración-adoración",
+		"meaning-value(s)": "significado-valor / significados-valores",
+		"experiencible": "experienciable",
+		"absonite architects": "arquitectos absonitos",
+		"Master Creator Sons": "Hijos Creadores Maestros",
+		"group attainment": "logro de grupo",
+		"time-organizing space": "espacio de organización temporal",
+		"self-qualified absolute": "absoluto autocondicionado",
+		"Absolutes of potentiality": "Absolutos de potencialidad",
+		"experientialization": "experiencialización",
+		"ultrapersonal": "ultrapersonal",
+		"subinfinite": "subinfinito",
+		"Father-I AM": "Padre-YO SOY",
+		"midspace": "espacio intermedio",
+		"threefold Trinity": "Trinidad triple",
+		"Creator-Creative children": "hijos Creador-Creativos",
+		"experiential-evolved, experiential-eventuated, experiential-existential": "experiencial-evolucionadas, experiencial-eventuadas, experiencial-existenciales",
+		"experiential attainable (noun)": "alcanzable experiencial",
+		"pre-Trinity / post-Trinity of Trinities": "pre-Trinidad / pos-Trinidad de Trinidades",
+		"Father identification": "identificación con el Padre",
+		"God-finding": "hallazgo de Dios",
+		"Paradise-Havona": "Paraíso-Havona"
+	},
+	"forcedChoices": [
+		{
+			"ref": "106:0.10",
+			"choice": "simbolizaciones convenientes, de término medio",
+			"reason": "Spanish 'compromiso' means 'commitment'; 'de término medio' carries the sense of a middle-ground concession."
+		},
+		{
+			"ref": "106:0.14",
+			"choice": "La ignorancia de ustedes",
+			"reason": "'Su' alone can read as 'his' or 'their'; the text speaks to the readers in the plural."
+		},
+		{
+			"ref": "106:2.4",
+			"choice": "manifiesta él mismo",
+			"reason": "'itself' can attach to the power or to God the Sevenfold; Spanish word order forces one, and the subject (the power) is the more direct reading."
+		},
+		{
+			"ref": "106:2.8",
+			"choice": "la comprensión de un nuevo significado-valor",
+			"reason": "'realization' here reads as becoming aware; Spanish 'realización' would read only as making real."
+		},
+		{
+			"ref": "106:3.5",
+			"choice": "el espacio de organización temporal",
+			"reason": "Keeps open whether time organizes space or space is organized in time."
+		},
+		{
+			"ref": "106:8.12",
+			"choice": "causas, términos intermedios y términos finales",
+			"reason": "'intermedios' alone as a noun reads as 'intermissions'; 'intermediarios' would mean go-betweens."
+		},
+		{
+			"ref": "106:8.14",
+			"choice": "la concreción de deidad",
+			"reason": "'encarnación' carries the religious sense of incarnation, which the papers use for bestowals."
+		},
+		{
+			"ref": "106:8.15",
+			"choice": "tensionalmente unificadoras",
+			"reason": "Keeps the English adverbial form open instead of choosing 'that unify tensions'."
+		},
+		{
+			"ref": "106:9.12",
+			"choice": "Esa vida según el Padre",
+			"reason": "'vida de Padre' reads as 'the life of a father'; 'según el Padre' keeps the sense of a life shaped by the Father's will."
+		},
+		{
+			"ref": "106:2.3",
+			"choice": "en definitiva",
+			"reason": "Renders 'in the last analysis' without 'último', which is the glossary term for 'ultimate'."
+		}
+	]
+}

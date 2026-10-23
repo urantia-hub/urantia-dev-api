@@ -1,0 +1,62 @@
+{
+	"newTerms": {
+		"Universe Sovereign": "Soberano del Universo",
+		"Savior Sovereign": "Soberano Salvador",
+		"dispatching field": "campo de partida",
+		"receiving field": "campo de recepción",
+		"emergency corps": "cuerpo de emergencia",
+		"master teachers": "maestros superiores",
+		"morontia mortal": "mortal morontial",
+		"Trinity Sons of counsel and co-operation": "Hijos de la Trinidad de consejo y cooperación",
+		"Paradise divorcement": "separación del Paraíso",
+		"universe minister": "ministro universal",
+		"system savior": "salvador de sistema",
+		"Adamic redeemer": "redentor adánico",
+		"seraphic fellow": "compañero seráfico",
+		"Sovereign Ruler": "Soberano Gobernante",
+		"World of the Cross": "Mundo de la Cruz",
+		"partiality of manifestability": "parcialidad de la manifestabilidad"
+	},
+	"forcedChoices": [
+		{
+			"ref": "119:4.2",
+			"choice": "un serafín (singular)",
+			"reason": "The English uses 'seraphim' as a singular here ('an unknown seraphim'); Spanish needs the singular form 'serafín'."
+		},
+		{
+			"ref": "119:1.2",
+			"choice": "Ministra Divina (feminine)",
+			"reason": "The glossary gives the feminine form for the Mother Spirit; Spanish forces a gender on the article and noun."
+		},
+		{
+			"ref": "119:2.6",
+			"choice": "tú (eres, tus caminos)",
+			"reason": "Lutentia addresses Michael with archaic 'you' in a direct, formal declaration; 'tú' keeps the scriptural tone of 'Just and righteous are you in all your ways' without the distance of 'usted'."
+		},
+		{
+			"ref": "119:1.1",
+			"choice": "los pongo (ustedes)",
+			"reason": "Michael speaks to the Constellation Fathers as a group; Spanish requires a plural pronoun, and the packet requires 'ustedes'."
+		},
+		{
+			"ref": "119:0.7",
+			"choice": "611 121<sup>.º</sup>",
+			"reason": "The English ordinal suffix 'st' has no Spanish match; the Spanish ordinal mark '.º' stays inside the existing <sup> tag."
+		},
+		{
+			"ref": "119:8.9",
+			"choice": "1935 <span class=\"scaps\">d. C.</span>",
+			"reason": "Spanish puts the era abbreviation after the year; the scaps span stays with the abbreviation."
+		},
+		{
+			"ref": "119:2.2",
+			"choice": "reinó como amo absoluto",
+			"reason": "'reigned supreme' is an idiom; a literal 'reinó supremo' reads unnatural, so the plain sense of unchecked rule is kept."
+		},
+		{
+			"ref": "119:6.4",
+			"choice": "una criatura semejante a nosotros",
+			"reason": "'fellow creature' needs a gendered noun in Spanish; 'criatura' is feminine by grammar only and keeps the English sense."
+		}
+	]
+}

@@ -8044,5 +8044,1526 @@
 		"version": 1,
 		"source": "urantia.dev",
 		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "108",
+		"title": "Misión y ministerio de los Ajustadores del Pensamiento",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "108.1",
+		"title": "Selección y asignación",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "108.2",
+		"title": "Requisitos previos para la morada del Ajustador",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "108.3",
+		"title": "Organización y administración",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "108.4",
+		"title": "Relación con otras influencias espirituales",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "108.5",
+		"title": "La misión del Ajustador",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "108.6",
+		"title": "Dios en el hombre",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "100",
+		"title": "La religión en la experiencia humana",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "100.1",
+		"title": "El crecimiento religioso",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "100.2",
+		"title": "El crecimiento espiritual",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "100.3",
+		"title": "Conceptos de valor supremo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "100.4",
+		"title": "Problemas del crecimiento",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "100.5",
+		"title": "Conversión y misticismo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "100.6",
+		"title": "Señales de la vida religiosa",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "100.7",
+		"title": "La cumbre de la vida religiosa",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "101",
+		"title": "La verdadera naturaleza de la religión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "101.1",
+		"title": "La religión verdadera",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "101.2",
+		"title": "El hecho de la religión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "101.3",
+		"title": "Las características de la religión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "101.4",
+		"title": "Las limitaciones de la revelación",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "101.5",
+		"title": "La religión ampliada por la revelación",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "101.6",
+		"title": "La experiencia religiosa progresiva",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "101.7",
+		"title": "Una filosofía personal de la religión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "101.8",
+		"title": "La fe y la creencia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "101.9",
+		"title": "La religión y la moralidad",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "101.10",
+		"title": "La religión como liberadora del hombre",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "103",
+		"title": "La realidad de la experiencia religiosa",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "103.1",
+		"title": "La filosofía de la religión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "103.2",
+		"title": "La religión y el individuo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "103.3",
+		"title": "La religión y la raza humana",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "103.4",
+		"title": "La comunión espiritual",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "103.5",
+		"title": "El origen de los ideales",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "103.6",
+		"title": "La coordinación filosófica",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "103.7",
+		"title": "La ciencia y la religión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "103.8",
+		"title": "La filosofía y la religión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "103.9",
+		"title": "La esencia de la religión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "104",
+		"title": "Desarrollo del concepto de la Trinidad",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "104.1",
+		"title": "Conceptos urantianos de la Trinidad",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "104.2",
+		"title": "Unidad de la Trinidad y pluralidad de la Deidad",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "104.3",
+		"title": "Trinidades y triunidades",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "104.4",
+		"title": "Las siete triunidades",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "104.5",
+		"title": "Triodidades",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "105",
+		"title": "Deidad y realidad",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "105.1",
+		"title": "El concepto filosófico del YO SOY",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "105.2",
+		"title": "El YO SOY como trino y como séptuple",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "105.3",
+		"title": "Los Siete Absolutos de la Infinitud",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "105.4",
+		"title": "Unidad, dualidad y triunidad",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "105.5",
+		"title": "Promulgación de la realidad finita",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "105.6",
+		"title": "Repercusiones de la realidad finita",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "105.7",
+		"title": "Eventuación de los trascendentales",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "106",
+		"title": "Niveles de realidad del universo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "106.1",
+		"title": "Asociación primaria de los funcionales finitos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "106.2",
+		"title": "Integración finita suprema secundaria",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "106.3",
+		"title": "Asociación trascendental de la realidad terciaria",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "106.4",
+		"title": "Integración cuaternaria última",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "106.5",
+		"title": "Asociación coabsoluta o de la quinta fase",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "106.6",
+		"title": "Integración absoluta o de la sexta fase",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "106.7",
+		"title": "La finalidad del destino",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "106.8",
+		"title": "La Trinidad de Trinidades",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "106.9",
+		"title": "Unificación infinita existencial",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "107",
+		"title": "Origen y naturaleza de los Ajustadores del Pensamiento",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "107.1",
+		"title": "Origen de los Ajustadores del Pensamiento",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "107.2",
+		"title": "Clasificación de los Ajustadores",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "107.3",
+		"title": "Divinington, el hogar de los Ajustadores",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "107.4",
+		"title": "Naturaleza y presencia de los Ajustadores",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "107.5",
+		"title": "La actividad mental de los Ajustadores",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "107.6",
+		"title": "Los Ajustadores como espíritus puros",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "107.7",
+		"title": "Los Ajustadores y la personalidad",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "109",
+		"title": "Relación de los Ajustadores con las criaturas del universo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "109.1",
+		"title": "Desarrollo de los Ajustadores",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "109.2",
+		"title": "Los Ajustadores autoactuantes",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "109.3",
+		"title": "Relación de los Ajustadores con los tipos de mortales",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "109.4",
+		"title": "Los Ajustadores y la personalidad humana",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "109.5",
+		"title": "Obstáculos materiales para la morada del Ajustador",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "109.6",
+		"title": "La persistencia de los valores verdaderos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "109.7",
+		"title": "Destino de los Ajustadores Personalizados",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "110",
+		"title": "Relación de los Ajustadores con los mortales individuales",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "110.1",
+		"title": "La morada en la mente mortal",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "110.2",
+		"title": "Los Ajustadores y la voluntad humana",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "110.3",
+		"title": "La cooperación con el Ajustador",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "110.4",
+		"title": "La obra del Ajustador en la mente",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "110.5",
+		"title": "Conceptos erróneos sobre la guía del Ajustador",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "110.6",
+		"title": "Los siete círculos psíquicos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "110.7",
+		"title": "La consecución de la inmortalidad",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "111",
+		"title": "El Ajustador y el alma",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "111.1",
+		"title": "La mente, escenario de la elección",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "111.2",
+		"title": "Naturaleza del alma",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "111.3",
+		"title": "El alma en evolución",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "111.4",
+		"title": "La vida interior",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "111.5",
+		"title": "La consagración de la elección",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "111.6",
+		"title": "La paradoja humana",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "111.7",
+		"title": "El problema del Ajustador",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "112",
+		"title": "La supervivencia de la personalidad",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "112.1",
+		"title": "La personalidad y la realidad",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "112.2",
+		"title": "El yo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "112.3",
+		"title": "El fenómeno de la muerte",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "112.4",
+		"title": "Los Ajustadores después de la muerte",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "112.5",
+		"title": "La supervivencia del yo humano",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "112.6",
+		"title": "El yo morontial",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "112.7",
+		"title": "La fusión con el Ajustador",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "113",
+		"title": "Los guardianes seráficos del destino",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "113.1",
+		"title": "Los ángeles guardianes",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "113.2",
+		"title": "Los guardianes del destino",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "113.3",
+		"title": "Relación con otras influencias espirituales",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "113.4",
+		"title": "Ámbitos seráficos de acción",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "113.5",
+		"title": "El ministerio seráfico a los mortales",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "113.6",
+		"title": "Los ángeles guardianes después de la muerte",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "113.7",
+		"title": "Los serafines y la carrera ascendente",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "114",
+		"title": "Gobierno planetario seráfico",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "114.1",
+		"title": "La soberanía de Urantia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "114.2",
+		"title": "La junta de supervisores planetarios",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "114.3",
+		"title": "El gobernador general residente",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "114.4",
+		"title": "El observador Altísimo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "114.5",
+		"title": "El gobierno planetario",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "114.6",
+		"title": "Los serafines maestros de la supervisión planetaria",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "114.7",
+		"title": "El cuerpo de reserva del destino",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "115",
+		"title": "El Ser Supremo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "115.1",
+		"title": "Relatividad de los marcos conceptuales",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "115.2",
+		"title": "La base absoluta de la Supremacía",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "115.3",
+		"title": "Lo Original, lo Actual y lo Potencial",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "115.4",
+		"title": "Fuentes de la realidad suprema",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "115.5",
+		"title": "Relación del Supremo con la Trinidad del Paraíso",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "115.6",
+		"title": "Relación del Supremo con las triodidades",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "115.7",
+		"title": "La naturaleza del Supremo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "116",
+		"title": "El Supremo Todopoderoso",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "116.1",
+		"title": "La Mente Suprema",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "116.2",
+		"title": "El Todopoderoso y Dios el Séptuple",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "116.3",
+		"title": "El Todopoderoso y la Deidad del Paraíso",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "116.4",
+		"title": "El Todopoderoso y los Creadores Supremos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "116.5",
+		"title": "El Todopoderoso y los controladores séptuples",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "116.6",
+		"title": "El predominio del espíritu",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "116.7",
+		"title": "El organismo viviente del gran universo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "117",
+		"title": "Dios el Supremo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "117.1",
+		"title": "Naturaleza del Ser Supremo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "117.2",
+		"title": "La fuente del crecimiento evolutivo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "117.3",
+		"title": "Importancia del Supremo para las criaturas del universo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "117.4",
+		"title": "El Dios finito",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "117.5",
+		"title": "La superalma de la creación",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "117.6",
+		"title": "La búsqueda del Supremo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "117.7",
+		"title": "El futuro del Supremo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "118",
+		"title": "Supremo y Último—Tiempo y espacio",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "118.1",
+		"title": "Tiempo y eternidad",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "118.2",
+		"title": "Omnipresencia y ubicuidad",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "118.3",
+		"title": "Relaciones de tiempo-espacio",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "118.4",
+		"title": "Causación primaria y secundaria",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "118.5",
+		"title": "Omnipotencia y composibilidad",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "118.6",
+		"title": "Omnipotencia y omnificencia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "118.7",
+		"title": "Omnisciencia y predestinación",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "118.8",
+		"title": "Control y supercontrol",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "118.9",
+		"title": "Mecanismos del universo",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "118.10",
+		"title": "Funciones de la providencia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "119",
+		"title": "Los otorgamientos de Cristo Miguel",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "119.1",
+		"title": "El primer otorgamiento",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "119.2",
+		"title": "El segundo otorgamiento",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "119.3",
+		"title": "El tercer otorgamiento",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "119.4",
+		"title": "El cuarto otorgamiento",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "119.5",
+		"title": "El quinto otorgamiento",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "119.6",
+		"title": "El sexto otorgamiento",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "119.7",
+		"title": "El séptimo y último otorgamiento",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "119.8",
+		"title": "La condición de Miguel después de sus otorgamientos",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "paper",
+		"sourceId": "102",
+		"title": "Los fundamentos de la fe religiosa",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "102.1",
+		"title": "Las seguridades de la fe",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "102.2",
+		"title": "La religión y la realidad",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "102.3",
+		"title": "Conocimiento, sabiduría y discernimiento",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "102.4",
+		"title": "El hecho de la experiencia",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "102.5",
+		"title": "La supremacía del potencial intencional",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "102.6",
+		"title": "La certeza de la fe religiosa",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "102.7",
+		"title": "La certidumbre de lo divino",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
+	},
+	{
+		"sourceType": "section",
+		"sourceId": "102.8",
+		"title": "Las pruebas de la religión",
+		"language": "es",
+		"version": 1,
+		"source": "urantia.dev",
+		"confidence": "auto_checked"
 	}
 ]

@@ -1,0 +1,52 @@
+{
+	"newTerms": {
+		"spirit helper(s) / thought helpers / heavenly helpers": "auxiliar(es) espiritual(es) / auxiliares del pensamiento / auxiliares celestiales",
+		"sub-Deity": "sub-Deidad",
+		"correlators": "correlacionadores",
+		"seraphic drafts of ancestry": "esbozos seráficos de la ascendencia",
+		"Father presence / Father sovereignty": "presencia-Padre / soberanía-Padre",
+		"morontia self": "yo morontial",
+		"survival worlds": "mundos de supervivencia",
+		"psychic fulcrum": "fulcro psíquico",
+		"planetary supervisor of Adjusters": "supervisor planetario de los Ajustadores",
+		"supreme Adjusters": "Ajustadores supremos",
+		"probationary union": "unión a prueba"
+	},
+	"forcedChoices": [
+		{
+			"ref": "108:2.4",
+			"choice": "auxiliar espiritual",
+			"reason": "\"ayudante\" is the glossary form for the adjutants; \"helper\" needs a different word so the reader does not take the Adjuster for an adjutant."
+		},
+		{
+			"ref": "108:2.1",
+			"choice": "2134.<sup>º</sup>",
+			"reason": "Spanish ordinal abbreviation; the <sup> tag is kept and holds the ordinal mark."
+		},
+		{
+			"ref": "108:4.2",
+			"choice": "deben ser",
+			"reason": "Keeps both readings of \"must be\" (inference or necessity) open; \"deben de ser\" would close it to inference."
+		},
+		{
+			"ref": "108:5.10",
+			"choice": "ese ángel guardián ... su encargo",
+			"reason": "\"ángel\" is grammatically masculine in Spanish; the English \"her\" becomes the neutral possessive \"su\"."
+		},
+		{
+			"ref": "108:5.1",
+			"choice": "ustedes / la voluntad de ustedes",
+			"reason": "Reader address uses plural \"ustedes\"; \"de ustedes\" is used where \"su\" could be read as the Adjuster's."
+		},
+		{
+			"ref": "108:6.6",
+			"choice": "progenitor",
+			"reason": "\"parent\" needs a gender-neutral word; \"padre\" would add a male sense and clash with the Father."
+		},
+		{
+			"ref": "108:6.2",
+			"choice": "reino de los cielos dentro de ustedes",
+			"reason": "The quoted \"you\" is plural in its setting; \"ustedes\" per the variety rules."
+		}
+	]
+}

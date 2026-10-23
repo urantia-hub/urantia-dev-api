@@ -1,0 +1,55 @@
+{
+	"newTerms": {
+		"prewill": "prevoluntad",
+		"self-activity": "autoactividad",
+		"seventh (sixth, second, first) circler": "ser del séptimo (sexto, segundo, primer) círculo",
+		"morontiaize": "morontializar",
+		"supermind": "supermente",
+		"superadjutant (endowment)": "(dotación) superayudante",
+		"premorontia": "premorontial",
+		"mind-soul": "mente-alma",
+		"fact-value": "hecho-valor",
+		"God-hunger": "hambre de Dios",
+		"picturizations (of destiny)": "representaciones en imágenes (del destino)",
+		"directionization": "direccionamiento",
+		"potential finaliter": "finalitario en potencia",
+		"planets of the loan order": "planetas del orden de préstamo",
+		"conscience": "conciencia moral",
+		"the translating mortal": "el mortal en traslación",
+		"heavenly Parent": "Progenitor celestial",
+		"Father of mercies": "Padre de las misericordias",
+		"personality trust": "cometido de personalidad"
+	},
+	"forcedChoices": [
+		{
+			"ref": "110:5.1",
+			"choice": "conciencia moral (conscience)",
+			"reason": "Spanish \"conciencia\" also means consciousness, which the paper uses in the same section; \"moral\" keeps the two apart."
+		},
+		{
+			"ref": "110:2.5",
+			"choice": "ustedes, como criaturas personales",
+			"reason": "The English \"you\" speaks to the readers; the packet asks for the plural \"ustedes\"."
+		},
+		{
+			"ref": "110:7.10",
+			"choice": "que se registre por mí; transmítase; dígase",
+			"reason": "The English imperatives do not show who receives the order; the impersonal form keeps the person open instead of forcing tú or ustedes."
+		},
+		{
+			"ref": "110:6.19",
+			"choice": "efectiva (actual)",
+			"reason": "Here \"actual\" means real, not the philosophical actual of the glossary; \"en acto\" is kept for \"cosmic actuality\" and \"actuals\" in 110:6.17."
+		},
+		{
+			"ref": "110:6.5",
+			"choice": "cerca de ustedes y son de ustedes (near you and of you)",
+			"reason": "Keeps the open sense of \"of you\" (belonging to or part of) without choosing one."
+		},
+		{
+			"ref": "110:5.4",
+			"choice": "sueños / vida onírica / sueño",
+			"reason": "Spanish \"sueño\" means both sleep and dream; \"onírica\" marks the dream sense where both appear together."
+		}
+	]
+}

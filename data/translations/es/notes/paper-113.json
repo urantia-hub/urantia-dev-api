@@ -1,0 +1,45 @@
+{
+	"newTerms": {
+		"attending seraphim": "serafines acompañantes",
+		"complemental seraphim": "serafines complementarios",
+		"cherubim": "querubines",
+		"destiny guards": "guardas del destino",
+		"mind of mortal investment": "mente de investidura mortal",
+		"circle-making decisions": "decisiones que hacen avanzar de círculo",
+		"Adjuster lure": "atracción del Ajustador",
+		"terminal transition slumber": "sopor terminal de transición",
+		"extension schools": "escuelas de extensión",
+		"enseconaphim (verb)": "enseconafinarse",
+		"identity at-oneness": "unidad de identidad",
+		"two-in-oneness": "unidad de dos en uno",
+		"seraphic army": "ejército seráfico",
+		"group guardians": "guardianes de grupo"
+	},
+	"forcedChoices": [
+		{
+			"ref": "113:2.10",
+			"choice": "el guardián ... su complemento (masculine agreement)",
+			"reason": "English uses 'her' for the seraphic guardian; 'serafín' and 'guardián' are masculine nouns in Spanish, and the possessive 'su' keeps the gender open."
+		},
+		{
+			"ref": "113:6.3",
+			"choice": "para ser absuelto",
+			"reason": "The participle must agree with 'el serafín acompañante' (masculine noun), though English uses 'she'."
+		},
+		{
+			"ref": "113:6.2",
+			"choice": "su antiguo pupilo",
+			"reason": "'ward' needs a gender in Spanish; the masculine generic matches 'the mortal' in the context."
+		},
+		{
+			"ref": "113:1.1",
+			"choice": "Cuiden (ustedes)",
+			"reason": "Jesus speaks to a group of disciples, so the plural 'ustedes' applies."
+		},
+		{
+			"ref": "113:2.6",
+			"choice": "182 314.<sup>º</sup>",
+			"reason": "The English ordinal suffix 'th' becomes the Spanish ordinal mark inside the same <sup> tag."
+		}
+	]
+}
