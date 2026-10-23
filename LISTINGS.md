@@ -29,7 +29,7 @@ Say "the Urantia Papers" for the text. "The Urantia Book" is the title of the 19
 
 | Where | Link | Notes | Checked |
 |---|---|---|---|
-| OpenAI plugin directory (ChatGPT and Codex) | https://chatgpt.com/plugins/plugin_asdk_app_6ac15926d5388191a941565bfaaa2a9a (manage at https://platform.openai.com/plugins) | Package 1.2.2 approved and published on 2026-10-20, under a verified individual identity. It still says 19 tools and lists only the Papers and the Bible: 1.3.2 (26 tools, the Bible and 21 other texts, built from plugin PR #9) was submitted on 2026-10-20 and is in review. It still carries the old demo link; the portal did not ask for a new one. Domain verified through `/.well-known/openai-apps-challenge`. Demo video (unlisted): https://youtu.be/-2WJRON0ZOE | 2026-10-20 |
+| OpenAI plugin directory (ChatGPT and Codex) | https://chatgpt.com/plugins/plugin_asdk_app_6ac15926d5388191a941565bfaaa2a9a (manage at https://platform.openai.com/plugins) | Package 1.3.2 approved on 2026-10-23 and published the same day, under a verified individual identity (1.2.2 was published on 2026-10-20). The page shows version 1.3.2 and the capability "Read texts of other traditions". Its long description still names only the Bible and says "The text is English only": change both in the next submission, together with the `lang` input (Spanish, deployed 2026-10-23). Domain verified through `/.well-known/openai-apps-challenge`. Demo video (unlisted): https://youtu.be/-2WJRON0ZOE | 2026-10-23 |
 | Official MCP Registry | `dev.urantia/urantia-papers` at https://registry.modelcontextprotocol.io | Version 1.3.0 (latest). Namespace is DNS-authenticated. Republish rules are in `CLAUDE.md` | 2026-10-19 |
 | Glama, connector | https://glama.ai/mcp/connectors/dev.urantia/urantia-papers | A grades. `/.well-known/glama.json` claims the maintainer | 2026-10-10 |
 | Glama, server | https://glama.ai/mcp/servers/urantia-hub/urantia-dev-api | Grade C, capped: hosted only, no local install. Do not add a stdio mode for the grade | 2026-10-03 |
@@ -60,7 +60,6 @@ The MCP server has 26 tools (was 19) and serves the Bible and 21 other texts. Ke
 
 | Where | What to change | New text |
 |---|---|---|
-| OpenAI plugin directory | Wait for the review of 1.3.2 (submitted 2026-10-20), then publish it. If the reviewer asks for a new demo: the intro shows 26 tools, and Neg 2 asks for the Avesta | Neg 2 prompt: "Use the Urantia Papers plugin to quote what the Avesta says about truth." |
 | APIs.io | Wait for the maintainer. Issue #3 on `api-evangelist/urantia-papers` asks for a refresh (opened 2026-10-20). The page shows 19 tools and no `/works`, and the score fell from 40.5 to 32.2 on 2026-10-17 | None |
 | Smithery, Glama | They read the live server or the docs. Check that the tool count shows 26 after a rescan | None |
 | PulseMCP | Re-reads the Registry when it reopens, so the Registry republish covers it | None |
