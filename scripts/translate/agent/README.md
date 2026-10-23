@@ -12,7 +12,7 @@ The English text is public domain and our translations are CC0. Existing transla
 
 ### Not clean, do not use for translation
 
-- `data/translations/<lang>/entity-translations.json` and `term-glossary.json` were made with the Foundation text as context. The API serves these entity names and descriptions with `lang=<lang>`. Rebuild them from the clean glossary before we promote a language.
+- `data/translations/<lang>/entity-translations.json` and `term-glossary.json` were made with the Foundation text as context. The API serves these entity names and descriptions with `lang=<lang>`. Rebuild them from the clean glossary before we promote a language: `build-entity-translations.ts --lang=<lang> <out.sql>` writes the file and the SQL that replaces the rows. Spanish was rebuilt on 2026-10-22 (2,519 names, no descriptions; the other entities show English).
 - `translate-paragraphs.ts`, `translate-titles.ts`, and `translate-entities.ts` read those files. Use the scripts in this folder instead.
 
 ## Files
