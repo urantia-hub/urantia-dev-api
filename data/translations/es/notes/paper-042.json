@@ -1,0 +1,78 @@
+{
+	"newTerms": {
+		"Paradise Presences": "Presencias del Paraíso",
+		"fulcral zone": "zona de fulcro",
+		"triconcentric zones": "zonas triconcéntricas",
+		"prereality": "prerrealidad",
+		"tension-presence": "presencia-tensión",
+		"pressure-presence": "presencia-presión",
+		"tension-trends": "tendencias de tensión",
+		"Havona energy": "energía de Havona",
+		"energy-power": "energía-poder",
+		"power-energy-matter": "poder-energía-materia",
+		"energy catalyzers": "catalizadores de energía",
+		"infinities of divinity": "infinitudes de la divinidad",
+		"pregravity / postgravity (stages)": "pregravitatorias / posgravitatorias",
+		"chemism": "quimismo",
+		"mesotron": "mesotrón",
+		"ultimatonic": "ultimatónico",
+		"deindividuation": "desindividualización",
+		"Preadjutant-spirit minds": "mentes anteriores a los espíritus ayudantes",
+		"Adjutant-spirit minds": "mentes de los espíritus ayudantes",
+		"presence-activity": "actividad-presencia",
+		"mind-gravity grasp": "dominio de la gravedad mental",
+		"mindedness": "actividad mental",
+		"morontian (noun)": "morontiano",
+		"finality attainer": "ser que ha alcanzado la finalidad",
+		"spirit-mind indwellers": "moradores de espíritu-mente",
+		"eternity-source": "fuente eterna",
+		"Primal Father": "Padre Primordial"
+	},
+	"forcedChoices": [
+		{
+			"ref": "42:12.13",
+			"choice": "«son coordinadas» (Paraíso) frente a «están coordinadas» (Havona)",
+			"reason": "The glossary gives one form for co-ordinate and co-ordinated; ser marks equal rank by nature, estar marks a state brought about, which keeps the English contrast."
+		},
+		{
+			"ref": "42:6.7",
+			"choice": "«la 1/100 000 000<sup>a</sup> parte» and «la 1/2000<sup>a</sup> parte»",
+			"reason": "The <sup> tag must stay; Spanish reads the fraction as an ordinal part, so the English 'th' becomes the feminine ordinal 'a'."
+		},
+		{
+			"ref": "42:6.8",
+			"choice": "«la Tierra» with a capital",
+			"reason": "The English writes 'the earth' in lowercase, but lowercase «la tierra» reads as soil or land; the planet is meant."
+		},
+		{
+			"ref": "42:10.1",
+			"choice": "«está ... autorrealizándose en un escenario»",
+			"reason": "'is self-realizing of an ever-expanding arena' is unusual English; the form follows the earlier glossary 'self-realization: autorrealización' and keeps the arena as the field of that self-realization. Confidence in the meaning: low."
+		},
+		{
+			"ref": "42:2.5",
+			"choice": "«captación personal» for 'personal grasp'",
+			"reason": "«dominio» already translates 'domain' in the same sentence; the earlier list gives «captación» for a non-gravity grasp."
+		},
+		{
+			"ref": "42:1.2",
+			"choice": "«La materia — energía, pues no son sino ... —, como fenómeno del universo, es inherente»",
+			"reason": "Spanish needs an explicit subject and verb agreement; the dashes keep the English aside and leave 'as a universe phenomenon' attached as in the English."
+		},
+		{
+			"ref": "42:2.1",
+			"choice": "Translate the words energy, force, and power as «energía», «fuerza», «poder» inside a sentence about the English language",
+			"reason": "The sentence is about the meanings the authors assign, and the Spanish forms carry the same three terms of the glossary; no word-form play needs a parenthesis."
+		},
+		{
+			"ref": "42:4.7",
+			"choice": "«solo cede en importancia a la gravedad»",
+			"reason": "'secondary only to gravity' means second after gravity; a literal «solo es secundaria a» reads as 'merely secondary'."
+		},
+		{
+			"ref": "42:7.1",
+			"choice": "«el sistema solar de ustedes», «el sol de ustedes», «el planeta de ustedes»",
+			"reason": "«su» is ambiguous between 'your' and 'its/their'; the plural ustedes form follows the Spanish rule for the reader."
+		}
+	]
+}

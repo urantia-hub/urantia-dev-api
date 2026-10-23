@@ -1,0 +1,59 @@
+{
+	"newTerms": {
+		"elemental types": "tipos elementales",
+		"gravity types": "tipos de gravedad",
+		"temperature types": "tipos de temperatura",
+		"electric types": "tipos eléctricos",
+		"energizing types": "tipos energizantes",
+		"unnamed types": "tipos sin nombre",
+		"Brain-type series": "serie de tipos cerebrales",
+		"Spirit-reception series": "serie de recepción del espíritu",
+		"Planetary-mortal epochs": "épocas planetarias de los mortales",
+		"Creature-kinship serials": "series de parentesco entre criaturas",
+		"Adjuster-fusion series": "serie de fusión con el Ajustador",
+		"judgment Sons": "Hijos de juicio",
+		"probationary-dependent orders": "órdenes dependientes a prueba",
+		"primary modified order (of ascension)": "orden modificado primario (de ascensión)",
+		"secondary modified orders (of ascension)": "órdenes modificados secundarios (de ascensión)",
+		"probation nurseries": "guarderías probatorias",
+		"Adjuster transit": "tránsito del Ajustador",
+		"morontia investiture": "investidura morontial",
+		"cosmic circles": "círculos cósmicos",
+		"first-stage spirit existence": "existencia espiritual de la primera etapa",
+		"life-modification worlds": "mundos de modificación de la vida",
+		"mansion spheres": "esferas morada",
+		"will dignity": "dignidad volitiva"
+	},
+	"forcedChoices": [
+		{
+			"ref": "49:0.2",
+			"choice": "planetas evolutivos reales",
+			"reason": "Here 'actual' means existing, now-inhabited worlds as against prehuman or settled ones, not the philosophical 'actual' of the glossary (en acto)."
+		},
+		{
+			"ref": "49:0.3",
+			"choice": "606<sup>º</sup>",
+			"reason": "The English ordinal suffix 'th' becomes the Spanish ordinal mark inside the same <sup> tag."
+		},
+		{
+			"ref": "49:2.20",
+			"choice": "pies",
+			"reason": "The English units (feet) are kept as units, not converted, so the numbers stay as in the text."
+		},
+		{
+			"ref": "49:4.4",
+			"choice": "Los hijos ... el varón y la mujer",
+			"reason": "'Young' as offspring of a human type; 'male and female' as the two sexes, not limited to adults by 'hombre'."
+		},
+		{
+			"ref": "49:6.11",
+			"choice": "todos los seres así habitados",
+			"reason": "'all indwelt beings' refers back to the Adjuster in the same sentence; Spanish needs a short referential form."
+		},
+		{
+			"ref": "49:6.16",
+			"choice": "omite / omiten",
+			"reason": "'passing by' and 'pass by' mean that they skip those worlds, not that they travel past them."
+		}
+	]
+}

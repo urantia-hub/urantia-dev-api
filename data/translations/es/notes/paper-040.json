@@ -1,0 +1,47 @@
+{
+	"newTerms": {
+		"survival referees": "árbitros de supervivencia",
+		"Personalized Monitors": "Monitores Personalizados",
+		"virgin Adjusters": "Ajustadores vírgenes",
+		"Adjuster-fusers / Spirit fusers / Son fusers": "fusionados con el Ajustador / fusionados con el Espíritu / fusionados con el Hijo",
+		"non-Adjuster-fusion types": "tipos sin fusión con el Ajustador",
+		"nonfusion planets": "planetas sin fusión",
+		"experiential Adjuster sojourn": "estancia experiencial del Ajustador",
+		"Supreme Universe Rulers": "Gobernantes Supremos del Universo",
+		"decimal planet": "planeta decimal",
+		"temple of light": "templo de luz",
+		"destiny-heaven": "cielo de destino",
+		"experiential-recognition-response": "respuesta de reconocimiento experiencial",
+		"prelight-and-life": "anterior a la luz y vida",
+		"Trinitized Sons of Attainment": "Hijos Trinitizados de Logro",
+		"susatia": "susatia",
+		"pupil souls": "almas discípulas"
+	},
+	"forcedChoices": [
+		{
+			"ref": "40:10.6",
+			"choice": "<em> —  sabiduría con autoridad</em>—",
+			"reason": "Spanish puts the adjective after the noun, so the emphasis covers the phrase that carries 'authoritative'."
+		},
+		{
+			"ref": "40:5.3",
+			"choice": "él está en ustedes y es de ustedes",
+			"reason": "Kept 'of you' literal to leave its sense open."
+		},
+		{
+			"ref": "40:9.2",
+			"choice": "almas discípulas",
+			"reason": "'almas pupilas' can read as the pupil of the eye."
+		},
+		{
+			"ref": "40:10.9",
+			"choice": "pupilos",
+			"reason": "'wards' as persons under guardianship; masculine generic."
+		},
+		{
+			"ref": "40:6.2",
+			"choice": "a los corazones de ustedes",
+			"reason": "'sus corazones' could read as God's or the Son's hearts."
+		}
+	]
+}

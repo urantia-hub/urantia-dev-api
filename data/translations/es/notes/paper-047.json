@@ -1,0 +1,74 @@
+{
+	"newTerms": {
+		"transition world": "mundo de transición",
+		"acting governor": "gobernador interino",
+		"Uversa conciliators": "conciliadores de Uversa",
+		"infant-receiving schools": "escuelas de recepción de infantes",
+		"personality assembly / reassembly": "ensamblaje de la personalidad / reensamblaje",
+		"deficiency ministry": "ministerio de las carencias",
+		"detention spheres / detention planets": "esferas de detención / planetas de detención",
+		"building custodians": "custodios de los edificios",
+		"excursion supervisors": "supervisores de excursiones",
+		"morontia-soul trust / spirit-mind trust": "depósito del alma morontial / depósito de la mente espiritual",
+		"mortal-mind transcripts": "transcripciones de la mente mortal",
+		"creature mind-matrix": "matriz mental de la criatura",
+		"post-Adamic": "postadánico",
+		"post-Magisterial Son culture": "cultura posterior al Hijo Magistrado",
+		"postbestowal Son age": "era posterior al Hijo de otorgamiento",
+		"post-Teacher Son age": "era posterior al Hijo Instructor",
+		"archangel of record": "arcángel de registro",
+		"assistant System Sovereign": "Soberano de Sistema adjunto",
+		"dematerializing worlds / demortalizing spheres": "mundos desmaterializadores / esferas desmortalizadoras",
+		"adjustment sleep": "sueño de ajuste",
+		"first-stage spirits": "espíritus de la primera etapa",
+		"morontia corps of Nebadon": "cuerpo morontial de Nebadon",
+		"class assembly halls": "salas de asamblea de clase"
+	},
+	"forcedChoices": [
+		{
+			"ref": "47:1.3",
+			"choice": "ustedes (plural) for the reader's 'you' through the paper",
+			"reason": "Packet rule: address the reader with plural ustedes."
+		},
+		{
+			"ref": "47:1.6",
+			"choice": "«Los padres varones» for 'Fathers' in the first use",
+			"reason": "Spanish 'padres' also means 'parents'; the contrast with mothers needs the male sense once."
+		},
+		{
+			"ref": "47:2.2",
+			"choice": "«querubines abandonados» for 'deserted cherubim'",
+			"reason": "Keeps the plain sense (left by their associates) without adding an explanation; medium confidence on the exact cause."
+		},
+		{
+			"ref": "47:3.2",
+			"choice": "«ensamblaje» for 'assembly' (putting together), «asamblea» only for a gathering of people",
+			"reason": "Spanish 'reunión' or 'asamblea' would read as a meeting."
+		},
+		{
+			"ref": "47:3.5",
+			"choice": "«personalidad efectiva y completa» for 'actual and complete personality'",
+			"reason": "Here 'actual' is the ordinary sense (real), not the technical 'en acto'; 47:8.3 uses 'en acto' where it contrasts with potential."
+		},
+		{
+			"ref": "47:6.3",
+			"choice": "«la realización de un destino común y supremo»",
+			"reason": "Spanish 'realización' leans to accomplishment; the English can also mean awareness. Context (motivation toward a goal) supports accomplishment."
+		},
+		{
+			"ref": "47:8.4",
+			"choice": "«en quien me complazco plenamente»",
+			"reason": "Translated the book's own words 'well pleased', not a published Bible text."
+		},
+		{
+			"ref": "47:8.7",
+			"choice": "«dignos de amor» for 'adorable'",
+			"reason": "Spanish 'adorable' reads as 'cute'; the English means worthy of love."
+		},
+		{
+			"ref": "47:10.3",
+			"choice": "«Pero ustedes han llegado» (ustedes, not vosotros)",
+			"reason": "Packet rule: no vosotros forms, also in quotes."
+		}
+	]
+}

@@ -1,0 +1,47 @@
+{
+	"newTerms": {
+		"secondary Lanonandeks": "Lanonandeks secundarios",
+		"Secondary Lanonandek Son": "Hijo Lanonandek Secundario",
+		"Melchizedek certification": "certificación por los Melquisedecs",
+		"planetary aids": "ayudantes planetarios",
+		"conciliators": "conciliadores",
+		"reversion staff": "personal de reversión",
+		"materialized staff": "personal materializado",
+		"evangels": "evangelistas",
+		"teacher brotherhood": "fraternidad de maestros",
+		"spiritual ban": "interdicción espiritual",
+		"defaulting Material Son": "Hijo Material que incumplió"
+	},
+	"forcedChoices": [
+		{
+			"ref": "50:3.4",
+			"choice": "emparejarse (mate)",
+			"reason": "Neutral word for forming a pair with offspring; 'aparearse' reads as animal, 'casarse' adds an institution the English does not state."
+		},
+		{
+			"ref": "50:4.3",
+			"choice": "en el mundo de ustedes",
+			"reason": "'su mundo' could refer to the habitation or the tribes; the plural possessive keeps 'your world' clear."
+		},
+		{
+			"ref": "50:4.5",
+			"choice": "Representaciones lúdicas (Play performances)",
+			"reason": "'Play' can mean drama or games; 'lúdicas' keeps both readings better than 'teatrales'."
+		},
+		{
+			"ref": "50:2.6",
+			"choice": "ejecución arbitraria",
+			"reason": "Keeps both readings of 'execution' (carrying out a decree, or a death sentence) as in the English."
+		},
+		{
+			"ref": "50:6.3",
+			"choice": "no deberían imaginar / no deberían olvidar (6.5)",
+			"reason": "Conditional of 'deber' matches the advisory force of 'should not'."
+		},
+		{
+			"ref": "50:3.2",
+			"choice": "el Ajustador que mora en él (singular)",
+			"reason": "Spanish distributive singular: each volunteer has one Adjuster."
+		}
+	]
+}

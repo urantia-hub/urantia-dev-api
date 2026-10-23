@@ -1,0 +1,58 @@
+{
+	"newTerms": {
+		"reflectivating (reflectivate)": "reflectivando (reflectivar)",
+		"receivership (Melchizedek receivership of Urantia)": "administración provisional (Melquisedec)",
+		"self-assertion": "autoafirmación",
+		"archrebel(s)": "archirrebelde(s)",
+		"archdeceiver": "archiengañador",
+		"home rule": "autogobierno local",
+		"Most High Fathers": "Padres Altísimos",
+		"detention worlds": "mundos de detención",
+		"system circuit supervisors": "supervisores de los circuitos del sistema",
+		"conciliators": "conciliadores",
+		"infant-training schools": "escuelas de formación infantil",
+		"finaliter cultural planet": "planeta cultural de los finalitarios",
+		"system administrator seraphim": "serafines administradores del sistema",
+		"liaison forces": "fuerzas de enlace",
+		"intelligence corps (loyal, 53:6.5)": "cuerpo de información",
+		"flashing broadcast": "transmisión fulgurante",
+		"executionary broadcast": "transmisión ejecutoria"
+	},
+	"forcedChoices": [
+		{
+			"ref": "53:6.1",
+			"choice": "Manotia: «el segundo al mando»; 53:6.3 «segundo comandante»; 53:6.4 «director titular»",
+			"reason": "Spanish forces a gender; the masculine follows the grammatical gender of «serafín» and «ángel»; the English gives no gender."
+		},
+		{
+			"ref": "53:2.3",
+			"choice": "«los Padres de la Constelación de Norlatiadek»",
+			"reason": "The plural Fathers of one constellation; the glossary plural «Padres de las Constelaciones» would imply many constellations."
+		},
+		{
+			"ref": "53:3.2",
+			"choice": "«Explotó la reverencia como si fuera ignorancia»",
+			"reason": "Keeps both readings of 'traded on reverence as ignorance': he exploited reverence, and he presented it as ignorance."
+		},
+		{
+			"ref": "53:4.6",
+			"choice": "«gobierno de los Hijos para el Padre»",
+			"reason": "'for the Father' can mean on behalf of or in service of; «para» keeps both open better than «en nombre del»."
+		},
+		{
+			"ref": "53:8.7",
+			"choice": "«son serviles»",
+			"reason": "ser/estar choice; «ser» states their standing since Pentecost, which the context presents as a lasting condition."
+		},
+		{
+			"ref": "53:9.1",
+			"choice": "<em>vs.</em> as <em>contra</em>",
+			"reason": "Spanish case names use «contra»; the emphasis tag stays on the word."
+		},
+		{
+			"ref": "53:6.4",
+			"choice": "Quoted speech that continues over paragraphs opens each paragraph with «",
+			"reason": "Mirrors the English, which opens each continued paragraph with a quote mark and closes only at the end of 53:6.5."
+		}
+	]
+}

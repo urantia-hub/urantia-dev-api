@@ -1,0 +1,51 @@
+{
+	"newTerms": {
+		"Pre-Planetary Prince Man": "el hombre anterior al Príncipe Planetario",
+		"Post-Planetary Prince Man": "el hombre posterior al Príncipe Planetario",
+		"post-Adamic": "postadánico",
+		"Post-Magisterial Son Man": "el hombre posterior al Hijo Magistrado",
+		"Post-Bestowal Son Man / postbestowal Son age": "el hombre posterior al Hijo de otorgamiento / la era posterior al Hijo de otorgamiento",
+		"Post-Teacher Son Man": "el hombre posterior al Hijo Instructor",
+		"prebestowal Sons": "Hijos anteriores al otorgamiento",
+		"magisterial age": "era de magistratura",
+		"Spirit fusion": "fusión con el Espíritu",
+		"fusion Adjusters": "Ajustadores de fusión",
+		"Adjusters of fusion destiny": "Ajustadores con destino de fusión",
+		"racial-amalgamation ministry": "ministerio de amalgamación racial",
+		"primary modified order of mortal ascension": "orden modificado primario de ascensión mortal",
+		"multilinguists": "políglotas",
+		"prehuman era": "era prehumana"
+	},
+	"forcedChoices": [
+		{
+			"ref": "52:1.5",
+			"choice": "los primeros antepasados de ustedes",
+			"reason": "«sus» would read as the birds' ancestors"
+		},
+		{
+			"ref": "52:5.2",
+			"choice": "las razas mortales de ustedes",
+			"reason": "«sus» would read as Michael's races"
+		},
+		{
+			"ref": "52:5.5",
+			"choice": "con la oposición del Príncipe Planetario caído, Caligastia, a esa liberación",
+			"reason": "keeps the English participle without adding a causal link"
+		},
+		{
+			"ref": "52:7.12",
+			"choice": "ustedes",
+			"reason": "the quoted 'you and your children' is read as plural"
+		},
+		{
+			"ref": "52:7.15",
+			"choice": "Su, Él (capitals)",
+			"reason": "the English capitalizes His and Him in this quote"
+		},
+		{
+			"ref": "52:2.7",
+			"choice": "el varón ... la mujer",
+			"reason": "«macho/hembra» reads as animal terms in Spanish"
+		}
+	]
+}

@@ -1,0 +1,55 @@
+{
+	"newTerms": {
+		"life implantation": "implantación de la vida",
+		"Life Carrier corps": "cuerpo de Portadores de Vida",
+		"Urantia Life Carrier Corps": "Cuerpo de Portadores de Vida de Urantia",
+		"life-dawn era": "era del amanecer de la vida",
+		"germ plasm": "plasma germinal",
+		"short-ray energy charge": "carga de energía de rayos cortos",
+		"transition slime molds": "mohos mucilaginosos de transición",
+		"missing links": "eslabones perdidos",
+		"dawn men": "hombres del alba"
+	},
+	"forcedChoices": [
+		{
+			"ref": "58:2.1",
+			"choice": "800 000 billones de dólares",
+			"reason": "English 'quadrillion' is the short scale (10^15); 800 quadrillion = 8x10^17 = 800 000 billones in the Spanish long scale."
+		},
+		{
+			"ref": "58:2.1",
+			"choice": "una dosmilmillonésima parte",
+			"reason": "'two-billionth' in the short scale is 1/(2x10^9); Spanish 'billonésima' would be 10^12, so the form uses 'milmillonésima'."
+		},
+		{
+			"ref": "58:2.4",
+			"choice": "más de cuarenta",
+			"reason": "'two-score' is archaic in English; the Spanish 'dos veintenas' reads as archaic, so the plain number keeps the meaning."
+		},
+		{
+			"ref": "58:4.1",
+			"choice": "Podemos portar vida a los planetas, y lo hacemos",
+			"reason": "The sentence plays on the name 'Life Carriers'; 'portar' keeps the link with 'Portadores'."
+		},
+		{
+			"ref": "58:1.1",
+			"choice": "Hace <em>600 000 000</em> de años",
+			"reason": "Spanish word order puts 'Hace' before the number; the em stays on the number only. Same for 58:4.2, 58:4.3, 58:6.1."
+		},
+		{
+			"ref": "58:2.6",
+			"choice": "1200 °F (no period after F)",
+			"reason": "The English 'F.' is an abbreviation inside the sentence; Spanish symbol form avoids a false sentence end. The two 'F.' at a sentence end stay."
+		},
+		{
+			"ref": "58:5.7",
+			"choice": "5000 / 20 000 / 15 000 / 25 000 (58:5.1)",
+			"reason": "Spanish number rules: no separator for four digits, a space for five or more. Units (feet, miles, pounds, tons, F) are kept as in the English, not converted."
+		},
+		{
+			"ref": "58:7.12",
+			"choice": "«El polvo que pisamos estuvo vivo una vez»",
+			"reason": "The book's own English words translated, not a published version of the poem."
+		}
+	]
+}

@@ -1,0 +1,72 @@
+{
+	"newTerms": {
+		"senior Most High": "Altísimo decano",
+		"junior Most High": "Altísimo menor",
+		"Most High Fathers": "Padres Altísimos",
+		"Most High liaison": "Altísimo de enlace",
+		"Most High judge-advocate": "Altísimo juez-abogado",
+		"mount of Paradise assembly": "monte de la asamblea del Paraíso",
+		"house of peers": "cámara de los pares",
+		"emergency school / bestowal school": "escuela de emergencia / escuela de otorgamiento",
+		"secondary modified order of ascension": "orden modificado secundario de ascensión",
+		"Supreme Trinity-origin Personalities": "Personalidades Supremas de origen trinitario",
+		"order of Days": "orden de los Días",
+		"re-keyed": "reajustados de clave",
+		"goal-meanings": "significados-meta",
+		"multisocialization": "multisocialización",
+		"prespirit": "preespiritual",
+		"preabsonite": "preabsonita",
+		"extrauniverse": "extrauniversal",
+		"extra-Havona beings": "seres de fuera de Havona",
+		"archrebels": "archirrebeldes",
+		"Edentia age": "era de Edentia",
+		"receiving spheres": "esferas de recepción"
+	},
+	"forcedChoices": [
+		{
+			"ref": "43:0.2",
+			"choice": "ustedes / su (plural)",
+			"reason": "The text speaks to the readers as a group; packet rule says plural ustedes."
+		},
+		{
+			"ref": "43:1.6",
+			"choice": "Urantia masculine (seleccionado, relacionado)",
+			"reason": "Urantia read as 'el mundo' and 'el planeta', which the sentence names."
+		},
+		{
+			"ref": "43:0.4",
+			"choice": "univitatia, spironga, spornagia as masculine plural (los)",
+			"reason": "Spanish needs a gender; the masculine plural is the unmarked form for a group of beings."
+		},
+		{
+			"ref": "43:4.2",
+			"choice": "Fiel de Días with masculine pronouns (él)",
+			"reason": "The English uses 'he' for the Faithful of Days."
+		},
+		{
+			"ref": "43:5.17",
+			"choice": "tú (tus enemigos, tu mano)",
+			"reason": "Melchizedek speaks to one person, Abraham."
+		},
+		{
+			"ref": "43:5.16",
+			"choice": "fijó los límites del pueblo (singular)",
+			"reason": "Keeps the English singular 'the people' without choosing between 'nation' and 'peoples'."
+		},
+		{
+			"ref": "43:3.8",
+			"choice": "supervisados de manera inmediata",
+			"reason": "Keeps both readings of 'immediately': 'at once' and 'directly'."
+		},
+		{
+			"ref": "43:3.4",
+			"choice": "«El Altísimo» singular, «lo da a quien él quiere»",
+			"reason": "The English keeps 'the Most High' and 'he' open between God and a Most High Father; the singular with a lowercase pronoun keeps it open."
+		},
+		{
+			"ref": "43:9.2",
+			"choice": "son «como los ángeles» (ser)",
+			"reason": "A comparison of nature, not a passing state."
+		}
+	]
+}

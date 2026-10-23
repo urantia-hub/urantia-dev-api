@@ -1,0 +1,54 @@
+{
+	"newTerms": {
+		"singers": "cantores",
+		"thought conservers": "conservadores del pensamiento",
+		"semispirit / semispirits": "semiespiritual / semiespíritus",
+		"spirit-morontia": "espíritu-morontial",
+		"back registry": "registro de retorno",
+		"intellect liaison": "enlace intelectual",
+		"concept picturization": "representación de conceptos en imágenes",
+		"ensemble (pictures, morontia)": "conjunto (imágenes de conjunto)",
+		"constellation geniuses": "genios de la constelación",
+		"Gravity Messengers": "Mensajeros de Gravedad",
+		"planetary angels of progress": "ángeles planetarios del progreso",
+		"spirit-souls": "almas-espíritu",
+		"energy impingements": "incidencias de energía",
+		"God-knowing": "que conoce a Dios",
+		"seventh-stage-spirit destiny": "destino de espíritu de la séptima etapa",
+		"tongue of Uversa": "lengua de Uversa",
+		"transactions (morontia, spirit)": "operaciones",
+		"orations": "discursos"
+	},
+	"forcedChoices": [
+		{
+			"ref": "44:0.18",
+			"choice": "los supernafines (plural)",
+			"reason": "English 'the supernaphim' can be singular or plural; plural matches the list of present beings."
+		},
+		{
+			"ref": "44:0.14",
+			"choice": "ustedes (plural)",
+			"reason": "The text speaks to the reader; packet rule uses plural ustedes."
+		},
+		{
+			"ref": "44:1.15",
+			"choice": "linajes de tendencias no musicales",
+			"reason": "'strains' read as hereditary lines, since the sentence speaks of the gift diluted in the natures of descendants."
+		},
+		{
+			"ref": "44:4.8",
+			"choice": "discursos for 'orations'",
+			"reason": "'oraciones' in Spanish reads as prayers or grammatical sentences."
+		},
+		{
+			"ref": "44:6.7",
+			"choice": "notas musicales vivientes, olores, vistas",
+			"reason": "Kept the English order so that 'living' can still apply to the first item or to all three."
+		},
+		{
+			"ref": "44:4.10",
+			"choice": "comunicación de inteligencia",
+			"reason": "Kept 'inteligencia' to leave open both senses of 'intelligence' (information and intelligent beings)."
+		}
+	]
+}

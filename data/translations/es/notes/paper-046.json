@@ -1,0 +1,50 @@
+{
+	"newTerms": {
+		"transitional-culture worlds": "mundos de cultura de transición",
+		"transitional study worlds": "mundos de estudio de transición",
+		"master chronoldeks": "chronoldeks maestros",
+		"electric air-ceiling": "techo eléctrico de aire",
+		"three-gas world / two-gas planet": "mundo de tres gases / planeta de dos gases",
+		"light recession": "disminución de la luz",
+		"spironga of design for system function": "spironga diseñados para el funcionamiento del sistema",
+		"midway helpers": "ayudantes intermedios",
+		"Lanonandeks": "Lanonandeks",
+		"system reserves": "reservas del sistema",
+		"seraphic consorts": "consortes seráficos",
+		"temple of records": "templo de los registros",
+		"temple of power / power chief": "templo del poder / jefe del poder",
+		"dematerializing sector": "sector de desmaterialización",
+		"planetary memorials": "memoriales planetarios",
+		"survival souls": "almas de supervivencia",
+		"five-adjutant mind": "mente de cinco ayudantes",
+		"archrebels": "archirrebeldes",
+		"polar crystal": "cristal polar"
+	},
+	"forcedChoices": [
+		{
+			"ref": "46:3.2",
+			"choice": "cinco mil millones",
+			"reason": "English 'five billion' is the short-scale billion (5 000 000 000); Spanish 'billón' means a million millions."
+		},
+		{
+			"ref": "46:2.4",
+			"choice": "los seres materiales y los seres morontiales de las primeras etapas",
+			"reason": "'early morontia beings' read as morontia beings in their early stages; Spanish needs the noun repeated."
+		},
+		{
+			"ref": "46:5.25",
+			"choice": "la jefa asociada ... la primera comisionada",
+			"reason": "Galantia is referred to with no pronoun; feminine agrees with 'Estrella Vespertina'."
+		},
+		{
+			"ref": "46:5.19",
+			"choice": "el menor de los mundos de Satania",
+			"reason": "'the least of Satania' needs a noun in Spanish; 'mundos' is the plain reading of the context."
+		},
+		{
+			"ref": "46:8.4",
+			"choice": "«La paga del pecado es la muerte»",
+			"reason": "Translated from the book's English words, not from a published Bible."
+		}
+	]
+}

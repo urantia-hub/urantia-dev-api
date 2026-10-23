@@ -1,0 +1,40 @@
+{
+	"newTerms": {
+		"stone lilies": "lirios de piedra",
+		"mud eaters": "comedores de lodo",
+		"resting stages": "estados de reposo",
+		"Gulf Sea": "mar del Golfo",
+		"Niagara limestone": "caliza de Niágara",
+		"Appalachian trough": "fosa de los Apalaches",
+		"continental creep": "deslizamiento continental",
+		"guide fossils": "fósiles guía",
+		"prefish": "prepez",
+		"prereptilian": "prerreptiliano",
+		"Ganges Bay": "bahía del Ganges",
+		"Sicilian Bay": "bahía de Sicilia",
+		"shale": "esquisto arcilloso",
+		"age (geologic)": "edad (era = era, epoch = época, period = período)"
+	},
+	"forcedChoices": [
+		{
+			"ref": "59:3.11",
+			"choice": "auténticos respiradores de aire",
+			"reason": "Here 'actual' means genuine, not the glossary sense 'en acto' (in contrast to potential)."
+		},
+		{
+			"ref": "59:5.13",
+			"choice": "la época propiamente dicha de depósito de carbón",
+			"reason": "'actual' means the coal-deposition epoch proper, not the philosophical 'en acto'."
+		},
+		{
+			"ref": "59:2.12",
+			"choice": "gasterópodos bivalvos",
+			"reason": "Kept the English wording as written; no correction of the text."
+		},
+		{
+			"ref": "59:1.2",
+			"choice": "Hace 400 000 000 de años",
+			"reason": "Spanish needs 'hace ... de años' around the emphasized number; the <em> stays on the digits only."
+		}
+	]
+}
