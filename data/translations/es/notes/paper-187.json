@@ -1,0 +1,50 @@
+{
+	"newTerms": {
+		"crossbeam": "travesaño",
+		"upright timber": "madero vertical",
+		"brigand": "bandido",
+		"preparation day": "día de la preparación",
+		"deathwatch": "vigilia de la muerte",
+		"It is finished": "Está terminado",
+		"spirit of mortal acquirement": "espíritu de adquisición mortal",
+		"onetime of Sepphoris": "en otro tiempo de Séforis",
+		"dispatch (kill)": "rematar"
+	},
+	"forcedChoices": [
+		{
+			"ref": "187:1.6",
+			"choice": "ustedes / lloren / dirán",
+			"reason": "Jesus speaks to a group of women; Spanish rules require ustedes."
+		},
+		{
+			"ref": "187:3.3",
+			"choice": "tú for the mockers to Jesus; mírenlo (plural) for 'look at him now'",
+			"reason": "The mockers speak to one person; 'look at him' is said to the bystanders."
+		},
+		{
+			"ref": "187:4.1",
+			"choice": "tú between the thieves and from Jesus to the thief",
+			"reason": "One person speaks to one person."
+		},
+		{
+			"ref": "187:4.7",
+			"choice": "tú to Mary and to John; ustedes in 'que se vayan'",
+			"reason": "Jesus speaks to one person, then to both."
+		},
+		{
+			"ref": "187:1.7",
+			"choice": "sympathy = compasión",
+			"reason": "Earlier-paper form for the fellow-feeling sense (174:1.2); 'empatía' reads as a modern psychological term here."
+		},
+		{
+			"ref": "187:5.4",
+			"choice": "otros (masculine generic) for 'others'",
+			"reason": "The English does not say whether the others were women; the masculine generic keeps both readings."
+		},
+		{
+			"ref": "187:6.3",
+			"choice": "atónitas (feminine, agrees with 'inteligencias')",
+			"reason": "Spanish forces agreement; the subject is the intelligences."
+		}
+	]
+}

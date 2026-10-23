@@ -1,0 +1,51 @@
+{
+	"newTerms": {
+		"mortal transit": "tránsito mortal",
+		"morontia transit": "tránsito morontial",
+		"spirit transit": "tránsito espiritual",
+		"Creator Sovereign": "Soberano Creador",
+		"Jesus of morontia": "Jesús de la morontia",
+		"accelerated time": "tiempo acelerado",
+		"spiritual polarity (of the planet)": "polaridad espiritual",
+		"morontia auxiliary personalities": "personalidades morontiales auxiliares",
+		"grave cloths": "lienzos funerarios",
+		"chief of the Melchizedeks": "jefe de los Melquisedecs"
+	},
+	"forcedChoices": [
+		{
+			"ref": "189:0.2",
+			"choice": "ustedes; «me convertí en director temporal de ustedes»",
+			"reason": "The Adjuster speaks to the assembled hosts (plural); «su director» could be read as Jesus' director."
+		},
+		{
+			"ref": "189:0.2",
+			"choice": "«no pueden participar» / «no pueden hacerlo»",
+			"reason": "\"may not\" can be permission or possibility; «no pueden» keeps both readings."
+		},
+		{
+			"ref": "189:2.1",
+			"choice": "«No podemos participar»",
+			"reason": "Same \"may not\" ambiguity; «poder» keeps both readings."
+		},
+		{
+			"ref": "189:4.10",
+			"choice": "tú for Mary to the stranger, and for Mary to Jesus; ustedes when Jesus speaks to the women",
+			"reason": "One person addressed by one person; the women are a group."
+		},
+		{
+			"ref": "189:4.12",
+			"choice": "«No me toques» (tú) to Mary, then «vayan, todas ustedes»",
+			"reason": "Jesus turns from Mary to the group; the feminine «todas» follows the group of women."
+		},
+		{
+			"ref": "189:5.4",
+			"choice": "tú (Jesus to Mary)",
+			"reason": "Jesus speaks to one person."
+		},
+		{
+			"ref": "189:1.2",
+			"choice": "«había resucitado a una forma de existencia nueva y más elevada»",
+			"reason": "\"risen\" here is the resurrection; «ascendido» would suggest the ascension."
+		}
+	]
+}

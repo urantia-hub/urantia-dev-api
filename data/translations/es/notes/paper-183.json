@@ -1,0 +1,45 @@
+{
+	"newTerms": {
+		"olive press": "prensa de olivas",
+		"apprehenders": "captores",
+		"high priest": "sumo sacerdote",
+		"high priest emeritus": "sumo sacerdote emérito",
+		"acting high priest": "sumo sacerdote en funciones",
+		"captain of the temple guards": "capitán de los guardias del templo",
+		"betrayer / traitor": "traidor",
+		"messenger headquarters": "cuartel general de mensajeros",
+		"father of sin": "padre del pecado"
+	},
+	"forcedChoices": [
+		{
+			"ref": "183:3.4",
+			"choice": "«Soy yo» for \"I am he\"",
+			"reason": "Plain self-identification; «Yo soy» alone can read as the divine name, which the English does not state here."
+		},
+		{
+			"ref": "183:3.5",
+			"choice": "«Salve, Maestro e Instructor»",
+			"reason": "\"Master\" is fixed as «Maestro», so \"Teacher\" needs a second word to keep two titles."
+		},
+		{
+			"ref": "183:3.5",
+			"choice": "tú in «no te basta», «¿Aun quieres…?»",
+			"reason": "Jesus speaks to one person (Judas)."
+		},
+		{
+			"ref": "183:3.4",
+			"choice": "ustedes in «¿A quién buscan?»",
+			"reason": "Jesus speaks to the armed band as a group."
+		},
+		{
+			"ref": "183:3.10",
+			"choice": "«criminal peligroso» for \"desperate criminal\"",
+			"reason": "«criminal desesperado» reads as \"hopeless\" in Spanish; the English means a reckless, dangerous criminal."
+		},
+		{
+			"ref": "183:3.9",
+			"choice": "«túnica de lino» for \"linen coat\"",
+			"reason": "«abrigo» is a modern overcoat; the garment is a body covering, and \"cloak\" (3.10) takes «manto»."
+		}
+	]
+}

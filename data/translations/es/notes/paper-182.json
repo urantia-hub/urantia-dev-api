@@ -1,0 +1,43 @@
+{
+	"newTerms": {
+		"believer-son": "hijo creyente",
+		"son of revenge": "hijo de la venganza",
+		"new teacher": "nuevo maestro",
+		"faith-hold (laid a faith-hold upon)": "aferrarse por la fe a",
+		"realm (in my realm, 182:1.3)": "dominio",
+		"linen coat": "manto de lino",
+		"creature experience of death": "experiencia de la muerte propia de las criaturas"
+	},
+	"forcedChoices": [
+		{
+			"ref": "182:1.3",
+			"choice": "tú for Jesus' prayer to the Father; 'realm' as 'dominio'",
+			"reason": "Prayer to one person uses tú; 'reino' would merge with 'kingdom' in the same prayer."
+		},
+		{
+			"ref": "182:1.6",
+			"choice": "'even so' as 'así sea'",
+			"reason": "The closing 'even so' works as an affirmation of the prayer; Spanish needs a verb form."
+		},
+		{
+			"ref": "182:2.5",
+			"choice": "'your hearts' as 'sus corazones' (plural ustedes)",
+			"reason": "The message speaks to Abner as tú, but 'hearts' is plural, so it includes Abner's associates."
+		},
+		{
+			"ref": "182:2.6",
+			"choice": "'be with you' as 'con ustedes'",
+			"reason": "Jesus speaks to the chief as tú, but his return concerns the whole group of Greeks; the context supports the plural."
+		},
+		{
+			"ref": "182:2.8",
+			"choice": "'come again to you' as 'vuelva a ustedes'; 'told you all' as 'les he dicho todo'",
+			"reason": "The return is to all the apostles; 'les ... todo' keeps both readings of 'you all' (all of you, and everything)."
+		},
+		{
+			"ref": "182:3.8",
+			"choice": "'transactions' as 'acontecimientos'",
+			"reason": "Here the word names the events on earth; 'operaciones' (glossary for morontia transactions) and 'transacciones' read as business terms."
+		}
+	]
+}

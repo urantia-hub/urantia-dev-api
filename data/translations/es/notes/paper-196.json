@@ -1,0 +1,71 @@
+{
+	"newTerms": {
+		"spirit-indwelt": "en quien (o en el que) mora el espíritu",
+		"spirit-consciousness": "conciencia del espíritu",
+		"soul-consciousness": "conciencia del alma",
+		"subspiritual": "inferior a lo espiritual",
+		"Jesusonian": "jesusoniano",
+		"revelational evolution": "evolución revelacional",
+		"wisdom-appraisals": "apreciaciones de la sabiduría",
+		"fact-realization": "toma de conciencia del hecho",
+		"Father-source": "Padre-fuente",
+		"self-judgment / social-judgment / God-judgment": "juicio de sí mismo / juicio social / juicio acerca de Dios",
+		"pre-Paradise career": "carrera anterior al Paraíso",
+		"Good Teacher": "Buen Maestro",
+		"layman": "laico",
+		"universe romancing": "ensoñaciones del hombre acerca del universo",
+		"Mount of Transfiguration": "monte de la transfiguración"
+	},
+	"forcedChoices": [
+		{
+			"ref": "196:0.9",
+			"choice": "«¿Por qué me llamas bueno?» (tú); «cuando alguien se dirigió a él»",
+			"reason": "Jesus speaks to one person; 2.2 shows one caller."
+		},
+		{
+			"ref": "196:0.13",
+			"choice": "«Sígueme» (tú, singular)",
+			"reason": "The call was said to individuals; Spanish forces a number."
+		},
+		{
+			"ref": "196:0.11",
+			"choice": "«padre» for parent",
+			"reason": "Spanish needs a gender; «padre» reads as the general parent and matches the Father image."
+		},
+		{
+			"ref": "196:0.2",
+			"choice": "«es hija de este Padre de amor, un hijo de Dios»",
+			"reason": "«criatura» is feminine; the appositive keeps «hijo de Dios» as the status term."
+		},
+		{
+			"ref": "196:3.1",
+			"choice": "<em>Ello</em> / <em>Él</em>",
+			"reason": "Keeps the neuter-versus-personal contrast; capital Él follows the English capital He."
+		},
+		{
+			"ref": "196:3.21",
+			"choice": "«no es solo una ilusión psíquica por ser tan puramente subjetiva»",
+			"reason": "Keeps both English readings open."
+		},
+		{
+			"ref": "196:3.35",
+			"choice": "«puede no perecer»",
+			"reason": "Keeps the English ambiguity of 'may not perish'."
+		},
+		{
+			"ref": "196:0.3",
+			"choice": "«logro espiritual efectivo» for 'actual spirit attainment'",
+			"reason": "Ordinary sense of actual (real), not the glossary sense 'en acto'."
+		},
+		{
+			"ref": "196:3.25",
+			"choice": "«lo correcto y lo incorrecto» for 'right and wrong'",
+			"reason": "Avoids «mal», which the glossary keeps for 'evil'."
+		},
+		{
+			"ref": "196:3.10",
+			"choice": "«percepción» for 'discernment'",
+			"reason": "«discernimiento» is already 'insight' in the same sentence."
+		}
+	]
+}

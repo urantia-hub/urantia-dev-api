@@ -1,0 +1,66 @@
+{
+	"newTerms": {
+		"Creator consciousness": "conciencia de Creador",
+		"soul-identity": "identidad del alma",
+		"spirit identity": "identidad espiritual",
+		"spirit counterpart": "contraparte espiritual",
+		"faith-growing mortals": "mortales que crecen por la fe",
+		"Michael Memorial (first mansion world)": "Memorial de Miguel",
+		"system council (of the Planetary Princes)": "consejo del sistema",
+		"spirit believers": "creyentes espirituales",
+		"sacrificial salvation": "salvación por sacrificio",
+		"evil-doing": "mal obrar",
+		"condonation / condone": "tolerancia / tolerar",
+		"ransomer": "rescatador",
+		"sacrificer": "sacrificador",
+		"archdeceivers": "archiengañadores",
+		"brigands": "bandidos",
+		"preparation day": "día de la preparación",
+		"doorstone": "piedra de la puerta",
+		"mortal transit": "tránsito mortal",
+		"uncreated universes": "universos increados",
+		"time of the tomb": "tiempo de la tumba"
+	},
+	"forcedChoices": [
+		{
+			"ref": "188:1.1",
+			"choice": "tú (tuyo, hagas, te parezca)",
+			"reason": "The centurion speaks to one person, Joseph; no sign of great respect."
+		},
+		{
+			"ref": "188:2.2",
+			"choice": "usted",
+			"reason": "The committee addresses Pilate, the Roman governor, with 'Sir'."
+		},
+		{
+			"ref": "188:3.8",
+			"choice": "tal como lo efectuó (masculine lo, tied to 'ajuste')",
+			"reason": "Spanish gender forces the antecedent of 'it'; the adjustment is the nearer and more natural antecedent."
+		},
+		{
+			"ref": "188:4.11",
+			"choice": "monarca legalista",
+			"reason": "Spanish 'legal' means 'lawful'; 'legalista' carries 'bound by law'."
+		},
+		{
+			"ref": "188:5.2",
+			"choice": "tolerancia / tolera",
+			"reason": "'condonación' in Spanish means the remission of a debt, and 'indulgencia' has a church sense; 'tolerancia' gives 'to overlook a wrong'."
+		},
+		{
+			"ref": "188:5.3",
+			"choice": "podía (imperfect)",
+			"reason": "'could break' states an ability; 'pudo' would assert that he did it."
+		},
+		{
+			"ref": "188:5.5",
+			"choice": "decenas de billones",
+			"reason": "English 'trillion' (10^12) is the Spanish 'billón'."
+		},
+		{
+			"ref": "188:5.6",
+			"choice": "tú (perdónalos, no les tengas)",
+			"reason": "Prayers addressed to God use tú."
+		}
+	]
+}

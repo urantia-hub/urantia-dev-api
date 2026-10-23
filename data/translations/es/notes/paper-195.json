@@ -1,0 +1,47 @@
+{
+	"newTerms": {
+		"compromise (noun) / compromiser": "concesión / contemporizador",
+		"uncompromising / uncompromised": "intransigente / sin concesiones",
+		"dark ages": "edades oscuras",
+		"emergence (of the individual)": "surgimiento",
+		"second-milers": "caminantes de la segunda milla",
+		"Unknown God": "Dios Desconocido",
+		"mechanism (philosophy) / mechanist / mechanistic": "mecanicismo / mecanicista / mecanicista",
+		"secularist / secularistic": "secularista",
+		"supermachine": "supermecánico",
+		"Christendom": "cristiandad",
+		"religionist (195:7.18, 7.23)": "hombre religioso"
+	},
+	"forcedChoices": [
+		{
+			"ref": "195:2.6",
+			"choice": "experto en la ley",
+			"reason": "Instructed form for 'lawyer'; 'abogado' would read as a modern profession."
+		},
+		{
+			"ref": "195:8.12",
+			"choice": "la libertad y la emancipación",
+			"reason": "Spanish has one word for 'freedom' and 'liberty'; a second noun keeps the English pair."
+		},
+		{
+			"ref": "195:9.1",
+			"choice": "rebelión contra la superstición",
+			"reason": "'superstition revolt' can read either way; the context (rid yourselves of superstitious creeds) supports a revolt against superstition."
+		},
+		{
+			"ref": "195:10.4",
+			"choice": "dentro de ustedes",
+			"reason": "Spanish forces singular or plural 'you'; the saying addresses a group."
+		},
+		{
+			"ref": "195:6.16",
+			"choice": "cuando ustedes emprenden",
+			"reason": "Plural 'ustedes' for the reader, per the Spanish rules."
+		},
+		{
+			"ref": "195:10.5",
+			"choice": "al jesusoniano que se extiende hacia su hermano",
+			"reason": "'the Jesusonian reaching forth to grasp his brother' read as a person, because of 'his brother'."
+		}
+	]
+}

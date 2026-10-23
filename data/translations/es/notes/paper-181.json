@@ -1,0 +1,67 @@
+{
+	"newTerms": {
+		"spirit indweller": "espíritu que mora",
+		"abodes (in the future life)": "moradas",
+		"stations (in my Father's house)": "estaciones",
+		"man of sorrows": "hombre de dolores",
+		"faith-quickened": "vivificados por la fe",
+		"brethren-sons": "hermanos-hijos",
+		"acting head (of the ambassadors)": "jefe interino",
+		"respecter of persons / respect of persons": "hacer acepción de personas",
+		"publican ambassador": "embajador publicano",
+		"customhouse": "oficina de aduanas",
+		"fellow doers of the will of God": "los que, con él, hacen la voluntad de Dios"
+	},
+	"forcedChoices": [
+		{
+			"ref": "181:1.5",
+			"choice": "todo lo que reciba",
+			"reason": "\"all you will receive\" can mean the future or the willingness; the subjunctive keeps both readings."
+		},
+		{
+			"ref": "181:2.4",
+			"choice": "les he dado / los he amado (plural)",
+			"reason": "The new commandment was given to all the apostles at the supper."
+		},
+		{
+			"ref": "181:2.5",
+			"choice": "experiencia real",
+			"reason": "Plain sense of \"actual\" here, not the technical term \"en acto\"."
+		},
+		{
+			"ref": "181:2.8",
+			"choice": "tú (Simon to Jesus)",
+			"reason": "The apostles speak to Jesus as to one person; the packet rule gives tú."
+		},
+		{
+			"ref": "181:2.13",
+			"choice": "los dirigirá (plural); se han producido en ti (singular)",
+			"reason": "Matthew asks for the group (\"us\"); the customhouse refers to Levi only."
+		},
+		{
+			"ref": "181:2.15",
+			"choice": "fueras / estarás (singular); ustedes enojaron (plural); te vean beber (singular)",
+			"reason": "Both brothers angered the others; the cup that the others will see refers to James."
+		},
+		{
+			"ref": "181:2.17",
+			"choice": "sus corazones / los guiará (plural)",
+			"reason": "The new teacher comes to all the apostles."
+		},
+		{
+			"ref": "181:2.18",
+			"choice": "debes aprender / esperas (singular)",
+			"reason": "The sentence continues the address to Andrew."
+		},
+		{
+			"ref": "181:2.24",
+			"choice": "singular for Nathaniel, plural for \"among you\" and \"your minds and souls\"",
+			"reason": "Jesus speaks to Nathaniel, but \"among you\" and the plural nouns point to the group."
+		},
+		{
+			"ref": "181:2.30",
+			"choice": "cuando yo sea levantado",
+			"reason": "Keeps \"raised up\" open, as in the English."
+		}
+	]
+}

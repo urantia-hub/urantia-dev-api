@@ -1,0 +1,48 @@
+{
+	"newTerms": {
+		"faith-fellows": "compañeros de fe",
+		"morontia appearance / morontia manifestation": "aparición morontial / manifestación morontial",
+		"the morontia Jesus / the morontia Master": "el Jesús morontial / el Maestro morontial",
+		"transition mortals": "mortales de transición",
+		"morontia directors": "directores morontiales",
+		"transforming associates": "asociados transformadores",
+		"second-stage morontia being": "ser morontial de la segunda etapa",
+		"Jerusem citizenship": "ciudadanía de Jerusem",
+		"household of faith": "familia de la fe",
+		"Jerusalem-Alexandria relay of runners": "relevo de corredores entre Jerusalén y Alejandría",
+		"Mark home": "casa de Marcos",
+		"grave cloths": "lienzos funerarios"
+	},
+	"forcedChoices": [
+		{
+			"ref": "191:3.3",
+			"choice": "17<sup></sup>, 22<sup></sup>, 27<sup></sup>, 7<sup></sup>, 14<sup></sup>",
+			"reason": "Spanish dates take no ordinal suffix; the sup tags stay, empty, to keep every tag."
+		},
+		{
+			"ref": "191:5.3",
+			"choice": "«la experiencia real y viva»",
+			"reason": "Here \"actual\" is the plain sense (real), not the glossary sense \"en acto\"; the same for \"actually\" in 191:2.1 (realmente)."
+		},
+		{
+			"ref": "191:3.1",
+			"choice": "«El día siguiente, lunes, transcurrió por entero con…»",
+			"reason": "The English passive names no agent; the Spanish keeps it without a subject."
+		},
+		{
+			"ref": "191:1.2",
+			"choice": "tú (Jesus to Peter); ustedes for groups",
+			"reason": "Packet rule: Jesus speaks to one person with tú."
+		},
+		{
+			"ref": "191:0.13",
+			"choice": "«la noche anterior»",
+			"reason": "\"evening\" is noche here, since Thomas left after the day's end; tarde would read as afternoon."
+		},
+		{
+			"ref": "191:4.3",
+			"choice": "«ya sean judío o gentil, griego o romano…»",
+			"reason": "Keeps the singular nouns of the English."
+		}
+	]
+}
