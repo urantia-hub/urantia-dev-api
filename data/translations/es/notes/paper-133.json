@@ -1,0 +1,69 @@
+{
+	"newTerms": {
+		"Teacher (Ganid's address to Jesus)": "Maestro",
+		"Father in heaven": "Padre que está en el cielo",
+		"heavenly Father": "Padre celestial",
+		"mystery cultists": "seguidores de los cultos mistéricos",
+		"moral consciousness": "consciencia moral",
+		"moral self-consciousness": "conciencia de sí moral",
+		"time self-consciousness": "conciencia de sí temporal",
+		"consciousness sorter and associater": "clasificador y asociador de la conciencia",
+		"Supreme Unity": "Unidad Suprema",
+		"Supreme Arbiter": "Árbitro Supremo",
+		"Rulers of a universe": "Gobernantes de un universo",
+		"Judge of all the earth": "Juez de toda la tierra",
+		"Lord of universes": "Señor de los universos",
+		"absolute co-ordinates": "coordinados absolutos",
+		"absolute focal point": "punto focal absoluto",
+		"spirit souls": "almas espirituales",
+		"stopping-places (for the Paradise-bound)": "escalas",
+		"Britain": "Britania"
+	},
+	"forcedChoices": [
+		{
+			"ref": "133:1.1",
+			"choice": "Maestro for Ganid's \"Teacher\"",
+			"reason": "The natural Spanish address; it has the same form as the glossary term Master, but both name Jesus as a teacher."
+		},
+		{
+			"ref": "133:2.2",
+			"choice": "«como a una igual a sí mismo» (feminine)",
+			"reason": "Spanish forces a gender; \"Madre Espíritu\" is feminine."
+		},
+		{
+			"ref": "133:2.1",
+			"choice": "tú between Jesus and the angry man, both ways",
+			"reason": "The packet rule: one person speaks to one person; the English shows no special respect."
+		},
+		{
+			"ref": "133:3.9",
+			"choice": "«despidiéndose de ellas» and «las amadas hijas del Altísimo»",
+			"reason": "The persons left behind are three women; Spanish forces a gender for \"them\" and \"children\"."
+		},
+		{
+			"ref": "133:4.3",
+			"choice": "«Da al César» (tú)",
+			"reason": "Jesus speaks to one centurion; the English \"Render\" does not show number."
+		},
+		{
+			"ref": "133:4.4",
+			"choice": "«Ustedes, los que conocen a Dios, son los hijos de Dios» (plural)",
+			"reason": "The plural \"sons\" shows a plural \"you\"."
+		},
+		{
+			"ref": "133:6.5",
+			"choice": "\"consciencia moral\" for \"moral consciousness\"; \"conciencia de sí moral\" for \"moral self-consciousness\"",
+			"reason": "\"conciencia moral\" is the glossary form for \"conscience\"; the papers keep the two ideas apart."
+		},
+		{
+			"ref": "133:5.4",
+			"choice": "«decirles» (ustedes)",
+			"reason": "The discourse speaks to the group, not to one person."
+		},
+		{
+			"ref": "133:7.8",
+			"choice": "«conciencia de sí temporal»",
+			"reason": "Keeps open both readings of \"time self-consciousness\": awareness of self in time and awareness of self across time."
+		}
+	]
+}

@@ -1,0 +1,94 @@
+{
+	"newTerms": {
+		"Cynicism (section title)": "Cinismo",
+		"Zoroastrianism": "zoroastrismo",
+		"Suduanism / Suduanists": "suduanismo / suduanistas",
+		"Shinto": "sintoísmo",
+		"the Supreme One": "el Uno Supremo",
+		"the Immortal One": "el Uno Inmortal",
+		"the Immortal": "el Inmortal",
+		"this Great One": "este Gran Uno",
+		"the Eternal": "el Eterno",
+		"the Noble One": "el Noble",
+		"the Wise One": "el Sabio",
+		"Light of Lights": "Luz de las Luces",
+		"Lord of Lights": "Señor de las Luces",
+		"Great Soul": "Gran Alma",
+		"Universe Keeper": "Guardián del Universo",
+		"Great Controller": "Gran Controlador",
+		"Vivifier": "Vivificador",
+		"Eternal Witness": "Testigo Eterno",
+		"the Resolute": "el Resoluto",
+		"never-conquered Conqueror": "Vencedor jamás vencido",
+		"Supreme Person": "Persona Suprema",
+		"Lord Supreme": "Señor Supremo",
+		"Lord of prayer": "Señor de la oración",
+		"Lord of Heaven": "Señor del Cielo",
+		"Prince of Heaven": "Príncipe del Cielo",
+		"Heaven (Confucian)": "el Cielo",
+		"Great Heaven": "Gran Cielo",
+		"heavenly Reason": "Razón celestial",
+		"Great Source": "Gran Fuente",
+		"Great Supreme": "Gran Supremo",
+		"sovereign Potentate": "Potentado soberano",
+		"High and Lofty One": "el Alto y Excelso",
+		"the Holy One": "el Santo",
+		"all-worker": "el que todo lo obra",
+		"superior man": "hombre superior",
+		"supermortal": "supramortal",
+		"deathless state": "estado sin muerte",
+		"manliness": "hombría"
+	},
+	"forcedChoices": [
+		{
+			"ref": "131:1.5",
+			"choice": "tú for the generic «you» in the Cynic, Buddhist, Hindu, Taoist, and Confucian sayings",
+			"reason": "The sayings address one hearer in the manner of proverbs; ustedes is used where the English marks a plural (131:1.7, 131:1.8, 131:5.3, 131:7.2)."
+		},
+		{
+			"ref": "131:2.2",
+			"choice": "tú in the commandments and in the singular Hebrew addresses; ustedes in 131:2.3, 2.6 (Isaiah 30), 2.9, 2.10, 2.13",
+			"reason": "Follows the number that the context shows for each address."
+		},
+		{
+			"ref": "131:4.2",
+			"choice": "tú when the speaker prays to God (131:4.2, 4.5, 5.4, 9.2)",
+			"reason": "Modern Spanish prayer uses tú; the English has no form of special respect."
+		},
+		{
+			"ref": "131:1.9",
+			"choice": "«el hijo de la tierra» (masculine)",
+			"reason": "Spanish forces a gender; the masculine is the generic form."
+		},
+		{
+			"ref": "131:4.7",
+			"choice": "«que tiene siempre su asiento en el corazón»",
+			"reason": "Avoids a gender choice between «Dios» (masc.) and «la Gran Alma» (fem.) for «seated»."
+		},
+		{
+			"ref": "131:3.6",
+			"choice": "«un alma noble que se muestra amistosa ... serena ... generosa» (feminine)",
+			"reason": "The adjectives agree with «alma»."
+		},
+		{
+			"ref": "131:10.3",
+			"choice": "«deben ser» (not «deben de ser»)",
+			"reason": "Keeps open the two readings of «must» (inference or necessity)."
+		},
+		{
+			"ref": "131:9.3",
+			"choice": "«su propósito»",
+			"reason": "Keeps open whether «its purpose» is the purpose of Heaven or of the soul."
+		},
+		{
+			"ref": "131:4.8",
+			"choice": "«apetitos» for «lusts»",
+			"reason": "«Lujurias» in the plural reads as only sexual sins; «apetitos» keeps the wider sense of strong desires."
+		},
+		{
+			"ref": "131:6.1",
+			"choice": "«lo que sobrevivía de la enseñanza»",
+			"reason": "Avoids «supervivencia», which in the glossary names survival of mortal death."
+		}
+	]
+}

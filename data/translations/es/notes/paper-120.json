@@ -1,0 +1,54 @@
+{
+	"newTerms": {
+		"seventh bestowal commission": "comisión del séptimo otorgamiento",
+		"prebestowal conference / prebestowal charge": "conferencia anterior al otorgamiento / encargo anterior al otorgamiento",
+		"universe-creature bestowals": "otorgamientos como criatura del universo",
+		"brother-trustee": "hermano-custodio",
+		"faith-submission": "sumisión de fe",
+		"will-to-attainment": "voluntad-de-consecución",
+		"whole-personality choice": "elección de toda la personalidad",
+		"reason-judgment": "razón-juicio",
+		"dispensational Son": "Hijo dispensacional",
+		"acting sovereign": "soberano interino",
+		"Urantia secession": "secesión de Urantia",
+		"revelatory commission": "comisión reveladora",
+		"Son of Man about-to-be": "futuro Hijo del Hombre"
+	},
+	"forcedChoices": [
+		{
+			"ref": "120:1.1",
+			"choice": "tú for Immanuel's address to Michael (120:1.1 to 120:3.11)",
+			"reason": "Immanuel speaks as elder brother and comrade; the text is fraternal, not the respect form for a ruler."
+		},
+		{
+			"ref": "120:1.1",
+			"choice": "Each paragraph of the charge opens with «, and only 120:3.11 closes with »",
+			"reason": "Mirrors the English, where each paragraph of the speech opens with a quote mark; each paragraph can be shown alone."
+		},
+		{
+			"ref": "120:1.5",
+			"choice": "\"the assurance of all Paradise\" as «la garantía de todo el Paraíso»",
+			"reason": "Here assurance means a guarantee, not inner certainty; «seguridad» would read as safety."
+		},
+		{
+			"ref": "120:2.3",
+			"choice": "\"atone for\" as «reparar»",
+			"reason": "The sense is to make amends for harm done by others; «expiar» would imply guilt of Michael."
+		},
+		{
+			"ref": "120:4.2",
+			"choice": "\"make no mistake\" as «no se equivoquen» (ustedes)",
+			"reason": "The authors address the readers in the plural."
+		},
+		{
+			"ref": "120:4.3",
+			"choice": "\"one\" as «uno» for God and man, «una» for Deity",
+			"reason": "Spanish gender agreement: Dios y hombre take masculine, Deidad is feminine."
+		},
+		{
+			"ref": "120:4.5",
+			"choice": "\"your world\" as «su mundo»",
+			"reason": "Plural address to readers with ustedes; context makes the owner clear."
+		}
+	]
+}

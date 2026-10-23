@@ -1,0 +1,46 @@
+{
+	"newTerms": {
+		"chazan": "jazán",
+		"high place of Baal": "lugar alto de Baal",
+		"Book of Enoch": "Libro de Enoc",
+		"inaugural title": "título inaugural",
+		"crucial (years)": "decisivos"
+	},
+	"forcedChoices": [
+		{
+			"ref": "126:0.2",
+			"choice": "«los planes de ella»",
+			"reason": "Spanish «sus planes» does not show whose plans; the English 'her plans' is Mary's."
+		},
+		{
+			"ref": "126:2.1",
+			"choice": "«junto a sus antepasados»",
+			"reason": "'his fathers' means his ancestors; «sus padres» reads as his parents."
+		},
+		{
+			"ref": "126:3.3",
+			"choice": "«los mayores de sus hermanos y hermanas»",
+			"reason": "'older brothers and sisters' means the older ones among his younger siblings; «hermanos mayores» reads as older than Jesus."
+		},
+		{
+			"ref": "126:4.2",
+			"choice": "« at the start of each quoted paragraph (4.2 to 4.7), » only at the end of 4.7",
+			"reason": "Follows the English layout of the multi-paragraph reading."
+		},
+		{
+			"ref": "126:4.6",
+			"choice": "tú in 'Fear not, for I am with you' and the sentences after it",
+			"reason": "The words speak to one addressee (the servant, Israel as one); the earlier 'will you liken' is plural, so ustedes there."
+		},
+		{
+			"ref": "126:4.7",
+			"choice": "«tú eres mi testigo»",
+			"reason": "'witness' and 'servant' are singular, so the singular 'you'."
+		},
+		{
+			"ref": "126:3.2",
+			"choice": "«En la noche del miércoles»",
+			"reason": "'evening' after sunset is «noche» in Spanish; «tarde» would put the birth before sunset."
+		}
+	]
+}

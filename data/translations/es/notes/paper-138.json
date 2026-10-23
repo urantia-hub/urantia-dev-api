@@ -1,0 +1,42 @@
+{
+	"newTerms": {
+		"personal work": "trabajo personal",
+		"father-brother": "padre-hermano",
+		"friendship-loyalty": "amistad-lealtad",
+		"disciple-apostles": "discípulos-apóstoles",
+		"publicans": "publicanos",
+		"a.d.": "d. C."
+	},
+	"forcedChoices": [
+		{
+			"ref": "138:1.2",
+			"choice": "«los hombres que ustedes escojan»",
+			"reason": "Each of the six chooses a man, so the plural you fits the context better than tú."
+		},
+		{
+			"ref": "138:3.6",
+			"choice": "«antes de que se pronunciara la bendición de despedida»",
+			"reason": "The English 'he' can refer to Peter or to Jesus; the impersonal form keeps both readings."
+		},
+		{
+			"ref": "138:4.1",
+			"choice": "«Síganme»",
+			"reason": "Jesus speaks to the two twins at once, so Spanish needs the plural."
+		},
+		{
+			"ref": "138:4.2",
+			"choice": "«que busque la manera de entrar»",
+			"reason": "'thereto' can refer to the door or to the kingdom; the form without a pronoun keeps both."
+		},
+		{
+			"ref": "138:8.8",
+			"choice": "«Parecía hablar por sí mismo, como quien tiene autoridad»",
+			"reason": "'speak of himself' contrasts with a prophet who declares God's word, so it means on his own authority; 'hablar de sí mismo' would mean 'talk about himself'."
+		},
+		{
+			"ref": "138:8.9",
+			"choice": "«maestro e instructor» y «prójimo»",
+			"reason": "Spanish 'maestro' covers both 'master' and 'teacher', so 'instructor' renders 'teacher'; 'prójimo' carries the sense of 'neighbor' as a fellow man."
+		}
+	]
+}

@@ -1,0 +1,36 @@
+{
+	"newTerms": {
+		"chazan": "jazán",
+		"child of promise / son of promise": "hijo de la promesa / hijo de la promesa",
+		"son of destiny": "hijo del destino",
+		"Universe Creator": "Creador del Universo",
+		"divine human": "ser humano divino"
+	},
+	"forcedChoices": [
+		{
+			"ref": "124:1.8",
+			"choice": "creador y organizador real (not «en acto»)",
+			"reason": "Here \"actual\" is the plain sense \"the very, true\"; the glossary form «en acto» is for the actual/potential contrast, which this sentence does not make."
+		},
+		{
+			"ref": "124:4.4",
+			"choice": "el creador real",
+			"reason": "Same plain sense of \"actual\" as in 124:1.8."
+		},
+		{
+			"ref": "124:3.4",
+			"choice": "por la noche",
+			"reason": "Spanish has no single word for \"evening\"; «noche» fits a birth after dark and the Jewish day count."
+		},
+		{
+			"ref": "124:1.4",
+			"choice": "emprendedor",
+			"reason": "\"aggressive\" here means bold and active, not hostile; «agresivo» would add hostility."
+		},
+		{
+			"ref": "124:5.6",
+			"choice": "enlutada",
+			"reason": "\"bereaved\" names the loss without saying of whom; «enlutada» keeps it open and does not add \"of their father\"."
+		}
+	]
+}

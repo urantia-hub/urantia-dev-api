@@ -1,0 +1,51 @@
+{
+	"newTerms": {
+		"apocalyptists": "apocalípticos",
+		"literalists": "literalistas",
+		"spiritists": "espiritualistas",
+		"life Nazarite / Nazarite for life": "nazareo de por vida",
+		"herald": "heraldo",
+		"kingdom of God": "reino de Dios",
+		"lake of Galilee": "lago de Galilea",
+		"publicans": "publicanos",
+		"Pereans": "pereos",
+		"Adam (village on the Jordan)": "Adam"
+	},
+	"forcedChoices": [
+		{
+			"ref": "135:4.1",
+			"choice": "Los amigos de Isabel",
+			"reason": "Spanish forces a gender; the generic masculine keeps men and women open."
+		},
+		{
+			"ref": "135:5.5",
+			"choice": "comunidad (fellowship)",
+			"reason": "Here 'fellowship' means membership in a group; the earlier form 'compañerismo' means companionship, and 'comunión' has a sacramental sense. Same in 135:6.4."
+		},
+		{
+			"ref": "135:5.5",
+			"choice": "espiritualistas (spiritists)",
+			"reason": "'espiritistas' means people who practice spiritism (seances); the papers mean those who held a spiritual view of the kingdom."
+		},
+		{
+			"ref": "135:7.2",
+			"choice": "trilladero (threshing floor)",
+			"reason": "'era' also means 'age', a key word of this paper; 'trilladero' avoids that second sense."
+		},
+		{
+			"ref": "135:7.2",
+			"choice": "Adam (place name)",
+			"reason": "The English keeps the village name Adam; 'Adán' would point the reader to the Material Son."
+		},
+		{
+			"ref": "135:12.6",
+			"choice": "usted (the daughter to Herod)",
+			"reason": "The packet rule: use 'usted' to a ruler; Herod speaks to her with 'tú'."
+		},
+		{
+			"ref": "135:0.4",
+			"choice": "descendía de las «hijas de Aarón»",
+			"reason": "'daughters' forces the feminine, as in the English."
+		}
+	]
+}

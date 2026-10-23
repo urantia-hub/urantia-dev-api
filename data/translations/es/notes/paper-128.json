@@ -1,0 +1,68 @@
+{
+	"newTerms": {
+		"self-realization (of divinity, 128:1.8)": "toma de conciencia (de su divinidad)",
+		"commonwealth of Israel": "comunidad de Israel",
+		"Saul (of Tarsus)": "Saulo",
+		"chazan": "jazán",
+		"acting head of the family": "cabeza de familia interino",
+		"brother-father": "hermano-padre",
+		"father-brother": "padre-hermano",
+		"caravan repair shop": "taller de reparación de caravanas",
+		"sons of the law": "hijos de la ley",
+		"holy convocation": "santa convocación",
+		"Hellenist": "helenista",
+		"Lord of Glory": "Señor de Gloria",
+		"Universe Mind": "Mente del Universo",
+		"True Shepherd": "Verdadero Pastor",
+		"Captain of our salvation": "Capitán de nuestra salvación",
+		"child of promise": "hijo de la promesa",
+		"child / man / individual of the realm": "niño / hombre / individuo del reino"
+	},
+	"forcedChoices": [
+		{
+			"ref": "128:1.8",
+			"choice": "«toma de conciencia de su divinidad» instead of the earlier glossary form «autorrealización»",
+			"reason": "Here self-realization means that Jesus became aware of his own divinity; Spanish «autorrealización» reads as self-fulfillment, a sense the authors did not intend."
+		},
+		{
+			"ref": "128:1.9",
+			"choice": "«sus serafines guardianes» (plural)",
+			"reason": "The English form «seraphim» is plural; the context does not say one or two, so the plural form of the English is kept."
+		},
+		{
+			"ref": "128:3.3",
+			"choice": "«los dos de Nazaret» for «the Nazareth couple»",
+			"reason": "Spanish «pareja» suggests a romantic couple, and «nazarenos» has a religious sense."
+		},
+		{
+			"ref": "128:3.5",
+			"choice": "«el camino de la vida»",
+			"reason": "Spanish forces a choice between lifestyle and spiritual way; «camino» keeps both readings best."
+		},
+		{
+			"ref": "128:3.6",
+			"choice": "«Saulo», not «Saúl»",
+			"reason": "This Saul is Paul of Tarsus; «Saúl» in the glossary is the king."
+		},
+		{
+			"ref": "128:6.7",
+			"choice": "«tú» from the Roman magistrate to Jesus",
+			"reason": "A magistrate speaks down to a provincial; nothing shows respect from him to Jesus."
+		},
+		{
+			"ref": "128:6.10",
+			"choice": "«sus compañeros de juego» (masculine generic)",
+			"reason": "The English does not give the gender of Ruth's playmates; the masculine plural is the generic form."
+		},
+		{
+			"ref": "128:7.12",
+			"choice": "«con sus antepasados» for «with his fathers»",
+			"reason": "«con sus padres» can be read as his parents only."
+		},
+		{
+			"ref": "128:7.13",
+			"choice": "«acuerdo secreto» for «compact»; «gastos reales» for «actual expenses»",
+			"reason": "The glossary form «pacto» is for covenant; «actual» here is the plain adjective, not the technical term «en acto»."
+		}
+	]
+}

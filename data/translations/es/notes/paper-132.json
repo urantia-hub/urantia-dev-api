@@ -1,0 +1,66 @@
+{
+	"newTerms": {
+		"religionists": "religionistas",
+		"mystery cults": "cultos mistéricos",
+		"Rulers of Paradise": "Gobernantes del Paraíso",
+		"light of life": "luz de la vida",
+		"Paradise spirit": "espíritu del Paraíso",
+		"self-understanding": "autocomprensión",
+		"steward (of wealth)": "administrador",
+		"trustee": "custodio",
+		"trust funds": "fondos en custodia",
+		"standard (of values, of good)": "norma"
+	},
+	"forcedChoices": [
+		{
+			"ref": "132:2.2",
+			"choice": "tú",
+			"reason": "Jesus speaks to one person (Mardus); the same in his words to Angamon's and Nabon's teaching, the soldier, the speaker, the rich man, Ganid, and Gonod."
+		},
+		{
+			"ref": "132:5.2",
+			"choice": "tú (the rich man to Jesus)",
+			"reason": "He calls Jesus 'my good friend'; the English shows friendship, not the formal respect that calls for usted."
+		},
+		{
+			"ref": "132:7.4",
+			"choice": "ustedes habrían entrado ... su refugio",
+			"reason": "'you' here means Gonod's people (it follows 'your people'), so the plural fits the context best."
+		},
+		{
+			"ref": "132:7.5",
+			"choice": "Ustedes tienen una filosofía sin Dios",
+			"reason": "'You' is set against 'the Jews', so it means the Buddhist peoples, not Gonod alone."
+		},
+		{
+			"ref": "132:7.6",
+			"choice": "Maestro (Ganid's 'Teacher')",
+			"reason": "Spanish has no plain term for 'teacher' as an address other than 'Maestro', which is also the glossary form of 'Master'."
+		},
+		{
+			"ref": "132:5.13",
+			"choice": "equity = lo equitativo / de manera equitativa; fairness = equidad",
+			"reason": "The glossary gives 'equidad' for fairness, and the text puts equity and fairness side by side, so equity needs another form."
+		},
+		{
+			"ref": "132:5.17",
+			"choice": "equity = derecho",
+			"reason": "Here 'equity as regards a voice' means a just claim to a voice, not the quality of fairness."
+		},
+		{
+			"ref": "132:3.5",
+			"choice": "consciencia moral",
+			"reason": "'moral consciousness' (awareness) must differ from the glossary form 'conciencia moral' for 'conscience'."
+		},
+		{
+			"ref": "132:7.2",
+			"choice": "hambre de la verdad",
+			"reason": "'hambre de verdad' can be read as 'really hungry'; the article keeps the sense 'hungry for truth'."
+		},
+		{
+			"ref": "132:2.10",
+			"choice": "realidad en acto / el mal en acto",
+			"reason": "'actuality' and 'actual evil' stand against 'possibility' and 'potential evil', the sense of the glossary term 'actual'."
+		}
+	]
+}
