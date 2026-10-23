@@ -1,0 +1,76 @@
+{
+	"newTerms": {
+		"Midway Creatures": "Criaturas Intermedias",
+		"superaphic": "supernáfico",
+		"encircuit / encircuited": "entrar en el circuito / incluidas en el circuito",
+		"Deity adventure": "aventura de la Deidad",
+		"candidates for the Deity adventure": "candidatos a la aventura de la Deidad",
+		"spiritual graduates": "graduados espirituales",
+		"circuit of the Sons": "circuito de los Hijos",
+		"commission of seventy": "comisión de setenta",
+		"councils of perfection": "consejos de perfección",
+		"transit trance": "trance de tránsito",
+		"transition slumber": "sueño de transición",
+		"terminal sleep of time": "sueño terminal del tiempo",
+		"attainment rest": "descanso de la consecución",
+		"receiving world / receiving planet": "mundo receptor / planeta receptor",
+		"invitation-command": "invitación-mandato",
+		"reflectors": "reflectores",
+		"space traversers": "viajeros del espacio",
+		"Supreme Divinity": "Divinidad Suprema",
+		"Circuit Spirit (third, fifth, seventh)": "Espíritu de Circuito",
+		"enshroudment (of the Deities)": "envoltura"
+	},
+	"forcedChoices": [
+		{
+			"ref": "26:4.12",
+			"choice": "«Sean perfectos» (plural, ustedes)",
+			"reason": "The command goes to all the finite children of the worlds; Spanish forces a number."
+		},
+		{
+			"ref": "26:9.3",
+			"choice": "«Sean perfectos» and <em>perfectos</em> plural",
+			"reason": "Same command to the creatures of the worlds; plural agreement."
+		},
+		{
+			"ref": "26:11.4",
+			"choice": "«Sean perfectos», «Sean comprensivos» plural",
+			"reason": "Both commands go to groups: mortals and the trinitized sons."
+		},
+		{
+			"ref": "26:7.4",
+			"choice": "«va acompañada»",
+			"reason": "Spanish «alma» is feminine, so the participle agrees with it; the English 'he' is not shown."
+		},
+		{
+			"ref": "26:9.1",
+			"choice": "«queda bajo la tutela» with «el alma peregrina» as subject",
+			"reason": "Avoids a gendered pronoun for «alma»."
+		},
+		{
+			"ref": "26:11.6",
+			"choice": "«Ustedes no son realmente hijos del Paraíso»",
+			"reason": "The generic singular 'you' becomes the plural ustedes, as the Spanish rules ask."
+		},
+		{
+			"ref": "26:3.1",
+			"choice": "«Allí todos serán»",
+			"reason": "Keeps open whether 'all' means the readers alone or the readers and their associates."
+		},
+		{
+			"ref": "26:2.4",
+			"choice": "«no podemos tratar»",
+			"reason": "'may not' can be a lack of permission or of ability; «no podemos» keeps both."
+		},
+		{
+			"ref": "26:5.3",
+			"choice": "«En enlace con Dios»",
+			"reason": "Keeps 'liaison' as «enlace», the form used for liaison elsewhere in the paper."
+		},
+		{
+			"ref": "26:9.4",
+			"choice": "«criaturas concienzudas»",
+			"reason": "'conscientious' means scrupulous, not 'conscious' (consciente)."
+		}
+	]
+}

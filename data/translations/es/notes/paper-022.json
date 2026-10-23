@@ -1,0 +1,68 @@
+{
+	"newTerms": {
+		"midway creatures (translated)": "criaturas intermedias (trasladadas)",
+		"twice-trinitized": "dos veces trinitizados",
+		"high sons": "altos hijos",
+		"Paradisers": "Paradisianos",
+		"Paradise-Havoner": "ser del Paraíso y Havona",
+		"concept-identity": "identidad de concepto",
+		"bi-unification": "biunificación",
+		"Supreme-Ultimate Mind": "Mente Suprema-Última",
+		"Supreme-Ultimate Deity": "Deidad Suprema-Última",
+		"supercreational": "supercreacional",
+		"juror-judges": "jueces-jurados",
+		"idea-ideal": "idea-ideal",
+		"seraphic guardians": "guardianes seráficos",
+		"Trinity liaison": "enlace de la Trinidad",
+		"Isle of Light and Life": "Isla de Luz y Vida",
+		"experiencible": "experienciable",
+		"nonfused": "no fusionado"
+	},
+	"forcedChoices": [
+		{
+			"ref": "22:2.5",
+			"choice": "un billón",
+			"reason": "English 'trillion' (10^12) is 'billón' in Spanish long scale."
+		},
+		{
+			"ref": "22:3.2",
+			"choice": "diez mil millones",
+			"reason": "English 'ten billion' (10^10); Spanish 'billón' means 10^12."
+		},
+		{
+			"ref": "22:2.6",
+			"choice": "quien me acompañó y se asoció conmigo",
+			"reason": "Keeps the gender of the companion open, as the English does."
+		},
+		{
+			"ref": "22:5.3",
+			"choice": "Mi propio guardián seráfico",
+			"reason": "Spanish forces a gender; generic masculine, the English gives none."
+		},
+		{
+			"ref": "22:7.13",
+			"choice": "lo Último y lo Eterno",
+			"reason": "Neuter article: the context reads as levels of reality, not persons."
+		},
+		{
+			"ref": "22:4.1",
+			"choice": "«Aquellos <em>por encima</em> de Nombre y Número»",
+			"reason": "Spanish quotation marks; emphasis kept on the word for 'above'."
+		},
+		{
+			"ref": "22:9.6",
+			"choice": "conmovedora",
+			"reason": "'pathetic' in its older sense of moving; Spanish 'patética' can read as pitiful."
+		},
+		{
+			"ref": "22:3.4",
+			"choice": "excelente",
+			"reason": "'superb' not 'soberbia', which in Spanish means pride."
+		},
+		{
+			"ref": "22:10.7",
+			"choice": "un millón y cuarto",
+			"reason": "Natural Spanish form of 'one and a quarter million'."
+		}
+	]
+}

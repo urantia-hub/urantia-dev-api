@@ -1,0 +1,67 @@
+{
+	"newTerms": {
+		"threefold mansion of light": "mansión triple de luz",
+		"power-personality focalizations": "focalizaciones de poder-personalidad",
+		"creature bestowal": "otorgamiento como criatura",
+		"Universe Son": "Hijo del Universo",
+		"Urantian bestowal": "otorgamiento urantiano",
+		"codirector": "codirectora",
+		"coruler": "cogobernante",
+		"watchcare": "cuidado vigilante",
+		"father-mother concept": "concepto padre-madre",
+		"Trinity-origin": "de origen trinitario",
+		"liaison brethren": "hermanos de enlace",
+		"subadministrations": "subadministraciones",
+		"universe swing": "giro del universo",
+		"mass judgment": "juicio en masa",
+		"dispensational resurrections": "resurrecciones dispensacionales",
+		"dual magistracy": "magistratura doble",
+		"supreme council": "consejo supremo",
+		"superlegislatures": "superlegislaturas",
+		"Daughters of the Infinite Spirit": "Hijas del Espíritu Infinito",
+		"the armies of heaven": "los ejércitos del cielo",
+		"Chief of the Archangels of Nebadon": "Jefe de los Arcángeles de Nebadon"
+	},
+	"forcedChoices": [
+		{
+			"ref": "33:0.1",
+			"choice": "su Espíritu asociado (masculine adjective on «Espíritu»)",
+			"reason": "An adjective that modifies the noun «Espíritu» agrees with it; a standalone noun for her role (asociada, codirectora, cogobernante, compañera, consejera) is feminine, because the English says «she»."
+		},
+		{
+			"ref": "33:3.2",
+			"choice": "la 611 121.<sup>a</sup> (feminine ordinal)",
+			"reason": "The ordinal stands for the Mother Spirit, whom the English calls «she»."
+		},
+		{
+			"ref": "33:3.3",
+			"choice": "codirectora",
+			"reason": "Spanish forces a gender on «codirector»; the English uses «her» for the Universe Spirit in the same paragraph."
+		},
+		{
+			"ref": "33:4.1",
+			"choice": "La Resplandeciente Estrella Matutina ... un administrador (33:4.4)",
+			"reason": "The noun «Estrella» is feminine, but the English calls this being «he»; predicate nouns about Gabriel stay masculine."
+		},
+		{
+			"ref": "33:5.1",
+			"choice": "la Unión de Días asignada",
+			"reason": "«Unión» is a feminine noun; the participle agrees with it, while pronouns for Immanuel stay masculine."
+		},
+		{
+			"ref": "33:1.1",
+			"choice": "611 121.<sup>o</sup>",
+			"reason": "Spanish ordinal abbreviation for the English «st» inside the same sup tag."
+		},
+		{
+			"ref": "33:1.4",
+			"choice": "los padres creadores de ustedes",
+			"reason": "«sus» alone can be read as «his»; «de ustedes» keeps the English «your»."
+		},
+		{
+			"ref": "33:3.4",
+			"choice": "sus padres divinos",
+			"reason": "The English «their» can be the mortals' or the daughters'; «sus» keeps both readings open."
+		}
+	]
+}

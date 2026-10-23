@@ -1,0 +1,75 @@
+{
+	"newTerms": {
+		"Associate Master Force Organizers": "Organizadores Maestros de la Fuerza Asociados",
+		"Primary Master Force Organizers": "Organizadores Maestros de la Fuerza Primarios",
+		"Center Supervisors": "Supervisores de los Centros",
+		"Third-Source personality": "personalidad de la Tercera Fuente",
+		"high commissioners of power": "altos comisionados del poder",
+		"power-energy": "poder-energía",
+		"toning / retoning": "afinación / ser reafinados",
+		"directionize / directionization": "direccionar / direccionamiento",
+		"downstep / upstep": "reducir / elevar",
+		"segregations (of energy)": "segregaciones",
+		"supercreations": "supercreaciones",
+		"midway creatures": "criaturas intermedias",
+		"Cosmic Supremacy": "Supremacía Cósmica",
+		"nonbreathing planets": "planetas sin respiración",
+		"plus / minus manifestations": "manifestaciones de signo positivo / de signo negativo",
+		"storage-battery": "acumulador",
+		"energy governors": "reguladores de energía",
+		"balance wheels": "volantes de equilibrio",
+		"mind control (of the power system)": "control mediante la mente"
+	},
+	"forcedChoices": [
+		{
+			"ref": "29:0.10",
+			"choice": "diez mil millones",
+			"reason": "English 'billion' is 10^9; Spanish 'billón' is 10^12."
+		},
+		{
+			"ref": "29:3.1",
+			"choice": "diez mil millones",
+			"reason": "Same short-scale billion conversion."
+		},
+		{
+			"ref": "29:4.16",
+			"choice": "tres mil millones",
+			"reason": "Short-scale billion; 3 million x 1000 minor sectors."
+		},
+		{
+			"ref": "29:4.18",
+			"choice": "Billones y billones",
+			"reason": "English 'trillion' (10^12) is Spanish 'billón'."
+		},
+		{
+			"ref": "29:4.18",
+			"choice": "el sector menor de ustedes",
+			"reason": "'su sector menor' would read as 'their sector' (the controllers')."
+		},
+		{
+			"ref": "29:2.9",
+			"choice": "control mediante la mente",
+			"reason": "'control mental' reads as control of minds, not control by mind."
+		},
+		{
+			"ref": "29:3.11",
+			"choice": "deben representar",
+			"reason": "Keeps both the necessity and the inference reading of 'must'; 'deben de' would close it to inference."
+		},
+		{
+			"ref": "29:4.32",
+			"choice": "manifestaciones de signo positivo / negativo",
+			"reason": "Bare 'positivas/negativas' adds a sense of good and bad."
+		},
+		{
+			"ref": "29:4.33",
+			"choice": "tipos móviles de imprenta",
+			"reason": "'tipos' alone is ambiguous (types/kinds); the English 'adjustable type' is printing type."
+		},
+		{
+			"ref": "29:1.2",
+			"choice": "uno de sus descendientes colectivos",
+			"reason": "Spanish 'sus' keeps the English 'their' (the Master Spirits) without adding a name."
+		}
+	]
+}

@@ -1,0 +1,61 @@
+{
+	"newTerms": {
+		"superessence of divinity": "superesencia de divinidad",
+		"other-than-Father-endowed personality": "personalidad distinta de la dotada por el Padre",
+		"mechanical mind": "mente mecánica",
+		"supermanagers": "supergestores",
+		"supercontrol": "supercontrol",
+		"presence-form": "forma de presencia",
+		"reflectivity technique": "técnica de reflectividad",
+		"receiving world": "mundo de recepción",
+		"terminal slumber of time": "sopor terminal del tiempo",
+		"sleep of eternity transit": "sueño del tránsito de la eternidad",
+		"Source and Destiny of all personality": "Fuente y Destino de toda personalidad",
+		"Mortal Corps of the Finality": "Cuerpo Mortal de los Finalitarios",
+		"Paradise Companion": "Compañero del Paraíso",
+		"Supreme Executive Number Seven": "Ejecutivo Supremo Número Siete",
+		"sub-Paradise co-ordination": "coordinación subparadisíaca"
+	},
+	"forcedChoices": [
+		{
+			"ref": "24:2.2",
+			"choice": "«la inteligente <em>voluntad.</em>» (adjective before the noun)",
+			"reason": "Keeps the <em> tag and its period on the word 'will' exactly as in the English."
+		},
+		{
+			"ref": "24:3.1",
+			"choice": "«muchos billones» for 'high into the trillions'",
+			"reason": "The English trillion (10^12) is the Spanish billón."
+		},
+		{
+			"ref": "24:4.1",
+			"choice": "«personificación» for 'personal embodiment'",
+			"reason": "«encarnación» carries the religious sense of incarnation; «personificación» keeps the personal sense."
+		},
+		{
+			"ref": "24:6.3",
+			"choice": "plural «ustedes» for the reader",
+			"reason": "Spanish rules require plural address; each reader still has his own guide, as «su Guía de Graduados» keeps open."
+		},
+		{
+			"ref": "24:7.3",
+			"choice": "«transformarse en Guía de Graduados» for 'translate into'",
+			"reason": "Spanish «traducirse» does not carry the sense of change of state; «transformarse» does."
+		},
+		{
+			"ref": "24:7.5",
+			"choice": "«y ya no está» for 'and is not'",
+			"reason": "Spanish forces ser/estar; «estar» reads as no longer present, which the context (disappearance) supports."
+		},
+		{
+			"ref": "24:7.9",
+			"choice": "masculine «El Havona»",
+			"reason": "Spanish forces a gender; Havona is a universe (masculine)."
+		},
+		{
+			"ref": "24:1.14",
+			"choice": "«Tampoco son coordinados» for 'Neither are the two orders co-ordinate'",
+			"reason": "Glossary 'co-ordinate' as adjective means equal in rank; «coordinados» with ser keeps that sense."
+		}
+	]
+}

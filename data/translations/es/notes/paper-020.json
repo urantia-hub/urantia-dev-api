@@ -1,0 +1,77 @@
+{
+	"newTerms": {
+		"Isle of Light and Life": "Isla de Luz y Vida",
+		"Avonals": "Avonales",
+		"bestowal Son": "Hijo de otorgamiento",
+		"bestowal Avonal": "Avonal de otorgamiento",
+		"dispensation terminators": "finalizadores de dispensaciones",
+		"dispensational adjudicator": "juez dispensacional",
+		"dispensational adjudications": "juicios dispensacionales",
+		"Magisterial Missions": "misiones de magistratura",
+		"Judicial Actions": "Acciones judiciales",
+		"orders of Days": "órdenes de los Días",
+		"universe Father": "Padre de universo",
+		"sevenfold Creator Son": "Hijo Creador séptuple",
+		"drawing power (spiritual)": "poder de atracción espiritual",
+		"Michael-bestowal world": "mundo de otorgamiento de Miguel",
+		"Avonal-bestowal worlds": "mundos de otorgamiento Avonal",
+		"Michael-mortal-bestowal planet": "planeta del otorgamiento mortal de Miguel",
+		"Magisterial bestowal": "otorgamiento de magistratura",
+		"mortal-bestowal careers": "carreras de otorgamiento mortal",
+		"enmothered": "llega a tener madre",
+		"Sonarington technique": "técnica de Sonarington",
+		"human-divine": "humano-divino",
+		"presovereignty ages": "eras anteriores a la soberanía",
+		"spirit Comforter": "Consolador espiritual",
+		"Paradise Spiritual Sons": "Hijos Espirituales del Paraíso",
+		"retrievers": "rescatadores",
+		"dual-origin universes": "universos de doble origen",
+		"Melchizedek schools": "escuelas Melquisedec",
+		"University of Salvington": "Universidad de Salvington",
+		"morontia-training worlds": "mundos de formación morontial",
+		"outpost sentinels": "centinelas de los puestos avanzados",
+		"Mortal Corps of the Finality": "Cuerpo Mortal de los Finalitarios",
+		"time-association": "asociación en el tiempo",
+		"Paradise Teacher Sons": "Hijos Instructores del Paraíso",
+		"Trinity Daynal Sons": "Hijos Daynales de la Trinidad",
+		"value-levels": "niveles de valor",
+		"actualization": "realización en acto"
+	},
+	"forcedChoices": [
+		{
+			"ref": "20:1.10",
+			"choice": "su Espíritu Creativo asociado",
+			"reason": "Espíritu is grammatically masculine; the adjective agrees with it, not with the feminine sense of the Mother Spirit."
+		},
+		{
+			"ref": "20:1.10",
+			"choice": "en asociación con uno de los tres Ancianos de Días",
+			"reason": "Avoids a singular or plural agreement that would decide whether only the Spirit or both Son and Spirit are associated."
+		},
+		{
+			"ref": "20:1.13",
+			"choice": "el Hijo Creador de ustedes",
+			"reason": "Spanish 'su' would also read as 'their' (the Creator Sons); 'de ustedes' keeps the reader as the referent."
+		},
+		{
+			"ref": "20:4.3",
+			"choice": "sus tabernáculos terrenales",
+			"reason": "Kept 'sus' so the owner of the tabernacles stays open, as in the English."
+		},
+		{
+			"ref": "20:5.3",
+			"choice": "seres humanos genuinos",
+			"reason": "'de buena fe' would add the sense of sincerity; 'bona fide' here means genuine."
+		},
+		{
+			"ref": "20:6.2",
+			"choice": "la edad adulta",
+			"reason": "Spanish has no plain noun for 'manhood'; the male sense is already carried by 'niño varón'."
+		},
+		{
+			"ref": "20:10.4",
+			"choice": "realización en acto",
+			"reason": "Spanish 'actualización' reads as 'update'; the glossary gives 'en acto' for actual."
+		}
+	]
+}
