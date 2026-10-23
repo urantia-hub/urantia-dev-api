@@ -6,7 +6,7 @@ export const SupportedLanguage = z
 	.enum(["eng", "es", "fr", "pt", "de", "ko"])
 	.default("eng")
 	.describe(
-		"Language for translated fields. Entity names, aliases, and descriptions exist in es, fr, pt, de, and ko. Paragraph text is in English only, because only the English text is in the public domain. Each paragraph has a `language` field that states the language of its text.",
+		"Language for translated fields. Entity names exist in es, fr, pt, de, and ko. Spanish paragraph text exists for part of the papers: a machine translation, released as CC0, with a `translation` label on each paragraph. Other paragraphs stay in English. Each paragraph has a `language` field that states the language of its text.",
 	);
 
 export const LangQuery = z.object({
@@ -221,6 +221,19 @@ export const ScriptureParallelSchema = z.object({
 
 // --- Paragraph ---
 
+export const TranslationLabelSchema = z
+	.object({
+		method: z.literal("machine"),
+		license: z.literal("CC0-1.0"),
+		review: z
+			.string()
+			.nullable()
+			.describe('"auto_checked" when every check passed, "needs_review" when one gave a warning.'),
+	})
+	.describe(
+		"Present only when the text is a translation: a machine made it, and it is released as CC0. No person has reviewed it.",
+	);
+
 export const ParagraphSchema = z.object({
 	id: z.string(),
 	standardReferenceId: z.string(),
@@ -234,6 +247,7 @@ export const ParagraphSchema = z.object({
 	text: z.string(),
 	htmlText: z.string(),
 	language: z.string().optional(),
+	translation: TranslationLabelSchema.optional(),
 	labels: z.array(z.string()).nullable(),
 	audio: AudioSchema,
 	entities: z.array(ParagraphEntitySchema).optional(),
