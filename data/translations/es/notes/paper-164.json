@@ -1,0 +1,61 @@
+{
+	"newTerms": {
+		"lawyer (Jewish legal expert)": "experto en la ley",
+		"Sanhedrists": "sanedritas",
+		"gentile dogs": "perros gentiles",
+		"Levite": "levita",
+		"life everlasting": "vida sempiterna"
+	},
+	"forcedChoices": [
+		{
+			"ref": "164:1.1",
+			"choice": "«Maestro, quisiera preguntarte…» (tú)",
+			"reason": "One person speaks to Jesus; the Spanish rules give tú."
+		},
+		{
+			"ref": "164:1.3",
+			"choice": "«déjame preguntarte» (singular)",
+			"reason": "The lawyer is the one who answers the question, so the singular fits best."
+		},
+		{
+			"ref": "164:1.1",
+			"choice": "«experto en la ley» for 'lawyer'",
+			"reason": "'abogado' reads as a modern attorney; the man is an expert in the Jewish law."
+		},
+		{
+			"ref": "164:2.3",
+			"choice": "«llenos de amor por aquel hombre»",
+			"reason": "'enamorados' has a romantic sense that the authors did not intend."
+		},
+		{
+			"ref": "164:3.7",
+			"choice": "«Ni este hombre pecó ni sus padres para que las obras de Dios se manifestaran en él»",
+			"reason": "Keeps the English word order, so the purpose clause stays open as in the English."
+		},
+		{
+			"ref": "164:3.8",
+			"choice": "«Vamos a crear la vista»",
+			"reason": "'Creemos' is also 'we believe' in Spanish."
+		},
+		{
+			"ref": "164:3.16",
+			"choice": "«decidido» for 'positive'",
+			"reason": "Spanish 'positivo' suggests optimism; the sense is definite and resolute."
+		},
+		{
+			"ref": "164:4.9",
+			"choice": "«no tenía nada de corto» for 'neither dumb'",
+			"reason": "'dumb' can mean slow-witted or mute; 'corto' keeps both readings open."
+		},
+		{
+			"ref": "164:5.2",
+			"choice": "«nadie los arrebatará» (masculine)",
+			"reason": "'them' refers to the people who follow his teaching, not to the sheep."
+		},
+		{
+			"ref": "164:4.7",
+			"choice": "«¿Es este su hijo?» (ustedes)",
+			"reason": "The spokesman speaks to both parents."
+		}
+	]
+}

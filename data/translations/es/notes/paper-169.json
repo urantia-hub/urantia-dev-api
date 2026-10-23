@@ -1,0 +1,32 @@
+{
+	"newTerms": {
+		"mammon": "riquezas"
+	},
+	"forcedChoices": [
+		{
+			"ref": "169:1.4",
+			"choice": "a sus amigos y vecinos",
+			"reason": "English 'friends and neighbors' has no gender; the masculine generic keeps both sexes open."
+		},
+		{
+			"ref": "169:1.11",
+			"choice": "tú (the servant to the elder son)",
+			"reason": "Spanish forces a form of address; the scene is household speech to one person, and the packet uses tú for one person."
+		},
+		{
+			"ref": "169:3.2",
+			"choice": "ustedes for 'between us and you'",
+			"reason": "The 'you' stands with the place of torment as a group opposite 'us', so the plural fits the context; Abraham and Dives address each other with tú elsewhere."
+		},
+		{
+			"ref": "169:4.3",
+			"choice": "comprender al Infinito",
+			"reason": "The glossary gives 'el Infinito' (the Father-Infinite), a person, so the personal 'a' is used; 'lo finito' stays neuter for the abstract 'the finite'."
+		},
+		{
+			"ref": "169:4.12",
+			"choice": "la mente de ustedes",
+			"reason": "Spanish 'sus mentes' could also read as 'his minds'; the explicit form keeps 'your' clear."
+		}
+	]
+}

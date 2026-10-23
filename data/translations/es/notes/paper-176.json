@@ -1,0 +1,44 @@
+{
+	"newTerms": {
+		"survival faith": "fe de supervivencia",
+		"dispensational bestowal": "otorgamiento dispensacional",
+		"nativity spheres": "esferas natales",
+		"Spirit of the Truth of a universe": "Espíritu de la Verdad de un universo",
+		"children of light": "hijos de la luz",
+		"Sons of the Paradise corps": "Hijos del cuerpo del Paraíso",
+		"second advent": "segundo advenimiento",
+		"second coming": "segunda venida"
+	},
+	"forcedChoices": [
+		{
+			"ref": "176:3.2",
+			"choice": "tú for the first two sentences (to Thomas), ustedes from «Ustedes, que conocen a Dios»",
+			"reason": "Jesus names Thomas first; the English moves to a plural address with 'You who are God-knowing'."
+		},
+		{
+			"ref": "176:3.4",
+			"choice": "servants say «usted» to the lord; the lord says «tú» to the servants",
+			"reason": "Spanish rule: usted for great respect to a ruler; a master speaks to a servant with tú."
+		},
+		{
+			"ref": "176:3.7",
+			"choice": "'actual spiritual gains' as «ganancias espirituales reales»",
+			"reason": "Plain adjective here, not the term 'actual' (en acto) of 0:4.7."
+		},
+		{
+			"ref": "176:3.7",
+			"choice": "the exclamation 'What a sorry sight ... to say ...' ends with «!» after the quote",
+			"reason": "Spanish needs ¡…! around the whole exclamation; the inner quote stays at the same place."
+		},
+		{
+			"ref": "176:2.3",
+			"choice": "'The things which you now look down upon' as «Las cosas que ahora ven desde aquí arriba»",
+			"reason": "Context (on the mount, above the city) supports the physical sense, not contempt."
+		},
+		{
+			"ref": "176:0.1",
+			"choice": "Matthew and Andrew address Jesus with tú",
+			"reason": "Disciples speak to one person; the packet asks for tú."
+		}
+	]
+}

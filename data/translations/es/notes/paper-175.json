@@ -1,0 +1,52 @@
+{
+	"newTerms": {
+		"standard-bearers": "portaestandartes",
+		"light-bearers": "portadores de la luz",
+		"chief priests": "principales sacerdotes",
+		"gospel movement": "movimiento del evangelio",
+		"un-Christlike": "impropio de Cristo",
+		"Status of Individual Jews (title)": "La posición del judío como individuo"
+	},
+	"forcedChoices": [
+		{
+			"ref": "175:1.1",
+			"choice": "Discourse quoted with « at the first paragraph, » at the start of each following paragraph, and the closing » only at 175:1.24",
+			"reason": "Spanish convention for a quote that runs over several paragraphs; mirrors the English, which closes the quote only at 1.24."
+		},
+		{
+			"ref": "175:1.12",
+			"choice": "«Ustedes cerrarían»",
+			"reason": "English 'would shut' can be wish or habit; the conditional keeps both readings open."
+		},
+		{
+			"ref": "175:1.17",
+			"choice": "«maestros necios» for 'dumb teachers'",
+			"reason": "Spanish forces 'mute' or 'foolish'; the pairing with 'blind guides' and the rebuke favor 'foolish'."
+		},
+		{
+			"ref": "175:1.17",
+			"choice": "«el juicio» for 'judgment'",
+			"reason": "Kept literal; «justicia» would close the reading to one sense."
+		},
+		{
+			"ref": "175:1.23",
+			"choice": "Plural «ustedes» for Jerusalem and the children of Abraham",
+			"reason": "The address names a city and a people together; the plural fits both."
+		},
+		{
+			"ref": "175:3.1",
+			"choice": "«4 de abril del año 30 <span class=\"scaps\">d. C.</span>»",
+			"reason": "Spanish order puts the era after the year; the span is kept unchanged around the abbreviation."
+		},
+		{
+			"ref": "175:3.3",
+			"choice": "«las órdenes para el arresto de Jesús temprano a la mañana siguiente»",
+			"reason": "Word order keeps open whether the orders or the arrest are 'early the next morning', as in the English."
+		},
+		{
+			"ref": "175:4.1",
+			"choice": "«los doce, sin faltar uno» for 'all twelve'",
+			"reason": "«todos los doce» is unnatural in Spanish; this keeps the emphasis that no one was missing."
+		}
+	]
+}

@@ -1,0 +1,50 @@
+{
+	"newTerms": {
+		"lawyers (experts in the Jewish law)": "expertos en la ley",
+		"the seventy": "los setenta",
+		"gentiles of adoption": "gentiles de adopción",
+		"straight and narrow way": "camino recto y estrecho",
+		"visitation of God": "visitación de Dios",
+		"whited sepulchres": "sepulcros blanqueados",
+		"fellow servants": "consiervos",
+		"accidents of time": "accidentes del tiempo",
+		"truth-search": "búsqueda de la verdad"
+	},
+	"forcedChoices": [
+		{
+			"ref": "166:1.5",
+			"choice": "tú for the lawyer speaking to Jesus",
+			"reason": "Packet rule: a person speaking to one person uses tú; the same for the lepers, Simon, the Pharisee at Gerasa, and Thomas."
+		},
+		{
+			"ref": "166:3.3",
+			"choice": "» at the start of each continued paragraph of a quote",
+			"reason": "Spanish convention for a quote that runs across paragraphs; the English opens each paragraph with a quote mark."
+		},
+		{
+			"ref": "166:3.3",
+			"choice": "recto y estrecho",
+			"reason": "The English writes 'straight' (not 'strait'); 'recto' keeps the English word, 'estrecho' carries 'narrow'."
+		},
+		{
+			"ref": "166:4.2",
+			"choice": "ustedes (plural) in Jesus' answer to Thomas",
+			"reason": "'Do we not all live' and the group setting show that Jesus speaks to all the apostles."
+		},
+		{
+			"ref": "166:4.7",
+			"choice": "fuerzas espirituales del reino",
+			"reason": "'realm' kept as 'reino' to match earlier papers ('child of the realm'); the context is the world, not the kingdom of heaven."
+		},
+		{
+			"ref": "166:5.7",
+			"choice": "21<sup></sup> and 'del año 74 d. C.'",
+			"reason": "Spanish dates use no ordinal suffix, so the sup tag stays empty; Spanish puts the era after the year, so the scaps span moved after 74."
+		},
+		{
+			"ref": "166:2.3",
+			"choice": "¿Quién puede saberlo? si sanamos...",
+			"reason": "The English continues the sentence after the question mark with lowercase 'if'; Spanish allows lowercase after ? to keep one sentence."
+		}
+	]
+}

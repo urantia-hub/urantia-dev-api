@@ -1,0 +1,50 @@
+{
+	"newTerms": {
+		"Magadan": "Magadán",
+		"sympathetic understanding": "comprensión empática",
+		"divinity consciousness": "conciencia de divinidad",
+		"self-limit": "autolimitar",
+		"superhumanity": "sobrehumanidad",
+		"universe prerogatives": "prerrogativas de universo",
+		"thought discernment": "discernimiento de los pensamientos",
+		"celestial hosts": "huestes celestiales",
+		"school of Meganta": "escuela de Meganta"
+	},
+	"forcedChoices": [
+		{
+			"ref": "161:1.3",
+			"choice": "tú (puedas, estés)",
+			"reason": "Jesus speaks to Thomas alone."
+		},
+		{
+			"ref": "161:1.10",
+			"choice": "ustedes (Sean ustedes)",
+			"reason": "The quoted teaching addresses a group; packet forbids vosotros."
+		},
+		{
+			"ref": "161:1.11",
+			"choice": "ustedes (me permiten)",
+			"reason": "Rodan speaks to both apostles."
+		},
+		{
+			"ref": "161:2.3",
+			"choice": "tú (conozcas, amarás, Te cautivará)",
+			"reason": "The apostles address Rodan, one person; a generic reading also fits tú."
+		},
+		{
+			"ref": "161:2.5",
+			"choice": "la gente ... cuando la gente consiente",
+			"reason": "Keeps 'the people' open between the Jewish people and people in general; repeats the noun to avoid a singular/plural clash."
+		},
+		{
+			"ref": "161:1.1",
+			"choice": "probar que él no es una persona",
+			"reason": "Lowercase él for God, as the English 'he'."
+		},
+		{
+			"ref": "161:2.6",
+			"choice": "actúa como un Dios",
+			"reason": "Keeps the English capital G of 'a God'."
+		}
+	]
+}

@@ -1,0 +1,48 @@
+{
+	"newTerms": {
+		"the seventy (messengers of the kingdom)": "los setenta (mensajeros del reino)",
+		"Nazarite school": "escuela nazarea",
+		"undershepherds": "pastores auxiliares",
+		"valley of decision": "valle de la decisión",
+		"nonmiraculous phase": "fase no milagrosa",
+		"tented city": "ciudad de tiendas",
+		"Trust and Spiritual Preparedness (sermon title)": "La confianza y la preparación espiritual"
+	},
+	"forcedChoices": [
+		{
+			"ref": "165:2.2",
+			"choice": "ustedes for Jesus' address to the crowd",
+			"reason": "Plural address; the Spanish rules require ustedes."
+		},
+		{
+			"ref": "165:4.1",
+			"choice": "tú when the young man speaks to Jesus, and when Andrew (165:5.1), the other man (165:4.5), and Peter (165:6.1) speak to him",
+			"reason": "Disciples and listeners address a teacher, not a ruler or judge; tú matches the close address of the scenes."
+		},
+		{
+			"ref": "165:4.1",
+			"choice": "«repartidor entre ustedes» (plural), then «sacaste» (singular)",
+			"reason": "\"over you\" covers the two brothers; \"Where did you get\" speaks to the young man only."
+		},
+		{
+			"ref": "165:2.11",
+			"choice": "«tiene un demonio» for \"has a devil\"",
+			"reason": "The sense is possession; the earlier glossary gives \"demonios\" for possession, not \"diablo\"."
+		},
+		{
+			"ref": "165:5.5",
+			"choice": "«señor» for \"master\" in the parable",
+			"reason": "Lowercase master of servants; «Maestro» would read as Jesus' title."
+		},
+		{
+			"ref": "165:4.6",
+			"choice": "«no su sirviente, sino su amo» (masculine) for wealth",
+			"reason": "Spanish forces a gender; the masculine nouns keep the servant/master contrast general."
+		},
+		{
+			"ref": "165:3.8",
+			"choice": "«no puedo hacerlo» for \"I may not do\"",
+			"reason": "Spanish poder keeps both readings open: lack of ability and lack of permission."
+		}
+	]
+}

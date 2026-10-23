@@ -1,0 +1,61 @@
+{
+	"newTerms": {
+		"faith-entrance (into the kingdom)": "entrada por la fe",
+		"truth hunger": "hambre de verdad",
+		"kingdom of life": "reino de la vida",
+		"family fellowship with God the Father": "compañerismo familiar con Dios el Padre",
+		"the Father's fold": "el redil del Padre",
+		"New Age": "Nueva Era",
+		"Redeemer-Creator": "Redentor-Creador",
+		"sociophilosophical": "sociofilosófico",
+		"dispensation (of social righteousness; spiritual)": "dispensación",
+		"reign (of God, of God's spirit)": "reinado"
+	},
+	"forcedChoices": [
+		{
+			"ref": "170:1.11",
+			"choice": "«dentro de ustedes» (plural)",
+			"reason": "Spanish forces a number for 'you'; Jesus spoke this to groups, and the same plural form is used in 170:1.13 and 170:2.24."
+		},
+		{
+			"ref": "170:2.11",
+			"choice": "«Venga tu reino; hágase tu voluntad» (tú)",
+			"reason": "The prayer speaks to God as Father, one person; tú per the Spanish rules."
+		},
+		{
+			"ref": "170:2.23",
+			"choice": "ustedes for generic 'you'",
+			"reason": "The text speaks to the reader; the Spanish rules ask for the plural ustedes."
+		},
+		{
+			"ref": "170:3.3",
+			"choice": "ustedes for generic 'you'",
+			"reason": "Same as 170:2.23."
+		},
+		{
+			"ref": "170:3.6",
+			"choice": "impersonal «al prójimo como a uno mismo»",
+			"reason": "A general maxim; the impersonal form reads better than ustedes and keeps the general sense."
+		},
+		{
+			"ref": "170:5.19",
+			"choice": "«enseñanzas <em>reales</em>» for 'actual teachings'",
+			"reason": "Here 'actual' is the plain word (genuine, as he taught them), not the philosophical term 'en acto' of the glossary."
+		},
+		{
+			"ref": "170:3.3",
+			"choice": "«experiencia definida y real» for 'definite and actual experience'",
+			"reason": "Plain sense of 'actual'; 'en acto' would add a philosophical sense not intended."
+		},
+		{
+			"ref": "170:5.14",
+			"choice": "«el ideal que él tenía» for 'his ideal'",
+			"reason": "Spanish 'su' could point to the followers; the English 'his' points to Jesus."
+		},
+		{
+			"ref": "170:5.21",
+			"choice": "«¡No se equivoquen!, hay …» (one sentence)",
+			"reason": "Keeps the English as one sentence, with the lowercase word after the exclamation."
+		}
+	]
+}

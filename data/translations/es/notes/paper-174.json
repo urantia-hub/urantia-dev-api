@@ -1,0 +1,62 @@
+{
+	"newTerms": {
+		"lawyer (expert in the Jewish law)": "experto en la ley",
+		"sympathy (understanding fellow-feeling, 174:1.2-1.5)": "compasión",
+		"child-parent relationship": "relación hijo-progenitor",
+		"Books of Moses": "Libros de Moisés",
+		"children of light": "hijos de la luz",
+		"fiery trial": "prueba de fuego"
+	},
+	"forcedChoices": [
+		{
+			"ref": "174:1.4",
+			"choice": "ustedes (\"when you love your brother\")",
+			"reason": "Jesus speaks to four apostles; the plural fits the context and the neighboring sentences."
+		},
+		{
+			"ref": "174:1.3",
+			"choice": "progenitor for \"parent\", padre for \"father\"",
+			"reason": "Spanish \"padre\" covers both; \"progenitor\" keeps the English distinction between child-parent and child-father."
+		},
+		{
+			"ref": "174:2.2",
+			"choice": "tú for the students to Jesus",
+			"reason": "\"Master\" is a teacher's title, not a ruler's; the apostles also use tú with him."
+		},
+		{
+			"ref": "174:3.2",
+			"choice": "su padre Moisés (lowercase)",
+			"reason": "A capital \"Padre\" in Spanish reads as God; the English means the ancestor."
+		},
+		{
+			"ref": "174:3.4",
+			"choice": "no Yo <em>era</em> su Dios, without quotation marks",
+			"reason": "The English gives the contrast without quotation marks; kept as is."
+		},
+		{
+			"ref": "174:4.3",
+			"choice": "lo más prudente for \"the better part of valor\"",
+			"reason": "The English idiom means prudence; the literal form is not natural in Spanish."
+		},
+		{
+			"ref": "174:4.3",
+			"choice": "bajó la mirada hacia él for \"looked down upon him\"",
+			"reason": "The sense is physical; \"despreciar\" would change the meaning."
+		},
+		{
+			"ref": "174:5.1",
+			"choice": "usted for the Greeks to Philip (\"Sir\")",
+			"reason": "Strangers speak with formal respect to a man they do not know."
+		},
+		{
+			"ref": "174:0.2",
+			"choice": "Sostén con firmeza a tus hermanos",
+			"reason": "\"Keep a firm hold\" can mean support or restrain; \"sostener\" keeps both near the English."
+		},
+		{
+			"ref": "174:5.3",
+			"choice": "les he hablado de la filiación con alegría...",
+			"reason": "The word order keeps the English ambiguity (told with joy, or sonship with joy)."
+		}
+	]
+}
