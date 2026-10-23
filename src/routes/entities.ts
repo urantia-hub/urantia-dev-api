@@ -234,7 +234,7 @@ entitiesRoute.openapi(getEntityParagraphsRoute, async (c) => {
 
 	// Apply paragraph translations if lang specified
 	const translatedResults = (lang && lang !== "eng")
-		? await applyParagraphTranslations(db, results, lang)
+		? await applyTitleTranslations(db, await applyParagraphTranslations(db, results, lang), lang)
 		: results;
 
 	return c.json(
