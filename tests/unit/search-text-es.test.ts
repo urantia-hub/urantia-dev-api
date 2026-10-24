@@ -3,7 +3,11 @@ import { highlightEs, normalizeQueryEs, parsePaperRefEs } from "../../src/lib/se
 
 describe("normalizeQueryEs", () => {
 	it("keeps the words in lower case", () => {
-		expect(normalizeQueryEs("Ajustador del Pensamiento").words).toEqual(["ajustador", "del", "pensamiento"]);
+		expect(normalizeQueryEs("Ajustador del Pensamiento").words).toEqual([
+			"ajustador",
+			"del",
+			"pensamiento",
+		]);
 	});
 	it("folds accents, the diaeresis, and ñ", () => {
 		expect(normalizeQueryEs("religión").text).toBe(normalizeQueryEs("religion").text);
@@ -22,7 +26,11 @@ describe("normalizeQueryEs", () => {
 describe("parsePaperRefEs", () => {
 	it("reads documento and doc. before a reference", () => {
 		expect(parsePaperRefEs("documento 1")).toEqual({ paperId: "1" });
-		expect(parsePaperRefEs("Documento 1:0.1")).toEqual({ paperId: "1", sectionId: "0", paragraphId: "1" });
+		expect(parsePaperRefEs("Documento 1:0.1")).toEqual({
+			paperId: "1",
+			sectionId: "0",
+			paragraphId: "1",
+		});
 		expect(parsePaperRefEs("doc. 99:1")).toEqual({ paperId: "99", sectionId: "1" });
 		expect(parsePaperRefEs("1:0.1")).toEqual({ paperId: "1", sectionId: "0", paragraphId: "1" });
 	});
@@ -44,6 +52,20 @@ describe("highlightEs", () => {
 		expect(highlightEs("los Ajustadores", ["ajustador"], false)).toBe("los Ajustadores");
 	});
 	it("does not touch a word inside a tag", () => {
-		expect(highlightEs('<span class="la">x</span>', ["la"], false)).toBe('<span class="la">x</span>');
+		expect(highlightEs('<span class="la">x</span>', ["la"], false)).toBe(
+			'<span class="la">x</span>',
+		);
+	});
+	it("marks a small word only inside the phrase", () => {
+		const html = "el Ajustador del Pensamiento, la voz del Dios vivo";
+		expect(highlightEs(html, ["ajustador", "del", "pensamiento"], false)).toBe(
+			`el ${mark("Ajustador del Pensamiento")}, la voz del Dios vivo`,
+		);
+		expect(highlightEs("un Ajustador y la voz del Dios", ["ajustador", "del", "dios"], false)).toBe(
+			`un ${mark("Ajustador")} y la voz del ${mark("Dios")}`,
+		);
+	});
+	it("marks small words when the search has no other word", () => {
+		expect(highlightEs("la voz del Dios", ["del"], false)).toBe(`la voz ${mark("del")} Dios`);
 	});
 });
