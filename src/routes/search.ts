@@ -14,6 +14,9 @@ import { enrichWithBibleParallels, wantsBibleParallels } from "../lib/bible-para
 import { enrichWithEntities, wantsEntities } from "../lib/entities.ts";
 import { problemJson } from "../lib/errors.ts";
 import { type SearchType, searchPapers, tierCounts } from "../lib/paper-search.ts";
+import { searchPapersEs } from "../lib/paper-search-es.ts";
+import { normalizeQueryEs } from "../lib/search-text-es.ts";
+import { localizeIncluded } from "../lib/translations.ts";
 import { semanticSearchPapers } from "../lib/paper-semantic.ts";
 import { getCachedEmbedding, runAfter, setCachedEmbedding } from "../lib/search-cache.ts";
 import { normalizeQuery } from "../lib/search-text.ts";
@@ -40,21 +43,30 @@ type SearchParams = {
 	partId?: string;
 	type: SearchType;
 	include?: string;
+	lang?: "eng" | "es";
 };
 
 async function handleFullTextSearch(c: AnyContext, params: SearchParams) {
 	const { db } = getDb(c.env?.HYPERDRIVE);
-	const { q, page, limit, paperId, partId, type, include } = params;
+	const { q, page, limit, paperId, partId, type, include, lang } = params;
+	const es = lang === "es";
 
 	if (!q) {
 		return problemJson(c, 400, "Search query cannot be empty");
 	}
 
-	if (normalizeQuery(q).words.length === 0) {
+	if ((es ? normalizeQueryEs(q) : normalizeQuery(q)).words.length === 0) {
 		return problemJson(c, 400, "Search query cannot be empty");
 	}
 
-	const { data: results, meta } = await searchPapers(db, { q, type, page, limit, paperId, partId });
+	const { data: results, meta } = await (es ? searchPapersEs : searchPapers)(db, {
+		q,
+		type,
+		page,
+		limit,
+		paperId,
+		partId,
+	});
 	const total = meta.total;
 
 	const logger = c.get("logger");
@@ -84,6 +96,7 @@ async function handleFullTextSearch(c: AnyContext, params: SearchParams) {
 		enrichedResults = (await enrichWithBibleParallels(db, enrichedResults)) as Enriched[];
 	if (wantsUrantiaParallels(include))
 		enrichedResults = (await enrichWithUrantiaParallels(db, enrichedResults)) as Enriched[];
+	if (es) enrichedResults = await localizeIncluded(db, enrichedResults, "es");
 
 	return c.json(
 		{

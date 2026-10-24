@@ -24,6 +24,8 @@ import { searchPapers } from "../lib/paper-search.ts";
 import { semanticSearchPapers } from "../lib/paper-semantic.ts";
 import { databaseCandidates } from "../lib/quote-candidates.ts";
 import { normalizeQuery } from "../lib/search-text.ts";
+import { normalizeQueryEs } from "../lib/search-text-es.ts";
+import { searchPapersEs } from "../lib/paper-search-es.ts";
 import {
 	applyParagraphTranslations,
 	applyTitleTranslations,
@@ -97,7 +99,7 @@ async function findParagraphByRef(db: ReturnType<typeof getDb>["db"], ref: strin
 	}
 }
 
-// The paper and paragraph tools read Spanish with `lang: "es"`. Search stays English.
+// The paper, paragraph, and keyword search tools read Spanish with `lang: "es"`.
 const langInput = z
 	.enum(["eng", "es"])
 	.default("eng")
@@ -819,6 +821,9 @@ function createMcpServer() {
 					.boolean()
 					.default(false)
 					.describe("Include the top-10 most-similar OTHER Urantia paragraphs for each result."),
+				lang: langInput.describe(
+					'Language to search. "es" searches the Spanish text (words match with or without accents; "documento 1" is a reference) and gives Spanish rows. Default "eng".',
+				),
 			},
 			outputSchema: {
 				data: z.array(searchResultSchema),
@@ -837,13 +842,15 @@ function createMcpServer() {
 			include_entities,
 			include_bible_parallels,
 			include_urantia_parallels,
+			lang,
 		}) => {
 			const searchQuery = query ?? q;
 			if (!searchQuery) return errorResult("Either 'query' or 'q' is required");
 			const { db } = getDb();
-			if (normalizeQuery(searchQuery).words.length === 0)
+			const es = lang === "es";
+			if ((es ? normalizeQueryEs(searchQuery) : normalizeQuery(searchQuery)).words.length === 0)
 				return errorResult("Search query cannot be empty");
-			const { data: results, meta } = await searchPapers(db, {
+			const { data: results, meta } = await (es ? searchPapersEs : searchPapers)(db, {
 				q: searchQuery,
 				type,
 				page,
@@ -856,6 +863,7 @@ function createMcpServer() {
 				entities: include_entities,
 				bibleParallels: include_bible_parallels,
 				urantiaParallels: include_urantia_parallels,
+				lang,
 			});
 
 			return structured({ data: enrichedResults, meta });
