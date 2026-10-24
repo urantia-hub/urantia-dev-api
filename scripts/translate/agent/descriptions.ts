@@ -27,8 +27,10 @@ export function checkDescriptions(
 	lang: string,
 	entries: DescriptionEntry[],
 	answers: Record<string, DescriptionAnswer>,
-): { issues: DescriptionIssue[]; passed: Map<string, DescriptionAnswer> } {
+): { issues: DescriptionIssue[]; warnings: DescriptionIssue[]; passed: Map<string, DescriptionAnswer> } {
 	const issues: DescriptionIssue[] = [];
+	// A term in another form is often right ("worship" of a cult is "culto"), so a person reads these.
+	const warnings: DescriptionIssue[] = [];
 	const passed = new Map<string, DescriptionAnswer>();
 	for (const entry of entries) {
 		const answer = answers[entry.id];
@@ -44,10 +46,10 @@ export function checkDescriptions(
 		if (english >= 2) add("english", `${english} English function words`);
 		for (const term of termsInText(lang, entry.description)) {
 			if (term.required && !termPresent(term, answer.description)) {
-				add("term", `"${term.en}" expected as "${term.target}"`);
+				warnings.push({ id: entry.id, check: "term", detail: `"${term.en}" expected as "${term.target}"` });
 			}
 		}
 		if (issues.length === before) passed.set(entry.id, answer);
 	}
-	return { issues, passed };
+	return { issues, warnings, passed };
 }

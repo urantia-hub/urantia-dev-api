@@ -20,11 +20,13 @@ describe("checkDescriptions", () => {
 		});
 		expect(issues).toContainEqual(expect.objectContaining({ id: "x-plain", check: "english" }));
 	});
-	it("fails a glossary term written in another form", () => {
-		const { issues } = checkDescriptions("es", [father], {
+	it("warns on a glossary term written in another form, and accepts the entry", () => {
+		const { issues, warnings, passed } = checkDescriptions("es", [father], {
 			[father.id]: { description: "La Primera Persona de la Deidad, creador y gobernante del cosmos entero." },
 		});
-		expect(issues).toContainEqual(expect.objectContaining({ id: "universal-father", check: "term" }));
+		expect(issues).toEqual([]);
+		expect(warnings).toContainEqual(expect.objectContaining({ id: "universal-father", check: "term" }));
+		expect(passed.has(father.id)).toBe(true);
 	});
 	it("passes a good Spanish description and returns it", () => {
 		const good = "La Primera Persona de la Deidad, creador y gobernante del universo de los universos.";

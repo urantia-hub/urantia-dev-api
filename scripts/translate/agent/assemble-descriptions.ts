@@ -23,7 +23,7 @@ const answers: Record<string, DescriptionAnswer> = {};
 for (const f of drafts) Object.assign(answers, JSON.parse(readFileSync(join(dir, f), "utf-8")));
 
 const entries = descriptionEntries(lang);
-const { issues, passed } = checkDescriptions(lang, entries, answers);
+const { issues, warnings, passed } = checkDescriptions(lang, entries, answers);
 
 type Row = { entityId: string; language: string; source: string; version: number; name: string; aliases: string[]; description: string | null; confidence: string };
 const file = join(ROOT, `data/translations/${lang}/entity-translations.json`);
@@ -47,5 +47,6 @@ const failed = [...new Map(issues.map((i) => [i.id, i])).values()].map((i) => ({
 	detail: issues.filter((x) => x.id === i.id).map((x) => x.detail).join("; "),
 }));
 writeFileSync(join(dir, "failed.json"), `${JSON.stringify(failed, null, 2)}\n`);
+writeFileSync(join(dir, "warnings.json"), `${JSON.stringify(warnings, null, 2)}\n`);
 const counts = issues.reduce<Record<string, number>>((c, i) => ({ ...c, [i.check]: (c[i.check] ?? 0) + 1 }), {});
-console.log(`${passed.size} of ${entries.length} accepted, ${added} new names, ${failed.length} to redo ${JSON.stringify(counts)}`);
+console.log(`${passed.size} of ${entries.length} accepted, ${added} new names, ${failed.length} to redo ${JSON.stringify(counts)}, ${warnings.length} term warnings to read`);
