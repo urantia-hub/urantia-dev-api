@@ -4,11 +4,8 @@ import { getDb } from "../db/client.ts";
 import { entities, paragraphEntities, paragraphs } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
 import { problemJson } from "../lib/errors.ts";
-import {
-	applyEntityTranslations,
-	applyParagraphTranslations,
-	applyTitleTranslations,
-} from "../lib/translations.ts";
+import { applyEntityTranslations, applyParagraphTranslations, applyTitleTranslations } from "../lib/translations.ts";
+import { paragraphFields } from "./paragraphs.ts";
 import {
 	EntitiesListQuery,
 	EntitiesListResponse,
@@ -18,7 +15,6 @@ import {
 	EntityParagraphsResponse,
 	ErrorResponse,
 } from "../validators/schemas.ts";
-import { paragraphFields } from "./paragraphs.ts";
 
 export const entitiesRoute = createApp();
 
@@ -89,9 +85,12 @@ entitiesRoute.openapi(listEntitiesRoute, async (c) => {
 		.limit(limit)
 		.offset(offset);
 
+
+
 	// Apply entity translations if lang specified
-	const translatedResults =
-		lang && lang !== "eng" ? await applyEntityTranslations(db, results, lang) : results;
+	const translatedResults = (lang && lang !== "eng")
+		? await applyEntityTranslations(db, results, lang)
+		: results;
 
 	return c.json(
 		{
@@ -159,8 +158,9 @@ entitiesRoute.openapi(getEntityRoute, async (c) => {
 
 	// Note: getEntity doesn't have a query schema with lang, so we read it manually
 	const lang = c.req.query("lang");
-	const data =
-		lang && lang !== "eng" ? (await applyEntityTranslations(db, result, lang))[0]! : result[0]!;
+	const data = (lang && lang !== "eng")
+		? (await applyEntityTranslations(db, result, lang))[0]!
+		: result[0]!;
 
 	return c.json({ data }, 200);
 });
@@ -208,6 +208,7 @@ entitiesRoute.openapi(getEntityParagraphsRoute, async (c) => {
 		.limit(1);
 
 	if (entity.length === 0) {
+	
 		return problemJson(c, 404, `Entity "${id}" not found`);
 	}
 
@@ -229,11 +230,12 @@ entitiesRoute.openapi(getEntityParagraphsRoute, async (c) => {
 		.limit(limit)
 		.offset(offset);
 
+
+
 	// Apply paragraph translations if lang specified
-	const translatedResults =
-		lang && lang !== "eng"
-			? await applyTitleTranslations(db, await applyParagraphTranslations(db, results, lang), lang)
-			: results;
+	const translatedResults = (lang && lang !== "eng")
+		? await applyTitleTranslations(db, await applyParagraphTranslations(db, results, lang), lang)
+		: results;
 
 	return c.json(
 		{

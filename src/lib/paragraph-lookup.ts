@@ -50,7 +50,11 @@ export async function resolveParagraphRef(
 				? paragraphs.standardReferenceId
 				: paragraphs.paperSectionParagraphId;
 
-	const [row] = await db.select(paragraphFields).from(paragraphs).where(eq(column, ref)).limit(1);
+	const [row] = await db
+		.select(paragraphFields)
+		.from(paragraphs)
+		.where(eq(column, ref))
+		.limit(1);
 
 	if (!row) return null;
 

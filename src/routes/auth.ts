@@ -4,7 +4,6 @@ import { HTTPException } from "hono/http-exception";
 import { z } from "zod";
 import { getDb } from "../db/client.ts";
 import { apps, authCodes, refreshTokens, userConsents, users } from "../db/schema.ts";
-import { createAccountStore, deleteAppRow } from "../lib/account-store.ts";
 import { createApp } from "../lib/app.ts";
 import {
 	changeMail,
@@ -23,6 +22,19 @@ import {
 } from "../lib/app-status.ts";
 import { tokenEnv } from "../lib/app-tokens.ts";
 import { createAuthStore } from "../lib/auth-store.ts";
+import { problemJson } from "../lib/errors.ts";
+import {
+	AccessRemoved,
+	issueSession,
+	type RefreshResult,
+	refreshSession,
+	revokeSession,
+	type Tokens,
+} from "../lib/sessions.ts";
+import { canIssueCode, firstPartyIds, isFirstPartyApp } from "../lib/token-access.ts";
+import { ALLOWED_SCOPES, AppCreateBody, HexColor } from "../validators/app-schemas.ts";
+import { createAccountStore, deleteAppRow } from "../lib/account-store.ts";
+import { accountsMailKey } from "../lib/mail/hook.ts";
 import {
 	applyRequest,
 	canLoadLogo,
@@ -34,23 +46,16 @@ import {
 	requestFor,
 	sameAsSeen,
 } from "../lib/change-request.ts";
-import { decideChange, setReviewStatus, withdrawChange, writeEdit } from "../lib/change-store.ts";
-import { deleteAccount, listAccess, refusalText, removeAccess } from "../lib/consents.ts";
-import { problemJson } from "../lib/errors.ts";
-import { accountsMailKey } from "../lib/mail/hook.ts";
 import {
-	AccessRemoved,
-	issueSession,
-	type RefreshResult,
-	refreshSession,
-	revokeSession,
-	type Tokens,
-} from "../lib/sessions.ts";
+	decideChange,
+	setReviewStatus,
+	withdrawChange,
+	writeEdit,
+} from "../lib/change-store.ts";
+import { deleteAccount, listAccess, refusalText, removeAccess } from "../lib/consents.ts";
 import { adminSettings, removeSignIn } from "../lib/supabase-admin.ts";
-import { canIssueCode, firstPartyIds, isFirstPartyApp } from "../lib/token-access.ts";
 import type { AuthUser } from "../middleware/auth.ts";
 import { rateLimiter } from "../middleware/rate-limit.ts";
-import { ALLOWED_SCOPES, AppCreateBody, HexColor } from "../validators/app-schemas.ts";
 import { ErrorResponse } from "../validators/schemas.ts";
 
 export const authRoute = createApp();
@@ -165,15 +170,16 @@ async function notifyAdmins(
 	kind: "new" | "changed" | "request",
 ): Promise<void> {
 	const env = mailEnv(c);
-	const to = (env.FEEDBACK_TO ?? "")
-		.split(",")
-		.map((a) => a.trim())
-		.filter(Boolean);
+	const to = (env.FEEDBACK_TO ?? "").split(",").map((a) => a.trim()).filter(Boolean);
 	await Promise.all(to.map((address) => sendMail(env, address, requestMail(app, kind))));
 }
 
 // Moves the app to pending if the edit needs a review. The database applies it to the row as it is now,
 // so an edit cannot undo a suspension that an admin made a moment ago. True if the app moved.
+
+
+
+
 
 /**
  * Dangerous schemes that must never be used as redirect URIs.
@@ -224,6 +230,8 @@ function validateRedirectUris(uris: string[]): string | null {
 // Schemas
 // ============================================================
 
+
+
 const AppPublicSchema = z.object({
 	id: z.string(),
 	name: z.string(),
@@ -258,28 +266,15 @@ const BadRequest = {
 	content: { "application/json": { schema: ErrorResponse } },
 };
 
-const AppUpdateBody = z
-	.object({
-		name: z.string().min(1).max(100).optional(),
-		redirectUris: z.array(z.string().min(1)).min(1).optional(),
-		scopes: z
-			.array(z.enum(ALLOWED_SCOPES as [string, ...string[]]))
-			.min(1)
-			.optional(),
-		primaryColor: HexColor.nullable().optional(),
-		accentColor: HexColor.nullable().optional(),
-	})
-	.refine(
-		(data) =>
-			data.name !== undefined ||
-			data.redirectUris !== undefined ||
-			data.scopes !== undefined ||
-			data.primaryColor !== undefined ||
-			data.accentColor !== undefined,
-		{
-			message: "At least one field must be provided.",
-		},
-	);
+const AppUpdateBody = z.object({
+	name: z.string().min(1).max(100).optional(),
+	redirectUris: z.array(z.string().min(1)).min(1).optional(),
+	scopes: z.array(z.enum(ALLOWED_SCOPES as [string, ...string[]])).min(1).optional(),
+	primaryColor: HexColor.nullable().optional(),
+	accentColor: HexColor.nullable().optional(),
+}).refine((data) => data.name !== undefined || data.redirectUris !== undefined || data.scopes !== undefined || data.primaryColor !== undefined || data.accentColor !== undefined, {
+	message: "At least one field must be provided.",
+});
 
 const AppUpdateResponse = z.object({
 	id: z.string(),
@@ -386,24 +381,7 @@ authRoute.openapi(getAppRoute, async (c) => {
 				}
 			: {};
 
-	return c.json(
-		{
-			data: {
-				id: app.id,
-				name: app.name,
-				scopes: app.scopes,
-				logoUrl: app.logoUrl ?? null,
-				primaryColor: app.primaryColor ?? null,
-				accentColor: app.accentColor ?? null,
-				firstParty: isFirstParty(c, app),
-				status: statusOf(app),
-				redirectUris: app.redirectUris,
-				createdAt: app.createdAt.toISOString(),
-				...review,
-			},
-		},
-		200,
-	);
+	return c.json({ data: { id: app.id, name: app.name, scopes: app.scopes, logoUrl: app.logoUrl ?? null, primaryColor: app.primaryColor ?? null, accentColor: app.accentColor ?? null, firstParty: isFirstParty(c, app), status: statusOf(app), redirectUris: app.redirectUris, createdAt: app.createdAt.toISOString(), ...review } }, 200);
 });
 
 // ============================================================
@@ -432,9 +410,7 @@ const createAppRoute = createRoute({
 // Each new app sends an email to each admin. This limit holds for one Worker instance, so it slows a
 // flood down and does not stop it. The cap on apps in review is the hard limit.
 const createAppLimit = rateLimiter({ windowMs: 60 * 60 * 1000, max: 5, scope: "app-create" });
-authRoute.use("/apps", async (c, next) =>
-	c.req.method === "POST" ? createAppLimit(c, next) : next(),
-);
+authRoute.use("/apps", async (c, next) => (c.req.method === "POST" ? createAppLimit(c, next) : next()));
 
 authRoute.openapi(createAppRoute, async (c) => {
 	const user = getUser(c);
@@ -561,10 +537,7 @@ const consentCheckRoute = createRoute({
 authRoute.openapi(consentCheckRoute, async (c) => {
 	const user = getUser(c);
 	const { appId, scopes: scopeStr } = c.req.valid("query");
-	const requestedScopes = scopeStr
-		.split(",")
-		.map((s) => s.trim())
-		.filter(Boolean);
+	const requestedScopes = scopeStr.split(",").map((s) => s.trim()).filter(Boolean);
 	const { db } = getDb(c.env?.HYPERDRIVE);
 
 	const [grant] = await db
@@ -651,14 +624,8 @@ const accountDeleteRoute = createRoute({
 	},
 	responses: {
 		204: { description: "Deleted" },
-		400: {
-			description: "The email does not match",
-			content: { "application/json": { schema: ErrorResponse } },
-		},
-		409: {
-			description: "The reader owns an app that other people use",
-			content: { "application/json": { schema: ErrorResponse } },
-		},
+		400: { description: "The email does not match", content: { "application/json": { schema: ErrorResponse } } },
+		409: { description: "The reader owns an app that other people use", content: { "application/json": { schema: ErrorResponse } } },
 		503: { description: "Not ready", content: { "application/json": { schema: ErrorResponse } } },
 	},
 });
@@ -668,8 +635,7 @@ authRoute.openapi(accountDeleteRoute, async (c) => {
 	const body = c.req.valid("json");
 	// Without the key the sign-in itself cannot be removed. Stop before anything is deleted.
 	const admin = adminSettings(c.env ?? process.env);
-	if (!admin)
-		return problemJson(c, 503, "Account deletion is not ready. Write to hi@urantiahub.com.");
+	if (!admin) return problemJson(c, 503, "Account deletion is not ready. Write to hi@urantiahub.com.");
 
 	const { db } = getDb(c.env?.HYPERDRIVE);
 	const store = createAccountStore(db);
@@ -796,7 +762,9 @@ authRoute.openapi(authorizeRoute, async (c) => {
 	});
 
 	// Record/update consent grant (merge scopes)
-	const mergedScopes = existing ? [...new Set([...existing.scopes, ...body.scopes])] : body.scopes;
+	const mergedScopes = existing
+		? [...new Set([...existing.scopes, ...body.scopes])]
+		: body.scopes;
 
 	if (existing) {
 		await db
@@ -1078,20 +1046,17 @@ authRoute.openapi(listAppsRoute, async (c) => {
 		.from(apps)
 		.where(eq(apps.ownerId, user.id));
 
-	return c.json(
-		{
-			data: results.map((app) => ({
-				...app,
-				logoUrl: app.logoUrl ?? null,
-				primaryColor: app.primaryColor ?? null,
-				accentColor: app.accentColor ?? null,
-				pendingChange: parseRequest(app.pendingChange),
-				firstParty: isFirstParty(c, { id: app.id, ownerId: user.id }),
-				createdAt: app.createdAt.toISOString(),
-			})),
-		},
-		200,
-	);
+	return c.json({
+		data: results.map((app) => ({
+			...app,
+			logoUrl: app.logoUrl ?? null,
+			primaryColor: app.primaryColor ?? null,
+			accentColor: app.accentColor ?? null,
+			pendingChange: parseRequest(app.pendingChange),
+			firstParty: isFirstParty(c, { id: app.id, ownerId: user.id }),
+			createdAt: app.createdAt.toISOString(),
+		})),
+	}, 200);
 });
 
 // ============================================================
@@ -1149,9 +1114,7 @@ const rotateSecretRoute = createRoute({
 	responses: {
 		200: {
 			description: "New secret (shown once)",
-			content: {
-				"application/json": { schema: z.object({ data: z.object({ secret: z.string() }) }) },
-			},
+			content: { "application/json": { schema: z.object({ data: z.object({ secret: z.string() }) }) } },
 		},
 		403: {
 			description: "Not the app owner",
@@ -1357,10 +1320,7 @@ const uploadLogoRoute = createRoute({
 	summary: "Upload an app logo (owner-only, max 2MB, PNG/JPEG/WebP)",
 	request: {
 		params: z.object({ id: z.string() }),
-		body: {
-			required: true,
-			content: { "multipart/form-data": { schema: z.object({ logo: z.any() }) } },
-		},
+		body: { required: true, content: { "multipart/form-data": { schema: z.object({ logo: z.any() }) } } },
 	},
 	responses: {
 		200: {
@@ -1423,11 +1383,7 @@ authRoute.openapi(uploadLogoRoute, async (c) => {
 
 	// Validate size
 	if (file.size > MAX_LOGO_SIZE) {
-		return problemJson(
-			c,
-			400,
-			`File too large (${(file.size / 1024 / 1024).toFixed(1)}MB). Max: 2MB.`,
-		);
+		return problemJson(c, 400, `File too large (${(file.size / 1024 / 1024).toFixed(1)}MB). Max: 2MB.`);
 	}
 
 	// Each upload gets a key of its own. So a logo that waits for a review never replaces the live one.
@@ -1644,16 +1600,10 @@ authRoute.openapi(getLogoFileRoute, async (c) => {
 	const headers = new Headers();
 	// The type comes from the name that we gave the file, never from what was uploaded with it.
 	const ext = file.slice(file.lastIndexOf(".") + 1);
-	headers.set(
-		"Content-Type",
-		ext === "png" ? "image/png" : ext === "webp" ? "image/webp" : "image/jpeg",
-	);
+	headers.set("Content-Type", ext === "png" ? "image/png" : ext === "webp" ? "image/webp" : "image/jpeg");
 	// Only the public case can be kept by a cache that other people share.
 	const isPublic = statusOf(app) === "approved" && url === app.logoUrl;
-	headers.set(
-		"Cache-Control",
-		isPublic ? "public, max-age=31536000, immutable" : "private, no-store",
-	);
+	headers.set("Cache-Control", isPublic ? "public, max-age=31536000, immutable" : "private, no-store");
 	headers.set("X-Content-Type-Options", "nosniff");
 	headers.set("ETag", object.httpEtag);
 	return new Response(object.body as ReadableStream, { status: 200, headers });
@@ -1672,9 +1622,7 @@ const adminCheckRoute = createRoute({
 	responses: {
 		200: {
 			description: "Admin status",
-			content: {
-				"application/json": { schema: z.object({ data: z.object({ isAdmin: z.boolean() }) }) },
-			},
+			content: { "application/json": { schema: z.object({ data: z.object({ isAdmin: z.boolean() }) }) } },
 		},
 	},
 });
@@ -1750,22 +1698,19 @@ authRoute.openapi(adminListAppsRoute, async (c) => {
 		.leftJoin(users, eq(apps.ownerId, users.id))
 		.orderBy(apps.createdAt);
 
-	return c.json(
-		{
-			data: results.map((row) => ({
-				...row,
-				logoUrl: row.logoUrl ?? null,
-				primaryColor: row.primaryColor ?? null,
-				accentColor: row.accentColor ?? null,
-				ownerEmail: row.ownerEmail ?? null,
-				firstParty: isFirstParty(c, { id: row.id, ownerId: row.ownerId }),
-				pendingChange: parseRequest(row.pendingChange),
-				reviewedAt: row.reviewedAt?.toISOString() ?? null,
-				createdAt: row.createdAt.toISOString(),
-			})),
-		},
-		200,
-	);
+	return c.json({
+		data: results.map((row) => ({
+			...row,
+			logoUrl: row.logoUrl ?? null,
+			primaryColor: row.primaryColor ?? null,
+			accentColor: row.accentColor ?? null,
+			ownerEmail: row.ownerEmail ?? null,
+			firstParty: isFirstParty(c, { id: row.id, ownerId: row.ownerId }),
+			pendingChange: parseRequest(row.pendingChange),
+			reviewedAt: row.reviewedAt?.toISOString() ?? null,
+			createdAt: row.createdAt.toISOString(),
+		})),
+	}, 200);
 });
 
 // ============================================================
@@ -1783,14 +1728,8 @@ const withdrawChangeRoute = createRoute({
 	request: { params: z.object({ id: z.string(), changeId: z.string().max(64) }) },
 	responses: {
 		204: { description: "Withdrawn" },
-		403: {
-			description: "Not the owner",
-			content: { "application/json": { schema: ErrorResponse } },
-		},
-		404: {
-			description: "App not found",
-			content: { "application/json": { schema: ErrorResponse } },
-		},
+		403: { description: "Not the owner", content: { "application/json": { schema: ErrorResponse } } },
+		404: { description: "App not found", content: { "application/json": { schema: ErrorResponse } } },
 		409: Conflict,
 	},
 });
@@ -1841,14 +1780,8 @@ const decideChangeRoute = createRoute({
 			},
 		},
 		400: BadRequest,
-		403: {
-			description: "Admin access required",
-			content: { "application/json": { schema: ErrorResponse } },
-		},
-		404: {
-			description: "App not found",
-			content: { "application/json": { schema: ErrorResponse } },
-		},
+		403: { description: "Admin access required", content: { "application/json": { schema: ErrorResponse } } },
+		404: { description: "App not found", content: { "application/json": { schema: ErrorResponse } } },
 		409: Conflict,
 	},
 });
@@ -1980,12 +1913,7 @@ authRoute.openapi(setAppStatusRoute, async (c) => {
 	const CHANGED = "The app changed since you looked. Look again.";
 	if (body.status === "approved") {
 		if (!body.seen) return problemJson(c, 400, "Say what the screen showed (seen).");
-		const now = {
-			name: app.name,
-			redirectUris: app.redirectUris,
-			scopes: app.scopes,
-			logoUrl: app.logoUrl ?? null,
-		};
+		const now = { name: app.name, redirectUris: app.redirectUris, scopes: app.scopes, logoUrl: app.logoUrl ?? null };
 		if (!sameAsSeen(now, body.seen)) return problemJson(c, 409, CHANGED);
 	}
 

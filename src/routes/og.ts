@@ -14,14 +14,17 @@ export const ogRoute = createApp();
 const ThemeEnum = z.enum(["default", "warm", "purple", "minimal"]);
 
 const OgQuery = z.object({
-	theme: ThemeEnum.default("default"),
+  theme: ThemeEnum.default("default"),
 });
 
-const THEME_COLORS: Record<z.infer<typeof ThemeEnum>, { glow: string; accent: string }> = {
-	default: { glow: "rgba(59, 130, 246, 0.15)", accent: "#3b82f6" },
-	warm: { glow: "rgba(245, 158, 11, 0.15)", accent: "#f59e0b" },
-	purple: { glow: "rgba(139, 92, 246, 0.15)", accent: "#8b5cf6" },
-	minimal: { glow: "transparent", accent: "#6b7280" },
+const THEME_COLORS: Record<
+  z.infer<typeof ThemeEnum>,
+  { glow: string; accent: string }
+> = {
+  default: { glow: "rgba(59, 130, 246, 0.15)", accent: "#3b82f6" },
+  warm: { glow: "rgba(245, 158, 11, 0.15)", accent: "#f59e0b" },
+  purple: { glow: "rgba(139, 92, 246, 0.15)", accent: "#8b5cf6" },
+  minimal: { glow: "transparent", accent: "#6b7280" },
 };
 
 /**
@@ -29,96 +32,98 @@ const THEME_COLORS: Record<z.infer<typeof ThemeEnum>, { glow: string; accent: st
  * Returns { text, fontSize, lineHeight } tuned to fill the 1080×340px text area.
  */
 function fitText(raw: string): {
-	text: string;
-	fontSize: number;
-	lineHeight: number;
+  text: string;
+  fontSize: number;
+  lineHeight: number;
 } {
-	const len = raw.length;
+  const len = raw.length;
 
-	// Thresholds tuned for 1080px-wide text area, 340px max height
-	if (len <= 120) return { text: raw, fontSize: 36, lineHeight: 1.5 };
-	if (len <= 220) return { text: raw, fontSize: 30, lineHeight: 1.5 };
-	if (len <= 380) return { text: truncate(raw, 380), fontSize: 26, lineHeight: 1.45 };
-	if (len <= 550) return { text: truncate(raw, 550), fontSize: 22, lineHeight: 1.4 };
-	return { text: truncate(raw, 700), fontSize: 19, lineHeight: 1.4 };
+  // Thresholds tuned for 1080px-wide text area, 340px max height
+  if (len <= 120) return { text: raw, fontSize: 36, lineHeight: 1.5 };
+  if (len <= 220) return { text: raw, fontSize: 30, lineHeight: 1.5 };
+  if (len <= 380)
+    return { text: truncate(raw, 380), fontSize: 26, lineHeight: 1.45 };
+  if (len <= 550)
+    return { text: truncate(raw, 550), fontSize: 22, lineHeight: 1.4 };
+  return { text: truncate(raw, 700), fontSize: 19, lineHeight: 1.4 };
 }
 
 function truncate(text: string, max: number): string {
-	if (text.length <= max) return text;
-	// Cut at last sentence boundary within limit, fallback to word boundary
-	const slice = text.slice(0, max);
-	const sentenceEnd = Math.max(
-		slice.lastIndexOf(". "),
-		slice.lastIndexOf("? "),
-		slice.lastIndexOf("! "),
-	);
-	if (sentenceEnd > max * 0.6) return `${slice.slice(0, sentenceEnd + 1)}`;
-	const wordEnd = slice.lastIndexOf(" ");
-	return `${slice.slice(0, wordEnd > 0 ? wordEnd : max).trimEnd()}…`;
+  if (text.length <= max) return text;
+  // Cut at last sentence boundary within limit, fallback to word boundary
+  const slice = text.slice(0, max);
+  const sentenceEnd = Math.max(
+    slice.lastIndexOf(". "),
+    slice.lastIndexOf("? "),
+    slice.lastIndexOf("! "),
+  );
+  if (sentenceEnd > max * 0.6) return `${slice.slice(0, sentenceEnd + 1)}`;
+  const wordEnd = slice.lastIndexOf(" ");
+  return `${slice.slice(0, wordEnd > 0 ? wordEnd : max).trimEnd()}…`;
 }
 
 const getOgRoute = createRoute({
-	operationId: "getOgImage",
-	method: "get",
-	path: "/{ref}",
-	tags: ["OG Images"],
-	summary: "Generate a dynamic Open Graph image for a passage",
-	description: `Returns a 1200×630 PNG Open Graph image for a passage of the Urantia Papers. Designed for social media previews.
+  operationId: "getOgImage",
+  method: "get",
+  path: "/{ref}",
+  tags: ["OG Images"],
+  summary: "Generate a dynamic Open Graph image for a passage",
+  description: `Returns a 1200×630 PNG Open Graph image for a passage of the Urantia Papers. Designed for social media previews.
 
 Optional \`?theme=\` parameter: \`default\` (blue), \`warm\` (amber), \`purple\`, \`minimal\` (no glow).
 
 Images are cached permanently (\`Cache-Control: immutable\`).`,
-	request: {
-		params: ParagraphRefParam,
-		query: OgQuery,
-	},
-	responses: {
-		200: {
-			description: "PNG image",
-		},
-		404: {
-			description: "Paragraph not found",
-			content: { "application/json": { schema: ErrorResponse } },
-		},
-	},
+  request: {
+    params: ParagraphRefParam,
+    query: OgQuery,
+  },
+  responses: {
+    200: {
+      description: "PNG image",
+    },
+    404: {
+      description: "Paragraph not found",
+      content: { "application/json": { schema: ErrorResponse } },
+    },
+  },
 });
 
 ogRoute.openapi(getOgRoute, async (c) => {
-	const { db } = getDb(c.env?.HYPERDRIVE);
-	const { ref } = c.req.valid("param");
-	const { theme } = c.req.valid("query");
-	const format = detectRefFormat(ref);
+  const { db } = getDb(c.env?.HYPERDRIVE);
+  const { ref } = c.req.valid("param");
+  const { theme } = c.req.valid("query");
+  const format = detectRefFormat(ref);
 
-	if (format === "unknown") {
-		return problemJson(c, 404, `Invalid paragraph reference: "${ref}"`);
-	}
+  if (format === "unknown") {
+    return problemJson(c, 404, `Invalid paragraph reference: "${ref}"`);
+  }
 
-	const col =
-		format === "globalId"
-			? paragraphs.globalId
-			: format === "standardReferenceId"
-				? paragraphs.standardReferenceId
-				: paragraphs.paperSectionParagraphId;
+  const col =
+    format === "globalId"
+      ? paragraphs.globalId
+      : format === "standardReferenceId"
+        ? paragraphs.standardReferenceId
+        : paragraphs.paperSectionParagraphId;
 
-	const result = await db
-		.select({
-			standardReferenceId: paragraphs.standardReferenceId,
-			text: paragraphs.text,
-			paperTitle: paragraphs.paperTitle,
-		})
-		.from(paragraphs)
-		.where(eq(col, ref))
-		.limit(1);
+  const result = await db
+    .select({
+      standardReferenceId: paragraphs.standardReferenceId,
+      text: paragraphs.text,
+      paperTitle: paragraphs.paperTitle,
+    })
+    .from(paragraphs)
+    .where(eq(col, ref))
+    .limit(1);
 
-	if (result.length === 0) {
-		return problemJson(c, 404, `Paragraph "${ref}" not found`);
-	}
+  if (result.length === 0) {
+    return problemJson(c, 404, `Paragraph "${ref}" not found`);
+  }
 
-	const row = result[0]!;
-	const colors = THEME_COLORS[theme];
-	const { text: displayText, fontSize, lineHeight } = fitText(row.text);
+  const row = result[0]!;
+  const colors = THEME_COLORS[theme];
+  const { text: displayText, fontSize, lineHeight } = fitText(row.text);
 
-	const html = `<div style="display:flex;flex-direction:column;width:1200px;height:630px;background:#0a0b0f;padding:60px;font-family:system-ui,sans-serif;position:relative;overflow:hidden">
+  const html = `<div style="display:flex;flex-direction:column;width:1200px;height:630px;background:#0a0b0f;padding:60px;font-family:system-ui,sans-serif;position:relative;overflow:hidden">
 		<div style="display:flex;position:absolute;top:0;left:0;width:600px;height:630px;background:radial-gradient(circle at 0% 50%,${colors.glow},transparent 70%)"></div>
 		<div style="display:flex;flex-direction:column;flex:1;z-index:1">
 			<div style="display:flex;align-items:center;gap:8px;margin-bottom:24px">
@@ -134,8 +139,8 @@ ogRoute.openapi(getOgRoute, async (c) => {
 		</div>
 	</div>`;
 
-	return new ImageResponse(html, {
-		width: 1200,
-		height: 630,
-	});
+  return new ImageResponse(html, {
+    width: 1200,
+    height: 630,
+  });
 });

@@ -121,7 +121,9 @@ export function windowToRange(
 	};
 }
 
-export type CfStatsResult = { ok: true; stats: CfStatsRaw } | { ok: false; error: string };
+export type CfStatsResult =
+	| { ok: true; stats: CfStatsRaw }
+	| { ok: false; error: string };
 
 /**
  * Fetch + parse Cloudflare analytics for the given window.
@@ -149,10 +151,7 @@ export async function fetchCfStats(
 			body: JSON.stringify({ query: QUERY, variables: { zoneTag, start, end } }),
 		});
 	} catch (err) {
-		return {
-			ok: false,
-			error: `fetch failed: ${err instanceof Error ? err.message : String(err)}`,
-		};
+		return { ok: false, error: `fetch failed: ${err instanceof Error ? err.message : String(err)}` };
 	}
 
 	if (!res.ok) {
@@ -171,10 +170,7 @@ export async function fetchCfStats(
 
 	const stats = parseCfStats(body);
 	if (!stats) {
-		return {
-			ok: false,
-			error: "CF GraphQL returned no zone — check CF_ZONE_TAG matches the api.urantia.dev zone",
-		};
+		return { ok: false, error: "CF GraphQL returned no zone — check CF_ZONE_TAG matches the api.urantia.dev zone" };
 	}
 	return { ok: true, stats };
 }

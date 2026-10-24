@@ -77,7 +77,8 @@ embeddingsRoute.openapi(exportEmbeddingsRoute, async (c) => {
 		.where(whereClause)
 		.orderBy(paragraphs.sortId);
 
-	const parseEmbedding = (e: unknown) => (typeof e === "string" ? JSON.parse(e as string) : e);
+	const parseEmbedding = (e: unknown) =>
+		typeof e === "string" ? JSON.parse(e as string) : e;
 
 	if (format === "json") {
 		const data = rows.map((r) => ({
@@ -85,15 +86,19 @@ embeddingsRoute.openapi(exportEmbeddingsRoute, async (c) => {
 			embedding: parseEmbedding(r.embedding),
 		}));
 		c.header("X-Embedding-Model", meta.name);
-		return c.json({ data, model: meta.name, dimensions: meta.dimensions }, 200);
+		return c.json(
+			{ data, model: meta.name, dimensions: meta.dimensions },
+			200,
+		);
 	}
 
 	// JSONL
-	const lines = rows.map((r) =>
-		JSON.stringify({
-			standardReferenceId: r.standardReferenceId,
-			embedding: parseEmbedding(r.embedding),
-		}),
+	const lines = rows.map(
+		(r) =>
+			JSON.stringify({
+				standardReferenceId: r.standardReferenceId,
+				embedding: parseEmbedding(r.embedding),
+			}),
 	);
 	const body = `${lines.join("\n")}\n`;
 
@@ -182,11 +187,17 @@ embeddingsRoute.openapi(getEmbeddingRoute, async (c) => {
 	const row = result[0]!;
 
 	if (!row.embedding) {
-		return problemJson(c, 404, `No ${meta.name} embedding available for paragraph "${ref}"`);
+		return problemJson(
+			c,
+			404,
+			`No ${meta.name} embedding available for paragraph "${ref}"`,
+		);
 	}
 
 	const embedding =
-		typeof row.embedding === "string" ? JSON.parse(row.embedding as string) : row.embedding;
+		typeof row.embedding === "string"
+			? JSON.parse(row.embedding as string)
+			: row.embedding;
 
 	c.header("X-Embedding-Model", meta.name);
 	return c.json(

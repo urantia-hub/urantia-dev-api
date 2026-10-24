@@ -11,7 +11,10 @@
 							{
 								"id": "0",
 								"title": "Foreword",
-								"labels": ["Theology", "Cosmology"]
+								"labels": [
+									"Theology",
+									"Cosmology"
+								]
 							}
 						]
 					},
@@ -23,12 +26,18 @@
 							{
 								"id": "1",
 								"title": "The Universal Father",
-								"labels": ["Spirituality", "Theology"]
+								"labels": [
+									"Spirituality",
+									"Theology"
+								]
 							},
 							{
 								"id": "2",
 								"title": "The Nature of God",
-								"labels": ["Spirituality", "Theology"]
+								"labels": [
+									"Spirituality",
+									"Theology"
+								]
 							}
 						]
 					}
@@ -44,7 +53,10 @@
 					"partId": "0",
 					"title": "Foreword",
 					"sortId": "0.000.000.000",
-					"labels": ["Theology", "Cosmology"],
+					"labels": [
+						"Theology",
+						"Cosmology"
+					],
 					"video": {
 						"nova": {
 							"mp4": "https://video.urantiahub.com/tts-1-hd-nova-0.mp4",
@@ -58,7 +70,10 @@
 					"partId": "1",
 					"title": "The Universal Father",
 					"sortId": "1.001.000.000",
-					"labels": ["Spirituality", "Theology"],
+					"labels": [
+						"Spirituality",
+						"Theology"
+					],
 					"video": {
 						"nova": {
 							"mp4": "https://video.urantiahub.com/tts-1-hd-nova-1.mp4",
@@ -78,7 +93,10 @@
 					"partId": "1",
 					"title": "The Nature of God",
 					"sortId": "1.002.000.000",
-					"labels": ["Spirituality", "Theology"],
+					"labels": [
+						"Spirituality",
+						"Theology"
+					],
 					"video": {
 						"nova": {
 							"mp4": "https://video.urantiahub.com/tts-1-hd-nova-2.mp4",
@@ -99,7 +117,10 @@
 									{
 										"at": 3.53,
 										"key": "2:0.1",
-										"sentences": [3.53, 21.34]
+										"sentences": [
+											3.53,
+											21.34
+										]
 									}
 								],
 								"bitrate": 32,
@@ -728,16 +749,24 @@
 					"type": "being",
 					"aliases": null,
 					"description": "The original and firstborn Melchizedek Son of Nebadon, created through the union of the Creator Son and Creative Spirit, who serves as Gabriel's executive associate and assumes his responsibilities during his absence from Salvington.",
-					"seeAlso": ["Melchizedek Sons"],
+					"seeAlso": [
+						"Melchizedek Sons"
+					],
 					"citationCount": 13
 				},
 				{
 					"id": "machiventa-melchizedek",
 					"name": "Machiventa Melchizedek",
 					"type": "being",
-					"aliases": ["Machiventa Melchizedek", "Melchizedek"],
+					"aliases": [
+						"Machiventa Melchizedek",
+						"Melchizedek"
+					],
 					"description": "A Melchizedek Son who incarnated as an emergency bestowal on Urantia in 1973 B.C., appearing at Salem to preserve the truth of one God and prepare the way for Michael's later bestowal. Known as the Prince of Salem, he taught Abraham and established a covenant based on faith rather than sacrifice, departing after 94 years when his followers began to regard him as supernatural. He now serves as vicegerent Planetary Prince of Urantia.",
-					"seeAlso": ["Melchizedek Sons", "missionaries:Salem missionaries"],
+					"seeAlso": [
+						"Melchizedek Sons",
+						"missionaries:Salem missionaries"
+					],
 					"citationCount": 55
 				}
 			],
@@ -755,9 +784,15 @@
 				"id": "machiventa-melchizedek",
 				"name": "Machiventa Melchizedek",
 				"type": "being",
-				"aliases": ["Machiventa Melchizedek", "Melchizedek"],
+				"aliases": [
+					"Machiventa Melchizedek",
+					"Melchizedek"
+				],
 				"description": "A Melchizedek Son who incarnated as an emergency bestowal on Urantia in 1973 B.C., appearing at Salem to preserve the truth of one God and prepare the way for Michael's later bestowal. Known as the Prince of Salem, he taught Abraham and established a covenant based on faith rather than sacrifice, departing after 94 years when his followers began to regard him as supernatural. He now serves as vicegerent Planetary Prince of Urantia.",
-				"seeAlso": ["Melchizedek Sons", "missionaries:Salem missionaries"],
+				"seeAlso": [
+					"Melchizedek Sons",
+					"missionaries:Salem missionaries"
+				],
 				"citationCount": 55
 			}
 		}
