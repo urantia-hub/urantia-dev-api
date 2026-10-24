@@ -138,6 +138,11 @@ only when the first ones give fewer than 10.
   word that the Papers use ("pigs" finds "swine" in 151:6), in the exact and all-word tiers, and the
   older word is marked. The explicit modes stay literal. Each pair is approved by Kelson; build the
   list from what readers search, but no search text from the logs goes in the repo.
+- Spanish (`lang=es`, 2026-10-23): `searchPapersEs` (`src/lib/paper-search-es.ts`) searches
+  `paragraph_translations` with the trigram index `pt_es_match_text_trgm_idx`
+  (`scripts/setup-search-es.sql`, declared in `schema.ts`). Its expression is `normalizedSqlEs`, and
+  the query must say `language = 'es'` as a literal, or the planner skips the partial index. Tiers:
+  reference, exact, all, most. No typo fixes and no tsvector for Spanish.
 - Query text reaches Postgres only as a parameter. The tsquery is built from normalized words
   (`[a-z0-9]` only).
 - `tests/db/paper-search.test.ts` runs on a local copy of the Papers: seed, `setup-fts.sql`,

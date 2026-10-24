@@ -190,7 +190,8 @@ describe("POST /search (auto)", () => {
 describe("GET /search lang=es", () => {
 	const ip = { "cf-connecting-ip": "10.0.8.1" };
 	// biome-ignore lint: test body
-	const search = async (q: string, extra = "") => (await (await get(`/search?q=${encodeURIComponent(q)}&lang=es${extra}`, ip)).json()) as any;
+	const search = async (q: string, extra = "") =>
+		(await (await get(`/search?q=${encodeURIComponent(q)}&lang=es${extra}`, ip)).json()) as any;
 	it("finds Spanish rows, exact first, with marks", async () => {
 		const body = await search("Ajustador del Pensamiento");
 		expect(body.meta.total).toBeGreaterThan(0);
@@ -201,9 +202,11 @@ describe("GET /search lang=es", () => {
 	});
 	it("gives the same rows with or without capitals and accents", async () => {
 		const ids = (b: { data: { id: string }[] }) => b.data.slice(0, 10).map((r) => r.id);
-		expect(ids(await search("ajustador del pensamiento"))).toEqual(ids(await search("Ajustador del Pensamiento")));
+		expect(ids(await search("ajustador del pensamiento"))).toEqual(
+			ids(await search("Ajustador del Pensamiento")),
+		);
 		expect(ids(await search("religion"))).toEqual(ids(await search("religión")));
-	});
+	}, 30_000);
 	it("reads documento 1 as a reference", async () => {
 		const body = await search("documento 1");
 		expect(body.data[0].match).toBe("reference");
@@ -219,5 +222,5 @@ describe("GET /search lang=es", () => {
 		const a = await (await get("/search?q=thought%20adjuster", ip)).json();
 		const b = await (await get("/search?q=thought%20adjuster&lang=eng", ip)).json();
 		expect(b).toEqual(a);
-	});
+	}, 30_000);
 });

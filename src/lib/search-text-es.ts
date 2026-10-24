@@ -5,7 +5,7 @@ import { type NormalQuery, type PaperRef, parsePaperRef } from "./search-text.ts
 const QUOTES = /^["“”'‘’«](.*)["“”'‘’»]$/s;
 const ACCENTED = "áéíóúüñàèìòù";
 const PLAIN = "aeiouunaeiou";
-const FOLD = new Map([...ACCENTED].map((c, i) => [c, PLAIN[i]!]));
+const FOLD = new Map([...ACCENTED].map((c, i) => [c, PLAIN[i] as string]));
 
 /** Lower case, accents and ñ folded, apostrophes gone, "9,881" as "9881", each other mark a space. */
 export function normalizeQueryEs(q: string): NormalQuery {

@@ -17,10 +17,13 @@ import {
 	uuid,
 } from "drizzle-orm/pg-core";
 import { normalizedSql } from "../lib/search-text.ts";
+import { normalizedSqlEs } from "../lib/search-text-es.ts";
 
 // A trigram index on the normalized text (`matchText` in src/lib/search-words.ts), for exact phrases.
 // An index on the expression, not a column: it is built CONCURRENTLY, with no rewrite of the table.
 const MATCH_TEXT_TRGM = sql.raw(`(${normalizedSql("text")}) gin_trgm_ops`);
+// The same for Spanish text (scripts/setup-search-es.sql); a partial index on language = 'es'.
+const MATCH_TEXT_ES_TRGM = sql.raw(`(${normalizedSqlEs("text")}) gin_trgm_ops`);
 
 const tsvector = customType<{ data: string }>({
 	dataType() {
@@ -306,6 +309,7 @@ export const paragraphTranslations = pgTable(
 		uniqueIndex("pt_paragraph_lang_version_idx").on(t.paragraphId, t.language, t.version),
 		index("pt_language_idx").on(t.language),
 		index("pt_paragraph_id_idx").on(t.paragraphId),
+		index("pt_es_match_text_trgm_idx").using("gin", MATCH_TEXT_ES_TRGM).where(sql`language = 'es'`),
 	],
 ).enableRLS();
 
