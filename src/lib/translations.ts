@@ -4,6 +4,7 @@
 
 import { eq, and, sql } from "drizzle-orm";
 import {
+	paragraphs,
 	paragraphTranslations,
 	entityTranslations,
 	titleTranslations,
@@ -188,4 +189,80 @@ export async function loadTitleMap(
 		);
 	// biome-ignore lint: Drizzle select result type
 	return new Map(rows.map((t: any) => [`${t.sourceType}:${t.sourceId}`, t.title]));
+}
+
+/** Translated entity names by entity id. Empty for English or for no ids. */
+export async function loadEntityNames(db: any, ids: string[], lang: string): Promise<Map<string, string>> {
+	if (!lang || lang === "eng" || ids.length === 0) return new Map();
+	const rows = await db
+		.select({ entityId: entityTranslations.entityId, name: entityTranslations.name })
+		.from(entityTranslations)
+		.where(
+			and(
+				sql`${entityTranslations.entityId} IN (${sql.join([...new Set(ids)].map((id) => sql`${id}`), sql`, `)})`,
+				eq(entityTranslations.language, lang),
+				eq(entityTranslations.source, "urantia.dev"),
+			),
+		);
+	// biome-ignore lint: Drizzle select result type
+	return new Map(rows.map((r: any) => [r.entityId, r.name]));
+}
+
+type IncludedParallel = { id: string; paperId: string; paperTitle: string; sectionTitle: string | null; text: string };
+type IncludedEntity = { id: string; name: string };
+
+/**
+ * Overlays a language on the included parts of paragraph rows: the text and titles of each
+ * Papers parallel, and the name of each entity mention. The Bible and the other works stay English.
+ * An item with no translation keeps its English and gets `language: "eng"`.
+ */
+export async function localizeIncluded<T extends { urantiaParallels?: IncludedParallel[]; entities?: IncludedEntity[] }>(
+	db: any,
+	rows: T[],
+	lang: string,
+): Promise<T[]> {
+	if (!lang || lang === "eng") return rows;
+	const mentions = rows.flatMap((r) => r.entities ?? []);
+	const parallels = rows.flatMap((r) => r.urantiaParallels ?? []);
+	if (mentions.length === 0 && parallels.length === 0) return rows;
+
+	const names = await loadEntityNames(db, mentions.map((e) => e.id), lang);
+
+	const localized = new Map<string, Record<string, unknown>>();
+	if (parallels.length > 0) {
+		const ids = [...new Set(parallels.map((p) => p.id))];
+		// A parallel carries no sectionId, and its section title is keyed by it.
+		const sectionRows = await db
+			.select({ id: paragraphs.id, sectionId: paragraphs.sectionId })
+			.from(paragraphs)
+			.where(sql`${paragraphs.id} IN (${sql.join(ids.map((id) => sql`${id}`), sql`, `)})`);
+		// biome-ignore lint: Drizzle select result type
+		const sectionOf = new Map<string, string | null>(sectionRows.map((r: any) => [r.id, r.sectionId]));
+		const unique = ids.map((id) => parallels.find((p) => p.id === id)!);
+		const texts = await applyParagraphTranslations(db, unique.map((p) => ({ id: p.id, text: p.text })), lang);
+		const titles = await applyTitleTranslations(
+			db,
+			unique.map((p) => ({ paperId: p.paperId, paperTitle: p.paperTitle, sectionTitle: p.sectionTitle, sectionId: sectionOf.get(p.id) ?? null })),
+			lang,
+		);
+		unique.forEach((p, i) => {
+			const { text, language, translation } = texts[i]!;
+			const { paperTitle, sectionTitle } = titles[i]!;
+			localized.set(p.id, { text, paperTitle, sectionTitle, language, ...(translation ? { translation } : {}) });
+		});
+	}
+
+	return rows.map((r) => {
+		const out = { ...r };
+		if (r.entities) {
+			out.entities = r.entities.map((e) => {
+				const name = names.get(e.id);
+				return name ? { ...e, name, language: lang } : { ...e, language: "eng" };
+			});
+		}
+		if (r.urantiaParallels) {
+			out.urantiaParallels = r.urantiaParallels.map((p) => ({ ...p, ...localized.get(p.id) }));
+		}
+		return out;
+	});
 }

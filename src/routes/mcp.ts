@@ -28,6 +28,7 @@ import {
 	applyParagraphTranslations,
 	applyTitleTranslations,
 	loadTitleMap,
+	localizeIncluded,
 	type TranslationLabel,
 } from "../lib/translations.ts";
 import { enrichWithUrantiaParallels } from "../lib/urantia-parallels.ts";
@@ -353,12 +354,14 @@ async function enrichParagraphs<T extends { id: string }>(
 		entities?: boolean;
 		bibleParallels?: boolean;
 		urantiaParallels?: boolean;
+		lang?: string;
 	},
 ) {
 	let out: Array<Record<string, unknown>> = rows as unknown as Array<Record<string, unknown>>;
 	if (opts.entities) out = (await enrichWithEntities(db, out as never)) as never;
 	if (opts.bibleParallels) out = (await enrichWithBibleParallels(db, out as never)) as never;
 	if (opts.urantiaParallels) out = (await enrichWithUrantiaParallels(db, out as never)) as never;
+	if (opts.lang && opts.lang !== "eng") out = (await localizeIncluded(db, out as never, opts.lang)) as never;
 	return out as unknown as T[];
 }
 
@@ -540,7 +543,7 @@ function createMcpServer() {
 			);
 
 			const enrichedParagraphs = include_entities
-				? await enrichWithEntities(db, paperParagraphs)
+				? await localizeIncluded(db, await enrichWithEntities(db, paperParagraphs), lang)
 				: paperParagraphs;
 
 			const textParagraphs = enrichedParagraphs.map((p) => {
@@ -648,6 +651,7 @@ function createMcpServer() {
 				entities: include_entities,
 				bibleParallels: include_bible_parallels,
 				urantiaParallels: include_urantia_parallels,
+				lang,
 			});
 			return structured({ paragraph: enriched[0]! });
 		},
@@ -698,6 +702,7 @@ function createMcpServer() {
 				entities: include_entities,
 				bibleParallels: include_bible_parallels,
 				urantiaParallels: include_urantia_parallels,
+				lang,
 			});
 			return structured({ paragraph: enriched[0]! });
 		},
@@ -768,7 +773,7 @@ function createMcpServer() {
 
 			if (include_entities) {
 				const allParagraphs = [targetParagraph, ...before, ...after];
-				const enriched = await enrichWithEntities(db, allParagraphs);
+				const enriched = await localizeIncluded(db, await enrichWithEntities(db, allParagraphs), lang);
 				const enrichedMap = new Map(enriched.map((p) => [p.id, p]));
 				return structured({
 					target: enrichedMap.get(targetParagraph.id)!,

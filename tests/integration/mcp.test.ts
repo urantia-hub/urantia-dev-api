@@ -261,6 +261,14 @@ describe("MCP Server", () => {
 		expect(paragraphs.every((p: { language: string }) => p.language === "es")).toBe(true);
 	});
 
+	it('paragraphs.get with lang "es" translates the included Papers parallels', async () => {
+		const results = await callTool("paragraphs.get", { ref: "1:0.1", lang: "es", include_urantia_parallels: true, include_entities: true }, "10.0.0.44");
+		const { paragraph } = results[0].result.structuredContent;
+		const top = paragraph.urantiaParallels.find((u: { standardReferenceId: string }) => u.standardReferenceId === "1:1.4");
+		expect(top.text.startsWith("Cerca del centro")).toBe(true);
+		expect(paragraph.entities.map((e: { name: string }) => e.name)).toContain("Padre Universal");
+	});
+
 	it("paragraphs.get leaves English rows without a language field", async () => {
 		const results = await callTool("paragraphs.get", { ref: "1:0.1" }, "10.0.0.43");
 		const { paragraph } = results[0].result.structuredContent;

@@ -17,7 +17,7 @@ import {
 } from "../lib/scripture-parallels.ts";
 import { enrichWithScriptureScores, wantsScriptureScores } from "../lib/scripture-scores.ts";
 import { toRagFormat } from "../lib/rag.ts";
-import { applyParagraphTranslations, applyTitleTranslations } from "../lib/translations.ts";
+import { applyParagraphTranslations, applyTitleTranslations, localizeIncluded } from "../lib/translations.ts";
 import { detectRefFormat } from "../types/node.ts";
 import {
 	ContextQuery,
@@ -155,6 +155,7 @@ paragraphsRoute.openapi(getRandomRoute, async (c) => {
 	if (wantsUrantiaParallels(include)) enriched = (await enrichWithUrantiaParallels(db, enriched)) as Enriched[];
 	if (wantsScriptureParallels(include)) enriched = (await enrichWithScriptureParallels(db, enriched)) as Enriched[];
 	if (wantsScriptureScores(include)) enriched = (await enrichWithScriptureScores(db, enriched)) as Enriched[];
+	if (lang && lang !== "eng") enriched = await localizeIncluded(db, enriched, lang);
 	const data = enriched[0]!;
 
 	if (format === "rag") {
@@ -238,6 +239,7 @@ paragraphsRoute.openapi(getParagraphRoute, async (c) => {
 	if (wantsUrantiaParallels(include)) enriched = (await enrichWithUrantiaParallels(db, enriched)) as Enriched[];
 	if (wantsScriptureParallels(include)) enriched = (await enrichWithScriptureParallels(db, enriched)) as Enriched[];
 	if (wantsScriptureScores(include)) enriched = (await enrichWithScriptureScores(db, enriched)) as Enriched[];
+	if (lang && lang !== "eng") enriched = await localizeIncluded(db, enriched, lang);
 	const data = enriched[0]!;
 
 	if (outputFormat === "rag") {
@@ -341,7 +343,7 @@ paragraphsRoute.openapi(getParagraphContextRoute, async (c) => {
 	const translatedTarget = contextMap.get(targetParagraph.id)!;
 
 	if (wantsEntities(include)) {
-		const enriched = await enrichWithEntities(db, allContextParagraphs);
+		const enriched = await localizeIncluded(db, await enrichWithEntities(db, allContextParagraphs), lang ?? "eng");
 		const enrichedMap = new Map(enriched.map((p) => [p.id, p]));
 
 		return c.json(
