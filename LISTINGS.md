@@ -30,7 +30,7 @@ Say "the Urantia Papers" for the text. "The Urantia Book" is the title of the 19
 | Where | Link | Notes | Checked |
 |---|---|---|---|
 | OpenAI plugin directory (ChatGPT and Codex) | https://chatgpt.com/plugins/plugin_asdk_app_6ac15926d5388191a941565bfaaa2a9a (manage at https://platform.openai.com/plugins) | Package 1.3.2 approved on 2026-10-23 and published the same day, under a verified individual identity (1.2.2 was published on 2026-10-20). The page shows version 1.3.2 and the capability "Read texts of other traditions". Its long description still names only the Bible and says "The text is English only": change both in the next submission, together with the `lang` input (Spanish, deployed 2026-10-23). Domain verified through `/.well-known/openai-apps-challenge`. Demo video (unlisted): https://youtu.be/-2WJRON0ZOE | 2026-10-23 |
-| Official MCP Registry | `dev.urantia/urantia-papers` at https://registry.modelcontextprotocol.io | Version 1.3.0 (latest). Namespace is DNS-authenticated. Republish rules are in `CLAUDE.md` | 2026-10-19 |
+| Official MCP Registry | `dev.urantia/urantia-papers` at https://registry.modelcontextprotocol.io | Version 1.4.0 (latest): English and Spanish. Namespace is DNS-authenticated. Republish rules are in `CLAUDE.md` | 2026-10-24 |
 | Glama, connector | https://glama.ai/mcp/connectors/dev.urantia/urantia-papers | A grades. `/.well-known/glama.json` claims the maintainer | 2026-10-10 |
 | Glama, server | https://glama.ai/mcp/servers/urantia-hub/urantia-dev-api | Grade C, capped: hosted only, no local install. Do not add a stdio mode for the grade | 2026-10-03 |
 | Smithery | https://smithery.ai/servers/urantiahub/urantia-papers | Badge is in `README.md` | 2026-10-10 |
