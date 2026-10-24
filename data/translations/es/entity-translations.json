@@ -5362,7 +5362,9 @@
 		"source": "urantia.dev",
 		"version": 1,
 		"name": "Cuerpo de Finalitarios Paradisíacos",
-		"aliases": [],
+		"aliases": [
+			"cuerpo de finalitarios"
+		],
 		"description": "El Cuerpo de Finalitarios Paradisíacos es uno de los siete cuerpos de finalitarios, compuesto por seres que alcanzaron la condición del Paraíso. Este cuerpo forma parte de la misteriosa movilización en curso, en el Paraíso, de los seres perfeccionados y ascendentes del tiempo y del espacio.",
 		"confidence": "medium"
 	},
@@ -5917,7 +5919,10 @@
 		"source": "urantia.dev",
 		"version": 1,
 		"name": "Custodios de los Registros",
-		"aliases": [],
+		"aliases": [
+			"Jefes de Registros",
+			"Registradores Jefes"
+		],
 		"description": "Los Custodios de los Registros son supernafines terciarios de mayor antigüedad, elegidos entre los registradores jefes de Havona para servir como guardianes de los archivos formales del Paraíso. Mantienen los registros oficiales, que contrastan con los registros vivientes que se guardan en la mente de los custodios del conocimiento, y algunos sirven como Jefes de Registros que dirigen las actividades de los Registradores Celestiales en los superuniversos.",
 		"confidence": "high"
 	},
@@ -6159,7 +6164,9 @@
 		"source": "urantia.dev",
 		"version": 1,
 		"name": "Dafne, bosque de",
-		"aliases": [],
+		"aliases": [
+			"bosque de Dafne"
+		],
 		"description": "El bosque de Dafne era un santuario de mala fama, de vergüenza e inmoralidad, en Antioquía, que Jesús se negó a visitar, aunque Gonod y Ganid sí visitaron este templo.",
 		"confidence": "medium"
 	},
@@ -12261,7 +12268,9 @@
 		"source": "urantia.dev",
 		"version": 1,
 		"name": "Jesús",
-		"aliases": [],
+		"aliases": [
+			"Josué ben José"
+		],
 		"description": "El Hijo Creador Miguel de Nebadon, encarnado en forma humana en Urantia como Josué ben José de Nazaret. Nacido de María y José hacia el año 7 a. C., vivió una vida humana completa mientras revelaba poco a poco su naturaleza y su misión divinas. Estableció el evangelio del reino de los cielos y mostró el carácter amoroso del Padre del Paraíso por medio de sus enseñanzas, sus curaciones y su vida humana perfecta. Después de su crucifixión y su resurrección, ascendió para asumir la plena soberanía sobre su universo local de Nebadon.",
 		"confidence": "high"
 	},
@@ -16415,7 +16424,9 @@
 		"source": "urantia.dev",
 		"version": 1,
 		"name": "Moisés",
-		"aliases": [],
+		"aliases": [
+			"padre Moisés"
+		],
 		"description": "El gran dirigente, maestro y organizador hebreo que liberó de Egipto a un remanente de la raza violeta sumergida y estableció la adoración monoteísta del Padre Universal como «el Dios de Israel». Moisés fue una combinación extraordinaria de jefe militar, organizador social y maestro religioso que puso los cimientos de la nación hebrea y de la perpetuación de su raza.",
 		"confidence": "high"
 	},
