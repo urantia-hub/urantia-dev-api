@@ -25,7 +25,11 @@ export const UserUpdate = z.object({
 // --- Bookmarks ---
 
 export const BookmarkCreate = z.object({
-	ref: z.string().describe("Paragraph reference in any format: globalId (1:2.0.1), standardReferenceId (2:0.1), or paperSectionParagraphId (2.0.1)"),
+	ref: z
+		.string()
+		.describe(
+			"Paragraph reference in any format: globalId (1:2.0.1), standardReferenceId (2:0.1), or paperSectionParagraphId (2.0.1)",
+		),
 	category: z.string().max(100).optional(),
 });
 

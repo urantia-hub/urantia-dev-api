@@ -30,7 +30,14 @@ export function parsePaperRefEs(q: string): PaperRef | null {
 	return parsePaperRef(q.trim().replace(/^(documento|doc\.?)\s+/i, ""));
 }
 
-const CLASS: Record<string, string> = { a: "aáà", e: "eéè", i: "iíì", o: "oóò", u: "uúüù", n: "nñ" };
+const CLASS: Record<string, string> = {
+	a: "aáà",
+	e: "eéè",
+	i: "iíì",
+	o: "oóò",
+	u: "uúüù",
+	n: "nñ",
+};
 const escape = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 /** Marks each normalized word in the text of the HTML (never inside a tag), with or without its accents. */
@@ -43,6 +50,10 @@ export function highlightEs(html: string, words: string[], prefixLast: boolean):
 	const re = new RegExp(`(?<![\\p{L}\\d])(?:${forms.join("|")})(?![\\p{L}\\d])`, "giu");
 	return html
 		.split(/(<[^>]*>)/)
-		.map((part) => (part.startsWith("<") ? part : part.replace(re, (m) => `<span class=urantia-dev-highlighted>${m}</span>`)))
+		.map((part) =>
+			part.startsWith("<")
+				? part
+				: part.replace(re, (m) => `<span class=urantia-dev-highlighted>${m}</span>`),
+		)
 		.join("");
 }

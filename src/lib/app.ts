@@ -1,6 +1,6 @@
 import { OpenAPIHono } from "@hono/zod-openapi";
-import { problemJson } from "./errors.ts";
 import type { Env } from "../types/env.ts";
+import { problemJson } from "./errors.ts";
 
 /**
  * Create an OpenAPIHono instance with the shared defaultHook

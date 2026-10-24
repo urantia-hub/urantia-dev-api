@@ -38,8 +38,32 @@ export type ParsedBook = {
 // Paragraph markers we track. Each marks a logical paragraph break in the
 // source — Phase 2 will use these to group verses into embedding chunks.
 const PARAGRAPH_MARKERS = new Set([
-	"p", "m", "mi", "nb", "pi1", "pi2", "pi3", "q1", "q2", "q3", "q4", "qm1", "qm2", "qr",
-	"li1", "li2", "ili", "ili1", "ili2", "pc", "pmo", "pm", "pmc", "pmr", "pr", "cls",
+	"p",
+	"m",
+	"mi",
+	"nb",
+	"pi1",
+	"pi2",
+	"pi3",
+	"q1",
+	"q2",
+	"q3",
+	"q4",
+	"qm1",
+	"qm2",
+	"qr",
+	"li1",
+	"li2",
+	"ili",
+	"ili1",
+	"ili2",
+	"pc",
+	"pmo",
+	"pm",
+	"pmc",
+	"pmr",
+	"pr",
+	"cls",
 ]);
 
 // Strip block-level structures that span multiple tokens. Order matters:
@@ -97,11 +121,35 @@ function stripInlineMarkers(input: string): string {
 // TOC, descriptive titles, headings, etc).
 function stripMetaLines(input: string): string {
 	const dropMarkers = [
-		"id", "ide", "h", "toc1", "toc2", "toc3",
-		"mt1", "mt2", "mt3", "mt4", "mt", // main title
-		"mte1", "mte2", // ending title
-		"is1", "is2", "is3", "ip", "ipi", "ipq", "imt1", "imt2", "imte", // intro matter
-		"s1", "s2", "s3", "s4", "sr", "sd1", "sd2", // section headings
+		"id",
+		"ide",
+		"h",
+		"toc1",
+		"toc2",
+		"toc3",
+		"mt1",
+		"mt2",
+		"mt3",
+		"mt4",
+		"mt", // main title
+		"mte1",
+		"mte2", // ending title
+		"is1",
+		"is2",
+		"is3",
+		"ip",
+		"ipi",
+		"ipq",
+		"imt1",
+		"imt2",
+		"imte", // intro matter
+		"s1",
+		"s2",
+		"s3",
+		"s4",
+		"sr",
+		"sd1",
+		"sd2", // section headings
 		"r", // parallel passage reference
 		"d", // descriptive title (e.g., Psalm headings)
 		"qa", // acrostic heading
@@ -131,9 +179,7 @@ function normalizeText(input: string): string {
 	return text.trim();
 }
 
-type Token =
-	| { kind: "marker"; name: string }
-	| { kind: "text"; value: string };
+type Token = { kind: "marker"; name: string } | { kind: "text"; value: string };
 
 // Tokenize the cleaned USFM into a flat list of markers and text chunks.
 // We use String.matchAll which returns an iterable RegExpStringIterator.
@@ -222,7 +268,7 @@ export function parseUsfm(content: string): ParsedBook | null {
 				const next = tokens[i + 1];
 				if (next?.kind === "text") {
 					const trimmed = next.value.trimStart();
-					const numMatch = trimmed.match(/^(\d+)(?:[a-z\-]*)\s*([\s\S]*)/);
+					const numMatch = trimmed.match(/^(\d+)(?:[a-z-]*)\s*([\s\S]*)/);
 					if (numMatch && numMatch[1]) {
 						currentVerse = parseInt(numMatch[1], 10);
 						const body = numMatch[2];

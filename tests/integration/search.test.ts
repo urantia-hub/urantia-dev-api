@@ -224,3 +224,25 @@ describe("GET /search lang=es", () => {
 		expect(b).toEqual(a);
 	}, 30_000);
 });
+
+describe("GET /search/semantic lang=es", () => {
+	const ip = { "cf-connecting-ip": "10.0.8.2" };
+	// biome-ignore lint: test body
+	const semantic = async (q: string) =>
+		(await (await get(`/search/semantic?q=${encodeURIComponent(q)}&lang=es`, ip)).json()) as any;
+	it("gives Spanish rows", async () => {
+		const body = await semantic("¿Qué es el Ajustador del Pensamiento?");
+		expect(body.data.length).toBeGreaterThan(0);
+		expect(body.data.every((r: { language: string }) => r.language === "es")).toBe(true);
+		expect(body.data[0].text).toMatch(/ (del|la) /);
+		expect(body.data[0].paperTitle).not.toMatch(/^The /);
+	}, 30_000);
+	it("labels Spanish answers at the Spanish gap", async () => {
+		const strong = (b: { data: { strength: string }[] }) =>
+			b.data.filter((r) => r.strength === "strong").length;
+		expect(strong(await semantic("¿Qué son los mundos de las mansiones?"))).toBeGreaterThan(0);
+		expect((await semantic("¿Qué es un Ajustador del Pensamiento?")).meta.related).toBeGreaterThan(
+			0,
+		);
+	}, 30_000);
+});

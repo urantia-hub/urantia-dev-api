@@ -31,14 +31,16 @@ export function databaseCandidates(hyperdrive: Hyperdrive | undefined): Candidat
 	return {
 		async search(query, limit) {
 			const tsQuery = sql`websearch_to_tsquery('english', ${query})`;
-			return db
-				.select(fields)
-				.from(paragraphs)
-				.where(sql`search_vector @@ ${tsQuery}`)
-				// ts_rank, as in GET /search. ts_rank_cd favors words close together and
-				// ranks poorly for an OR of many words, so a paraphrase lost its paragraph.
-				.orderBy(sql`ts_rank(search_vector, ${tsQuery}) DESC`)
-				.limit(limit);
+			return (
+				db
+					.select(fields)
+					.from(paragraphs)
+					.where(sql`search_vector @@ ${tsQuery}`)
+					// ts_rank, as in GET /search. ts_rank_cd favors words close together and
+					// ranks poorly for an OR of many words, so a paraphrase lost its paragraph.
+					.orderBy(sql`ts_rank(search_vector, ${tsQuery}) DESC`)
+					.limit(limit)
+			);
 		},
 		async byRef(ref) {
 			const found = await resolveParagraphRef(db, ref);
