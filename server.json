@@ -2,8 +2,8 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "dev.urantia/urantia-papers",
   "title": "Urantia Papers",
-  "description": "Read and search the Urantia Papers, with cross-references to the Bible and 21 other texts. No key.",
-  "version": "1.3.0",
+  "description": "The Urantia Papers in English and Spanish, with cross-references to the Bible and 21 texts. No key.",
+  "version": "1.4.0",
   "repository": {
     "url": "https://github.com/urantia-hub/urantia-dev-api",
     "source": "github"
