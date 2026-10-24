@@ -9,6 +9,14 @@ export const SupportedLanguage = z
 		"Language for translated fields. `es` gives Spanish text for all 197 papers: a machine translation, released as CC0, with a `translation` label on each paragraph. Paper, section, and part titles are in Spanish too, and so are the included Papers parallels and entity names; the Bible and the other works, and the topic labels, stay in English. Entity names exist in es, fr, pt, de, and ko. Each paragraph has a `language` field that states the language of its text.",
 	);
 
+// Search reads the text of one language; only English and Spanish have paragraph text.
+export const SearchLanguage = z
+	.enum(["eng", "es"])
+	.default("eng")
+	.describe(
+		"Language to search. `es` searches the Spanish text: a word matches with or without its accents, a reference such as `documento 1` or `1:0.1` gives those paragraphs, and each result has the Spanish text and titles. Spanish has the reference, exact, and all-word matches only.",
+	);
+
 export const LangQuery = z.object({
 	lang: SupportedLanguage.optional(),
 });
@@ -358,6 +366,7 @@ export const SearchRequest = z.object({
 	partId: z.string().optional(),
 	type: z.enum(["auto", "phrase", "and", "or"]).default("auto"),
 	include: z.string().optional(),
+	lang: SearchLanguage.optional(),
 });
 
 export const SearchQueryParams = z.object({
@@ -368,6 +377,7 @@ export const SearchQueryParams = z.object({
 	partId: z.string().optional(),
 	type: z.enum(["auto", "phrase", "and", "or"]).default("auto"),
 	include: z.string().optional(),
+	lang: SearchLanguage.optional(),
 });
 
 export const SearchMatch = z

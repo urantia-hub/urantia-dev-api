@@ -223,6 +223,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 				},
 				paper_id: { type: "string", description: "Filter to a specific paper ID" },
 				part_id: { type: "string", description: "Filter to a specific part ID (1-4)" },
+				lang: langProp,
 				page: pageProp,
 				limit: limitProp,
 				include_entities: includeEntitiesProp,

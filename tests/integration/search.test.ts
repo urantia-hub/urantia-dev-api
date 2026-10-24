@@ -1,5 +1,5 @@
 import { describe, expect, it } from "bun:test";
-import { post } from "../helpers/app.ts";
+import { get, post } from "../helpers/app.ts";
 import {
 	assertMetaShape,
 	assertSearchResultShape,
@@ -185,4 +185,42 @@ describe("POST /search (auto)", () => {
 			expect((await post("/search", { q }, ip)).status).toBe(200);
 		}
 	});
+});
+
+describe("GET /search lang=es", () => {
+	const ip = { "cf-connecting-ip": "10.0.8.1" };
+	// biome-ignore lint: test body
+	const search = async (q: string, extra = "") =>
+		(await (await get(`/search?q=${encodeURIComponent(q)}&lang=es${extra}`, ip)).json()) as any;
+	it("finds Spanish rows, exact first, with marks", async () => {
+		const body = await search("Ajustador del Pensamiento");
+		expect(body.meta.total).toBeGreaterThan(0);
+		expect(body.data.every((r: { language: string }) => r.language === "es")).toBe(true);
+		expect(body.data[0].match).toBe("exact");
+		expect(body.data[0].htmlText).toContain("urantia-dev-highlighted");
+		expect(body.data[0].paperTitle).not.toMatch(/^The /);
+	});
+	it("gives the same rows with or without capitals and accents", async () => {
+		const ids = (b: { data: { id: string }[] }) => b.data.slice(0, 10).map((r) => r.id);
+		expect(ids(await search("ajustador del pensamiento"))).toEqual(
+			ids(await search("Ajustador del Pensamiento")),
+		);
+		expect(ids(await search("religion"))).toEqual(ids(await search("religión")));
+	}, 30_000);
+	it("reads documento 1 as a reference", async () => {
+		const body = await search("documento 1");
+		expect(body.data[0].match).toBe("reference");
+		expect(body.data[0].paperId).toBe("1");
+		expect(body.data[0].language).toBe("es");
+	});
+	it("answers 200 with no rows for a word that is in no paragraph", async () => {
+		const body = await search("zzzqqq");
+		expect(body.meta.total).toBe(0);
+		expect(body.data).toEqual([]);
+	});
+	it("leaves English search as it is", async () => {
+		const a = await (await get("/search?q=thought%20adjuster", ip)).json();
+		const b = await (await get("/search?q=thought%20adjuster&lang=eng", ip)).json();
+		expect(b).toEqual(a);
+	}, 30_000);
 });
