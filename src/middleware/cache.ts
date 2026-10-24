@@ -31,7 +31,11 @@ export function cacheControl(): MiddlewareHandler {
 			c.header("Cache-Control", "no-store");
 		} else if (path === "/search") {
 			c.header("Cache-Control", "public, s-maxage=3600, max-age=300");
-		} else if (path === "/" || path === "/docs" || path === "/openapi.json") {
+		} else if (
+			path === "/" ||
+			path === "/docs" ||
+			path === "/openapi.json"
+		) {
 			c.header("Cache-Control", "public, s-maxage=3600, max-age=300");
 		} else {
 			// Static content: /toc, /papers/*, /paragraphs/*, /audio/*
