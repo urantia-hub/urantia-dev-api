@@ -320,3 +320,44 @@ describe("GET /paragraphs with no reference", () => {
 		expect(random.status).not.toBe(301);
 	});
 });
+
+describe("GET /paragraphs/{ref} lang=es on the includes", () => {
+	const ip = { "cf-connecting-ip": "10.0.7.1" };
+	it("translates the Papers parallels and the entity names, not the Bible", async () => {
+		const res = await get("/paragraphs/1:0.1?lang=es&include=urantiaParallels,entities,bibleParallels", ip);
+		expect(res.status).toBe(200);
+		// biome-ignore lint: test body
+		const d = ((await res.json()) as any).data;
+		const top = d.urantiaParallels.find((u: { standardReferenceId: string }) => u.standardReferenceId === "1:1.4");
+		expect(top.text.startsWith("Cerca del centro del universo de universos")).toBe(true);
+		expect(top.paperTitle).toBe("El Padre Universal");
+		expect(top.sectionTitle).not.toBe("The Paternal Name"); // 1:1 has a Spanish section title
+		expect(top.language).toBe("es");
+		expect(d.entities.map((e: { name: string }) => e.name)).toContain("Padre Universal");
+		expect(d.bibleParallels[0].text).toBe("He who lives forever created the whole universe.");
+	});
+	it("lang=eng leaves the includes as they are", async () => {
+		// biome-ignore lint: test body
+		const a = (await (await get("/paragraphs/1:0.1?include=urantiaParallels,entities", ip)).json()) as any;
+		const b = await (await get("/paragraphs/1:0.1?lang=eng&include=urantiaParallels,entities", ip)).json();
+		expect(b).toEqual(a);
+		expect(a.data.urantiaParallels[0].language).toBeUndefined();
+		expect(a.data.entities[0].language).toBeUndefined();
+	});
+	it("context lang=es translates the entity names", async () => {
+		const res = await get("/paragraphs/1:0.1/context?lang=es&include=entities&window=1", ip);
+		// biome-ignore lint: test body
+		const d = ((await res.json()) as any).data;
+		expect(d.target.entities.map((e: { name: string }) => e.name)).toContain("Padre Universal");
+	});
+});
+
+describe("GET /papers/{id} lang=es on the entities", () => {
+	it("gives Spanish entity names and top entities", async () => {
+		const res = await get("/papers/1?lang=es&include=entities", { "cf-connecting-ip": "10.0.7.2" });
+		// biome-ignore lint: test body
+		const d = ((await res.json()) as any).data;
+		expect(d.paper.topEntities.map((e: { name: string }) => e.name)).toContain("Padre Universal");
+		expect(d.paragraphs[0].entities.map((e: { name: string }) => e.name)).toContain("Padre Universal");
+	});
+});

@@ -14,6 +14,7 @@ import {
 	applyParagraphTranslations,
 	applyTitleTranslations,
 	loadTitleMap,
+	localizeIncluded,
 } from "../lib/translations.ts";
 import {
 	ErrorResponse,
@@ -78,7 +79,7 @@ papersRoute.openapi(listPapersRoute, async (c) => {
 			.select({ id: paragraphs.id, paperId: paragraphs.paperId })
 			.from(paragraphs);
 
-		const enriched = await enrichWithEntities(db, allParagraphs);
+		const enriched = await localizeIncluded(db, await enrichWithEntities(db, allParagraphs), lang ?? "eng");
 
 		const byPaper = new Map<string, (typeof enriched)[number][]>();
 		for (const p of enriched) {
@@ -191,7 +192,7 @@ papersRoute.openapi(getPaperRoute, async (c) => {
 		// Enrich paragraphs with entities so we can aggregate paper-level topEntities.
 		// If the caller asked only for topEntities (not entities), we keep the
 		// paragraphs free of the entity mentions array to reduce payload size.
-		const enriched = await enrichWithEntities(db, paperParagraphs);
+		const enriched = await localizeIncluded(db, await enrichWithEntities(db, paperParagraphs), lang ?? "eng");
 		const topEntities = aggregateTopEntities(enriched);
 
 		const responseParagraphs = needEntities ? enriched : paperParagraphs;
