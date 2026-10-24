@@ -5,19 +5,20 @@ import { paragraphs } from "../db/schema.ts";
 import { createApp } from "../lib/app.ts";
 import { enrichWithBibleParallels, wantsBibleParallels } from "../lib/bible-parallels.ts";
 import { enrichWithEntities, wantsEntities } from "../lib/entities.ts";
-import {
-	enrichWithUrantiaParallels,
-	wantsUrantiaParallels,
-} from "../lib/urantia-parallels.ts";
 import { problemJson } from "../lib/errors.ts";
 import { getParagraphNavigation } from "../lib/paragraph-lookup.ts";
+import { toRagFormat } from "../lib/rag.ts";
 import {
 	enrichWithScriptureParallels,
 	wantsScriptureParallels,
 } from "../lib/scripture-parallels.ts";
 import { enrichWithScriptureScores, wantsScriptureScores } from "../lib/scripture-scores.ts";
-import { toRagFormat } from "../lib/rag.ts";
-import { applyParagraphTranslations, applyTitleTranslations, localizeIncluded } from "../lib/translations.ts";
+import {
+	applyParagraphTranslations,
+	applyTitleTranslations,
+	localizeIncluded,
+} from "../lib/translations.ts";
+import { enrichWithUrantiaParallels, wantsUrantiaParallels } from "../lib/urantia-parallels.ts";
 import { detectRefFormat } from "../types/node.ts";
 import {
 	ContextQuery,
@@ -133,7 +134,12 @@ paragraphsRoute.openapi(getRandomRoute, async (c) => {
 		.limit(1);
 
 	if (result.length === 0) {
-		return problemJson(c, 400, "No paragraphs match the given length filters", "invalid-length-filter");
+		return problemJson(
+			c,
+			400,
+			"No paragraphs match the given length filters",
+			"invalid-length-filter",
+		);
 	}
 
 	// Apply translations if lang specified
@@ -145,16 +151,26 @@ paragraphsRoute.openapi(getRandomRoute, async (c) => {
 	type Enriched = (typeof result)[number] & {
 		entities?: Awaited<ReturnType<typeof enrichWithEntities>>[number]["entities"];
 		bibleParallels?: Awaited<ReturnType<typeof enrichWithBibleParallels>>[number]["bibleParallels"];
-		urantiaParallels?: Awaited<ReturnType<typeof enrichWithUrantiaParallels>>[number]["urantiaParallels"];
-		scriptureParallels?: Awaited<ReturnType<typeof enrichWithScriptureParallels>>[number]["scriptureParallels"];
-		scriptureScores?: Awaited<ReturnType<typeof enrichWithScriptureScores>>[number]["scriptureScores"];
+		urantiaParallels?: Awaited<
+			ReturnType<typeof enrichWithUrantiaParallels>
+		>[number]["urantiaParallels"];
+		scriptureParallels?: Awaited<
+			ReturnType<typeof enrichWithScriptureParallels>
+		>[number]["scriptureParallels"];
+		scriptureScores?: Awaited<
+			ReturnType<typeof enrichWithScriptureScores>
+		>[number]["scriptureScores"];
 	};
 	let enriched: Enriched[] = result;
 	if (wantsEntities(include)) enriched = (await enrichWithEntities(db, enriched)) as Enriched[];
-	if (wantsBibleParallels(include)) enriched = (await enrichWithBibleParallels(db, enriched)) as Enriched[];
-	if (wantsUrantiaParallels(include)) enriched = (await enrichWithUrantiaParallels(db, enriched)) as Enriched[];
-	if (wantsScriptureParallels(include)) enriched = (await enrichWithScriptureParallels(db, enriched)) as Enriched[];
-	if (wantsScriptureScores(include)) enriched = (await enrichWithScriptureScores(db, enriched)) as Enriched[];
+	if (wantsBibleParallels(include))
+		enriched = (await enrichWithBibleParallels(db, enriched)) as Enriched[];
+	if (wantsUrantiaParallels(include))
+		enriched = (await enrichWithUrantiaParallels(db, enriched)) as Enriched[];
+	if (wantsScriptureParallels(include))
+		enriched = (await enrichWithScriptureParallels(db, enriched)) as Enriched[];
+	if (wantsScriptureScores(include))
+		enriched = (await enrichWithScriptureScores(db, enriched)) as Enriched[];
 	if (lang && lang !== "eng") enriched = await localizeIncluded(db, enriched, lang);
 	const data = enriched[0]!;
 
@@ -211,7 +227,12 @@ paragraphsRoute.openapi(getParagraphRoute, async (c) => {
 	const refFormat = detectRefFormat(ref);
 
 	if (refFormat === "unknown") {
-		return problemJson(c, 400, `Invalid reference format: "${ref}". Expected globalId (1:2.0.1), standardReferenceId (2:0.1), or paperSectionParagraphId (2.0.1)`, "invalid-reference-format");
+		return problemJson(
+			c,
+			400,
+			`Invalid reference format: "${ref}". Expected globalId (1:2.0.1), standardReferenceId (2:0.1), or paperSectionParagraphId (2.0.1)`,
+			"invalid-reference-format",
+		);
 	}
 
 	let result = await findParagraphByRef(db, ref);
@@ -229,16 +250,26 @@ paragraphsRoute.openapi(getParagraphRoute, async (c) => {
 	type Enriched = (typeof result)[number] & {
 		entities?: Awaited<ReturnType<typeof enrichWithEntities>>[number]["entities"];
 		bibleParallels?: Awaited<ReturnType<typeof enrichWithBibleParallels>>[number]["bibleParallels"];
-		urantiaParallels?: Awaited<ReturnType<typeof enrichWithUrantiaParallels>>[number]["urantiaParallels"];
-		scriptureParallels?: Awaited<ReturnType<typeof enrichWithScriptureParallels>>[number]["scriptureParallels"];
-		scriptureScores?: Awaited<ReturnType<typeof enrichWithScriptureScores>>[number]["scriptureScores"];
+		urantiaParallels?: Awaited<
+			ReturnType<typeof enrichWithUrantiaParallels>
+		>[number]["urantiaParallels"];
+		scriptureParallels?: Awaited<
+			ReturnType<typeof enrichWithScriptureParallels>
+		>[number]["scriptureParallels"];
+		scriptureScores?: Awaited<
+			ReturnType<typeof enrichWithScriptureScores>
+		>[number]["scriptureScores"];
 	};
 	let enriched: Enriched[] = result;
 	if (wantsEntities(include)) enriched = (await enrichWithEntities(db, enriched)) as Enriched[];
-	if (wantsBibleParallels(include)) enriched = (await enrichWithBibleParallels(db, enriched)) as Enriched[];
-	if (wantsUrantiaParallels(include)) enriched = (await enrichWithUrantiaParallels(db, enriched)) as Enriched[];
-	if (wantsScriptureParallels(include)) enriched = (await enrichWithScriptureParallels(db, enriched)) as Enriched[];
-	if (wantsScriptureScores(include)) enriched = (await enrichWithScriptureScores(db, enriched)) as Enriched[];
+	if (wantsBibleParallels(include))
+		enriched = (await enrichWithBibleParallels(db, enriched)) as Enriched[];
+	if (wantsUrantiaParallels(include))
+		enriched = (await enrichWithUrantiaParallels(db, enriched)) as Enriched[];
+	if (wantsScriptureParallels(include))
+		enriched = (await enrichWithScriptureParallels(db, enriched)) as Enriched[];
+	if (wantsScriptureScores(include))
+		enriched = (await enrichWithScriptureScores(db, enriched)) as Enriched[];
 	if (lang && lang !== "eng") enriched = await localizeIncluded(db, enriched, lang);
 	const data = enriched[0]!;
 
@@ -294,14 +325,17 @@ paragraphsRoute.openapi(getParagraphContextRoute, async (c) => {
 	const format = detectRefFormat(ref);
 
 	if (format === "unknown") {
-
-		return problemJson(c, 400, `Invalid reference format: "${ref}". Expected globalId (1:2.0.1), standardReferenceId (2:0.1), or paperSectionParagraphId (2.0.1)`, "invalid-reference-format");
+		return problemJson(
+			c,
+			400,
+			`Invalid reference format: "${ref}". Expected globalId (1:2.0.1), standardReferenceId (2:0.1), or paperSectionParagraphId (2.0.1)`,
+			"invalid-reference-format",
+		);
 	}
 
 	const target = await findParagraphByRef(db, ref);
 
 	if (target.length === 0) {
-
 		return problemJson(c, 404, `Paragraph "${ref}" not found`);
 	}
 
@@ -343,7 +377,11 @@ paragraphsRoute.openapi(getParagraphContextRoute, async (c) => {
 	const translatedTarget = contextMap.get(targetParagraph.id)!;
 
 	if (wantsEntities(include)) {
-		const enriched = await localizeIncluded(db, await enrichWithEntities(db, allContextParagraphs), lang ?? "eng");
+		const enriched = await localizeIncluded(
+			db,
+			await enrichWithEntities(db, allContextParagraphs),
+			lang ?? "eng",
+		);
 		const enrichedMap = new Map(enriched.map((p) => [p.id, p]));
 
 		return c.json(

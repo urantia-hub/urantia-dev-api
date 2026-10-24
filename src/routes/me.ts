@@ -2,14 +2,20 @@ import { createRoute } from "@hono/zod-openapi";
 import { and, count, eq, sql } from "drizzle-orm";
 import { z } from "zod";
 import { getDb } from "../db/client.ts";
-import { bookmarks, notes, paragraphs, readingProgress, userPreferences, users } from "../db/schema.ts";
+import {
+	bookmarks,
+	notes,
+	paragraphs,
+	readingProgress,
+	userPreferences,
+	users,
+} from "../db/schema.ts";
 import { savePreferences } from "../lib/account-store.ts";
 import { createApp } from "../lib/app.ts";
 import { problemJson } from "../lib/errors.ts";
-import { preferenceSpace } from "../lib/preference-space.ts";
 import { lookupParagraphs, resolveParagraphRef } from "../lib/paragraph-lookup.ts";
+import { preferenceSpace } from "../lib/preference-space.ts";
 import type { AuthUser } from "../middleware/auth.ts";
-import { ErrorResponse, ParagraphSchema } from "../validators/schemas.ts";
 import {
 	BookmarkCreate,
 	BookmarkResponse,
@@ -23,9 +29,9 @@ import {
 	UserProfile,
 	UserUpdate,
 } from "../validators/me-schemas.ts";
+import { ErrorResponse, ParagraphSchema } from "../validators/schemas.ts";
 
 export const meRoute = createApp();
-
 
 function getUser(c: { get: (key: "user") => AuthUser | null }): AuthUser {
 	const user = c.get("user");
@@ -44,9 +50,18 @@ const getProfileRoute = createRoute({
 	tags: ["User"],
 	summary: "Get authenticated user profile",
 	responses: {
-		200: { description: "User profile", content: { "application/json": { schema: z.object({ data: UserProfile }) } } },
-		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
-		404: { description: "User not found", content: { "application/json": { schema: ErrorResponse } } },
+		200: {
+			description: "User profile",
+			content: { "application/json": { schema: z.object({ data: UserProfile }) } },
+		},
+		401: {
+			description: "Authentication required",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+		404: {
+			description: "User not found",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
 	},
 });
 
@@ -55,7 +70,10 @@ meRoute.openapi(getProfileRoute, async (c) => {
 	const { db } = getDb(c.env?.HYPERDRIVE);
 	const [row] = await db.select().from(users).where(eq(users.id, user.id)).limit(1);
 	if (!row) return problemJson(c, 404, "User not found.");
-	return c.json({ data: { id: row.id, email: row.email, name: row.name, avatarUrl: row.avatarUrl } }, 200);
+	return c.json(
+		{ data: { id: row.id, email: row.email, name: row.name, avatarUrl: row.avatarUrl } },
+		200,
+	);
 });
 
 const updateProfileRoute = createRoute({
@@ -66,8 +84,14 @@ const updateProfileRoute = createRoute({
 	summary: "Update user profile",
 	request: { body: { required: true, content: { "application/json": { schema: UserUpdate } } } },
 	responses: {
-		200: { description: "Updated profile", content: { "application/json": { schema: z.object({ data: UserProfile }) } } },
-		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
+		200: {
+			description: "Updated profile",
+			content: { "application/json": { schema: z.object({ data: UserProfile }) } },
+		},
+		401: {
+			description: "Authentication required",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
 	},
 });
 
@@ -81,7 +105,17 @@ meRoute.openapi(updateProfileRoute, async (c) => {
 	if (body.avatarUrl !== undefined) updates.avatarUrl = body.avatarUrl;
 
 	const [updated] = await db.update(users).set(updates).where(eq(users.id, user.id)).returning();
-	return c.json({ data: { id: updated!.id, email: updated!.email, name: updated!.name, avatarUrl: updated!.avatarUrl } }, 200);
+	return c.json(
+		{
+			data: {
+				id: updated!.id,
+				email: updated!.email,
+				name: updated!.name,
+				avatarUrl: updated!.avatarUrl,
+			},
+		},
+		200,
+	);
 });
 
 // ============================================================
@@ -94,13 +128,28 @@ const listBookmarksRoute = createRoute({
 	path: "/bookmarks",
 	tags: ["Bookmarks"],
 	summary: "List bookmarks",
-	request: { query: PaginationQuery.extend({ paperId: z.string().optional(), category: z.string().optional() }) },
+	request: {
+		query: PaginationQuery.extend({
+			paperId: z.string().optional(),
+			category: z.string().optional(),
+		}),
+	},
 	responses: {
 		200: {
 			description: "Bookmark list",
-			content: { "application/json": { schema: z.object({ data: z.array(BookmarkResponse), pagination: z.object({ page: z.number(), limit: z.number(), total: z.number() }) }) } },
+			content: {
+				"application/json": {
+					schema: z.object({
+						data: z.array(BookmarkResponse),
+						pagination: z.object({ page: z.number(), limit: z.number(), total: z.number() }),
+					}),
+				},
+			},
 		},
-		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
+		401: {
+			description: "Authentication required",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
 	},
 });
 
@@ -156,16 +205,21 @@ const listBookmarkCategoriesRoute = createRoute({
 			content: {
 				"application/json": {
 					schema: z.object({
-						data: z.array(z.object({
-							category: z.string().nullable(),
-							count: z.number(),
-							refs: z.array(z.string()),
-						})),
+						data: z.array(
+							z.object({
+								category: z.string().nullable(),
+								count: z.number(),
+								refs: z.array(z.string()),
+							}),
+						),
 					}),
 				},
 			},
 		},
-		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
+		401: {
+			description: "Authentication required",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
 	},
 });
 
@@ -208,13 +262,28 @@ const createBookmarkRoute = createRoute({
 	path: "/bookmarks",
 	tags: ["Bookmarks"],
 	summary: "Create a bookmark (idempotent)",
-	description: "Pass any paragraph reference format. If already bookmarked, updates the category and returns 200.",
-	request: { body: { required: true, content: { "application/json": { schema: BookmarkCreate } } } },
+	description:
+		"Pass any paragraph reference format. If already bookmarked, updates the category and returns 200.",
+	request: {
+		body: { required: true, content: { "application/json": { schema: BookmarkCreate } } },
+	},
 	responses: {
-		200: { description: "Bookmark already exists (updated category if provided)", content: { "application/json": { schema: z.object({ data: BookmarkResponse }) } } },
-		201: { description: "Bookmark created", content: { "application/json": { schema: z.object({ data: BookmarkResponse }) } } },
-		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
-		404: { description: "Paragraph not found", content: { "application/json": { schema: ErrorResponse } } },
+		200: {
+			description: "Bookmark already exists (updated category if provided)",
+			content: { "application/json": { schema: z.object({ data: BookmarkResponse }) } },
+		},
+		201: {
+			description: "Bookmark created",
+			content: { "application/json": { schema: z.object({ data: BookmarkResponse }) } },
+		},
+		401: {
+			description: "Authentication required",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+		404: {
+			description: "Paragraph not found",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
 	},
 });
 
@@ -234,19 +303,25 @@ meRoute.openapi(createBookmarkRoute, async (c) => {
 
 	if (existing) {
 		if (category !== undefined && category !== existing.category) {
-			await db.update(bookmarks).set({ category, updatedAt: new Date() }).where(eq(bookmarks.id, existing.id));
+			await db
+				.update(bookmarks)
+				.set({ category, updatedAt: new Date() })
+				.where(eq(bookmarks.id, existing.id));
 			existing.category = category;
 			existing.updatedAt = new Date();
 		}
-		return c.json({
-			data: {
-				id: existing.id,
-				category: existing.category,
-				createdAt: existing.createdAt.toISOString(),
-				updatedAt: existing.updatedAt.toISOString(),
-				paragraph: resolved.paragraph,
+		return c.json(
+			{
+				data: {
+					id: existing.id,
+					category: existing.category,
+					createdAt: existing.createdAt.toISOString(),
+					updatedAt: existing.updatedAt.toISOString(),
+					paragraph: resolved.paragraph,
+				},
 			},
-		}, 200);
+			200,
+		);
 	}
 
 	const [created] = await db
@@ -261,15 +336,18 @@ meRoute.openapi(createBookmarkRoute, async (c) => {
 		})
 		.returning();
 
-	return c.json({
-		data: {
-			id: created!.id,
-			category: created!.category,
-			createdAt: created!.createdAt.toISOString(),
-			updatedAt: created!.updatedAt.toISOString(),
-			paragraph: resolved.paragraph,
+	return c.json(
+		{
+			data: {
+				id: created!.id,
+				category: created!.category,
+				createdAt: created!.createdAt.toISOString(),
+				updatedAt: created!.updatedAt.toISOString(),
+				paragraph: resolved.paragraph,
+			},
 		},
-	}, 201);
+		201,
+	);
 });
 
 const deleteBookmarkRoute = createRoute({
@@ -281,8 +359,14 @@ const deleteBookmarkRoute = createRoute({
 	request: { params: z.object({ ref: z.string() }) },
 	responses: {
 		204: { description: "Bookmark deleted" },
-		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
-		404: { description: "Paragraph or bookmark not found", content: { "application/json": { schema: ErrorResponse } } },
+		401: {
+			description: "Authentication required",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+		404: {
+			description: "Paragraph or bookmark not found",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
 	},
 });
 
@@ -312,13 +396,25 @@ const listNotesRoute = createRoute({
 	path: "/notes",
 	tags: ["Notes"],
 	summary: "List notes",
-	request: { query: PaginationQuery.extend({ paperId: z.string().optional(), ref: z.string().optional() }) },
+	request: {
+		query: PaginationQuery.extend({ paperId: z.string().optional(), ref: z.string().optional() }),
+	},
 	responses: {
 		200: {
 			description: "Note list",
-			content: { "application/json": { schema: z.object({ data: z.array(NoteResponse), pagination: z.object({ page: z.number(), limit: z.number(), total: z.number() }) }) } },
+			content: {
+				"application/json": {
+					schema: z.object({
+						data: z.array(NoteResponse),
+						pagination: z.object({ page: z.number(), limit: z.number(), total: z.number() }),
+					}),
+				},
+			},
 		},
-		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
+		401: {
+			description: "Authentication required",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
 	},
 });
 
@@ -371,12 +467,22 @@ const createNoteRoute = createRoute({
 	path: "/notes",
 	tags: ["Notes"],
 	summary: "Create a note",
-	description: "Pass any paragraph reference format. Multiple notes per paragraph are allowed. Format: 'plain' (default) or 'markdown'.",
+	description:
+		"Pass any paragraph reference format. Multiple notes per paragraph are allowed. Format: 'plain' (default) or 'markdown'.",
 	request: { body: { required: true, content: { "application/json": { schema: NoteCreate } } } },
 	responses: {
-		201: { description: "Note created", content: { "application/json": { schema: z.object({ data: NoteResponse }) } } },
-		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
-		404: { description: "Paragraph not found", content: { "application/json": { schema: ErrorResponse } } },
+		201: {
+			description: "Note created",
+			content: { "application/json": { schema: z.object({ data: NoteResponse }) } },
+		},
+		401: {
+			description: "Authentication required",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+		404: {
+			description: "Paragraph not found",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
 	},
 });
 
@@ -401,16 +507,19 @@ meRoute.openapi(createNoteRoute, async (c) => {
 		})
 		.returning();
 
-	return c.json({
-		data: {
-			id: created!.id,
-			text: created!.text,
-			format: created!.format,
-			createdAt: created!.createdAt.toISOString(),
-			updatedAt: created!.updatedAt.toISOString(),
-			paragraph: resolved.paragraph,
+	return c.json(
+		{
+			data: {
+				id: created!.id,
+				text: created!.text,
+				format: created!.format,
+				createdAt: created!.createdAt.toISOString(),
+				updatedAt: created!.updatedAt.toISOString(),
+				paragraph: resolved.paragraph,
+			},
 		},
-	}, 201);
+		201,
+	);
 });
 
 const updateNoteRoute = createRoute({
@@ -419,11 +528,23 @@ const updateNoteRoute = createRoute({
 	path: "/notes/{id}",
 	tags: ["Notes"],
 	summary: "Update a note",
-	request: { params: z.object({ id: z.string().uuid() }), body: { required: true, content: { "application/json": { schema: NoteUpdate } } } },
+	request: {
+		params: z.object({ id: z.string().uuid() }),
+		body: { required: true, content: { "application/json": { schema: NoteUpdate } } },
+	},
 	responses: {
-		200: { description: "Note updated", content: { "application/json": { schema: z.object({ data: NoteResponse }) } } },
-		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
-		404: { description: "Note not found", content: { "application/json": { schema: ErrorResponse } } },
+		200: {
+			description: "Note updated",
+			content: { "application/json": { schema: z.object({ data: NoteResponse }) } },
+		},
+		401: {
+			description: "Authentication required",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+		404: {
+			description: "Note not found",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
 	},
 });
 
@@ -437,20 +558,29 @@ meRoute.openapi(updateNoteRoute, async (c) => {
 	if (body.text !== undefined) updates.text = body.text;
 	if (body.format !== undefined) updates.format = body.format;
 
-	const [updated] = await db.update(notes).set(updates).where(and(eq(notes.id, id), eq(notes.userId, user.id))).returning();
+	const [updated] = await db
+		.update(notes)
+		.set(updates)
+		.where(and(eq(notes.id, id), eq(notes.userId, user.id)))
+		.returning();
 	if (!updated) return problemJson(c, 404, "Note not found.");
 
 	const paragraphMap = await lookupParagraphs(db, [updated.paragraphId]);
-	return c.json({
-		data: {
-			id: updated.id,
-			text: updated.text,
-			format: updated.format,
-			createdAt: updated.createdAt.toISOString(),
-			updatedAt: updated.updatedAt.toISOString(),
-			...(paragraphMap.has(updated.paragraphId) ? { paragraph: paragraphMap.get(updated.paragraphId)! } : {}),
+	return c.json(
+		{
+			data: {
+				id: updated.id,
+				text: updated.text,
+				format: updated.format,
+				createdAt: updated.createdAt.toISOString(),
+				updatedAt: updated.updatedAt.toISOString(),
+				...(paragraphMap.has(updated.paragraphId)
+					? { paragraph: paragraphMap.get(updated.paragraphId)! }
+					: {}),
+			},
 		},
-	}, 200);
+		200,
+	);
 });
 
 const deleteNoteRoute = createRoute({
@@ -462,8 +592,14 @@ const deleteNoteRoute = createRoute({
 	request: { params: z.object({ id: z.string().uuid() }) },
 	responses: {
 		204: { description: "Note deleted" },
-		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
-		404: { description: "Note not found", content: { "application/json": { schema: ErrorResponse } } },
+		401: {
+			description: "Authentication required",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+		404: {
+			description: "Note not found",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
 	},
 });
 
@@ -471,7 +607,10 @@ meRoute.openapi(deleteNoteRoute, async (c) => {
 	const user = getUser(c);
 	const { id } = c.req.valid("param");
 	const { db } = getDb(c.env?.HYPERDRIVE);
-	const deleted = await db.delete(notes).where(and(eq(notes.id, id), eq(notes.userId, user.id))).returning();
+	const deleted = await db
+		.delete(notes)
+		.where(and(eq(notes.id, id), eq(notes.userId, user.id)))
+		.returning();
 	if (deleted.length === 0) return problemJson(c, 404, "Note not found.");
 	return c.body(null, 204);
 });
@@ -489,9 +628,14 @@ const getReadingProgressRoute = createRoute({
 	responses: {
 		200: {
 			description: "Reading progress per paper",
-			content: { "application/json": { schema: z.object({ data: z.array(ReadingProgressSummaryResponse) }) } },
+			content: {
+				"application/json": { schema: z.object({ data: z.array(ReadingProgressSummaryResponse) }) },
+			},
 		},
-		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
+		401: {
+			description: "Authentication required",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
 	},
 });
 
@@ -548,7 +692,8 @@ meRoute.openapi(getReadingProgressRoute, async (c) => {
 			paperTitle: paperTitles.get(paperId) ?? "",
 			readCount: readRefs.length,
 			totalParagraphs,
-			percentage: totalParagraphs > 0 ? Math.round((readRefs.length / totalParagraphs) * 10000) / 100 : 0,
+			percentage:
+				totalParagraphs > 0 ? Math.round((readRefs.length / totalParagraphs) * 10000) / 100 : 0,
 			readRefs,
 		};
 	});
@@ -562,8 +707,11 @@ const markReadRoute = createRoute({
 	path: "/reading-progress",
 	tags: ["Reading Progress"],
 	summary: "Mark paragraphs as read (batch, idempotent)",
-	description: "Pass an array of paragraph references in any format. Already-read paragraphs are silently skipped.",
-	request: { body: { required: true, content: { "application/json": { schema: ReadingProgressBatch } } } },
+	description:
+		"Pass an array of paragraph references in any format. Already-read paragraphs are silently skipped.",
+	request: {
+		body: { required: true, content: { "application/json": { schema: ReadingProgressBatch } } },
+	},
 	responses: {
 		200: {
 			description: "Result",
@@ -575,7 +723,10 @@ const markReadRoute = createRoute({
 				},
 			},
 		},
-		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
+		401: {
+			description: "Authentication required",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
 	},
 });
 
@@ -586,7 +737,8 @@ meRoute.openapi(markReadRoute, async (c) => {
 
 	const resolved = await Promise.all(refs.map((ref) => resolveParagraphRef(db, ref)));
 	const valid = resolved.filter((r): r is NonNullable<typeof r> => r !== null);
-	if (valid.length === 0) return c.json({ data: { marked: 0, alreadyRead: 0, total: refs.length } }, 200);
+	if (valid.length === 0)
+		return c.json({ data: { marked: 0, alreadyRead: 0, total: refs.length } }, 200);
 
 	const values = valid.map((item) => ({
 		userId: user.id,
@@ -599,16 +751,21 @@ meRoute.openapi(markReadRoute, async (c) => {
 	const result = await db
 		.insert(readingProgress)
 		.values(values)
-		.onConflictDoNothing({ target: [readingProgress.userId, readingProgress.paragraphId, readingProgress.appId] })
+		.onConflictDoNothing({
+			target: [readingProgress.userId, readingProgress.paragraphId, readingProgress.appId],
+		})
 		.returning();
 
-	return c.json({
-		data: {
-			marked: result.length,
-			alreadyRead: valid.length - result.length,
-			total: refs.length,
+	return c.json(
+		{
+			data: {
+				marked: result.length,
+				alreadyRead: valid.length - result.length,
+				total: refs.length,
+			},
 		},
-	}, 200);
+		200,
+	);
 });
 
 const deleteReadingProgressRoute = createRoute({
@@ -617,12 +774,19 @@ const deleteReadingProgressRoute = createRoute({
 	path: "/reading-progress/{ref}",
 	tags: ["Reading Progress"],
 	summary: "Unmark a paragraph as read (idempotent)",
-	description: "Returns 204 whether or not progress existed. Returns 404 only if the paragraph ref is invalid.",
+	description:
+		"Returns 204 whether or not progress existed. Returns 404 only if the paragraph ref is invalid.",
 	request: { params: z.object({ ref: z.string() }) },
 	responses: {
 		204: { description: "Reading progress deleted (or didn't exist)" },
-		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
-		404: { description: "Paragraph not found", content: { "application/json": { schema: ErrorResponse } } },
+		401: {
+			description: "Authentication required",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
+		404: {
+			description: "Paragraph not found",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
 	},
 });
 
@@ -637,7 +801,9 @@ meRoute.openapi(deleteReadingProgressRoute, async (c) => {
 	// Idempotent: delete if exists, no error if not
 	await db
 		.delete(readingProgress)
-		.where(and(eq(readingProgress.userId, user.id), eq(readingProgress.paragraphId, resolved.globalId)));
+		.where(
+			and(eq(readingProgress.userId, user.id), eq(readingProgress.paragraphId, resolved.globalId)),
+		);
 
 	return c.body(null, 204);
 });
@@ -653,15 +819,27 @@ const getPreferencesRoute = createRoute({
 	tags: ["Preferences"],
 	summary: "Get user preferences",
 	responses: {
-		200: { description: "User preferences", content: { "application/json": { schema: z.object({ data: z.record(z.string(), z.unknown()) }) } } },
-		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
+		200: {
+			description: "User preferences",
+			content: {
+				"application/json": { schema: z.object({ data: z.record(z.string(), z.unknown()) }) },
+			},
+		},
+		401: {
+			description: "Authentication required",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
 	},
 });
 
 meRoute.openapi(getPreferencesRoute, async (c) => {
 	const user = getUser(c);
 	const { db } = getDb(c.env?.HYPERDRIVE);
-	const [row] = await db.select().from(userPreferences).where(eq(userPreferences.userId, user.id)).limit(1);
+	const [row] = await db
+		.select()
+		.from(userPreferences)
+		.where(eq(userPreferences.userId, user.id))
+		.limit(1);
 	const space = preferenceSpace(c.get("tokenApp"));
 	return c.json({ data: space.visible((row?.preferences as Record<string, unknown>) ?? {}) }, 200);
 });
@@ -672,10 +850,20 @@ const updatePreferencesRoute = createRoute({
 	path: "/preferences",
 	tags: ["Preferences"],
 	summary: "Update user preferences (shallow merge)",
-	request: { body: { required: true, content: { "application/json": { schema: PreferencesUpdate } } } },
+	request: {
+		body: { required: true, content: { "application/json": { schema: PreferencesUpdate } } },
+	},
 	responses: {
-		200: { description: "Updated preferences", content: { "application/json": { schema: z.object({ data: z.record(z.string(), z.unknown()) }) } } },
-		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
+		200: {
+			description: "Updated preferences",
+			content: {
+				"application/json": { schema: z.object({ data: z.record(z.string(), z.unknown()) }) },
+			},
+		},
+		401: {
+			description: "Authentication required",
+			content: { "application/json": { schema: ErrorResponse } },
+		},
 	},
 });
 

@@ -10,7 +10,10 @@ export type TopEntity = EntityMention & { count: number };
 /** Check if `include` query param contains "entities" */
 export function wantsEntities(include: string | undefined): boolean {
 	if (!include) return false;
-	return include.split(",").map((s) => s.trim()).includes("entities");
+	return include
+		.split(",")
+		.map((s) => s.trim())
+		.includes("entities");
 }
 
 /**
@@ -19,7 +22,10 @@ export function wantsEntities(include: string | undefined): boolean {
  */
 export function wantsTopEntities(include: string | undefined): boolean {
 	if (!include) return false;
-	return include.split(",").map((s) => s.trim()).includes("topEntities");
+	return include
+		.split(",")
+		.map((s) => s.trim())
+		.includes("topEntities");
 }
 
 /**

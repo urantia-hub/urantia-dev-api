@@ -90,6 +90,8 @@ nearest paragraphs (`src/lib/paper-semantic.ts`, `hnsw.ef_search` 100 in the
 query's transaction; the default of 40 gave 40 results with a total of 14,593),
 `meta.total` is its length, and `meta.related` counts those that are `related` or better. The cut points of
 `strength` are in `src/lib/search-strength.ts`, from `bun scripts/calibrate-strength.ts`.
+With `lang=es` the vector is the same (the KV key stays the query), the rows get the Spanish text, and
+`strength` adds `ES_STRENGTH_OFFSET` (0.09, from `bun scripts/measure-semantic-es.ts`) to the similarity.
 
 ## Project Structure
 
