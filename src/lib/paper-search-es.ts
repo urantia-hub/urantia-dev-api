@@ -5,14 +5,20 @@ import { and, eq, type SQL, sql } from "drizzle-orm";
 import { paragraphs, paragraphTranslations } from "../db/schema.ts";
 import type { Match, PaperSearchOptions, PaperSearchResult } from "./paper-search.ts";
 import { referenceWhere } from "./paper-search.ts";
-import { highlightEs, normalizedSqlEs, normalizeQueryEs, parsePaperRefEs } from "./search-text-es.ts";
+import {
+	highlightEs,
+	normalizedSqlEs,
+	normalizeQueryEs,
+	parsePaperRefEs,
+} from "./search-text-es.ts";
 import type { Db } from "./search-words.ts";
 import { applyTitleTranslations, type TranslationLabel } from "./translations.ts";
 
 const pt = paragraphTranslations;
 const MATCH_TEXT = sql.raw(normalizedSqlEs('"paragraph_translations"."text"'));
 const TIERS: Match[] = ["reference", "exact", "all", "near", "near", "most"];
-const join = and(eq(pt.paragraphId, paragraphs.id), eq(pt.language, "es")) as SQL;
+// A literal, not a parameter, so the planner can use the partial index of the Spanish rows.
+const join = and(eq(pt.paragraphId, paragraphs.id), sql`${pt.language} = 'es'`) as SQL;
 
 const columns = {
 	id: paragraphs.id,
@@ -39,12 +45,19 @@ export async function searchPapersEs(db: Db, opts: PaperSearchOptions): Promise<
 	const filters: SQL[] = [];
 	if (opts.paperId) filters.push(eq(paragraphs.paperId, opts.paperId));
 	if (opts.partId) filters.push(eq(paragraphs.partId, opts.partId));
-	const empty = (): PaperSearchResult => ({ data: [], meta: { page, limit, total: 0, totalPages: 0 } });
+	const empty = (): PaperSearchResult => ({
+		data: [],
+		meta: { page, limit, total: 0, totalPages: 0 },
+	});
 
 	const run = async (where: SQL, tier: SQL, words: string[], prefixLast: boolean) => {
 		const scoped = and(where, ...filters) as SQL;
 		const [[counted], rows] = await Promise.all([
-			db.select({ n: sql<number>`count(*)::int` }).from(paragraphs).leftJoin(pt, join).where(scoped),
+			db
+				.select({ n: sql<number>`count(*)::int` })
+				.from(paragraphs)
+				.leftJoin(pt, join)
+				.where(scoped),
 			db
 				.select({ ...columns, tier: sql<number>`${tier}` })
 				.from(paragraphs)
@@ -64,7 +77,13 @@ export async function searchPapersEs(db: Db, opts: PaperSearchOptions): Promise<
 				match: TIERS[Number(t)] as Match,
 				language: translated ? "es" : "eng",
 				...(translated
-					? { translation: { method: "machine", license: "CC0-1.0", review: confidence } as TranslationLabel }
+					? {
+							translation: {
+								method: "machine",
+								license: "CC0-1.0",
+								review: confidence,
+							} as TranslationLabel,
+						}
 					: {}),
 			})),
 			meta: { page, limit, total, totalPages: Math.ceil(total / limit) },
@@ -81,13 +100,19 @@ export async function searchPapersEs(db: Db, opts: PaperSearchOptions): Promise<
 	const like = (pattern: string) => sql`${MATCH_TEXT} like ${pattern}`;
 	const exact = like(`% ${nq.text} %`);
 	const prefixLast = type === "auto" && !nq.quoted;
-	const wordLikes = nq.words.map((w, i) => like(i === nq.words.length - 1 && prefixLast ? `% ${w}%` : `% ${w} %`));
+	const wordLikes = nq.words.map((w, i) =>
+		like(i === nq.words.length - 1 && prefixLast ? `% ${w}%` : `% ${w} %`),
+	);
 	const all = sql`(${sql.join(wordLikes, sql` and `)})`;
 	const some = sql`(${sql.join(wordLikes, sql` or `)})`;
 	const translated = sql`${pt.id} is not null`;
 
 	const tier = sql`case when ${exact} then 1 when ${all} then 2 else 5 end`;
 	const where =
-		type === "phrase" || (type === "auto" && nq.quoted) ? exact : type === "or" ? some : sql`(${exact} or ${all})`;
+		type === "phrase" || (type === "auto" && nq.quoted)
+			? exact
+			: type === "or"
+				? some
+				: sql`(${exact} or ${all})`;
 	return run(and(translated, where) as SQL, tier, nq.words, prefixLast);
 }
