@@ -231,13 +231,13 @@ export async function localizeIncluded<T extends { urantiaParallels?: IncludedPa
 	const localized = new Map<string, Record<string, unknown>>();
 	if (parallels.length > 0) {
 		const ids = [...new Set(parallels.map((p) => p.id))];
-		// A parallel carries no sectionId, and its section title is keyed by it.
+		// A parallel carries no sectionId. The column holds "paper.section"; the title key needs the section part.
 		const sectionRows = await db
 			.select({ id: paragraphs.id, sectionId: paragraphs.sectionId })
 			.from(paragraphs)
 			.where(sql`${paragraphs.id} IN (${sql.join(ids.map((id) => sql`${id}`), sql`, `)})`);
 		// biome-ignore lint: Drizzle select result type
-		const sectionOf = new Map<string, string | null>(sectionRows.map((r: any) => [r.id, r.sectionId]));
+		const sectionOf = new Map<string, string | null>(sectionRows.map((r: any) => [r.id, r.sectionId?.split(".").pop() ?? null]));
 		const unique = ids.map((id) => parallels.find((p) => p.id === id)!);
 		const texts = await applyParagraphTranslations(db, unique.map((p) => ({ id: p.id, text: p.text })), lang);
 		const titles = await applyTitleTranslations(
