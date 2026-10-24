@@ -12,9 +12,14 @@ export const CUTS: Record<Body, { strong: number; related: number }> = {
 	works: { strong: 0.66, related: 0.595 },
 };
 
-export function strengthOf(similarity: number, body: Body): Strength {
+// A Spanish query lands 0.09 lower than its English twin at each rank (`bun scripts/measure-semantic-es.ts`,
+// 30 pairs, 2026-10-23), so its similarity is raised by that much before the cut points.
+export const ES_STRENGTH_OFFSET = 0.09;
+
+export function strengthOf(similarity: number, body: Body, lang: "eng" | "es" = "eng"): Strength {
 	const cut = CUTS[body];
-	if (similarity >= cut.strong) return "strong";
-	if (similarity >= cut.related) return "related";
+	const s = lang === "es" ? similarity + ES_STRENGTH_OFFSET : similarity;
+	if (s >= cut.strong) return "strong";
+	if (s >= cut.related) return "related";
 	return "weak";
 }

@@ -21,11 +21,11 @@ import { enrichWithBibleParallels } from "../lib/bible-parallels.ts";
 import { MCP_ICONS } from "../lib/brand-icon.ts";
 import { enrichWithEntities } from "../lib/entities.ts";
 import { searchPapers } from "../lib/paper-search.ts";
+import { searchPapersEs } from "../lib/paper-search-es.ts";
 import { semanticSearchPapers } from "../lib/paper-semantic.ts";
 import { databaseCandidates } from "../lib/quote-candidates.ts";
 import { normalizeQuery } from "../lib/search-text.ts";
 import { normalizeQueryEs } from "../lib/search-text-es.ts";
-import { searchPapersEs } from "../lib/paper-search-es.ts";
 import {
 	applyParagraphTranslations,
 	applyTitleTranslations,
@@ -363,7 +363,8 @@ async function enrichParagraphs<T extends { id: string }>(
 	if (opts.entities) out = (await enrichWithEntities(db, out as never)) as never;
 	if (opts.bibleParallels) out = (await enrichWithBibleParallels(db, out as never)) as never;
 	if (opts.urantiaParallels) out = (await enrichWithUrantiaParallels(db, out as never)) as never;
-	if (opts.lang && opts.lang !== "eng") out = (await localizeIncluded(db, out as never, opts.lang)) as never;
+	if (opts.lang && opts.lang !== "eng")
+		out = (await localizeIncluded(db, out as never, opts.lang)) as never;
 	return out as unknown as T[];
 }
 
@@ -775,7 +776,11 @@ function createMcpServer() {
 
 			if (include_entities) {
 				const allParagraphs = [targetParagraph, ...before, ...after];
-				const enriched = await localizeIncluded(db, await enrichWithEntities(db, allParagraphs), lang);
+				const enriched = await localizeIncluded(
+					db,
+					await enrichWithEntities(db, allParagraphs),
+					lang,
+				);
 				const enrichedMap = new Map(enriched.map((p) => [p.id, p]));
 				return structured({
 					target: enrichedMap.get(targetParagraph.id)!,
@@ -899,6 +904,9 @@ function createMcpServer() {
 					.boolean()
 					.default(false)
 					.describe("Include the top-10 most-similar OTHER Urantia paragraphs for each result."),
+				lang: langInput.describe(
+					'Language of the results. "es" gives the Spanish text and titles; the question can be in Spanish or English, and `strength` allows for the lower similarity of a Spanish question. Default "eng".',
+				),
 			},
 			outputSchema: {
 				data: z.array(semanticResultSchema),
@@ -916,6 +924,7 @@ function createMcpServer() {
 			include_entities,
 			include_bible_parallels,
 			include_urantia_parallels,
+			lang,
 		}) => {
 			const searchQuery = query ?? q;
 			if (!searchQuery) return errorResult("Either 'query' or 'q' is required");
@@ -926,6 +935,7 @@ function createMcpServer() {
 				limit,
 				paperId: paper_id,
 				partId: part_id,
+				lang,
 				embed: async () => {
 					const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 					const res = await openai.embeddings.create({
@@ -942,6 +952,7 @@ function createMcpServer() {
 				entities: include_entities,
 				bibleParallels: include_bible_parallels,
 				urantiaParallels: include_urantia_parallels,
+				lang,
 			});
 
 			return structured({ data: enrichedResults, meta });
@@ -2201,6 +2212,7 @@ mcpRoute.get("/", async (c) => {
 						"include_entities",
 						"include_bible_parallels",
 						"include_urantia_parallels",
+						"lang",
 					],
 				},
 				"search.semantic": {
@@ -2215,6 +2227,7 @@ mcpRoute.get("/", async (c) => {
 						"include_entities",
 						"include_bible_parallels",
 						"include_urantia_parallels",
+						"lang",
 					],
 				},
 				"entities.list": {

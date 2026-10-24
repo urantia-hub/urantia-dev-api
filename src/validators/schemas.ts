@@ -17,6 +17,13 @@ export const SearchLanguage = z
 		"Language to search. `es` searches the Spanish text: a word matches with or without its accents, a reference such as `documento 1` or `1:0.1` gives those paragraphs, and each result has the Spanish text and titles. Spanish has the reference, exact, and all-word matches only.",
 	);
 
+export const SemanticLanguage = z
+	.enum(["eng", "es"])
+	.default("eng")
+	.describe(
+		"Language of the results. `es` gives each result the Spanish text and titles; a question can be in Spanish or in English. `strength` and `meta.related` then allow for the lower similarity of a Spanish question.",
+	);
+
 export const LangQuery = z.object({
 	lang: SupportedLanguage.optional(),
 });
@@ -414,6 +421,7 @@ export const SemanticSearchRequest = z.object({
 	paperId: z.string().optional(),
 	partId: z.string().optional(),
 	include: z.string().optional(),
+	lang: SemanticLanguage.optional(),
 });
 
 export const SemanticSearchQueryParams = z.object({
@@ -423,6 +431,7 @@ export const SemanticSearchQueryParams = z.object({
 	paperId: z.string().optional(),
 	partId: z.string().optional(),
 	include: z.string().optional(),
+	lang: SemanticLanguage.optional(),
 });
 
 export const SemanticStrength = z

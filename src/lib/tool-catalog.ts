@@ -246,6 +246,11 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 				q: { type: "string", description: "Alias for `query` (REST compatibility)." },
 				paper_id: { type: "string", description: "Filter to a specific paper ID" },
 				part_id: { type: "string", description: "Filter to a specific part ID (1-4)" },
+				lang: {
+					...langProp,
+					description:
+						'Language of the results. "es" gives the Spanish text and titles; the question can be in Spanish or English, and `strength` allows for the lower similarity of a Spanish question. Default "eng".',
+				},
 				page: pageProp,
 				limit: limitProp,
 				include_entities: includeEntitiesProp,

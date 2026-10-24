@@ -7,6 +7,7 @@ import { columns, referenceWhere } from "./paper-search.ts";
 import { type Strength, strengthOf } from "./search-strength.ts";
 import { normalizeQuery, parsePaperRef } from "./search-text.ts";
 import { type Db, matchText } from "./search-words.ts";
+import { applyParagraphTranslations, applyTitleTranslations } from "./translations.ts";
 
 export type SemanticMatch = "reference" | "exact" | "similar";
 export type PaperSemanticOptions = {
@@ -15,6 +16,8 @@ export type PaperSemanticOptions = {
 	limit: number;
 	paperId?: string;
 	partId?: string;
+	/** "es": the rows get the Spanish text and titles, and `strength` uses the Spanish gap. The vector is the same. */
+	lang?: "eng" | "es";
 	/** The vector of the query. Called only when the query is not a reference. */
 	embed: () => Promise<number[] | null>;
 };
@@ -37,6 +40,16 @@ export async function semanticSearchPapers(
 	opts: PaperSemanticOptions,
 ): Promise<PaperSemanticResult | null> {
 	const { q, page, limit } = opts;
+	const lang = opts.lang ?? "eng";
+	// English rows stay as they are; Spanish rows get the translated text, titles, and labels.
+	const localize = async <T extends Row>(rows: T[]): Promise<T[]> =>
+		lang === "es"
+			? ((await applyTitleTranslations(
+					db,
+					await applyParagraphTranslations(db, rows, lang),
+					lang,
+				)) as T[])
+			: rows;
 	const filters: SQL[] = [];
 	if (opts.paperId) filters.push(sql`${paragraphs.paperId} = ${opts.paperId}`);
 	if (opts.partId) filters.push(sql`${paragraphs.partId} = ${opts.partId}`);
@@ -59,7 +72,7 @@ export async function semanticSearchPapers(
 			db.select({ n: sql<number>`count(*)::int` }).from(paragraphs).where(where),
 		]);
 		return {
-			data: rows.map((r) => ({
+			data: (await localize(rows)).map((r) => ({
 				...r,
 				similarity: 1,
 				strength: "strong" as const,
@@ -95,16 +108,18 @@ export async function semanticSearchPapers(
 
 	const slice = ranked.slice(page * limit, page * limit + limit);
 	const related = ranked.filter(
-		(r) => r.exact || strengthOf(Number(r.similarity), "papers") !== "weak",
+		(r) => r.exact || strengthOf(Number(r.similarity), "papers", lang) !== "weak",
 	).length;
 	if (slice.length === 0) return { data: [], meta: meta(ranked.length, related) };
 	const byId = new Map(
 		(
-			await rowsFor(
-				db,
-				inArray(
-					paragraphs.id,
-					slice.map((r) => r.id),
+			await localize(
+				await rowsFor(
+					db,
+					inArray(
+						paragraphs.id,
+						slice.map((r) => r.id),
+					),
 				),
 			)
 		).map((r) => [r.id, r]),
@@ -117,7 +132,7 @@ export async function semanticSearchPapers(
 			{
 				...row,
 				similarity,
-				strength: r.exact ? ("strong" as const) : strengthOf(similarity, "papers"),
+				strength: r.exact ? ("strong" as const) : strengthOf(similarity, "papers", lang),
 				match: r.exact ? ("exact" as const) : ("similar" as const),
 			},
 		];

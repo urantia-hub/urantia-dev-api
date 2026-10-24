@@ -15,11 +15,11 @@ import { enrichWithEntities, wantsEntities } from "../lib/entities.ts";
 import { problemJson } from "../lib/errors.ts";
 import { type SearchType, searchPapers, tierCounts } from "../lib/paper-search.ts";
 import { searchPapersEs } from "../lib/paper-search-es.ts";
-import { normalizeQueryEs } from "../lib/search-text-es.ts";
-import { localizeIncluded } from "../lib/translations.ts";
 import { semanticSearchPapers } from "../lib/paper-semantic.ts";
 import { getCachedEmbedding, runAfter, setCachedEmbedding } from "../lib/search-cache.ts";
 import { normalizeQuery } from "../lib/search-text.ts";
+import { normalizeQueryEs } from "../lib/search-text-es.ts";
+import { localizeIncluded } from "../lib/translations.ts";
 import { enrichWithUrantiaParallels, wantsUrantiaParallels } from "../lib/urantia-parallels.ts";
 import {
 	ErrorResponse,
@@ -116,6 +116,7 @@ type SemanticSearchParams = {
 	paperId?: string;
 	partId?: string;
 	include?: string;
+	lang?: "eng" | "es";
 };
 
 async function handleSemanticSearch(c: AnyContext, params: SemanticSearchParams) {
@@ -123,7 +124,7 @@ async function handleSemanticSearch(c: AnyContext, params: SemanticSearchParams)
 
 	const { db } = getDb(c.env?.HYPERDRIVE);
 	const kv = c.env?.SEARCH_CACHE as KVNamespace | undefined;
-	const { q, page, limit, paperId, partId, include } = params;
+	const { q, page, limit, paperId, partId, include, lang } = params;
 
 	if (!q) {
 		return problemJson(c, 400, "Search query cannot be empty");
@@ -149,7 +150,15 @@ async function handleSemanticSearch(c: AnyContext, params: SemanticSearchParams)
 	};
 
 	const startQueries = performance.now();
-	const found = await semanticSearchPapers(db, { q, page, limit, paperId, partId, embed });
+	const found = await semanticSearchPapers(db, {
+		q,
+		page,
+		limit,
+		paperId,
+		partId,
+		lang,
+		embed,
+	});
 	if (!found) {
 		return problemJson(c, 500, "Failed to generate embedding");
 	}
@@ -172,6 +181,7 @@ async function handleSemanticSearch(c: AnyContext, params: SemanticSearchParams)
 		enrichedResults = (await enrichWithBibleParallels(db, enrichedResults)) as Enriched[];
 	if (wantsUrantiaParallels(include))
 		enrichedResults = (await enrichWithUrantiaParallels(db, enrichedResults)) as Enriched[];
+	if (lang === "es") enrichedResults = await localizeIncluded(db, enrichedResults, "es");
 	if (wantsEntities(include) || wantsBibleParallels(include) || wantsUrantiaParallels(include)) {
 		enrichMs = Math.round(performance.now() - startEnrich);
 	}
