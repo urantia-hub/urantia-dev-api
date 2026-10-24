@@ -93,13 +93,16 @@ describe("GET /openapi.json", () => {
 		).toBe("docs");
 	});
 
-	it("says on every lang parameter that paragraph text is English only", async () => {
+	it("says on every lang parameter what Spanish gives, and never that the text is English only", async () => {
 		const spec = await loadSpec();
 		const langs = operations(spec).flatMap(({ op }) =>
 			(op.parameters ?? []).filter((p: Loose) => p.name === "lang"),
 		);
 		expect(langs.length).toBeGreaterThan(5);
-		for (const p of langs) expect(p.description).toContain("Paragraph text is in English only");
+		for (const p of langs) {
+			expect(p.description).toContain("Spanish");
+			expect(p.description).not.toContain("English only");
+		}
 	});
 
 	it("lists the open content API only, with no auth scheme", async () => {
