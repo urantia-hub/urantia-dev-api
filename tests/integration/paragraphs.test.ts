@@ -331,7 +331,7 @@ describe("GET /paragraphs/{ref} lang=es on the includes", () => {
 		const top = d.urantiaParallels.find((u: { standardReferenceId: string }) => u.standardReferenceId === "1:1.4");
 		expect(top.text.startsWith("Cerca del centro del universo de universos")).toBe(true);
 		expect(top.paperTitle).toBe("El Padre Universal");
-		expect(top.sectionTitle).not.toBe("The Paternal Name"); // 1:1 has a Spanish section title
+		expect(top.sectionTitle).toBe("El nombre del Padre");
 		expect(top.language).toBe("es");
 		expect(d.entities.map((e: { name: string }) => e.name)).toContain("Padre Universal");
 		expect(d.bibleParallels[0].text).toBe("He who lives forever created the whole universe.");
