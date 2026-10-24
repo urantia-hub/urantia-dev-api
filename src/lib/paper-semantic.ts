@@ -5,7 +5,8 @@ import { and, inArray, type SQL, sql } from "drizzle-orm";
 import { paragraphs } from "../db/schema.ts";
 import { columns, referenceWhere } from "./paper-search.ts";
 import { type Strength, strengthOf } from "./search-strength.ts";
-import { normalizeQuery, parsePaperRef } from "./search-text.ts";
+import { normalizeQuery, type PaperRef, parsePaperRef } from "./search-text.ts";
+import { parsePaperRefEs } from "./search-text-es.ts";
 import { type Db, matchText } from "./search-words.ts";
 import { applyParagraphTranslations, applyTitleTranslations } from "./translations.ts";
 
@@ -34,6 +35,11 @@ export type PaperSemanticResult = {
 
 const rowsFor = (db: Db, where: SQL) => db.select(columns(null)).from(paragraphs).where(where);
 
+/** The reference in a query, read as keyword search reads it in the same language. */
+export function referenceIn(q: string, lang: "eng" | "es"): PaperRef | null {
+	return lang === "es" ? parsePaperRefEs(q) : parsePaperRef(q);
+}
+
 /** Null when the query has no vector (the embedding call failed). */
 export async function semanticSearchPapers(
 	db: Db,
@@ -61,7 +67,7 @@ export async function semanticSearchPapers(
 		related,
 	});
 
-	const ref = parsePaperRef(q);
+	const ref = referenceIn(q, lang);
 	if (ref) {
 		const where = and(referenceWhere(ref), ...filters) as SQL;
 		const [rows, [n]] = await Promise.all([
