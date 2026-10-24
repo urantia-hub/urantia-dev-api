@@ -33,7 +33,7 @@ export const COPY_LIMIT_PARAGRAPH = 0.6;
 const COPY_MIN_SHINGLES = 15;
 export const COPY_LIMIT_PAPER_MEDIAN = { warn: 0.35, error: 0.5 };
 
-const ENGLISH_MARKERS = new Set(
+export const ENGLISH_MARKERS = new Set(
 	"the and which that with is are was were have has this these those upon from shall would their".split(
 		" ",
 	),
@@ -52,7 +52,7 @@ function numbers(text: string): string[] {
 // The running text drops an index note and an inverted tail: "Miguel (el original)", "Miguel, orden de".
 const runningForm = (form: string) => form.replace(/\s*\([^)]*\)\s*$/, "").split(", ")[0]!;
 
-function termPresent(term: Term, text: string): boolean {
+export function termPresent(term: Term, text: string): boolean {
 	const hay = fold(text);
 	return [term.target, ...term.aliases].some((form) =>
 		fold(runningForm(form))
