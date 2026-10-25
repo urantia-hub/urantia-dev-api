@@ -11,6 +11,7 @@ export type NoticeChannel = (typeof NOTICE_CHANNELS)[number];
 export const NOTICES_KEY = "hub.notices";
 const PLACE_KEY = "hub.place";
 export const STREAK_KEY = "hub.streak";
+export const LANG_KEY = "hub.lang";
 // The reading days that the job gets for each reader who keeps a streak.
 export const STREAK_DAYS = 21;
 export const DEFAULT_HOUR = 7;
@@ -203,12 +204,18 @@ export type DueReader = {
 	email: string | null;
 	settings: NoticeSettings | null;
 	place: unknown;
+	// The language that the reader chose (`hub.lang`), so a notice speaks it. English by default.
+	lang: "en" | "es";
 	// The streak settings of the reader as stored (`hub.streak`), and the recent finished sections.
 	streak: unknown;
 	sectionDays: Array<{ day: string; count: number }>;
 	lastSection: { day: string; paperId: string; sectionId: string } | null;
 	devices: Array<{ endpoint: string; p256dh: string; auth: string; kinds: NoticeKind[] }>;
 };
+
+function readerLang(value: unknown): "en" | "es" {
+	return (value as { lang?: unknown } | null)?.lang === "es" ? "es" : "en";
+}
 
 // What the Hub's job gets: each reader who can get a notice now, and nothing else of the record.
 // A push goes to each device of the reader, so each device is listed.
@@ -225,6 +232,7 @@ export function dueReaders(rows: ReaderRow[]): DueReader[] {
 			email: row.email,
 			settings,
 			place: row.preferences[PLACE_KEY] ?? null,
+			lang: readerLang(row.preferences[LANG_KEY]),
 			streak: row.preferences[STREAK_KEY] ?? null,
 			sectionDays: row.sectionDays ?? [],
 			lastSection: row.lastSection ?? null,

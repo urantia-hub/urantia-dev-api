@@ -221,6 +221,7 @@ describe("the readers that the Hub gets", () => {
 				at: 1,
 			},
 			place: { paperId: "2", sectionId: "1", at: 777 },
+			lang: "en",
 			streak: null,
 			sectionDays: [],
 			lastSection: null,
@@ -254,6 +255,17 @@ describe("the readers that the Hub gets", () => {
 		expect(mergeSettings(null, { email: { streak: true } }, NOW)).toBeNull();
 		expect(mergeSettings(null, { email: { streak: false } }, NOW)?.email.streak).toBe(false);
 		expect(mergeSettings(null, { push: { streak: true } }, NOW)?.push.streak).toBe(true);
+	});
+
+	it("carry the language of the reader, English when none or an unknown one is stored", () => {
+		const on = settings({ email: { daily: true } });
+		const out = dueReaders([
+			row({ preferences: { ...on, "hub.lang": { lang: "es", at: 5 } } }),
+			row({ userId: "b", preferences: on }),
+			row({ userId: "c", preferences: { ...on, "hub.lang": { lang: "fr", at: 5 } } }),
+			row({ userId: "d", preferences: { ...on, "hub.lang": "es" } }),
+		]);
+		expect(out.map((r) => r.lang)).toEqual(["es", "en", "en", "en"]);
 	});
 
 	it("carry no device of a reader with no push on", () => {
