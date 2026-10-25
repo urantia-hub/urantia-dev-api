@@ -1,4 +1,4 @@
-import { BUTTON, esc, FINE, frame, type HtmlMail, P } from "./layout.ts";
+import { BUTTON, esc, FINE, frame, type HtmlMail, type MailLang, NO_REPLY, P } from "./layout.ts";
 
 // The sign-in email: a 6-digit code, and a link that does the same.
 
@@ -16,7 +16,15 @@ function ownCallback(redirectTo: string | undefined): URL | null {
 }
 
 // The parts of a sign-in request. Only these go from "redirect_to" into the link.
-const REQUEST_PARTS = ["app_id", "redirect_uri", "scope", "code_challenge", "state", "redirect_to"];
+const REQUEST_PARTS = [
+	"app_id",
+	"redirect_uri",
+	"scope",
+	"code_challenge",
+	"state",
+	"redirect_to",
+	"ui_locales",
+];
 const LINK_PAGE = "https://accounts.urantiahub.com/login/link";
 
 // The link in the email. It opens a page of the accounts site with a "Sign in" button, and that page
@@ -33,6 +41,38 @@ export function signInLink(redirectTo: string | undefined, tokenHash: string): s
 	return link.toString();
 }
 
+// The language that the sign-in asked for (`ui_locales` of our own callback): Spanish for "es" or "es-*",
+// English for any other value or none.
+export function mailLang(redirectTo: string | undefined): MailLang {
+	const asked = ownCallback(redirectTo)?.searchParams.get("ui_locales") ?? "";
+	return /^es(-[A-Za-z0-9]{1,8})?$/.test(asked.split(" ")[0] ?? "") ? "es" : "en";
+}
+
+const WORDS = {
+	en: {
+		subject: (code: string) => `${code} is your UrantiaHub code`,
+		title: "Your sign-in code",
+		enter: "Enter this code on the sign-in page. It works for 10 minutes.",
+		press: "Or press the button, in the same browser where you started.",
+		button: "Sign in",
+		asked: (app: string) => `You asked to sign in to ${app}. `,
+		ignore: "If you did not ask for this, you can ignore this email.",
+		textCode: (code: string) => `Your sign-in code: ${code}`,
+		open: "Or open this link, in the same browser where you started:",
+	},
+	es: {
+		subject: (code: string) => `${code} es tu código de UrantiaHub`,
+		title: "Tu código para iniciar sesión",
+		enter: "Escribe este código en la página para iniciar sesión. Sirve durante 10 minutos.",
+		press: "O pulsa el botón, en el mismo navegador donde empezaste.",
+		button: "Iniciar sesión",
+		asked: (app: string) => `Pediste iniciar sesión en ${app}. `,
+		ignore: "Si no lo pediste, puedes ignorar este correo.",
+		textCode: (code: string) => `Tu código para iniciar sesión: ${code}`,
+		open: "O abre este enlace, en el mismo navegador donde empezaste:",
+	},
+} satisfies Record<MailLang, unknown>;
+
 // The id of the app that the reader signs in to, or null for UrantiaHub's own sign-in.
 export function requestOf(redirectTo: string | undefined): string | null {
 	return ownCallback(redirectTo)?.searchParams.get("app_id") || null;
@@ -43,33 +83,37 @@ export function signInMail(input: {
 	code: string;
 	link: string;
 	appName: string | null;
+	lang?: MailLang;
 }): HtmlMail {
+	const lang = input.lang ?? "en";
+	const w = WORDS[lang];
 	// Only six digits go into the subject.
 	if (!/^\d{6}$/.test(input.code)) throw new Error("sign-in mail: the code is not six digits");
-	const asked = input.appName ? `You asked to sign in to ${input.appName}. ` : "";
-	const askedHtml = input.appName ? `You asked to sign in to <b>${esc(input.appName)}</b>. ` : "";
-	const ignore = "If you did not ask for this, you can ignore this email.";
+	const asked = input.appName ? w.asked(input.appName) : "";
+	const askedHtml = input.appName ? w.asked(`<b>${esc(input.appName)}</b>`) : "";
+	const ignore = w.ignore;
 	return {
-		subject: `${input.code} is your UrantiaHub code`,
+		subject: w.subject(input.code),
 		html: frame(
-			"Your sign-in code",
+			w.title,
 			`<p style="margin:0 0 14px;font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:30px;letter-spacing:6px;font-weight:600;color:#26221c;background-color:#fbf8f2;border-radius:10px;padding:14px 18px;text-align:center;">${input.code}</p>
-<p style="${P}">Enter this code on the sign-in page. It works for 10 minutes.</p>
-<p style="${P}">Or press the button, in the same browser where you started.</p>
-<p style="margin:0 0 18px;"><a href="${esc(input.link)}" style="${BUTTON}">Sign in</a></p>
+<p style="${P}">${w.enter}</p>
+<p style="${P}">${w.press}</p>
+<p style="margin:0 0 18px;"><a href="${esc(input.link)}" style="${BUTTON}">${w.button}</a></p>
 <p style="${FINE}">${askedHtml}${ignore}</p>`,
+			lang,
 		),
 		text: [
-			`Your sign-in code: ${input.code}`,
+			w.textCode(input.code),
 			"",
-			"Enter this code on the sign-in page. It works for 10 minutes.",
+			w.enter,
 			"",
-			"Or open this link, in the same browser where you started:",
+			w.open,
 			input.link,
 			"",
 			`${asked}${ignore}`,
 			"",
-			"This address does not take replies. Write to hi@urantiahub.com.",
+			NO_REPLY[lang],
 		].join("\n"),
 	};
 }
