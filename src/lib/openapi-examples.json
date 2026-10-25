@@ -241,42 +241,42 @@
 	"get /paragraphs/random": {
 		"response": {
 			"data": {
-				"id": "1:10.0.2",
-				"standardReferenceId": "10:0.2",
-				"sortId": "1.010.000.002",
-				"paperId": "10",
-				"sectionId": "0",
+				"id": "1:22.5.2",
+				"standardReferenceId": "22:5.2",
+				"sortId": "1.022.005.002",
+				"paperId": "22",
+				"sectionId": "5",
 				"partId": "1",
-				"paperTitle": "The Paradise Trinity",
-				"sectionTitle": null,
+				"paperTitle": "The Trinitized Sons of God",
+				"sectionTitle": "The Trinitized Custodians",
 				"paragraphId": "2",
-				"text": "The Paradise Trinity effectively provides for the full expression and perfect revelation of the eternal nature of Deity. The Stationary Sons of the Trinity likewise afford a full and perfect revelation of divine justice. The Trinity is Deity unity, and this unity rests eternally upon the absolute foundations of the divine oneness of the three original and co-ordinate and coexistent personalities, God the Father, God the Son, and God the Spirit.",
-				"htmlText": "<span class=\"urantia-dev-pb-4\">The Paradise Trinity effectively provides for the full expression and perfect revelation of the eternal nature of Deity. The Stationary Sons of the Trinity likewise afford a full and perfect revelation of divine justice. The Trinity is Deity unity, and this unity rests eternally upon the absolute foundations of the divine oneness of the three original and co-ordinate and coexistent personalities, God the Father, God the Son, and God the Spirit.</span>",
+				"text": "Trinitized Custodians are ascendant seraphim and translated midway creatures who have passed through Havona and have attained Paradise and the Corps of the Finality. Subsequently they were embraced by the Paradise Trinity and were assigned to the service of the Ancients of Days.",
+				"htmlText": "<span class=\"urantia-dev-pb-0\">Trinitized Custodians are ascendant seraphim and translated midway creatures who have passed through Havona and have attained Paradise and the Corps of the Finality. Subsequently they were embraced by the Paradise Trinity and were assigned to the service of the Ancients of Days.</span>",
 				"labels": [],
 				"audio": {
 					"tts-1-hd": {
 						"nova": {
-							"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-1:10.0.2.mp3",
+							"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-1:22.5.2.mp3",
 							"format": "mp3",
 							"bitrate": 160,
-							"duration": 27.5,
-							"fileSize": 550560
+							"duration": 17.8,
+							"fileSize": 356640
 						}
 					},
 					"gpt-4o-mini-tts": {
 						"cedar": {
-							"url": "https://cdn.urantia.dev/audio/eng/paragraphs/cedar/gpt-4o-mini-tts-cedar-1:10.0.2.mp3",
+							"url": "https://cdn.urantia.dev/audio/eng/paragraphs/cedar/gpt-4o-mini-tts-cedar-1:22.5.2.mp3",
 							"format": "mp3",
 							"bitrate": 192,
-							"duration": 28.6,
-							"fileSize": 687794
+							"duration": 17.5,
+							"fileSize": 420719
 						}
 					}
 				}
 			},
 			"navigation": {
-				"prev": "10:0.1",
-				"next": "10:0.3"
+				"prev": "22:5.1",
+				"next": "22:5.3"
 			}
 		}
 	},
@@ -752,7 +752,8 @@
 					"seeAlso": [
 						"Melchizedek Sons"
 					],
-					"citationCount": 13
+					"citationCount": 13,
+					"sense": null
 				},
 				{
 					"id": "machiventa-melchizedek",
@@ -767,7 +768,8 @@
 						"Melchizedek Sons",
 						"missionaries:Salem missionaries"
 					],
-					"citationCount": 55
+					"citationCount": 55,
+					"sense": null
 				}
 			],
 			"meta": {
@@ -793,7 +795,8 @@
 					"Melchizedek Sons",
 					"missionaries:Salem missionaries"
 				],
-				"citationCount": 55
+				"citationCount": 55,
+				"sense": null
 			}
 		}
 	},
@@ -880,8 +883,8 @@
 				{
 					"code": "es",
 					"name": "Spanish",
-					"entityCount": 4456,
-					"paragraphCount": 0
+					"entityCount": 2524,
+					"paragraphCount": 14586
 				}
 			]
 		}
@@ -1135,6 +1138,7 @@
 					"id": "bible",
 					"title": "The Bible (World English Bible)",
 					"tradition": "Jewish and Christian",
+					"textLanguage": "eng",
 					"religion": "Jewish and Christian",
 					"kind": "scripture",
 					"summary": "The Hebrew Bible, the deuterocanon, and the New Testament.",
@@ -1150,6 +1154,7 @@
 					"title": "Lives of Eminent Philosophers, Book 6: The Cynics",
 					"religion": "Cynic",
 					"tradition": "Cynic",
+					"textLanguage": "eng",
 					"kind": "classic",
 					"summary": "The lives and sayings of Diogenes and the other Cynic philosophers.",
 					"translator": "R. D. Hicks",
@@ -1169,7 +1174,8 @@
 					"work": {
 						"id": "bible",
 						"title": "The Bible (World English Bible)",
-						"tradition": "Jewish and Christian"
+						"tradition": "Jewish and Christian",
+						"textLanguage": "eng"
 					},
 					"reference": "Matthew 5:44",
 					"text": "But I tell you, love your enemies, bless those who curse you, do good to those who hate you, and pray for those who mistreat you and persecute you,",
@@ -1198,7 +1204,8 @@
 					"work": {
 						"id": "bible",
 						"title": "The Bible (World English Bible)",
-						"tradition": "Jewish and Christian"
+						"tradition": "Jewish and Christian",
+						"textLanguage": "eng"
 					},
 					"reference": "Luke 6:27",
 					"text": "“But I tell you who hear: love your enemies, do good to those who hate you,",
@@ -1243,7 +1250,8 @@
 					"work": {
 						"id": "dhammapada",
 						"title": "The Dhammapada",
-						"tradition": "Buddhist"
+						"tradition": "Buddhist",
+						"textLanguage": "eng"
 					},
 					"reference": "Dhp 183",
 					"text": "Not to commit any sin, to do good, and to purify one's mind, that is the teaching of (all) the Awakened.",
@@ -1284,7 +1292,8 @@
 					"work": {
 						"id": "dhammapada",
 						"title": "The Dhammapada",
-						"tradition": "Buddhist"
+						"tradition": "Buddhist",
+						"textLanguage": "eng"
 					},
 					"reference": "Dhp 3-5",
 					"text": "\"He abused me, he beat me, he defeated me, he robbed me,\"--in those who harbour such thoughts hatred will never cease. \"He abused me, he beat me, he defeated me, he robbed me,\"--in those who do not harbour such thoughts hatred will cease. For hatred does not cease by hatred at any time: hatred ceases by love, this is an old rule.",
@@ -1314,7 +1323,8 @@
 					"work": {
 						"id": "bible",
 						"title": "The Bible (World English Bible)",
-						"tradition": "Jewish and Christian"
+						"tradition": "Jewish and Christian",
+						"textLanguage": "eng"
 					},
 					"reference": "Proverbs 10:12",
 					"text": "Hatred stirs up strife, but love covers all wrongs.",
@@ -1362,7 +1372,8 @@
 					"work": {
 						"id": "bhagavad-gita",
 						"title": "The Bhagavad Gita",
-						"tradition": "Hindu"
+						"tradition": "Hindu",
+						"textLanguage": "eng"
 					},
 					"reference": "BG 5.10-12",
 					"text": "He who acteth, placing all actions in the Eternal, abandoning attachment, is unaffected by sin as a lotus leaf by the waters. Yogis, having abandoned attachment, perform action only by the body, by the mind, by the Reason, and even by the senses, for the purification of the self. The harmonised man, having abandoned the fruit of action, attaineth to the eternal Peace; the non-harmonised, impelled by desire, attached to fruit, are bound.",
@@ -1392,7 +1403,8 @@
 					"work": {
 						"id": "bhagavad-gita",
 						"title": "The Bhagavad Gita",
-						"tradition": "Hindu"
+						"tradition": "Hindu",
+						"textLanguage": "eng"
 					},
 					"reference": "BG 18.22-24",
 					"text": "While that which clingeth to each one thing as if it were the whole, without reason, without grasping the reality, narrow, that is declared to be dark. An action which is ordained, done by one undesirous of fruit, devoid of attachment, without love or hate, that is called pure. But that action that is done by one longing for desires, or again with egoism, or with much effort, that is declared to be passionate.",
@@ -1435,7 +1447,8 @@
 					"work": {
 						"id": "bhagavad-gita",
 						"title": "The Bhagavad Gita",
-						"tradition": "Hindu"
+						"tradition": "Hindu",
+						"textLanguage": "eng"
 					},
 					"reference": "BG 2.47",
 					"text": "Thy business is with the action only, never with its fruits; so let not the fruit of action be thy motive, nor be thou to inaction attached.",
@@ -1451,7 +1464,8 @@
 				"work": {
 					"id": "bible",
 					"title": "The Bible (World English Bible)",
-					"tradition": "Jewish and Christian"
+					"tradition": "Jewish and Christian",
+					"textLanguage": "eng"
 				},
 				"reference": "John 3:16",
 				"text": "For God so loved the world, that he gave his only born Son, that whoever believes in him should not perish, but have eternal life.",
@@ -1477,6 +1491,54 @@
 			}
 		}
 	},
+	"get /works/{work}/{ref}/work-parallels": {
+		"response": {
+			"data": {
+				"work": {
+					"id": "dhammapada",
+					"title": "The Dhammapada",
+					"tradition": "Buddhist",
+					"textLanguage": "eng"
+				},
+				"reference": "Dhp 21",
+				"text": "Earnestness is the path of immortality (Nirvana), thoughtlessness the path of death. Those who are in earnest do not die, those who are thoughtless are as if dead already.",
+				"url": "https://www.gutenberg.org/cache/epub/2017/pg2017-images.html#:~:text=Earnestness%20is%20the%20path",
+				"chunk": {
+					"label": "Dhp 21-23",
+					"references": [
+						"Dhp 21",
+						"Dhp 22"
+					]
+				},
+				"parallels": [
+					{
+						"work": {
+							"id": "bhagavad-gita",
+							"title": "The Bhagavad Gita",
+							"tradition": "Hindu",
+							"textLanguage": "eng"
+						},
+						"reference": "BG 2.71-72",
+						"text": "Whoso forsaketh all desires and goeth onwards free from yearnings, selfless and without egoism—he goeth to Peace. This is the Eternal state, O son of Prithâ. Having attained thereto, none is bewildered. Who, even at the death-hour, is established therein, he goeth to the Nirvâna of the Eternal.",
+						"url": "https://en.wikisource.org/wiki/Bhagavad-Gita_(Besant_4th)/Discourse_2#:~:text=Whoso%20forsaketh%20all%20desires",
+						"similarity": 0.586584
+					},
+					{
+						"work": {
+							"id": "upanishads",
+							"title": "The Upanishads, Part 1",
+							"tradition": "Hindu",
+							"textLanguage": "eng"
+						},
+						"reference": "Kena 2.5",
+						"text": "'If a man know this here, that is the true (end of life); if he does not know this here, then there is great destruction (new births). The wise who have thought on all things (and recognised the Self in them) become immortal, when they have departed from this world.'",
+						"url": "https://en.wikisource.org/wiki/Sacred_Books_of_the_East/Volume_1/Talavak%C3%A2ra-upanishad#:~:text=a%20man%20know%20this",
+						"similarity": 0.534492
+					}
+				]
+			}
+		}
+	},
 	"get /scriptures": {
 		"response": {
 			"data": [
@@ -1495,7 +1557,8 @@
 					"unitLabel": "section",
 					"passageCount": 105,
 					"refLevels": 2,
-					"notes": "Book 6 only: the lives and sayings of Antisthenes, Diogenes, Crates, Hipparchia, and the other Cynics. A biography, not scripture."
+					"notes": "Book 6 only: the lives and sayings of Antisthenes, Diogenes, Crates, Hipparchia, and the other Cynics. A biography, not scripture.",
+					"textLanguage": "eng"
 				},
 				{
 					"id": "epictetus-3-22-oldfather-1928",
@@ -1512,7 +1575,8 @@
 					"unitLabel": "section",
 					"passageCount": 22,
 					"refLevels": 3,
-					"notes": "One chapter of the Discourses, as reported by Arrian. Oldfather marks every fifth section, so each passage covers up to five sections, such as 3.22.5-9."
+					"notes": "One chapter of the Discourses, as reported by Arrian. Oldfather marks every fifth section, so each passage covers up to five sections, such as 3.22.5-9.",
+					"textLanguage": "eng"
 				}
 			]
 		}
@@ -1535,6 +1599,7 @@
 				"passageCount": 701,
 				"refLevels": 2,
 				"notes": null,
+				"textLanguage": "eng",
 				"divisions": [
 					{
 						"division": 1,
@@ -1545,6 +1610,24 @@
 					},
 					{
 						"division": 2,
+						"title": null,
+						"firstRef": "BG 2.1",
+						"lastRef": "BG 2.72",
+						"passageCount": 72
+					}
+				],
+				"pages": [
+					{
+						"division": 1,
+						"subdivision": null,
+						"title": null,
+						"firstRef": "BG 1.1",
+						"lastRef": "BG 1.47",
+						"passageCount": 47
+					},
+					{
+						"division": 2,
+						"subdivision": null,
 						"title": null,
 						"firstRef": "BG 2.1",
 						"lastRef": "BG 2.72",
@@ -1699,8 +1782,8 @@
 			"meta": {
 				"page": 0,
 				"limit": 2,
-				"total": 14624,
-				"totalPages": 7312
+				"total": 14625,
+				"totalPages": 7313
 			}
 		}
 	},
@@ -1729,7 +1812,7 @@
 								"translator": "Ralph T. H. Griffith",
 								"year": 1896,
 								"refPrefix": "RV",
-								"urantiaSection": null
+								"urantiaSection": "131:4"
 							},
 							"percentile": 0.998
 						},
@@ -1758,7 +1841,7 @@
 						"text": "To a Roman soldier, as they walked along the Tiber, he said: “Be brave of heart as well as of hand. Dare to do justice and be big enough to show mercy. Compel your lower nature to obey your higher nature as you obey your superiors. Revere goodness and exalt truth. Choose the beautiful in place of the ugly. Love your fellows and reach out for God with a whole heart, for God is your Father in heaven.”"
 					},
 					"textsClose": 18,
-					"consensus": 0.93724,
+					"consensus": 0.937236,
 					"distance": 0.000274104,
 					"closest": [
 						{
@@ -1811,7 +1894,7 @@
 						"text": "When a world is isolated by rebellion, when a planet is cut off from all outside encircuited communication, as was Urantia after the Caligastia upheaval, aside from personal messengers there remains but one possibility of direct interplanetary or universe communication, and that is through the liaison of the Adjusters of the spheres. No matter what happens on a world or in a universe, the Adjusters are never directly concerned. The isolation of a planet in no way affects the Adjusters and their ability to communicate with any part of the local universe, superuniverse, or the central universe. And this is the reason why contacts with the supreme and the self-acting Adjusters of the reserve corps of destiny are so frequently made on quarantined worlds. Recourse is had to such a technique as a means of circumventing the handicaps of planetary isolation. In recent years the archangels’ circuit has functioned on Urantia, but that means of communication is largely limited to the transactions of the archangel corps itself."
 					},
 					"textsClose": 0,
-					"consensus": 0.170321,
+					"consensus": 0.170318,
 					"distance": 0.605633,
 					"closest": [
 						{
@@ -1852,7 +1935,7 @@
 						"text": "Although we do not definitely know, we firmly believe that all Thought Adjusters are volunteers. But before ever they volunteer, they are in possession of full data respecting the candidate for indwelling. The seraphic drafts of ancestry and projected patterns of life conduct are transmitted via Paradise to the reserve corps of Adjusters on Divinington by the reflectivity technique extending inward from the capitals of the local universes to the headquarters of the superuniverses. This forecast covers not only the hereditary antecedents of the mortal candidate but also the estimate of probable intellectual endowment and spiritual capacity. The Adjusters thus volunteer to indwell minds of whose intimate natures they have been fully apprised."
 					},
 					"textsClose": 0,
-					"consensus": 0.240128,
+					"consensus": 0.240134,
 					"distance": 0.576646,
 					"closest": [
 						{
@@ -1953,8 +2036,8 @@
 			"meta": {
 				"page": 0,
 				"limit": 2,
-				"total": 338,
-				"totalPages": 169
+				"total": 336,
+				"totalPages": 168
 			}
 		}
 	},
@@ -1980,7 +2063,7 @@
 						"refPrefix": "Quran",
 						"urantiaSection": null
 					},
-					"gap": 0.758524,
+					"gap": 0.758521,
 					"percentile": 0.94
 				},
 				{
@@ -2002,7 +2085,7 @@
 						"refPrefix": "Quran",
 						"urantiaSection": null
 					},
-					"gap": 0.748946,
+					"gap": 0.748942,
 					"percentile": 0.965
 				}
 			],
@@ -2069,7 +2152,17 @@
 						"description": "Get the full table of contents of the Urantia Papers. Returns the Foreword and the 4 parts, with all 197 papers and their titles.",
 						"parameters": {
 							"type": "object",
-							"properties": {}
+							"properties": {
+								"lang": {
+									"type": "string",
+									"description": "Language of the text and titles. \"es\" gives the Spanish translation (a machine translation, CC0); each paragraph then has `language` and a `translation` label. Default \"eng\".",
+									"enum": [
+										"eng",
+										"es"
+									],
+									"default": "eng"
+								}
+							}
 						}
 					}
 				},
@@ -2080,7 +2173,17 @@
 						"description": "List all 197 Urantia Papers with their metadata (id, title, partId, labels). Use get_table_of_contents for a hierarchical view.",
 						"parameters": {
 							"type": "object",
-							"properties": {}
+							"properties": {
+								"lang": {
+									"type": "string",
+									"description": "Language of the text and titles. \"es\" gives the Spanish translation (a machine translation, CC0); each paragraph then has `language` and a `translation` label. Default \"eng\".",
+									"enum": [
+										"eng",
+										"es"
+									],
+									"default": "eng"
+								}
+							}
 						}
 					}
 				}
@@ -2099,7 +2202,17 @@
 					"description": "Get the full table of contents of the Urantia Papers. Returns the Foreword and the 4 parts, with all 197 papers and their titles.",
 					"input_schema": {
 						"type": "object",
-						"properties": {}
+						"properties": {
+							"lang": {
+								"type": "string",
+								"description": "Language of the text and titles. \"es\" gives the Spanish translation (a machine translation, CC0); each paragraph then has `language` and a `translation` label. Default \"eng\".",
+								"enum": [
+									"eng",
+									"es"
+								],
+								"default": "eng"
+							}
+						}
 					}
 				},
 				{
@@ -2107,7 +2220,17 @@
 					"description": "List all 197 Urantia Papers with their metadata (id, title, partId, labels). Use get_table_of_contents for a hierarchical view.",
 					"input_schema": {
 						"type": "object",
-						"properties": {}
+						"properties": {
+							"lang": {
+								"type": "string",
+								"description": "Language of the text and titles. \"es\" gives the Spanish translation (a machine translation, CC0); each paragraph then has `language` and a `translation` label. Default \"eng\".",
+								"enum": [
+									"eng",
+									"es"
+								],
+								"default": "eng"
+							}
+						}
 					}
 				}
 			]
