@@ -479,6 +479,14 @@ phases: `../world-religions-plan-2026-10.md`.
   reader languages (fr, pt, de, ko) are accepted and give English. `bun scripts/translate/works-source.ts <dir>` writes the English
   words from the live API for a translation. The text of the works stays English (`textLanguage`). No
   catalog word is copied from a modern Spanish edition, and "mito" labels no work (a test holds it).
+- To add a catalog language (for example `fr`):
+  1. Run `bun scripts/translate/works-source.ts <dir>` to get the English words.
+  2. Translate them into `data/translations/fr/works.json`, in the same shape as the Spanish file
+     (`language`, `method`, `license`, `review`, `works`, `titles`, `books`).
+  3. Import the file in `src/lib/works-i18n.ts` and add it to `CATALOGS`.
+  4. Add `fr` to the `enum` of `catalogLangInput` in `src/routes/mcp.ts` and of `catalogLangProp` in
+     `src/lib/tool-catalog.ts` (`CatalogLanguage` in `schemas.ts` already accepts it).
+  5. Copy `tests/unit/works-es-data.test.ts` for the new file.
 
 ## Example requests and the Postman collection
 
