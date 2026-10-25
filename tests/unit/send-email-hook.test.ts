@@ -97,6 +97,24 @@ describe("the Send Email hook", () => {
 		expect(d.mails[0]?.html).not.toContain("You asked to sign in to");
 	});
 
+	it("sends the Spanish email when the sign-in asked for Spanish", async () => {
+		const d = deps();
+		await handleSendEmail(
+			request(
+				JSON.stringify(
+					payload({
+						redirect_to:
+							"https://accounts.urantiahub.com/callback?app_id=voices&state=s1&ui_locales=es",
+					}),
+				),
+			),
+			d.deps,
+		);
+		expect(d.mails[0]?.subject).toBe("481920 es tu código de UrantiaHub");
+		expect(d.mails[0]?.html).toContain('lang="es"');
+		expect(d.mails[0]?.html).toContain("ui_locales=es");
+	});
+
 	it.each([
 		["a bad signature", false],
 	])("answers 401 and sends nothing for %s", async (_name, signed) => {

@@ -3,6 +3,14 @@
 
 export type HtmlMail = { subject: string; html: string; text: string };
 
+// The language of an email. English when none is known.
+export type MailLang = "en" | "es";
+
+export const NO_REPLY: Record<MailLang, string> = {
+	en: "This address does not take replies. Write to hi@urantiahub.com.",
+	es: "Esta dirección no recibe respuestas. Escribe a hi@urantiahub.com.",
+};
+
 // Text of a stranger, or of a reader, as text in HTML.
 export const esc = (value: string): string =>
 	value
@@ -22,9 +30,9 @@ export const FINE = `margin:0 0 8px;font-size:12.5px;line-height:1.5;color:#8b83
 export const BUTTON = `display:inline-block;background-color:#26221c;border:1px solid #8d8676;color:#ffffff;text-decoration:none;border-radius:10px;padding:11px 18px;font-weight:500;font-size:14.5px;`;
 
 // "inner" is HTML that the caller made, with each outside value passed through esc().
-export function frame(title: string, inner: string): string {
+export function frame(title: string, inner: string, lang: MailLang = "en"): string {
 	return `<!DOCTYPE html>
-<html lang="en">
+<html lang="${lang}">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="color-scheme" content="light only"><meta name="supported-color-schemes" content="light only"><title>${esc(title)}</title>
 <style>:root{color-scheme:light only;}</style></head>
 <body style="margin:0;padding:0;font-family:${FONT};" bgcolor="#fbf8f2">
@@ -35,7 +43,7 @@ export function frame(title: string, inner: string): string {
 <p style="margin:0 0 18px;font-family:${SERIF};font-size:17px;color:#26221c;">UrantiaHub</p>
 <h1 style="margin:0 0 10px;font-family:${SERIF};font-weight:500;font-size:21px;line-height:1.3;color:#26221c;">${esc(title)}</h1>
 ${inner}
-<p style="${FINE}margin-bottom:0;">This address does not take replies. Write to hi@urantiahub.com.</p>
+<p style="${FINE}margin-bottom:0;">${NO_REPLY[lang]}</p>
 </td></tr>
 </table>
 </td></tr>
