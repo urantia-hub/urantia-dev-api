@@ -30,6 +30,7 @@ const ENOUGH = 10;
 
 export type Work = {
 	id: string;
+	textLanguage: "eng";
 	title: string;
 	religion: string;
 	tradition: string;
@@ -52,7 +53,7 @@ export type UrantiaParallel = {
 	rank: number;
 };
 export type WorkResult = {
-	work: { id: string; title: string; tradition: string };
+	work: { id: string; title: string; tradition: string; textLanguage: "eng" };
 	reference: string;
 	text: string;
 	url: string | null;
@@ -78,6 +79,7 @@ const BIBLE_WORK = {
 	id: BIBLE,
 	title: "The Bible (World English Bible)",
 	tradition: BIBLE_TRADITION,
+	textLanguage: "eng" as const,
 };
 
 let bibleVerseCount: number | undefined;
@@ -105,6 +107,7 @@ export async function listWorks(db: Db): Promise<Work[]> {
 			title: c.title,
 			religion: c.religion,
 			tradition: c.religion,
+			textLanguage: "eng" as const,
 			kind: c.kind as Work["kind"],
 			summary: c.summary ?? "",
 			translator: c.translator,
@@ -169,7 +172,7 @@ const passageUnit = (
 	corpus: ScriptureCorpus,
 	p: { ref: string; text: string; chunkId: string | null; anchor: string | null },
 ): Unit => ({
-	work: { id: corpus.slug, title: corpus.title, tradition: corpus.religion },
+	work: { id: corpus.slug, title: corpus.title, tradition: corpus.religion, textLanguage: "eng" },
 	reference: p.ref,
 	text: p.text,
 	url:
@@ -603,7 +606,12 @@ async function chunksById(db: Db, hits: { kind: "bible" | "works"; id: string }[
 		const corpus = corpora.get(c.corpusId);
 		if (!corpus) continue;
 		out.set(c.id, {
-			work: { id: corpus.slug, title: corpus.title, tradition: corpus.religion },
+			work: {
+				id: corpus.slug,
+				title: corpus.title,
+				tradition: corpus.religion,
+				textLanguage: "eng",
+			},
 			reference: c.label,
 			text: c.text,
 			url: scriptureUrl(corpus.id, c.label, c.text, c.anchor),

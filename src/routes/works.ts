@@ -14,7 +14,9 @@ import {
 	type WorksSearchOptions,
 	workParallels,
 } from "../lib/works.ts";
+import { localizeWork } from "../lib/works-i18n.ts";
 import {
+	CatalogLangQuery,
 	ErrorResponse,
 	OtherWorkParallelsResponse,
 	WorkParallelsResponse,
@@ -58,7 +60,8 @@ worksRoute.openapi(
 		tags: ["Works"],
 		summary: "List the works beside the Papers",
 		description:
-			'The Bible (World English Bible) and 21 texts of the world\'s religions and traditions, each in the US public domain. `id` is what the other `/works` endpoints take: `"bible"` or a slug such as `"dhammapada"`. `unitLabel` is the word for one unit of each work (verse, section, pauri).',
+			'The Bible (World English Bible) and 21 texts of the world\'s religions and traditions, each in the US public domain. `id` is what the other `/works` endpoints take: `"bible"` or a slug such as `"dhammapada"`. `unitLabel` is the word for one unit of each work (verse, section, pauri). With `lang=es` the catalog words are Spanish (a machine translation, CC0), and the text stays English (`textLanguage`).',
+		request: { query: CatalogLangQuery },
 		responses: {
 			200: { description: "The works", content: { "application/json": { schema: WorksResponse } } },
 			500: errors[500],
@@ -66,7 +69,8 @@ worksRoute.openapi(
 	}),
 	async (c) => {
 		const { db } = getDb(c.env?.HYPERDRIVE);
-		return c.json({ data: await listWorks(db) }, 200);
+		const lang = c.req.valid("query").lang ?? "eng";
+		return c.json({ data: (await listWorks(db)).map((w) => localizeWork(w, lang)) }, 200);
 	},
 );
 
@@ -194,8 +198,8 @@ worksRoute.openapi(
 		tags: ["Works"],
 		summary: "Read a work by reference",
 		description:
-			"The units of a reference, in order, at most 200: one verse or passage, a short range of up to 50, or a whole chapter. Each has its link. The prefix of the reference is optional: for the Bhagavad Gita, `BG 2.47` and `2.47` are the same; for the Bible, name the book (`John 3:16`, `Jn 3:16`).",
-		request: { params: WorkRefParam },
+			"The units of a reference, in order, at most 200: one verse or passage, a short range of up to 50, or a whole chapter. Each has its link. The prefix of the reference is optional: for the Bhagavad Gita, `BG 2.47` and `2.47` are the same; for the Bible, name the book (`John 3:16`, `Jn 3:16`). With `lang=es` the catalog words are Spanish (a machine translation, CC0), and the text stays English (`textLanguage`).",
+		request: { params: WorkRefParam, query: CatalogLangQuery },
 		responses: {
 			200: {
 				description: "The units",
@@ -217,8 +221,15 @@ worksRoute.openapi(
 				"invalid-reference-format",
 			);
 		if (units.length === 0) return problemJson(c, 404, `${ref} not found in "${work}"`);
+		const lang = c.req.valid("query").lang ?? "eng";
 		return c.json(
-			{ data: units.map(({ chunk: _, ...u }) => ({ ...u, urantiaParallels: [] })) },
+			{
+				data: units.map(({ chunk: _, ...u }) => ({
+					...u,
+					work: localizeWork(u.work, lang),
+					urantiaParallels: [],
+				})),
+			},
 			200,
 		);
 	},
