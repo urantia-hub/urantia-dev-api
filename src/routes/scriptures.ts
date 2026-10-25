@@ -19,7 +19,9 @@ import {
 } from "../lib/scripture-parallels.ts";
 import { parseScriptureRef } from "../lib/scripture-ref.ts";
 import { getCachedEmbedding, runAfter, setCachedEmbedding } from "../lib/search-cache.ts";
+import { type CatalogLang, localizeTitled, localizeWork } from "../lib/works-i18n.ts";
 import {
+	CatalogLangQuery,
 	ErrorResponse,
 	ScriptureCorporaResponse,
 	ScriptureCorpusParam,
@@ -47,17 +49,21 @@ const errors = {
 	},
 };
 
-function corpusDetail(c: ScriptureCorpus) {
-	return {
-		...corpusSummary(c),
-		sourceUrl: c.sourceUrl,
-		license: c.license,
-		divisionLabel: c.divisionLabel,
-		unitLabel: c.unitLabel,
-		passageCount: c.passageCount,
-		refLevels: c.refLevels,
-		notes: c.notes,
-	};
+function corpusDetail(c: ScriptureCorpus, lang: CatalogLang) {
+	return localizeWork(
+		{
+			...corpusSummary(c),
+			sourceUrl: c.sourceUrl,
+			license: c.license,
+			divisionLabel: c.divisionLabel,
+			unitLabel: c.unitLabel,
+			passageCount: c.passageCount,
+			refLevels: c.refLevels,
+			notes: c.notes,
+		},
+		lang,
+		c.slug,
+	);
 }
 
 // The ref's numbers, outermost first, map to division, then subdivision (three-level
@@ -97,7 +103,8 @@ const listRoute = createRoute({
 	tags: ["Scriptures"],
 	summary: "List the world religions texts",
 	description:
-		'Returns every scripture corpus with its religion, translator, year, source, license, and numbering notes. Each text is in the US public domain. `urantiaSection` names the section of Paper 131, "The World\'s Religions", headed with the religion, or is null when Paper 131 has no such heading. The Bible has its own endpoints under `/bible`.',
+		'Returns every scripture corpus with its religion, translator, year, source, license, and numbering notes. Each text is in the US public domain. `urantiaSection` names the section of Paper 131, "The World\'s Religions", headed with the religion, or is null when Paper 131 has no such heading. The Bible has its own endpoints under `/bible`. With `lang=es` the catalog words are Spanish (a machine translation, CC0), and the text stays English (`textLanguage`).',
+	request: { query: CatalogLangQuery },
 	responses: {
 		200: {
 			description: "The corpora",
@@ -109,7 +116,8 @@ const listRoute = createRoute({
 
 scripturesRoute.openapi(listRoute, async (c) => {
 	const { db } = getDb(c.env?.HYPERDRIVE);
-	return c.json({ data: (await listCorpora(db)).map(corpusDetail) }, 200);
+	const lang = c.req.valid("query").lang ?? "eng";
+	return c.json({ data: (await listCorpora(db)).map((x) => corpusDetail(x, lang)) }, 200);
 });
 
 // GET /scriptures/{corpus} — one corpus with its chapters or books
@@ -120,8 +128,8 @@ const corpusRoute = createRoute({
 	tags: ["Scriptures"],
 	summary: "Get one text and its chapters",
 	description:
-		"Returns the corpus facts, its divisions (chapters, or books for the Analects), each with its first and last reference, and its reading pages: a division, or for a work with three reference levels (the Rig Veda, the Book of Mormon) a subdivision such as a hymn or a chapter. The corpus accepts its id, slug, or ref prefix: `bhagavad-gita`, `bg`, and `bhagavad-gita-besant-1922` all work.",
-	request: { params: ScriptureCorpusParam },
+		"Returns the corpus facts, its divisions (chapters, or books for the Analects), each with its first and last reference, and its reading pages: a division, or for a work with three reference levels (the Rig Veda, the Book of Mormon) a subdivision such as a hymn or a chapter. The corpus accepts its id, slug, or ref prefix: `bhagavad-gita`, `bg`, and `bhagavad-gita-besant-1922` all work. With `lang=es` the catalog words are Spanish (a machine translation, CC0), and the text stays English (`textLanguage`).",
+	request: { params: ScriptureCorpusParam, query: CatalogLangQuery },
 	responses: {
 		200: {
 			description: "The corpus",
@@ -148,7 +156,17 @@ scripturesRoute.openapi(corpusRoute, async (c) => {
 		.groupBy(scripturePassages.division)
 		.orderBy(asc(scripturePassages.division));
 	const pages = await corpusPages(db, corpus);
-	return c.json({ data: { ...corpusDetail(corpus), divisions: rows, pages } }, 200);
+	const lang = c.req.valid("query").lang ?? "eng";
+	return c.json(
+		{
+			data: {
+				...corpusDetail(corpus, lang),
+				divisions: localizeTitled(corpus.slug, rows, lang),
+				pages: localizeTitled(corpus.slug, pages, lang),
+			},
+		},
+		200,
+	);
 });
 
 // GET /scriptures/{corpus}/{ref} — a passage, a short range, or a chapter
