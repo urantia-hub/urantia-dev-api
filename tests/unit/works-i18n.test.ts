@@ -1,10 +1,13 @@
 import { describe, expect, it } from "bun:test";
+// Adds .openapi() to zod, which the schemas file uses.
+import "@hono/zod-openapi";
 import {
 	localizeBook,
 	localizeTitle,
 	localizeTitled,
 	localizeWork,
 } from "../../src/lib/works-i18n.ts";
+import { CatalogLangQuery } from "../../src/validators/schemas.ts";
 
 const dhammapada = {
 	id: "dhammapada",
@@ -119,5 +122,14 @@ describe("localizeWork with a corpus id", () => {
 		expect(w.id).toBe("dhammapada-muller-1881");
 		expect(w.title).toBe("El Dhammapada");
 		expect(w.religion).toBe("Budista");
+	});
+});
+
+describe("a reader language with no catalog", () => {
+	it("is accepted by the query and gives English", () => {
+		expect(CatalogLangQuery.parse({ lang: "fr" }).lang).toBe("fr");
+		expect(CatalogLangQuery.safeParse({ lang: "xx" }).success).toBe(false);
+		expect(localizeWork(dhammapada, "fr")).toEqual({ ...dhammapada, textLanguage: "eng" });
+		expect(localizeTitle("dhammapada", "The Twin-Verses", "ko")).toBe("The Twin-Verses");
 	});
 });

@@ -2,7 +2,7 @@
 // traditions, summaries, labels, chapter titles, and Bible book names. The text of each work stays English.
 import es from "../../data/translations/es/works.json";
 
-export type CatalogLang = "eng" | "es";
+export type CatalogLang = "eng" | "es" | "fr" | "pt" | "de" | "ko";
 export type CatalogTranslation = { method: "machine"; license: "CC0-1.0"; review: string | null };
 export type CatalogMarks = { textLanguage: "eng"; catalogTranslation?: CatalogTranslation };
 
@@ -20,7 +20,8 @@ type Catalog = {
 	books: Record<string, { bookName: string; fullName: string }>;
 };
 
-const CATALOGS: Record<Exclude<CatalogLang, "eng">, Catalog> = { es };
+// A language with no catalog here gives the English words.
+const CATALOGS: Partial<Record<CatalogLang, Catalog>> = { es };
 
 const label = (c: Catalog): CatalogTranslation => ({
 	method: "machine",
@@ -28,7 +29,7 @@ const label = (c: Catalog): CatalogTranslation => ({
 	review: c.review,
 });
 
-/** The catalog of a language, or undefined for English. */
+/** The catalog of a language, or undefined for English and a language with none. */
 export function catalogFor(lang: CatalogLang): Catalog | undefined {
 	return lang === "eng" ? undefined : CATALOGS[lang];
 }
@@ -53,8 +54,8 @@ export function localizeWork<
 	const words = catalog?.works[key];
 	if (!catalog || !words) return { ...work, textLanguage: "eng" };
 	const out: Record<string, unknown> = { ...work };
-	for (const key of ["title", "tradition", "summary", "unitLabel", "divisionLabel"] as const)
-		if (key in work && words[key]) out[key] = words[key];
+	for (const field of ["title", "tradition", "summary", "unitLabel", "divisionLabel"] as const)
+		if (field in work && words[field]) out[field] = words[field];
 	if ("religion" in work && words.tradition) out.religion = words.tradition;
 	return { ...(out as T), textLanguage: "eng", catalogTranslation: label(catalog) };
 }
@@ -71,7 +72,7 @@ export function localizeTitled<T extends { title: string | null }>(
 	items: T[],
 	lang: CatalogLang,
 ): T[] {
-	if (lang === "eng") return items;
+	if (!catalogFor(lang)) return items;
 	return items.map((i) => ({ ...i, title: localizeTitle(workId, i.title, lang) }));
 }
 
