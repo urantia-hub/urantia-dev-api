@@ -1,6 +1,6 @@
 import { verifyWebhook } from "../webhook.ts";
 import type { HtmlMail } from "./layout.ts";
-import { requestOf, signInLink, signInMail } from "./signin.ts";
+import { mailLang, requestOf, signInLink, signInMail } from "./signin.ts";
 
 // The "Send Email" hook of Supabase Auth: Supabase calls it for each auth email, and this code writes
 // and sends the email. With the hook on, Supabase sends nothing by itself.
@@ -130,6 +130,7 @@ export async function handleSendEmail(
 			code: token,
 			link: signInLink(redirectTo, tokenHash),
 			appName,
+			lang: mailLang(redirectTo),
 		});
 		if (await deps.send(email, mail)) return { status: 200, body: {} };
 		deps.log("send-email hook: the email was not sent", { kind });
