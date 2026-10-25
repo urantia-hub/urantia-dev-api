@@ -251,10 +251,10 @@ export const TranslationLabelSchema = z
 
 // The words of the works catalog (titles, traditions, summaries, labels) in English or Spanish.
 export const CatalogLanguage = z
-	.enum(["eng", "es"])
+	.enum(["eng", "es", "fr", "pt", "de", "ko"])
 	.default("eng")
 	.describe(
-		"Language of the catalog words: titles, traditions, summaries, unit and division labels, chapter titles, and Bible book names. `es` gives them in Spanish: a machine translation, released as CC0, with a `catalogTranslation` label. The text of each work stays English (`textLanguage`). A word with no Spanish stays English.",
+		"Language of the catalog words: titles, traditions, summaries, unit and division labels, chapter titles, and Bible book names. `es` gives them in Spanish: a machine translation, released as CC0, with a `catalogTranslation` label. The text of each work stays English (`textLanguage`). A word with no Spanish stays English, and the other languages give English.",
 	);
 
 export const CatalogLangQuery = z.object({ lang: CatalogLanguage.optional() });
