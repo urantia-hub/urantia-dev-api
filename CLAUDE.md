@@ -470,6 +470,15 @@ phases: `../world-religions-plan-2026-10.md`.
   Kelson lifted the rule "no MCP tools for scriptures" on 2026-10-17. The code
   is `src/lib/works.ts`; its keyword search needs `scripts/setup-works-search.sql`
   and `bun scripts/fill-search-words.ts bible` and `works`.
+- The catalog in Spanish (2026-10-24): `data/translations/es/works.json` holds the Spanish words of
+  each work (title, tradition, summary, unit and division labels), the chapter and page titles keyed by
+  the English title, and the 81 Bible book names. `src/lib/works-i18n.ts` puts them over an English
+  answer for `lang=es`; a word with no line stays English. A new work, and a changed chapter or page
+  title (keyed by its English), show English until they get a line; a work's own words are keyed by its
+  id, so a changed English work title keeps the old Spanish until its line is changed. The other
+  reader languages (fr, pt, de, ko) are accepted and give English. `bun scripts/translate/works-source.ts <dir>` writes the English
+  words from the live API for a translation. The text of the works stays English (`textLanguage`). No
+  catalog word is copied from a modern Spanish edition, and "mito" labels no work (a test holds it).
 
 ## Example requests and the Postman collection
 

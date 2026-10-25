@@ -1,0 +1,1092 @@
+{
+	"language": "es",
+	"method": "machine",
+	"license": "CC0-1.0",
+	"review": "auto_checked",
+	"works": {
+		"bible": {
+			"title": "La Biblia (World English Bible)",
+			"tradition": "Judío y cristiano",
+			"summary": "La Biblia hebrea, los libros deuterocanónicos y el Nuevo Testamento.",
+			"unitLabel": "versículo"
+		},
+		"diogenes-laertius-6": {
+			"title": "Vidas de los filósofos ilustres, libro 6: Los cínicos",
+			"tradition": "Cínico",
+			"summary": "Las vidas y los dichos de Diógenes y de los otros filósofos cínicos.",
+			"unitLabel": "sección",
+			"divisionLabel": "libro"
+		},
+		"epictetus-cynic": {
+			"title": "Disertaciones 3.22: Sobre la vocación del cínico",
+			"tradition": "Cínico",
+			"summary": "Epicteto sobre la vida y la vocación del filósofo cínico.",
+			"unitLabel": "sección",
+			"divisionLabel": "libro"
+		},
+		"dhammapada": {
+			"title": "El Dhammapada",
+			"tradition": "Budista",
+			"summary": "Una colección de dichos del Buda en verso.",
+			"unitLabel": "versículo",
+			"divisionLabel": "capítulo"
+		},
+		"bhagavad-gita": {
+			"title": "El Bhagavad Gita",
+			"tradition": "Hindú",
+			"summary": "La enseñanza de Krishna al guerrero Arjuna, del Mahabharata.",
+			"unitLabel": "versículo",
+			"divisionLabel": "capítulo"
+		},
+		"shinto-oracles": {
+			"title": "Oráculos sintoístas",
+			"tradition": "Japonés (sintoísta)",
+			"summary": "Oráculos de los dioses sintoístas, del estudio de Aston sobre el sintoísmo.",
+			"unitLabel": "oráculo",
+			"divisionLabel": "colección"
+		},
+		"tao-te-ching": {
+			"title": "El Tao Te Ching",
+			"tradition": "Taoísta",
+			"summary": "El breve clásico del Tao, atribuido a Laozi.",
+			"unitLabel": "párrafo",
+			"divisionLabel": "capítulo"
+		},
+		"analects": {
+			"title": "Las Analectas de Confucio",
+			"tradition": "Confuciano",
+			"summary": "Los dichos de Confucio, recogidos por sus discípulos.",
+			"unitLabel": "capítulo",
+			"divisionLabel": "libro"
+		},
+		"quran": {
+			"title": "El significado del glorioso Corán",
+			"tradition": "Musulmán",
+			"summary": "La escritura del islam.",
+			"unitLabel": "versículo",
+			"divisionLabel": "sura"
+		},
+		"japji": {
+			"title": "El Japji",
+			"tradition": "Sij",
+			"summary": "El himno inicial de la escritura sij, de Guru Nanak.",
+			"unitLabel": "pauri",
+			"divisionLabel": "composición"
+		},
+		"book-of-mormon": {
+			"title": "El Libro de Mormón",
+			"tradition": "Santo de los Últimos Días",
+			"summary": "La escritura del movimiento de los Santos de los Últimos Días, publicada en 1830.",
+			"unitLabel": "versículo",
+			"divisionLabel": "libro"
+		},
+		"rig-veda": {
+			"title": "Los himnos del Rigveda",
+			"tradition": "Hindú",
+			"summary": "Los himnos védicos más antiguos.",
+			"unitLabel": "versículo",
+			"divisionLabel": "libro"
+		},
+		"book-of-the-dead": {
+			"title": "El Libro de los Muertos egipcio",
+			"tradition": "Egipcio antiguo",
+			"summary": "Fórmulas para el viaje de los difuntos, escritas en tumbas y en papiros.",
+			"unitLabel": "párrafo",
+			"divisionLabel": "capítulo"
+		},
+		"hesiod": {
+			"title": "Hesíodo: Teogonía y Trabajos y días",
+			"tradition": "Griego antiguo",
+			"summary": "Los poemas de Hesíodo sobre el nacimiento de los dioses y sobre la vida de trabajo.",
+			"unitLabel": "versos",
+			"divisionLabel": "poema"
+		},
+		"homeric-hymns": {
+			"title": "Himnos homéricos",
+			"tradition": "Griego antiguo",
+			"summary": "Treinta y tres himnos griegos antiguos a los dioses.",
+			"unitLabel": "versos",
+			"divisionLabel": "himno"
+		},
+		"poetic-edda": {
+			"title": "La Edda poética",
+			"tradition": "Nórdico",
+			"summary": "Poemas en nórdico antiguo sobre los dioses y los héroes.",
+			"unitLabel": "estrofa",
+			"divisionLabel": "poema"
+		},
+		"aztec-hymns": {
+			"title": "Rig Veda Americanus: cantos sagrados de los antiguos mexicanos",
+			"tradition": "Azteca (nahua)",
+			"summary": "Veinte himnos aztecas a los dioses, recogidos por Sahagún.",
+			"unitLabel": "verso",
+			"divisionLabel": "himno"
+		},
+		"chuang-tzu": {
+			"title": "Chuang Tzu: místico, moralista y reformador social",
+			"tradition": "Taoísta",
+			"summary": "Los escritos del maestro taoísta Zhuangzi.",
+			"unitLabel": "párrafo",
+			"divisionLabel": "capítulo"
+		},
+		"prose-edda": {
+			"title": "La Edda en prosa",
+			"tradition": "Nórdico",
+			"summary": "El relato en prosa de Snorri Sturluson sobre los dioses nórdicos, hacia 1220.",
+			"unitLabel": "párrafo",
+			"divisionLabel": "parte"
+		},
+		"kojiki": {
+			"title": "Kojiki: Crónica de hechos antiguos",
+			"tradition": "Japonés (sintoísta)",
+			"summary": "La crónica japonesa más antigua, desde la creación hasta los primeros gobernantes, 712.",
+			"unitLabel": "párrafo",
+			"divisionLabel": "sección"
+		},
+		"upanishads": {
+			"title": "Los Upanishads, parte 1",
+			"tradition": "Hindú",
+			"summary": "Enseñanzas de los Vedas sobre el yo y Brahman.",
+			"unitLabel": "sección",
+			"divisionLabel": "upanishad"
+		},
+		"shu-king": {
+			"title": "El Shû King (Libro de los Documentos)",
+			"tradition": "Confuciano",
+			"summary": "El Libro de los Documentos: discursos y registros de los primeros reyes chinos.",
+			"unitLabel": "párrafo",
+			"divisionLabel": "parte"
+		}
+	},
+	"titles": {
+		"analects": {
+			"HSIO R": "HSIO R",
+			"WEI CHANG": "WEI CHANG",
+			"PA YIH": "PA YIH",
+			"LE JIN": "LE JIN",
+			"KUNG-YE CH'ANG": "KUNG-YE CH'ANG",
+			"YUNG YEY": "YUNG YEY",
+			"SHU R": "SHU R",
+			"T'AI-PO": "T'AI-PO",
+			"TSZE HAN": "TSZE HAN",
+			"HEANG TANG": "HEANG TANG",
+			"HSIEN TSIN": "HSIEN TSIN",
+			"YEN YUAN": "YEN YUAN",
+			"TSZE-LU": "TSZE-LU",
+			"HSIEN WAN": "HSIEN WAN",
+			"WEI LING KUNG": "WEI LING KUNG",
+			"KE SHE": "KE SHE",
+			"YANG HO": "YANG HO",
+			"WEI TSZE": "WEI TSZE",
+			"TSZE-CHANG": "TSZE-CHANG",
+			"YAO YUEH": "YAO YUEH"
+		},
+		"aztec-hymns": {
+			"The Hymn of Huitzilopochtli": "El himno de Huitzilopochtli",
+			"The War Song of the Huitznahuac": "El canto de guerra de los huitznahuac",
+			"The Hymn of Tlaloc": "El himno de Tláloc",
+			"Hymn to the Mother of the Gods": "Himno a la madre de los dioses",
+			"Hymn to Chimalipan in Parturition": "Himno a Chimalipan en el parto",
+			"Hymn to Ixcoçauhqui": "Himno a Ixcoçauhqui",
+			"Hymn of Mixcoatl": "Himno de Mixcóatl",
+			"Hymn to Xochipilli": "Himno a Xochipilli",
+			"Hymn to Xochiquetzal": "Himno a Xochiquétzal",
+			"Hymn to Amimitl": "Himno a Amímitl",
+			"Hymn of Olontecutli": "Himno de Olontecutli",
+			"Hymn to Ayopechcatl": "Himno a Ayopechcatl",
+			"Hymn to Cihuacoatl": "Himno a Cihuacóatl",
+			"This is the Hymn which they sang every eight years when they fasted on bread and water": "Himno que cantaban cada ocho años cuando ayunaban a pan y agua",
+			"Hymn of the High Priest of Xipe Totec": "Himno del sumo sacerdote de Xipe Tótec",
+			"Hymn to Chicomecoatl": "Himno a Chicomecóatl",
+			"Hymn to Tezcatzoncatl Totochtin": "Himno a Tezcatzoncatl Totochtin",
+			"The Hymn of Atlaua": "El himno de Atlaua",
+			"Hymn to Macuilxochitl": "Himno a Macuilxóchitl",
+			"Hymn to Yacatecutli": "Himno a Yacatecutli"
+		},
+		"book-of-mormon": {
+			"1 Nephi": "1 Nefi",
+			"2 Nephi": "2 Nefi",
+			"Jacob": "Jacob",
+			"Enos": "Enós",
+			"Jarom": "Jarom",
+			"Omni": "Omni",
+			"Words of Mormon": "Palabras de Mormón",
+			"Mosiah": "Mosíah",
+			"Alma": "Alma",
+			"Helaman": "Helamán",
+			"3 Nephi": "3 Nefi",
+			"4 Nephi": "4 Nefi",
+			"Mormon": "Mormón",
+			"Ether": "Éter",
+			"Moroni": "Moroni"
+		},
+		"book-of-the-dead": {
+			"The Beginning of the Chapters of Coming forth by Day, of the Words which bring about Resurrection and Glory, and of Coming out of and entering into Amenta. Said upon the Day of Burial of N, the Victorious, who entereth after coming forth. Here is N the Victorious. He saith—": "Comienzo de los capítulos para salir de día, de las palabras que traen la resurrección y la gloria, y de salir de Amenta y entrar en ella. Se dice el día del entierro de N, el victorioso, que entra después de salir. He aquí a N el victorioso. Él dice:",
+			"Chapter for Coming forth by day and Living after death.": "Capítulo para salir de día y vivir después de la muerte.",
+			"Another chapter like it.": "Otro capítulo semejante.",
+			"Another Chapter, for travelling on the road which is above the earth.": "Otro capítulo, para viajar por el camino que está sobre la tierra.",
+			"Chapter whereby work may not be imposed [upon a person ] in the Netherworld.": "Capítulo para que no se imponga trabajo [a una persona] en el Mundo Inferior.",
+			"Chapter whereby the funereal Statuettes may be made to do work for a person in the Netherworld.": "Capítulo para que las estatuillas funerarias trabajen por una persona en el Mundo Inferior.",
+			"Chapter of passing through the chine of Apepi which is void.": "Capítulo para pasar por el espinazo de Apepi, que está vacío.",
+			"Chapter of opening the Tuat by day.": "Capítulo para abrir el Tuat de día.",
+			"Chapter for opening the Tuat.": "Capítulo para abrir el Tuat.",
+			"Chapter for coming forth victoriously.": "Capítulo para salir victorioso.",
+			"Chapter for coming out against the adversary in the Netherworld.": "Capítulo para salir contra el adversario en el Mundo Inferior.",
+			"Chapter for entering and for coming forth out of the Netherworld.": "Capítulo para entrar en el Mundo Inferior y salir de él.",
+			"Chapter for entering after coming out from Amenta.": "Capítulo para entrar después de salir de Amenta.",
+			"Chapter for removing displeasure from the heart of the god against the deceased person.": "Capítulo para quitar del corazón del dios el enojo contra la persona difunta.",
+			"Chapter 15": "Capítulo 15",
+			"Chapter whereby one cometh forth by day out of the Netherworld. Let the words be said:": "Capítulo para salir de día del Mundo Inferior. Díganse las palabras:",
+			"Chapter 18": "Capítulo 18",
+			"Chapter of the Crown of Triumph.": "Capítulo de la corona del triunfo.",
+			"Chapter whereby the mouth of a person is given to him in the Netherworld.": "Capítulo para que se dé a una persona su boca en el Mundo Inferior.",
+			"Another Chapter whereby the Mouth of a person is given to him in the Netherworld.": "Otro capítulo para que se dé a una persona su boca en el Mundo Inferior.",
+			"Chapter whereby the Mouth of a person is opened for him in the Netherworld.": "Capítulo para que se abra a una persona su boca en el Mundo Inferior.",
+			"Chapter whereby the Words of Power are brought to a Person in the Netherworld.": "Capítulo para que se traigan a una persona las palabras de poder en el Mundo Inferior.",
+			"Chapter whereby a person remembereth his name in the Netherworld.": "Capítulo para que una persona recuerde su nombre en el Mundo Inferior.",
+			"Chapter whereby the Heart is given to a person in the Netherworld.": "Capítulo para que se dé a una persona el corazón en el Mundo Inferior.",
+			"Chapter whereby the Heart of a person is not taken from him in the Netherworld.": "Capítulo para que no se quite a una persona su corazón en el Mundo Inferior.",
+			"Chapter whereby the Heart of a person may not be taken from him in the Netherworld.": "Capítulo para que no pueda quitarse a una persona su corazón en el Mundo Inferior.",
+			"Chapter whereby the Heart of a person is not kept back from him in the Netherworld.": "Capítulo para que no se retenga a una persona su corazón en el Mundo Inferior.",
+			"Chapter whereby the Crocodiles are repulsed who come to carry off the Words of Power from a person in the Netherworld.": "Capítulo para rechazar a los cocodrilos que vienen a llevarse de una persona las palabras de poder en el Mundo Inferior.",
+			"Chapter whereby the Crocodiles are repulsed who come to carry off the Words of Power from the glorified in the Netherworld.": "Capítulo para rechazar a los cocodrilos que vienen a llevarse del glorificado las palabras de poder en el Mundo Inferior.",
+			"Chapter whereby all Serpents are kept back.": "Capítulo para alejar a todas las serpientes.",
+			"Chapter whereby a person is not devoured by the dweller in the shrine.": "Capítulo para que una persona no sea devorada por el morador del santuario.",
+			"Chapter whereby the person is not devoured by a Serpent in the Netherworld.": "Capítulo para que la persona no sea devorada por una serpiente en el Mundo Inferior.",
+			"Chapter whereby the Āpshait is kept back.": "Capítulo para alejar al Āpshait.",
+			"Chapter whereby the Merta goddesses are kept back.": "Capítulo para alejar a las diosas Merta.",
+			"Chapter whereby one liveth by the breath of air in the Netherworld, and keepeth back Merta.": "Capítulo para vivir del aliento del aire en el Mundo Inferior y alejar a Merta.",
+			"Chapter whereby the Serpent Rekrek is repulsed in the Netherworld.": "Capítulo para rechazar a la serpiente Rekrek en el Mundo Inferior.",
+			"Chapter whereby the Eater of the Ass is kept back.": "Capítulo para alejar al Devorador del Asno.",
+			"Chapter whereby one avoideth the Slaughter which is carried out in the Netherworld.": "Capítulo para evitar la matanza que se lleva a cabo en el Mundo Inferior.",
+			"Chapter whereby one hindereth the slaughter which is wrought at Sutenhenen.": "Capítulo para impedir la matanza que se hace en Sutenhenen.",
+			"Chapter whereby the head of a person is not severed from him in the Netherworld.": "Capítulo para que no se corte a una persona la cabeza en el Mundo Inferior.",
+			"Chapter whereby one dieth not a second time.": "Capítulo para no morir por segunda vez.",
+			"Chapter whereby one escapeth corruption in the Netherworld.": "Capítulo para escapar de la corrupción en el Mundo Inferior.",
+			"Chapter whereby he that is living is not destroyed in the Netherworld.": "Capítulo para que el que vive no sea destruido en el Mundo Inferior.",
+			"Chapter whereby the Seat of a person is not taken from him in the Netherworld.": "Capítulo para que no se quite a una persona su asiento en el Mundo Inferior.",
+			"Chapter 48": "Capítulo 48",
+			"Chapter whereby one cometh not to the divine Block of Execution.": "Capítulo para no llegar al tajo divino de la ejecución.",
+			"Chapter whereby one goeth not headlong in the Netherworld.": "Capítulo para no caer de cabeza en el Mundo Inferior.",
+			"Chapter whereby one eateth not dirt in the Netherworld.": "Capítulo para no comer inmundicia en el Mundo Inferior.",
+			"Chapter whereby one is not made to eat dirt or to drink lye.": "Capítulo para no ser obligado a comer inmundicia ni a beber lejía.",
+			"Chapter whereby air is given in the Netherworld.": "Capítulo para que se dé aire en el Mundo Inferior.",
+			"Another chapter whereby air is given.": "Otro capítulo para que se dé aire.",
+			"Another chapter of breathing.": "Otro capítulo para respirar.",
+			"Chapter for breathing air and command of water in the Nether world.": "Capítulo para respirar aire y disponer del agua en el Mundo Inferior.",
+			"Chapter for breathing air and command of water.": "Capítulo para respirar aire y disponer del agua.",
+			"Another Chapter.": "Otro capítulo.",
+			"Chapter whereby water is drank in the Netherworld.": "Capítulo para beber agua en el Mundo Inferior.",
+			"Chapter whereby one is not burnt with fire, but drinketh water in the Netherworld.": "Capítulo para no ser quemado por el fuego, sino beber agua en el Mundo Inferior.",
+			"Chapter whereby one cometh forth by day from the Netherworld.": "Capítulo para salir de día del Mundo Inferior.",
+			"Chapter whereby one cometh forth by day and prevaileth over the adversaries.": "Capítulo para salir de día y vencer a los adversarios.",
+			"Chapter whereby one cometh forth by day.": "Capítulo para salir de día.",
+			"Chapter whereby the doors of the Tuat are opened and one cometh forth by day.": "Capítulo para abrir las puertas del Tuat y salir de día.",
+			"Otherwise said:": "Dicho de otro modo:",
+			"Chapter whereby one cometh forth by day and passeth through the Ammchit.": "Capítulo para salir de día y pasar por el Ammchit.",
+			"Chapter whereby the legs are set in motion upon earth.": "Capítulo para poner en movimiento las piernas sobre la tierra.",
+			"Chapter whereby one cometh to Heliopolis and receiveth a seat there.": "Capítulo para llegar a Heliópolis y recibir allí un asiento.",
+			"Chapter whereby all forms are assumed which one pleaseth.": "Capítulo para tomar todas las formas que uno desee.",
+			"Chapter whereby one assumeth the form of the Golden Hawk.": "Capítulo para tomar la forma del Halcón de Oro.",
+			"Chapter whereby one assumeth the form of the Sacred Hawk.": "Capítulo para tomar la forma del Halcón Sagrado.",
+			"Chapter whereby one assumeth the form of the Chief god of the Divine Cycle.": "Capítulo para tomar la forma del dios principal del Ciclo Divino.",
+			"Chapter whereby one assumeth the form of the god who giveth Light to the Darkness.": "Capítulo para tomar la forma del dios que da luz a las tinieblas.",
+			"Chapter whereby one assumeth the form of the Lotus.": "Capítulo para tomar la forma del loto.",
+			"Chapter whereby one assumeth the form of Ptah, eateth bread, drinketh beer, and sitteth in the midst of the great gods.": "Capítulo para tomar la forma de Ptah, comer pan, beber cerveza y sentarse en medio de los grandes dioses.",
+			"Chapter whereby one assumeth the form of the Bennu bird.": "Capítulo para tomar la forma del ave Bennu.",
+			"Chapter whereby one assumeth the form of the Hernshaw.": "Capítulo para tomar la forma de la garza.",
+			"Chapter whereby one assumeth the form of a Soul, that one may not come to the dungeon. Imperishable is he who knoweth it.": "Capítulo para tomar la forma de un alma, para no ir a la mazmorra. Imperecedero es quien lo conoce.",
+			"Chapter whereby one assumeth the form of the Swallow.": "Capítulo para tomar la forma de la golondrina.",
+			"Chapter whereby one assumeth the form of Se-ta.": "Capítulo para tomar la forma de Se-ta.",
+			"Chapter whereby one assumeth the form of the Crocodile god [Sebak.": "Capítulo para tomar la forma del dios cocodrilo [Sebak.",
+			"Chapter whereby the Soul is united to the dead Body.": "Capítulo para unir el alma al cuerpo muerto.",
+			"Chapter whereby Memory is restored to a person.": "Capítulo para devolver la memoria a una persona.",
+			"Chapter whereby the Soul is secured from imprisonment in the Netherworld.": "Capítulo para librar al alma del encierro en el Mundo Inferior.",
+			"Chapter whereby the Tomb is opened to the Soul and to the Shade of the person, that he may come forth by day and may have mastery of his feet.": "Capítulo para abrir la tumba al alma y a la sombra de la persona, para que salga de día y tenga dominio de sus pies.",
+			"Chapter whereby one avoideth being conveyed to the East in the Netherworld.": "Capítulo para evitar ser llevado al Oriente en el Mundo Inferior.",
+			"Chapter whereby one prayeth for a Palette and an Inkstand.": "Capítulo para pedir una paleta y un tintero.",
+			"Chapter whereby is opened the place wherein Thoth resteth.": "Capítulo para abrir el lugar donde reposa Thoth.",
+			"Chapter whereby is opened [the place] where Thoth [resteth].": "Capítulo para abrir [el lugar] donde Thoth [reposa].",
+			"Said at the Bark: Staff of Anubis, may I propitiate those four Glorified ones who follow after the Master of [all] things.": "Se dice en la barca: Bastón de Anubis, que yo aplaque a esos cuatro glorificados que siguen al Señor de [todas] las cosas.",
+			"Chapter whereby one saileth a ship in the Netherworld.": "Capítulo para navegar en una nave en el Mundo Inferior.",
+			"Chapter whereby one Saileth a Ship in the Netherworld.": "Capítulo para navegar en una Nave en el Mundo Inferior.",
+			"The Book whereby the glorified one is made strong, and is made to embark in the boat of Rā, together with those who are with the god.": "El libro para fortalecer al glorificado y hacerlo embarcar en la barca de Rā, junto con los que están con el dios.",
+			"Chapter of the Safeguards of the Bark of Rā.": "Capítulo de las salvaguardas de la barca de Rā.",
+			"Chapter whereby one entereth into the Bark of Rā.": "Capítulo para entrar en la barca de Rā.",
+			"Chapter whereby one openeth the place where Hathor abideth.": "Capítulo para abrir el lugar donde mora Hathor.",
+			"Chapter whereby one sitteth in the midst of the great gods.": "Capítulo para sentarse en medio de los grandes dioses.",
+			"Chapter whereby one propitiateth the Ka.": "Capítulo para aplacar al Ka.",
+			"Chapter whereby a largess is presented at Hat-ka-Ptah.": "Capítulo para presentar una dádiva en Hat-ka-Ptah.",
+			"Chapter whereby one knoweth the Powers of the West.": "Capítulo para conocer a los Poderes del Occidente.",
+			"Chapter whereby one knoweth the Powers of the East.": "Capítulo para conocer a los Poderes del Oriente.",
+			"The Beginning of the Chapters of the Garden of Hotepit, and of the Chapters of coming forth by day; and of entering and coming forth in the Netherworld, and of arriving at the Garden of Aarru, at the Rise in Hotepit and at the Grand Domain, blest with the breezes: that I may take possession there and be in Glory there: that there I may plough and mow: that there I may eat and drink and love: doing whatsoever things are done upon earth.": "Comienzo de los capítulos del Jardín de Hotepit, y de los capítulos para salir de día; y de entrar y salir en el Mundo Inferior, y de llegar al Jardín de Aarru, a la Elevación en Hotepit y al Gran Dominio, bendecido con las brisas: para que yo tome posesión allí y esté allí en gloria; para que allí yo are y siegue; para que allí yo coma, beba y ame, haciendo todas las cosas que se hacen sobre la tierra.",
+			"Chapter whereby one knoweth the Powers of Pu. [ ]": "Capítulo para conocer a los Poderes de Pu. [ ]",
+			"Chapter whereby one knoweth the Powers of Nechen.": "Capítulo para conocer a los Poderes de Nechen.",
+			"Chapter whereby one knoweth the Powers of Hermopolis.": "Capítulo para conocer a los Poderes de Hermópolis.",
+			"Chapter whereby one cometh forth into Heaven, and openeth the Ammehit: and whereby the Powers of Heliopolis are known.": "Capítulo para salir al cielo y abrir el Ammehit, y para conocer a los Poderes de Heliópolis.",
+			"Chapter whereby one knoweth the Power of Hermopolis.": "Capítulo para conocer al Poder de Hermópolis.",
+			"Chapter whereby one taketh the blissful path at Restau.": "Capítulo para tomar el camino dichoso en Restau.",
+			"Chapter whereby one arriveth at Restau.": "Capítulo para llegar a Restau.",
+			"Chapter whereby one entereth or goeth forth from Restau.": "Capítulo para entrar en Restau o salir de él.",
+			"Chapter whereby one entereth into the Great House.": "Capítulo para entrar en la Gran Casa.",
+			"Chapter whereby one cometh to the Divine Circle of Osiris.": "Capítulo para llegar al Círculo Divino de Osiris.",
+			"Chapter 125": "Capítulo 125",
+			"Chapter 126": "Capítulo 126",
+			"The Book for invoking the gods of the Bounds, which the person reciteth when he approacheth them, that he may enter and see the Strong one in the Great Abode of the Tuat.": "El libro para invocar a los dioses de los Límites, que la persona recita cuando se acerca a ellos, para entrar y ver al Fuerte en la Gran Morada del Tuat.",
+			"Invocation of Osiris.": "Invocación de Osiris.",
+			"A Book whereby the Soul is made to live for ever, on the day of entering into the Bark of Rā, and to pass the Sheniu of the Tuat. Made on the Birthday of Osiris.": "Un libro para que el alma viva para siempre, el día de entrar en la barca de Rā, y pase los Sheniu del Tuat. Hecho en el día del nacimiento de Osiris.",
+			"Chapter whereby one proceedeth into Heaven by the side of Rā.": "Capítulo para avanzar hacia el cielo al lado de Rā.",
+			"Chapter whereby a person is enabled to go round, to visit his dwelling in the Netherworld.": "Capítulo para que una persona pueda dar la vuelta y visitar su morada en el Mundo Inferior.",
+			"Book whereby the Deceased acquireth Might in the Netherworld in presence of the great Cycle of the gods. [ Said on the first day of the Month ].": "Libro para que el difunto adquiera poder en el Mundo Inferior en presencia del gran Ciclo de los dioses. [Se dice el primer día del mes].",
+			"Chapter whereby the Deceased acquireth might.": "Capítulo para que el difunto adquiera poder.",
+			"Another chapter recited when the Moon renews itself on the first day of the month.": "Otro capítulo que se recita cuando la luna se renueva el primer día del mes.",
+			"Chapter whereby one is conveyed in the Bark of Rā.": "Capítulo para ser llevado en la barca de Rā.",
+			"Chapter whereby a Light is kindled for a person.": "Capítulo para encender una luz a una persona.",
+			"Chapter whereby one is enabled to enter into Abydos.": "Capítulo para poder entrar en Abidos.",
+			"The book read on the last day of Mechir, when the Eye is full on the last day of Mechir.": "El libro que se lee el último día de Mechir, cuando el Ojo está lleno el último día de Mechir.",
+			"The book said by a man or his father or his son in the festival of the Amenta, and wherewith he acquires might with Rā, and with the gods when he is with them. Said on the day of the new moon, when offerings are made of bread, beer, oxen, geese, and burnt incense to": "El libro que dice un hombre, o su padre, o su hijo, en la fiesta de la Amenta, y con el que adquiere poder ante Rā y ante los dioses cuando está con ellos. Se dice el día de la luna nueva, cuando se hacen ofrendas de pan, cerveza, bueyes, gansos e incienso quemado a",
+			"The Chapter of the Arrival": "El capítulo de la llegada",
+			"The knowing of the pylons of the house of Osiris, in the Garden of Aarru.": "El conocimiento de los pilonos de la casa de Osiris, en el Jardín de Aarru.",
+			"Chapter 147": "Capítulo 147",
+			"Giving sustenance to the deceased in the Netherworld, and delivering him from all evil things.": "Dar sustento al difunto en el Mundo Inferior y librarlo de todas las cosas malas.",
+			"Chapter 149": "Capítulo 149",
+			"Chapter 151": "Capítulo 151",
+			"The Chapter of building a house on earth.": "El capítulo para construir una casa sobre la tierra.",
+			"The Chapter of coming out of the net.": "El capítulo para salir de la red.",
+			"The Chapter of not letting the body decay in the Netherworld.": "El capítulo para que el cuerpo no se descomponga en el Mundo Inferior.",
+			"Chapter of the Tat of gold.": "Capítulo del Tat de oro.",
+			"Chapter of the buckle of carnelian, which is put on the neck of the deceased.": "Capítulo de la hebilla de cornalina, que se pone en el cuello del difunto.",
+			"Chapter of the vulture of gold, put on the neck of the deceased.": "Capítulo del buitre de oro, que se pone en el cuello del difunto.",
+			"The Chapter of the collar of gold, put on the neck of the deceased.": "El capítulo del collar de oro, que se pone en el cuello del difunto.",
+			"The Chapter of the column of green Felspar, put on the neck of the deceased.": "El capítulo de la columna de feldespato verde, que se pone en el cuello del difunto.",
+			"Giving the column of green Felspar.": "Dar la columna de feldespato verde.",
+			"The Chapter of unfastening the opening in the sky. Thoth does it so that it may be finished when he opens (the sky) with Aten.": "El capítulo para desatar la abertura del cielo. Thoth lo hace para que quede terminado cuando él abre (el cielo) con Aten.",
+			"Chapter of causing a flame to arise under the head of the deceased.": "Capítulo para hacer surgir una llama bajo la cabeza del difunto.",
+			"Chapters brought from another book, in addition to the “coming forth by day.” Chapter of not letting the body of a man decay in the Netherworld, of rescuing him from the devourers of souls who imprison men in the Tuat, and of not raising his sins on earth against him, but of saving his flesh and his bones from the worms and from every evil-doing god in the Netherworld, so that he may go in and out as he likes, and do everything he desires without restraint.": "Capítulos traídos de otro libro, además del “salir de día”. Capítulo para que el cuerpo de un hombre no se descomponga en el Mundo Inferior, para rescatarlo de los devoradores de almas que encierran a los hombres en el Tuat, y para no levantar contra él sus pecados en la tierra, sino salvar su carne y sus huesos de los gusanos y de todo dios malhechor en el Mundo Inferior, para que pueda entrar y salir como quiera y hacer todo lo que desee sin restricción.",
+			"Chapter of landing and not being obscured, so that the body may prosper in drinking water.": "Capítulo para desembarcar y no quedar oscurecido, para que el cuerpo prospere al beber agua.",
+			"Chapter of the Pillow.": "Capítulo de la almohada.",
+			"Chapter of bringing an Eye.": "Capítulo para traer un Ojo.",
+			"Chapter of raising the funereal Bed.": "Capítulo para levantar el lecho funerario.",
+			"Chapter of arranging the funereal Bed.": "Capítulo para disponer el lecho funerario.",
+			"Chapter of wrapping up (the deceased) in a pure garment.": "Capítulo para envolver (al difunto) en una vestidura pura.",
+			"Beginning of the Chapter of reciting the ceremonies made in the Netherworld.": "Comienzo del capítulo para recitar las ceremonias que se hacen en el Mundo Inferior.",
+			"The addresses of Horus to his father when he goes in to see his father, and when he comes out of his great sanctuary to see him Rā Unneferu, the master of Ta-tser, and then they embrace one another; therefore he is glorious in the Netherworld.": "Las palabras de Horus a su padre cuando entra a ver a su padre, y cuando sale de su gran santuario para verlo, a Rā Unneferu, el señor de Ta-tser, y entonces se abrazan; por eso él es glorioso en el Mundo Inferior.",
+			"Chapter of causing the Chu to come out of the great door in the sky.": "Capítulo para hacer salir al Chu por la gran puerta del cielo.",
+			"Chapter of not dying a second death in the Netherworld.": "Capítulo para no morir una segunda muerte en el Mundo Inferior.",
+			"Chapter of not dying a second time in the Netherworld.": "Capítulo para no morir por segunda vez en el Mundo Inferior.",
+			"Chapter of raising the Chu, of vivifying his soul in the Netherworld.": "Capítulo para levantar al Chu y dar vida a su alma en el Mundo Inferior.",
+			"Chapter of raising the body, of giving it eyes, of making it possess ears, of fixing its head, of putting it on its base.": "Capítulo para levantar el cuerpo, darle ojos, hacer que tenga oídos, fijar su cabeza y ponerlo sobre su base.",
+			"Chapter of coming forth when going out of yesterday and coming in the (present) day, being equipped by one’s own hands.": "Capítulo para salir al dejar el ayer y entrar en el día (presente), equipado por las propias manos.",
+			"Chapter of coming forth by day, of giving praise to Rā in the Amenta, of paying homage to the inhabitants of the Tuat, of opening the way to the mighty soul in the Netherworld, of letting him walk, lengthen his strides, and go in and out in the Netherworld; and take the form of a living soul.": "Capítulo para salir de día, dar alabanza a Rā en la Amenta, rendir homenaje a los habitantes del Tuat, abrir el camino al alma poderosa en el Mundo Inferior, dejarla caminar, alargar sus pasos y entrar y salir en el Mundo Inferior, y tomar la forma de un alma viviente.",
+			"Chapter of arriving before the Divine circle of Osiris and before the gods, the guides in the Tuat, before the guards of their halls, the heralds of their gates and the doorkeepers of their pylons in the Amenta, and of taking the form of a living soul and praising Osiris the lord of his circle of gods.": "Capítulo para llegar ante el Círculo Divino de Osiris y ante los dioses, los guías del Tuat, ante los guardianes de sus salas, los heraldos de sus puertas y los porteros de sus pilonos en la Amenta, y para tomar la forma de un alma viviente y alabar a Osiris, el señor de su círculo de dioses.",
+			"Book of vivifying Osiris, of giving air to him whose heart is motionless, through the action of Thoth, who repels the enemies of Osiris who come there in his form... as protector, saviour, defender in the Netherworld.": "Libro para dar vida a Osiris, para dar aire a aquel cuyo corazón está inmóvil, por la acción de Thoth, que rechaza a los enemigos de Osiris que vienen allí en su forma... como protector, salvador y defensor en el Mundo Inferior.",
+			"Adoration to Osiris, giving him praise, bowing down before Unneferu, falling on one’s face before the lord of Ta-tsert, and exalting him who is on his sand.": "Adoración a Osiris: darle alabanza, inclinarse ante Unneferu, caer rostro en tierra ante el señor de Ta-tsert y exaltar al que está sobre su arena.",
+			"Giving praise to Osiris, falling on the earth before the lord of eternity; propitiating the god with what he loves, speaking the truth, the lord of which is not known.": "Dar alabanza a Osiris, caer en tierra ante el señor de la eternidad; aplacar al dios con lo que él ama, decir la verdad, cuyo señor no es conocido.",
+			"Adoration to Hathor, the lady of the West, falling down before Mehurit.": "Adoración a Hathor, la señora del Occidente, postrarse ante Mehurit."
+		},
+		"chuang-tzu": {
+			"Transcendental Bliss": "La dicha trascendental",
+			"The Identity of Contraries": "La identidad de los contrarios",
+			"Nourishment of the Soul": "El sustento del alma",
+			"Man Among Men": "El hombre entre los hombres",
+			"The Evidence of Virtue Complete": "La prueba de la virtud plena",
+			"The Great Supreme": "El gran supremo",
+			"How to Govern": "Cómo gobernar",
+			"Joined Toes": "Dedos unidos",
+			"Horses' Hoofs": "Cascos de caballo",
+			"Opening Trunks": "Abrir cofres",
+			"On Letting Alone": "Sobre dejar estar",
+			"The Universe": "El universo",
+			"The Tao of God": "El Tao de Dios",
+			"The Circling Sky": "El cielo que gira",
+			"Self-Conceit": "La presunción",
+			"Exercise of Faculties": "El ejercicio de las facultades",
+			"Autumn Floods": "Crecidas de otoño",
+			"Perfect Happiness": "La felicidad perfecta",
+			"The Secret of Life": "El secreto de la vida",
+			"Mountain Trees": "Árboles de la montaña",
+			"T'ien Tzŭ Fang": "T'ien Tzŭ Fang",
+			"Knowledge Travels North": "El conocimiento viaja al norte",
+			"Kêng Sang Ch'u": "Kêng Sang Ch'u",
+			"Hsü Wu Kuei": "Hsü Wu Kuei",
+			"Tsê Yang": "Tsê Yang",
+			"Contingencies": "Contingencias",
+			"Language": "El lenguaje",
+			"On Declining Power": "Sobre renunciar al poder",
+			"Robber Chê": "El bandido Chê",
+			"On Swords": "Sobre las espadas",
+			"The Old Fisherman": "El viejo pescador",
+			"Lieh Tzŭ": "Lieh Tzŭ",
+			"The Empire": "El imperio"
+		},
+		"dhammapada": {
+			"The Twin-Verses": "Los versos gemelos",
+			"On Earnestness": "Sobre la diligencia",
+			"Thought": "El pensamiento",
+			"Flowers": "Las flores",
+			"The Fool": "El necio",
+			"The Wise Man (Pandita)": "El sabio (Pandita)",
+			"The Venerable (Arhat)": "El venerable (Arhat)",
+			"The Thousands": "Los millares",
+			"Evil": "El mal",
+			"Punishment": "El castigo",
+			"Old Age": "La vejez",
+			"Self": "El yo",
+			"The World": "El mundo",
+			"The Buddha (The Awakened)": "El Buda (El Despierto)",
+			"Happiness": "La felicidad",
+			"Pleasure": "El placer",
+			"Anger": "La ira",
+			"Impurity": "La impureza",
+			"The Just": "El justo",
+			"The Way": "El camino",
+			"Miscellaneous": "Miscelánea",
+			"The Downward Course": "El descenso",
+			"The Elephant": "El elefante",
+			"Thirst": "La sed",
+			"The Bhikshu (Mendicant)": "El bhikshu (mendicante)",
+			"The Brahmana (Arhat)": "El brahmana (Arhat)"
+		},
+		"diogenes-laertius-6": {
+			"Antisthenes": "Antístenes"
+		},
+		"hesiod": {
+			"Theogony": "Teogonía",
+			"Works and Days": "Trabajos y días"
+		},
+		"homeric-hymns": {
+			"To Dionysus": "A Dioniso",
+			"To Demeter": "A Deméter",
+			"To Delian Apollo": "A Apolo delio",
+			"To Hermes": "A Hermes",
+			"To Aphrodite": "A Afrodita",
+			"To Ares": "A Ares",
+			"To Artemis": "A Artemisa",
+			"To Athena": "A Atenea",
+			"To Hera": "A Hera",
+			"To the Mother of the Gods": "A la madre de los dioses",
+			"To Heracles the Lion-Hearted": "A Heracles, el de corazón de león",
+			"To Asclepius": "A Asclepio",
+			"To the Dioscuri": "A los Dioscuros",
+			"To Pan": "A Pan",
+			"To Hephaestus": "A Hefesto",
+			"To Apollo": "A Apolo",
+			"To Poseidon": "A Poseidón",
+			"To the Son of Cronos, Most High": "Al hijo de Crono, el altísimo",
+			"To Hestia": "A Hestia",
+			"To the Muses and Apollo": "A las musas y a Apolo",
+			"To Earth the Mother of All": "A la Tierra, madre de todo",
+			"To Helios": "A Helios",
+			"To Selene": "A Selene"
+		},
+		"japji": {
+			"Mul Mantar": "Mul Mantar"
+		},
+		"kojiki": {
+			"The Beginning of Heaven and Earth": "El comienzo del cielo y de la tierra",
+			"The Seven Divine Generations": "Las siete generaciones divinas",
+			"The Island of Onogoro": "La isla de Onogoro",
+			"Courtship of the Deities the Male-Who-Invites and the Female-Who-Invites": "El cortejo de las deidades Varón-que-Invita y Mujer-que-Invita",
+			"Birth of the Eight Great Islands": "Nacimiento de las ocho grandes islas",
+			"Birth of the Various Deities": "Nacimiento de diversas deidades",
+			"Retirement of Her Augustness the Princess-Who-Invites": "Retiro de Su Augusta la Princesa-que-Invita",
+			"The Slaying of the Fire-Deity": "La muerte de la deidad del fuego",
+			"The Land of Hades": "La tierra de Hades",
+			"The Purification of the August Person": "La purificación de la augusta persona",
+			"Investiture of the Three Deities the Illustrious August Children": "Investidura de las tres deidades, los ilustres augustos hijos",
+			"The Crying and Weeping of His Impetuous-Male-Augustness": "El llanto y los gemidos del Augusto Varón Impetuoso",
+			"The August Oath": "El augusto juramento",
+			"The August Declaration of the Division of the August Male Children and the August Female Children": "La augusta declaración sobre la división de los augustos hijos y las augustas hijas",
+			"The August Ravages of His-Impetuous-Male-Augustness": "Los augustos estragos del Augusto Varón Impetuoso",
+			"The Door of the Heavenly Rock-Dwelling": "La puerta de la morada celestial de roca",
+			"The August Expulsion of His-Impetuous-Male-Augustness": "La augusta expulsión del Augusto Varón Impetuoso",
+			"The Eight-Forked Serpent": "La serpiente de ocho cabezas",
+			"The Palace of Suga": "El palacio de Suga",
+			"The August Ancestors of the Deity-Master-of-the-Great Land": "Los augustos antepasados de la deidad Señor-de-la-Gran-Tierra",
+			"The White Hare of Inaba": "La liebre blanca de Inaba",
+			"Mount Tema": "El monte Tema",
+			"The Nether-Distant-Land": "La tierra lejana de abajo",
+			"The Wooing of the Deity-of-Eight-Thousand-Spears": "El cortejo de la deidad de los Ocho-Mil-Lanzas",
+			"The Cup Pledge": "La promesa de la copa",
+			"The Deities the August Descendants of the Deity Master-of-the-Great-Land": "Las deidades descendientes augustas de la deidad Señor-de-la-Gran-Tierra",
+			"The Little-Prince-the-Renowned-Deity": "El Pequeño-Príncipe, la deidad renombrada",
+			"The August-Luck-Spirit-the-August-Wondrous-Spirit": "El Augusto-Espíritu-de-la-Suerte, el Augusto-Espíritu-Maravilloso",
+			"The August Children of the Great-Harvest-Deity and of the Swift-Mountain-Deity": "Los augustos hijos de la deidad de la Gran Cosecha y de la deidad de la Montaña Veloz",
+			"The August Deliberation for Pacifying the Land": "La augusta deliberación para pacificar la tierra",
+			"The Heavenly-Young-Prince": "El Joven-Príncipe-Celestial",
+			"Abdication of the Deity Master-of-the-Great-Land": "Abdicación de la deidad Señor-de-la-Gran-Tierra",
+			"The August Descent from Heaven of his Augustness the August Grandchild": "El augusto descenso del cielo de Su Augusto el augusto nieto",
+			"The August Reign in Himuka of His Augustness Prince Rice-ear-Ruddy-Plenty": "El augusto reinado en Himuka de Su Augusto el príncipe Espiga-de-Arroz-Rojiza-Abundante",
+			"The Duchess of Saru": "La duquesa de Saru",
+			"The Deity Prince of Saruta at Azaka": "La deidad príncipe de Saruta en Azaka",
+			"The Curse of the Deity Great-Mountain-Possessor": "La maldición de la deidad Gran-Poseedor-de-la-Montaña",
+			"The August Child-Bearing of Princess-Blossoming Brilliantly-Like-the-Flowers-of-the-Trees": "El augusto alumbramiento de la Princesa-que-Florece-Brillante-como-las-Flores-de-los-Árboles",
+			"The August Exchange of Luck": "El augusto intercambio de la suerte",
+			"The Palace of the Ocean-Possessor": "El palacio del Poseedor-del-Océano",
+			"Submission of His Augustness Fire-Shine": "Sumisión de Su Augusto Brillo-del-Fuego",
+			"The Parturition-House of Cormorants’ Feathers": "La casa de parto de plumas de cormorán",
+			"The August Children of His Augustness Cormorant-Thatch-Meeting-Incompletely": "Los augustos hijos de Su Augusto Techo-de-Cormorán-Unido-Incompleto",
+			"Reign of the Emperor Jim-mu (Part I.—His Progress Eastward, and Death of His Elder Brother)": "Reinado del emperador Jim-mu (Parte I.—Su avance hacia el este y muerte de su hermano mayor)",
+			"Emperor Jim-mu (Part II.—The Cross-sword Sent Down from Heaven)": "El emperador Jim-mu (Parte II.—La espada bajada del cielo)",
+			"Emperor Jim-mu (Part III.—The Gigantic Crow and Gods with Tails)": "El emperador Jim-mu (Parte III.—El cuervo gigante y los dioses con cola)",
+			"Emperor Jim-mu (Part IV.—The Ukashi Brethren)": "El emperador Jim-mu (Parte IV.—Los hermanos Ukashi)",
+			"Emperor Jim-mu (Part V.—The Earth-spiders of the Cave of Osaka)": "El emperador Jim-mu (Parte V.—Las arañas de tierra de la cueva de Osaka)",
+			"Emperor Jim-mu (Part VI.—The Prince of Tomi and the Shiki Brethren)": "El emperador Jim-mu (Parte VI.—El príncipe de Tomi y los hermanos Shiki)",
+			"Emperor Jim-mu (Part VII.—The Empire Pacified)": "El emperador Jim-mu (Parte VII.—El imperio pacificado)",
+			"Emperor Jim-mu (Part VIII.—He Weds I-suke-yori-hime)": "El emperador Jim-mu (Parte VIII.—Se casa con I-suke-yori-hime)",
+			"Emperor Jim-mu (Part. IX—Troubles Which Followed His Decease)": "El emperador Jim-mu (Parte IX.—Disturbios tras su muerte)",
+			"Emperor Jim-mu (Part X.—Genealogies)": "El emperador Jim-mu (Parte X.—Genealogías)",
+			"Emperor Jim-mu (Part XI.—His Age and Place of Burial)": "El emperador Jim-mu (Parte XI.—Su edad y lugar de sepultura)",
+			"Emperor Sui-zei": "El emperador Sui-zei",
+			"Emperor An-nei": "El emperador An-nei",
+			"Emperor I-toku": "El emperador I-toku",
+			"Emperor Kō-shō": "El emperador Kō-shō",
+			"Emperor Kō-an": "El emperador Kō-an",
+			"Emperor Kō-rei": "El emperador Kō-rei",
+			"Emperor Kō-gen": "El emperador Kō-gen",
+			"Emperor Kai-kuwa": "El emperador Kai-kuwa",
+			"Emperor Sū-jin (Part I.—Genealogies)": "El emperador Sū-jin (Parte I.—Genealogías)",
+			"Emperor Sū-jin (Part II.—A Pestilence is Staid by Oho-tata-ne-ko)": "El emperador Sū-jin (Parte II.—Oho-tata-ne-ko detiene una peste)",
+			"Emperor Sū-jun (Part III.—Story of Oho-taka-ne-ko’s Birth)": "El emperador Sū-jin (Parte III.—Historia del nacimiento de Oho-taka-ne-ko)",
+			"Emperor Sū-jin (Part IV.—War with King Take-hani-yasu)": "El emperador Sū-jin (Parte IV.—Guerra con el rey Take-hani-yasu)",
+			"Emperor Sū-jin (Part V.—Peace Restored and Tribute Levied)": "El emperador Sū-jin (Parte V.—La paz restablecida y el tributo impuesto)",
+			"Emperor Sū-jin (Part VI.—His Age and Place of Burial)": "El emperador Sū-jin (Parte VI.—Su edad y lugar de sepultura)",
+			"Emperor Sui-nin (Part I.—Genealogies)": "El emperador Sui-nin (Parte I.—Genealogías)",
+			"Emperor Sui-nin (Part II.—Conspiracy of King Saho-biko and the Empress Saho-bime)": "El emperador Sui-nin (Parte II.—Conspiración del rey Saho-biko y la emperatriz Saho-bime)",
+			"Emperor Sui-nin (Part III.—Birth of Prince Homu-chi-wake and Death of the Conspirators)": "El emperador Sui-nin (Parte III.—Nacimiento del príncipe Homu-chi-wake y muerte de los conspiradores)",
+			"Emperor Sui-nin (Part IV.—The Dumb Prince Homu-chi-wake)": "El emperador Sui-nin (Parte IV.—El príncipe mudo Homu-chi-wake)",
+			"Emperor Sui-nin (Part V.—His Later Wives)": "El emperador Sui-nin (Parte V.—Sus esposas posteriores)",
+			"Emperor Sui-nin (Part VI.—Tajima-mori Brings Back the Orange from the Eternal Land)": "El emperador Sui-nin (Parte VI.—Tajima-mori trae la naranja de la Tierra Eterna)",
+			"Emperor Sui-nin (Part VII.—His Death and That of the Empress Hibasu.)": "El emperador Sui-nin (Parte VII.—Su muerte y la de la emperatriz Hibasu)",
+			"Emperor Kei-kō (Part I.—Genealogies)": "El emperador Kei-kō (Parte I.—Genealogías)",
+			"Emperor Kei-kō (Part II.—The Maidens Ye-hime and Oto-hime)": "El emperador Kei-kō (Parte II.—Las doncellas Ye-hime y Oto-hime)",
+			"Emperor Kei-kō (Part III.—Various Deeds)": "El emperador Kei-kō (Parte III.—Hechos diversos)",
+			"Emperor Kei-kō (Part IV.—Yamato-take Slays His Elder Brother)": "El emperador Kei-kō (Parte IV.—Yamato-take mata a su hermano mayor)",
+			"Emperor Kei-kō (Part V.—Yamato-take Slays the Kumaso Bravoes)": "El emperador Kei-kō (Parte V.—Yamato-take mata a los valientes de Kumaso)",
+			"Emperor Kei-kō (Part VI.—Yamato-take Slays the Idzumo Bravo)": "El emperador Kei-kō (Parte VI.—Yamato-take mata al valiente de Idzumo)",
+			"Emperor Kei-kō (Part VII.—Yamato-take is Sent to Subdue the East, and Visits His Aunt at Ise)": "El emperador Kei-kō (Parte VII.—Yamato-take es enviado a someter el este y visita a su tía en Ise)",
+			"Emperor Kei-kō (Part VIII.—Yamato-take Slays the Rulers of Sagamu)": "El emperador Kei-kō (Parte VIII.—Yamato-take mata a los gobernantes de Sagamu)",
+			"Emperor Kei-kō (Part IX.—Yamato-take’s Empress Stills the Waves.)": "El emperador Kei-kō (Parte IX.—La emperatriz de Yamato-take calma las olas)",
+			"Emperor Kei-kō (Part X.—Yamato-take Slays the Deity of the Ashigara Pass)": "El emperador Kei-kō (Parte X.—Yamato-take mata a la deidad del paso de Ashigara)",
+			"Emperor Kei-kō (Part XI.—Yamato-take Dwells in the Palace of Sakawori)": "El emperador Kei-kō (Parte XI.—Yamato-take mora en el palacio de Sakawori)",
+			"Emperor Kei-kō (Part XII.—Yamato-take Wooes Princess Miyazu)": "El emperador Kei-kō (Parte XII.—Yamato-take corteja a la princesa Miyazu)",
+			"Emperor Kei-kō (Part XIII.—Yamato-take Meets the Deity of Mount Ibuki)": "El emperador Kei-kō (Parte XIII.—Yamato-take se encuentra con la deidad del monte Ibuki)",
+			"Emperor Kei-kō (Part XIV.—Yamato-take Sickens and Dies)": "El emperador Kei-kō (Parte XIV.—Yamato-take enferma y muere)",
+			"Emperor Kei-kō (Part XV.—Yamato-take Turns into a White Bird)": "El emperador Kei-kō (Parte XV.—Yamato-take se convierte en un ave blanca)",
+			"Emperor Kei-kō (Part XVI.—Yamato-take’s Butler)": "El emperador Kei-kō (Parte XVI.—El mayordomo de Yamato-take)",
+			"Emperor Kei-kō (Part XVII.—Yamato-take’s Descendants)": "El emperador Kei-kō (Parte XVII.—Los descendientes de Yamato-take)",
+			"Emperor Kei-kō (Part XVIII.—His Age and Place of Burial)": "El emperador Kei-kō (Parte XVIII.—Su edad y lugar de sepultura)",
+			"Emperor Sei-mu": "El emperador Sei-mu",
+			"Emperor Chiū-ai (Part I.—Genealogies)": "El emperador Chiū-ai (Parte I.—Genealogías)",
+			"Emperor Chiū-ai (Part II.—The Possession of Korea Divinely Promised)": "El emperador Chiū-ai (Parte II.—La posesión de Corea, prometida por los dioses)",
+			"Emperor Chiū-ai (Part III.—Preparations for the Conquest of Korea)": "El emperador Chiū-ai (Parte III.—Preparativos para la conquista de Corea)",
+			"Emperor Chiū-ai (Part IV.—The Empress Jin-gō Conquers Korea)": "El emperador Chiū-ai (Parte IV.—La emperatriz Jin-gō conquista Corea)",
+			"Emperor Chiū-ai (Part V.—The Empress Jin-gō Fishes in Tsukushi)": "El emperador Chiū-ai (Parte V.—La emperatriz Jin-gō pesca en Tsukushi)",
+			"Emperor Chiū-ai (Part VI.—The Empress Jin-gō Subdues Yamato)": "El emperador Chiū-ai (Parte VI.—La emperatriz Jin-gō somete Yamato)",
+			"Emperor Chiū-ai (Part VIII.—The Heir Apparent Exchanges Names with the Great Deity Izasa-Wake)": "El emperador Chiū-ai (Parte VIII.—El heredero intercambia nombres con la gran deidad Izasa-Wake)",
+			"Emperor Chiū-ai (Part VIII.—The Empress Jin-gō Presents Liquor to the Heir Apparent)": "El emperador Chiū-ai (Parte VIII.—La emperatriz Jin-gō ofrece licor al heredero)",
+			"Emperor Chiū-ai (Part IX.—His Death and That of the Empress Jin-gō)": "El emperador Chiū-ai (Parte IX.—Su muerte y la de la emperatriz Jin-gō)",
+			"Emperor Ō-jin (Part I.—Genealogies)": "El emperador Ō-jin (Parte I.—Genealogías)",
+			"Emperor Ō-jin (Part II.—He Divides the Inheritance Between His Three Sons)": "El emperador Ō-jin (Parte II.—Divide la herencia entre sus tres hijos)",
+			"Emperor Ō-jin (Part III.—He Wooes Princess Miya-nushi-ya-kaha-ye)": "El emperador Ō-jin (Parte III.—Corteja a la princesa Miya-nushi-ya-kaha-ye)",
+			"Emperor Ō-jin (Part IV.—He Grants Princess Kami-naga to His Son Oho-sazaki)": "El emperador Ō-jin (Parte IV.—Entrega a la princesa Kami-naga a su hijo Oho-sazaki)",
+			"Emperor Ō-jin (Part V.—Songs of the Territorial Owners of Yeshinu)": "El emperador Ō-jin (Parte V.—Cantos de los señores territoriales de Yeshinu)",
+			"Emperor Ō-jin (Part VI.—Various Deeds)": "El emperador Ō-jin (Parte VI.—Hechos diversos)",
+			"Emperor Ō-jin (Part VII.—Tribute From Korea)": "El emperador Ō-jin (Parte VII.—Tributo de Corea)",
+			"Emperor Ō-jin (Part VIII.—The Emperor Intoxicated)": "El emperador Ō-jin (Parte VIII.—El emperador ebrio)",
+			"Emperor Ō-jin (Part IX.—Troubles Which Followed His Decease)": "El emperador Ō-jin (Parte IX.—Disturbios tras su muerte)",
+			"Emperor Ō-jin (Part X.—Princes Oho-sazaki and Uji-no-waki-iratsuko Cede the Empire to Each Other)": "El emperador Ō-jin (Parte X.—Los príncipes Oho-sazaki y Uji-no-waki-iratsuko se ceden el imperio uno a otro)",
+			"Emperor Ō-jin (Part XI.—Ama-no-hi-boko Crosses Over to Japan)": "El emperador Ō-jin (Parte XI.—Ama-no-hi-boko cruza a Japón)",
+			"Emperor Ō-jin (Part XII.—Descendants of Ama-no-hi-boko, and Treasures Brought by Him)": "El emperador Ō-jin (Parte XII.—Descendientes de Ama-no-hi-boko y tesoros que trajo)",
+			"Emperor Ō-jin (Part XIII.—The Youth-of-the-Glow-on-the-Autumn-Mountains and the Youth-of-the-Haze-on-the-Spring-Mountains)": "El emperador Ō-jin (Parte XIII.—El Joven-del-Resplandor-de-las-Montañas-de-Otoño y el Joven-de-la-Bruma-de-las-Montañas-de-Primavera)",
+			"Emperor Ō-jin (Part XVI.—Genealogies)": "El emperador Ō-jin (Parte XVI.—Genealogías)",
+			"Emperor Ō-jin (Part XV.—His Age and Place of Burial)": "El emperador Ō-jin (Parte XV.—Su edad y lugar de sepultura)",
+			"Emperor Nin-toku (Part I.—Genealogies)": "El emperador Nin-toku (Parte I.—Genealogías)",
+			"Emperor Nin-toku (Part II.—Various Deeds)": "El emperador Nin-toku (Parte II.—Hechos diversos)",
+			"Emperor Nin-toku (Part III.—He Remits the Taxes)": "El emperador Nin-toku (Parte III.—Perdona los impuestos)",
+			"Emperor Nin-toku (Part IV.—He Loves Princess Kuro)": "El emperador Nin-toku (Parte IV.—Ama a la princesa Kuro)",
+			"Emperor Nin-toku (Part V.—The Empress Retires to Yamashiro)": "El emperador Nin-toku (Parte V.—La emperatriz se retira a Yamashiro)",
+			"Emperor Nin-toku (Part VI.—He Follows the Empress Into Yamashiro)": "El emperador Nin-toku (Parte VI.—Sigue a la emperatriz a Yamashiro)",
+			"Emperor Nin-toku (Part VII.—He Loves Yata-no-waki-iratsume)": "El emperador Nin-toku (Parte VII.—Ama a Yata-no-waki-iratsume)",
+			"Emperor Nin-toku (Part VIII.—Death of King Hayabusa-wake and Queen Medori)": "El emperador Nin-toku (Parte VIII.—Muerte del rey Hayabusa-wake y de la reina Medori)",
+			"Emperor Nin-toku (Part VIII.—Queen Medori’s Armlet)": "El emperador Nin-toku (Parte VIII.—El brazalete de la reina Medori)",
+			"Emperor Nin-toku (Part IX.—A Wild-goose Lays an Egg)": "El emperador Nin-toku (Parte IX.—Un ganso salvaje pone un huevo)",
+			"Emperor Nin-toku (Part X.—A Vessel is Made Into a Lute)": "El emperador Nin-toku (Parte X.—Un barco se convierte en laúd)",
+			"Emperor Nin-toku (Part XI.—His Age and Place of Burial)": "El emperador Nin-toku (Parte XI.—Su edad y lugar de sepultura)",
+			"Emperor Ri-chiū (Part I.—Genealogies)": "El emperador Ri-chiū (Parte I.—Genealogías)",
+			"Emperor Ri-chiū (Part II.—He is Taken to Iso-no-Kami)": "El emperador Ri-chiū (Parte II.—Es llevado a Iso-no-Kami)",
+			"Emperor Ri-chiū (Part III.—His Rebellious Brother and the Latter’s Retainer Sobakari are Slain)": "El emperador Ri-chiū (Parte III.—Mueren su hermano rebelde y Sobakari, servidor de este)",
+			"Emperor Ri-chiū (Part IV.—Various Deeds)": "El emperador Ri-chiū (Parte IV.—Hechos diversos)",
+			"Emperor Ri-chiū (Part V.—His Age and Place of Burial)": "El emperador Ri-chiū (Parte V.—Su edad y lugar de sepultura)",
+			"Emperor Han-zei": "El emperador Han-zei",
+			"Emperor In-giyō (Part I.—Genealogies)": "El emperador In-giyō (Parte I.—Genealogías)",
+			"Emperor In-giyō (Part II.—His Sickness is Cured by a Korean Physician)": "El emperador In-giyō (Parte II.—Un médico coreano cura su enfermedad)",
+			"Emperor In-giyō (Part III.—He Rectifies the People’s Names)": "El emperador In-giyō (Parte III.—Corrige los nombres del pueblo)",
+			"Emperor In-giyō (Part IV.—His Age and Place of Burial)": "El emperador In-giyō (Parte IV.—Su edad y lugar de sepultura)",
+			"Emperor In-giyō (Part V.—Prince Karu Loves His Sister Princess So-tohoshi)": "El emperador In-giyō (Parte V.—El príncipe Karu ama a su hermana, la princesa So-tohoshi)",
+			"Emperor In-giyō (Part VI.—War Between Prince Karu and Prince Anaho)": "El emperador In-giyō (Parte VI.—Guerra entre el príncipe Karu y el príncipe Anaho)",
+			"Emperor In-giyō (Part VII.—Death of Prince Karu and Princess So-tohoshi)": "El emperador In-giyō (Parte VII.—Muerte del príncipe Karu y de la princesa So-tohoshi)",
+			"Emperor An-kō (Part I.—He Slays King Oho-kusaka)": "El emperador An-kō (Parte I.—Mata al rey Oho-kusaka)",
+			"Emperor An-kō (Part II.—He is Slain by King Ma-yowa)": "El emperador An-kō (Parte II.—Muere a manos del rey Ma-yowa)",
+			"Emperor An-kō (Part III.—Prince Oho-hatsuse Slays Princes Kuro-biko and Shiro-biko)": "El emperador An-kō (Parte III.—El príncipe Oho-hatsuse mata a los príncipes Kuro-biko y Shiro-biko)",
+			"Emperor An-kō (Part IV.—Death of Prince Ma-yowa and of the Grandee Tsubura)": "El emperador An-kō (Parte IV.—Muerte del príncipe Ma-yowa y del noble Tsubura)",
+			"Emperor An-kō (Part V.—Prince Oho-hatsuse Slays Prince Oshiha)": "El emperador An-kō (Parte V.—El príncipe Oho-hatsuse mata al príncipe Oshiha)",
+			"Emperor An-kō (Part VI.—Flight of Princes Ohoke and Woke)]": "El emperador An-kō (Parte VI.—Huida de los príncipes Ohoke y Woke)",
+			"Emperor Yū-riyaku (Part I.—Genealogies)": "El emperador Yū-riyaku (Parte I.—Genealogías)",
+			"Emperor Yū-riyaku (Part II.—Various Deeds)": "El emperador Yū-riyaku (Parte II.—Hechos diversos)",
+			"Emperor Yū-riyaku (Part III.—The Roof of the House of the Great Departmental Lord of Shiki)": "El emperador Yū-riyaku (Parte III.—El tejado de la casa del gran señor departamental de Shiki)",
+			"Emperor Yū-riyaku (Part IV.—He Wooes Princess Waka-kusaka-be)": "El emperador Yū-riyaku (Parte IV.—Corteja a la princesa Waka-kusaka-be)",
+			"Emperor Yū-riyaku (Part V.—Story of the Woman Akawi-ko)": "El emperador Yū-riyaku (Parte V.—Historia de la mujer Akawi-ko)",
+			"Emperor Yū-riyaku (Part VI.—He Makes a Progress to Yeshinu)": "El emperador Yū-riyaku (Parte VI.—Hace un viaje a Yeshinu)",
+			"Emperor Yū-riyaku (Part VII.—The Horse-fly and the Dragon-fly)": "El emperador Yū-riyaku (Parte VII.—El tábano y la libélula)",
+			"Emperor Yū-riyaku (Part VIII.—Adventure with a Wild Boar)": "El emperador Yū-riyaku (Parte VIII.—Aventura con un jabalí)",
+			"Emperor Yū-riyaku (Part IX.—Revelation of the Great Deity of Kadzuraki, Lord of One Word)": "El emperador Yū-riyaku (Parte IX.—Revelación de la gran deidad de Kadzuraki, Señor de una Palabra)",
+			"Emperor Yū-riyaku (Part X.—The Mound of the Metal Spade)": "El emperador Yū-riyaku (Parte X.—El túmulo de la pala de metal)",
+			"Emperor Yū-riyaku (Part XI.—The Leaf in the Cup)": "El emperador Yū-riyaku (Parte XI.—La hoja en la copa)",
+			"Emperor Yū-riyaku (Part XII.—Songs by the Emperor and Princess Wodo)": "El emperador Yū-riyaku (Parte XII.—Cantos del emperador y de la princesa Wodo)",
+			"Emperor Yū-riyaku (Part XIII.—His Age and Place of Burial)": "El emperador Yū-riyaku (Parte XIII.—Su edad y lugar de sepultura)",
+			"Emperor Sei-nei (Part I.—Search for a Successor to Him)": "El emperador Sei-nei (Parte I.—Búsqueda de un sucesor)",
+			"Emperor Sei-nei (Part II.—Princes Ohoke and Woke Are Discovered)": "El emperador Sei-nei (Parte II.—Se descubre a los príncipes Ohoke y Woke)",
+			"Emperor Sei-nei (Part III.—The Grandee Shibi)": "El emperador Sei-nei (Parte III.—El noble Shibi)",
+			"Emperor Sei-nei (Part IV.—Prince Ohoke Cedes the Empire to Prince Woke)": "El emperador Sei-nei (Parte IV.—El príncipe Ohoke cede el imperio al príncipe Woke)",
+			"Emperor Ken-zō (Part I.—The Old Woman Oki-me)": "El emperador Ken-zō (Parte I.—La anciana Oki-me)",
+			"Emperor Ken-zō (Part II.—He Slays the Boar-herd)": "El emperador Ken-zō (Parte II.—Mata al porquero)",
+			"Emperor Ken-zō (Part III.—The Emperor Yū-riyaku’s Mausoleum is Disfigured)": "El emperador Ken-zō (Parte III.—Se desfigura el mausoleo del emperador Yū-riyaku)",
+			"Emperor Ken-zō (Part IV.—His Age and Place of Burial)": "El emperador Ken-zō (Parte IV.—Su edad y lugar de sepultura)",
+			"Emperor Nin-ken": "El emperador Nin-ken",
+			"Emperor Mu-retsu": "El emperador Mu-retsu",
+			"Emperor Kei-tai": "El emperador Kei-tai",
+			"Emperor An-kan": "El emperador An-kan",
+			"Emperor Sen-kuwa": "El emperador Sen-kuwa",
+			"Emperor Kim-mei": "El emperador Kim-mei",
+			"Emperor Bi-datsu": "El emperador Bi-datsu",
+			"Emperor Yō-mei": "El emperador Yō-mei",
+			"Emperor Su-jun": "El emperador Su-jun",
+			"Empress Sui-ko": "La emperatriz Sui-ko"
+		},
+		"poetic-edda": {
+			"The Wise-Woman’s Prophecy": "La profecía de la sabia",
+			"The Ballad of the High One": "La balada del Altísimo",
+			"The Ballad of Vafthruthnir": "La balada de Vafthruthnir",
+			"The Ballad of Grimnir": "La balada de Grimnir",
+			"The Ballad of Skirnir": "La balada de Skirnir",
+			"The Poem of Harbarth": "El poema de Harbarth",
+			"The Lay of Hymir": "El canto de Hymir",
+			"Loki’s Wrangling": "La disputa de Loki",
+			"The Lay of Thrym": "El canto de Thrym",
+			"The Ballad of Alvis": "La balada de Alvis",
+			"Baldr’s Dreams": "Los sueños de Baldr",
+			"The Song of Rig": "El canto de Rig",
+			"The Poem of Hyndla": "El poema de Hyndla",
+			"The Ballad of Svipdag": "La balada de Svipdag",
+			"The Lay of Völund": "El canto de Völund",
+			"The Lay of Helgi the Son of Hjorvarth": "El canto de Helgi, hijo de Hjorvarth",
+			"The First Lay of Helgi Hundingsbane": "Primer canto de Helgi Hundingsbane",
+			"The Second Lay of Helgi Hundingsbane": "Segundo canto de Helgi Hundingsbane",
+			"Of Sinfjotli’s Death": "De la muerte de Sinfjotli",
+			"Gripir’s Prophecy": "La profecía de Gripir",
+			"The Ballad of Regin": "La balada de Regin",
+			"The Ballad of Fafnir": "La balada de Fafnir",
+			"The Ballad of the Victory-Bringer": "La balada de la portadora de la victoria",
+			"Fragment of a Sigurth Lay": "Fragmento de un canto de Sigurth",
+			"The First Lay of Guthrun": "Primer canto de Guthrun",
+			"The Short Lay of Sigurth": "El canto breve de Sigurth",
+			"Brynhild’s Hell-Ride": "La cabalgata de Brynhild al infierno",
+			"The Slaying of the Niflungs": "La matanza de los niflungos",
+			"The Second, or Old, Lay of Guthrun": "Segundo canto, o canto antiguo, de Guthrun",
+			"The Third Lay of Guthrun": "Tercer canto de Guthrun",
+			"The Lament of Oddrun": "El lamento de Oddrun",
+			"The Greenland Lay of Atli": "El canto groenlandés de Atli",
+			"The Greenland Ballad of Atli": "La balada groenlandesa de Atli",
+			"Guthrun’s Inciting": "La incitación de Guthrun",
+			"The Ballad of Hamther": "La balada de Hamther"
+		},
+		"rig-veda": {
+			"Agni": "Agni",
+			"The Falcon": "El halcón",
+			"Indra": "Indra"
+		},
+		"shinto-oracles": {
+			"Dream of a son of a Mikado": "Sueño de un hijo de un mikado",
+			"Dream of the Mikado Gotoba no In, from the two shrines of Ise": "Sueño del mikado Gotoba no In, de los dos santuarios de Ise"
+		},
+		"shu-king": {
+			"The Canon of Yâo": "El canon de Yâo",
+			"The Canon of Shun": "El canon de Shun",
+			"The Punitive Expedition of Yin": "La expedición punitiva de Yin",
+			"The Announcement of K ung-hui": "El anuncio de K ung-hui",
+			"Against Luxurious Ease": "Contra la vida fácil y lujosa",
+			"The Counsels of the Great Yü": "Los consejos del gran Yü",
+			"The Counsels of Kâo-yâo": "Los consejos de Kâo-yâo",
+			"The Yî and K î": "El Yî y el K î",
+			"The Tribute of Yü, Section 1": "El tributo de Yü, sección 1",
+			"The Speech at Kan": "El discurso de Kan",
+			"The Songs of the Five Sons": "Los cantos de los cinco hijos",
+			"The Speech of Thang": "El discurso de Thang",
+			"The Announcement of Thang": "El anuncio de Thang",
+			"The Instructions of Î": "Las instrucciones de Î",
+			"The Thâi K iâ, Section 1": "El Thâi K iâ, sección 1",
+			"The Common Possession of Pure Virtue": "La posesión común de la virtud pura",
+			"The Pan-kăng, Section 1": "El Pan-kăng, sección 1",
+			"The Charge to Yüeh, Section 1": "El encargo a Yüeh, sección 1",
+			"The Day of the Supplementary Sacrifice to Kâo Z ung": "El día del sacrificio complementario a Kâo Z ung",
+			"The Chief of the West's Conquest of Lî": "La conquista de Lî por el jefe del oeste",
+			"The Count of Wei": "El conde de Wei",
+			"The Great Declaration, Section 1": "La gran declaración, sección 1",
+			"The Speech at Mû": "El discurso de Mû",
+			"The Successful Completion of the War": "La feliz conclusión de la guerra",
+			"The Great Plan": "El gran plan",
+			"The Hounds of Lü": "Los sabuesos de Lü",
+			"The Metal-bound Coffer": "El cofre atado con metal",
+			"The Great Announcement": "El gran anuncio",
+			"The Charge to the Count of Wei": "El encargo al conde de Wei",
+			"The Announcement to the Prince of Khang": "El anuncio al príncipe de Khang",
+			"The Announcement about Drunkenness": "El anuncio sobre la embriaguez",
+			"The Timber of the Rottlera": "La madera de la rottlera",
+			"The Announcement of the Duke of Shâo": "El anuncio del duque de Shâo",
+			"The Announcement Concerning Lo": "El anuncio sobre Lo",
+			"The Numerous Officers": "Los numerosos funcionarios",
+			"The Prince Shih": "El príncipe Shih",
+			"The Charge to K ung of Z hai": "El encargo a K ung de Z hai",
+			"The Numerous Regions": "Las numerosas regiones",
+			"The Establishment of Government": "El establecimiento del gobierno",
+			"The Officers of K âu": "Los funcionarios de K âu",
+			"The K ün- kh ăn": "El K ün- kh ăn",
+			"The Testamentary Charge": "El encargo testamentario",
+			"The Announcement of King Khang": "El anuncio del rey Khang",
+			"The Charge to the Duke of Pî": "El encargo al duque de Pî",
+			"The K ün-yâ": "El K ün-yâ",
+			"The Charge to Kh iung": "El encargo a Kh iung",
+			"The Marquis of Lü on Punishments": "El marqués de Lü sobre los castigos",
+			"The Charge to the Marquis Wăn": "El encargo al marqués Wăn",
+			"The Speech at Pî": "El discurso de Pî",
+			"The Speech of (the Marquis of) Kh in": "El discurso del (marqués de) Kh in"
+		}
+	},
+	"books": {
+		"Gen": {
+			"bookName": "Génesis",
+			"fullName": "El primer libro de Moisés, comúnmente llamado Génesis"
+		},
+		"Exod": {
+			"bookName": "Éxodo",
+			"fullName": "El segundo libro de Moisés, comúnmente llamado Éxodo"
+		},
+		"Lev": {
+			"bookName": "Levítico",
+			"fullName": "El tercer libro de Moisés, comúnmente llamado Levítico"
+		},
+		"Num": {
+			"bookName": "Números",
+			"fullName": "El cuarto libro de Moisés, comúnmente llamado Números"
+		},
+		"Deut": {
+			"bookName": "Deuteronomio",
+			"fullName": "El quinto libro de Moisés, comúnmente llamado Deuteronomio"
+		},
+		"Josh": {
+			"bookName": "Josué",
+			"fullName": "El libro de Josué"
+		},
+		"Judg": {
+			"bookName": "Jueces",
+			"fullName": "El libro de los Jueces"
+		},
+		"Ruth": {
+			"bookName": "Rut",
+			"fullName": "El libro de Rut"
+		},
+		"1Sam": {
+			"bookName": "1 Samuel",
+			"fullName": "El primer libro de Samuel"
+		},
+		"2Sam": {
+			"bookName": "2 Samuel",
+			"fullName": "El segundo libro de Samuel"
+		},
+		"1Kgs": {
+			"bookName": "1 Reyes",
+			"fullName": "El primer libro de los Reyes"
+		},
+		"2Kgs": {
+			"bookName": "2 Reyes",
+			"fullName": "El segundo libro de los Reyes"
+		},
+		"1Chr": {
+			"bookName": "1 Crónicas",
+			"fullName": "El primer libro de las Crónicas"
+		},
+		"2Chr": {
+			"bookName": "2 Crónicas",
+			"fullName": "El segundo libro de las Crónicas"
+		},
+		"Ezra": {
+			"bookName": "Esdras",
+			"fullName": "El libro de Esdras"
+		},
+		"Neh": {
+			"bookName": "Nehemías",
+			"fullName": "El libro de Nehemías"
+		},
+		"Esth": {
+			"bookName": "Ester",
+			"fullName": "El libro de Ester"
+		},
+		"Job": {
+			"bookName": "Job",
+			"fullName": "El libro de Job"
+		},
+		"Ps": {
+			"bookName": "Salmos",
+			"fullName": "El libro de los Salmos"
+		},
+		"Prov": {
+			"bookName": "Proverbios",
+			"fullName": "Los Proverbios"
+		},
+		"Eccl": {
+			"bookName": "Eclesiastés",
+			"fullName": "Eclesiastés, o el Predicador"
+		},
+		"Song": {
+			"bookName": "Cantar de los Cantares",
+			"fullName": "El Cantar de los Cantares de Salomón"
+		},
+		"Isa": {
+			"bookName": "Isaías",
+			"fullName": "El libro de Isaías"
+		},
+		"Jer": {
+			"bookName": "Jeremías",
+			"fullName": "El libro de Jeremías"
+		},
+		"Lam": {
+			"bookName": "Lamentaciones",
+			"fullName": "Las Lamentaciones de Jeremías"
+		},
+		"Ezek": {
+			"bookName": "Ezequiel",
+			"fullName": "El libro de Ezequiel"
+		},
+		"Dan": {
+			"bookName": "Daniel",
+			"fullName": "El libro de Daniel"
+		},
+		"Hos": {
+			"bookName": "Oseas",
+			"fullName": "El libro de Oseas"
+		},
+		"Joel": {
+			"bookName": "Joel",
+			"fullName": "El libro de Joel"
+		},
+		"Amos": {
+			"bookName": "Amós",
+			"fullName": "El libro de Amós"
+		},
+		"Obad": {
+			"bookName": "Abdías",
+			"fullName": "El libro de Abdías"
+		},
+		"Jonah": {
+			"bookName": "Jonás",
+			"fullName": "El libro de Jonás"
+		},
+		"Mic": {
+			"bookName": "Miqueas",
+			"fullName": "El libro de Miqueas"
+		},
+		"Nah": {
+			"bookName": "Nahúm",
+			"fullName": "El libro de Nahúm"
+		},
+		"Hab": {
+			"bookName": "Habacuc",
+			"fullName": "El libro de Habacuc"
+		},
+		"Zeph": {
+			"bookName": "Sofonías",
+			"fullName": "El libro de Sofonías"
+		},
+		"Hag": {
+			"bookName": "Ageo",
+			"fullName": "El libro de Ageo"
+		},
+		"Zech": {
+			"bookName": "Zacarías",
+			"fullName": "El libro de Zacarías"
+		},
+		"Mal": {
+			"bookName": "Malaquías",
+			"fullName": "El libro de Malaquías"
+		},
+		"Tob": {
+			"bookName": "Tobit",
+			"fullName": "El libro de Tobit"
+		},
+		"Jdt": {
+			"bookName": "Judit",
+			"fullName": "El libro de Judit"
+		},
+		"EsthGr": {
+			"bookName": "Ester (griego)",
+			"fullName": "Ester según la Septuaginta griega"
+		},
+		"Wis": {
+			"bookName": "Sabiduría",
+			"fullName": "La Sabiduría de Salomón"
+		},
+		"Sir": {
+			"bookName": "Eclesiástico (Sirácida)",
+			"fullName": "Eclesiástico, o la Sabiduría de Jesús, hijo de Sirac"
+		},
+		"Bar": {
+			"bookName": "Baruc",
+			"fullName": "El libro de Baruc (con la Carta de Jeremías como capítulo 6)"
+		},
+		"DanGr": {
+			"bookName": "Daniel (griego)",
+			"fullName": "Daniel (griego), con la Oración de Azarías, Susana, y Bel y el dragón"
+		},
+		"1Macc": {
+			"bookName": "1 Macabeos",
+			"fullName": "El primer libro de los Macabeos"
+		},
+		"2Macc": {
+			"bookName": "2 Macabeos",
+			"fullName": "El segundo libro de los Macabeos"
+		},
+		"1Esd": {
+			"bookName": "1 Esdras (griego)",
+			"fullName": "El primer libro de Esdras (griego)"
+		},
+		"PrMan": {
+			"bookName": "Oración de Manasés",
+			"fullName": "La Oración de Manasés"
+		},
+		"AddPs": {
+			"bookName": "Salmo 151",
+			"fullName": "Salmo 151 (adicional)"
+		},
+		"3Macc": {
+			"bookName": "3 Macabeos",
+			"fullName": "El tercer libro de los Macabeos"
+		},
+		"2Esd": {
+			"bookName": "2 Esdras (latino)",
+			"fullName": "El segundo libro de Esdras (latino)"
+		},
+		"4Macc": {
+			"bookName": "4 Macabeos",
+			"fullName": "El cuarto libro de los Macabeos"
+		},
+		"Matt": {
+			"bookName": "Mateo",
+			"fullName": "El Evangelio según Mateo"
+		},
+		"Mark": {
+			"bookName": "Marcos",
+			"fullName": "El Evangelio según Marcos"
+		},
+		"Luke": {
+			"bookName": "Lucas",
+			"fullName": "El Evangelio según Lucas"
+		},
+		"John": {
+			"bookName": "Juan",
+			"fullName": "El Evangelio según Juan"
+		},
+		"Acts": {
+			"bookName": "Hechos",
+			"fullName": "Los Hechos de los Apóstoles"
+		},
+		"Rom": {
+			"bookName": "Romanos",
+			"fullName": "La carta de Pablo a los romanos"
+		},
+		"1Cor": {
+			"bookName": "1 Corintios",
+			"fullName": "La primera carta de Pablo a los corintios"
+		},
+		"2Cor": {
+			"bookName": "2 Corintios",
+			"fullName": "La segunda carta de Pablo a los corintios"
+		},
+		"Gal": {
+			"bookName": "Gálatas",
+			"fullName": "La carta de Pablo a los gálatas"
+		},
+		"Eph": {
+			"bookName": "Efesios",
+			"fullName": "La carta de Pablo a los efesios"
+		},
+		"Phil": {
+			"bookName": "Filipenses",
+			"fullName": "La carta de Pablo a los filipenses"
+		},
+		"Col": {
+			"bookName": "Colosenses",
+			"fullName": "La carta de Pablo a los colosenses"
+		},
+		"1Thess": {
+			"bookName": "1 Tesalonicenses",
+			"fullName": "La primera carta de Pablo a los tesalonicenses"
+		},
+		"2Thess": {
+			"bookName": "2 Tesalonicenses",
+			"fullName": "La segunda carta de Pablo a los tesalonicenses"
+		},
+		"1Tim": {
+			"bookName": "1 Timoteo",
+			"fullName": "La primera carta de Pablo a Timoteo"
+		},
+		"2Tim": {
+			"bookName": "2 Timoteo",
+			"fullName": "La segunda carta de Pablo a Timoteo"
+		},
+		"Titus": {
+			"bookName": "Tito",
+			"fullName": "La carta de Pablo a Tito"
+		},
+		"Phlm": {
+			"bookName": "Filemón",
+			"fullName": "La carta de Pablo a Filemón"
+		},
+		"Heb": {
+			"bookName": "Hebreos",
+			"fullName": "La carta a los hebreos"
+		},
+		"Jas": {
+			"bookName": "Santiago",
+			"fullName": "La carta de Santiago"
+		},
+		"1Pet": {
+			"bookName": "1 Pedro",
+			"fullName": "La primera carta de Pedro"
+		},
+		"2Pet": {
+			"bookName": "2 Pedro",
+			"fullName": "La segunda carta de Pedro"
+		},
+		"1John": {
+			"bookName": "1 Juan",
+			"fullName": "La primera carta de Juan"
+		},
+		"2John": {
+			"bookName": "2 Juan",
+			"fullName": "La segunda carta de Juan"
+		},
+		"3John": {
+			"bookName": "3 Juan",
+			"fullName": "La tercera carta de Juan"
+		},
+		"Jude": {
+			"bookName": "Judas",
+			"fullName": "La carta de Judas"
+		},
+		"Rev": {
+			"bookName": "Apocalipsis",
+			"fullName": "El Apocalipsis de Juan"
+		}
+	}
+}

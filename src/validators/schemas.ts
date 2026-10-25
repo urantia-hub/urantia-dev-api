@@ -249,6 +249,25 @@ export const TranslationLabelSchema = z
 		"Present only when the text is a translation: a machine made it, and it is released as CC0. No person has reviewed it.",
 	);
 
+// The words of the works catalog (titles, traditions, summaries, labels) in English or Spanish.
+export const CatalogLanguage = z
+	.enum(["eng", "es", "fr", "pt", "de", "ko"])
+	.default("eng")
+	.describe(
+		"Language of the catalog words: titles, traditions, summaries, unit and division labels, chapter titles, and Bible book names. `es` gives them in Spanish: a machine translation, released as CC0, with a `catalogTranslation` label. The text of each work stays English (`textLanguage`). A word with no Spanish stays English, and the other languages give English.",
+	);
+
+export const CatalogLangQuery = z.object({ lang: CatalogLanguage.optional() });
+
+const catalogMarks = {
+	textLanguage: z
+		.literal("eng")
+		.describe("The language of the text of the work. The source works are English."),
+	catalogTranslation: TranslationLabelSchema.optional().describe(
+		"Present only when the catalog words are a translation (`lang=es`): a machine made them, released as CC0.",
+	),
+};
+
 export const ParagraphSchema = z.object({
 	id: z.string(),
 	standardReferenceId: z.string(),
@@ -600,6 +619,7 @@ export const BibleBookSchema = z.object({
 	canon: BibleCanon,
 	chapterCount: z.number().int(),
 	verseCount: z.number().int(),
+	catalogTranslation: catalogMarks.catalogTranslation,
 });
 
 // A chapter contains its book metadata plus all of its verses.
@@ -723,7 +743,8 @@ export const ScriptureCorpusSchema = ScriptureCorpusSummarySchema.extend({
 		.number()
 		.int()
 		.describe("Numbers in a full ref: 1 for `Dhp 183`, 2 for `BG 2.47`, 3 for `Epictetus 3.22.5`"),
-	notes: z.string().nullable().describe("How the text is numbered or selected"),
+	notes: z.string().nullable().describe("How the text is numbered or selected (English)"),
+	...catalogMarks,
 });
 
 export const ScriptureCorporaResponse = z.object({
@@ -982,6 +1003,7 @@ export const WorkSchema = z.object({
 	unitLabel: z.string().describe('The word for one unit of the work: "verse", "section", "pauri".'),
 	units: z.number().int(),
 	urantiaSection: z.string().nullable(),
+	...catalogMarks,
 });
 
 export const WorksResponse = z.object({ data: z.array(WorkSchema) });
@@ -996,7 +1018,7 @@ export const WorkUrantiaParallel = z.object({
 });
 
 export const WorkResultSchema = z.object({
-	work: z.object({ id: z.string(), title: z.string(), tradition: z.string() }),
+	work: z.object({ id: z.string(), title: z.string(), tradition: z.string(), ...catalogMarks }),
 	reference: z
 		.string()
 		.describe('"John 3:16", "Dhp 183", "BG 2.47-49" (a chunk in semantic search).'),

@@ -7,6 +7,7 @@ import { createApp } from "../lib/app.ts";
 import { BIBLE_BOOKS, formatBibleReference, resolveBibleBook } from "../lib/bible-canonicalizer.ts";
 import { problemJson } from "../lib/errors.ts";
 import { getCachedEmbedding, runAfter, setCachedEmbedding } from "../lib/search-cache.ts";
+import { localizeBook } from "../lib/works-i18n.ts";
 import {
 	BibleBookParam,
 	BibleBookResponse,
@@ -18,6 +19,7 @@ import {
 	BibleVerseParagraphsResponse,
 	BibleVerseParam,
 	BibleVerseResponse,
+	CatalogLangQuery,
 	ErrorResponse,
 } from "../validators/schemas.ts";
 
@@ -35,7 +37,8 @@ const listBooksRoute = createRoute({
 	tags: ["Bible"],
 	summary: "List all 81 Bible books",
 	description:
-		"Returns metadata for every book in the World English Bible (eng-web), including chapter and verse counts. Books are returned in canonical ecumenical order: 39 Old Testament, 15 deuterocanonical, 27 New Testament.",
+		"Returns metadata for every book in the World English Bible (eng-web), including chapter and verse counts. Books are returned in canonical ecumenical order: 39 Old Testament, 15 deuterocanonical, 27 New Testament. With `lang=es` the book names are Spanish (a machine translation, CC0), with a `catalogTranslation` label.",
+	request: { query: CatalogLangQuery },
 	responses: {
 		200: {
 			description: "List of all Bible books",
@@ -79,7 +82,8 @@ bibleRoute.openapi(listBooksRoute, async (c) => {
 		};
 	});
 
-	return c.json({ data }, 200);
+	const lang = c.req.valid("query").lang ?? "eng";
+	return c.json({ data: data.map((b) => localizeBook(b, lang)) }, 200);
 });
 
 // GET /bible/{bookCode} — single book metadata
