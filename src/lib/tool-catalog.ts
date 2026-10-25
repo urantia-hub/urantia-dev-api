@@ -50,6 +50,14 @@ const includeUrantiaParallelsProp: JSONSchemaProperty = {
 	default: false,
 };
 
+const catalogLangProp: JSONSchemaProperty = {
+	type: "string",
+	description:
+		'Language of the catalog words: titles, traditions, summaries, labels, chapter titles, and Bible book names. "es" gives them in Spanish (a machine translation, CC0) with a `catalogTranslation` label. The text of each work stays English (`textLanguage`). Default "eng".',
+	enum: ["eng", "es"],
+	default: "eng",
+};
+
 const langProp: JSONSchemaProperty = {
 	type: "string",
 	description:
@@ -323,7 +331,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 		name: "list_bible_books",
 		description:
 			"List all 81 books of the World English Bible (eng-web): 39 OT + 15 deuterocanonical + 27 NT. Each entry includes OSIS book code, full name, abbreviation, canonical order, canon, and chapter/verse counts.",
-		parameters: { type: "object", properties: {} },
+		parameters: { type: "object", properties: { lang: catalogLangProp } },
 	},
 	{
 		name: "get_bible_book",
@@ -414,7 +422,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 		name: "list_works",
 		description:
 			'List the works beside the Urantia Papers: the Bible (World English Bible) and 21 texts of the world\'s religions and traditions, each in the US public domain. `id` is what the other work tools take ("bible" or a slug such as "dhammapada").',
-		parameters: { type: "object", properties: {} },
+		parameters: { type: "object", properties: { lang: catalogLangProp } },
 	},
 	{
 		name: "search_works",
@@ -432,7 +440,11 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 		name: "read_work",
 		description:
 			'Read a work by reference: one unit, a short range of up to 50, or a chapter, each with its link. The prefix is optional ("BG 2.47" and "2.47" are the same); for the Bible, name the book ("John 3:16").',
-		parameters: { type: "object", properties: workRefProps, required: ["work", "ref"] },
+		parameters: {
+			type: "object",
+			properties: { ...workRefProps, lang: catalogLangProp },
+			required: ["work", "ref"],
+		},
 	},
 	{
 		name: "get_work_urantia_parallels",

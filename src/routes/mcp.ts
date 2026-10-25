@@ -42,6 +42,7 @@ import {
 	semanticSearchWorks,
 	workParallels,
 } from "../lib/works.ts";
+import { localizeBook, localizeWork } from "../lib/works-i18n.ts";
 import { detectRefFormat } from "../types/node.ts";
 import { verseColumns } from "./bible.ts";
 import { CitationStyleEnum, citeParagraph } from "./cite.ts";
@@ -108,6 +109,24 @@ const langInput = z
 	);
 
 type Lang = z.infer<typeof langInput>;
+
+// The works tools give the catalog words in Spanish with `lang: "es"`; the text stays English.
+const catalogLangInput = z
+	.enum(["eng", "es"])
+	.default("eng")
+	.describe(
+		'Language of the catalog words: titles, traditions, summaries, labels, chapter titles, and Bible book names. "es" gives them in Spanish (a machine translation, CC0) with a `catalogTranslation` label. The text of each work stays English (`textLanguage`). Default "eng".',
+	);
+const catalogMarks = {
+	textLanguage: z.literal("eng"),
+	catalogTranslation: z
+		.object({
+			method: z.literal("machine"),
+			license: z.literal("CC0-1.0"),
+			review: z.string().nullable(),
+		})
+		.optional(),
+};
 
 // Puts the translated text and titles on paragraph rows. English rows stay as they are.
 async function localizeParagraphs<
@@ -220,6 +239,7 @@ const bibleBookSchema = z.object({
 	canon: bibleCanonEnum,
 	chapterCount: z.number().int(),
 	verseCount: z.number().int(),
+	catalogTranslation: catalogMarks.catalogTranslation,
 });
 
 const searchResultSchema = paragraphResultSchema.extend({
@@ -279,9 +299,10 @@ const workSchema = z.object({
 	unitLabel: z.string(),
 	units: z.number().int(),
 	urantiaSection: z.string().nullable(),
+	...catalogMarks,
 });
 const workResultSchema = z.object({
-	work: z.object({ id: z.string(), title: z.string(), tradition: z.string() }),
+	work: z.object({ id: z.string(), title: z.string(), tradition: z.string(), ...catalogMarks }),
 	reference: z.string(),
 	text: z.string(),
 	url: z.string().nullable(),
@@ -1157,11 +1178,11 @@ function createMcpServer() {
 			title: "List Bible Books",
 			description:
 				"List all 81 books of the World English Bible (eng-web): 39 Old Testament + 15 deuterocanonical + 27 New Testament. Each entry includes OSIS book code, full name, abbreviation, canonical order, canon, and chapter/verse counts.",
-			inputSchema: {},
+			inputSchema: { lang: catalogLangInput },
 			outputSchema: { books: z.array(bibleBookSchema) },
 			annotations: { title: "List Bible Books", ...READ_ONLY_LOCAL },
 		},
-		async () => {
+		async ({ lang }) => {
 			const { db } = getDb();
 			const rows = await db
 				.select({
@@ -1185,7 +1206,7 @@ function createMcpServer() {
 					verseCount: Number(c?.verseCount ?? 0),
 				};
 			});
-			return structured({ books });
+			return structured({ books: books.map((b) => localizeBook(b, lang)) });
 		},
 	);
 
@@ -1741,13 +1762,13 @@ function createMcpServer() {
 			title: "List the Works",
 			description:
 				'The works beside the Urantia Papers: the Bible (World English Bible) and 21 texts of the world\'s religions and traditions, each in the US public domain. `id` is what the other works.* tools take ("bible" or a slug such as "dhammapada"); `unitLabel` is the word for one unit of each work.',
-			inputSchema: {},
+			inputSchema: { lang: catalogLangInput },
 			outputSchema: { data: z.array(workSchema) },
 			annotations: { title: "List the Works", ...READ_ONLY_LOCAL },
 		},
-		async () => {
+		async ({ lang }) => {
 			const { db } = getDb();
-			return structured({ data: await listWorks(db) });
+			return structured({ data: (await listWorks(db)).map((w) => localizeWork(w, lang)) });
 		},
 	);
 
@@ -1818,18 +1839,22 @@ function createMcpServer() {
 			title: "Read a Work",
 			description:
 				'The units of a reference in one work, in order, at most 200, each with its link: one verse or passage, a short range of up to 50, or a chapter. The prefix is optional ("BG 2.47" and "2.47" are the same); for the Bible, name the book ("John 3:16").',
-			inputSchema: workRefInput,
+			inputSchema: { ...workRefInput, lang: catalogLangInput },
 			outputSchema: { data: z.array(workResultSchema) },
 			annotations: { title: "Read a Work", ...READ_ONLY_LOCAL },
 		},
-		async ({ work, ref }) => {
+		async ({ work, ref, lang }) => {
 			const { db } = getDb();
 			if (!(await resolveWork(db, work))) return errorResult(`Work "${work}" not found`);
 			const units = await readWork(db, ref, work);
 			if (!units) return errorResult(`Invalid reference "${ref}" for "${work}"`);
 			if (units.length === 0) return errorResult(`${ref} not found in "${work}"`);
 			return structured({
-				data: units.map(({ chunk: _, ...u }) => ({ ...u, urantiaParallels: [] })),
+				data: units.map(({ chunk: _, ...u }) => ({
+					...u,
+					work: localizeWork(u.work, lang),
+					urantiaParallels: [],
+				})),
 			});
 		},
 	);
