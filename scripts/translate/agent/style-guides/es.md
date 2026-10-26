@@ -25,4 +25,4 @@
 2. Use the opening marks ¿ and ¡.
 3. For a parenthetical phrase, use the long dash — without spaces, as in the English, or commas when they read better.
 4. Numbers: no separator in a number of four digits (1934). For five digits or more, use a space as the thousands separator (200 000), as the RAE recommends. Use a comma for decimals.
-5. Keep the English capitals for coined terms. Use lowercase for days, months, languages, and nationalities, as Spanish requires.
+5. Keep the English capitals for coined terms. Use lowercase for days, months, languages, and nationalities, as Spanish requires. The coined names of peoples and races are like nationalities: write "los noditas", "los anditas", "las razas sangiks", "los clanes andónicos" in lowercase (fixed 2026-10-26).

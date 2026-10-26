@@ -1151,7 +1151,7 @@
 		}
 	},
 	"adamites": {
-		"name": "Adamitas",
+		"name": "adamitas",
 		"aliases": [
 			"pueblos adámicos",
 			"raza violeta",
@@ -1210,7 +1210,7 @@
 		}
 	},
 	"adamsonites": {
-		"name": "Adamsonitas",
+		"name": "adamsonitas",
 		"aliases": [
 			"adamsonita"
 		],
@@ -2030,7 +2030,7 @@
 		}
 	},
 	"amadonites": {
-		"name": "Amadonitas",
+		"name": "amadonitas",
 		"aliases": [
 			"amadonita"
 		],
@@ -2440,10 +2440,10 @@
 		}
 	},
 	"andites": {
-		"name": "Anditas",
+		"name": "anditas",
 		"aliases": [
-			"Andita",
-			"post-Andita"
+			"andita",
+			"post-andita"
 		],
 		"meaning": "The best all-round human stock since the violet race, a blend of Adamite and Nodite remnants with the best of other races (78:4.3, 80:4.5).",
 		"confidence": "high",
@@ -2486,13 +2486,13 @@
 		}
 	},
 	"andonites": {
-		"name": "Andonitas",
+		"name": "andonitas",
 		"aliases": [
-			"Andonita",
+			"andonita",
 			"razas de Andon",
-			"Andónico",
+			"andónico",
 			"tribus de Andon",
-			"clanes Andónicos"
+			"clanes andónicos"
 		],
 		"meaning": "The first human race, descendants of Andon and Fonta, swarthy hunters who resembled the present-day Eskimo (63:4.1, 63:5.6).",
 		"confidence": "high",
@@ -4471,7 +4471,7 @@
 		"name": "tribus de Badonan",
 		"aliases": [
 			"hijos de Badonan",
-			"Badonitas",
+			"badonitas",
 			"pueblos de Badonan"
 		],
 		"meaning": "The descendants of Badonan in the highlands northwest of India who kept traditions of Andon and from whose improved stock the Neanderthal race came (64:2.4, 64:3.5).",
@@ -10974,7 +10974,7 @@
 		}
 	},
 	"cutites": {
-		"name": "Cutitas",
+		"name": "cutitas",
 		"meaning": "One of the groups that occupied the first garden after Adam left it (73:7.1).",
 		"confidence": "medium",
 		"formConfidence": "medium",
@@ -13220,7 +13220,7 @@
 		}
 	},
 	"edenites": {
-		"name": "Edenitas",
+		"name": "edenitas",
 		"meaning": "The people who lived in the Garden of Eden under Adam's administration (74:5.6, 73:5.4).",
 		"confidence": "high",
 		"formConfidence": "high",
@@ -33239,7 +33239,7 @@
 		}
 	},
 	"nerites": {
-		"name": "Neritas",
+		"name": "neritas",
 		"meaning": "The final eruption of the Caspian group of the Mesopotamian descendants of the blended Andonite and Andite races, in the nomad rampage of 2500 to 2000 B.C. (78:8.11).",
 		"confidence": "high",
 		"formConfidence": "high",
@@ -33657,7 +33657,7 @@
 		}
 	},
 	"nodites": {
-		"name": "Noditas",
+		"name": "noditas",
 		"aliases": [
 			"nodita"
 		],
@@ -41274,7 +41274,7 @@
 		}
 	},
 	"sangik-family": {
-		"name": "familia Sangik",
+		"name": "familia sangik",
 		"meaning": "The family of unusually intelligent children born suddenly to Badonite parents, the ancestors of all six colored races of Urantia (64:5.2, 64:7.1).",
 		"confidence": "high",
 		"formConfidence": "high",
@@ -41288,9 +41288,8 @@
 		}
 	},
 	"sangiks": {
-		"name": "Sangiks",
+		"name": "sangiks",
 		"aliases": [
-			"Sangik",
 			"sangik"
 		],
 		"meaning": "The six colored races, all descendants of the Sangik family that appeared among the highland Badonites (64:5.2, 64:6.17).",
@@ -46548,7 +46547,7 @@
 		}
 	},
 	"suntites": {
-		"name": "Suntitas",
+		"name": "suntitas",
 		"meaning": "One of the peoples (with the Nodites and Cutites) who occupied the first garden after Adam left it (73:7.1).",
 		"confidence": "high",
 		"formConfidence": "high",
@@ -48644,7 +48643,7 @@
 		}
 	},
 	"thor-andite": {
-		"name": "Thor (Andita)",
+		"name": "Thor (andita)",
 		"meaning": "The victorious commander of the northern armies in the final battle of the Somme, later a hero and a god to some northern white tribes (80:5.4).",
 		"confidence": "high",
 		"formConfidence": "high",
@@ -52323,7 +52322,7 @@
 		}
 	},
 	"vanites": {
-		"name": "Vanitas",
+		"name": "vanitas",
 		"meaning": "The followers and descendants of Van and his early associates, for whom Ararat became a sacred mountain (77:4.11).",
 		"confidence": "high",
 		"formConfidence": "medium",
