@@ -63,8 +63,8 @@ const WORDS = {
 	es: {
 		subject: (code: string) => `${code} es tu código de UrantiaHub`,
 		title: "Tu código para iniciar sesión",
-		enter: "Escribe este código en la página para iniciar sesión. Sirve durante 10 minutos.",
-		press: "O pulsa el botón, en el mismo navegador donde empezaste.",
+		enter: "Escribe este código en la página para iniciar sesión. Es válido por 10 minutos.",
+		press: "O presiona el botón, en el mismo navegador donde empezaste.",
 		button: "Iniciar sesión",
 		asked: (app: string) => `Pediste iniciar sesión en ${app}. `,
 		ignore: "Si no lo pediste, puedes ignorar este correo.",
