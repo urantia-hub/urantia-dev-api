@@ -47,7 +47,8 @@ describe("the Spanish sign-in email", () => {
 		expect(mail.html).toContain("Pediste iniciar sesión en <b>Our Paper Voices</b>.");
 		for (const part of [mail.html, mail.text]) {
 			expect(part).toContain("481920");
-			expect(part).toContain("Sirve durante 10 minutos.");
+			expect(part).toContain("Es válido por 10 minutos.");
+			expect(part).not.toContain("pulsa");
 			expect(part).toContain("en el mismo navegador donde empezaste");
 			expect(part).toContain("Si no lo pediste, puedes ignorar este correo.");
 			expect(part).toContain("Esta dirección no recibe respuestas. Escribe a hi@urantiahub.com.");
