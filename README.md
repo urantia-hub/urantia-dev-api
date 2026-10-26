@@ -1,6 +1,6 @@
 # Urantia Papers API
 
-[![smithery badge](https://smithery.ai/badge/urantiahub/urantia-papers)](https://smithery.ai/servers/urantiahub/urantia-papers)
+[![LightNow capabilities](https://lightnow.ai/badge/dev.urantia/urantia-papers)](https://lightnow.ai/servers/dev.urantia/urantia-papers)
 
 A developer and AI-agent friendly API for the Urantia Papers. Provides full-text search, structured content access, and audio URLs for all 14,500+ paragraphs across 197 papers.
 
