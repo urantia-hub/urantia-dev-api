@@ -11,6 +11,7 @@ import { finalizeOpenApi } from "./lib/openapi-finalize.ts";
 import { authMiddleware } from "./middleware/auth.ts";
 import { cacheControl } from "./middleware/cache.ts";
 import { corsMiddleware } from "./middleware/cors.ts";
+import { edgeCache } from "./middleware/edge-cache.ts";
 import { loggerMiddleware } from "./middleware/logger.ts";
 import { ownAppGate, rateLimiter } from "./middleware/rate-limit.ts";
 import { scannerBlock } from "./middleware/security.ts";
@@ -73,6 +74,7 @@ app.use("*", loggerMiddleware);
 app.use("*", rateLimiter({ windowMs: 60_000, max: 200, ownAppsMax: 3000 }));
 app.use("*", authMiddleware);
 app.use("*", ownAppGate);
+app.use("*", edgeCache());
 app.use("*", cacheControl());
 
 // Health check
