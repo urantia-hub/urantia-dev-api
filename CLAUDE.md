@@ -109,6 +109,7 @@ With `lang=es` the vector is the same (the KV key stays the query), the rows get
   - `cite.ts`, `og.ts`, `embeddings.ts`, `mcp.ts` — Utility routes
   - `feedback.ts` — Public `POST /feedback` (see Feedback)
 - `src/middleware/` — CORS, structured logging, rate limiting, cache control, JWT auth
+  - `edge-cache.ts` — Stores 200 answers of `/papers` and `/toc` in `caches.default` for 1 hour per location. Cloudflare does not store a Worker's own answer by `s-maxage`, so without it each request reached the DB (burst of 2026-10-25)
   - `auth.ts` — Dual JWT validation: Supabase JWKS (ECC P-256) + app tokens (ES256 with our own key), lazy user creation
 - `src/validators/` — Zod schemas for request/response
   - `schemas.ts` — Public endpoint schemas
