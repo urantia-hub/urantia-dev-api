@@ -11,6 +11,8 @@ type EdgeCache = {
 const CACHED = /^\/(papers(\/|$)|toc$)/;
 // A data update reaches readers within an hour.
 const STORED_FOR = "public, max-age=3600";
+// Headers that belong to one caller, never to the stored copy.
+const CALLER_HEADERS = ["X-RateLimit-Limit", "X-RateLimit-Remaining", "X-RateLimit-Reset"];
 
 const defaultCache = (): EdgeCache | undefined =>
 	(globalThis as { caches?: { default?: EdgeCache } }).caches?.default;
@@ -25,7 +27,10 @@ export function edgeCache(getCache: () => EdgeCache | undefined = defaultCache):
 		const hit = await cache.match(key);
 		if (hit) {
 			// A copy, so that the middleware outside can still add its headers.
-			c.res = new Response(hit.body, hit);
+			const res = new Response(hit.body, hit);
+			// The headers set for this caller before this point, such as the rate limit.
+			for (const [name, value] of c.res.headers) res.headers.set(name, value);
+			c.res = res;
 			return;
 		}
 
@@ -33,6 +38,7 @@ export function edgeCache(getCache: () => EdgeCache | undefined = defaultCache):
 		if (c.res.status !== 200) return;
 		const copy = new Response(c.res.clone().body, c.res);
 		copy.headers.set("Cache-Control", STORED_FOR);
+		for (const name of CALLER_HEADERS) copy.headers.delete(name);
 		const stored = cache.put(key, copy);
 		try {
 			c.executionCtx.waitUntil(stored);

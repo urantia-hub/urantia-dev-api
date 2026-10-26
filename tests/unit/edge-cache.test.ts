@@ -82,6 +82,28 @@ describe("the edge cache", () => {
 		expect(calls()).toBe(2);
 	});
 
+	it("gives each caller its own rate limit headers on a hit", async () => {
+		let n = 0;
+		const cache = fakeCache();
+		const app = new Hono();
+		app.use("*", async (c, next) => {
+			n += 1;
+			c.header("X-RateLimit-Remaining", String(200 - n));
+			await next();
+		});
+		app.use(
+			"*",
+			edgeCache(() => cache),
+		);
+		app.get("/papers/:id", (c) => c.json({ id: c.req.param("id") }));
+		await get(app, "/papers/5");
+		const hit = await get(app, "/papers/5");
+		expect(hit.headers.get("x-ratelimit-remaining")).toBe("198");
+		expect(
+			cache.store.get("https://api.urantia.dev/papers/5")?.headers.has("x-ratelimit-remaining"),
+		).toBe(false);
+	});
+
 	it("works with no cache, as in a local run", async () => {
 		const app = new Hono();
 		app.use(
