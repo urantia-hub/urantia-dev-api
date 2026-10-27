@@ -3,12 +3,21 @@
   "name": "dev.urantia/urantia-papers",
   "title": "Urantia Papers",
   "description": "The Urantia Papers in English and Spanish, with cross-references to the Bible and 21 texts. No key.",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "repository": {
     "url": "https://github.com/urantia-hub/urantia-dev-api",
     "source": "github"
   },
   "websiteUrl": "https://urantia.dev",
+  "icons": [
+    {
+      "src": "https://urantia.dev/icon.png",
+      "mimeType": "image/png",
+      "sizes": [
+        "256x256"
+      ]
+    }
+  ],
   "remotes": [
     {
       "type": "streamable-http",
