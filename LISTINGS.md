@@ -35,7 +35,7 @@ Say "the Urantia Papers" for the text. "The Urantia Book" is the title of the 19
 | Glama, server | https://glama.ai/mcp/servers/urantia-hub/urantia-dev-api | Grade C, capped: hosted only, no local install. Do not add a stdio mode for the grade | 2026-10-03 |
 | Smithery | https://smithery.ai/servers/urantiahub/urantia-papers | Badge is in `README.md` | 2026-10-10 |
 | mcptry | https://mcptry.com/servers/dev.urantia/urantia-papers | Copies the Official MCP Registry entry. Claimed by kelsonic on GitHub: downtime emails go to him. Score 96/100; the icon in registry 1.4.1 fills the last 4 points. Badge is in `README.md` | 2026-10-27 |
-| cursor.directory | https://cursor.directory/plugins/urantia-papers | Published from the plugin repo: MCP server plus the `urantia-research` skill. Verification badge requested. Plugin 1.4.1 (2026-10-29) names the Spanish text in the Claude, Cursor, and Gemini manifests | 2026-10-29 |
+| cursor.directory | https://cursor.directory/plugins/urantia-papers | Published from the plugin repo: MCP server plus the `urantia-research` skill. Verification badge requested. Plugin 1.4.1 (2026-10-29) names the Spanish text in the Claude, Cursor, and Gemini manifests. Plugin 1.4.2 (2026-10-30): the skill says "AI translation" | 2026-10-30 |
 | Free Public APIs | https://www.freepublicapis.com/urantia-papers-api | A robot writes the description from the docs and tests the endpoints daily | 2026-10-10 |
 | public-apis | https://github.com/public-apis/public-apis (Books) | Merged | 2026-10-03 |
 | public-api-lists | https://github.com/public-api-lists/public-api-lists | PR #427, merged 2026-05-19 | 2026-10-03 |
