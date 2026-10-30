@@ -4,7 +4,7 @@ import { EXAMPLE_REQUESTS, EXCLUDED_OPS, type ExampleRequest } from "./example-r
 // Keep this id: the published collection is replaced in place under it.
 export const COLLECTION_ID = "3e09b679-4578-4ef6-82d3-2c16bf7e72e2";
 
-const DESCRIPTION = `Read and search the Urantia Papers by reference, keyword, or meaning, with named entities, narration audio, cross-references to the World English Bible and to public domain texts of the world's religions, and quote verification. No key or account is needed. Every request in this collection is read-only and runs as is.
+const DESCRIPTION = `Read and search the Urantia Papers in English and Spanish by reference, keyword, or meaning, with named entities, narration audio, cross-references to the World English Bible and to public domain texts of the world's religions, and quote verification. No key or account is needed. Every request in this collection is read-only and runs as is.
 
 Docs: https://docs.urantia.dev
 OpenAPI: https://api.urantia.dev/openapi.json
