@@ -12,7 +12,7 @@ The English text is public domain and our translations are CC0. Existing transla
 
 ### Not clean, do not use for translation
 
-- The entity translations and term glossaries of March 2026 (French, German, Korean, Portuguese, Dutch, and the first Spanish ones) were made with the Foundation text as context. They are gone from the repo, its history, and the database (2026-10-29, `data/translations/fixes/2026-10-29-drop-unclean-languages.sql`). `data/translations/es/entity-translations.json` is the clean rebuild of 2026-10-22. For a new language, build it from the clean glossary: `build-entity-translations.ts --lang=<lang> <out.sql>` writes the file and the SQL for its rows.
+- The entity translations and term glossaries of March 2026 (French, German, Korean, Portuguese, Dutch, and the first Spanish ones), and the Dutch entity pairs and glossaries of March 2026 (built from the Foundation's Dutch edition), were made with the Foundation text as context. They are gone from the repo, its history, and the database (2026-10-29, `data/translations/fixes/2026-10-29-drop-unclean-languages.sql`). `data/translations/es/entity-translations.json` is the clean rebuild of 2026-10-22. For a new language, build it from the clean glossary: `build-entity-translations.ts --lang=<lang> <out.sql>` writes the file and the SQL for its rows.
 - `translate-paragraphs.ts`, `translate-titles.ts`, and `translate-entities.ts` are the old pipeline, which put the Foundation text in the prompt. Do not use them. Use the scripts in this folder.
 
 ## Files
