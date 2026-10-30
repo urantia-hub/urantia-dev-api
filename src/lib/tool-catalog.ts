@@ -53,7 +53,7 @@ const includeUrantiaParallelsProp: JSONSchemaProperty = {
 const catalogLangProp: JSONSchemaProperty = {
 	type: "string",
 	description:
-		'Language of the catalog words: titles, traditions, summaries, labels, chapter titles, and Bible book names. "es" gives them in Spanish (a machine translation, CC0) with a `catalogTranslation` label. The text of each work stays English (`textLanguage`). Default "eng".',
+		'Language of the catalog words: titles, traditions, summaries, labels, chapter titles, and Bible book names. "es" gives them in Spanish (an AI translation, CC0) with a `catalogTranslation` label. The text of each work stays English (`textLanguage`). Default "eng".',
 	enum: ["eng", "es"],
 	default: "eng",
 };
@@ -61,7 +61,7 @@ const catalogLangProp: JSONSchemaProperty = {
 const langProp: JSONSchemaProperty = {
 	type: "string",
 	description:
-		'Language of the text and titles. "es" gives the Spanish translation (a machine translation, CC0); each paragraph then has `language` and a `translation` label. Default "eng".',
+		'Language of the text and titles. "es" gives the Spanish translation (an AI translation, CC0); each paragraph then has `language` and a `translation` label. Default "eng".',
 	enum: ["eng", "es"],
 	default: "eng",
 };

@@ -32,7 +32,7 @@ const values = (o: unknown): string[] =>
 	typeof o === "string" ? [o] : o && typeof o === "object" ? Object.values(o).flatMap(values) : [];
 
 describe("the Spanish catalog file", () => {
-	it("is Spanish and machine-made", () => {
+	it("is Spanish and AI-made", () => {
 		expect(catalog.language).toBe("es");
 		expect(catalog.method).toBe("machine");
 		expect(catalog.license).toBe("CC0-1.0");

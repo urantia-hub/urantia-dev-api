@@ -6,7 +6,7 @@ export const SupportedLanguage = z
 	.enum(["eng", "es", "fr", "pt", "de", "ko"])
 	.default("eng")
 	.describe(
-		"Language for translated fields. `es` gives Spanish text for all 197 papers: a machine translation, released as CC0, with a `translation` label on each paragraph. Paper, section, and part titles are in Spanish too, and so are the included Papers parallels and entity names; the Bible and the other works, and the topic labels, stay in English. Entity names exist in es, fr, pt, de, and ko. Each paragraph has a `language` field that states the language of its text.",
+		"Language for translated fields. `es` gives Spanish text for all 197 papers: an AI translation, released as CC0, with a `translation` label on each paragraph. Paper, section, and part titles are in Spanish too, and so are the included Papers parallels and entity names; the Bible and the other works, and the topic labels, stay in English. Entity names exist in es only; the other languages give English. Each paragraph has a `language` field that states the language of its text.",
 	);
 
 // Search reads the text of one language; only English and Spanish have paragraph text.
@@ -254,7 +254,7 @@ export const CatalogLanguage = z
 	.enum(["eng", "es", "fr", "pt", "de", "ko"])
 	.default("eng")
 	.describe(
-		"Language of the catalog words: titles, traditions, summaries, unit and division labels, chapter titles, and Bible book names. `es` gives them in Spanish: a machine translation, released as CC0, with a `catalogTranslation` label. The text of each work stays English (`textLanguage`). A word with no Spanish stays English, and the other languages give English.",
+		"Language of the catalog words: titles, traditions, summaries, unit and division labels, chapter titles, and Bible book names. `es` gives them in Spanish: an AI translation, released as CC0, with a `catalogTranslation` label. The text of each work stays English (`textLanguage`). A word with no Spanish stays English, and the other languages give English.",
 	);
 
 export const CatalogLangQuery = z.object({ lang: CatalogLanguage.optional() });

@@ -2155,7 +2155,7 @@
 							"properties": {
 								"lang": {
 									"type": "string",
-									"description": "Language of the text and titles. \"es\" gives the Spanish translation (a machine translation, CC0); each paragraph then has `language` and a `translation` label. Default \"eng\".",
+									"description": "Language of the text and titles. \"es\" gives the Spanish translation (an AI translation, CC0); each paragraph then has `language` and a `translation` label. Default \"eng\".",
 									"enum": [
 										"eng",
 										"es"
@@ -2176,7 +2176,7 @@
 							"properties": {
 								"lang": {
 									"type": "string",
-									"description": "Language of the text and titles. \"es\" gives the Spanish translation (a machine translation, CC0); each paragraph then has `language` and a `translation` label. Default \"eng\".",
+									"description": "Language of the text and titles. \"es\" gives the Spanish translation (an AI translation, CC0); each paragraph then has `language` and a `translation` label. Default \"eng\".",
 									"enum": [
 										"eng",
 										"es"
@@ -2205,7 +2205,7 @@
 						"properties": {
 							"lang": {
 								"type": "string",
-								"description": "Language of the text and titles. \"es\" gives the Spanish translation (a machine translation, CC0); each paragraph then has `language` and a `translation` label. Default \"eng\".",
+								"description": "Language of the text and titles. \"es\" gives the Spanish translation (an AI translation, CC0); each paragraph then has `language` and a `translation` label. Default \"eng\".",
 								"enum": [
 									"eng",
 									"es"
@@ -2223,7 +2223,7 @@
 						"properties": {
 							"lang": {
 								"type": "string",
-								"description": "Language of the text and titles. \"es\" gives the Spanish translation (a machine translation, CC0); each paragraph then has `language` and a `translation` label. Default \"eng\".",
+								"description": "Language of the text and titles. \"es\" gives the Spanish translation (an AI translation, CC0); each paragraph then has `language` and a `translation` label. Default \"eng\".",
 								"enum": [
 									"eng",
 									"es"
