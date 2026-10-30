@@ -60,7 +60,7 @@ worksRoute.openapi(
 		tags: ["Works"],
 		summary: "List the works beside the Papers",
 		description:
-			'The Bible (World English Bible) and 21 texts of the world\'s religions and traditions, each in the US public domain. `id` is what the other `/works` endpoints take: `"bible"` or a slug such as `"dhammapada"`. `unitLabel` is the word for one unit of each work (verse, section, pauri). With `lang=es` the catalog words are Spanish (a machine translation, CC0), and the text stays English (`textLanguage`).',
+			'The Bible (World English Bible) and 21 texts of the world\'s religions and traditions, each in the US public domain. `id` is what the other `/works` endpoints take: `"bible"` or a slug such as `"dhammapada"`. `unitLabel` is the word for one unit of each work (verse, section, pauri). With `lang=es` the catalog words are Spanish (an AI translation, CC0), and the text stays English (`textLanguage`).',
 		request: { query: CatalogLangQuery },
 		responses: {
 			200: { description: "The works", content: { "application/json": { schema: WorksResponse } } },
@@ -198,7 +198,7 @@ worksRoute.openapi(
 		tags: ["Works"],
 		summary: "Read a work by reference",
 		description:
-			"The units of a reference, in order, at most 200: one verse or passage, a short range of up to 50, or a whole chapter. Each has its link. The prefix of the reference is optional: for the Bhagavad Gita, `BG 2.47` and `2.47` are the same; for the Bible, name the book (`John 3:16`, `Jn 3:16`). With `lang=es` the catalog words are Spanish (a machine translation, CC0), and the text stays English (`textLanguage`).",
+			"The units of a reference, in order, at most 200: one verse or passage, a short range of up to 50, or a whole chapter. Each has its link. The prefix of the reference is optional: for the Bhagavad Gita, `BG 2.47` and `2.47` are the same; for the Bible, name the book (`John 3:16`, `Jn 3:16`). With `lang=es` the catalog words are Spanish (an AI translation, CC0), and the text stays English (`textLanguage`).",
 		request: { params: WorkRefParam, query: CatalogLangQuery },
 		responses: {
 			200: {

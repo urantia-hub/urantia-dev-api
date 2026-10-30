@@ -37,7 +37,7 @@ const listBooksRoute = createRoute({
 	tags: ["Bible"],
 	summary: "List all 81 Bible books",
 	description:
-		"Returns metadata for every book in the World English Bible (eng-web), including chapter and verse counts. Books are returned in canonical ecumenical order: 39 Old Testament, 15 deuterocanonical, 27 New Testament. With `lang=es` the book names are Spanish (a machine translation, CC0), with a `catalogTranslation` label.",
+		"Returns metadata for every book in the World English Bible (eng-web), including chapter and verse counts. Books are returned in canonical ecumenical order: 39 Old Testament, 15 deuterocanonical, 27 New Testament. With `lang=es` the book names are Spanish (an AI translation, CC0), with a `catalogTranslation` label.",
 	request: { query: CatalogLangQuery },
 	responses: {
 		200: {

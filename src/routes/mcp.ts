@@ -105,7 +105,7 @@ const langInput = z
 	.enum(["eng", "es"])
 	.default("eng")
 	.describe(
-		'Language of the text and titles. "es" gives the Spanish translation (a machine translation, CC0); each paragraph then has `language` and a `translation` label. Default "eng".',
+		'Language of the text and titles. "es" gives the Spanish translation (an AI translation, CC0); each paragraph then has `language` and a `translation` label. Default "eng".',
 	);
 
 type Lang = z.infer<typeof langInput>;
@@ -115,7 +115,7 @@ const catalogLangInput = z
 	.enum(["eng", "es"])
 	.default("eng")
 	.describe(
-		'Language of the catalog words: titles, traditions, summaries, labels, chapter titles, and Bible book names. "es" gives them in Spanish (a machine translation, CC0) with a `catalogTranslation` label. The text of each work stays English (`textLanguage`). Default "eng".',
+		'Language of the catalog words: titles, traditions, summaries, labels, chapter titles, and Bible book names. "es" gives them in Spanish (an AI translation, CC0) with a `catalogTranslation` label. The text of each work stays English (`textLanguage`). Default "eng".',
 	);
 const catalogMarks = {
 	textLanguage: z.literal("eng"),
