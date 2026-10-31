@@ -33,7 +33,7 @@ Say "the Urantia Papers" for the text. "The Urantia Book" is the title of the 19
 | Official MCP Registry | `dev.urantia/urantia-papers` at https://registry.modelcontextprotocol.io | Version 1.4.1 (latest): English and Spanish, with the urantia.dev icon. Namespace is DNS-authenticated. Republish rules are in `CLAUDE.md` | 2026-10-27 |
 | Glama, connector | https://glama.ai/mcp/connectors/dev.urantia/urantia-papers | A grades. `/.well-known/glama.json` claims the maintainer | 2026-10-10 |
 | Glama, server | https://glama.ai/mcp/servers/urantia-hub/urantia-dev-api | Grade C, capped: hosted only, no local install. Do not add a stdio mode for the grade | 2026-10-03 |
-| Smithery | https://smithery.ai/servers/urantiahub/urantia-papers | Badge is in `README.md` | 2026-10-10 |
+| Smithery | https://smithery.ai/servers/urantiahub/urantia-papers | Badge is in `README.md`. Smithery ended its proxy, accounts, and new releases on 2026-10-31; smithery.ai stays as a directory. On 2026-10-30 Kelson saved the standard description (26 tools, English and Spanish) and the urantia.dev icon. The tool tab keeps the scan of May 2026 (13 tools), and the header still showed the old icon. A rescan needs support@smithery.ai; not worth it | 2026-10-30 |
 | mcptry | https://mcptry.com/servers/dev.urantia/urantia-papers | Copies the Official MCP Registry entry. Claimed by kelsonic on GitHub: downtime emails go to him. Score 96/100; the icon in registry 1.4.1 fills the last 4 points. Badge is in `README.md` | 2026-10-27 |
 | cursor.directory | https://cursor.directory/plugins/urantia-papers | Published from the plugin repo: MCP server plus the `urantia-research` skill. Verification badge requested. Plugin 1.4.1 (2026-10-29) names the Spanish text in the Claude, Cursor, and Gemini manifests. Plugin 1.4.2 (2026-10-30): the skill says "AI translation" | 2026-10-30 |
 | Free Public APIs | https://www.freepublicapis.com/urantia-papers-api | A robot writes the description from the docs and tests the endpoints daily | 2026-10-10 |
@@ -62,7 +62,7 @@ The MCP server has 26 tools (was 19) and serves the Bible and 21 other texts. Ke
 | Where | What to change | New text |
 |---|---|---|
 | APIs.io | Wait for the maintainer. Issue #3 on `api-evangelist/urantia-papers` asks for a refresh (opened 2026-10-20). The page shows 19 tools and no `/works`, and the score fell from 40.5 to 32.2 on 2026-10-17 | None |
-| Smithery, Glama | They read the live server or the docs. Check that the tool count shows 26 after a rescan | None |
+| Glama | It reads the live server or the docs. Check that the tool count shows 26 after a rescan. Smithery cannot rescan (see its row) | None |
 | PulseMCP | Re-reads the Registry when it reopens, so the Registry republish covers it | None |
 
 ## Stalled or closed

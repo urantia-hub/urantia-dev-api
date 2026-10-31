@@ -140,7 +140,7 @@ The API includes a built-in [MCP](https://modelcontextprotocol.io) server at `ht
 - **2 resource templates** — `urantia://paper/{id}` (markdown) and `urantia://entity/{id}`
 - **2 prompt templates** — `study_assistant`, `comparative_theology`
 
-One-click install via [Smithery](https://smithery.ai/servers/urantiahub/urantia-papers).
+To add it to Claude, ChatGPT, Gemini, or Grok, see [the assistants guide](https://docs.urantia.dev/assistants). Claude Code, Cursor, Gemini CLI, and Codex can install [the plugin](https://github.com/urantia-hub/urantia-papers-claude-code-plugin).
 
 Clients can discover the server at `https://api.urantia.dev/.well-known/mcp.json` (also `/.well-known/mcp/server-card.json`).
 
