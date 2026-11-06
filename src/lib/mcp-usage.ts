@@ -1,6 +1,7 @@
 import { and, desc, gte, lt, sql } from "drizzle-orm";
 import type { getDb } from "../db/client.ts";
 import { mcpDailyCalls } from "../db/schema.ts";
+import { MCP_TOOL_NAMES } from "./mcp-tool-names.ts";
 
 type Db = ReturnType<typeof getDb>["db"];
 
@@ -20,12 +21,16 @@ const dayOf = (d: Date) => d.toISOString().slice(0, 10);
 const addDays = (day: string, n: number) =>
 	dayOf(new Date(Date.parse(`${day}T00:00:00Z`) + n * 86_400_000));
 
-/** Adds one call for each tool of one request. A tool name is at most 80 characters (summarizeMcp). */
+/** Adds one call for each known tool of one request. */
+/** Families that are left out. Nearly all `sdk-fetch` tool calls are one outside checker that calls every tool on a schedule. */
+export const SKIPPED_FAMILIES: ReadonlySet<string> = new Set(["sdk-fetch"]);
+
 export async function recordMcpCalls(db: Db, family: string, tools: string[], now = new Date()) {
 	const day = dayOf(now);
-	const counts = new Map<string, number>();
-	for (const tool of tools) counts.set(tool, (counts.get(tool) ?? 0) + 1);
-	const rows = [...counts].map(([tool, calls]) => ({ day, family, tool, calls }));
+	// Only the server's own tools, each at most once a request: a caller can send any name and any batch.
+	if (SKIPPED_FAMILIES.has(family)) return;
+	const known = new Set(tools.filter((tool) => MCP_TOOL_NAMES.has(tool)));
+	const rows = [...known].map((tool) => ({ day, family, tool, calls: 1 }));
 	if (!rows.length) return;
 	await db
 		.insert(mcpDailyCalls)
@@ -53,7 +58,8 @@ export function usageFromRows(
 		if (row.family === "openai") entry.chatgpt += row.calls;
 		else entry.other += row.calls;
 	}
-	return { updatedAt: now.toISOString(), days, tools: byTool };
+	const tools = byTool.filter((t) => MCP_TOOL_NAMES.has(t.name));
+	return { updatedAt: now.toISOString(), days, tools };
 }
 
 export async function readMcpUsage(db: Db, now = new Date()): Promise<McpUsage> {

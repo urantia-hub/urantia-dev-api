@@ -1,4 +1,5 @@
 import { describe, expect, it } from "bun:test";
+import { MCP_TOOL_NAMES } from "../../src/lib/mcp-tool-names.ts";
 import { USAGE_DAYS, usageFromRows } from "../../src/lib/mcp-usage.ts";
 
 const now = new Date("2026-11-07T15:00:00Z");
@@ -7,7 +8,7 @@ describe("usageFromRows", () => {
 	it("gives the full days before today, oldest first, with zero for a day with no row", () => {
 		const usage = usageFromRows([], [], now);
 		expect(usage.days).toHaveLength(USAGE_DAYS);
-		expect(usage.days[0].day).toBe("2026-10-10");
+		expect(usage.days[0]?.day).toBe("2026-10-10");
 		expect(usage.days.at(-1)?.day).toBe("2026-11-06");
 		expect(usage.days.every((d) => d.chatgpt === 0 && d.other === 0)).toBe(true);
 	});
@@ -36,5 +37,28 @@ describe("usageFromRows", () => {
 			now,
 		);
 		expect(usage.days.reduce((n, d) => n + d.chatgpt + d.other, 0)).toBe(0);
+	});
+});
+
+describe("MCP_TOOL_NAMES", () => {
+	it("is the list of tools that the MCP server registers", async () => {
+		const source = await Bun.file(`${import.meta.dir}/../../src/routes/mcp.ts`).text();
+		const registered = [...source.matchAll(/registerTool\(\s*"([^"]+)"/g)]
+			.map((m) => m[1] ?? "")
+			.sort();
+		expect(registered.length).toBeGreaterThan(20);
+		expect([...MCP_TOOL_NAMES].sort()).toEqual(registered);
+	});
+
+	it("keeps a tool name that the server does not have out of the answer", () => {
+		const usage = usageFromRows(
+			[],
+			[
+				{ name: "visit-example-com", calls: 900 },
+				{ name: "paragraphs.get", calls: 9 },
+			],
+			now,
+		);
+		expect(usage.tools).toEqual([{ name: "paragraphs.get", calls: 9 }]);
 	});
 });
