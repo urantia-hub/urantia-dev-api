@@ -22,9 +22,13 @@ const addDays = (day: string, n: number) =>
 	dayOf(new Date(Date.parse(`${day}T00:00:00Z`) + n * 86_400_000));
 
 /** Adds one call for each known tool of one request. */
+/** Families that are left out. Nearly all `sdk-fetch` tool calls are one outside checker that calls every tool on a schedule. */
+export const SKIPPED_FAMILIES: ReadonlySet<string> = new Set(["sdk-fetch"]);
+
 export async function recordMcpCalls(db: Db, family: string, tools: string[], now = new Date()) {
 	const day = dayOf(now);
 	// Only the server's own tools, each at most once a request: a caller can send any name and any batch.
+	if (SKIPPED_FAMILIES.has(family)) return;
 	const known = new Set(tools.filter((tool) => MCP_TOOL_NAMES.has(tool)));
 	const rows = [...known].map((tool) => ({ day, family, tool, calls: 1 }));
 	if (!rows.length) return;
