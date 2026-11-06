@@ -7,6 +7,7 @@ import { createApp } from "./lib/app.ts";
 import { ICON_SVG, iconPng } from "./lib/brand-icon.ts";
 import { problemJson } from "./lib/errors.ts";
 import { mcpManifest, mcpServerCard } from "./lib/mcp-discovery.ts";
+import { readMcpUsage } from "./lib/mcp-usage.ts";
 import { finalizeOpenApi } from "./lib/openapi-finalize.ts";
 import { authMiddleware } from "./middleware/auth.ts";
 import { cacheControl } from "./middleware/cache.ts";
@@ -98,6 +99,18 @@ app.get("/health", async (c) => {
 	} catch (err) {
 		c.header("Cache-Control", "no-store");
 		return problemJson(c, 503, err instanceof Error ? err.message : "Database connection failed");
+	}
+});
+
+// MCP tool calls for each day, for urantia.dev/vision. Not in the public spec.
+app.get("/stats/mcp-usage", async (c) => {
+	try {
+		const { db } = getDb(c.env?.HYPERDRIVE);
+		c.header("Cache-Control", "public, max-age=3600");
+		return c.json(await readMcpUsage(db));
+	} catch {
+		c.header("Cache-Control", "no-store");
+		return problemJson(c, 503, "Usage counts are not available now.");
 	}
 });
 

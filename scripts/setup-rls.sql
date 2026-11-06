@@ -47,5 +47,8 @@ ALTER TABLE push_subscriptions       ENABLE ROW LEVEL SECURITY;
 ALTER TABLE notice_log               ENABLE ROW LEVEL SECURITY;
 ALTER TABLE section_days             ENABLE ROW LEVEL SECURITY;
 
+-- Counts of MCP tool calls for each day (urantia.dev/vision)
+ALTER TABLE mcp_daily_calls          ENABLE ROW LEVEL SECURITY;
+
 -- Public feedback (holds optional contact details)
 ALTER TABLE feedback                 ENABLE ROW LEVEL SECURITY;

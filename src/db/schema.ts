@@ -877,6 +877,19 @@ export const sectionDays = pgTable(
 	],
 ).enableRLS();
 
+// --- mcp_daily_calls (MCP tool calls for each day, for urantia.dev/vision) ---
+// Created by scripts/setup-mcp-usage.sql. One row for each day, client family, and tool. Bots are not counted.
+export const mcpDailyCalls = pgTable(
+	"mcp_daily_calls",
+	{
+		day: date("day", { mode: "string" }).notNull(),
+		family: text("family").notNull(),
+		tool: text("tool").notNull(),
+		calls: integer("calls").notNull().default(0),
+	},
+	(t) => [primaryKey({ columns: [t.day, t.family, t.tool] })],
+).enableRLS();
+
 // --- apps (OAuth client registry) ---
 export const apps = pgTable("apps", {
 	id: text("id").primaryKey(), // human-readable slug e.g. "urantiahub"
