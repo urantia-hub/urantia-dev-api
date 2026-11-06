@@ -74,6 +74,9 @@ const searchParagraphFields = {
 	labels: paragraphs.labels,
 } as const;
 
+/** The most references that paragraphs.get takes in one call. */
+const MAX_REFS = 20;
+
 async function findParagraphByRef(db: ReturnType<typeof getDb>["db"], ref: string) {
 	const format = detectRefFormat(ref);
 	switch (format) {
@@ -687,11 +690,20 @@ function createMcpServer() {
 		{
 			title: "Get Paragraph",
 			description:
-				'Look up a specific paragraph by reference. Supports three formats: globalId ("1:2.0.1"), standardReferenceId ("2:0.1"), or paperSectionParagraphId ("2.0.1"). The format is auto-detected.',
+				'Look up paragraphs by reference. Supports three formats: globalId ("1:2.0.1"), standardReferenceId ("2:0.1"), or paperSectionParagraphId ("2.0.1"). The format is auto-detected. To read several paragraphs, pass them all in `refs` in one call (up to 20); for a passage with its neighbors, use paragraphs.context.',
 			inputSchema: {
 				ref: z
 					.string()
-					.describe('Paragraph reference in any format. Examples: "1:2.0.1", "2:0.1", "2.0.1"'),
+					.optional()
+					.describe('One paragraph reference in any format. Examples: "1:2.0.1", "2:0.1", "2.0.1"'),
+				refs: z
+					.array(z.string())
+					.min(1)
+					.max(MAX_REFS)
+					.optional()
+					.describe(
+						`Up to ${MAX_REFS} references, returned in the same order as \`paragraphs\`. Use this in place of several calls. Example: ["2:0.1", "2:0.2", "196:3.2"]`,
+					),
 				include_entities: z.boolean().default(false).describe("Include entity mentions"),
 				include_bible_parallels: z
 					.boolean()
@@ -707,28 +719,50 @@ function createMcpServer() {
 					),
 				lang: langInput,
 			},
-			outputSchema: { paragraph: paragraphResultSchema },
+			outputSchema: {
+				paragraph: paragraphResultSchema.optional(),
+				paragraphs: z.array(paragraphResultSchema).optional(),
+				notFound: z.array(z.string()).optional(),
+			},
 			annotations: { title: "Get Paragraph", ...READ_ONLY_LOCAL },
 		},
-		async ({ ref, include_entities, include_bible_parallels, include_urantia_parallels, lang }) => {
+		async ({
+			ref,
+			refs,
+			include_entities,
+			include_bible_parallels,
+			include_urantia_parallels,
+			lang,
+		}) => {
 			const { db } = getDb();
-			const format = detectRefFormat(ref);
-			if (format === "unknown") {
+			if (!ref && !refs) return errorResult('Give a reference in "ref", or several in "refs".');
+			const list = refs ?? [ref as string];
+			const bad = list.filter((r) => detectRefFormat(r) === "unknown");
+			if (bad.length) {
 				return errorResult(
-					`Invalid reference format: "${ref}". Expected globalId (1:2.0.1), standardReferenceId (2:0.1), or paperSectionParagraphId (2.0.1)`,
+					`Invalid reference format: ${bad.map((r) => `"${r}"`).join(", ")}. Expected globalId (1:2.0.1), standardReferenceId (2:0.1), or paperSectionParagraphId (2.0.1)`,
 				);
 			}
 
-			const result = await findParagraphByRef(db, ref);
-			if (result.length === 0) return errorResult(`Paragraph "${ref}" not found`);
+			const found = await Promise.all(list.map((r) => findParagraphByRef(db, r)));
+			const rows = found.flatMap((r) => r.slice(0, 1));
+			const notFound = list.filter((_, i) => found[i]?.length === 0);
+			if (!rows.length) {
+				return errorResult(
+					list.length === 1
+						? `Paragraph "${list[0]}" not found`
+						: `None of these paragraphs were found: ${list.join(", ")}`,
+				);
+			}
 
-			const enriched = await enrichParagraphs(db, await localizeParagraphs(db, result, lang), {
+			const enriched = await enrichParagraphs(db, await localizeParagraphs(db, rows, lang), {
 				entities: include_entities,
 				bibleParallels: include_bible_parallels,
 				urantiaParallels: include_urantia_parallels,
 				lang,
 			});
-			return structured({ paragraph: enriched[0]! });
+			if (!refs) return structured({ paragraph: enriched[0]! });
+			return structured({ paragraphs: enriched, ...(notFound.length ? { notFound } : {}) });
 		},
 	);
 
@@ -2215,6 +2249,7 @@ mcpRoute.get("/", async (c) => {
 					description: "Look up a paragraph by reference (3 formats auto-detected)",
 					params: [
 						"ref",
+						"refs",
 						"include_entities",
 						"include_bible_parallels",
 						"include_urantia_parallels",
