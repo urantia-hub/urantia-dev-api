@@ -245,6 +245,26 @@ describe("MCP Server", () => {
 		expect(paragraph).not.toHaveProperty("audio");
 	});
 
+	it("paragraphs.get with refs gives each paragraph in order and lists the ones not found", async () => {
+		const results = await callTool(
+			"paragraphs.get",
+			{ refs: ["196:3.2", "2:0.1", "999:9.9"] },
+			"10.0.0.45",
+		);
+		const { paragraphs, notFound, paragraph } = results[0].result.structuredContent;
+		expect(paragraphs.map((p: { standardReferenceId: string }) => p.standardReferenceId)).toEqual([
+			"196:3.2",
+			"2:0.1",
+		]);
+		expect(notFound).toEqual(["999:9.9"]);
+		expect(paragraph).toBeUndefined();
+	});
+
+	it("paragraphs.get needs ref or refs", async () => {
+		const results = await callTool("paragraphs.get", {}, "10.0.0.46");
+		expect(results[0].result.isError).toBe(true);
+	});
+
 	it('paragraphs.get with lang "es" gives Spanish text with a translation label', async () => {
 		const results = await callTool("paragraphs.get", { ref: "1:0.1", lang: "es" }, "10.0.0.41");
 		const { paragraph } = results[0].result.structuredContent;
@@ -262,9 +282,15 @@ describe("MCP Server", () => {
 	});
 
 	it('paragraphs.get with lang "es" translates the included Papers parallels', async () => {
-		const results = await callTool("paragraphs.get", { ref: "1:0.1", lang: "es", include_urantia_parallels: true, include_entities: true }, "10.0.0.44");
+		const results = await callTool(
+			"paragraphs.get",
+			{ ref: "1:0.1", lang: "es", include_urantia_parallels: true, include_entities: true },
+			"10.0.0.44",
+		);
 		const { paragraph } = results[0].result.structuredContent;
-		const top = paragraph.urantiaParallels.find((u: { standardReferenceId: string }) => u.standardReferenceId === "1:1.4");
+		const top = paragraph.urantiaParallels.find(
+			(u: { standardReferenceId: string }) => u.standardReferenceId === "1:1.4",
+		);
 		expect(top.text.startsWith("Cerca del centro")).toBe(true);
 		expect(paragraph.entities.map((e: { name: string }) => e.name)).toContain("Padre Universal");
 	});

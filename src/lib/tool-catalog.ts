@@ -22,8 +22,11 @@ interface JSONSchema {
 }
 
 interface JSONSchemaProperty {
-	type: "string" | "number" | "integer" | "boolean";
+	type: "string" | "number" | "integer" | "boolean" | "array";
 	description: string;
+	items?: { type: "string" };
+	minItems?: number;
+	maxItems?: number;
 	enum?: readonly string[];
 	default?: string | number | boolean;
 	minimum?: number;
@@ -180,17 +183,24 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 	{
 		name: "get_paragraph",
 		description:
-			'Look up a specific paragraph by reference. Supports three formats: globalId ("1:2.0.1"), standardReferenceId ("2:0.1"), or paperSectionParagraphId ("2.0.1"). The format is auto-detected.',
+			'Look up paragraphs by reference. Supports three formats: globalId ("1:2.0.1"), standardReferenceId ("2:0.1"), or paperSectionParagraphId ("2.0.1"). The format is auto-detected. To read several paragraphs, pass them all in `refs` in one call (up to 20); for a passage with its neighbors, use get_paragraph_context.',
 		parameters: {
 			type: "object",
 			properties: {
 				ref: refParamProp,
+				refs: {
+					type: "array",
+					items: { type: "string" },
+					minItems: 1,
+					maxItems: 20,
+					description:
+						'Up to 20 references, returned in the same order. Use this in place of several calls. Example: ["2:0.1", "2:0.2", "196:3.2"]',
+				},
 				include_entities: includeEntitiesProp,
 				include_bible_parallels: includeBibleParallelsProp,
 				include_urantia_parallels: includeUrantiaParallelsProp,
 				lang: langProp,
 			},
-			required: ["ref"],
 		},
 	},
 	{
