@@ -20,10 +20,12 @@ import { BIBLE_BOOKS, formatBibleReference, resolveBibleBook } from "../lib/bibl
 import { enrichWithBibleParallels } from "../lib/bible-parallels.ts";
 import { MCP_ICONS } from "../lib/brand-icon.ts";
 import { enrichWithEntities } from "../lib/entities.ts";
+import type { Logger } from "../lib/logger.ts";
 import { searchPapers } from "../lib/paper-search.ts";
 import { searchPapersEs } from "../lib/paper-search-es.ts";
 import { semanticSearchPapers } from "../lib/paper-semantic.ts";
 import { databaseCandidates } from "../lib/quote-candidates.ts";
+import { mcpSearchFields } from "../lib/request-log.ts";
 import { normalizeQuery } from "../lib/search-text.ts";
 import { normalizeQueryEs } from "../lib/search-text-es.ts";
 import {
@@ -399,7 +401,10 @@ function errorResult(message: string) {
 	};
 }
 
-function createMcpServer() {
+function createMcpServer(logger?: Logger) {
+	// One log line for each search: the result count, never the words.
+	const logSearch = (tool: string, lang: string | undefined, found: Parameters<typeof mcpSearchFields>[2]) =>
+		logger?.info("mcp_search", mcpSearchFields(tool, lang, found));
 	const server = new McpServer({
 		name: "Urantia Papers API",
 		title: "Urantia Papers",
@@ -918,6 +923,7 @@ function createMcpServer() {
 				paperId: paper_id,
 				partId: part_id,
 			});
+			logSearch("search.fulltext", lang, { data: results, meta });
 
 			const enrichedResults = await enrichParagraphs(db, results, {
 				entities: include_entities,
@@ -1002,6 +1008,7 @@ function createMcpServer() {
 			});
 			if (!found) return errorResult("Failed to generate embedding");
 			const { data: results, meta } = found;
+			logSearch("search.semantic", lang, found);
 
 			const enrichedResults = await enrichParagraphs(db, results, {
 				entities: include_entities,
@@ -1828,6 +1835,7 @@ function createMcpServer() {
 				urantiaParallelLimit: urantia_parallel_limit,
 			});
 			if (!found) return errorResult(`Work "${work}" not found`);
+			logSearch("works.search", undefined, found);
 			return structured(found);
 		},
 	);
@@ -1863,6 +1871,7 @@ function createMcpServer() {
 			});
 			if (found === null) return errorResult(`Work "${work}" not found`);
 			if (found === "embedding") return errorResult("Failed to generate embedding");
+			logSearch("works.search.semantic", undefined, found);
 			return structured(found);
 		},
 	);
@@ -2215,7 +2224,7 @@ mcpRoute.get("/.well-known/*", (c) =>
 mcpRoute.get("/", async (c) => {
 	if (c.req.header("Accept")?.includes("text/event-stream")) {
 		// Proper MCP SSE request — let the transport handle it
-		const server = createMcpServer();
+		const server = createMcpServer(c.get("logger"));
 		const transport = new StreamableHTTPTransport({ sessionIdGenerator: undefined });
 		await server.connect(transport);
 		return transport.handleRequest(c);
@@ -2398,14 +2407,14 @@ mcpRoute.get("/", async (c) => {
 
 // POST/DELETE — MCP Streamable HTTP transport
 mcpRoute.post("/", async (c) => {
-	const server = createMcpServer();
+	const server = createMcpServer(c.get("logger"));
 	const transport = new StreamableHTTPTransport({ sessionIdGenerator: undefined });
 	await server.connect(transport);
 	return transport.handleRequest(c);
 });
 
 mcpRoute.delete("/", async (c) => {
-	const server = createMcpServer();
+	const server = createMcpServer(c.get("logger"));
 	const transport = new StreamableHTTPTransport({ sessionIdGenerator: undefined });
 	await server.connect(transport);
 	return transport.handleRequest(c);

@@ -115,3 +115,24 @@ export async function callerFields(
 		is_bot: family === "bot-crawler" || (!!userAgent && AUTOMATED.test(userAgent)),
 	};
 }
+
+type SearchFound = {
+	data: { match?: string; strength?: string }[];
+	meta: { total: number; related?: number; didYouMean?: string | null };
+};
+
+/** The log fields of one MCP search: counts and kinds only. Never the search words. */
+export function mcpSearchFields(tool: string, lang: string | undefined, found: SearchFound) {
+	const kinds: Record<string, number> = {};
+	for (const row of found.data) if (row.match) kinds[row.match] = (kinds[row.match] ?? 0) + 1;
+	return {
+		mcp_tool: tool,
+		lang: lang ?? "eng",
+		result_count: found.meta.total,
+		related_count: found.meta.related,
+		first_match: found.data[0]?.match,
+		first_strength: found.data[0]?.strength,
+		tier_counts: kinds,
+		did_you_mean: !!found.meta.didYouMean,
+	};
+}
