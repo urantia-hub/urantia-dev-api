@@ -583,6 +583,9 @@ its row in the same change when you submit somewhere or a listing changes state.
 - **MCP search lines**: each MCP search tool (`search.fulltext`, `search.semantic`, `works.search`,
   `works.search.semantic`) logs `mcp_search` with the result count and the match kinds
   (`mcpSearchFields`). Never the search words. The REST search routes log their own `search` line.
+  For a semantic search, `result_count` is the length of the list (normally 100), not a match
+  count: `related_count` shows if it found anything. The line is sent by itself (`searchLog`),
+  because the MCP answer streams and the tool runs after the middleware sent its lines.
 - **Retention**: 14 days (PostHog default). The privacy policy states it. Change both together.
 - **Error tracking**: the global error handler logs the stack at ERROR. A PostHog log alert on ERROR replaces the old BetterStack alert.
 - **Uptime and status page** stay on BetterStack (status.urantia.dev). Only logs moved.
