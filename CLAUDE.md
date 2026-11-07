@@ -580,6 +580,9 @@ its row in the same change when you submit somewhere or a listing changes state.
   `mcp_method`, `mcp_tool`, `mcp_client`, and `mcp_client_version`. These answer the
   adoption questions: which MCP clients connect, which tools they call, and how many
   distinct non-bot callers there are per week.
+- **MCP search lines**: each MCP search tool (`search.fulltext`, `search.semantic`, `works.search`,
+  `works.search.semantic`) logs `mcp_search` with the result count and the match kinds
+  (`mcpSearchFields`). Never the search words. The REST search routes log their own `search` line.
 - **Retention**: 14 days (PostHog default). The privacy policy states it. Change both together.
 - **Error tracking**: the global error handler logs the stack at ERROR. A PostHog log alert on ERROR replaces the old BetterStack alert.
 - **Uptime and status page** stay on BetterStack (status.urantia.dev). Only logs moved.
