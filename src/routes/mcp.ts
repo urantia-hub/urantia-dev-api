@@ -1,7 +1,7 @@
 import { StreamableHTTPTransport } from "@hono/mcp";
 import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { and, asc, eq, gt, ilike, inArray, lt, sql } from "drizzle-orm";
-import { Hono } from "hono";
+import { type Context, Hono } from "hono";
 import OpenAI from "openai";
 import { z } from "zod";
 import { getDb } from "../db/client.ts";
@@ -20,7 +20,6 @@ import { BIBLE_BOOKS, formatBibleReference, resolveBibleBook } from "../lib/bibl
 import { enrichWithBibleParallels } from "../lib/bible-parallels.ts";
 import { MCP_ICONS } from "../lib/brand-icon.ts";
 import { enrichWithEntities } from "../lib/entities.ts";
-import type { Logger } from "../lib/logger.ts";
 import { searchPapers } from "../lib/paper-search.ts";
 import { searchPapersEs } from "../lib/paper-search-es.ts";
 import { semanticSearchPapers } from "../lib/paper-semantic.ts";
@@ -401,10 +400,10 @@ function errorResult(message: string) {
 	};
 }
 
-function createMcpServer(logger?: Logger) {
+function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => void) {
 	// One log line for each search: the result count, never the words.
 	const logSearch = (tool: string, lang: string | undefined, found: Parameters<typeof mcpSearchFields>[2]) =>
-		logger?.info("mcp_search", mcpSearchFields(tool, lang, found));
+		log?.(mcpSearchFields(tool, lang, found));
 	const server = new McpServer({
 		name: "Urantia Papers API",
 		title: "Urantia Papers",
@@ -2215,6 +2214,22 @@ Cite Urantia passages by their standard reference (e.g. "Paper 112:7.1"). For ${
 	return server;
 }
 
+// The answer streams, so a tool runs after the logger middleware sent its lines. Send this line by itself.
+function searchLog(c: Context) {
+	return (fields: ReturnType<typeof mcpSearchFields>) => {
+		const logger = c.get("logger");
+		if (!logger) return;
+		logger.info("mcp_search", fields);
+		let ctx: { waitUntil(p: Promise<unknown>): void } | undefined;
+		try {
+			ctx = c.executionCtx;
+		} catch {
+			// Bun dev mode: no ExecutionContext, and the logger writes to the console.
+		}
+		if (ctx && logger.flush) ctx.waitUntil(logger.flush().catch(() => {}));
+	};
+}
+
 // OAuth/OIDC metadata discovery — return JSON 404 so MCP clients know no auth is needed
 mcpRoute.get("/.well-known/*", (c) =>
 	c.json({ error: "This server requires no authentication." }, 404),
@@ -2224,7 +2239,7 @@ mcpRoute.get("/.well-known/*", (c) =>
 mcpRoute.get("/", async (c) => {
 	if (c.req.header("Accept")?.includes("text/event-stream")) {
 		// Proper MCP SSE request — let the transport handle it
-		const server = createMcpServer(c.get("logger"));
+		const server = createMcpServer(searchLog(c));
 		const transport = new StreamableHTTPTransport({ sessionIdGenerator: undefined });
 		await server.connect(transport);
 		return transport.handleRequest(c);
@@ -2407,14 +2422,14 @@ mcpRoute.get("/", async (c) => {
 
 // POST/DELETE — MCP Streamable HTTP transport
 mcpRoute.post("/", async (c) => {
-	const server = createMcpServer(c.get("logger"));
+	const server = createMcpServer(searchLog(c));
 	const transport = new StreamableHTTPTransport({ sessionIdGenerator: undefined });
 	await server.connect(transport);
 	return transport.handleRequest(c);
 });
 
 mcpRoute.delete("/", async (c) => {
-	const server = createMcpServer(c.get("logger"));
+	const server = createMcpServer(searchLog(c));
 	const transport = new StreamableHTTPTransport({ sessionIdGenerator: undefined });
 	await server.connect(transport);
 	return transport.handleRequest(c);
