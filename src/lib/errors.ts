@@ -25,6 +25,7 @@ export function problemJson<S extends ProblemStatus>(
 	status: S,
 	detail: string,
 	type?: string,
+	extensions?: Record<string, unknown>,
 ) {
 	const slug = type ?? STATUS_TITLES[status].toLowerCase().replace(/\s+/g, "-");
 
@@ -34,6 +35,7 @@ export function problemJson<S extends ProblemStatus>(
 			title: STATUS_TITLES[status],
 			status,
 			detail,
+			...extensions,
 		},
 		status,
 		{ "Content-Type": "application/problem+json" },

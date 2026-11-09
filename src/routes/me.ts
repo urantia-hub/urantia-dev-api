@@ -445,7 +445,7 @@ const updateNoteRoute = createRoute({
 		200: { description: "Note updated", content: { "application/json": { schema: z.object({ data: NoteResponse }) } } },
 		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
 		404: { description: "Note not found", content: { "application/json": { schema: ErrorResponse } } },
-		409: { description: "The note changed after the updatedAt that was sent", content: { "application/json": { schema: ErrorResponse } } },
+		409: { description: "The note changed after the updatedAt that was sent. The body has the note as it is now in `current`", content: { "application/json": { schema: ErrorResponse } } },
 	},
 });
 
@@ -462,21 +462,20 @@ meRoute.openapi(updateNoteRoute, async (c) => {
 
 	const result = await updateNote(db, user.id, id, changes, expected);
 	if (result.status === "missing") return problemJson(c, 404, "Note not found.");
+	const shown = result.note;
+	const paragraphMap = await lookupParagraphs(db, [shown.paragraphId]);
+	const data = {
+		id: shown.id,
+		text: shown.text,
+		format: shown.format,
+		createdAt: shown.createdAt.toISOString(),
+		updatedAt: shown.updatedAt.toISOString(),
+		...(paragraphMap.has(shown.paragraphId) ? { paragraph: paragraphMap.get(shown.paragraphId)! } : {}),
+	};
+	// The 409 carries the note as it is now (`current`), so the client can show it and send again.
 	if (result.status === "changed")
-		return problemJson(c, 409, `The note changed at ${result.note.updatedAt.toISOString()}. Get it again, then send your change.`);
-	const updated = result.note;
-
-	const paragraphMap = await lookupParagraphs(db, [updated.paragraphId]);
-	return c.json({
-		data: {
-			id: updated.id,
-			text: updated.text,
-			format: updated.format,
-			createdAt: updated.createdAt.toISOString(),
-			updatedAt: updated.updatedAt.toISOString(),
-			...(paragraphMap.has(updated.paragraphId) ? { paragraph: paragraphMap.get(updated.paragraphId)! } : {}),
-		},
-	}, 200);
+		return problemJson(c, 409, `The note changed at ${data.updatedAt}. Read \`current\`, then send your change again.`, undefined, { current: data });
+	return c.json({ data }, 200);
 });
 
 const deleteNoteRoute = createRoute({

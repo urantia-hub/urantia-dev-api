@@ -112,6 +112,41 @@ suite("the auth routes, with a real sign-in", () => {
 	const detail = async (res: Response) => ((await res.json()) as { detail: string }).detail;
 	const row = async () => (await db.select().from(schema.apps).where(eq(schema.apps.id, "sc")))[0];
 
+	describe("a note change from two places", () => {
+		it("answers 409 with the note as it is now when the note changed after the updatedAt sent", async () => {
+			const [note] = await db
+				.insert(schema.notes)
+				.values({
+					userId: OWNER,
+					paragraphId: "3:92.6.14",
+					paperId: "92",
+					paperSectionId: "92.6",
+					paperSectionParagraphId: "92.6.14",
+					text: "first",
+				})
+				.returning();
+			if (!note) throw new Error("no note");
+			const read = note.updatedAt.toISOString();
+			const path = `/me/notes/${note.id}`;
+
+			const mine = await call(OWNER, "PUT", path, { text: "from the Hub", updatedAt: read });
+			expect(mine.status).toBe(200);
+			const late = await call(OWNER, "PUT", path, { text: "from another app", updatedAt: read });
+			expect(late.status).toBe(409);
+			const body = (await late.json()) as {
+				current: { id: string; text: string; updatedAt: string };
+			};
+			expect(body.current.id).toBe(note.id);
+			expect(body.current.text).toBe("from the Hub");
+			const again = await call(OWNER, "PUT", path, {
+				text: "from another app",
+				updatedAt: body.current.updatedAt,
+			});
+			expect(again.status).toBe(200);
+			expect((await call(OTHER, "PUT", path, { text: "x", updatedAt: read })).status).toBe(404);
+		});
+	});
+
 	describe("a reader who does not own the app", () => {
 		it("cannot change it, delete it, or get a new secret", async () => {
 			for (const [method, path] of [
