@@ -61,8 +61,8 @@ export const NoteCreate = z.object({
 export const NoteUpdate = z.object({
 	text: z.string().min(1).max(100_000).optional(),
 	format: z.enum(["plain", "markdown"]).optional(),
-	/** The updatedAt that the client read. With it, the change holds only if the note is unchanged since. */
-	updatedAt: z.string().datetime({ offset: true }).optional(),
+	/** The updatedAt that the client read. The change holds only if the note is unchanged since. */
+	updatedAt: z.string().datetime({ offset: true }),
 });
 
 export const NoteResponse = z.object({

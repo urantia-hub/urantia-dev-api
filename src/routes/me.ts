@@ -439,7 +439,7 @@ const updateNoteRoute = createRoute({
 	path: "/notes/{id}",
 	tags: ["Notes"],
 	summary: "Update a note",
-	description: "Pass updatedAt, the value that you read, to change the note only if nobody changed it since. A note that changed answers 409.",
+	description: "updatedAt is required: the value that you read. The note changes only if nobody changed it since; otherwise 409, with the note as it is now in `current`.",
 	request: { params: z.object({ id: z.string().uuid() }), body: { required: true, content: { "application/json": { schema: NoteUpdate } } } },
 	responses: {
 		200: { description: "Note updated", content: { "application/json": { schema: z.object({ data: NoteResponse }) } } },
@@ -458,7 +458,7 @@ meRoute.openapi(updateNoteRoute, async (c) => {
 	const changes: { text?: string; format?: string } = {};
 	if (body.text !== undefined) changes.text = body.text;
 	if (body.format !== undefined) changes.format = body.format;
-	const expected = body.updatedAt === undefined ? undefined : new Date(body.updatedAt);
+	const expected = new Date(body.updatedAt);
 
 	const result = await updateNote(db, user.id, id, changes, expected);
 	if (result.status === "missing") return problemJson(c, 404, "Note not found.");
