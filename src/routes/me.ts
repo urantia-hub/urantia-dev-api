@@ -15,6 +15,7 @@ import {
 	syncedAtFor,
 	trimmedSinceProblem,
 } from "../lib/reader-sync.ts";
+import { saveBookmark, updateNote } from "../lib/reader-writes.ts";
 import type { AuthUser } from "../middleware/auth.ts";
 import { ErrorResponse, ParagraphSchema } from "../validators/schemas.ts";
 import {
@@ -251,50 +252,23 @@ meRoute.openapi(createBookmarkRoute, async (c) => {
 	const resolved = await resolveParagraphRef(db, ref);
 	if (!resolved) return problemJson(c, 404, `Paragraph "${ref}" not found.`);
 
-	const [existing] = await db
-		.select()
-		.from(bookmarks)
-		.where(and(eq(bookmarks.userId, user.id), eq(bookmarks.paragraphId, resolved.globalId)))
-		.limit(1);
-
-	if (existing) {
-		if (category !== undefined && category !== existing.category) {
-			await db.update(bookmarks).set({ category, updatedAt: new Date() }).where(eq(bookmarks.id, existing.id));
-			existing.category = category;
-			existing.updatedAt = new Date();
-		}
-		return c.json({
-			data: {
-				id: existing.id,
-				category: existing.category,
-				createdAt: existing.createdAt.toISOString(),
-				updatedAt: existing.updatedAt.toISOString(),
-				paragraph: resolved.paragraph,
-			},
-		}, 200);
-	}
-
-	const [created] = await db
-		.insert(bookmarks)
-		.values({
-			userId: user.id,
-			paragraphId: resolved.globalId,
-			paperId: resolved.paperId,
-			paperSectionId: resolved.paperSectionId,
-			paperSectionParagraphId: resolved.paperSectionParagraphId,
-			category: category ?? null,
-		})
-		.returning();
-
+	const { bookmark, created } = await saveBookmark(db, {
+		userId: user.id,
+		paragraphId: resolved.globalId,
+		paperId: resolved.paperId,
+		paperSectionId: resolved.paperSectionId,
+		paperSectionParagraphId: resolved.paperSectionParagraphId,
+		category,
+	});
 	return c.json({
 		data: {
-			id: created!.id,
-			category: created!.category,
-			createdAt: created!.createdAt.toISOString(),
-			updatedAt: created!.updatedAt.toISOString(),
+			id: bookmark.id,
+			category: bookmark.category,
+			createdAt: bookmark.createdAt.toISOString(),
+			updatedAt: bookmark.updatedAt.toISOString(),
 			paragraph: resolved.paragraph,
 		},
-	}, 201);
+	}, created ? 201 : 200);
 });
 
 const deleteBookmarkRoute = createRoute({
@@ -465,11 +439,13 @@ const updateNoteRoute = createRoute({
 	path: "/notes/{id}",
 	tags: ["Notes"],
 	summary: "Update a note",
+	description: "Pass updatedAt, the value that you read, to change the note only if nobody changed it since. A note that changed answers 409.",
 	request: { params: z.object({ id: z.string().uuid() }), body: { required: true, content: { "application/json": { schema: NoteUpdate } } } },
 	responses: {
 		200: { description: "Note updated", content: { "application/json": { schema: z.object({ data: NoteResponse }) } } },
 		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
 		404: { description: "Note not found", content: { "application/json": { schema: ErrorResponse } } },
+		409: { description: "The note changed after the updatedAt that was sent", content: { "application/json": { schema: ErrorResponse } } },
 	},
 });
 
@@ -479,12 +455,16 @@ meRoute.openapi(updateNoteRoute, async (c) => {
 	const body = c.req.valid("json");
 	const { db } = getDb(c.env?.HYPERDRIVE);
 
-	const updates: Record<string, unknown> = { updatedAt: new Date() };
-	if (body.text !== undefined) updates.text = body.text;
-	if (body.format !== undefined) updates.format = body.format;
+	const changes: { text?: string; format?: string } = {};
+	if (body.text !== undefined) changes.text = body.text;
+	if (body.format !== undefined) changes.format = body.format;
+	const expected = body.updatedAt === undefined ? undefined : new Date(body.updatedAt);
 
-	const [updated] = await db.update(notes).set(updates).where(and(eq(notes.id, id), eq(notes.userId, user.id))).returning();
-	if (!updated) return problemJson(c, 404, "Note not found.");
+	const result = await updateNote(db, user.id, id, changes, expected);
+	if (result.status === "missing") return problemJson(c, 404, "Note not found.");
+	if (result.status === "changed")
+		return problemJson(c, 409, `The note changed at ${result.note.updatedAt.toISOString()}. Get it again, then send your change.`);
+	const updated = result.note;
 
 	const paragraphMap = await lookupParagraphs(db, [updated.paragraphId]);
 	return c.json({
