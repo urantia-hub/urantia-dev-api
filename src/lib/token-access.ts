@@ -17,6 +17,15 @@ const ME_SCOPES: Array<[prefix: string, scope: string]> = [
 	["/me/section-days", "reading-progress"],
 ];
 
+// A read-only scope is its full scope with this end: "bookmarks:read" reads what "bookmarks" reaches.
+const READ = ":read";
+
+// Do these granted scopes include this scope? A full scope includes its read-only scope.
+export function covers(granted: readonly string[], scope: string): boolean {
+	if (granted.includes(scope)) return true;
+	return scope.endsWith(READ) && granted.includes(scope.slice(0, -READ.length));
+}
+
 const isAt = (path: string, prefix: string) => path === prefix || path.startsWith(`${prefix}/`);
 
 // These parts of /me are for our own apps only. The scope is shared by all apps, and another app
@@ -46,7 +55,10 @@ export function appTokenProblem(
 
 	const scope = ME_SCOPES.find(([prefix]) => isAt(path, prefix))?.[1];
 	if (!scope) return "A token of an app cannot use this route.";
-	return scopes.includes(scope) ? null : `This token does not have the "${scope}" scope.`;
+	if (scopes.includes(scope)) return null;
+	const reads = method === "GET" || method === "HEAD";
+	if (reads && scopes.includes(`${scope}${READ}`)) return null;
+	return `This token does not have the "${scope}" scope.`;
 }
 
 // The apps that are ours. A reader does not see the consent screen for them.
@@ -66,7 +78,7 @@ export function canIssueCode(input: {
 	grant: boolean;
 }): boolean {
 	if (input.firstParty || input.grant) return true;
-	return input.requested.every((scope) => input.consented.includes(scope));
+	return input.requested.every((scope) => covers(input.consented, scope));
 }
 
 // Is this app one of ours? Any reader can register an app and pick its id,
@@ -95,7 +107,8 @@ export function liveTokenProblem(input: {
 		return { status: 403, detail: "This app is not open." };
 	if (!input.consented)
 		return { status: 401, detail: "The reader removed the access of this app." };
-	if (!input.scopes.every((scope) => input.consented?.includes(scope)))
+	const consented = input.consented;
+	if (!input.scopes.every((scope) => covers(consented, scope)))
 		return { status: 401, detail: "The reader does not allow these permissions now." };
 	return null;
 }

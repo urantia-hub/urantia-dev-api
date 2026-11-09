@@ -1,5 +1,5 @@
 import { createRoute } from "@hono/zod-openapi";
-import { and, count, eq, sql } from "drizzle-orm";
+import { and, count, eq, gte, sql } from "drizzle-orm";
 import { z } from "zod";
 import { getDb } from "../db/client.ts";
 import { bookmarks, notes, paragraphs, readingProgress, userPreferences, users } from "../db/schema.ts";
@@ -8,6 +8,7 @@ import { createApp } from "../lib/app.ts";
 import { problemJson } from "../lib/errors.ts";
 import { preferenceSpace } from "../lib/preference-space.ts";
 import { lookupParagraphs, resolveParagraphRef } from "../lib/paragraph-lookup.ts";
+import { deletionsSince, recordDeletion, sinceProblem, syncedAtFor } from "../lib/reader-sync.ts";
 import type { AuthUser } from "../middleware/auth.ts";
 import { ErrorResponse, ParagraphSchema } from "../validators/schemas.ts";
 import {
@@ -21,6 +22,8 @@ import {
 	ReadingProgressBatch,
 	ReadingProgressSummaryResponse,
 	UserProfile,
+	SyncFields,
+	SyncQuery,
 	UserUpdate,
 } from "../validators/me-schemas.ts";
 
@@ -94,22 +97,33 @@ const listBookmarksRoute = createRoute({
 	path: "/bookmarks",
 	tags: ["Bookmarks"],
 	summary: "List bookmarks",
-	request: { query: PaginationQuery.extend({ paperId: z.string().optional(), category: z.string().optional() }) },
+	description:
+		"With `since`, only the bookmarks that were made or changed at or after that time, and in `deleted` the ids of the bookmarks that were deleted after it. Use `syncedAt` as the next `since`.",
+	request: { query: PaginationQuery.merge(SyncQuery).extend({ paperId: z.string().optional(), category: z.string().optional() }) },
 	responses: {
 		200: {
 			description: "Bookmark list",
-			content: { "application/json": { schema: z.object({ data: z.array(BookmarkResponse), pagination: z.object({ page: z.number(), limit: z.number(), total: z.number() }) }) } },
+			content: { "application/json": { schema: z.object({ data: z.array(BookmarkResponse), pagination: z.object({ page: z.number(), limit: z.number(), total: z.number() }) }).merge(SyncFields) } },
 		},
+		400: { description: "since is not a usable time", content: { "application/json": { schema: ErrorResponse } } },
 		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
+		410: { description: "since is older than the deletes that are kept", content: { "application/json": { schema: ErrorResponse } } },
 	},
 });
 
 meRoute.openapi(listBookmarksRoute, async (c) => {
 	const user = getUser(c);
-	const { page = 0, limit = 20, paperId, category } = c.req.valid("query");
+	const { page = 0, limit = 20, paperId, category, since: sinceText } = c.req.valid("query");
 	const { db } = getDb(c.env?.HYPERDRIVE);
+	const now = new Date();
+	const since = sinceText === undefined ? undefined : new Date(sinceText);
+	if (since) {
+		const problem = sinceProblem(since, now);
+		if (problem) return problemJson(c, problem.status, problem.detail);
+	}
 
 	const conditions = [eq(bookmarks.userId, user.id)];
+	if (since) conditions.push(gte(bookmarks.updatedAt, since));
 	if (paperId) conditions.push(eq(bookmarks.paperId, paperId));
 	if (category) conditions.push(eq(bookmarks.category, category));
 	const where = and(...conditions);
@@ -141,7 +155,10 @@ meRoute.openapi(listBookmarksRoute, async (c) => {
 			paragraph: paragraphMap.get(r.bookmark.paragraphId)!,
 		}));
 
-	return c.json({ data, pagination: { page, limit, total } }, 200);
+	const syncedAt = syncedAtFor(now).toISOString();
+	if (!since) return c.json({ data, pagination: { page, limit, total }, syncedAt }, 200);
+	const deleted = await deletionsSince(db, user.id, "bookmark", since);
+	return c.json({ data, pagination: { page, limit, total }, syncedAt, deleted }, 200);
 });
 
 const listBookmarkCategoriesRoute = createRoute({
@@ -294,10 +311,15 @@ meRoute.openapi(deleteBookmarkRoute, async (c) => {
 	const resolved = await resolveParagraphRef(db, ref);
 	if (!resolved) return problemJson(c, 404, `Paragraph "${ref}" not found.`);
 
-	const deleted = await db
-		.delete(bookmarks)
-		.where(and(eq(bookmarks.userId, user.id), eq(bookmarks.paragraphId, resolved.globalId)))
-		.returning();
+	const deleted = await db.transaction(async (tx) => {
+		const rows = await tx
+			.delete(bookmarks)
+			.where(and(eq(bookmarks.userId, user.id), eq(bookmarks.paragraphId, resolved.globalId)))
+			.returning();
+		for (const row of rows)
+			await recordDeletion(tx, { userId: user.id, kind: "bookmark", itemId: row.id, paragraphId: row.paragraphId });
+		return rows;
+	});
 	if (deleted.length === 0) return problemJson(c, 404, "Bookmark not found.");
 	return c.body(null, 204);
 });
@@ -312,22 +334,33 @@ const listNotesRoute = createRoute({
 	path: "/notes",
 	tags: ["Notes"],
 	summary: "List notes",
-	request: { query: PaginationQuery.extend({ paperId: z.string().optional(), ref: z.string().optional() }) },
+	description:
+		"With `since`, only the notes that were made or changed at or after that time, and in `deleted` the ids of the notes that were deleted after it. Use `syncedAt` as the next `since`.",
+	request: { query: PaginationQuery.merge(SyncQuery).extend({ paperId: z.string().optional(), ref: z.string().optional() }) },
 	responses: {
 		200: {
 			description: "Note list",
-			content: { "application/json": { schema: z.object({ data: z.array(NoteResponse), pagination: z.object({ page: z.number(), limit: z.number(), total: z.number() }) }) } },
+			content: { "application/json": { schema: z.object({ data: z.array(NoteResponse), pagination: z.object({ page: z.number(), limit: z.number(), total: z.number() }) }).merge(SyncFields) } },
 		},
+		400: { description: "since is not a usable time", content: { "application/json": { schema: ErrorResponse } } },
 		401: { description: "Authentication required", content: { "application/json": { schema: ErrorResponse } } },
+		410: { description: "since is older than the deletes that are kept", content: { "application/json": { schema: ErrorResponse } } },
 	},
 });
 
 meRoute.openapi(listNotesRoute, async (c) => {
 	const user = getUser(c);
-	const { page = 0, limit = 20, paperId, ref } = c.req.valid("query");
+	const { page = 0, limit = 20, paperId, ref, since: sinceText } = c.req.valid("query");
 	const { db } = getDb(c.env?.HYPERDRIVE);
+	const now = new Date();
+	const since = sinceText === undefined ? undefined : new Date(sinceText);
+	if (since) {
+		const problem = sinceProblem(since, now);
+		if (problem) return problemJson(c, problem.status, problem.detail);
+	}
 
 	const conditions = [eq(notes.userId, user.id)];
+	if (since) conditions.push(gte(notes.updatedAt, since));
 	if (paperId) conditions.push(eq(notes.paperId, paperId));
 	if (ref) {
 		const resolved = await resolveParagraphRef(db, ref);
@@ -362,7 +395,10 @@ meRoute.openapi(listNotesRoute, async (c) => {
 			paragraph: paragraphMap.get(r.note.paragraphId)!,
 		}));
 
-	return c.json({ data, pagination: { page, limit, total } }, 200);
+	const syncedAt = syncedAtFor(now).toISOString();
+	if (!since) return c.json({ data, pagination: { page, limit, total }, syncedAt }, 200);
+	const deleted = await deletionsSince(db, user.id, "note", since);
+	return c.json({ data, pagination: { page, limit, total }, syncedAt, deleted }, 200);
 });
 
 const createNoteRoute = createRoute({
@@ -471,7 +507,12 @@ meRoute.openapi(deleteNoteRoute, async (c) => {
 	const user = getUser(c);
 	const { id } = c.req.valid("param");
 	const { db } = getDb(c.env?.HYPERDRIVE);
-	const deleted = await db.delete(notes).where(and(eq(notes.id, id), eq(notes.userId, user.id))).returning();
+	const deleted = await db.transaction(async (tx) => {
+		const rows = await tx.delete(notes).where(and(eq(notes.id, id), eq(notes.userId, user.id))).returning();
+		for (const row of rows)
+			await recordDeletion(tx, { userId: user.id, kind: "note", itemId: row.id, paragraphId: row.paragraphId });
+		return rows;
+	});
 	if (deleted.length === 0) return problemJson(c, 404, "Note not found.");
 	return c.body(null, 204);
 });

@@ -9,6 +9,7 @@ import {
 	notes,
 	noticeLog,
 	pushSubscriptions,
+	readerDeletions,
 	readingProgress,
 	refreshTokens,
 	sectionDays,
@@ -34,6 +35,7 @@ const TABLES = {
 	push_subscriptions: [pushSubscriptions, pushSubscriptions.userId],
 	notice_log: [noticeLog, noticeLog.userId],
 	section_days: [sectionDays, sectionDays.userId],
+	reader_deletions: [readerDeletions, readerDeletions.userId],
 } as const satisfies Record<ReaderTable, readonly [unknown, unknown]>;
 
 // Removes an app, and then the preferences that readers have for it, as one change. An id can be

@@ -181,3 +181,79 @@ describe("the routes for our own apps only", () => {
 		expect(firstPartyOnly("/me/noticesx")).toBe(false);
 	});
 });
+
+// A read-only scope ("bookmarks:read") reads the part of /me that its full scope ("bookmarks") reaches.
+describe("the read-only scopes", () => {
+	it.each([
+		["/me/bookmarks", "bookmarks:read"],
+		["/me/bookmarks/categories", "bookmarks:read"],
+		["/me/notes", "notes:read"],
+		["/me/notes/abc", "notes:read"],
+		["/me/reading-progress", "reading-progress:read"],
+		["/me/preferences", "preferences:read"],
+	])("%s can be read with %s", (path, scope) => {
+		expect(appTokenProblem(path, [scope], "GET")).toBeNull();
+		expect(appTokenProblem(path, [scope], "HEAD")).toBeNull();
+	});
+
+	it.each(["POST", "PUT", "PATCH", "DELETE"])("refuses %s with a read-only scope", (method) => {
+		expect(appTokenProblem("/me/bookmarks", ["bookmarks:read"], method)).toContain('"bookmarks"');
+		expect(appTokenProblem("/me/notes/abc", ["notes:read"], method)).toContain('"notes"');
+	});
+
+	it("does not take the read scope of one part for another part", () => {
+		expect(appTokenProblem("/me/notes", ["bookmarks:read"], "GET")).not.toBeNull();
+	});
+
+	it("gives no read-only scope for the profile: profile is already read-only", () => {
+		expect(appTokenProblem("/me", ["profile:read"], "GET")).not.toBeNull();
+	});
+});
+
+describe("covers", () => {
+	it("is true for the same scope, and for a read scope under its full scope", async () => {
+		const { covers } = await import("../../src/lib/token-access.ts");
+		expect(covers(["bookmarks"], "bookmarks")).toBe(true);
+		expect(covers(["bookmarks"], "bookmarks:read")).toBe(true);
+		expect(covers(["bookmarks:read"], "bookmarks:read")).toBe(true);
+	});
+	it("is false for a full scope under its read scope, and for another part", async () => {
+		const { covers } = await import("../../src/lib/token-access.ts");
+		expect(covers(["bookmarks:read"], "bookmarks")).toBe(false);
+		expect(covers(["notes"], "bookmarks:read")).toBe(false);
+		expect(covers([], "bookmarks:read")).toBe(false);
+	});
+});
+
+describe("canIssueCode and liveTokenProblem with read-only scopes", () => {
+	const app = { status: "approved" as const, ownerId: "owner-1" };
+	it("issues a read scope with no new press when the reader allows the full scope", () => {
+		expect(
+			canIssueCode({
+				requested: ["bookmarks:read"],
+				consented: ["bookmarks"],
+				firstParty: false,
+				grant: false,
+			}),
+		).toBe(true);
+	});
+	it("asks again for the full scope when the reader allows the read scope only", () => {
+		expect(
+			canIssueCode({
+				requested: ["bookmarks"],
+				consented: ["bookmarks:read"],
+				firstParty: false,
+				grant: false,
+			}),
+		).toBe(false);
+	});
+	it("keeps a token of a read scope good while the reader allows the full scope", () => {
+		expect(
+			liveTokenProblem({ app, consented: ["bookmarks"], userId: "r", scopes: ["bookmarks:read"] }),
+		).toBeNull();
+		expect(
+			liveTokenProblem({ app, consented: ["bookmarks:read"], userId: "r", scopes: ["bookmarks"] })
+				?.status,
+		).toBe(401);
+	});
+});

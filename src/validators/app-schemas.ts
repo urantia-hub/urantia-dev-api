@@ -10,6 +10,11 @@ export const ALLOWED_SCOPES = [
 	"reading-progress",
 	"preferences",
 	"app-data",
+	// Read-only: GET and HEAD of the part that the full scope reaches.
+	"bookmarks:read",
+	"notes:read",
+	"reading-progress:read",
+	"preferences:read",
 ];
 
 export const HexColor = z.string().regex(/^#[0-9a-fA-F]{6}$/, "Must be a hex color like #6366f1");

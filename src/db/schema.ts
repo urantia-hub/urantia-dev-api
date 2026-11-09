@@ -786,6 +786,23 @@ export const notes = pgTable(
 	],
 ).enableRLS();
 
+// --- reader_deletions (each bookmark and note that a reader deleted, for ?since= on the lists) ---
+// Created by scripts/setup-reader-deletions.sql. A row lives 90 days (READER_DELETIONS_DAYS); a delete removes older rows.
+export const readerDeletions = pgTable(
+	"reader_deletions",
+	{
+		id: uuid("id").primaryKey().defaultRandom(),
+		userId: uuid("user_id")
+			.notNull()
+			.references(() => users.id, { onDelete: "cascade" }),
+		kind: text("kind").notNull(), // "bookmark" or "note"
+		itemId: uuid("item_id").notNull(), // the id of the bookmark or the note
+		paragraphId: text("paragraph_id").notNull(), // globalId e.g. "1:2.0.1"
+		deletedAt: timestamp("deleted_at").notNull().defaultNow(),
+	},
+	(t) => [index("reader_deletions_user_kind_at_idx").on(t.userId, t.kind, t.deletedAt)],
+).enableRLS();
+
 // --- reading_progress (paragraph-level, one per user + paragraph + app) ---
 export const readingProgress = pgTable(
 	"reading_progress",
