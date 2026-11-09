@@ -67,9 +67,6 @@ suite("writes that two apps can send at once, on a real database", () => {
 		expect(late.status).toBe("changed");
 		if (late.status === "changed") expect(late.note.text).toBe("from the Hub");
 
-		const blind = await updateNote(db as never, ME, note.id, { text: "no check" });
-		expect(blind.status).toBe("updated");
-
 		const other = "00000000-0000-4000-8000-0000000000ff";
 		expect((await updateNote(db as never, ME, other, { text: "x" }, read)).status).toBe("missing");
 	});

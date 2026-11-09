@@ -57,22 +57,19 @@ export async function saveBookmark(
 // The time of a note as the API shows it (milliseconds), so a client can send it back as read.
 const updatedAtMs = sql`date_trunc('milliseconds', ${notes.updatedAt})`;
 
-// Changes a note. With expectedUpdatedAt (the updatedAt that the client read), the change holds only
-// if nobody changed the note since then; otherwise "changed" and the note as it is now.
+// Changes a note only if nobody changed it since expectedUpdatedAt (the updatedAt that the client
+// read); otherwise "changed" and the note as it is now.
 export async function updateNote(
 	db: Db,
 	userId: string,
 	id: string,
 	changes: { text?: string; format?: string },
-	expectedUpdatedAt?: Date,
+	expectedUpdatedAt: Date,
 ): Promise<
 	{ status: "updated"; note: Note } | { status: "changed"; note: Note } | { status: "missing" }
 > {
 	const mine = and(eq(notes.id, id), eq(notes.userId, userId));
-	const unchanged =
-		expectedUpdatedAt === undefined
-			? mine
-			: and(mine, sql`${updatedAtMs} = ${expectedUpdatedAt.toISOString()}::timestamp`);
+	const unchanged = and(mine, sql`${updatedAtMs} = ${expectedUpdatedAt.toISOString()}::timestamp`);
 	const [updated] = await db
 		.update(notes)
 		.set({ ...changes, updatedAt: new Date() })

@@ -129,6 +129,7 @@ suite("the auth routes, with a real sign-in", () => {
 			const read = note.updatedAt.toISOString();
 			const path = `/me/notes/${note.id}`;
 
+			expect((await call(OWNER, "PUT", path, { text: "no time" })).status).toBe(400);
 			const mine = await call(OWNER, "PUT", path, { text: "from the Hub", updatedAt: read });
 			expect(mine.status).toBe(200);
 			const late = await call(OWNER, "PUT", path, { text: "from another app", updatedAt: read });
