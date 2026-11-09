@@ -428,6 +428,7 @@ describe("MCP Server", () => {
 		const get = tools.find((t: { name: string }) => t.name === "paragraphs.get");
 		expect(get.inputSchema.properties).toHaveProperty("include_bible_parallels");
 		expect(get.inputSchema.properties).toHaveProperty("include_urantia_parallels");
+		expect(get.inputSchema.properties).toHaveProperty("include_scripture_parallels");
 	});
 
 	it("search.fulltext and search.semantic advertise the parallels include params", async () => {
@@ -439,6 +440,7 @@ describe("MCP Server", () => {
 			const tool = tools.find((t: { name: string }) => t.name === name);
 			expect(tool.inputSchema.properties).toHaveProperty("include_bible_parallels");
 			expect(tool.inputSchema.properties).toHaveProperty("include_urantia_parallels");
+			expect(tool.inputSchema.properties).toHaveProperty("include_scripture_parallels");
 		}
 	});
 
