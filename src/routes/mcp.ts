@@ -25,6 +25,7 @@ import { searchPapersEs } from "../lib/paper-search-es.ts";
 import { semanticSearchPapers } from "../lib/paper-semantic.ts";
 import { databaseCandidates } from "../lib/quote-candidates.ts";
 import { mcpSearchFields } from "../lib/request-log.ts";
+import { enrichWithScriptureParallels } from "../lib/scripture-parallels.ts";
 import { normalizeQuery } from "../lib/search-text.ts";
 import { normalizeQueryEs } from "../lib/search-text-es.ts";
 import {
@@ -183,6 +184,27 @@ const urantiaParallelSchema = z.object({
 	embeddingModel: z.string(),
 });
 
+const scriptureParallelSchema = z.object({
+	chunkId: z.string(),
+	reference: z.string(),
+	corpus: z.object({
+		id: z.string(),
+		slug: z.string(),
+		religion: z.string(),
+		title: z.string(),
+		translator: z.string(),
+		year: z.number().int(),
+		refPrefix: z.string(),
+		urantiaSection: z.string().nullable(),
+	}),
+	text: z.string(),
+	similarity: z.number(),
+	rank: z.number().int(),
+	source: z.string(),
+	embeddingModel: z.string(),
+	url: z.string().nullable(),
+});
+
 const translationLabelSchema = z.object({
 	method: z.literal("machine"),
 	license: z.literal("CC0-1.0"),
@@ -204,6 +226,7 @@ const paragraphResultSchema = z.object({
 	entities: z.array(paragraphEntityMentionSchema).optional(),
 	bibleParallels: z.array(bibleParallelSchema).optional(),
 	urantiaParallels: z.array(urantiaParallelSchema).optional(),
+	scriptureParallels: z.array(scriptureParallelSchema).optional(),
 	language: z.string().optional(),
 	translation: translationLabelSchema.optional(),
 });
@@ -371,8 +394,8 @@ function structured<T>(data: T) {
 	};
 }
 
-// Apply paragraph enrichments (entities, Bible parallels, UB parallels) in
-// the same order REST does (entities → bibleParallels → urantiaParallels)
+// Apply paragraph enrichments in the same order REST does
+// (entities → bibleParallels → urantiaParallels → scriptureParallels)
 // so structured output stays consistent across tools.
 async function enrichParagraphs<T extends { id: string }>(
 	db: ReturnType<typeof getDb>["db"],
@@ -381,6 +404,7 @@ async function enrichParagraphs<T extends { id: string }>(
 		entities?: boolean;
 		bibleParallels?: boolean;
 		urantiaParallels?: boolean;
+		scriptureParallels?: boolean;
 		lang?: string;
 	},
 ) {
@@ -388,6 +412,8 @@ async function enrichParagraphs<T extends { id: string }>(
 	if (opts.entities) out = (await enrichWithEntities(db, out as never)) as never;
 	if (opts.bibleParallels) out = (await enrichWithBibleParallels(db, out as never)) as never;
 	if (opts.urantiaParallels) out = (await enrichWithUrantiaParallels(db, out as never)) as never;
+	if (opts.scriptureParallels)
+		out = (await enrichWithScriptureParallels(db, out as never)) as never;
 	if (opts.lang && opts.lang !== "eng")
 		out = (await localizeIncluded(db, out as never, opts.lang)) as never;
 	return out as unknown as T[];
@@ -402,8 +428,11 @@ function errorResult(message: string) {
 
 function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => void) {
 	// One log line for each search: the result count, never the words.
-	const logSearch = (tool: string, lang: string | undefined, found: Parameters<typeof mcpSearchFields>[2]) =>
-		log?.(mcpSearchFields(tool, lang, found));
+	const logSearch = (
+		tool: string,
+		lang: string | undefined,
+		found: Parameters<typeof mcpSearchFields>[2],
+	) => log?.(mcpSearchFields(tool, lang, found));
 	const server = new McpServer({
 		name: "Urantia Papers API",
 		title: "Urantia Papers",
@@ -665,12 +694,24 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 					.describe(
 						"Include the top-10 most-similar OTHER Urantia paragraphs ('see also'). Pre-computed via text-embedding-3-large cosine similarity.",
 					),
+				include_scripture_parallels: z
+					.boolean()
+					.default(false)
+					.describe(
+						"Include the 3 passages nearest in meaning from each of the 21 world religions texts (Urantia → texts), for example the Gita, the Tao Te Ching, and the Quran.",
+					),
 				lang: langInput,
 			},
 			outputSchema: { paragraph: paragraphResultSchema },
 			annotations: { title: "Get Random Paragraph", ...READ_ONLY_RANDOM },
 		},
-		async ({ include_entities, include_bible_parallels, include_urantia_parallels, lang }) => {
+		async ({
+			include_entities,
+			include_bible_parallels,
+			include_urantia_parallels,
+			include_scripture_parallels,
+			lang,
+		}) => {
 			const { db } = getDb();
 			const result = await db
 				.select(mcpParagraphFields)
@@ -682,6 +723,7 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 				entities: include_entities,
 				bibleParallels: include_bible_parallels,
 				urantiaParallels: include_urantia_parallels,
+				scriptureParallels: include_scripture_parallels,
 				lang,
 			});
 			return structured({ paragraph: enriched[0]! });
@@ -721,6 +763,12 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 					.describe(
 						"Include the top-10 most-similar OTHER Urantia paragraphs ('see also' across the corpus).",
 					),
+				include_scripture_parallels: z
+					.boolean()
+					.default(false)
+					.describe(
+						"Include the 3 passages nearest in meaning from each of the 21 world religions texts (Urantia → texts), for example the Gita, the Tao Te Ching, and the Quran.",
+					),
 				lang: langInput,
 			},
 			outputSchema: {
@@ -736,6 +784,7 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 			include_entities,
 			include_bible_parallels,
 			include_urantia_parallels,
+			include_scripture_parallels,
 			lang,
 		}) => {
 			const { db } = getDb();
@@ -763,6 +812,7 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 				entities: include_entities,
 				bibleParallels: include_bible_parallels,
 				urantiaParallels: include_urantia_parallels,
+				scriptureParallels: include_scripture_parallels,
 				lang,
 			});
 			if (!refs) return structured({ paragraph: enriched[0]! });
@@ -888,6 +938,12 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 				lang: langInput.describe(
 					'Language to search. "es" searches the Spanish text (words match with or without accents; "documento 1" is a reference) and gives Spanish rows. Default "eng".',
 				),
+				include_scripture_parallels: z
+					.boolean()
+					.default(false)
+					.describe(
+						"Include the 3 passages nearest in meaning from each of the 21 world religions texts (Urantia → texts), for example the Gita, the Tao Te Ching, and the Quran.",
+					),
 			},
 			outputSchema: {
 				data: z.array(searchResultSchema),
@@ -906,6 +962,7 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 			include_entities,
 			include_bible_parallels,
 			include_urantia_parallels,
+			include_scripture_parallels,
 			lang,
 		}) => {
 			const searchQuery = query ?? q;
@@ -928,6 +985,7 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 				entities: include_entities,
 				bibleParallels: include_bible_parallels,
 				urantiaParallels: include_urantia_parallels,
+				scriptureParallels: include_scripture_parallels,
 				lang,
 			});
 
@@ -967,6 +1025,12 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 				lang: langInput.describe(
 					'Language of the results. "es" gives the Spanish text and titles; the question can be in Spanish or English, and `strength` allows for the lower similarity of a Spanish question. Default "eng".',
 				),
+				include_scripture_parallels: z
+					.boolean()
+					.default(false)
+					.describe(
+						"Include the 3 passages nearest in meaning from each of the 21 world religions texts (Urantia → texts), for example the Gita, the Tao Te Ching, and the Quran.",
+					),
 			},
 			outputSchema: {
 				data: z.array(semanticResultSchema),
@@ -984,6 +1048,7 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 			include_entities,
 			include_bible_parallels,
 			include_urantia_parallels,
+			include_scripture_parallels,
 			lang,
 		}) => {
 			const searchQuery = query ?? q;
@@ -1013,6 +1078,7 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 				entities: include_entities,
 				bibleParallels: include_bible_parallels,
 				urantiaParallels: include_urantia_parallels,
+				scriptureParallels: include_scripture_parallels,
 				lang,
 			});
 
@@ -2267,7 +2333,12 @@ mcpRoute.get("/", async (c) => {
 				},
 				"paragraphs.random": {
 					description: "Get a random paragraph",
-					params: ["include_entities", "include_bible_parallels", "include_urantia_parallels"],
+					params: [
+						"include_entities",
+						"include_bible_parallels",
+						"include_urantia_parallels",
+						"include_scripture_parallels",
+					],
 				},
 				"paragraphs.get": {
 					description: "Look up a paragraph by reference (3 formats auto-detected)",
@@ -2277,6 +2348,7 @@ mcpRoute.get("/", async (c) => {
 						"include_entities",
 						"include_bible_parallels",
 						"include_urantia_parallels",
+						"include_scripture_parallels",
 					],
 				},
 				"paragraphs.context": {
@@ -2296,6 +2368,7 @@ mcpRoute.get("/", async (c) => {
 						"include_entities",
 						"include_bible_parallels",
 						"include_urantia_parallels",
+						"include_scripture_parallels",
 						"lang",
 					],
 				},
@@ -2311,6 +2384,7 @@ mcpRoute.get("/", async (c) => {
 						"include_entities",
 						"include_bible_parallels",
 						"include_urantia_parallels",
+						"include_scripture_parallels",
 						"lang",
 					],
 				},

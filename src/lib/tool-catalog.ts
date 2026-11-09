@@ -46,6 +46,13 @@ const includeBibleParallelsProp: JSONSchemaProperty = {
 	default: false,
 };
 
+const includeScriptureParallelsProp: JSONSchemaProperty = {
+	type: "boolean",
+	description:
+		"Include the 3 passages nearest in meaning from each of the 21 world religions texts (Urantia → texts), for example the Gita, the Tao Te Ching, and the Quran.",
+	default: false,
+};
+
 const includeUrantiaParallelsProp: JSONSchemaProperty = {
 	type: "boolean",
 	description:
@@ -176,6 +183,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 				include_entities: includeEntitiesProp,
 				include_bible_parallels: includeBibleParallelsProp,
 				include_urantia_parallels: includeUrantiaParallelsProp,
+				include_scripture_parallels: includeScriptureParallelsProp,
 				lang: langProp,
 			},
 		},
@@ -199,6 +207,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 				include_entities: includeEntitiesProp,
 				include_bible_parallels: includeBibleParallelsProp,
 				include_urantia_parallels: includeUrantiaParallelsProp,
+				include_scripture_parallels: includeScriptureParallelsProp,
 				lang: langProp,
 			},
 		},
@@ -247,6 +256,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 				include_entities: includeEntitiesProp,
 				include_bible_parallels: includeBibleParallelsProp,
 				include_urantia_parallels: includeUrantiaParallelsProp,
+				include_scripture_parallels: includeScriptureParallelsProp,
 			},
 		},
 	},
@@ -274,6 +284,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 				include_entities: includeEntitiesProp,
 				include_bible_parallels: includeBibleParallelsProp,
 				include_urantia_parallels: includeUrantiaParallelsProp,
+				include_scripture_parallels: includeScriptureParallelsProp,
 			},
 		},
 	},

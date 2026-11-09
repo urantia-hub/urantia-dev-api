@@ -451,6 +451,9 @@ phases: `../world-religions-plan-2026-10.md`.
   chunked by whole chapter.
 - `ub_to_scripture` keeps the top 3 per corpus (all of them appear in
   `?include=scriptureParallels`). `scripture_to_ub` keeps the top 10.
+- MCP (2026-11-09): `include_scripture_parallels` on `paragraphs.get`, `paragraphs.random`,
+  `search.fulltext`, and `search.semantic` attaches the same 3 per corpus. `tool-catalog.ts` has
+  the same option.
 - Quality checks: phase 1, 69 to 93% of chunks have their own religion's
   Paper 131 section in their top 10. Phase 2: 78% of Japji chunks reach
   131:1, 60% of the oracles reach 131:7, and the Cynic texts match 131:1
