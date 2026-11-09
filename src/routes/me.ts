@@ -8,7 +8,13 @@ import { createApp } from "../lib/app.ts";
 import { problemJson } from "../lib/errors.ts";
 import { preferenceSpace } from "../lib/preference-space.ts";
 import { lookupParagraphs, resolveParagraphRef } from "../lib/paragraph-lookup.ts";
-import { deletionsSince, recordDeletion, sinceProblem, syncedAtFor } from "../lib/reader-sync.ts";
+import {
+	deletionsSince,
+	recordDeletion,
+	sinceProblem,
+	syncedAtFor,
+	trimmedSinceProblem,
+} from "../lib/reader-sync.ts";
 import type { AuthUser } from "../middleware/auth.ts";
 import { ErrorResponse, ParagraphSchema } from "../validators/schemas.ts";
 import {
@@ -120,6 +126,8 @@ meRoute.openapi(listBookmarksRoute, async (c) => {
 	if (since) {
 		const problem = sinceProblem(since, now);
 		if (problem) return problemJson(c, problem.status, problem.detail);
+		const trimmed = await trimmedSinceProblem(db, user.id, "bookmark", since);
+		if (trimmed) return problemJson(c, trimmed.status, trimmed.detail);
 	}
 
 	const conditions = [eq(bookmarks.userId, user.id)];
@@ -357,6 +365,8 @@ meRoute.openapi(listNotesRoute, async (c) => {
 	if (since) {
 		const problem = sinceProblem(since, now);
 		if (problem) return problemJson(c, problem.status, problem.detail);
+		const trimmed = await trimmedSinceProblem(db, user.id, "note", since);
+		if (trimmed) return problemJson(c, trimmed.status, trimmed.detail);
 	}
 
 	const conditions = [eq(notes.userId, user.id)];

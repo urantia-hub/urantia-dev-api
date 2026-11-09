@@ -7,7 +7,9 @@ import { readExport } from "../../src/lib/reader-export.ts";
 import {
 	deletionsSince,
 	READER_DELETIONS_DAYS,
+	READER_DELETIONS_MAX,
 	recordDeletion,
+	trimmedSinceProblem,
 } from "../../src/lib/reader-sync.ts";
 
 // The real queries on a real Postgres of this machine. See tests/db/account-store.test.ts.
@@ -165,5 +167,65 @@ suite("reader sync and export, on a real database", () => {
 			"hash-of-the-app-secret",
 		])
 			expect(text).not.toContain(secret);
+	});
+
+	it("keeps at most READER_DELETIONS_MAX deletes for one reader and kind, the newest", async () => {
+		const start = daysAgo(2).getTime();
+		await db.insert(schema.readerDeletions).values(
+			Array.from({ length: READER_DELETIONS_MAX }, (_, n) => ({
+				userId: ME,
+				kind: "bookmark",
+				itemId: ITEM,
+				paragraphId: "1:2.0.1",
+				deletedAt: new Date(start + n * 1000),
+			})),
+		);
+		await recordDeletion(db as never, {
+			userId: OTHER,
+			kind: "bookmark",
+			itemId: ITEM,
+			paragraphId: "1:2.0.1",
+		});
+		await recordDeletion(db as never, {
+			userId: ME,
+			kind: "note",
+			itemId: ITEM,
+			paragraphId: "1:2.0.1",
+		});
+		const full = await deletionsSince(db as never, ME, "bookmark", daysAgo(3));
+		expect(full).toHaveLength(READER_DELETIONS_MAX);
+
+		await recordDeletion(db as never, {
+			userId: ME,
+			kind: "bookmark",
+			itemId: ITEM,
+			paragraphId: "1:2.0.2",
+		});
+		const kept = await deletionsSince(db as never, ME, "bookmark", daysAgo(3));
+		expect(kept).toHaveLength(READER_DELETIONS_MAX);
+		expect(kept[0]?.deletedAt).toBe(new Date(start + 1000).toISOString());
+		expect(kept.at(-1)?.paragraphId).toBe("1:2.0.2");
+		// The other reader and the other kind keep their rows.
+		expect(await deletionsSince(db as never, OTHER, "bookmark", daysAgo(3))).toHaveLength(1);
+		expect(await deletionsSince(db as never, ME, "note", daysAgo(3))).toHaveLength(1);
+	});
+
+	it("refuses with 410 a since before the oldest kept delete, only when the limit is full", async () => {
+		const start = daysAgo(2).getTime();
+		const rows = (n: number) =>
+			Array.from({ length: n }, (_, k) => ({
+				userId: ME,
+				kind: "note",
+				itemId: ITEM,
+				paragraphId: "1:2.0.1",
+				deletedAt: new Date(start + k * 1000),
+			}));
+		await db.insert(schema.readerDeletions).values(rows(READER_DELETIONS_MAX - 1));
+		expect(await trimmedSinceProblem(db as never, ME, "note", daysAgo(3))).toBeNull();
+
+		await db.insert(schema.readerDeletions).values(rows(1));
+		expect((await trimmedSinceProblem(db as never, ME, "note", daysAgo(3)))?.status).toBe(410);
+		expect(await trimmedSinceProblem(db as never, ME, "note", new Date(start))).toBeNull();
+		expect(await trimmedSinceProblem(db as never, ME, "bookmark", daysAgo(3))).toBeNull();
 	});
 });
