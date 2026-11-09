@@ -52,3 +52,4 @@ ALTER TABLE mcp_daily_calls          ENABLE ROW LEVEL SECURITY;
 
 -- Public feedback (holds optional contact details)
 ALTER TABLE feedback                 ENABLE ROW LEVEL SECURITY;
+ALTER TABLE reader_deletions         ENABLE ROW LEVEL SECURITY;

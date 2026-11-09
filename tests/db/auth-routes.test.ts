@@ -221,6 +221,40 @@ suite("the auth routes, with a real sign-in", () => {
 		});
 	});
 
+	describe("the export of an account", () => {
+		it("gives the reader's own data as a file, and no data of another reader", async () => {
+			await db.insert(schema.notes).values([
+				{
+					userId: OTHER,
+					paragraphId: "1:2.0.1",
+					paperId: "2",
+					paperSectionId: "2:0",
+					paperSectionParagraphId: "2.0.1",
+					text: "my own note",
+				},
+				{
+					userId: OWNER,
+					paragraphId: "1:2.0.1",
+					paperId: "2",
+					paperSectionId: "2:0",
+					paperSectionParagraphId: "2.0.1",
+					text: "the owner's note",
+				},
+			]);
+			const res = await call(OTHER, "GET", "/auth/account/export");
+			expect(res.status).toBe(200);
+			expect(res.headers.get("content-disposition")).toContain("attachment");
+			expect(res.headers.get("cache-control")).toBe("no-store");
+			const text = await res.text();
+			expect(text).toContain("my own note");
+			expect(text).not.toContain("the owner's note");
+		});
+
+		it("needs a sign-in", async () => {
+			expect((await call(null, "GET", "/auth/account/export")).status).toBe(401);
+		});
+	});
+
 	describe("a deleted account", () => {
 		beforeEach(async () => {
 			await db.insert(schema.deletedUsers).values({ id: OWNER });

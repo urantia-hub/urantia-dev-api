@@ -31,7 +31,8 @@ import {
 	revokeSession,
 	type Tokens,
 } from "../lib/sessions.ts";
-import { canIssueCode, firstPartyIds, isFirstPartyApp } from "../lib/token-access.ts";
+import { readExport } from "../lib/reader-export.ts";
+import { canIssueCode, covers, firstPartyIds, isFirstPartyApp } from "../lib/token-access.ts";
 import { ALLOWED_SCOPES, AppCreateBody, HexColor } from "../validators/app-schemas.ts";
 import { createAccountStore, deleteAppRow } from "../lib/account-store.ts";
 import { accountsMailKey } from "../lib/mail/hook.ts";
@@ -547,7 +548,7 @@ authRoute.openapi(consentCheckRoute, async (c) => {
 		.limit(1);
 
 	const grantedScopes = grant?.scopes ?? [];
-	const consented = requestedScopes.every((s) => grantedScopes.includes(s));
+	const consented = requestedScopes.every((s) => covers(grantedScopes, s));
 
 	return c.json({ data: { consented, grantedScopes } }, 200);
 });
@@ -656,6 +657,28 @@ authRoute.openapi(accountDeleteRoute, async (c) => {
 	return c.body(null, 204);
 });
 
+const accountExportRoute = createRoute({
+	operationId: "exportAccount",
+	method: "get",
+	path: "/account/export",
+	tags: ["Auth"],
+	summary: "A copy of the reader's data, as one JSON file",
+	responses: {
+		200: { description: "The reader's data", content: { "application/json": { schema: z.record(z.string(), z.unknown()) } } },
+	},
+});
+
+authRoute.openapi(accountExportRoute, async (c) => {
+	const user = getUser(c);
+	const { db } = getDb(c.env?.HYPERDRIVE);
+	const data = await readExport(db, user.id);
+	const day = new Date().toISOString().slice(0, 10);
+	c.header("Content-Disposition", `attachment; filename="urantiahub-account-${day}.json"`);
+	c.header("Cache-Control", "no-store");
+	c.get("logger")?.info("account exported");
+	return c.json(data, 200);
+});
+
 // ============================================================
 // 3. POST /authorize — Create authorization code
 // ============================================================
@@ -715,7 +738,7 @@ authRoute.openapi(authorizeRoute, async (c) => {
 	}
 
 	// Validate scopes are a subset of app's allowed scopes
-	const invalidScopes = body.scopes.filter((s) => !app.scopes.includes(s));
+	const invalidScopes = body.scopes.filter((s) => !covers(app.scopes, s));
 	if (invalidScopes.length > 0) {
 		return problemJson(
 			c,

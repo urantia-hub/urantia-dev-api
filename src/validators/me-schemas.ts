@@ -8,6 +8,19 @@ export const PaginationQuery = z.object({
 	limit: z.coerce.number().int().min(1).max(100).default(20).optional(),
 });
 
+// ?since= on a list: the items made or changed at or after this time (ISO 8601), at most 90 days ago.
+export const SyncQuery = z.object({
+	since: z.string().optional(),
+});
+
+// The fields of a list for a sync. `deleted` is there only with `since`.
+export const SyncFields = z.object({
+	syncedAt: z.string(),
+	deleted: z
+		.array(z.object({ id: z.string().uuid(), paragraphId: z.string(), deletedAt: z.string() }))
+		.optional(),
+});
+
 // --- User Profile ---
 
 export const UserProfile = z.object({

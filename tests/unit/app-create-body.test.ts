@@ -15,6 +15,10 @@ describe("the permissions of a new app", () => {
 			"reading-progress",
 			"preferences",
 			"app-data",
+			"bookmarks:read",
+			"notes:read",
+			"reading-progress:read",
+			"preferences:read",
 		]);
 	});
 
