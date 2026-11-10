@@ -451,7 +451,7 @@
     "ref": "59:1.17",
     "year": 2009,
     "kind": "text",
-    "before": "a veritable tropic Paradise paradise",
+    "before": "a veritable tropic Paradise",
     "after": "a veritable tropic paradise",
     "inStoredText": true,
     "source": {
@@ -465,7 +465,7 @@
     "ref": "59:2.12",
     "year": 2009,
     "kind": "text",
-    "before": "the muscles mussels, clams, oysters, and scallops",
+    "before": "the muscles, clams, oysters, and scallops",
     "after": "the mussels, clams, oysters, and scallops",
     "inStoredText": true,
     "source": {
@@ -914,7 +914,7 @@
     "ref": "90:2.9",
     "year": 2009,
     "kind": "text",
-    "before": "the Shawnee Teuskwatawa,",
+    "before": "the Shawnee Teuskwatowa,",
     "after": "the Shawnee Tenskwatawa,",
     "inStoredText": true,
     "source": {
@@ -922,7 +922,8 @@
       "report": "summary-report-v8.01"
     },
     "page1955": "988.5",
-    "reason": "Tenskwatawa is the standard transliteration for the Shawnee prophet’s name."
+    "reason": "Tenskwatawa is the standard transliteration for the Shawnee prophet’s name.",
+    "note": "The 1955 page reads Teuskwatowa; the list quotes Teuskwatawa and records one of the two changed letters."
   },
   {
     "ref": "90:2.9",
@@ -1236,7 +1237,7 @@
     "ref": "105:3.8",
     "year": 2009,
     "kind": "text",
-    "before": "corelator of the absolute and the relative",
+    "before": "corelater of the absolute and the relative",
     "after": "correlator of the absolute and the relative",
     "inStoredText": true,
     "source": {
@@ -1244,7 +1245,8 @@
       "report": "summary-report-v8.01"
     },
     "page1955": "1156.5",
-    "reason": "Correlator, the now standard form, is found five times elsewhere in the text."
+    "reason": "Correlator, the now standard form, is found five times elsewhere in the text.",
+    "note": "The review line strikes corelator; the 1955 page and the quote line read corelater."
   },
   {
     "ref": "105:3.9",
@@ -1629,7 +1631,7 @@
     "ref": "134:7.5",
     "year": 2009,
     "kind": "text",
-    "before": "CaesareaPhilippi",
+    "before": "Caesarea Philippi",
     "after": "Caesarea-Philippi",
     "inStoredText": true,
     "source": {
@@ -1643,7 +1645,7 @@
     "ref": "134:8.1",
     "year": 2009,
     "kind": "text",
-    "before": "CaesareaPhilippi",
+    "before": "Caesarea Philippi",
     "after": "Caesarea-Philippi",
     "inStoredText": true,
     "source": {
@@ -1741,7 +1743,7 @@
     "ref": "139:12.1",
     "year": 2009,
     "kind": "text",
-    "before": "Judas parents were Sadducees",
+    "before": "Judas’ parents were Sadducees",
     "after": "Judas’s parents were Sadducees",
     "inStoredText": true,
     "source": {
@@ -1895,7 +1897,7 @@
     "ref": "153:1.7",
     "year": 2009,
     "kind": "text",
-    "before": "Jairus only reply to all this",
+    "before": "Jairus’ only reply to all this",
     "after": "Jairus’s only reply to all this",
     "inStoredText": true,
     "source": {
@@ -2119,15 +2121,16 @@
     "ref": "167:4.3",
     "year": 2009,
     "kind": "text",
-    "before": "on the second, or even the third day,",
-    "after": "on the second or even the third day,",
+    "before": "on the second, or even the third, day such",
+    "after": "on the second or even the third day, such",
     "inStoredText": true,
     "source": {
       "list": "adopted-corrections-1955-text",
       "report": "summary-report-v8.01"
     },
     "page1955": "1837.2",
-    "reason": "The form with only a comma following day is the most readable punctuation."
+    "reason": "The form with only a comma following day is the most readable punctuation.",
+    "note": "The 1955 page has a comma after third, not after day; the list records only the comma after second."
   },
   {
     "ref": "167:5.3",
@@ -2231,7 +2234,7 @@
     "ref": "173:1.3",
     "year": 2009,
     "kind": "text",
-    "before": "the size of a tencent piece",
+    "before": "the size of a ten cent piece",
     "after": "the size of a ten-cent piece",
     "inStoredText": true,
     "source": {

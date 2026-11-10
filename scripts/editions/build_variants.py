@@ -84,6 +84,22 @@ FIXES = {
     # The review line shortens the paragraph with "..."; the change is the bracket at each end.
     ("119:8.9", "["): {"before": "[This paper, depicting", "after": "This paper, depicting",
                        "note": "The 1955 text also has a closing bracket at the end of the paragraph."},
+    # The review line puts the new word outside its mark or drops a 1955 apostrophe or space; the
+    # quote line and the 1955 page photo agree (phase 2 scan check).
+    ("59:1.17", "Paradise paradise"): {"before": "a veritable tropic Paradise"},
+    ("59:2.12", "muscles mussels"): {"before": "the muscles, clams, oysters, and scallops"},
+    ("134:7.5", "CaesareaPhilippi"): {"before": "Caesarea Philippi"},
+    ("134:8.1", "CaesareaPhilippi"): {"before": "Caesarea Philippi"},
+    ("139:12.1", "Judas parents"): {"before": "Judas’ parents were Sadducees"},
+    ("153:1.7", "Jairus only"): {"before": "Jairus’ only reply to all this"},
+    ("173:1.3", "tencent"): {"before": "the size of a ten cent piece"},
+    ("105:3.8", "corelator"): {"before": "corelater of the absolute and the relative",
+                               "note": "The review line strikes corelator; the 1955 page and the quote line read corelater."},
+    # The 1955 page shows more change than the Foundation's list records.
+    ("90:2.9", "Teuskwatawa"): {"before": "the Shawnee Teuskwatowa,",
+                                "note": "The 1955 page reads Teuskwatowa; the list quotes Teuskwatawa and records one of the two changed letters."},
+    ("167:4.3", "second"): {"before": "on the second, or even the third, day such", "after": "on the second or even the third day, such",
+                            "note": "The 1955 page has a comma after third, not after day; the list records only the comma after second."},
 }
 PRINTING = {"101:3.5", "117:7.4"}  # Faults of the printed 1955 book, never in an electronic text.
 out, problems = [], []
@@ -93,7 +109,8 @@ for r in rows:
         if r["ref"] == fref and word in before:
             r.update({k: v for k, v in fix.items() if k in ("ref", "page1955")})
             before, after = fix.get("before", before), fix.get("after", after)
-            r["note"] = fix["note"]
+            if "note" in fix:
+                r["note"] = fix["note"]
     year = later.get(r["ref"]) or (2009 if in_2009(r["ref"]) else None)
     text = stored[r["ref"]]
     if before == after:
