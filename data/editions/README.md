@@ -45,8 +45,26 @@ edition builds, and `srt-2021` equals the January 2024 download in all 14,593 pa
 rows differ in white space only, from our seed). The Foundation download 21 (`UF-202303081751`)
 also equals `srt-2021` in its words; it differs in format only (small caps, a table, a quote block).
 
+## The scan check (phase 2, 2026-11-10)
+
+`scan-check.json` has one result for each row: the 1955 wording against the page photos of the first
+printing on archive.org (`TheUrantiaBook1955FirstEdition`, 600 dpi). `scripts/editions/scan_check.py`
+gets each page photo, reads it with tesseract, and looks for `before` and `after`. Each row that it
+did not settle was read by hand, in the OCR text or in the photo (`crop.py` cuts out the lines).
+
+- 178 rows match the photos: 141 by OCR, 22 by OCR read by hand, 15 by the photo.
+- 162:7.2 is not settled: 1955 breaks "bond- / servant" at a line end.
+- 196:3.35 is not checked: the scan has no pages 2092 to 2097.
+
+The photos corrected 10 rows. On 8, the Foundation's review line shows wrong 1955 words (an insert
+outside its mark, or a dropped apostrophe or space); its quote line and the photo agree. On 2, the
+1955 page shows more change than the list records:
+
+- 90:2.9: 1955 reads "Teuskwatowa"; the list quotes "Teuskwatawa" and records one changed letter.
+- 167:4.3: 1955 reads "the second, or even the third, day such"; the SRT reads "the second or even
+  the third day, such". The list records only the comma after "second".
+
 ## Not checked yet
 
-- The 1955 wording of each row against the page photos of the first printing (phase 2).
 - The editions before 2021 against a download of their time: the Wayback Machine has no older
   English download.

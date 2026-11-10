@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import scan from "../../data/editions/scan-check.json";
 import {
 	DEFAULT_EDITION,
 	EDITIONS,
@@ -49,6 +50,21 @@ describe("the variants file", () => {
 			"58:1.7",
 			"119:8.9",
 		]);
+	});
+});
+
+describe("the scan check", () => {
+	test("has one result for each row, in the same order", () => {
+		expect(scan.rows.length).toBe(VARIANTS.length);
+		scan.rows.forEach((r, i) => {
+			expect(r.ref).toBe(VARIANTS[i]?.ref ?? "");
+			expect(r.before).toBe(VARIANTS[i]?.before ?? "");
+		});
+	});
+
+	test("each row matches the 1955 photo, except the two that the photos cannot settle", () => {
+		const open = scan.rows.filter((r) => r.result !== "matches").map((r) => `${r.ref} ${r.result}`);
+		expect(open).toEqual(["162:7.2 not-settled", "196:3.35 not-checked"]);
 	});
 });
 
