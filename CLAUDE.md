@@ -273,6 +273,15 @@ The API includes a unified auth layer for the Urantia ecosystem:
 - **Two Resend keys.** A Resend key can be limited to one sending domain. The emails of the accounts site (`signin@` and `developers@accounts.urantiahub.com`) use the secret `ACCOUNTS_RESEND_API_KEY`; the feedback emails use `RESEND_API_KEY`. On 2026-10-08 the one shared key refused each accounts email with 403, and nothing showed it. A refused email now logs "the mail service did not take the email" with the status, on the console (`wrangler tail`).
 - To turn it off: switch the hook off in Supabase (Authentication, Auth Hooks). Supabase then sends its own templates again.
 
+## Editions of the text (2026-11-10, phase 1)
+
+The stored text is the Foundation download 1.22 (`srt-2024`). `data/editions/variants.json` holds the
+180 adopted corrections from Foundation sources only; `src/lib/editions.ts` makes an older edition
+(`1955`, `srt-2009` to `srt-2021`) by undoing the rows after its year. Ids: the year id, the Foundation
+number (`1.22`, `21`), or the version stamp. No route uses it yet. Sources, hashes, and checks:
+`data/editions/README.md`. After a change of the stored text, run `scripts/editions/check-editions.ts`.
+Spec: `docs/superpowers/specs/2026-11-09-text-editions.md` in the Urantia folder.
+
 ## Audio
 
 Audio lives on `cdn.urantia.dev`, not on `audio.urantia.dev`.
