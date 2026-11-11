@@ -9,12 +9,13 @@
  * the server itself (tools/list), so nothing here can drift from it.
  */
 
+import registry from "../../server.json";
 import { MCP_ICONS } from "./brand-icon.ts";
 
 const MCP_URL = "https://api.urantia.dev/mcp";
 const TRANSPORT = "streamable-http";
-// Keep in step with `version` in server.json (the MCP Registry entry).
-const VERSION = "1.2.0";
+// The version of the MCP Registry entry, so the discovery files never drift from it.
+const VERSION = registry.version;
 
 const NAME = "Urantia Papers";
 const DESCRIPTION =
