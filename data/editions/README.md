@@ -64,6 +64,21 @@ outside its mark, or a dropped apostrophe or space); its quote line and the phot
 - 167:4.3: 1955 reads "the second, or even the third, day such"; the SRT reads "the second or even
   the third day, such". The list records only the comma after "second".
 
+## The full-book check (2026-11-11)
+
+`full-check.json` has the result of a check of the whole 1955 build against the same scan. The item
+has an OCR text of each of its 2 photo sets (600 and 1600 dpi). `scripts/editions/full_compare.py`
+aligns the build with each OCR text, and `full_agree.py` keeps the differences that both show.
+
+- 3,415 differences are in both OCR texts. Both texts come from the same photos, so they share
+  most misreads. Nearly all are layout (headings, page numbers, list numbers, line-end hyphens) or
+  misread letters. 96 punctuation, capital, and word differences were read in the photo.
+- The OCR reads the first lines of each paper out of order. Those lines were read again as one
+  block with tesseract, and the rest in the photo. All 197 match.
+- 1 difference is real: 27:6.4 has no comma after "instruction" in 1955. No list records it, so the
+  1955 build has the comma.
+- 5 marks are not clear: a dot or a tail on a comma or a period. They can be specks.
+
 ## Not checked yet
 
 - The editions before 2021 against a download of their time: the Wayback Machine has no older
