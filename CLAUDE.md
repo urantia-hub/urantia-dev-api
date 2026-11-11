@@ -273,14 +273,26 @@ The API includes a unified auth layer for the Urantia ecosystem:
 - **Two Resend keys.** A Resend key can be limited to one sending domain. The emails of the accounts site (`signin@` and `developers@accounts.urantiahub.com`) use the secret `ACCOUNTS_RESEND_API_KEY`; the feedback emails use `RESEND_API_KEY`. On 2026-10-08 the one shared key refused each accounts email with 403, and nothing showed it. A refused email now logs "the mail service did not take the email" with the status, on the console (`wrangler tail`).
 - To turn it off: switch the hook off in Supabase (Authentication, Auth Hooks). Supabase then sends its own templates again.
 
-## Editions of the text (2026-11-10, phase 1)
+## Editions of the text (2026-11-11, phase 3)
 
 The stored text is the Foundation download 1.22 (`srt-2024`). `data/editions/variants.json` holds the
-180 adopted corrections from Foundation sources only; `src/lib/editions.ts` makes an older edition
-(`1955`, `srt-2009` to `srt-2021`) by undoing the rows after its year. Ids: the year id, the Foundation
-number (`1.22`, `21`), or the version stamp. No route uses it yet. Sources, hashes, and checks:
-`data/editions/README.md`. After a change of the stored text, run `scripts/editions/check-editions.ts`.
-Spec: `docs/superpowers/specs/2026-11-09-text-editions.md` in the Urantia folder.
+180 adopted corrections from Foundation sources and 1 change that the full check against the 1955 scan
+found (27:6.4, `foundBy: "scan"`). `src/lib/editions.ts` makes an older edition (`1955`, `srt-2009` to
+`srt-2021`) by undoing the rows after its year, in `text` and in `htmlText` (only the changed part, so
+the markup stays). Ids: the year id, the Foundation number (`1.22`, `21`), or the version stamp.
+
+- `?edition=` on `GET /paragraphs/{ref}`, `/paragraphs/{ref}/context`, `/paragraphs/random`, and
+  `/papers/{id}`, and `edition` on the MCP tools `paragraphs.get`, `paragraphs.context`, `papers.get`.
+  `?include=variants` (MCP: `include_variants`) adds each paragraph's changes. Each answer has
+  `meta.edition`; the search answers too (search reads `srt-2024` only).
+- An unknown id is a 400 `unknown-edition`. An edition other than the default with a language other
+  than English is a 400 `edition-needs-english`. Both are checked before the database is opened.
+- `GET /editions` and `GET /editions/variants?paper=&ref=&kind=` read the JSON only, no database.
+- The edge cache keys on the whole address, so each edition is stored apart.
+- After a change of the stored text, run `scripts/editions/check-editions.ts`.
+
+Sources, hashes, and checks: `data/editions/README.md`. Spec:
+`docs/superpowers/specs/2026-11-09-text-editions.md` in the Urantia folder.
 
 ## Audio
 

@@ -3,7 +3,13 @@
 // <stored json dir>: the seed JSON (download 1.22). <srt-2021 json dir>: the January 2024 download.
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { EDITIONS, resolveEdition, textInEdition, VARIANTS } from "../../src/lib/editions.ts";
+import {
+	EDITIONS,
+	htmlInEdition,
+	resolveEdition,
+	textInEdition,
+	VARIANTS,
+} from "../../src/lib/editions.ts";
 
 type Row = { standardReferenceId?: string; text?: string | null; htmlText?: string | null };
 
@@ -60,13 +66,18 @@ for (const e of EDITIONS) {
 		const p = stored.get(ref);
 		if (!p?.text) continue;
 		try {
-			textInEdition(ref, p.text, e);
+			const text = textInEdition(ref, p.text, e);
+			// The HTML of the edition, without its tags, is the text of the edition.
+			if (p.htmlText != null) {
+				const plain = htmlInEdition(ref, p.htmlText, e).replace(/<[^>]*>/g, "");
+				if (plain !== text) fail(`${e.id} ${ref}: the html without tags is not the text`);
+			}
 		} catch (err) {
 			fail(`${e.id} ${ref}: ${(err as Error).message}`);
 		}
 	}
 }
-console.log(`  each of the ${EDITIONS.length} editions builds`);
+console.log(`  each of the ${EDITIONS.length} editions builds, text and html`);
 
 // 2. srt-2021 built from the stored text equals the January 2024 download, word for word.
 if (srt2021Dir) {

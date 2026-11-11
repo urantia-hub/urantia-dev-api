@@ -9,6 +9,7 @@ import {
 	enrichWithUrantiaParallels,
 	wantsUrantiaParallels,
 } from "../lib/urantia-parallels.ts";
+import { chooseEdition, editionInfo, editionRows } from "../lib/editions.ts";
 import { problemJson } from "../lib/errors.ts";
 import { getParagraphNavigation } from "../lib/paragraph-lookup.ts";
 import {
@@ -22,7 +23,7 @@ import { detectRefFormat } from "../types/node.ts";
 import {
 	ContextQuery,
 	ErrorResponse,
-	IncludeQuery,
+	EditionIncludeQuery,
 	ParagraphContextResponse,
 	ParagraphRefParam,
 	ParagraphResponse,
@@ -89,7 +90,7 @@ const getRandomRoute = createRoute({
 	tags: ["Paragraphs"],
 	summary: "Get a random paragraph",
 	description:
-		"Returns a single random paragraph from the Urantia Papers. Useful for daily quotes or exploration.\n\nResponse includes a `navigation` envelope with the previous and next paragraph refs (within the same paper, ordered by sortId). Refs are `null` at paper boundaries.\n\nUse `?include=entities` to include typed entity mentions in the response.\n\nUse `?minLength=N` and/or `?maxLength=N` to filter by character count of the paragraph text.",
+		"Returns a single random paragraph from the Urantia Papers. Useful for daily quotes or exploration.\n\nResponse includes a `navigation` envelope with the previous and next paragraph refs (within the same paper, ordered by sortId). Refs are `null` at paper boundaries.\n\nUse `?include=entities` to include typed entity mentions in the response.\n\nUse `?minLength=N` and/or `?maxLength=N` to filter by character count of the paragraph text.\n\nUse `?edition=1955` (or another id from GET /editions) for the text of an older edition; the default is `srt-2024`. Use `?include=variants` for the changes to each paragraph since 1955.",
 	request: {
 		query: RandomQuery,
 	},
@@ -110,8 +111,11 @@ const getRandomRoute = createRoute({
 });
 
 paragraphsRoute.openapi(getRandomRoute, async (c) => {
+	const { include, format, lang, minLength, maxLength, edition: editionId } = c.req.valid("query");
+	const choice = chooseEdition(editionId, lang);
+	if ("error" in choice) return problemJson(c, 400, choice.error, choice.type);
+	const meta = { edition: editionInfo(choice.edition) };
 	const { db } = getDb(c.env?.HYPERDRIVE);
-	const { include, format, lang, minLength, maxLength } = c.req.valid("query");
 
 	if (minLength && maxLength && minLength >= maxLength) {
 		return problemJson(c, 400, "minLength must be less than maxLength", "invalid-length-filter");
@@ -141,15 +145,16 @@ paragraphsRoute.openapi(getRandomRoute, async (c) => {
 		result = await applyParagraphTranslations(db, result, lang);
 		result = await applyTitleTranslations(db, result, lang);
 	}
+	const edited = editionRows(result, choice.edition, include);
 
-	type Enriched = (typeof result)[number] & {
+	type Enriched = (typeof edited)[number] & {
 		entities?: Awaited<ReturnType<typeof enrichWithEntities>>[number]["entities"];
 		bibleParallels?: Awaited<ReturnType<typeof enrichWithBibleParallels>>[number]["bibleParallels"];
 		urantiaParallels?: Awaited<ReturnType<typeof enrichWithUrantiaParallels>>[number]["urantiaParallels"];
 		scriptureParallels?: Awaited<ReturnType<typeof enrichWithScriptureParallels>>[number]["scriptureParallels"];
 		scriptureScores?: Awaited<ReturnType<typeof enrichWithScriptureScores>>[number]["scriptureScores"];
 	};
-	let enriched: Enriched[] = result;
+	let enriched: Enriched[] = edited;
 	if (wantsEntities(include)) enriched = (await enrichWithEntities(db, enriched)) as Enriched[];
 	if (wantsBibleParallels(include)) enriched = (await enrichWithBibleParallels(db, enriched)) as Enriched[];
 	if (wantsUrantiaParallels(include)) enriched = (await enrichWithUrantiaParallels(db, enriched)) as Enriched[];
@@ -160,11 +165,11 @@ paragraphsRoute.openapi(getRandomRoute, async (c) => {
 
 	if (format === "rag") {
 		const ragData = await toRagFormat(db, data as Parameters<typeof toRagFormat>[1]);
-		return c.json({ data: ragData }, 200);
+		return c.json({ data: ragData, meta }, 200);
 	}
 
 	const navigation = await getParagraphNavigation(db, data.paperId, data.sortId);
-	return c.json({ data, navigation }, 200);
+	return c.json({ data, navigation, meta }, 200);
 });
 
 // GET /paragraphs/:ref — paragraph by any reference format
@@ -179,10 +184,10 @@ const getParagraphRoute = createRoute({
 - **standardReferenceId**: "2:0.1" (paperId:sectionId.paragraphId)
 - **paperSectionParagraphId**: "2.0.1" (paperId.sectionId.paragraphId)
 
-The format is auto-detected from the reference string.\n\nResponse includes a \`navigation\` envelope with the previous and next paragraph refs (within the same paper, ordered by sortId). Refs are \`null\` at paper boundaries.\n\nUse \`?include=entities\` to include typed entity mentions in the response.`,
+The format is auto-detected from the reference string.\n\nResponse includes a \`navigation\` envelope with the previous and next paragraph refs (within the same paper, ordered by sortId). Refs are \`null\` at paper boundaries.\n\nUse \`?include=entities\` to include typed entity mentions in the response.\n\nUse \`?edition=1955\` (or another id from GET /editions) for the text of an older edition; the default is \`srt-2024\`. Use \`?include=variants\` for the changes to each paragraph since 1955.`,
 	request: {
 		params: ParagraphRefParam,
-		query: IncludeQuery,
+		query: EditionIncludeQuery,
 	},
 	responses: {
 		200: {
@@ -205,10 +210,13 @@ The format is auto-detected from the reference string.\n\nResponse includes a \`
 });
 
 paragraphsRoute.openapi(getParagraphRoute, async (c) => {
-	const { db } = getDb(c.env?.HYPERDRIVE);
 	const { ref } = c.req.valid("param");
-	const { include, format: outputFormat, lang } = c.req.valid("query");
+	const { include, format: outputFormat, lang, edition: editionId } = c.req.valid("query");
 	const refFormat = detectRefFormat(ref);
+	const choice = chooseEdition(editionId, lang);
+	if ("error" in choice) return problemJson(c, 400, choice.error, choice.type);
+	const meta = { edition: editionInfo(choice.edition) };
+	const { db } = getDb(c.env?.HYPERDRIVE);
 
 	if (refFormat === "unknown") {
 		return problemJson(c, 400, `Invalid reference format: "${ref}". Expected globalId (1:2.0.1), standardReferenceId (2:0.1), or paperSectionParagraphId (2.0.1)`, "invalid-reference-format");
@@ -225,15 +233,16 @@ paragraphsRoute.openapi(getParagraphRoute, async (c) => {
 		result = await applyParagraphTranslations(db, result, lang);
 		result = await applyTitleTranslations(db, result, lang);
 	}
+	const edited = editionRows(result, choice.edition, include);
 
-	type Enriched = (typeof result)[number] & {
+	type Enriched = (typeof edited)[number] & {
 		entities?: Awaited<ReturnType<typeof enrichWithEntities>>[number]["entities"];
 		bibleParallels?: Awaited<ReturnType<typeof enrichWithBibleParallels>>[number]["bibleParallels"];
 		urantiaParallels?: Awaited<ReturnType<typeof enrichWithUrantiaParallels>>[number]["urantiaParallels"];
 		scriptureParallels?: Awaited<ReturnType<typeof enrichWithScriptureParallels>>[number]["scriptureParallels"];
 		scriptureScores?: Awaited<ReturnType<typeof enrichWithScriptureScores>>[number]["scriptureScores"];
 	};
-	let enriched: Enriched[] = result;
+	let enriched: Enriched[] = edited;
 	if (wantsEntities(include)) enriched = (await enrichWithEntities(db, enriched)) as Enriched[];
 	if (wantsBibleParallels(include)) enriched = (await enrichWithBibleParallels(db, enriched)) as Enriched[];
 	if (wantsUrantiaParallels(include)) enriched = (await enrichWithUrantiaParallels(db, enriched)) as Enriched[];
@@ -244,11 +253,11 @@ paragraphsRoute.openapi(getParagraphRoute, async (c) => {
 
 	if (outputFormat === "rag") {
 		const ragData = await toRagFormat(db, data as Parameters<typeof toRagFormat>[1]);
-		return c.json({ data: ragData }, 200);
+		return c.json({ data: ragData, meta }, 200);
 	}
 
 	const navigation = await getParagraphNavigation(db, data.paperId, data.sortId);
-	return c.json({ data, navigation }, 200);
+	return c.json({ data, navigation, meta }, 200);
 });
 
 // GET /paragraphs/:ref/context — paragraph with surrounding context
@@ -260,7 +269,7 @@ const getParagraphContextRoute = createRoute({
 	summary: "Get a paragraph with surrounding context",
 	description: `Returns the target paragraph along with N paragraphs before and after it (ordered by sort_id).
 Useful for AI agents doing RAG that need surrounding context for better understanding.
-The \`window\` query parameter controls how many paragraphs before/after to include (default: 2, max: 10).\n\nUse \`?include=entities\` to include typed entity mentions in the response.`,
+The \`window\` query parameter controls how many paragraphs before/after to include (default: 2, max: 10).\n\nUse \`?include=entities\` to include typed entity mentions in the response.\n\nUse \`?edition=1955\` (or another id from GET /editions) for the text of an older edition; the default is \`srt-2024\`. Use \`?include=variants\` for the changes to each paragraph since 1955.`,
 	request: {
 		params: ParagraphRefParam,
 		query: ContextQuery,
@@ -288,10 +297,13 @@ The \`window\` query parameter controls how many paragraphs before/after to incl
 });
 
 paragraphsRoute.openapi(getParagraphContextRoute, async (c) => {
-	const { db } = getDb(c.env?.HYPERDRIVE);
 	const { ref } = c.req.valid("param");
-	const { window: windowSize, include, lang } = c.req.valid("query");
+	const { window: windowSize, include, lang, edition: editionId } = c.req.valid("query");
 	const format = detectRefFormat(ref);
+	const choice = chooseEdition(editionId, lang);
+	if ("error" in choice) return problemJson(c, 400, choice.error, choice.type);
+	const meta = { edition: editionInfo(choice.edition) };
+	const { db } = getDb(c.env?.HYPERDRIVE);
 
 	if (format === "unknown") {
 
@@ -339,6 +351,7 @@ paragraphsRoute.openapi(getParagraphContextRoute, async (c) => {
 		allContextParagraphs = await applyParagraphTranslations(db, allContextParagraphs, lang);
 		allContextParagraphs = await applyTitleTranslations(db, allContextParagraphs, lang);
 	}
+	allContextParagraphs = editionRows(allContextParagraphs, choice.edition, include);
 	const contextMap = new Map(allContextParagraphs.map((p) => [p.id, p]));
 	const translatedTarget = contextMap.get(targetParagraph.id)!;
 
@@ -353,6 +366,7 @@ paragraphsRoute.openapi(getParagraphContextRoute, async (c) => {
 					before: before.reverse().map((p) => enrichedMap.get(p.id)!),
 					after: after.map((p) => enrichedMap.get(p.id)!),
 				},
+				meta,
 			},
 			200,
 		);
@@ -365,6 +379,7 @@ paragraphsRoute.openapi(getParagraphContextRoute, async (c) => {
 				before: before.reverse().map((p) => contextMap.get(p.id)!),
 				after: after.map((p) => contextMap.get(p.id)!),
 			},
+			meta,
 		},
 		200,
 	);

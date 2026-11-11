@@ -1466,6 +1466,15 @@
       "result": "not-checked",
       "how": null,
       "note": "The scan has no pages 2092 to 2097."
+    },
+    {
+      "ref": "27:6.4",
+      "before": "method of instruction including the higher",
+      "page": "302",
+      "leaf": 368,
+      "result": "matches",
+      "how": "photo",
+      "note": "Found by the full check (full-check.json), read at 600 and 1600 dpi."
     }
   ]
 }

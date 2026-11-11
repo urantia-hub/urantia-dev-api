@@ -9,6 +9,7 @@ import {
 	wantsEntities,
 	wantsTopEntities,
 } from "../lib/entities.ts";
+import { chooseEdition, editionInfo, editionRows } from "../lib/editions.ts";
 import { problemJson } from "../lib/errors.ts";
 import {
 	applyParagraphTranslations,
@@ -18,6 +19,7 @@ import {
 } from "../lib/translations.ts";
 import {
 	ErrorResponse,
+	EditionIncludeQuery,
 	IncludeQuery,
 	LangQuery,
 	PaperDetailResponse,
@@ -107,15 +109,19 @@ const getPaperRoute = createRoute({
 	tags: ["Papers"],
 	summary: "Get a paper with all its paragraphs",
 	description:
-		"Returns a single paper's metadata along with all its paragraphs in order. Paper IDs range from 0 (Foreword) to 196.\n\nUse `?include=entities` to include typed entity mentions in each paragraph.",
+		"Returns a single paper's metadata along with all its paragraphs in order. Paper IDs range from 0 (Foreword) to 196.\n\nUse `?include=entities` to include typed entity mentions in each paragraph.\n\nUse `?edition=1955` (or another id from GET /editions) for the text of an older edition; the default is `srt-2024`. Use `?include=variants` for the changes to each paragraph since 1955.",
 	request: {
 		params: PaperIdParam,
-		query: IncludeQuery,
+		query: EditionIncludeQuery,
 	},
 	responses: {
 		200: {
 			description: "Paper with paragraphs",
 			content: { "application/json": { schema: PaperDetailResponse } },
+		},
+		400: {
+			description: "Unknown edition, or an edition other than the default with a language other than English",
+			content: { "application/json": { schema: ErrorResponse } },
 		},
 		404: {
 			description: "Paper not found",
@@ -129,9 +135,12 @@ const getPaperRoute = createRoute({
 });
 
 papersRoute.openapi(getPaperRoute, async (c) => {
-	const { db } = getDb(c.env?.HYPERDRIVE);
 	const { id } = c.req.valid("param");
-	const { include, lang } = c.req.valid("query");
+	const { include, lang, edition: editionId } = c.req.valid("query");
+	const choice = chooseEdition(editionId, lang);
+	if ("error" in choice) return problemJson(c, 400, choice.error, choice.type);
+	const meta = { edition: editionInfo(choice.edition) };
+	const { db } = getDb(c.env?.HYPERDRIVE);
 
 	const paperRow = await db
 		.select({
@@ -176,7 +185,7 @@ papersRoute.openapi(getPaperRoute, async (c) => {
 		.from(paragraphs)
 		.where(eq(paragraphs.paperId, id))
 		.orderBy(paragraphs.sortId);
-	const paperParagraphs =
+	const localized =
 		lang && lang !== "eng"
 			? await applyTitleTranslations(
 					db,
@@ -184,6 +193,7 @@ papersRoute.openapi(getPaperRoute, async (c) => {
 					lang,
 				)
 			: englishParagraphs;
+	const paperParagraphs = editionRows(localized, choice.edition, include);
 
 	const needEntities = wantsEntities(include);
 	const needTopEntities = needEntities || wantsTopEntities(include);
@@ -203,6 +213,7 @@ papersRoute.openapi(getPaperRoute, async (c) => {
 					paper: { ...paper[0]!, topEntities },
 					paragraphs: responseParagraphs,
 				},
+				meta,
 			},
 			200,
 		);
@@ -214,6 +225,7 @@ papersRoute.openapi(getPaperRoute, async (c) => {
 				paper: paper[0]!,
 				paragraphs: paperParagraphs,
 			},
+			meta,
 		},
 		200,
 	);

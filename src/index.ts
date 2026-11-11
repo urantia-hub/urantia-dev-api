@@ -25,6 +25,7 @@ import { citeRoute } from "./routes/cite.ts";
 import { embeddingsRoute } from "./routes/embeddings.ts";
 import { entitiesRoute } from "./routes/entities.ts";
 import { feedbackRoute } from "./routes/feedback.ts";
+import { editionsRoute } from "./routes/editions.ts";
 import { languagesRoute } from "./routes/languages.ts";
 import { mcpRoute } from "./routes/mcp.ts";
 import { meRoute } from "./routes/me.ts";
@@ -223,6 +224,7 @@ app.route("/paragraphs", paragraphsRoute);
 app.route("/search", searchRoute);
 app.route("/entities", entitiesRoute);
 app.route("/languages", languagesRoute);
+app.route("/editions", editionsRoute);
 app.route("/audio", audioRoute);
 app.route("/bible", bibleRoute);
 // Before /scriptures, so "insights" is not read as a corpus name.

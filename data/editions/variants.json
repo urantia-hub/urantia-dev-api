@@ -2523,5 +2523,21 @@
     },
     "page1955": "2097.3",
     "reason": "Sons’ is correct in light of the prior sentence which provides the context: this life of the Father is in his Sons."
+  },
+  {
+    "ref": "27:6.4",
+    "year": null,
+    "kind": "text",
+    "before": "method of instruction including the higher",
+    "after": "method of instruction, including the higher",
+    "inStoredText": true,
+    "source": {
+      "list": null,
+      "report": null
+    },
+    "foundBy": "scan",
+    "page1955": "302",
+    "reason": null,
+    "note": "The 1955 page has no comma after instruction (a line end). No list or report records the comma."
   }
 ]

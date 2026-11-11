@@ -19,6 +19,14 @@ import {
 import { BIBLE_BOOKS, formatBibleReference, resolveBibleBook } from "../lib/bible-canonicalizer.ts";
 import { enrichWithBibleParallels } from "../lib/bible-parallels.ts";
 import { MCP_ICONS } from "../lib/brand-icon.ts";
+import {
+	chooseEdition,
+	DEFAULT_EDITION,
+	type Edition,
+	editionInfo,
+	inEdition,
+	withVariants,
+} from "../lib/editions.ts";
 import { enrichWithEntities } from "../lib/entities.ts";
 import { searchPapers } from "../lib/paper-search.ts";
 import { searchPapersEs } from "../lib/paper-search-es.ts";
@@ -114,6 +122,57 @@ const langInput = z
 	);
 
 type Lang = z.infer<typeof langInput>;
+
+// The paper and paragraph tools read an older edition of the English text with `edition`.
+const editionInput = z
+	.string()
+	.default(DEFAULT_EDITION)
+	.describe(
+		'The edition of the English text: "1955" (first printing), "srt-2009", "srt-2015", "srt-2018", "srt-2021", or "srt-2024" (the default). A Foundation number ("1.22", "21") also works. English only.',
+	);
+const includeVariantsInput = z
+	.boolean()
+	.default(false)
+	.describe(
+		"Include `variants`: each change to the paragraph since 1955 (before, after, year, 1955 page, reason). [] for most paragraphs.",
+	);
+
+const variantSchema = z.object({
+	year: z.number().int().nullable(),
+	kind: z.enum(["text", "format", "printing"]),
+	before: z.string(),
+	after: z.string(),
+	applied: z.boolean(),
+	source: z.object({ list: z.string().nullable(), report: z.string().nullable() }),
+	foundBy: z.literal("scan").optional(),
+	page1955: z.string().nullable(),
+	reason: z.string().nullable(),
+	note: z.string().optional(),
+});
+
+const editionSchema = z.object({
+	id: z.string(),
+	label: z.string(),
+	year: z.number().int(),
+	foundationVersion: z.string().nullable(),
+	versionStamp: z.string().nullable(),
+});
+
+// The edition a tool call asks for, or the error text.
+function toolEdition(id: string, lang: Lang): Edition | string {
+	const choice = chooseEdition(id, lang);
+	return "error" in choice ? choice.error : choice.edition;
+}
+
+// Rows in the edition, with `variants` when asked.
+function editionOf<T extends { standardReferenceId: string; text: string }>(
+	rows: T[],
+	edition: Edition,
+	variants: boolean,
+) {
+	const out = inEdition(rows, edition);
+	return variants ? withVariants(out) : out;
+}
 
 // The works tools give the catalog words in Spanish with `lang: "es"`; the text stays English.
 const catalogLangInput = z
@@ -229,6 +288,8 @@ const paragraphResultSchema = z.object({
 	scriptureParallels: z.array(scriptureParallelSchema).optional(),
 	language: z.string().optional(),
 	translation: translationLabelSchema.optional(),
+	edition: z.string().optional(),
+	variants: z.array(variantSchema).optional(),
 });
 
 // papers.get paragraphs: what an agent needs to read and cite a whole paper.
@@ -240,6 +301,8 @@ const paragraphTextSchema = z.object({
 	entities: z.array(paragraphEntityMentionSchema).optional(),
 	language: z.string().optional(),
 	translation: translationLabelSchema.optional(),
+	edition: z.string().optional(),
+	variants: z.array(variantSchema).optional(),
 });
 
 const bibleCanonEnum = z.enum(["ot", "deuterocanon", "nt"]);
@@ -552,6 +615,8 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 					.default(false)
 					.describe("Include entity mentions in each paragraph"),
 				lang: langInput,
+				edition: editionInput,
+				include_variants: includeVariantsInput,
 			},
 			outputSchema: {
 				paper: z.object({
@@ -563,10 +628,13 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 					audio: z.object({ url: z.string(), duration: z.number() }).nullable(),
 				}),
 				paragraphs: z.array(paragraphTextSchema),
+				edition: editionSchema.optional(),
 			},
 			annotations: { title: "Get Paper", ...READ_ONLY_LOCAL },
 		},
-		async ({ paper_id, include_entities, lang }) => {
+		async ({ paper_id, include_entities, lang, edition: editionId, include_variants }) => {
+			const edition = toolEdition(editionId, lang);
+			if (typeof edition === "string") return errorResult(edition);
 			const { db } = getDb();
 			const paper = await db
 				.select({
@@ -592,14 +660,18 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 				audio: voice ? { url: voice.url, duration: voice.duration } : null,
 			};
 
-			const paperParagraphs = await localizeParagraphs(
-				db,
-				await db
-					.select(mcpParagraphFields)
-					.from(paragraphs)
-					.where(eq(paragraphs.paperId, paper_id))
-					.orderBy(paragraphs.sortId),
-				lang,
+			const paperParagraphs = editionOf(
+				await localizeParagraphs(
+					db,
+					await db
+						.select(mcpParagraphFields)
+						.from(paragraphs)
+						.where(eq(paragraphs.paperId, paper_id))
+						.orderBy(paragraphs.sortId),
+					lang,
+				),
+				edition,
+				include_variants,
 			);
 
 			const enrichedParagraphs = include_entities
@@ -618,9 +690,11 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 					text: p.text,
 					...("entities" in p ? { entities: p.entities } : {}),
 					...(language ? { language, translation } : {}),
+					edition: p.edition,
+					...("variants" in p ? { variants: p.variants } : {}),
 				};
 			});
-			return structured({ paper: found, paragraphs: textParagraphs });
+			return structured({ paper: found, paragraphs: textParagraphs, edition: editionInfo(edition) });
 		},
 	);
 
@@ -770,11 +844,14 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 						"Include the 3 passages nearest in meaning from each of the 21 world religions texts (Urantia → texts), for example the Gita, the Tao Te Ching, and the Quran.",
 					),
 				lang: langInput,
+				edition: editionInput,
+				include_variants: includeVariantsInput,
 			},
 			outputSchema: {
 				paragraph: paragraphResultSchema.optional(),
 				paragraphs: z.array(paragraphResultSchema).optional(),
 				notFound: z.array(z.string()).optional(),
+				edition: editionSchema.optional(),
 			},
 			annotations: { title: "Get Paragraph", ...READ_ONLY_LOCAL },
 		},
@@ -786,7 +863,11 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 			include_urantia_parallels,
 			include_scripture_parallels,
 			lang,
+			edition: editionId,
+			include_variants,
 		}) => {
+			const edition = toolEdition(editionId, lang);
+			if (typeof edition === "string") return errorResult(edition);
 			const { db } = getDb();
 			if (!ref && !refs) return errorResult('Give a reference in "ref", or several in "refs".');
 			const list = refs ?? [ref as string];
@@ -808,15 +889,17 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 				);
 			}
 
-			const enriched = await enrichParagraphs(db, await localizeParagraphs(db, rows, lang), {
+			const localized = editionOf(await localizeParagraphs(db, rows, lang), edition, include_variants);
+			const enriched = await enrichParagraphs(db, localized, {
 				entities: include_entities,
 				bibleParallels: include_bible_parallels,
 				urantiaParallels: include_urantia_parallels,
 				scriptureParallels: include_scripture_parallels,
 				lang,
 			});
-			if (!refs) return structured({ paragraph: enriched[0]! });
-			return structured({ paragraphs: enriched, ...(notFound.length ? { notFound } : {}) });
+			const meta = { edition: editionInfo(edition) };
+			if (!refs) return structured({ paragraph: enriched[0]!, ...meta });
+			return structured({ paragraphs: enriched, ...(notFound.length ? { notFound } : {}), ...meta });
 		},
 	);
 
@@ -837,15 +920,21 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 					.describe("Number of paragraphs before and after (1-10, default 2)"),
 				include_entities: z.boolean().default(false).describe("Include entity mentions"),
 				lang: langInput,
+				edition: editionInput,
+				include_variants: includeVariantsInput,
 			},
 			outputSchema: {
 				target: paragraphResultSchema,
 				before: z.array(paragraphResultSchema),
 				after: z.array(paragraphResultSchema),
+				edition: editionSchema.optional(),
 			},
 			annotations: { title: "Get Paragraph with Context", ...READ_ONLY_LOCAL },
 		},
-		async ({ ref, window: windowSize, include_entities, lang }) => {
+		async ({ ref, window: windowSize, include_entities, lang, edition: editionId, include_variants }) => {
+			const edition = toolEdition(editionId, lang);
+			if (typeof edition === "string") return errorResult(edition);
+			const meta = { edition: editionInfo(edition) };
 			const { db } = getDb();
 			const format = detectRefFormat(ref);
 			if (format === "unknown") return errorResult(`Invalid reference format: "${ref}"`);
@@ -874,10 +963,10 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 				.limit(windowSize);
 
 			// One call localizes the whole window: the target, then before, then after.
-			const localized = await localizeParagraphs(
-				db,
-				[targetRow, ...beforeRows, ...afterRows],
-				lang,
+			const localized = editionOf(
+				await localizeParagraphs(db, [targetRow, ...beforeRows, ...afterRows], lang),
+				edition,
+				include_variants,
 			);
 			const targetParagraph = localized[0]!;
 			const before = localized.slice(1, 1 + beforeRows.length);
@@ -895,6 +984,7 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 					target: enrichedMap.get(targetParagraph.id)!,
 					before: before.reverse().map((p) => enrichedMap.get(p.id)!),
 					after: after.map((p) => enrichedMap.get(p.id)!),
+					...meta,
 				});
 			}
 
@@ -902,6 +992,7 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 				target: targetParagraph,
 				before: before.reverse(),
 				after,
+				...meta,
 			});
 		},
 	);
