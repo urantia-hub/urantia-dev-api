@@ -268,6 +268,47 @@ const catalogMarks = {
 	),
 };
 
+export const VariantSchema = z.object({
+	year: z
+		.number()
+		.int()
+		.nullable()
+		.describe("The year of the committee report that adopted the change; null when no report lists it."),
+	kind: z
+		.enum(["text", "format", "printing"])
+		.describe("text: words or punctuation. format: italics only. printing: a fault of the printed 1955 book."),
+	before: z.string().describe("The words before the change (the 1955 wording)."),
+	after: z.string().describe("The words after the change."),
+	applied: z.boolean().describe("True when the default edition has the change."),
+	source: z.object({ list: z.string().nullable(), report: z.string().nullable() }),
+	foundBy: z
+		.literal("scan")
+		.optional()
+		.describe("Present when no Foundation list records the change: it was found in the 1955 page photos."),
+	page1955: z.string().nullable().describe("The page (and line) of the 1955 printing."),
+	reason: z.string().nullable(),
+	note: z.string().optional(),
+});
+
+export const EditionInfoSchema = z.object({
+	id: z.string(),
+	label: z.string(),
+	year: z.number().int(),
+	foundationVersion: z.string().nullable(),
+	versionStamp: z.string().nullable(),
+});
+
+export const EditionMeta = z.object({
+	edition: EditionInfoSchema.describe("The edition of the text in this answer."),
+});
+
+export const EditionParam = z
+	.string()
+	.optional()
+	.describe(
+		"The edition of the text: a year id (`1955`, `srt-2009`, `srt-2015`, `srt-2018`, `srt-2021`, `srt-2024`), a Foundation number (`1.22`, `21`), or a version stamp. Default `srt-2024`. See GET /editions. English only.",
+	);
+
 export const ParagraphSchema = z.object({
 	id: z.string(),
 	standardReferenceId: z.string(),
@@ -292,6 +333,11 @@ export const ParagraphSchema = z.object({
 		.lazy(() => ParagraphScriptureScoresSchema)
 		.nullable()
 		.optional(),
+	edition: z.string().optional().describe("The id of the edition of `text`."),
+	variants: z
+		.array(VariantSchema)
+		.optional()
+		.describe("With `include=variants`: the changes to this paragraph since 1955, [] for most."),
 });
 
 // --- TOC ---
@@ -328,6 +374,7 @@ export const PaperDetailResponse = z.object({
 		paper: PaperDetailSchema,
 		paragraphs: z.array(ParagraphSchema),
 	}),
+	meta: EditionMeta.optional(),
 });
 
 // --- Sections ---
@@ -346,6 +393,7 @@ export const NavigationSchema = z.object({
 export const ParagraphResponse = z.object({
 	data: ParagraphSchema,
 	navigation: NavigationSchema.optional(),
+	meta: EditionMeta.optional(),
 });
 
 // --- RAG format ---
@@ -380,6 +428,7 @@ export const ParagraphContextResponse = z.object({
 		before: z.array(ParagraphSchema),
 		after: z.array(ParagraphSchema),
 	}),
+	meta: EditionMeta.optional(),
 });
 
 // --- Search ---
@@ -428,6 +477,7 @@ export const SearchResponse = z.object({
 			.object({ work: z.string(), title: z.string() })
 			.optional()
 			.describe("Another work that the query names, such as the Bible or the Dhammapada."),
+		edition: EditionInfoSchema.optional().describe("The edition of the text that search reads: always the default, srt-2024."),
 	}),
 });
 
@@ -472,6 +522,7 @@ export const SemanticSearchResponse = z.object({
 	meta: PaginationMeta.extend({
 		total: z.number().int().describe("The length of the list: the nearest results, at most 100."),
 		related: z.number().int().describe("How many results of the list are related or better."),
+		edition: EditionInfoSchema.optional().describe("The edition of the text that search reads: always the default, srt-2024."),
 	}),
 });
 
@@ -505,6 +556,7 @@ export const ContextQuery = z.object({
 	include: z.string().optional(),
 	format: FormatEnum.optional(),
 	lang: SupportedLanguage.optional(),
+	edition: EditionParam,
 });
 
 export const IncludeQuery = z.object({
@@ -513,12 +565,20 @@ export const IncludeQuery = z.object({
 	lang: SupportedLanguage.optional(),
 });
 
+export const EditionIncludeQuery = z.object({
+	include: z.string().optional(),
+	format: FormatEnum.optional(),
+	lang: SupportedLanguage.optional(),
+	edition: EditionParam,
+});
+
 export const RandomQuery = z.object({
 	include: z.string().optional(),
 	format: FormatEnum.optional(),
 	lang: SupportedLanguage.optional(),
 	minLength: z.coerce.number().int().min(1).optional(),
 	maxLength: z.coerce.number().int().min(1).optional(),
+	edition: EditionParam,
 });
 
 // --- Entity ---
@@ -1113,4 +1173,30 @@ export const OtherWorkParallelsResponse = z.object({
 				"Up to 10 chunks of the other works and of the Bible, nearest first. Empty when none are stored.",
 			),
 	}),
+});
+
+// --- Editions ---
+
+export const EditionsListResponse = z.object({
+	data: z.array(
+		EditionInfoSchema.extend({
+			default: z.boolean(),
+			changes: z
+				.number()
+				.int()
+				.describe("The changes adopted in this edition's year (for srt-2009, also those that no report dates)."),
+		}),
+	),
+	meta: z.object({ default: z.string(), variants: z.number().int() }),
+});
+
+export const VariantsQuery = z.object({
+	paper: z.string().optional().describe("Only the variants of this paper (0 to 196)."),
+	ref: z.string().optional().describe('Only the variants of this paragraph ("98:3.8").'),
+	kind: z.enum(["text", "format", "printing"]).optional(),
+});
+
+export const VariantsListResponse = z.object({
+	data: z.array(VariantSchema.extend({ ref: z.string() })),
+	meta: z.object({ total: z.number().int() }),
 });

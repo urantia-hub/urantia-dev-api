@@ -76,6 +76,20 @@ const langProp: JSONSchemaProperty = {
 	default: "eng",
 };
 
+const editionProp: JSONSchemaProperty = {
+	type: "string",
+	description:
+		'The edition of the English text: "1955" (first printing), "srt-2009", "srt-2015", "srt-2018", "srt-2021", or "srt-2024" (the default). A Foundation number ("1.22", "21") also works. English only.',
+	default: "srt-2024",
+};
+
+const includeVariantsProp: JSONSchemaProperty = {
+	type: "boolean",
+	description:
+		"Include `variants`: each change to the paragraph since 1955 (before, after, year, 1955 page, reason). [] for most paragraphs.",
+	default: false,
+};
+
 const bookCodeProp: JSONSchemaProperty = {
 	type: "string",
 	description:
@@ -159,6 +173,8 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 				paper_id: paperIdProp,
 				include_entities: includeEntitiesProp,
 				lang: langProp,
+				edition: editionProp,
+				include_variants: includeVariantsProp,
 			},
 			required: ["paper_id"],
 		},
@@ -209,6 +225,8 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 				include_urantia_parallels: includeUrantiaParallelsProp,
 				include_scripture_parallels: includeScriptureParallelsProp,
 				lang: langProp,
+				edition: editionProp,
+				include_variants: includeVariantsProp,
 			},
 		},
 	},
@@ -229,6 +247,8 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 				},
 				include_entities: includeEntitiesProp,
 				lang: langProp,
+				edition: editionProp,
+				include_variants: includeVariantsProp,
 			},
 			required: ["ref"],
 		},

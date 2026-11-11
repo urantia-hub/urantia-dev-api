@@ -1,6 +1,7 @@
 # Editions of the English text
 
-`variants.json` has one row for each correction that Urantia Foundation adopted to the 1955 text. The
+`variants.json` has one row for each correction that Urantia Foundation adopted to the 1955 text, and
+1 row that the full-book check found (27:6.4, `foundBy: "scan"`). The
 API stores the newest edition (`srt-2024`, the Foundation download 1.22). `src/lib/editions.ts` makes
 an older edition from it: it undoes the `text` rows with a year after that edition, newest first.
 
@@ -22,7 +23,9 @@ The reports are on https://www.urantia.org/urantia-book/text-standardization-det
 ## A row
 
 - `year`: the report that adopted it. 2009 is the summary report v8.01. `null`: the adopted list has
-  it, but no report does (4 rows).
+  it, but no report does (4 rows), or no list has it (the 27:6.4 row). Only the 1955 edition undoes a
+  `null` row.
+- `source`: the list and the report. Both are `null` for the 27:6.4 row.
 - `kind`: `text` (words or punctuation), `format` (italics only, so the plain text is the same), or
   `printing` (a fault of the printed 1955 book that no electronic text had: 101:3.5, 117:7.4).
 - `inStoredText`: false when the Foundation lists the change but download 1.22 still has the 1955
@@ -44,6 +47,9 @@ bun scripts/editions/check-editions.ts <seed json dir> <January 2024 json dir>
 edition builds, and `srt-2021` equals the January 2024 download in all 14,593 paragraphs (26 table
 rows differ in white space only, from our seed). The Foundation download 21 (`UF-202303081751`)
 also equals `srt-2021` in its words; it differs in format only (small caps, a table, a quote block).
+Since 2026-11-11 the check also builds the `htmlText` of each edition and compares it, without its
+tags, with the text of that edition (171 text rows, all pass). Only the changed part of a row is
+replaced in the HTML, so the markup stays. A `format` row does not change the HTML of an older edition.
 
 ## The scan check (phase 2, 2026-11-10)
 
@@ -75,8 +81,9 @@ aligns the build with each OCR text, and `full_agree.py` keeps the differences t
   misread letters. 96 punctuation, capital, and word differences were read in the photo.
 - The OCR reads the first lines of each paper out of order. Those lines were read again as one
   block with tesseract, and the rest in the photo. All 197 match.
-- 1 difference is real: 27:6.4 has no comma after "instruction" in 1955. No list records it, so the
-  1955 build has the comma.
+- 1 difference is real: 27:6.4 has no comma after "instruction" in 1955. No list records it. Since
+  2026-11-11 it is a row of `variants.json` (from `EXTRA` in `build_variants.py`), so the 1955 edition
+  has no comma there.
 - 5 marks are not clear: a dot or a tail on a comma or a period. They can be specks.
 
 ## Not checked yet

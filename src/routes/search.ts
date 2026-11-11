@@ -30,6 +30,10 @@ import {
 	SemanticSearchRequest,
 	SemanticSearchResponse,
 } from "../validators/schemas.ts";
+import { DEFAULT_EDITION, editionInfo, resolveEdition } from "../lib/editions.ts";
+
+// Search reads the stored text, the default edition.
+const STORED_EDITION = editionInfo(resolveEdition(DEFAULT_EDITION)!);
 
 export const searchRoute = createApp();
 
@@ -101,7 +105,7 @@ async function handleFullTextSearch(c: AnyContext, params: SearchParams) {
 	return c.json(
 		{
 			data: enrichedResults,
-			meta,
+			meta: { ...meta, edition: STORED_EDITION },
 		},
 		200,
 	);
@@ -209,7 +213,7 @@ async function handleSemanticSearch(c: AnyContext, params: SemanticSearchParams)
 		});
 	}
 
-	return c.json({ data: enrichedResults, meta }, 200);
+	return c.json({ data: enrichedResults, meta: { ...meta, edition: STORED_EDITION } }, 200);
 }
 
 const searchDescription = `Search the Urantia Papers by keyword. Four search modes:

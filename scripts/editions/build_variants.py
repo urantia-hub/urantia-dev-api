@@ -148,6 +148,19 @@ for r in rows:
                 problems.append((r["ref"], n_after, n_before, before, after))
     out.append(row)
 
+# Changes that no Foundation list records, found by the full check against the 1955 scan.
+EXTRA = [
+    {"ref": "27:6.4", "year": None, "kind": "text",
+     "before": "method of instruction including the higher", "after": "method of instruction, including the higher",
+     "inStoredText": True, "source": {"list": None, "report": None}, "foundBy": "scan", "page1955": "302",
+     "reason": None,
+     "note": "The 1955 page has no comma after instruction (a line end). No list or report records the comma."},
+]
+for x in EXTRA:
+    if stored[x["ref"]].count(x["after"]) != 1:
+        problems.append((x["ref"], "extra row not in one place"))
+    out.append(x)
+
 print("rows", len(out), collections.Counter((x["kind"], x["year"]) for x in out))
 print("not in stored text", [x["ref"] for x in out if not x["inStoredText"]])
 print("no report", [x["ref"] for x in out if x["year"] is None])

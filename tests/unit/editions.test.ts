@@ -1,13 +1,18 @@
 import { describe, expect, test } from "bun:test";
 import scan from "../../data/editions/scan-check.json";
 import {
+	chooseEdition,
 	DEFAULT_EDITION,
 	EDITIONS,
+	editionInfo,
+	htmlInEdition,
+	inEdition,
 	resolveEdition,
 	textInEdition,
 	undoneIn,
 	VARIANTS,
 	variantsOf,
+	withVariants,
 } from "../../src/lib/editions.ts";
 
 const ed = (id: string) => {
@@ -17,8 +22,11 @@ const ed = (id: string) => {
 };
 
 describe("the variants file", () => {
-	test("has the 180 rows of the Foundation's adopted list", () => {
-		expect(VARIANTS.length).toBe(180);
+	test("has the 180 rows of the Foundation's adopted list and 1 row from the scan", () => {
+		expect(VARIANTS.length).toBe(181);
+		expect(
+			VARIANTS.filter((v) => v.source.list === null).map((v) => `${v.ref} ${v.foundBy}`),
+		).toEqual(["27:6.4 scan"]);
 	});
 
 	test("each row has a known kind, a real ref, and two different sides", () => {
@@ -37,7 +45,7 @@ describe("the variants file", () => {
 			VARIANTS.filter((v) => v.year === null)
 				.map((v) => v.ref)
 				.sort(),
-		).toEqual(["101:3.5", "117:7.4", "187:5.1", "95:7.1"]);
+		).toEqual(["101:3.5", "117:7.4", "187:5.1", "27:6.4", "95:7.1"]);
 	});
 
 	test("counts by year match the committee reports", () => {
@@ -136,5 +144,93 @@ describe("textInEdition", () => {
 
 	test("throws when the stored text does not hold the row's words", () => {
 		expect(() => textInEdition("98:3.8", "some other text", ed("1955"))).toThrow();
+	});
+});
+
+describe("the html of an edition", () => {
+	const e1955 = ed("1955");
+	test("replaces only the changed part, so the markup stays (57:1.4, 37:8.3)", () => {
+		const html =
+			'<span class="x"><em>900,000,000,000</em> years ago, the Uversa archives testify, there</span>';
+		expect(htmlInEdition("57:1.4", html, e1955)).toBe(
+			'<span class="x"><em>900,000,000,000</em> years ago the Uversa archives testify, there</span>',
+		);
+		const html2 =
+			"Andovontia is the name of the tertiary <em>Universe Circuit Supervisor</em> stationed";
+		expect(htmlInEdition("37:8.3", html2, e1955)).toBe(
+			"Andovontia is the name of the secondary <em>Universe Circuit Supervisor</em> stationed",
+		);
+	});
+	test("leaves the html of the default edition as it is", () => {
+		expect(htmlInEdition("57:1.4", "<em>a</em>", ed(DEFAULT_EDITION))).toBe("<em>a</em>");
+	});
+	test("throws when the words are not in the html", () => {
+		expect(() => htmlInEdition("57:1.4", "<p>other words</p>", e1955)).toThrow();
+	});
+});
+
+describe("rows in an edition", () => {
+	const row = {
+		standardReferenceId: "27:6.4",
+		text: "every possible method of instruction, including the higher graph technique",
+		htmlText:
+			"<span>every possible method of instruction, including the higher graph technique</span>",
+	};
+	test("gives the text and html of the edition and its id", () => {
+		const [r] = inEdition([row], ed("1955"));
+		expect(r?.text).toBe(
+			"every possible method of instruction including the higher graph technique",
+		);
+		expect(r?.htmlText).toBe(
+			"<span>every possible method of instruction including the higher graph technique</span>",
+		);
+		expect(r?.edition).toBe("1955");
+	});
+	test("a row with no year changes only in 1955", () => {
+		const [r] = inEdition([row], ed("srt-2009"));
+		expect(r?.text).toBe(row.text);
+		expect(r?.edition).toBe("srt-2009");
+	});
+	test("variants: the public form, [] for a paragraph with none", () => {
+		const [a, b] = withVariants([
+			{ standardReferenceId: "98:3.8" },
+			{ standardReferenceId: "1:0.1" },
+		]);
+		expect(a?.variants.map((v) => [v.year, v.before, v.after, v.applied])).toEqual([
+			[
+				2024,
+				"more than twoscore self-elevated human deities",
+				"more than two-score self-elevated human deities",
+				true,
+			],
+		]);
+		expect(b?.variants).toEqual([]);
+		expect(Object.keys(a?.variants[0] ?? {})).not.toContain("inStoredText");
+	});
+});
+
+describe("the edition of a request", () => {
+	test("the default, a year id, a Foundation number, or a version stamp", () => {
+		const id = (x?: string, lang?: string) => {
+			const c = chooseEdition(x, lang);
+			return "edition" in c ? c.edition.id : c.type;
+		};
+		expect(id()).toBe(DEFAULT_EDITION);
+		expect(id("1955")).toBe("1955");
+		expect(id("21")).toBe("srt-2021");
+		expect(id("UF-202412132348")).toBe("srt-2024");
+		expect(id("1956")).toBe("unknown-edition");
+		expect(id("1955", "es")).toBe("edition-needs-english");
+		expect(id("1955", "eng")).toBe("1955");
+		expect(id("srt-2024", "es")).toBe("srt-2024");
+	});
+	test("editionInfo has the ids and no more", () => {
+		expect(Object.keys(editionInfo(ed("srt-2021")))).toEqual([
+			"id",
+			"label",
+			"year",
+			"foundationVersion",
+			"versionStamp",
+		]);
 	});
 });

@@ -30,6 +30,8 @@ export const EXAMPLE_REQUESTS: ExampleRequest[] = ([] = [
 		path: "/entities/machiventa-melchizedek/paragraphs?limit=2",
 	},
 	{ op: "get /languages", path: "/languages" },
+	{ op: "get /editions", path: "/editions" },
+	{ op: "get /editions/variants", path: "/editions/variants?paper=98" },
 	{ op: "get /audio/{ref}", path: "/audio/2:5.1" },
 	{ op: "get /bible/books", path: "/bible/books" },
 	{ op: "get /bible/{bookCode}", path: "/bible/MAT" },
