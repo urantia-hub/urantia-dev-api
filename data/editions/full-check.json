@@ -1,0 +1,27 @@
+{
+  "scan": "archive.org TheUrantiaBook1955FirstEdition: the OCR texts of the 600 dpi and 1600 dpi photos, and the photos",
+  "checked": "2026-11-11",
+  "compared": "the 1955 build of every paragraph (textInEdition) against the whole book",
+  "differences": {
+    "both OCR texts": 3415,
+    "read in the photo": 96,
+    "paper openings read apart": 197
+  },
+  "found": [
+    {
+      "ref": "27:6.4",
+      "result": "differs",
+      "page": 302,
+      "build": "every possible method of instruction, including the higher graph technique",
+      "photo": "every possible method of instruction including the higher graph technique",
+      "note": "No comma after \"instruction\" in 1955 (a line end). No list or report records the comma."
+    }
+  ],
+  "notClear": [
+    { "ref": "16:3.5", "page": 187, "build": "the Eternal Son. He is", "photo": "the Eternal Son: He is", "note": "A small upper dot; the 1600 dpi photo shows a colon." },
+    { "ref": "48:4.4", "page": 547, "build": "spirit humor, first", "photo": "spirit humor; first", "note": "A small dot over the comma." },
+    { "ref": "55:4.17", "page": 628, "build": "his associates. Such couples", "photo": "his associates, Such couples", "note": "A short tail under the period." },
+    { "ref": "56:9.7", "page": 645, "build": "only in infinity. Deity", "photo": "only in infinity, Deity", "note": "A short tail under the period." },
+    { "ref": "195:0.3", "page": 2069, "build": "sex regulation, polygamy", "photo": "sex regulation; polygamy", "note": "A small dot over the comma." }
+  ]
+}
