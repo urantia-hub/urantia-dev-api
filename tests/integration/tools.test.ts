@@ -63,10 +63,13 @@ describe("GET /tools/openai", () => {
 	it("required fields are present on tools that need them", async () => {
 		const res = await get("/tools/openai");
 		const { tools } = await res.json();
-		const getParagraph = tools.find(
-			(t: { function: { name: string } }) => t.function.name === "get_paragraph",
-		);
-		expect(getParagraph.function.parameters.required).toEqual(["ref"]);
+		const byName = (n: string) =>
+			tools.find((t: { function: { name: string } }) => t.function.name === n);
+		expect(byName("get_paragraph_context").function.parameters.required).toEqual(["ref"]);
+		// get_paragraph takes `ref` or `refs`, so neither is required by the schema.
+		const getParagraph = byName("get_paragraph").function.parameters;
+		expect(getParagraph.required).toBeUndefined();
+		expect(Object.keys(getParagraph.properties)).toEqual(expect.arrayContaining(["ref", "refs"]));
 	});
 
 	it("search tool exposes both `query` and `q` parameters", async () => {

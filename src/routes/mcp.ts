@@ -58,6 +58,7 @@ import { verseColumns } from "./bible.ts";
 import { CitationStyleEnum, citeParagraph } from "./cite.ts";
 import { paragraphFields } from "./paragraphs.ts";
 import { verifyQuote } from "./quotes.ts";
+import registry from "../../server.json";
 
 export const mcpRoute = new Hono();
 
@@ -499,7 +500,7 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 	const server = new McpServer({
 		name: "Urantia Papers API",
 		title: "Urantia Papers",
-		version: "1.0.0",
+		version: registry.version,
 		icons: MCP_ICONS,
 		websiteUrl: "https://urantia.dev",
 	});
