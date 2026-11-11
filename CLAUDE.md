@@ -290,6 +290,12 @@ the markup stays). Ids: the year id, the Foundation number (`1.22`, `21`), or th
 - `GET /editions` and `GET /editions/variants?paper=&ref=&kind=` read the JSON only, no database.
 - The edge cache keys on the whole address, so each edition is stored apart.
 - After a change of the stored text, run `scripts/editions/check-editions.ts`.
+- `quotes.verify` (phase 4, `src/lib/quote-editions.ts`): each candidate is scored in each edition, and
+  `match.edition` is the newest edition with the best score (a tie keeps the newer one); an older edition
+  adds `match.variants`. A quote that holds the old words of a change (the changed words and one
+  neighbor word) brings that paragraph in, up to 5. A change of punctuation, a capital, or a hyphen is
+  not seen, because the quote check ignores them: on 2026-11-11, 124 of the 171 text changes matched in
+  an older edition, and the other 47 tie and give `srt-2024`.
 
 Sources, hashes, and checks: `data/editions/README.md`. Spec:
 `docs/superpowers/specs/2026-11-09-text-editions.md` in the Urantia folder.

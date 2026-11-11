@@ -2084,7 +2084,7 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 		{
 			title: "Verify a Quote",
 			description:
-				'Checks whether a quoted passage is in the Urantia Papers. Returns `verdict` (exact, close, not_found), the reference and exact text of the best match, each word that differs, and other places the quote appears. Case and punctuation are ignored. A quote must be at least 4 words and fall within one paragraph. Give `ref` (such as "2:5.1") to also check the reference the quote claims.',
+				'Checks whether a quoted passage is in the Urantia Papers. Returns `verdict` (exact, close, not_found), the reference and exact text of the best match, each word that differs, and other places the quote appears. Case and punctuation are ignored. A quote must be at least 4 words and fall within one paragraph. Give `ref` (such as "2:5.1") to also check the reference the quote claims. A quote of an older edition (such as the 1955 first printing) also matches: `match.edition` names the edition, and `match.variants` gives the changes.',
 			inputSchema: {
 				text: z
 					.string()
@@ -2110,6 +2110,8 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 							similarity: z.number(),
 							text: z.string().nullable(),
 							differences: z.array(z.object({ quote: z.string(), text: z.string() })),
+							edition: z.string(),
+							variants: z.array(variantSchema).optional(),
 						})
 						.nullable(),
 					claimedReference: z

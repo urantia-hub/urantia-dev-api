@@ -17,6 +17,14 @@ const OTHER: Candidate = {
 	text: "Religion inspires man to live courageously and joyfully on the face of the earth.",
 };
 
+const P983: Candidate = {
+	standardReferenceId: "98:3.8",
+	paperId: "98",
+	paperTitle: "The Melchizedek Teachings in the Occident",
+	sectionTitle: "The Greek Philosophers",
+	text: "The cult had a roster of more than two-score self-elevated human deities.",
+};
+
 function source(found: Candidate[], all: Candidate[] = found): CandidateSource {
 	return {
 		search: async () => found,
@@ -88,5 +96,25 @@ describe("POST /quotes/verify", () => {
 	it("rejects a quote under 4 words, and an empty body", async () => {
 		expect((await verify(source([P251]), { text: "God is love" })).status).toBe(400);
 		expect((await verify(source([P251]), {})).status).toBe(400);
+	});
+
+	it("finds a quote of the 1955 wording through the old words, in an older edition", async () => {
+		const { body } = await verify(source([], [P983]), {
+			text: "a roster of more than twoscore self-elevated human deities",
+		});
+		expect(body.data.verdict).toBe("exact");
+		const match = body.data.match as { reference: string; edition: string; variants: { year: number }[] };
+		expect(match.reference).toBe("98:3.8");
+		expect(match.edition).toBe("srt-2021");
+		expect(match.variants.map((v) => v.year)).toEqual([2024]);
+	});
+
+	it("gives srt-2024 and no variants for a quote of the current text", async () => {
+		const { body } = await verify(source([P983]), {
+			text: "a roster of more than two-score self-elevated human deities",
+		});
+		const match = body.data.match as { edition: string; variants?: unknown };
+		expect(match.edition).toBe("srt-2024");
+		expect(match.variants).toBeUndefined();
 	});
 });

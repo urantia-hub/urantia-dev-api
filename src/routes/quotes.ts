@@ -1,19 +1,16 @@
 import { createRoute } from "@hono/zod-openapi";
 import { z } from "zod";
 import { createApp } from "../lib/app.ts";
+import { DEFAULT_EDITION, type Edition, publicVariant, variantsOf } from "../lib/editions.ts";
 import { problemJson } from "../lib/errors.ts";
 import { type CandidateSource, databaseCandidates } from "../lib/quote-candidates.ts";
-import {
-	candidateQuery,
-	MIN_QUOTE_WORDS,
-	type Score,
-	scoreQuote,
-	tokenize,
-} from "../lib/quote-verify.ts";
-import { ErrorResponse } from "../validators/schemas.ts";
+import { olderWordingRefs, scoreBetter, scoreInEditions } from "../lib/quote-editions.ts";
+import { candidateQuery, MIN_QUOTE_WORDS, type Score, tokenize } from "../lib/quote-verify.ts";
+import { ErrorResponse, VariantSchema } from "../validators/schemas.ts";
 
 const CANDIDATES = 30;
-const VERDICT_RANK = { exact: 2, close: 1, not_found: 0 } as const;
+// At most this many paragraphs join the search results because the quote uses their older wording.
+const OLDER_WORDING_CANDIDATES = 5;
 
 const VerifyBody = z.object({
 	text: z.string().min(1).max(2000).describe("The quoted passage to check. At least 4 words."),
@@ -37,6 +34,15 @@ const Match = z.object({
 	differences: z
 		.array(z.object({ quote: z.string(), text: z.string() }))
 		.describe("Each place the quote differs: the quote's words, and the words in the text."),
+	edition: z
+		.string()
+		.describe(
+			'The edition of the text that the quote matches best: "srt-2024" (the default), or an older one such as "1955" when the quote has the older wording.',
+		),
+	variants: z
+		.array(VariantSchema)
+		.optional()
+		.describe("When `edition` is an older edition: the changes to this paragraph since 1955."),
 });
 
 const VerifyResponse = z.object({
@@ -70,7 +76,7 @@ const verifyRoute = createRoute({
 	tags: ["Quotes"],
 	summary: "Check a quote against the text",
 	description:
-		"Checks whether a quoted passage is in the Urantia Papers. It returns the reference, the exact text, and each word that differs. Case and punctuation are ignored. A quote must be at least 4 words and fall within one paragraph.",
+		"Checks whether a quoted passage is in the Urantia Papers. It returns the reference, the exact text, and each word that differs. Case and punctuation are ignored. A quote must be at least 4 words and fall within one paragraph. A quote of an older edition (such as the 1955 first printing) also matches: `match.edition` names the edition, and `match.variants` gives the changes.",
 	request: { body: { required: true, content: { "application/json": { schema: VerifyBody } } } },
 	responses: {
 		200: { description: "The result", content: { "application/json": { schema: VerifyResponse } } },
@@ -81,13 +87,10 @@ const verifyRoute = createRoute({
 	},
 });
 
-type Scored = { candidate: Awaited<ReturnType<CandidateSource["search"]>>[number]; score: Score };
+type Candidate = Awaited<ReturnType<CandidateSource["search"]>>[number];
+type Scored = { candidate: Candidate; score: Score; edition: Edition };
 
-const better = (a: Scored, b: Scored) =>
-	VERDICT_RANK[a.score.verdict] - VERDICT_RANK[b.score.verdict] ||
-	a.score.similarity - b.score.similarity;
-
-function toMatch({ candidate, score }: Scored) {
+function toMatch({ candidate, score, edition }: Scored) {
 	return {
 		reference: candidate.standardReferenceId,
 		paperId: candidate.paperId,
@@ -97,6 +100,10 @@ function toMatch({ candidate, score }: Scored) {
 		similarity: score.similarity,
 		text: score.matchedText,
 		differences: score.differences,
+		edition: edition.id,
+		...(edition.id !== DEFAULT_EDITION
+			? { variants: variantsOf(candidate.standardReferenceId).map(publicVariant) }
+			: {}),
 	};
 }
 
@@ -105,16 +112,22 @@ export async function verifyQuote(candidates: CandidateSource, text: string, ref
 	if (tokenize(text).length < MIN_QUOTE_WORDS) return null;
 	const found = await candidates.search(candidateQuery(text), CANDIDATES);
 	const claimed = ref ? await candidates.byRef(ref) : null;
-	const pool =
-		claimed && !found.some((f) => f.standardReferenceId === claimed.standardReferenceId)
-			? [...found, claimed]
-			: found;
-	const scored = pool.map((candidate) => ({
+	const pool = [...found];
+	const add = (c: Candidate | null) => {
+		if (c && !pool.some((p) => p.standardReferenceId === c.standardReferenceId)) pool.push(c);
+	};
+	add(claimed);
+	// A paragraph whose older wording the quote uses is a candidate even when search missed it.
+	const older = olderWordingRefs(text)
+		.filter((r) => !pool.some((p) => p.standardReferenceId === r))
+		.slice(0, OLDER_WORDING_CANDIDATES);
+	for (const c of await Promise.all(older.map((r) => candidates.byRef(r)))) add(c);
+	const scored: Scored[] = pool.map((candidate) => ({
 		candidate,
-		score: scoreQuote(text, candidate.text),
+		...scoreInEditions(text, candidate.standardReferenceId, candidate.text),
 	}));
 	const best = scored.reduce<Scored | null>(
-		(top, s) => (!top || better(s, top) > 0 ? s : top),
+		(top, s) => (!top || scoreBetter(s.score, top.score) > 0 ? s : top),
 		null,
 	);
 	const verdict = best?.score.verdict ?? "not_found";
