@@ -496,7 +496,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 	{
 		name: "verify_quote",
 		description:
-			'Check whether a quoted passage is in the Urantia Papers. Returns `verdict` (exact, close, not_found), the reference and exact text of the best match, and each word that differs. A quote must be at least 4 words. Give `ref` (such as "2:5.1") to also check the reference the quote claims.',
+			'Check whether a quoted passage is in the Urantia Papers. Returns `verdict` (exact, close, not_found), the reference and exact text of the best match, and each word that differs. A quote must be at least 4 words. Give `ref` (such as "2:5.1") to also check the reference the quote claims. A quote of an older edition (such as the 1955 first printing) also matches: `match.edition` names the edition.',
 		parameters: {
 			type: "object",
 			properties: {
