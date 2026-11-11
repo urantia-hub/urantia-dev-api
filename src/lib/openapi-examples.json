@@ -169,7 +169,8 @@
 									"fileSize": 931674
 								}
 							}
-						}
+						},
+						"edition": "srt-2024"
 					},
 					{
 						"id": "1:2.0.2",
@@ -210,9 +211,19 @@
 									"fileSize": 1080258
 								}
 							}
-						}
+						},
+						"edition": "srt-2024"
 					}
 				]
+			},
+			"meta": {
+				"edition": {
+					"id": "srt-2024",
+					"label": "Standard Reference Text, 2024",
+					"year": 2024,
+					"foundationVersion": "1.22",
+					"versionStamp": "UF-202412132348"
+				}
 			}
 		}
 	},
@@ -241,42 +252,43 @@
 	"get /paragraphs/random": {
 		"response": {
 			"data": {
-				"id": "1:22.5.2",
-				"standardReferenceId": "22:5.2",
-				"sortId": "1.022.005.002",
-				"paperId": "22",
-				"sectionId": "5",
-				"partId": "1",
-				"paperTitle": "The Trinitized Sons of God",
-				"sectionTitle": "The Trinitized Custodians",
-				"paragraphId": "2",
-				"text": "Trinitized Custodians are ascendant seraphim and translated midway creatures who have passed through Havona and have attained Paradise and the Corps of the Finality. Subsequently they were embraced by the Paradise Trinity and were assigned to the service of the Ancients of Days.",
-				"htmlText": "<span class=\"urantia-dev-pb-0\">Trinitized Custodians are ascendant seraphim and translated midway creatures who have passed through Havona and have attained Paradise and the Corps of the Finality. Subsequently they were embraced by the Paradise Trinity and were assigned to the service of the Ancients of Days.</span>",
+				"id": "4:134.8.7",
+				"standardReferenceId": "134:8.7",
+				"sortId": "4.134.008.007",
+				"paperId": "134",
+				"sectionId": "8",
+				"partId": "4",
+				"paperTitle": "The Transition Years",
+				"sectionTitle": "The Sojourn on Mount Hermon",
+				"paragraphId": "7",
+				"text": "To the many proposals and counterproposals of the emissaries of Lucifer, Jesus only made reply: “May the will of my Paradise Father prevail, and you, my rebellious son, may the Ancients of Days judge you divinely. I am your Creator-father; I can hardly judge you justly, and my mercy you have already spurned. I commit you to the adjudication of the Judges of a greater universe.”",
+				"htmlText": "<span class=\"urantia-dev-pb-0\">To the many proposals and counterproposals of the emissaries of Lucifer, Jesus only made reply: “May the will of my Paradise Father prevail, and you, my rebellious son, may the Ancients of Days judge you divinely. I am your Creator-father; I can hardly judge you justly, and my mercy you have already spurned. I commit you to the adjudication of the Judges of a greater universe.”</span>",
 				"labels": [],
 				"audio": {
 					"tts-1-hd": {
 						"nova": {
-							"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-1:22.5.2.mp3",
+							"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-4:134.8.7.mp3",
 							"format": "mp3",
 							"bitrate": 160,
-							"duration": 17.8,
-							"fileSize": 356640
-						}
-					},
-					"gpt-4o-mini-tts": {
-						"cedar": {
-							"url": "https://cdn.urantia.dev/audio/eng/paragraphs/cedar/gpt-4o-mini-tts-cedar-1:22.5.2.mp3",
-							"format": "mp3",
-							"bitrate": 192,
-							"duration": 17.5,
-							"fileSize": 420719
+							"duration": 23.6,
+							"fileSize": 471840
 						}
 					}
-				}
+				},
+				"edition": "srt-2024"
 			},
 			"navigation": {
-				"prev": "22:5.1",
-				"next": "22:5.3"
+				"prev": "134:8.6",
+				"next": "134:8.8"
+			},
+			"meta": {
+				"edition": {
+					"id": "srt-2024",
+					"label": "Standard Reference Text, 2024",
+					"year": 2024,
+					"foundationVersion": "1.22",
+					"versionStamp": "UF-202412132348"
+				}
 			}
 		}
 	},
@@ -321,11 +333,21 @@
 							"fileSize": 434511
 						}
 					}
-				}
+				},
+				"edition": "srt-2024"
 			},
 			"navigation": {
 				"prev": "2:4.5",
 				"next": "2:5.2"
+			},
+			"meta": {
+				"edition": {
+					"id": "srt-2024",
+					"label": "Standard Reference Text, 2024",
+					"year": 2024,
+					"foundationVersion": "1.22",
+					"versionStamp": "UF-202412132348"
+				}
 			}
 		}
 	},
@@ -371,7 +393,8 @@
 								"fileSize": 873995
 							}
 						}
-					}
+					},
+					"edition": "srt-2024"
 				},
 				"before": [
 					{
@@ -413,7 +436,8 @@
 									"fileSize": 779328
 								}
 							}
-						}
+						},
+						"edition": "srt-2024"
 					}
 				],
 				"after": [
@@ -456,9 +480,19 @@
 									"fileSize": 1025088
 								}
 							}
-						}
+						},
+						"edition": "srt-2024"
 					}
 				]
+			},
+			"meta": {
+				"edition": {
+					"id": "srt-2024",
+					"label": "Standard Reference Text, 2024",
+					"year": 2024,
+					"foundationVersion": "1.22",
+					"versionStamp": "UF-202412132348"
+				}
 			}
 		}
 	},
@@ -524,7 +558,14 @@
 				"page": 0,
 				"limit": 2,
 				"total": 244,
-				"totalPages": 122
+				"totalPages": 122,
+				"edition": {
+					"id": "srt-2024",
+					"label": "Standard Reference Text, 2024",
+					"year": 2024,
+					"foundationVersion": "1.22",
+					"versionStamp": "UF-202412132348"
+				}
 			}
 		}
 	},
@@ -594,7 +635,14 @@
 				"page": 0,
 				"limit": 2,
 				"total": 244,
-				"totalPages": 122
+				"totalPages": 122,
+				"edition": {
+					"id": "srt-2024",
+					"label": "Standard Reference Text, 2024",
+					"year": 2024,
+					"foundationVersion": "1.22",
+					"versionStamp": "UF-202412132348"
+				}
 			}
 		}
 	},
@@ -625,7 +673,7 @@
 							}
 						}
 					},
-					"similarity": 0.553150798189724,
+					"similarity": 0.553137052739669,
 					"strength": "weak",
 					"match": "similar"
 				},
@@ -653,7 +701,7 @@
 							}
 						}
 					},
-					"similarity": 0.526940972060405,
+					"similarity": 0.526908267016456,
 					"strength": "weak",
 					"match": "similar"
 				}
@@ -663,7 +711,14 @@
 				"limit": 2,
 				"total": 100,
 				"totalPages": 50,
-				"related": 0
+				"related": 0,
+				"edition": {
+					"id": "srt-2024",
+					"label": "Standard Reference Text, 2024",
+					"year": 2024,
+					"foundationVersion": "1.22",
+					"versionStamp": "UF-202412132348"
+				}
 			}
 		}
 	},
@@ -698,7 +753,7 @@
 							}
 						}
 					},
-					"similarity": 0.553150798189724,
+					"similarity": 0.553137052739669,
 					"strength": "weak",
 					"match": "similar"
 				},
@@ -726,7 +781,7 @@
 							}
 						}
 					},
-					"similarity": 0.526940972060405,
+					"similarity": 0.526908267016456,
 					"strength": "weak",
 					"match": "similar"
 				}
@@ -736,7 +791,14 @@
 				"limit": 2,
 				"total": 100,
 				"totalPages": 50,
-				"related": 0
+				"related": 0,
+				"edition": {
+					"id": "srt-2024",
+					"label": "Standard Reference Text, 2024",
+					"year": 2024,
+					"foundationVersion": "1.22",
+					"versionStamp": "UF-202412132348"
+				}
 			}
 		}
 	},
@@ -887,6 +949,71 @@
 					"paragraphCount": 14586
 				}
 			]
+		}
+	},
+	"get /editions": {
+		"response": {
+			"data": [
+				{
+					"id": "1955",
+					"label": "First printing (1955)",
+					"year": 1955,
+					"foundationVersion": null,
+					"versionStamp": null,
+					"default": false,
+					"changes": 0
+				},
+				{
+					"id": "srt-2009",
+					"label": "Standard Reference Text, 2009",
+					"year": 2009,
+					"foundationVersion": null,
+					"versionStamp": null,
+					"default": false,
+					"changes": 161
+				}
+			],
+			"meta": {
+				"default": "srt-2024",
+				"variants": 181
+			}
+		}
+	},
+	"get /editions/variants": {
+		"response": {
+			"data": [
+				{
+					"ref": "98:3.8",
+					"year": 2024,
+					"kind": "text",
+					"before": "more than twoscore self-elevated human deities",
+					"after": "more than two-score self-elevated human deities",
+					"applied": true,
+					"source": {
+						"list": "adopted-corrections-1955-text",
+						"report": "approved-2024"
+					},
+					"page1955": "1081.2",
+					"reason": "The hyphenated form is the consistent usage elsewhere in the text. The decision was made to standardize on that form."
+				},
+				{
+					"ref": "98:4.1",
+					"year": 2009,
+					"kind": "text",
+					"before": "people in the Graeco-Roman world",
+					"after": "people in the Greco-Roman world",
+					"applied": true,
+					"source": {
+						"list": "adopted-corrections-1955-text",
+						"report": "summary-report-v8.01"
+					},
+					"page1955": "1081.4",
+					"reason": "The more modern form was decided upon."
+				}
+			],
+			"meta": {
+				"total": 2
+			}
 		}
 	},
 	"get /audio/{ref}": {
@@ -1084,7 +1211,7 @@
 					"verseStart": 3,
 					"verseEnd": 3,
 					"text": "“Blessed are the poor in spirit, for theirs is the Kingdom of Heaven.",
-					"similarity": 0.840739,
+					"similarity": 0.840725,
 					"urantiaParallels": [
 						{
 							"id": "4:140.3.3",
@@ -1108,7 +1235,7 @@
 					"verseStart": 1,
 					"verseEnd": 1,
 					"text": "Blessed is he who considers the poor. Yahweh will deliver him in the day of evil.",
-					"similarity": 0.642851,
+					"similarity": 0.642814,
 					"urantiaParallels": [
 						{
 							"id": "4:131.2.8",
@@ -1298,7 +1425,7 @@
 					"reference": "Dhp 3-5",
 					"text": "\"He abused me, he beat me, he defeated me, he robbed me,\"--in those who harbour such thoughts hatred will never cease. \"He abused me, he beat me, he defeated me, he robbed me,\"--in those who do not harbour such thoughts hatred will cease. For hatred does not cease by hatred at any time: hatred ceases by love, this is an old rule.",
 					"url": "https://www.gutenberg.org/cache/epub/2017/pg2017-images.html#:~:text=those%20who%20harbour%20such",
-					"similarity": 0.663218010380599,
+					"similarity": 0.663269069221102,
 					"strength": "strong",
 					"urantiaParallels": [
 						{
@@ -1329,7 +1456,7 @@
 					"reference": "Proverbs 10:12",
 					"text": "Hatred stirs up strife, but love covers all wrongs.",
 					"url": "https://ebible.org/eng-web/PRO10.htm#V12",
-					"similarity": 0.50763853796286,
+					"similarity": 0.507617732971611,
 					"strength": "weak",
 					"urantiaParallels": [
 						{
@@ -1736,7 +1863,7 @@
 						"urantiaSection": "131:3"
 					},
 					"text": "\"He abused me, he beat me, he defeated me, he robbed me,\"--in those who harbour such thoughts hatred will never cease. \"He abused me, he beat me, he defeated me, he robbed me,\"--in those who do not harbour such thoughts hatred will cease. For hatred does not cease by hatred at any time: hatred ceases by love, this is an old rule.",
-					"similarity": 0.599195,
+					"similarity": 0.599255,
 					"urantiaParallels": [
 						{
 							"id": "4:131.3.6",
@@ -1764,7 +1891,7 @@
 						"urantiaSection": "131:3"
 					},
 					"text": "Let, therefore, no man love anything; loss of the beloved is evil. Those who love nothing and hate nothing, have no fetters. From pleasure comes grief, from pleasure comes fear; he who is free from pleasure knows neither grief nor fear. From affection comes grief, from affection comes fear; he who is free from affection knows neither grief nor fear.",
-					"similarity": 0.441808,
+					"similarity": 0.441773,
 					"urantiaParallels": [
 						{
 							"id": "4:131.3.6",
