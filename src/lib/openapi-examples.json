@@ -252,34 +252,34 @@
 	"get /paragraphs/random": {
 		"response": {
 			"data": {
-				"id": "4:134.8.7",
-				"standardReferenceId": "134:8.7",
-				"sortId": "4.134.008.007",
-				"paperId": "134",
-				"sectionId": "8",
-				"partId": "4",
-				"paperTitle": "The Transition Years",
-				"sectionTitle": "The Sojourn on Mount Hermon",
-				"paragraphId": "7",
-				"text": "To the many proposals and counterproposals of the emissaries of Lucifer, Jesus only made reply: “May the will of my Paradise Father prevail, and you, my rebellious son, may the Ancients of Days judge you divinely. I am your Creator-father; I can hardly judge you justly, and my mercy you have already spurned. I commit you to the adjudication of the Judges of a greater universe.”",
-				"htmlText": "<span class=\"urantia-dev-pb-0\">To the many proposals and counterproposals of the emissaries of Lucifer, Jesus only made reply: “May the will of my Paradise Father prevail, and you, my rebellious son, may the Ancients of Days judge you divinely. I am your Creator-father; I can hardly judge you justly, and my mercy you have already spurned. I commit you to the adjudication of the Judges of a greater universe.”</span>",
+				"id": "2:39.5.17",
+				"standardReferenceId": "39:5.17",
+				"sortId": "2.039.005.017",
+				"paperId": "39",
+				"sectionId": "5",
+				"partId": "2",
+				"paperTitle": "The Seraphic Hosts",
+				"sectionTitle": "Planetary Helpers",
+				"paragraphId": "17",
+				"text": "7. The Reserves. The Satania reserve corps of the planetary seraphim is maintained on Jerusem in close association with the reserves of the Material Sons. These abundant reserves repletely provide for every phase of the manifold activities of this seraphic order. These angels are also the personal message bearers of the local systems. They serve transition mortals, angels, and the Material Sons as well as others domiciled on the system headquarters. While Urantia is, at present, outside the spiritual circuits of Satania and Norlatiadek, you are otherwise in intimate touch with interplanetary affairs, for these messengers from Jerusem frequently come to this world as to all the other spheres of the system.",
+				"htmlText": "<span class=\"urantia-dev-pb-0\">7. <em>The Reserves.</em> The Satania reserve corps of the planetary seraphim is maintained on Jerusem in close association with the reserves of the Material Sons. These abundant reserves repletely provide for every phase of the manifold activities of this seraphic order. These angels are also the personal message bearers of the local systems. They serve transition mortals, angels, and the Material Sons as well as others domiciled on the system headquarters. While Urantia is, at present, outside the spiritual circuits of Satania and Norlatiadek, you are otherwise in intimate touch with interplanetary affairs, for these messengers from Jerusem frequently come to this world as to all the other spheres of the system.</span>",
 				"labels": [],
 				"audio": {
 					"tts-1-hd": {
 						"nova": {
-							"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-4:134.8.7.mp3",
+							"url": "https://cdn.urantia.dev/audio/eng/paragraphs/nova/tts-1-hd-nova-2:39.5.17.mp3",
 							"format": "mp3",
 							"bitrate": 160,
-							"duration": 23.6,
-							"fileSize": 471840
+							"duration": 45.1,
+							"fileSize": 902880
 						}
 					}
 				},
 				"edition": "srt-2024"
 			},
 			"navigation": {
-				"prev": "134:8.6",
-				"next": "134:8.8"
+				"prev": "39:5.16",
+				"next": "39:6.1"
 			},
 			"meta": {
 				"edition": {
@@ -2254,6 +2254,11 @@
 							"quote": "enough",
 							"text": "sufficiently"
 						}
+					],
+					"edition": "srt-2024",
+					"editions": [
+						"1955",
+						"srt-2009"
 					]
 				},
 				"claimedReference": {
