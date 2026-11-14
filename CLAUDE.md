@@ -291,6 +291,8 @@ the markup stays). Ids: the year id, the Foundation number (`1.22`, `21`), or th
   database. The MCP tools `editions.list` and `editions.variants` (2026-11-14) give the same answers
   from the same functions (`editionsList`, `findVariants`). `edition` on the variants gives the
   changes adopted in that edition: `srt-2009` also holds the 5 rows with no report year, `1955` none.
+  `from` and `to` (defaults `1955` and `srt-2024`) give each change between two editions in one call,
+  and `meta.applied` counts the rows that the default text has.
 - The MCP `initialize` answer carries `instructions` (`MCP_INSTRUCTIONS` in `src/routes/mcp.ts`) and
   `serverInfo.description` (from `server.json`). A new group of tools gets a line in the instructions.
 - The edge cache keys on the whole address, so each edition is stored apart.
