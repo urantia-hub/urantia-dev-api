@@ -496,7 +496,7 @@ function errorResult(message: string) {
 export const MCP_INSTRUCTIONS = [
 	"The Urantia Papers (197 papers), open and public domain, with the World English Bible and 21 texts of the world's religions. No key and no account.",
 	'References: a paragraph is "paper:section.paragraph", such as "196:2.1" (paper 0 is the Foreword). Start with toc.get or papers.list for the layout, search.fulltext for words, and search.semantic for an idea. paragraphs.get reads one or more paragraphs, paragraphs.context adds the paragraphs around one, and papers.get reads a whole paper.',
-	'Editions: the text is the Standard Reference Text of 2024 (srt-2024) by default. editions.list gives the editions (the 1955 first printing is the original) and how many changes each one adopted. editions.variants lists the changes, by paper, paragraph, kind, or edition. paragraphs.get, paragraphs.context, and papers.get take `edition` (such as "1955") for the older text and `include_variants` for the changes. quotes.verify also places a quote of an older edition.',
+	'Editions: the text is the Standard Reference Text of 2024 (srt-2024) by default. editions.list gives the editions (the 1955 first printing is the original) and how many changes each one adopted. editions.variants lists the changes, by paper, paragraph, kind, or edition; `from` and `to` give each change between two editions (such as 1955 and srt-2015) in one call. paragraphs.get, paragraphs.context, and papers.get take `edition` (such as "1955") for the older text and `include_variants` for the changes. quotes.verify also places a quote of an older edition.',
 	'Spanish: `lang: "es"` on the paper, paragraph, and search tools gives an AI translation (CC0). Editions are English only.',
 	"Other texts: works.* searches and reads the Bible and the other texts; bible.* covers the Bible alone. Parallels (include_bible_parallels, include_urantia_parallels, include_scripture_parallels, works.urantia_parallels) are semantic neighbors, not curated links.",
 	"Cite with cite.get. Quote the text word for word, and check a quote with quotes.verify.",
@@ -624,7 +624,7 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 		{
 			title: "Get Paper",
 			description:
-				"Get a single paper with all its paragraphs. Paper IDs range from 0 (Foreword) to 196. Each paragraph has its reference, section, and plain text, so a whole paper fits in one call. `paper.audio` is one audio file of the whole paper (null when there is none). Optionally include entity mentions.",
+				"Get a single paper with all its paragraphs. Paper IDs range from 0 (Foreword) to 196. Each paragraph has its reference, section, and plain text, so a whole paper fits in one call. `paper.audio` is one audio file of the whole paper (null when there is none). Optionally include entity mentions. `edition` gives an older edition of the text (such as \"1955\"), and `include_variants` each paragraph's changes since 1955.",
 			inputSchema: {
 				paper_id: z.string().describe("Paper ID (0-196). Example: '1'"),
 				include_entities: z
@@ -2173,7 +2173,7 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 		{
 			title: "List the Changes Since 1955",
 			description:
-				'List the changes to the English text since the 1955 first printing: the words before and after, the year, the 1955 page, and the reason. Filter by `paper`, `ref`, `kind`, or `edition` (the changes adopted in that edition). With no filter, all of them (about 180). To compare 1955 with a later edition, take the changes of each edition after 1955 up to it. `applied` is false for a change that the Foundation lists but the default text does not have yet.',
+				'List the changes to the English text since the 1955 first printing: the words before and after, the year, the 1955 page, and the reason. Filter by `paper`, `ref`, `kind`, `edition` (the changes adopted in that one edition), or `from` and `to` (each change between two editions: `from: "1955", to: "srt-2015"` compares the first printing with srt-2015). With no filter, all of them (about 180). `applied` is false for a change that the Foundation lists but the default text does not have yet; `meta.applied` counts those that it has.',
 			inputSchema: {
 				paper: z.string().optional().describe('Only the changes of this paper, "0" to "196".'),
 				ref: z.string().optional().describe('Only the changes of this paragraph, such as "98:3.8".'),
@@ -2185,10 +2185,18 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 					.string()
 					.optional()
 					.describe('Only the changes adopted in this edition, such as "srt-2021". "1955" has none.'),
+				from: z
+					.string()
+					.optional()
+					.describe('With `to`: the changes adopted after this edition. Default "1955". Not with `edition`.'),
+				to: z
+					.string()
+					.optional()
+					.describe('With `from`: the changes up to and including this edition. Default "srt-2024".'),
 			},
 			outputSchema: {
 				data: z.array(variantSchema.extend({ ref: z.string() })),
-				meta: z.object({ total: z.number().int() }),
+				meta: z.object({ total: z.number().int(), applied: z.number().int() }),
 			},
 			annotations: { title: "List the Changes Since 1955", ...READ_ONLY_LOCAL },
 		},

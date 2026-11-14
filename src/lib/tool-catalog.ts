@@ -515,7 +515,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 	{
 		name: "list_text_changes",
 		description:
-			"List the changes to the English text since the 1955 first printing: the words before and after, the year, the 1955 page, and the reason. Filter by `paper`, `ref`, `kind`, or `edition` (the changes adopted in that edition). With no filter, all of them (about 180).",
+			"List the changes to the English text since the 1955 first printing: the words before and after, the year, the 1955 page, and the reason. Filter by `paper`, `ref`, `kind`, `edition` (the changes adopted in that one edition), or `from` and `to` (each change between two editions, such as 1955 and srt-2015). With no filter, all of them (about 180).",
 		parameters: {
 			type: "object",
 			properties: {
@@ -534,6 +534,16 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 					type: "string",
 					description:
 						'Only the changes adopted in this edition, such as "srt-2021". "1955" has none.',
+				},
+				from: {
+					type: "string",
+					description:
+						'With `to`: the changes adopted after this edition. Default "1955". Not with `edition`.',
+				},
+				to: {
+					type: "string",
+					description:
+						'With `from`: the changes up to and including this edition. Default "srt-2024".',
 				},
 			},
 		},

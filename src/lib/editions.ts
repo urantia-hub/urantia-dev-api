@@ -291,7 +291,14 @@ export function editionsList() {
 	};
 }
 
-export type VariantFilter = { paper?: string; ref?: string; kind?: VariantKind; edition?: string };
+export type VariantFilter = {
+	paper?: string;
+	ref?: string;
+	kind?: VariantKind;
+	edition?: string;
+	from?: string;
+	to?: string;
+};
 
 const PAPER_ID = /^(0|[1-9]\d{0,2})$/;
 
@@ -299,7 +306,7 @@ const PAPER_ID = /^(0|[1-9]\d{0,2})$/;
 export function findVariants(
 	f: VariantFilter,
 ):
-	| { data: (PublicVariant & { ref: string })[]; meta: { total: number } }
+	| { data: (PublicVariant & { ref: string })[]; meta: { total: number; applied: number } }
 	| { error: string; type: string } {
 	const paper = f.paper?.trim();
 	if (paper !== undefined && !(PAPER_ID.test(paper) && Number(paper) <= 196)) {
@@ -315,16 +322,35 @@ export function findVariants(
 			type: "invalid-reference-format",
 		};
 	}
+	const unknown = (id: string) => ({
+		error: `Unknown edition "${id}". Use one of: ${EDITIONS.map((e) => e.id).join(", ")}.`,
+		type: "unknown-edition",
+	});
+	const ranged = f.from !== undefined || f.to !== undefined;
 	let rows = VARIANTS;
 	if (f.edition !== undefined) {
-		const edition = resolveEdition(f.edition);
-		if (!edition) {
+		if (ranged) {
 			return {
-				error: `Unknown edition "${f.edition}". Use one of: ${EDITIONS.map((e) => e.id).join(", ")}.`,
-				type: "unknown-edition",
+				error: "Give `edition` (one edition) or `from` and `to` (two editions), not both.",
+				type: "invalid-edition-range",
 			};
 		}
+		const edition = resolveEdition(f.edition);
+		if (!edition) return unknown(f.edition);
 		rows = adoptedIn(edition);
+	} else if (ranged) {
+		// The changes between two editions: adopted after `from`, up to and including `to`.
+		const from = resolveEdition(f.from ?? "1955");
+		if (!from) return unknown(f.from ?? "");
+		const to = resolveEdition(f.to ?? DEFAULT_EDITION);
+		if (!to) return unknown(f.to ?? "");
+		if (from.year >= to.year) {
+			return {
+				error: `\`from\` (${from.id}) must be an older edition than \`to\` (${to.id}).`,
+				type: "invalid-edition-range",
+			};
+		}
+		rows = VARIANTS.filter((v) => yearOf(v) > from.year && yearOf(v) <= to.year);
 	}
 	const data = rows
 		.filter(
@@ -334,5 +360,5 @@ export function findVariants(
 				(f.kind === undefined || v.kind === f.kind),
 		)
 		.map((v) => ({ ref: v.ref, ...publicVariant(v) }));
-	return { data, meta: { total: data.length } };
+	return { data, meta: { total: data.length, applied: data.filter((v) => v.applied).length } };
 }

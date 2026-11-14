@@ -273,10 +273,14 @@ export const VariantSchema = z.object({
 		.number()
 		.int()
 		.nullable()
-		.describe("The year of the committee report that adopted the change; null when no report lists it."),
+		.describe(
+			"The year of the committee report that adopted the change; null when no report lists it.",
+		),
 	kind: z
 		.enum(["text", "format", "printing"])
-		.describe("text: words or punctuation. format: italics only. printing: a fault of the printed 1955 book."),
+		.describe(
+			"text: words or punctuation. format: italics only. printing: a fault of the printed 1955 book.",
+		),
 	before: z.string().describe("The words before the change (the 1955 wording)."),
 	after: z.string().describe("The words after the change."),
 	applied: z.boolean().describe("True when the default edition has the change."),
@@ -284,7 +288,9 @@ export const VariantSchema = z.object({
 	foundBy: z
 		.literal("scan")
 		.optional()
-		.describe("Present when no Foundation list records the change: it was found in the 1955 page photos."),
+		.describe(
+			"Present when no Foundation list records the change: it was found in the 1955 page photos.",
+		),
 	page1955: z.string().nullable().describe("The page (and line) of the 1955 printing."),
 	reason: z.string().nullable(),
 	note: z.string().optional(),
@@ -477,7 +483,9 @@ export const SearchResponse = z.object({
 			.object({ work: z.string(), title: z.string() })
 			.optional()
 			.describe("Another work that the query names, such as the Bible or the Dhammapada."),
-		edition: EditionInfoSchema.optional().describe("The edition of the text that search reads: always the default, srt-2024."),
+		edition: EditionInfoSchema.optional().describe(
+			"The edition of the text that search reads: always the default, srt-2024.",
+		),
 	}),
 });
 
@@ -522,7 +530,9 @@ export const SemanticSearchResponse = z.object({
 	meta: PaginationMeta.extend({
 		total: z.number().int().describe("The length of the list: the nearest results, at most 100."),
 		related: z.number().int().describe("How many results of the list are related or better."),
-		edition: EditionInfoSchema.optional().describe("The edition of the text that search reads: always the default, srt-2024."),
+		edition: EditionInfoSchema.optional().describe(
+			"The edition of the text that search reads: always the default, srt-2024.",
+		),
 	}),
 });
 
@@ -1184,7 +1194,9 @@ export const EditionsListResponse = z.object({
 			changes: z
 				.number()
 				.int()
-				.describe("The changes adopted in this edition's year (for srt-2009, also those that no report dates)."),
+				.describe(
+					"The changes adopted in this edition's year (for srt-2009, also those that no report dates).",
+				),
 		}),
 	),
 	meta: z.object({ default: z.string(), variants: z.number().int() }),
@@ -1197,10 +1209,30 @@ export const VariantsQuery = z.object({
 	edition: z
 		.string()
 		.optional()
-		.describe('Only the changes adopted in this edition ("srt-2021"). "srt-2009" also holds the changes that no report dates; "1955" has none.'),
+		.describe(
+			'Only the changes adopted in this edition ("srt-2021"). "srt-2009" also holds the changes that no report dates; "1955" has none.',
+		),
+	from: z
+		.string()
+		.optional()
+		.describe(
+			'With `to`: the changes between two editions, adopted after this one. Default "1955". Not with `edition`.',
+		),
+	to: z
+		.string()
+		.optional()
+		.describe(
+			'With `from`: the changes up to and including this edition. Default "srt-2024". `from=1955&to=srt-2015` gives each difference between the 1955 text and srt-2015.',
+		),
 });
 
 export const VariantsListResponse = z.object({
 	data: z.array(VariantSchema.extend({ ref: z.string() })),
-	meta: z.object({ total: z.number().int() }),
+	meta: z.object({
+		total: z.number().int(),
+		applied: z
+			.number()
+			.int()
+			.describe("How many of these changes the default text has (`applied: true`)."),
+	}),
 });

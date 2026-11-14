@@ -72,6 +72,34 @@ describe("GET /editions/variants", () => {
 		for (const v of byNumber.data) expect([v.year, v.kind]).toEqual([2024, "text"]);
 	});
 
+	it("gives each change between two editions with from and to", async () => {
+		type Body = { data: { year: number | null }[]; meta: { total: number; applied: number } };
+		const range = (await (await get("/editions/variants?from=1955&to=srt-2015")).json()) as Body;
+		const y2009 = (await (await get("/editions/variants?edition=srt-2009")).json()) as Body;
+		const y2015 = (await (await get("/editions/variants?edition=srt-2015")).json()) as Body;
+		expect(range.meta.total).toBe(y2009.meta.total + y2015.meta.total);
+		for (const v of range.data) expect(v.year ?? 2009).toBeLessThanOrEqual(2015);
+		// 119:8.9 (2009) and 58:1.7 (2015) are listed but not in the default text.
+		expect(range.meta.applied).toBe(range.meta.total - 2);
+		// The defaults are 1955 and srt-2024: every change.
+		const all = (await (await get("/editions/variants?to=srt-2024")).json()) as Body;
+		expect(all.meta.total).toBe(181);
+		const late = (await (await get("/editions/variants?from=srt-2018&to=srt-2024")).json()) as Body;
+		for (const v of late.data) expect([2021, 2024]).toContain(v.year as number);
+	});
+
+	it("answers 400 for a range that is empty or mixed with edition", async () => {
+		for (const q of [
+			"from=srt-2021&to=srt-2015",
+			"from=srt-2015&to=srt-2015",
+			"edition=srt-2015&to=srt-2021",
+			"from=1956",
+		]) {
+			const res = await get(`/editions/variants?${q}`);
+			expect(res.status).toBe(400);
+		}
+	});
+
 	it("answers 400 unknown-edition for an edition filter it does not know", async () => {
 		const res = await get("/editions/variants?edition=1956");
 		expect(res.status).toBe(400);

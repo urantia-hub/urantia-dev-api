@@ -52,6 +52,14 @@ describe("MCP editions tools", () => {
 		for (const v of e2021.structuredContent.data) expect(v.year).toBe(2021);
 	});
 
+	it("editions.variants compares 1955 with a later edition in one call", async () => {
+		const r = await call("editions.variants", { from: "1955", to: "srt-2015" });
+		const { data, meta } = r.structuredContent;
+		expect(meta.total).toBe(data.length);
+		expect(meta.applied).toBeLessThan(meta.total);
+		for (const v of data) expect(v.year ?? 2009).toBeLessThanOrEqual(2015);
+	});
+
 	it("editions.variants gives an error for an unknown edition", async () => {
 		const r = await call("editions.variants", { edition: "1956" });
 		expect(r.isError).toBe(true);

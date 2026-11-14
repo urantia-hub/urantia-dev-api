@@ -36,7 +36,7 @@ const listVariantsRoute = createRoute({
 	tags: ["Editions"],
 	summary: "List the changes to the text since 1955",
 	description:
-		"Returns each change to the English text since the first printing, in the order of the Foundation's list of adopted corrections: the words before and after, the year of the committee report, the 1955 page, and the reason. Filter with `paper`, `ref`, `kind`, or `edition` (the changes adopted in that edition; `srt-2009` also holds the changes that no report dates, and `1955` has none). `applied` is false for a change that the Foundation lists but its download does not have yet.",
+		"Returns each change to the English text since the first printing, in the order of the Foundation's list of adopted corrections: the words before and after, the year of the committee report, the 1955 page, and the reason. Filter with `paper`, `ref`, `kind`, `edition` (the changes adopted in that one edition; `srt-2009` also holds the changes that no report dates, and `1955` has none), or `from` and `to` (each change between two editions: `from=1955&to=srt-2015` compares the first printing with srt-2015). `applied` is false for a change that the Foundation lists but its download does not have yet; `meta.applied` counts those that it has.",
 	request: { query: VariantsQuery },
 	responses: {
 		200: {
