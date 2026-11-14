@@ -39,6 +39,11 @@ const Match = z.object({
 		.describe(
 			'The edition of the text that the quote matches best: "srt-2024" (the default), or an older one such as "1955" when the quote has the older wording.',
 		),
+	editions: z
+		.array(z.string())
+		.describe(
+			'Each edition whose text matches the quote as well as `edition` does, oldest first. ["1955", "srt-2009", "srt-2015", "srt-2018"] means the quoted wording was in the first printing and changed in 2021. Case, punctuation, and hyphens are ignored, so a change of only those is not seen.',
+		),
 	variants: z
 		.array(VariantSchema)
 		.optional()
@@ -76,7 +81,7 @@ const verifyRoute = createRoute({
 	tags: ["Quotes"],
 	summary: "Check a quote against the text",
 	description:
-		"Checks whether a quoted passage is in the Urantia Papers. It returns the reference, the exact text, and each word that differs. Case and punctuation are ignored. A quote must be at least 4 words and fall within one paragraph. A quote of an older edition (such as the 1955 first printing) also matches: `match.edition` names the edition, and `match.variants` gives the changes.",
+		"Checks whether a quoted passage is in the Urantia Papers. It returns the reference, the exact text, and each word that differs. Case and punctuation are ignored. A quote must be at least 4 words and fall within one paragraph. A quote of an older edition (such as the 1955 first printing) also matches: `match.edition` names the newest edition with that wording, `match.editions` lists each edition that has it, and `match.variants` gives the changes.",
 	request: { body: { required: true, content: { "application/json": { schema: VerifyBody } } } },
 	responses: {
 		200: { description: "The result", content: { "application/json": { schema: VerifyResponse } } },
@@ -88,9 +93,9 @@ const verifyRoute = createRoute({
 });
 
 type Candidate = Awaited<ReturnType<CandidateSource["search"]>>[number];
-type Scored = { candidate: Candidate; score: Score; edition: Edition };
+type Scored = { candidate: Candidate; score: Score; edition: Edition; editions: Edition[] };
 
-function toMatch({ candidate, score, edition }: Scored) {
+function toMatch({ candidate, score, edition, editions }: Scored) {
 	return {
 		reference: candidate.standardReferenceId,
 		paperId: candidate.paperId,
@@ -101,6 +106,7 @@ function toMatch({ candidate, score, edition }: Scored) {
 		text: score.matchedText,
 		differences: score.differences,
 		edition: edition.id,
+		editions: editions.map((e) => e.id),
 		...(edition.id !== DEFAULT_EDITION
 			? { variants: variantsOf(candidate.standardReferenceId).map(publicVariant) }
 			: {}),

@@ -19,8 +19,11 @@ const EXPECTED_TOOL_NAMES = [
 	"get_table_of_contents",
 	"get_work_urantia_parallels",
 	"list_bible_books",
+	"list_editions",
+
 	"list_entities",
 	"list_papers",
+	"list_text_changes",
 	"list_works",
 	"read_work",
 	"search",
@@ -38,7 +41,7 @@ describe("GET /tools/openai", () => {
 		expect(body.server.name).toBe("Urantia Papers API");
 		expect(body.server.base_url).toBe("https://api.urantia.dev");
 		expect(body.tools).toBeArray();
-		expect(body.tools.length).toBe(26);
+		expect(body.tools.length).toBe(28);
 	});
 
 	it("each tool has the OpenAI function envelope", async () => {
@@ -53,7 +56,7 @@ describe("GET /tools/openai", () => {
 		}
 	});
 
-	it("exposes all 26 expected tool names", async () => {
+	it("exposes all 28 expected tool names", async () => {
 		const res = await get("/tools/openai");
 		const { tools } = await res.json();
 		const names = tools.map((t: { function: { name: string } }) => t.function.name).sort();
@@ -98,7 +101,7 @@ describe("GET /tools/anthropic", () => {
 		const body = await res.json();
 		expect(body.server.name).toBe("Urantia Papers API");
 		expect(body.tools).toBeArray();
-		expect(body.tools.length).toBe(26);
+		expect(body.tools.length).toBe(28);
 	});
 
 	it("each tool has name, description, input_schema", async () => {
@@ -112,7 +115,7 @@ describe("GET /tools/anthropic", () => {
 		}
 	});
 
-	it("exposes all 26 expected tool names", async () => {
+	it("exposes all 28 expected tool names", async () => {
 		const res = await get("/tools/anthropic");
 		const { tools } = await res.json();
 		const names = tools.map((t: { name: string }) => t.name).sort();

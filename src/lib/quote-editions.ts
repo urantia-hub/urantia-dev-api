@@ -16,29 +16,41 @@ const RANK: Record<Verdict, number> = { exact: 2, close: 1, not_found: 0 };
 export const scoreBetter = (a: Score, b: Score) =>
 	RANK[a.verdict] - RANK[b.verdict] || a.similarity - b.similarity;
 
-export type EditionScore = { score: Score; edition: Edition };
-
-const DEFAULT = EDITIONS.find((e) => e.id === DEFAULT_EDITION) as Edition;
+export type EditionScore = {
+	score: Score;
+	/** The newest edition with the best score. */
+	edition: Edition;
+	/** Each edition with the best score, oldest first: where the quoted wording is. */
+	editions: Edition[];
+};
 
 /** The best score of a quote over the editions of a paragraph. A tie goes to the newer edition. */
 export function scoreInEditions(quote: string, ref: string, stored: string): EditionScore {
-	let best: EditionScore = { score: scoreQuote(quote, stored), edition: DEFAULT };
-	const seen = new Set([stored]);
+	const byText = new Map<string, Score>();
 	// Newest first, so an older edition wins only with a strictly better score.
-	for (const edition of [...EDITIONS].reverse()) {
-		if (edition.id === DEFAULT_EDITION || undoneIn(ref, edition).length === 0) continue;
-		let text: string;
-		try {
-			text = textInEdition(ref, stored, edition);
-		} catch {
-			continue; // The stored text does not hold the change: score the stored text only.
+	const scored = [...EDITIONS].reverse().map((edition) => {
+		let text = stored;
+		if (edition.id !== DEFAULT_EDITION && undoneIn(ref, edition).length > 0) {
+			try {
+				text = textInEdition(ref, stored, edition);
+			} catch {
+				// The stored text does not hold the change: score the stored text.
+			}
 		}
-		if (seen.has(text)) continue;
-		seen.add(text);
-		const score = scoreQuote(quote, text);
-		if (scoreBetter(score, best.score) > 0) best = { score, edition };
-	}
-	return best;
+		let score = byText.get(text);
+		if (!score) {
+			score = scoreQuote(quote, text);
+			byText.set(text, score);
+		}
+		return { score, edition };
+	});
+	let best = scored[0] as { score: Score; edition: Edition };
+	for (const s of scored) if (scoreBetter(s.score, best.score) > 0) best = s;
+	const editions = scored
+		.filter((s) => scoreBetter(s.score, best.score) === 0)
+		.map((s) => s.edition)
+		.reverse();
+	return { ...best, editions };
 }
 
 // For each change, the old words that only its older wording has: the changed words and one

@@ -14,6 +14,7 @@ describe("scoreInEditions", () => {
 		);
 		expect(r.score.verdict).toBe("exact");
 		expect(r.edition.id).toBe("srt-2024");
+		expect(r.editions.map((e) => e.id)).toEqual(["srt-2024"]);
 	});
 
 	it("finds the 1955 wording exact in an older edition, not close", () => {
@@ -23,8 +24,15 @@ describe("scoreInEditions", () => {
 			P983,
 		);
 		expect(r.score.verdict).toBe("exact");
-		// The newest edition that has "twoscore" is srt-2021.
+		// The newest edition that has "twoscore" is srt-2021; it was there from 1955.
 		expect(r.edition.id).toBe("srt-2021");
+		expect(r.editions.map((e) => e.id)).toEqual([
+			"1955",
+			"srt-2009",
+			"srt-2015",
+			"srt-2018",
+			"srt-2021",
+		]);
 	});
 
 	it("keeps the default edition on a tie, such as a quote that skips the changed words", () => {
@@ -44,6 +52,8 @@ describe("scoreInEditions", () => {
 		);
 		expect(r.edition.id).toBe("srt-2024");
 		expect(r.score.verdict).toBe("exact");
+		// The wording is in every edition.
+		expect(r.editions).toHaveLength(6);
 	});
 
 	it("scores the stored text when it does not hold the change", () => {

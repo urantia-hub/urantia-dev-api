@@ -8,6 +8,8 @@ export const MCP_TOOL_NAMES: ReadonlySet<string> = new Set([
 	"bible.verse.urantia_parallels",
 	"bible.verse",
 	"cite.get",
+	"editions.list",
+	"editions.variants",
 	"entities.get",
 	"entities.list",
 	"entities.paragraphs",

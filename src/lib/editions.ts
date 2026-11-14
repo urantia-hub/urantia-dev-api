@@ -1,6 +1,7 @@
 // The editions of the English text, and the text of a paragraph in each. The stored text is the
 // newest edition; an older one undoes the variants after its year (data/editions/variants.json).
 import rows from "../../data/editions/variants.json";
+import { detectRefFormat } from "../types/node.ts";
 
 export type VariantKind = "text" | "format" | "printing";
 
@@ -245,7 +246,7 @@ export function chooseEdition(id: string | undefined, lang: string | undefined):
 	const edition = resolveEdition(id ?? DEFAULT_EDITION);
 	if (!edition) {
 		return {
-			error: `Unknown edition "${id}". Use one of: ${EDITIONS.map((e) => e.id).join(", ")} (GET /editions).`,
+			error: `Unknown edition "${id}". Use one of: ${EDITIONS.map((e) => e.id).join(", ")} (the list: GET /editions, or the MCP tool editions.list).`,
 			type: "unknown-edition",
 		};
 	}
@@ -271,4 +272,67 @@ export function editionRows<T extends TextRow>(
 ) {
 	const out = inEdition(rows, edition);
 	return wantsVariants(include) ? withVariants(out) : out;
+}
+
+/** The changes adopted in an edition: the rows of its year (srt-2009 also holds the undated ones). */
+export function adoptedIn(edition: Edition): Variant[] {
+	return edition.year === 1955 ? [] : VARIANTS.filter((v) => yearOf(v) === edition.year);
+}
+
+/** Each edition with `default` and its count of adopted changes. */
+export function editionsList() {
+	return {
+		data: EDITIONS.map((e) => ({
+			...editionInfo(e),
+			default: e.id === DEFAULT_EDITION,
+			changes: adoptedIn(e).length,
+		})),
+		meta: { default: DEFAULT_EDITION, variants: VARIANTS.length },
+	};
+}
+
+export type VariantFilter = { paper?: string; ref?: string; kind?: VariantKind; edition?: string };
+
+const PAPER_ID = /^(0|[1-9]\d{0,2})$/;
+
+/** The changes that match a filter, or the error of a bad filter value. */
+export function findVariants(
+	f: VariantFilter,
+):
+	| { data: (PublicVariant & { ref: string })[]; meta: { total: number } }
+	| { error: string; type: string } {
+	const paper = f.paper?.trim();
+	if (paper !== undefined && !(PAPER_ID.test(paper) && Number(paper) <= 196)) {
+		return {
+			error: `Invalid paper "${f.paper}". Use a number from 0 to 196.`,
+			type: "invalid-paper",
+		};
+	}
+	const ref = f.ref?.trim();
+	if (ref !== undefined && detectRefFormat(ref) !== "standardReferenceId") {
+		return {
+			error: `Invalid reference "${f.ref}". Use the paper:section.paragraph form, for example 98:3.8.`,
+			type: "invalid-reference-format",
+		};
+	}
+	let rows = VARIANTS;
+	if (f.edition !== undefined) {
+		const edition = resolveEdition(f.edition);
+		if (!edition) {
+			return {
+				error: `Unknown edition "${f.edition}". Use one of: ${EDITIONS.map((e) => e.id).join(", ")}.`,
+				type: "unknown-edition",
+			};
+		}
+		rows = adoptedIn(edition);
+	}
+	const data = rows
+		.filter(
+			(v) =>
+				(paper === undefined || v.ref.split(":")[0] === paper) &&
+				(ref === undefined || v.ref === ref) &&
+				(f.kind === undefined || v.kind === f.kind),
+		)
+		.map((v) => ({ ref: v.ref, ...publicVariant(v) }));
+	return { data, meta: { total: data.length } };
 }

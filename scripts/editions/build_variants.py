@@ -28,6 +28,9 @@ def side(review, new, keep_em=False):
     out = re.sub(r"</?s>", "", out)
     if not keep_em:
         out = re.sub(r"<[^>]+>", "", out)
+    else:
+        # A struck italic leaves "<em></em>", and a split one leaves "</em><em>": drop both.
+        out = out.replace("<em></em>", "").replace("</em><em>", "")
     out = html.unescape(out)
     out = re.sub(r"\s+", " ", out).strip()
     out = re.sub(r" ([,;:.])", r"\1", out)
