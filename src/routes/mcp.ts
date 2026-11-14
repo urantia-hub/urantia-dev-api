@@ -24,6 +24,8 @@ import {
 	DEFAULT_EDITION,
 	type Edition,
 	editionInfo,
+	editionsList,
+	findVariants,
 	inEdition,
 	withVariants,
 } from "../lib/editions.ts";
@@ -490,6 +492,16 @@ function errorResult(message: string) {
 	};
 }
 
+// Sent in the answer to `initialize`: what the server holds and how the tools fit together.
+export const MCP_INSTRUCTIONS = [
+	"The Urantia Papers (197 papers), open and public domain, with the World English Bible and 21 texts of the world's religions. No key and no account.",
+	'References: a paragraph is "paper:section.paragraph", such as "196:2.1" (paper 0 is the Foreword). Start with toc.get or papers.list for the layout, search.fulltext for words, and search.semantic for an idea. paragraphs.get reads one or more paragraphs, paragraphs.context adds the paragraphs around one, and papers.get reads a whole paper.',
+	'Editions: the text is the Standard Reference Text of 2024 (srt-2024) by default. editions.list gives the editions (the 1955 first printing is the original) and how many changes each one adopted. editions.variants lists the changes, by paper, paragraph, kind, or edition. paragraphs.get, paragraphs.context, and papers.get take `edition` (such as "1955") for the older text and `include_variants` for the changes. quotes.verify also places a quote of an older edition.',
+	'Spanish: `lang: "es"` on the paper, paragraph, and search tools gives an AI translation (CC0). Editions are English only.',
+	"Other texts: works.* searches and reads the Bible and the other texts; bible.* covers the Bible alone. Parallels (include_bible_parallels, include_urantia_parallels, include_scripture_parallels, works.urantia_parallels) are semantic neighbors, not curated links.",
+	"Cite with cite.get. Quote the text word for word, and check a quote with quotes.verify.",
+].join("\n\n");
+
 function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => void) {
 	// One log line for each search: the result count, never the words.
 	const logSearch = (
@@ -497,13 +509,17 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 		lang: string | undefined,
 		found: Parameters<typeof mcpSearchFields>[2],
 	) => log?.(mcpSearchFields(tool, lang, found));
-	const server = new McpServer({
-		name: "Urantia Papers API",
-		title: "Urantia Papers",
-		version: registry.version,
-		icons: MCP_ICONS,
-		websiteUrl: "https://urantia.dev",
-	});
+	const server = new McpServer(
+		{
+			name: "Urantia Papers API",
+			title: "Urantia Papers",
+			version: registry.version,
+			icons: MCP_ICONS,
+			websiteUrl: "https://urantia.dev",
+			description: registry.description,
+		},
+		{ instructions: MCP_INSTRUCTIONS },
+	);
 
 	// 1. toc.get
 	server.registerTool(
@@ -2084,7 +2100,7 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 		{
 			title: "Verify a Quote",
 			description:
-				'Checks whether a quoted passage is in the Urantia Papers. Returns `verdict` (exact, close, not_found), the reference and exact text of the best match, each word that differs, and other places the quote appears. Case and punctuation are ignored. A quote must be at least 4 words and fall within one paragraph. Give `ref` (such as "2:5.1") to also check the reference the quote claims. A quote of an older edition (such as the 1955 first printing) also matches: `match.edition` names the edition, and `match.variants` gives the changes.',
+				'Checks whether a quoted passage is in the Urantia Papers. Returns `verdict` (exact, close, not_found), the reference and exact text of the best match, each word that differs, and other places the quote appears. Case and punctuation are ignored. A quote must be at least 4 words and fall within one paragraph. Give `ref` (such as "2:5.1") to also check the reference the quote claims. A quote of an older edition (such as the 1955 first printing) also matches: `match.edition` names the newest edition with that wording, `match.editions` lists each edition that has it (oldest first), and `match.variants` gives the changes.',
 			inputSchema: {
 				text: z
 					.string()
@@ -2111,6 +2127,7 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 							text: z.string().nullable(),
 							differences: z.array(z.object({ quote: z.string(), text: z.string() })),
 							edition: z.string(),
+							editions: z.array(z.string()),
 							variants: z.array(variantSchema).optional(),
 						})
 						.nullable(),
@@ -2130,6 +2147,54 @@ function createMcpServer(log?: (fields: ReturnType<typeof mcpSearchFields>) => v
 			const data = await verifyQuote(databaseCandidates(undefined), text, ref);
 			if (!data) return errorResult("A quote must be at least 4 words to place it.");
 			return structured({ data });
+		},
+	);
+
+	server.registerTool(
+		"editions.list",
+		{
+			title: "List the Editions",
+			description:
+				'List the editions of the English text: the first printing ("1955", the original) and each Standard Reference Text up to "srt-2024", the default. Each has `changes`, the count of changes adopted in it ("srt-2009" also counts the changes that no report dates). Use an id as `edition` on paragraphs.get, paragraphs.context, papers.get, and editions.variants.',
+			inputSchema: {},
+			outputSchema: {
+				data: z.array(
+					editionSchema.extend({ default: z.boolean(), changes: z.number().int() }),
+				),
+				meta: z.object({ default: z.string(), variants: z.number().int() }),
+			},
+			annotations: { title: "List the Editions", ...READ_ONLY_LOCAL },
+		},
+		async () => structured(editionsList()),
+	);
+
+	server.registerTool(
+		"editions.variants",
+		{
+			title: "List the Changes Since 1955",
+			description:
+				'List the changes to the English text since the 1955 first printing: the words before and after, the year, the 1955 page, and the reason. Filter by `paper`, `ref`, `kind`, or `edition` (the changes adopted in that edition). With no filter, all of them (about 180). To compare 1955 with a later edition, take the changes of each edition after 1955 up to it. `applied` is false for a change that the Foundation lists but the default text does not have yet.',
+			inputSchema: {
+				paper: z.string().optional().describe('Only the changes of this paper, "0" to "196".'),
+				ref: z.string().optional().describe('Only the changes of this paragraph, such as "98:3.8".'),
+				kind: z
+					.enum(["text", "format", "printing"])
+					.optional()
+					.describe("text: words or punctuation. format: italics only. printing: a fault of the 1955 printing."),
+				edition: z
+					.string()
+					.optional()
+					.describe('Only the changes adopted in this edition, such as "srt-2021". "1955" has none.'),
+			},
+			outputSchema: {
+				data: z.array(variantSchema.extend({ ref: z.string() })),
+				meta: z.object({ total: z.number().int() }),
+			},
+			annotations: { title: "List the Changes Since 1955", ...READ_ONLY_LOCAL },
+		},
+		async (args) => {
+			const found = findVariants(args);
+			return "error" in found ? errorResult(found.error) : structured(found);
 		},
 	);
 
@@ -2549,6 +2614,13 @@ mcpRoute.get("/", async (c) => {
 				"quotes.verify": {
 					description: "Check whether a quote is in the Urantia Papers, and where",
 					params: ["text", "ref"],
+				},
+				"editions.list": {
+					description: "List the editions of the English text, from the 1955 first printing to srt-2024",
+				},
+				"editions.variants": {
+					description: "List the changes to the text since 1955, by paper, paragraph, kind, or edition",
+					params: ["paper", "ref", "kind", "edition"],
 				},
 				"cite.get": {
 					description: "A citation of one paragraph in APA, MLA, Chicago, or BibTeX",

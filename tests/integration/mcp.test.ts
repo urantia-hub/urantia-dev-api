@@ -85,6 +85,8 @@ const EXPECTED_TOOL_NAMES = [
 	"bible.verse",
 	"bible.verse.urantia_parallels",
 	"cite.get",
+	"editions.list",
+	"editions.variants",
 	"entities.get",
 	"entities.list",
 	"entities.paragraphs",
@@ -159,14 +161,14 @@ describe("MCP Server", () => {
 		]);
 	});
 
-	it("lists all 26 tools with dot-notation names", async () => {
+	it("lists all 28 tools with dot-notation names", async () => {
 		await initialize();
 		const res = await mcpRequest({ id: 2, method: "tools/list" });
 		expect(res.status).toBe(200);
 		const results = await parseMcpResponse(res);
 		expect(results.length).toBeGreaterThan(0);
 		const tools = results[0].result.tools;
-		expect(tools.length).toBe(26);
+		expect(tools.length).toBe(28);
 
 		const toolNames = tools.map((t: { name: string }) => t.name).sort();
 		expect(toolNames).toEqual(EXPECTED_TOOL_NAMES);

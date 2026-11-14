@@ -1,7 +1,7 @@
 /**
  * Provider-neutral catalog of the API's AI-callable tools.
  *
- * The same 26 tools are exposed via the MCP server (src/routes/mcp.ts) and
+ * The same 28 tools are exposed via the MCP server (src/routes/mcp.ts) and
  * via /tools/openai and /tools/anthropic for direct use with the OpenAI and
  * Anthropic SDKs. The catalog here is the source of truth for the function-
  * calling schemas; MCP keeps its own zod definitions because it also owns
@@ -496,7 +496,7 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 	{
 		name: "verify_quote",
 		description:
-			'Check whether a quoted passage is in the Urantia Papers. Returns `verdict` (exact, close, not_found), the reference and exact text of the best match, and each word that differs. A quote must be at least 4 words. Give `ref` (such as "2:5.1") to also check the reference the quote claims. A quote of an older edition (such as the 1955 first printing) also matches: `match.edition` names the edition.',
+			'Check whether a quoted passage is in the Urantia Papers. Returns `verdict` (exact, close, not_found), the reference and exact text of the best match, and each word that differs. A quote must be at least 4 words. Give `ref` (such as "2:5.1") to also check the reference the quote claims. A quote of an older edition (such as the 1955 first printing) also matches: `match.edition` names the newest edition with that wording, and `match.editions` lists each edition that has it.',
 		parameters: {
 			type: "object",
 			properties: {
@@ -504,6 +504,38 @@ export const TOOL_CATALOG: readonly ToolSpec[] = [
 				ref: { type: "string", description: 'The reference the quote claims, such as "2:5.1".' },
 			},
 			required: ["text"],
+		},
+	},
+	{
+		name: "list_editions",
+		description:
+			'List the editions of the English text: the first printing ("1955", the original) and each Standard Reference Text up to "srt-2024", the default. Each has `changes`, the count of changes adopted in it ("srt-2009" also counts the changes that no report dates).',
+		parameters: { type: "object", properties: {} },
+	},
+	{
+		name: "list_text_changes",
+		description:
+			"List the changes to the English text since the 1955 first printing: the words before and after, the year, the 1955 page, and the reason. Filter by `paper`, `ref`, `kind`, or `edition` (the changes adopted in that edition). With no filter, all of them (about 180).",
+		parameters: {
+			type: "object",
+			properties: {
+				paper: { type: "string", description: 'Only the changes of this paper, "0" to "196".' },
+				ref: {
+					type: "string",
+					description: 'Only the changes of this paragraph, such as "98:3.8".',
+				},
+				kind: {
+					type: "string",
+					description:
+						"text: words or punctuation. format: italics only. printing: a fault of the 1955 printing.",
+					enum: ["text", "format", "printing"],
+				},
+				edition: {
+					type: "string",
+					description:
+						'Only the changes adopted in this edition, such as "srt-2021". "1955" has none.',
+				},
+			},
 		},
 	},
 	{

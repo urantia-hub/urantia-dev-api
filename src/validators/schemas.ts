@@ -1194,6 +1194,10 @@ export const VariantsQuery = z.object({
 	paper: z.string().optional().describe("Only the variants of this paper (0 to 196)."),
 	ref: z.string().optional().describe('Only the variants of this paragraph ("98:3.8").'),
 	kind: z.enum(["text", "format", "printing"]).optional(),
+	edition: z
+		.string()
+		.optional()
+		.describe('Only the changes adopted in this edition ("srt-2021"). "srt-2009" also holds the changes that no report dates; "1955" has none.'),
 });
 
 export const VariantsListResponse = z.object({

@@ -49,6 +49,35 @@ describe("GET /editions/variants", () => {
 		expect(fmt.data.length).toBe(6);
 	});
 
+	it("gives the changes adopted in one edition", async () => {
+		const list = (await (await get("/editions")).json()) as {
+			data: { id: string; year: number; changes: number }[];
+		};
+		for (const e of list.data) {
+			const body = (await (await get(`/editions/variants?edition=${e.id}`)).json()) as {
+				data: { year: number | null }[];
+				meta: { total: number };
+			};
+			expect(body.meta.total).toBe(e.changes);
+			for (const v of body.data) expect(v.year ?? 2009).toBe(e.year);
+		}
+		const none = (await (await get("/editions/variants?edition=1955")).json()) as {
+			meta: { total: number };
+		};
+		expect(none.meta.total).toBe(0);
+		// A Foundation number names the same edition, and the filters combine.
+		const byNumber = (await (await get("/editions/variants?edition=1.22&kind=text")).json()) as {
+			data: { year: number; kind: string }[];
+		};
+		for (const v of byNumber.data) expect([v.year, v.kind]).toEqual([2024, "text"]);
+	});
+
+	it("answers 400 unknown-edition for an edition filter it does not know", async () => {
+		const res = await get("/editions/variants?edition=1956");
+		expect(res.status).toBe(400);
+		expect(((await res.json()) as { type: string }).type).toContain("unknown-edition");
+	});
+
 	it("answers 400 for a paper or a reference it cannot read", async () => {
 		for (const q of ["paper=197", "paper=abc", "paper=098", "ref=98.3.8", "ref=1:2.0.1"]) {
 			expect((await get(`/editions/variants?${q}`)).status).toBe(400);

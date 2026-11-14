@@ -287,12 +287,17 @@ the markup stays). Ids: the year id, the Foundation number (`1.22`, `21`), or th
   `meta.edition`; the search answers too (search reads `srt-2024` only).
 - An unknown id is a 400 `unknown-edition`. An edition other than the default with a language other
   than English is a 400 `edition-needs-english`. Both are checked before the database is opened.
-- `GET /editions` and `GET /editions/variants?paper=&ref=&kind=` read the JSON only, no database.
+- `GET /editions` and `GET /editions/variants?paper=&ref=&kind=&edition=` read the JSON only, no
+  database. The MCP tools `editions.list` and `editions.variants` (2026-11-14) give the same answers
+  from the same functions (`editionsList`, `findVariants`). `edition` on the variants gives the
+  changes adopted in that edition: `srt-2009` also holds the 5 rows with no report year, `1955` none.
+- The MCP `initialize` answer carries `instructions` (`MCP_INSTRUCTIONS` in `src/routes/mcp.ts`) and
+  `serverInfo.description` (from `server.json`). A new group of tools gets a line in the instructions.
 - The edge cache keys on the whole address, so each edition is stored apart.
 - After a change of the stored text, run `scripts/editions/check-editions.ts`.
 - `quotes.verify` (phase 4, `src/lib/quote-editions.ts`): each candidate is scored in each edition, and
-  `match.edition` is the newest edition with the best score (a tie keeps the newer one); an older edition
-  adds `match.variants`. A quote that holds the old words of a change (the changed words and one
+  `match.edition` is the newest edition with the best score (a tie keeps the newer one), and
+  `match.editions` lists each edition with that score, oldest first; an older edition adds `match.variants`. A quote that holds the old words of a change (the changed words and one
   neighbor word) brings that paragraph in, up to 5. A change of punctuation, a capital, or a hyphen is
   not seen, because the quote check ignores them: on 2026-11-11, 124 of the 171 text changes matched in
   an older edition, and the other 47 tie and give `srt-2024`.
@@ -594,8 +599,8 @@ its row in the same change when you submit somewhere or a listing changes state.
   not for Glama Path A.
 - **Connector verification**: `/.well-known/glama.json` in `src/index.ts`.
 - **Function-calling schemas**: `/tools/openai` and `/tools/anthropic` are public
-  endpoints that ship the same 26 MCP tools (13 UB + 6 Bible/cross-reference +
-  5 works + `quotes.verify` + `cite.get`)
+  endpoints that ship the same 28 MCP tools (13 UB + 6 Bible/cross-reference +
+  5 works + `quotes.verify` + `cite.get` + `editions.list` + `editions.variants`)
   as ready-to-use OpenAI/Anthropic tool definitions. Source of truth lives in
   `src/lib/tool-catalog.ts`.
 
