@@ -324,10 +324,10 @@
 		"standardReferenceId": "64:4.8",
 		"language": "es",
 		"version": 1,
-		"text": "Hace 650 000 años el clima suave continuó. A mediados del período interglacial hacía tanto calor que los Alpes estaban casi despojados de hielo y de nieve.",
-		"htmlText": "<span class=\"urantia-dev-pb-4\">Hace <em>650 000</em> años el clima suave continuó. A mediados del período interglacial hacía tanto calor que los Alpes estaban casi despojados de hielo y de nieve.</span>",
+		"text": "Hace 650 000 años el clima suave continuó. A mediados del período interglacial el calor había aumentado tanto que los Alpes estaban casi despojados de hielo y de nieve.",
+		"htmlText": "<span class=\"urantia-dev-pb-4\">Hace <em>650 000</em> años el clima suave continuó. A mediados del período interglacial el calor había aumentado tanto que los Alpes estaban casi despojados de hielo y de nieve.</span>",
 		"source": "urantia.dev",
-		"confidence": "needs_review"
+		"confidence": "auto_checked"
 	},
 	{
 		"paragraphId": "3:64.4.9",
@@ -591,7 +591,7 @@
 		"text": "Viajaron lejos de las influencias de la sede espiritual del mundo y se sumieron en una gran oscuridad después de la apostasía de Caligastia; pero hubo una época brillante en este pueblo cuando Singlangton, hace unos cien mil años, asumió el liderazgo de estas tribus y proclamó la adoración de la «Verdad Única».",
 		"htmlText": "<span class=\"urantia-dev-pb-0\">Viajaron lejos de las influencias de la sede espiritual del mundo y se sumieron en una gran oscuridad después de la apostasía de Caligastia; pero hubo una época brillante en este pueblo cuando Singlangton, hace unos cien mil años, asumió el liderazgo de estas tribus y proclamó la adoración de la «Verdad Única».</span>",
 		"source": "urantia.dev",
-		"confidence": "needs_review"
+		"confidence": "auto_checked"
 	},
 	{
 		"paragraphId": "3:64.6.16",
@@ -657,7 +657,7 @@
 		"text": "5. El hombre azul. Los hombres azules fueron un gran pueblo. Inventaron temprano la lanza y más tarde elaboraron los rudimentos de muchas de las artes de la civilización moderna. El hombre azul tenía la capacidad cerebral del hombre rojo unida al alma y al sentimiento del hombre amarillo. Los descendientes adánicos los prefirieron a todas las demás razas de color que persistieron más tarde.",
 		"htmlText": "<span class=\"urantia-dev-pb-0\">5. <em>El hombre azul.</em> Los hombres azules fueron un gran pueblo. Inventaron temprano la lanza y más tarde elaboraron los rudimentos de muchas de las artes de la civilización moderna. El hombre azul tenía la capacidad cerebral del hombre rojo unida al alma y al sentimiento del hombre amarillo. Los descendientes adánicos los prefirieron a todas las demás razas de color que persistieron más tarde.</span>",
 		"source": "urantia.dev",
-		"confidence": "needs_review"
+		"confidence": "auto_checked"
 	},
 	{
 		"paragraphId": "3:64.6.22",
@@ -833,7 +833,7 @@
 		"text": "Así fue como durante casi cien mil años estos pueblos sangiks se extendieron por las estribaciones y se mezclaron más o menos entre sí, a pesar de la antipatía peculiar, pero natural, que se manifestó temprano entre las diferentes razas.",
 		"htmlText": "<span class=\"urantia-dev-pb-0\">Así fue como durante casi cien mil años estos pueblos sangiks se extendieron por las estribaciones y se mezclaron más o menos entre sí, a pesar de la antipatía peculiar, pero natural, que se manifestó temprano entre las diferentes razas.</span>",
 		"source": "urantia.dev",
-		"confidence": "needs_review"
+		"confidence": "auto_checked"
 	},
 	{
 		"paragraphId": "3:64.7.3",

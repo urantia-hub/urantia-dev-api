@@ -62,6 +62,12 @@ describe.skipIf(!existsSync(ENG_DIR))("termsInText", () => {
 		expect(names("believed Philip’s preaching")).not.toContain("Philip (Apostle)");
 	});
 
+	test("an alias that names another term belongs to that term", () => {
+		const found = names("the Paradise Corps of the Finality");
+		expect(found).toContain("Paradise Corps of the Finality");
+		expect(found).not.toContain("Corps of Paradise Finaliters");
+	});
+
 	test("one word of a longer name is not the name", () => {
 		expect(names("the elevating mountainous regions of the Indian peninsula")).not.toContain(
 			"Indian Ocean",

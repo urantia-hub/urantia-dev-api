@@ -466,15 +466,23 @@ export function termsInText(lang: string, text: string): Term[] {
 			if (bare(t.en) !== t.en) shared.set(bare(t.en), (shared.get(bare(t.en)) ?? 0) + 1);
 		const known = (t: Term) =>
 			bare(t.en) === t.en || (!names.has(bare(t.en)) && shared.get(bare(t.en)) === 1);
+		// An alias that is the name of another term belongs to that term ("Paradise Corps of the Finality").
+		const termNames = new Set(terms.map((t) => bare(t.en).toLowerCase()));
 		textMatchers = terms.filter(known).map((term) => {
 			const [name, ...aliases] = term.enForms.map((f) => f.replace(/\s*\([^)]*\)\s*$/, "").trim());
+			const otherTerm = (a: string) =>
+				a.toLowerCase() !== name!.toLowerCase() && termNames.has(a.toLowerCase());
 			// A one-word alias that is a word of a longer name ("Indian" of "Indian Ocean") is not the name.
 			const partOfName = (a: string) =>
 				/\s/.test(name!) && !/\s/.test(a) && name!.split(" ").includes(a);
 			const forms = [
 				name!,
 				...aliases.filter(
-					(a) => (/[A-Z]/.test(a) || /\s/.test(a)) && !SMALL_START.test(a) && !partOfName(a),
+					(a) =>
+						(/[A-Z]/.test(a) || /\s/.test(a)) &&
+						!SMALL_START.test(a) &&
+						!partOfName(a) &&
+						!otherTerm(a),
 				),
 			];
 			const res = [...new Set(forms.flatMap((f) => [f, singular(f)]))]

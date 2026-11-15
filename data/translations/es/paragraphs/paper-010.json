@@ -41,7 +41,7 @@
 		"text": "Parecería que el Padre, allá en la eternidad, inauguró una política de profunda autodistribución. Hay algo inherente a la naturaleza desinteresada, amorosa y amable del Padre Universal que lo lleva a reservarse el ejercicio solo de aquellos poderes y de aquella autoridad que, al parecer, le resulta imposible delegar u otorgar.",
 		"htmlText": "<span class=\"urantia-dev-pb-0\">Parecería que el Padre, allá en la eternidad, inauguró una política de profunda autodistribución. Hay algo inherente a la naturaleza desinteresada, amorosa y amable del Padre Universal que lo lleva a reservarse el ejercicio solo de aquellos poderes y de aquella autoridad que, al parecer, le resulta imposible delegar u otorgar.</span>",
 		"source": "urantia.dev",
-		"confidence": "needs_review"
+		"confidence": "auto_checked"
 	},
 	{
 		"paragraphId": "1:10.1.2",
@@ -877,7 +877,7 @@
 		"text": "Conocemos al Padre Universal, al Hijo Eterno y al Espíritu Infinito como personas, pero yo no conozco personalmente al Absoluto de la Deidad. Amo y adoro a Dios el Padre; respeto y honro al Absoluto de la Deidad.",
 		"htmlText": "<span class=\"urantia-dev-pb-4\">Conocemos al Padre Universal, al Hijo Eterno y al Espíritu Infinito como <em>personas,</em> pero yo no conozco personalmente al Absoluto de la Deidad. Amo y adoro a Dios el Padre; respeto y honro al Absoluto de la Deidad.</span>",
 		"source": "urantia.dev",
-		"confidence": "needs_review"
+		"confidence": "auto_checked"
 	},
 	{
 		"paragraphId": "1:10.8.6",
