@@ -2,6 +2,7 @@
  * checks.ts — Automatic checks for one translated paper. No model calls.
  */
 
+import { createHash } from "node:crypto";
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
@@ -9,13 +10,20 @@ import {
 	fold,
 	loadTerms,
 	pad,
+	ROOT,
 	stripTags,
 	type Term,
 	termsInText,
 	URANTIAPEDIA_DIR,
 } from "./lib.ts";
 
-export type Issue = { ref: string; level: "error" | "warn"; check: string; detail: string };
+export type Issue = {
+	ref: string;
+	level: "error" | "warn";
+	check: string;
+	detail: string;
+	key?: string;
+};
 
 // Target length / English length, plain text, for paragraphs of 120+ characters.
 const LENGTH_RATIO: Record<string, [number, number]> = {
@@ -44,21 +52,48 @@ function tagSignature(html: string, names: string[]): string[] {
 	return [...html.matchAll(re)].map((m) => `${m[1]}${m[2] ?? ""}`);
 }
 
-function numbers(text: string): string[] {
-	return (text.match(/\d[\d,.\s]*\d|\d/g) ?? []).map((n) => n.replace(/[,.\s]/g, ""));
+// Number words that scale a figure: "138 billion" is "138 000 millones".
+const SCALES: Record<string, [RegExp, Record<string, number>]> = {
+	en: [
+		/(\d{1,3}(?:,\d{3})+|\d+)(?:\.(\d+))?(?:\s+(thousand|million|billion|trillion)s?\b)?/gi,
+		{ thousand: 1e3, million: 1e6, billion: 1e9, trillion: 1e12 },
+	],
+	es: [
+		/(\d{1,3}(?:[ .\u00a0\u202f]\d{3})+|\d+)(?:,(\d+))?(?:\s+(mil millones|millones|millón|billones|billón|mil)\b)?/gi,
+		{ mil: 1e3, millón: 1e6, millones: 1e6, "mil millones": 1e9, billón: 1e12, billones: 1e12 },
+	],
+};
+
+/** The value of each number in a text, with its thousands separators and scale words read. */
+export function numbers(text: string, lang: string): string[] {
+	const scale = SCALES[lang];
+	if (!scale) return (text.match(/\d[\d,.\s]*\d|\d/g) ?? []).map((n) => n.replace(/[,.\s]/g, ""));
+	const [re, words] = scale;
+	return [...text.matchAll(re)].map((m) => {
+		const whole = Number(m[1]!.replace(/\D/g, ""));
+		const value =
+			(whole + (m[2] ? Number(`0.${m[2]}`) : 0)) * (m[3] ? words[m[3].toLowerCase()]! : 1);
+		return Number.isInteger(value) ? String(value) : String(Math.round(value * 1e6) / 1e6);
+	});
 }
 
 /** True when each long word of the term appears by its first 5 letters (allows plural and gender). */
 // The running text drops an index note and an inverted tail: "Miguel (el original)", "Miguel, orden de".
 const runningForm = (form: string) => form.replace(/\s*\([^)]*\)\s*$/, "").split(", ")[0]!;
 
+// A word without its plural or gender ending, at most 5 letters: "hijos" and "hijo" both give "hijo".
+const stem = (w: string) => {
+	const s = w.replace(/(?:es|os|as|s|o|a|e)$/, "");
+	return (s.length >= 4 ? s : w.slice(0, 4)).slice(0, 5);
+};
+
 export function termPresent(term: Term, text: string): boolean {
-	const hay = fold(text);
+	const words = fold(text).match(/\p{L}+/gu) ?? [];
 	return [term.target, ...term.aliases].some((form) =>
 		fold(runningForm(form))
 			.split(/[\s-]+/)
 			.filter((w) => w.length >= 4)
-			.every((w) => hay.includes(w.slice(0, 5))),
+			.every((w) => words.some((x) => x.startsWith(stem(w)))),
 	);
 }
 
@@ -181,7 +216,8 @@ export function checkParagraph(
 		add("error", "tags", "broken tag");
 	}
 
-	const missingNumbers = numbers(en.text).filter((n) => !numbers(text).includes(n));
+	const ours = numbers(text, lang);
+	const missingNumbers = numbers(en.text, "en").filter((n) => !ours.includes(n));
 	if (missingNumbers.length) add("warn", "numbers", `missing: ${missingNumbers.join(", ")}`);
 
 	const words = text.toLowerCase().match(/\p{L}+/gu) ?? [];
@@ -197,7 +233,13 @@ export function checkParagraph(
 
 	for (const term of termsInText(lang, en.text)) {
 		if (term.required && !termPresent(term, text)) {
-			add("warn", "term", `"${term.en}" expected as "${term.target}"`);
+			issues.push({
+				ref,
+				level: "warn",
+				check: "term",
+				detail: `"${term.en}" expected as "${term.target}"`,
+				key: `term:${term.en}`,
+			});
 		}
 	}
 
@@ -213,4 +255,24 @@ export function checkTitle(sourceId: string, title: string | undefined): Issue[]
 	if (!title?.trim())
 		return [{ ref: sourceId, level: "error", check: "missing", detail: "no title" }];
 	return [];
+}
+
+/** A short hash of a paragraph's plain text. An accepted warning holds only while the text is the same. */
+export const textHash = (text: string) =>
+	createHash("sha256").update(text).digest("hex").slice(0, 16);
+
+type Accepted = Record<string, { text: string; keys: string[] }>;
+const acceptedCache = new Map<string, Accepted>();
+
+/**
+ * Warnings that a reviewer read and found right, from `data/translations/<lang>/check-accepted.json`.
+ * A key is the check name, or `term:<English term>`. A changed text drops the acceptance.
+ */
+export function acceptedKeys(lang: string, ref: string, text: string): Set<string> {
+	if (!acceptedCache.has(lang)) {
+		const file = join(ROOT, `data/translations/${lang}/check-accepted.json`);
+		acceptedCache.set(lang, existsSync(file) ? JSON.parse(readFileSync(file, "utf-8")) : {});
+	}
+	const entry = acceptedCache.get(lang)![ref];
+	return entry && entry.text === textHash(text) ? new Set(entry.keys) : new Set();
 }

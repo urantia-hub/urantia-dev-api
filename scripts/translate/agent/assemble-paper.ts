@@ -13,6 +13,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import {
+	acceptedKeys,
 	COPY_LIMIT_PAPER_MEDIAN,
 	checkParagraph,
 	checkTitle,
@@ -23,12 +24,12 @@ import {
 import {
 	type Draft,
 	draftPath,
+	loadDraft,
 	loadEnglishPaper,
 	loadTermDecisions,
 	outputPath,
-	loadDraft,
-	pad,
 	type ParagraphTranslation,
+	pad,
 	parseArgs,
 	ROOT,
 	stripTags,
@@ -59,8 +60,13 @@ for (const paper of papers) {
 		if (!known.has(ref))
 			issues.push({ ref, level: "error", check: "unknown", detail: "no such paragraph" });
 	}
-	for (const p of en.paragraphs)
-		issues.push(...checkParagraph(lang, paper, p, draft.paragraphs?.[p.ref]));
+	for (const p of en.paragraphs) {
+		const html = draft.paragraphs?.[p.ref];
+		// A warning that a reviewer accepted for this exact text is not shown and does not flag the paragraph.
+		const accepted = html ? acceptedKeys(lang, p.ref, stripTags(html)) : new Set<string>();
+		const found = checkParagraph(lang, paper, p, html);
+		issues.push(...found.filter((i) => i.level === "error" || !accepted.has(i.key ?? i.check)));
+	}
 	issues.push(...checkTitle(`paper ${paper}`, draft.paperTitle));
 	for (const s of en.sections.filter((s) => s.title)) {
 		issues.push(...checkTitle(`section ${s.id}`, draft.sectionTitles?.[s.id]));

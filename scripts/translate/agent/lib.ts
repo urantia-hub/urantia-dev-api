@@ -182,7 +182,12 @@ export type GlossaryEntry = {
 	/** An independent second translator's choice, made without seeing this one. */
 	second?: { name: string; meaning: string; formConfidence?: Confidence; agree: boolean };
 	/** What a reader of the target language understands from the form alone, and a judge's verdict. */
-	backcheck?: { reading: string; misreadings?: string[]; verdict?: "match" | "mismatch"; note?: string };
+	backcheck?: {
+		reading: string;
+		misreadings?: string[];
+		verdict?: "match" | "mismatch";
+		note?: string;
+	};
 	/** A note from the translator to the reviewer. */
 	note?: string;
 	/** Places where the target language forced a choice that the English leaves open. */
@@ -455,12 +460,32 @@ export function termsInText(lang: string, text: string): Term[] {
 		const terms = [...loadTerms(lang).byEntity.values()];
 		// "Adam (village)" shares its bare name with "Adam", so its English form cannot tell the two apart.
 		const names = new Set(terms.filter((t) => bare(t.en) === t.en).map((t) => t.en));
-		textMatchers = terms.filter((t) => bare(t.en) === t.en || !names.has(bare(t.en))).map((term) => {
+		// "Philip (Apostle)" and "Philip (Tetrarch)" share a bare name, so "Philip" cannot tell them apart.
+		const shared = new Map<string, number>();
+		for (const t of terms)
+			if (bare(t.en) !== t.en) shared.set(bare(t.en), (shared.get(bare(t.en)) ?? 0) + 1);
+		const known = (t: Term) =>
+			bare(t.en) === t.en || (!names.has(bare(t.en)) && shared.get(bare(t.en)) === 1);
+		textMatchers = terms.filter(known).map((term) => {
 			const [name, ...aliases] = term.enForms.map((f) => f.replace(/\s*\([^)]*\)\s*$/, "").trim());
-			const forms = [name!, ...aliases.filter((a) => (/[A-Z]/.test(a) || /\s/.test(a)) && !SMALL_START.test(a))];
+			// A one-word alias that is a word of a longer name ("Indian" of "Indian Ocean") is not the name.
+			const partOfName = (a: string) =>
+				/\s/.test(name!) && !/\s/.test(a) && name!.split(" ").includes(a);
+			const forms = [
+				name!,
+				...aliases.filter(
+					(a) => (/[A-Z]/.test(a) || /\s/.test(a)) && !SMALL_START.test(a) && !partOfName(a),
+				),
+			];
 			const res = [...new Set(forms.flatMap((f) => [f, singular(f)]))]
 				.filter((f) => f.length >= 3 && !/^\d+$/.test(f))
-				.map((f) => new RegExp(`(?<![\\p{L}\\d])${escape(f)}(?:s|es)?(?![\\p{L}\\d])`, /[A-Z]/.test(f) ? "u" : "iu"));
+				.map(
+					(f) =>
+						new RegExp(
+							`(?<![\\p{L}\\d])${escape(f)}(?:s|es)?(?![\\p{L}\\d])`,
+							/[A-Z]/.test(f) ? "u" : "iu",
+						),
+				);
 			return { term, res };
 		});
 	}
