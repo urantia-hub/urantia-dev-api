@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test";
+import { existsSync } from "node:fs";
 import { numbers, termPresent, textHash } from "../../scripts/translate/agent/checks.ts";
-import { type Term, termsInText } from "../../scripts/translate/agent/lib.ts";
+import { ENG_DIR, type Term, termsInText } from "../../scripts/translate/agent/lib.ts";
 
 const term = (target: string, aliases: string[] = []) =>
 	({ en: "x", target, aliases, enForms: ["x"], meaning: "", required: true }) as unknown as Term;
@@ -45,7 +46,8 @@ describe("numbers", () => {
 	});
 });
 
-describe("termsInText", () => {
+// termsInText reads the English papers beside the repo; CI has no copy of them.
+describe.skipIf(!existsSync(ENG_DIR))("termsInText", () => {
 	const names = (text: string) => termsInText("es", text).map((t) => t.en);
 
 	test("a bare name shared by two terms matches neither", () => {
