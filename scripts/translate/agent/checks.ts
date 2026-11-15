@@ -87,13 +87,16 @@ const stem = (w: string) => {
 	return (s.length >= 4 ? s : w.slice(0, 4)).slice(0, 5);
 };
 
+// A stem of 5 letters can sit inside a compound ("autorrevelación", "Jesucristo"); a shorter one must start the word ("mente" is not in "presente").
+const hasStem = (x: string, s: string) => (s.length >= 5 ? x.includes(s) : x.startsWith(s));
+
 export function termPresent(term: Term, text: string): boolean {
 	const words = fold(text).match(/\p{L}+/gu) ?? [];
 	return [term.target, ...term.aliases].some((form) =>
 		fold(runningForm(form))
 			.split(/[\s-]+/)
 			.filter((w) => w.length >= 4)
-			.every((w) => words.some((x) => x.startsWith(stem(w)))),
+			.every((w) => words.some((x) => hasStem(x, stem(w)))),
 	);
 }
 

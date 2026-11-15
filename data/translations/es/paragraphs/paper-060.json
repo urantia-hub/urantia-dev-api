@@ -382,7 +382,7 @@
 		"text": "Hace 100 000 000 años, el continente norteamericano y una parte de Europa estaban muy por encima del agua. Continuó la deformación de los continentes americanos, lo que produjo el metamorfismo de los Andes sudamericanos y la elevación gradual de las llanuras occidentales de América del Norte. La mayor parte de México se hundió bajo el mar, y el Atlántico sur avanzó sobre la costa oriental de América del Sur, hasta alcanzar finalmente la línea costera actual. Los océanos Atlántico e Índico eran entonces más o menos como son hoy.",
 		"htmlText": "<span class=\"urantia-dev-pb-4\">Hace <em>100 000 000</em> años, el continente norteamericano y una parte de Europa estaban muy por encima del agua. Continuó la deformación de los continentes americanos, lo que produjo el metamorfismo de los Andes sudamericanos y la elevación gradual de las llanuras occidentales de América del Norte. La mayor parte de México se hundió bajo el mar, y el Atlántico sur avanzó sobre la costa oriental de América del Sur, hasta alcanzar finalmente la línea costera actual. Los océanos Atlántico e Índico eran entonces más o menos como son hoy.</span>",
 		"source": "urantia.dev",
-		"confidence": "needs_review"
+		"confidence": "auto_checked"
 	},
 	{
 		"paragraphId": "3:60.3.5",
