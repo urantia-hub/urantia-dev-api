@@ -291,8 +291,8 @@
 		"standardReferenceId": "59:1.18",
 		"language": "es",
 		"version": 1,
-		"text": "En todo el mundo la vida marina era muy parecida, y la formaban las algas marinas, los organismos unicelulares, las esponjas simples, los trilobites y otros crustáceos —camarones, cangrejos y langostas. Al cierre de este período surgieron tres mil variedades de braquiópodos, de las cuales solo doscientas sobreviven hoy. Estos animales representan una variedad de vida temprana que llega hasta nuestros días prácticamente sin cambios.",
-		"htmlText": "<span class=\"urantia-dev-pb-0\">En todo el mundo la vida marina era muy parecida, y la formaban las algas marinas, los organismos unicelulares, las esponjas simples, los trilobites y otros crustáceos —camarones, cangrejos y langostas. Al cierre de este período surgieron tres mil variedades de braquiópodos, de las cuales solo doscientas sobreviven hoy. Estos animales representan una variedad de vida temprana que llega hasta nuestros días prácticamente sin cambios.</span>",
+		"text": "En todo el mundo la vida marina era muy parecida, y la formaban las algas marinas, los organismos unicelulares, las esponjas simples, los trilobites y otros crustáceos —camarones, cangrejos y langostas. Al cierre de este período surgieron tres mil variedades de braquiópodos, de las cuales solo doscientas sobreviven hoy. Estos animales representan una variedad de vida temprana que ha llegado hasta nuestros días prácticamente sin cambios.",
+		"htmlText": "<span class=\"urantia-dev-pb-0\">En todo el mundo la vida marina era muy parecida, y la formaban las algas marinas, los organismos unicelulares, las esponjas simples, los trilobites y otros crustáceos —camarones, cangrejos y langostas. Al cierre de este período surgieron tres mil variedades de braquiópodos, de las cuales solo doscientas sobreviven hoy. Estos animales representan una variedad de vida temprana que ha llegado hasta nuestros días prácticamente sin cambios.</span>",
 		"source": "urantia.dev",
 		"confidence": "auto_checked"
 	},
@@ -423,10 +423,10 @@
 		"standardReferenceId": "59:2.10",
 		"language": "es",
 		"version": 1,
-		"text": "Los trilobites seguían siendo prominentes. Estos pequeños animales existían en decenas de miles de patrones y fueron los predecesores de los crustáceos modernos. Algunos de los trilobites tenían de veinticinco a cuatro mil ojillos diminutos; otros tenían ojos atrofiados. Al cerrarse este período, los trilobites compartían el dominio de los mares con varias otras formas de vida invertebrada. Pero perecieron por completo durante el comienzo del período siguiente.",
-		"htmlText": "<span class=\"urantia-dev-pb-0\">Los trilobites seguían siendo prominentes. Estos pequeños animales existían en decenas de miles de patrones y fueron los predecesores de los crustáceos modernos. Algunos de los trilobites tenían de veinticinco a cuatro mil ojillos diminutos; otros tenían ojos atrofiados. Al cerrarse este período, los trilobites compartían el dominio de los mares con varias otras formas de vida invertebrada. Pero perecieron por completo durante el comienzo del período siguiente.</span>",
+		"text": "Los trilobites seguían siendo prominentes. Estos pequeños animales existían en decenas de miles de formas y fueron los predecesores de los crustáceos modernos. Algunos de los trilobites tenían de veinticinco a cuatro mil ojillos diminutos; otros tenían ojos rudimentarios. Al cerrarse este período, los trilobites compartían el dominio de los mares con varias otras formas de vida invertebrada. Pero perecieron por completo durante el comienzo del período siguiente.",
+		"htmlText": "<span class=\"urantia-dev-pb-0\">Los trilobites seguían siendo prominentes. Estos pequeños animales existían en decenas de miles de formas y fueron los predecesores de los crustáceos modernos. Algunos de los trilobites tenían de veinticinco a cuatro mil ojillos diminutos; otros tenían ojos rudimentarios. Al cerrarse este período, los trilobites compartían el dominio de los mares con varias otras formas de vida invertebrada. Pero perecieron por completo durante el comienzo del período siguiente.</span>",
 		"source": "urantia.dev",
-		"confidence": "auto_checked"
+		"confidence": "needs_review"
 	},
 	{
 		"paragraphId": "3:59.2.11",
@@ -1116,8 +1116,8 @@
 		"standardReferenceId": "59:6.7",
 		"language": "es",
 		"version": 1,
-		"text": "Durante estos tiempos de cambio climático hubo también grandes variaciones en las plantas terrestres. Las plantas con semilla aparecieron por primera vez, y proporcionaron un mejor suministro de alimento para la vida animal terrestre, que aumentó después. Los insectos sufrieron un cambio radical. Evolucionaron los estados de reposo para responder a las exigencias de la vida suspendida durante el invierno y la sequía.",
-		"htmlText": "<span class=\"urantia-dev-pb-4\">Durante estos tiempos de cambio climático hubo también grandes variaciones en las plantas terrestres. Las <em>plantas con semilla</em> aparecieron por primera vez, y proporcionaron un mejor suministro de alimento para la vida animal terrestre, que aumentó después. Los insectos sufrieron un cambio radical. Evolucionaron los <em>estados de reposo</em> para responder a las exigencias de la vida suspendida durante el invierno y la sequía.</span>",
+		"text": "Durante estos tiempos de cambio climático hubo también grandes variaciones en las plantas terrestres. Las plantas con semilla aparecieron por primera vez, y proporcionaron un mejor suministro de alimento para la vida animal terrestre, que aumentó después. Los insectos sufrieron un cambio radical. Evolucionaron los estados de reposo para responder a las exigencias de la animación suspendida durante el invierno y la sequía.",
+		"htmlText": "<span class=\"urantia-dev-pb-4\">Durante estos tiempos de cambio climático hubo también grandes variaciones en las plantas terrestres. Las <em>plantas con semilla</em> aparecieron por primera vez, y proporcionaron un mejor suministro de alimento para la vida animal terrestre, que aumentó después. Los insectos sufrieron un cambio radical. Evolucionaron los <em>estados de reposo</em> para responder a las exigencias de la animación suspendida durante el invierno y la sequía.</span>",
 		"source": "urantia.dev",
 		"confidence": "auto_checked"
 	},
