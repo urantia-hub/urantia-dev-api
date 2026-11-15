@@ -21,6 +21,13 @@ describe("termPresent", () => {
 		expect(termPresent(term("mente"), "la mente humana")).toBe(true);
 	});
 
+	test("a long stem matches inside a compound word", () => {
+		expect(termPresent(term("revelación"), "por una técnica cósmica de autorrevelación")).toBe(
+			true,
+		);
+		expect(termPresent(term("Cristo"), "del Señor Jesucristo")).toBe(true);
+	});
+
 	test("a missing term is still missing", () => {
 		expect(
 			termPresent(term("Ajustador del Pensamiento"), "el espíritu que mora en el hombre"),
