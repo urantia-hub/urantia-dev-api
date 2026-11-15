@@ -126,8 +126,8 @@
 		"standardReferenceId": "52:1.3",
 		"language": "es",
 		"version": 1,
-		"text": "Los hombres primitivos son grandes cazadores y luchadores feroces. La ley de esta era es la supervivencia física del más apto; el gobierno de estos tiempos es totalmente tribal. Durante las primeras luchas raciales, en muchos mundos algunas de las razas evolutivas son aniquiladas, como ocurrió en Urantia. Las que sobreviven suelen mezclarse después con la raza violeta, importada más tarde, los pueblos adámicos.",
-		"htmlText": "<span class=\"urantia-dev-pb-0\">Los hombres primitivos son grandes cazadores y luchadores feroces. La ley de esta era es la supervivencia física del más apto; el gobierno de estos tiempos es totalmente tribal. Durante las primeras luchas raciales, en muchos mundos algunas de las razas evolutivas son aniquiladas, como ocurrió en Urantia. Las que sobreviven suelen mezclarse después con la raza violeta, importada más tarde, los pueblos adámicos.</span>",
+		"text": "Los hombres primitivos son grandes cazadores y luchadores feroces. La ley de esta era es la supervivencia física del más apto; el gobierno de estos tiempos es totalmente tribal. Durante las primeras luchas raciales, en muchos mundos algunas de las razas evolutivas son aniquiladas, como ocurrió en Urantia. Las que sobreviven suelen mezclarse después con la raza violeta, importada más tarde, los pueblos adánicos.",
+		"htmlText": "<span class=\"urantia-dev-pb-0\">Los hombres primitivos son grandes cazadores y luchadores feroces. La ley de esta era es la supervivencia física del más apto; el gobierno de estos tiempos es totalmente tribal. Durante las primeras luchas raciales, en muchos mundos algunas de las razas evolutivas son aniquiladas, como ocurrió en Urantia. Las que sobreviven suelen mezclarse después con la raza violeta, importada más tarde, los pueblos adánicos.</span>",
 		"source": "urantia.dev",
 		"confidence": "auto_checked"
 	},
@@ -888,7 +888,7 @@
 		"text": "Esta es la misma tierra renovada, la etapa planetaria avanzada, que el antiguo vidente vislumbró cuando escribió: «“Porque, así como los cielos nuevos y la tierra nueva que yo haré permanecerán delante de mí, así sobrevivirán ustedes y sus hijos; y sucederá que de una luna nueva a otra y de un sábado a otro toda carne vendrá a adorar delante de mí”, dice el Señor».",
 		"htmlText": "<span class=\"urantia-dev-pb-0\">Esta es la misma tierra renovada, la etapa planetaria avanzada, que el antiguo vidente vislumbró cuando escribió: «“Porque, así como los cielos nuevos y la tierra nueva que yo haré permanecerán delante de mí, así sobrevivirán ustedes y sus hijos; y sucederá que de una luna nueva a otra y de un sábado a otro toda carne vendrá a adorar delante de mí”, dice el Señor».</span>",
 		"source": "urantia.dev",
-		"confidence": "needs_review"
+		"confidence": "auto_checked"
 	},
 	{
 		"paragraphId": "2:52.7.13",

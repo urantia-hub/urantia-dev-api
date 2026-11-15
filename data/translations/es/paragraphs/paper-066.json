@@ -74,7 +74,7 @@
 		"text": "Yo estaba presente en Jerusem cuando el brillante Caligastia partió de la capital del sistema. Ningún príncipe de los planetas emprendió jamás una carrera de gobierno mundial con una experiencia preparatoria más rica ni con mejores perspectivas que Caligastia en aquel día memorable de hace medio millón de años. Una cosa es segura: mientras cumplía mi tarea de poner el relato de aquel acontecimiento en las difusiones del universo local, nunca, ni por un momento, abrigué en lo más mínimo la idea de que este noble Lanonandek traicionaría tan pronto su sagrado cargo de custodia planetaria y mancharía de forma tan horrible el buen nombre de su elevado orden de filiación universal. Yo consideraba de verdad que Urantia estaba entre los cinco o seis planetas más afortunados de toda Satania, porque iba a tener una mente tan experimentada, brillante y original al timón de los asuntos del mundo. Entonces no comprendí que Caligastia se enamoraba insidiosamente de sí mismo; entonces no entendía tan plenamente las sutilezas del orgullo de la personalidad.",
 		"htmlText": "<span class=\"urantia-dev-pb-0\">Yo estaba presente en Jerusem cuando el brillante Caligastia partió de la capital del sistema. Ningún príncipe de los planetas emprendió jamás una carrera de gobierno mundial con una experiencia preparatoria más rica ni con mejores perspectivas que Caligastia en aquel día memorable de hace medio millón de años. Una cosa es segura: mientras cumplía mi tarea de poner el relato de aquel acontecimiento en las difusiones del universo local, nunca, ni por un momento, abrigué en lo más mínimo la idea de que este noble Lanonandek traicionaría tan pronto su sagrado cargo de custodia planetaria y mancharía de forma tan horrible el buen nombre de su elevado orden de filiación universal. Yo consideraba de verdad que Urantia estaba entre los cinco o seis planetas más afortunados de toda Satania, porque iba a tener una mente tan experimentada, brillante y original al timón de los asuntos del mundo. Entonces no comprendí que Caligastia se enamoraba insidiosamente de sí mismo; entonces no entendía tan plenamente las sutilezas del orgullo de la personalidad.</span>",
 		"source": "urantia.dev",
-		"confidence": "needs_review"
+		"confidence": "auto_checked"
 	},
 	{
 		"paragraphId": "3:66.2.1",
@@ -217,7 +217,7 @@
 		"text": "La ciudad estaba trazada en diez subdivisiones, con las mansiones sede de los diez consejos del personal corpóreo situadas en los centros de estas subdivisiones. En el punto más central de la ciudad estaba el templo del Padre invisible. La sede administrativa del Príncipe y de sus asociados se disponía en doce cámaras agrupadas inmediatamente alrededor del propio templo.",
 		"htmlText": "<span class=\"urantia-dev-pb-0\">La ciudad estaba trazada en diez subdivisiones, con las mansiones sede de los diez consejos del personal corpóreo situadas en los centros de estas subdivisiones. En el punto más central de la ciudad estaba el templo del Padre invisible. La sede administrativa del Príncipe y de sus asociados se disponía en doce cámaras agrupadas inmediatamente alrededor del propio templo.</span>",
 		"source": "urantia.dev",
-		"confidence": "needs_review"
+		"confidence": "auto_checked"
 	},
 	{
 		"paragraphId": "3:66.3.5",
@@ -305,7 +305,7 @@
 		"text": "1. Eran corpóreos y relativamente humanos, porque incorporaban el plasma de vida real de una de las razas humanas, el plasma de vida andónico de Urantia.",
 		"htmlText": "<span class=\"urantia-dev-pb-0\">1. Eran corpóreos y relativamente humanos, porque incorporaban el plasma de vida real de una de las razas humanas, el plasma de vida andónico de Urantia.</span>",
 		"source": "urantia.dev",
-		"confidence": "needs_review"
+		"confidence": "auto_checked"
 	},
 	{
 		"paragraphId": "3:66.4.5",
@@ -569,7 +569,7 @@
 		"text": "Fue entre estos grupos ilustrados, educados en las escuelas de Dalamatia, donde se practicó el primer crédito comercial. De una central de intercambio de créditos obtenían fichas que se aceptaban en lugar de los objetos reales del trueque. El mundo no mejoró estos métodos comerciales durante cientos de miles de años.",
 		"htmlText": "<span class=\"urantia-dev-pb-4\">Fue entre estos grupos ilustrados, educados en las escuelas de Dalamatia, donde se practicó el primer crédito comercial. De una central de intercambio de créditos obtenían fichas que se aceptaban en lugar de los objetos reales del trueque. El mundo no mejoró estos métodos comerciales durante cientos de miles de años.</span>",
 		"source": "urantia.dev",
-		"confidence": "needs_review"
+		"confidence": "auto_checked"
 	},
 	{
 		"paragraphId": "3:66.5.13",
@@ -577,10 +577,10 @@
 		"standardReferenceId": "66:5.13",
 		"language": "es",
 		"version": 1,
-		"text": "6. El colegio de religión revelada. Este cuerpo tardó en funcionar. La civilización de Urantia se forjó, literalmente, entre el yunque de la necesidad y los martillos del miedo. Pero este grupo había hecho un progreso considerable en su intento de sustituir el temor a la criatura (el culto a los fantasmas) por el temor al Creador antes de que sus trabajos se interrumpieran por la confusión posterior que acompañó a la convulsión de la secesión. El jefe de este consejo era Hap.",
-		"htmlText": "<span class=\"urantia-dev-pb-0\">6. <em>El colegio de religión revelada.</em> Este cuerpo tardó en funcionar. La civilización de Urantia se forjó, literalmente, entre el yunque de la necesidad y los martillos del miedo. Pero este grupo había hecho un progreso considerable en su intento de sustituir el temor a la criatura (el culto a los fantasmas) por el temor al Creador antes de que sus trabajos se interrumpieran por la confusión posterior que acompañó a la convulsión de la secesión. El jefe de este consejo era Hap.</span>",
+		"text": "6. El colegio de religión revelada. Este cuerpo tardó en funcionar. La civilización de Urantia se forjó, literalmente, entre el yunque de la necesidad y los martillos del miedo. Pero este grupo había hecho un progreso considerable en su intento de sustituir el temor a la criatura (la adoración de los fantasmas) por el temor al Creador antes de que sus trabajos se interrumpieran por la confusión posterior que acompañó a la convulsión de la secesión. El jefe de este consejo era Hap.",
+		"htmlText": "<span class=\"urantia-dev-pb-0\">6. <em>El colegio de religión revelada.</em> Este cuerpo tardó en funcionar. La civilización de Urantia se forjó, literalmente, entre el yunque de la necesidad y los martillos del miedo. Pero este grupo había hecho un progreso considerable en su intento de sustituir el temor a la criatura (la adoración de los fantasmas) por el temor al Creador antes de que sus trabajos se interrumpieran por la confusión posterior que acompañó a la convulsión de la secesión. El jefe de este consejo era Hap.</span>",
 		"source": "urantia.dev",
-		"confidence": "needs_review"
+		"confidence": "auto_checked"
 	},
 	{
 		"paragraphId": "3:66.5.14",
@@ -624,7 +624,7 @@
 		"text": "7. Los guardianes de la salud y de la vida. Este consejo se ocupaba de introducir la sanidad y de promover la higiene primitiva, y lo dirigía Lut.",
 		"htmlText": "<span class=\"urantia-dev-pb-0\">7. <em>Los guardianes de la salud y de la vida.</em> Este consejo se ocupaba de introducir la sanidad y de promover la higiene primitiva, y lo dirigía Lut.</span>",
 		"source": "urantia.dev",
-		"confidence": "needs_review"
+		"confidence": "auto_checked"
 	},
 	{
 		"paragraphId": "3:66.5.18",
@@ -877,7 +877,7 @@
 		"text": "Los interiores del templo central de adoración y de las diez mansiones de los consejos de los grupos supervisores de superhombres eran en verdad hermosas obras de arte. Y aunque los edificios residenciales eran modelos de orden y limpieza, todo era muy sencillo y del todo primitivo en comparación con los desarrollos de épocas posteriores. En esta sede de la cultura no se empleó ningún método que no perteneciera de forma natural a Urantia.",
 		"htmlText": "<span class=\"urantia-dev-pb-0\">Los interiores del templo central de adoración y de las diez mansiones de los consejos de los grupos supervisores de superhombres eran en verdad hermosas obras de arte. Y aunque los edificios residenciales eran modelos de orden y limpieza, todo era muy sencillo y del todo primitivo en comparación con los desarrollos de épocas posteriores. En esta sede de la cultura no se empleó ningún método que no perteneciera de forma natural a Urantia.</span>",
 		"source": "urantia.dev",
-		"confidence": "needs_review"
+		"confidence": "auto_checked"
 	},
 	{
 		"paragraphId": "3:66.7.3",
@@ -899,7 +899,7 @@
 		"text": "El orden definido de la vida familiar y la convivencia de una familia en una sola residencia de ubicación relativamente fija datan de estos tiempos de Dalamatia y se debieron principalmente al ejemplo y a las enseñanzas de los cien y de sus alumnos. El hogar como unidad social nunca llegó a tener éxito hasta que los superhombres y las supermujeres de Dalamatia llevaron a la humanidad a amar a sus nietos y a los hijos de sus nietos y a hacer planes para ellos. El hombre salvaje ama a su hijo, pero el hombre civilizado ama también a su nieto.",
 		"htmlText": "<span class=\"urantia-dev-pb-0\">El orden definido de la vida familiar y la convivencia de una familia en una sola residencia de ubicación relativamente fija datan de estos tiempos de Dalamatia y se debieron principalmente al ejemplo y a las enseñanzas de los cien y de sus alumnos. El hogar como unidad social nunca llegó a tener éxito hasta que los superhombres y las supermujeres de Dalamatia llevaron a la humanidad a amar a sus nietos y a los hijos de sus nietos y a hacer planes para ellos. El hombre salvaje ama a su hijo, pero el hombre civilizado ama también a su nieto.</span>",
 		"source": "urantia.dev",
-		"confidence": "needs_review"
+		"confidence": "auto_checked"
 	},
 	{
 		"paragraphId": "3:66.7.5",
@@ -907,10 +907,10 @@
 		"standardReferenceId": "66:7.5",
 		"language": "es",
 		"version": 1,
-		"text": "El personal del Príncipe vivía en pareja como padres y madres. Es verdad que no tenían hijos propios, pero los cincuenta hogares modelo de Dalamatia nunca albergaron menos de quinientos pequeños adoptados, reunidos de las familias superiores de las razas andónica y sangik; muchos de estos niños eran huérfanos. Recibían el favor de la disciplina y la formación de estos superpadres; y después, tras tres años en las escuelas del Príncipe (ingresaban entre los trece y los quince años), podían casarse y estaban preparados para recibir sus comisiones como emisarios del Príncipe ante las tribus necesitadas de sus razas respectivas.",
-		"htmlText": "<span class=\"urantia-dev-pb-0\">El personal del Príncipe vivía en pareja como padres y madres. Es verdad que no tenían hijos propios, pero los cincuenta hogares modelo de Dalamatia nunca albergaron menos de quinientos pequeños adoptados, reunidos de las familias superiores de las razas andónica y sangik; muchos de estos niños eran huérfanos. Recibían el favor de la disciplina y la formación de estos superpadres; y después, tras tres años en las escuelas del Príncipe (ingresaban entre los trece y los quince años), podían casarse y estaban preparados para recibir sus comisiones como emisarios del Príncipe ante las tribus necesitadas de sus razas respectivas.</span>",
+		"text": "El personal del Príncipe vivía en pareja como padres y madres. Es verdad que no tenían hijos propios, pero los cincuenta hogares patrón de Dalamatia nunca albergaron menos de quinientos pequeños adoptados, reunidos de las familias superiores de las razas andónica y sangik; muchos de estos niños eran huérfanos. Recibían el favor de la disciplina y la formación de estos superpadres; y después, tras tres años en las escuelas del Príncipe (ingresaban entre los trece y los quince años), podían casarse y estaban preparados para recibir sus comisiones como emisarios del Príncipe ante las tribus necesitadas de sus razas respectivas.",
+		"htmlText": "<span class=\"urantia-dev-pb-0\">El personal del Príncipe vivía en pareja como padres y madres. Es verdad que no tenían hijos propios, pero los cincuenta hogares patrón de Dalamatia nunca albergaron menos de quinientos pequeños adoptados, reunidos de las familias superiores de las razas andónica y sangik; muchos de estos niños eran huérfanos. Recibían el favor de la disciplina y la formación de estos superpadres; y después, tras tres años en las escuelas del Príncipe (ingresaban entre los trece y los quince años), podían casarse y estaban preparados para recibir sus comisiones como emisarios del Príncipe ante las tribus necesitadas de sus razas respectivas.</span>",
 		"source": "urantia.dev",
-		"confidence": "needs_review"
+		"confidence": "auto_checked"
 	},
 	{
 		"paragraphId": "3:66.7.6",
@@ -1031,7 +1031,7 @@
 		"text": "Esta fue la ley de Dalamatia durante casi trescientos mil años. Y muchas de las piedras en las que se inscribió esta ley yacen hoy bajo las aguas frente a las costas de Mesopotamia y Persia. Se hizo costumbre tener presente uno de estos mandamientos cada día de la semana, y usarlo en los saludos y en la acción de gracias de las comidas.",
 		"htmlText": "<span class=\"urantia-dev-pb-4\">Esta fue la ley de Dalamatia durante casi trescientos mil años. Y muchas de las piedras en las que se inscribió esta ley yacen hoy bajo las aguas frente a las costas de Mesopotamia y Persia. Se hizo costumbre tener presente uno de estos mandamientos cada día de la semana, y usarlo en los saludos y en la acción de gracias de las comidas.</span>",
 		"source": "urantia.dev",
-		"confidence": "needs_review"
+		"confidence": "auto_checked"
 	},
 	{
 		"paragraphId": "3:66.7.17",
