@@ -41,3 +41,19 @@ export function problemJson<S extends ProblemStatus>(
 		{ "Content-Type": "application/problem+json" },
 	);
 }
+
+/** Message and code of the deepest `cause` of an error, for logs (Drizzle hides the Postgres error there). */
+export function errorCause(err: unknown): { cause?: string; cause_code?: string } {
+	let e: unknown = (err as { cause?: unknown } | null)?.cause;
+	if (e === undefined || e === null) return {};
+	const seen = new Set<unknown>([err]);
+	while (e !== null && typeof e === "object" && "cause" in e && (e as { cause?: unknown }).cause != null && !seen.has(e)) {
+		seen.add(e);
+		e = (e as { cause?: unknown }).cause;
+	}
+	if (e instanceof Error) {
+		const code = (e as { code?: unknown }).code;
+		return { cause: e.message, ...(code != null ? { cause_code: String(code) } : {}) };
+	}
+	return { cause: String(e) };
+}
