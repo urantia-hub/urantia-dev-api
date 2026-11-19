@@ -5,7 +5,7 @@ import { getDb } from "./db/client.ts";
 import { API_CATALOG_TYPE, apiCatalog } from "./lib/api-catalog.ts";
 import { createApp } from "./lib/app.ts";
 import { ICON_SVG, iconPng } from "./lib/brand-icon.ts";
-import { problemJson } from "./lib/errors.ts";
+import { errorCause, problemJson } from "./lib/errors.ts";
 import { mcpManifest, mcpServerCard } from "./lib/mcp-discovery.ts";
 import { readMcpUsage } from "./lib/mcp-usage.ts";
 import { finalizeOpenApi } from "./lib/openapi-finalize.ts";
@@ -60,6 +60,7 @@ app.onError((err, c) => {
 			method: c.req.method,
 			path: c.req.path,
 			stack: err.stack,
+			...errorCause(err),
 			cf_ray: c.req.header("cf-ray") ?? undefined,
 		});
 	} else {
