@@ -290,7 +290,7 @@ the markup stays). Ids: the year id, the Foundation number (`1.22`, `21`), or th
 - `GET /editions` and `GET /editions/variants?paper=&ref=&kind=&edition=` read the JSON only, no
   database. The MCP tools `editions.list` and `editions.variants` (2026-11-14) give the same answers
   from the same functions (`editionsList`, `findVariants`). `edition` on the variants gives the
-  changes adopted in that edition: `srt-2009` also holds the 5 rows with no report year, `1955` none.
+  changes adopted in that edition: `srt-2009` also holds the 1 row with no report year (27:6.4), `1955` none.
   `from` and `to` (defaults `1955` and `srt-2024`) give each change between two editions in one call,
   and `meta.applied` counts the rows that the default text has.
 - The MCP `initialize` answer carries `instructions` (`MCP_INSTRUCTIONS` in `src/routes/mcp.ts`) and

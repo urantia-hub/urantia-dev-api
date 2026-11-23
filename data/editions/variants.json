@@ -823,8 +823,7 @@
       "report": "summary-report-v8.01"
     },
     "page1955": "955.5",
-    "reason": "Badonan is the correct spelling.",
-    "note": "The Foundation page links this row to 84:7.7."
+    "reason": "Badonan is the correct spelling."
   },
   {
     "ref": "87:3.3",
@@ -1039,17 +1038,18 @@
   },
   {
     "ref": "95:7.1",
-    "year": null,
+    "year": 2009,
     "kind": "text",
     "before": "in the Arabian desert",
     "after": "in the Arabian Desert",
     "inStoredText": true,
     "source": {
       "list": "adopted-corrections-1955-text",
-      "report": null
+      "report": "summary-report-v8.01"
     },
     "page1955": "1050.6",
-    "reason": "The correct form is Arabian Desert."
+    "reason": "The correct form is Arabian Desert.",
+    "note": "The 2009 report standardizes each occurrence of Arabian Desert under 96:3.1."
   },
   {
     "ref": "96:3.1",
@@ -1165,17 +1165,18 @@
   },
   {
     "ref": "101:3.5",
-    "year": null,
+    "year": 2009,
     "kind": "printing",
     "before": "adverse ani malistic tendencies",
     "after": "adverse animalistic tendencies",
     "inStoredText": true,
     "source": {
       "list": "adopted-corrections-1955-text",
-      "report": null
+      "report": "summary-report-v8.01"
     },
     "page1955": "1108.4",
-    "reason": "The required hyphen at the end of the line was inserted. This issue does not occur in the electronic texts."
+    "reason": "The required hyphen at the end of the line was inserted. This issue does not occur in the electronic texts.",
+    "note": "The 2009 report lists this row under 101:3.4."
   },
   {
     "ref": "101:6.13",
@@ -1376,17 +1377,18 @@
   },
   {
     "ref": "117:7.4",
-    "year": null,
+    "year": 2009,
     "kind": "printing",
     "before": "Qualified Vicegerents of the Ultimate",
     "after": "Qualified Vicegerents of the Ultimate.",
     "inStoredText": true,
     "source": {
       "list": "adopted-corrections-1955-text",
-      "report": null
+      "report": "summary-report-all-items-v4"
     },
     "page1955": "1291.8",
-    "reason": "This period was missing in many copies of the 1955 text but it very faintly appears in others, apparently being worn down in the course of the printing."
+    "reason": "This period was missing in many copies of the 1955 text but it very faintly appears in others, apparently being worn down in the course of the printing.",
+    "note": "The 2009 report says no action required; the Foundation lists it because many printed copies lack the period."
   },
   {
     "ref": "118:6.2",
@@ -2414,17 +2416,18 @@
   },
   {
     "ref": "187:5.1",
-    "year": null,
+    "year": 2009,
     "kind": "text",
     "before": "sandstorms from the Arabian desert",
     "after": "sandstorms from the Arabian Desert",
     "inStoredText": true,
     "source": {
       "list": "adopted-corrections-1955-text",
-      "report": null
+      "report": "summary-report-v8.01"
     },
     "page1955": "2010.2",
-    "reason": "The formatting of geographic names is covered by Chicago Manual of Style; the correct form is Arabian Desert."
+    "reason": "The formatting of geographic names is covered by Chicago Manual of Style; the correct form is Arabian Desert.",
+    "note": "The 2009 report standardizes each occurrence of Arabian Desert under 96:3.1."
   },
   {
     "ref": "188:4.3",

@@ -11,6 +11,7 @@ an older edition from it: it undoes the `text` rows with a year after that editi
 |---|---|
 | https://urantia.org/study/adopted-corrections-1955-text (HTML, read 2026-11-10) | `e799eafa700fcca858cbbefd92c92e35c7f285d309e6fa90bdc30055452160a1` |
 | `standardized-reference-text-committee-summary-report-v8.01.pdf` (2009) | `556094bec588dfaff1f38d8637ba81db935d52b9ace64f40e94e57ff7ace0885` |
+| `standardized-reference-text-committee-summary-report-all-items_v4.pdf` (2009, read 2026-11-23) | `566b363a44bc34363c165319ea1bc2dd8902369ba03fff3c86639a3f69c29e4a` |
 | `standardized-reference-text-committee-approved-2015.pdf` | `60667b1188098cb4e7858da9d52fbec6f976f1bc152834d3542f392c25ee2cb6` |
 | `standardized-reference-text-committee-approved-2018.pdf` | `fe32ae9e7259b36e22ae8a5c71672c2bb8226d23e0913dccfb2092dad0c90080` |
 | `standardized-reference-text-committee-approved-2021.pdf` | `776bd651800255201e894532ca79082830a622c9ec49190e550d6355e989ff70` |
@@ -22,9 +23,11 @@ The reports are on https://www.urantia.org/urantia-book/text-standardization-det
 
 ## A row
 
-- `year`: the report that adopted it. 2009 is the summary report v8.01. `null`: the adopted list has
-  it, but no report does (4 rows), or no list has it (the 27:6.4 row). Only the 1955 edition undoes a
-  `null` row.
+- `year`: the report that adopted it. 2009 is the summary report v8.01 (or the all-items report v4,
+  for 117:7.4). `null`: no list has it (the 27:6.4 row). Only the 1955 edition undoes a `null` row.
+  Four rows had `null` until 2026-11-23, when the Foundation named their 2009 entries:
+  95:7.1 and 187:5.1 come under 96:3.1, 101:3.5 is listed as 101:3.4, and 117:7.4 is
+  "no action required" in 2009 but listed for readers of the many printed copies without the period.
 - `source`: the list and the report. Both are `null` for the 27:6.4 row.
 - `kind`: `text` (words or punctuation), `format` (italics only, so the plain text is the same), or
   `printing` (a fault of the printed 1955 book that no electronic text had: 101:3.5, 117:7.4).
@@ -33,7 +36,7 @@ The reports are on https://www.urantia.org/urantia-book/text-standardization-det
 - `before` and `after` are in the form of the stored text: a space on each side of an em dash.
 
 Two hand fixes are in the generator, each with a `note` in its row: the Badonan row is at 86:5.17
-(the page links 84:7.7), and the 119:8.9 row names the opening bracket only.
+(the page of 2026-11-10 linked 84:7.7; the Foundation fixed the link after our report), and the 119:8.9 row names the opening bracket only.
 
 ## Make and check
 
