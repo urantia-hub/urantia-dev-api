@@ -38,14 +38,14 @@ describe("the variants file", () => {
 		}
 	});
 
-	test("each year is a committee year, or null for the rows that no report lists", () => {
+	test("each year is a committee year, or null for the row that no report lists", () => {
 		const years = new Set(VARIANTS.map((v) => v.year));
 		for (const y of years) expect([null, 2009, 2015, 2018, 2021, 2024]).toContain(y);
 		expect(
 			VARIANTS.filter((v) => v.year === null)
 				.map((v) => v.ref)
 				.sort(),
-		).toEqual(["101:3.5", "117:7.4", "187:5.1", "27:6.4", "95:7.1"]);
+		).toEqual(["27:6.4"]);
 	});
 
 	test("counts by year match the committee reports", () => {

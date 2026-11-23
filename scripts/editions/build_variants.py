@@ -83,7 +83,8 @@ for f in glob.glob(json_dir + "/[0-9][0-9][0-9].json"):
 # Hand fixes, each checked against download 1.22 and the 2009 report.
 FIXES = {
     # The page links 84:7.7; the 2009 report and the text put "children of Badonan" at 86:5.17.
-    ("84:7.7", "Badanon"): {"ref": "86:5.17", "page1955": "955.5", "note": "The Foundation page links this row to 84:7.7."},
+    # The Foundation fixed the link after the read of 2026-11-10 (Tamara Strumfeld, 2026-11-23).
+    ("84:7.7", "Badanon"): {"ref": "86:5.17", "page1955": "955.5"},
     # The review line shortens the paragraph with "..."; the change is the bracket at each end.
     ("119:8.9", "["): {"before": "[This paper, depicting", "after": "This paper, depicting",
                        "note": "The 1955 text also has a closing bracket at the end of the paragraph."},
@@ -104,6 +105,13 @@ FIXES = {
     ("167:4.3", "second"): {"before": "on the second, or even the third, day such", "after": "on the second or even the third day, such",
                             "note": "The 1955 page has a comma after third, not after day; the list records only the comma after second."},
 }
+# Rows that the 2009 reports cover under another ref or with no action (Foundation reply, 2026-11-23).
+REPORTED_2009 = {
+    "95:7.1": ("summary-report-v8.01", "The 2009 report standardizes each occurrence of Arabian Desert under 96:3.1."),
+    "187:5.1": ("summary-report-v8.01", "The 2009 report standardizes each occurrence of Arabian Desert under 96:3.1."),
+    "101:3.5": ("summary-report-v8.01", "The 2009 report lists this row under 101:3.4."),
+    "117:7.4": ("summary-report-all-items-v4", "The 2009 report says no action required; the Foundation lists it because many printed copies lack the period."),
+}
 PRINTING = {"101:3.5", "117:7.4"}  # Faults of the printed 1955 book, never in an electronic text.
 out, problems = [], []
 for r in rows:
@@ -114,7 +122,7 @@ for r in rows:
             before, after = fix.get("before", before), fix.get("after", after)
             if "note" in fix:
                 r["note"] = fix["note"]
-    year = later.get(r["ref"]) or (2009 if in_2009(r["ref"]) else None)
+    year = later.get(r["ref"]) or (2009 if in_2009(r["ref"]) or r["ref"] in REPORTED_2009 else None)
     text = stored[r["ref"]]
     if before == after:
         kind = "format"
@@ -137,6 +145,8 @@ for r in rows:
         "page1955": r["page1955"],
         "reason": r["reason"],
     }
+    if r["ref"] in REPORTED_2009:
+        row["source"]["report"], r["note"] = REPORTED_2009[r["ref"]]
     if r.get("note"):
         row["note"] = r["note"]
     if kind != "format":
