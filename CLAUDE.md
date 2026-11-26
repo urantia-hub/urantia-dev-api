@@ -109,7 +109,7 @@ With `lang=es` the vector is the same (the KV key stays the query), the rows get
   - `cite.ts`, `og.ts`, `embeddings.ts`, `mcp.ts` — Utility routes
   - `feedback.ts` — Public `POST /feedback` (see Feedback)
 - `src/middleware/` — CORS, structured logging, rate limiting, cache control, JWT auth
-  - `edge-cache.ts` — Stores 200 answers of `/papers` and `/toc` in `caches.default` for 1 hour per location. Cloudflare does not store a Worker's own answer by `s-maxage`, so without it each request reached the DB (burst of 2026-10-25)
+  - `edge-cache.ts` — Stores 200 answers of `/papers`, `/toc`, `/paragraphs/{ref}`, and `/paragraphs/{ref}/context` (not `/random`) in `caches.default` for 1 hour per location. Since 2026-11-25 the Worker runs in `aws:us-east-2` (targeted placement in `wrangler.toml`), so that location is Chicago for every caller. Cloudflare does not store a Worker's own answer by `s-maxage`, so without it each request reached the DB (burst of 2026-10-25)
   - `auth.ts` — Dual JWT validation: Supabase JWKS (ECC P-256) + app tokens (ES256 with our own key), lazy user creation
 - `src/validators/` — Zod schemas for request/response
   - `schemas.ts` — Public endpoint schemas
@@ -123,7 +123,7 @@ With `lang=es` the vector is the same (the KV key stays the query), the rows get
 ## Keyword search (2026-10-18)
 
 `searchPapers` (`src/lib/paper-search.ts`) serves `/search` and the MCP tool `search.fulltext`, so
-the two give the same results. Mode `auto` (the default) goes in tiers: a whole reference, the exact
+the two give the same results. `selectPage` picks the page of ids in an inner query and runs `ts_headline` in the outer query, for those rows only (it ran on every match before the sort: 5.6 s mean, 2026-11-25). Mode `auto` (the default) goes in tiers: a whole reference, the exact
 phrase, all words, near words (a typo fixed, `meta.didYouMean`), and most words. The last two run
 only when the first ones give fewer than 10.
 

@@ -30,6 +30,14 @@ function appWith(cache: ReturnType<typeof fakeCache>) {
 		calls += 1;
 		return c.json({ n: calls });
 	});
+	app.get("/paragraphs/:ref/context", (c) => {
+		calls += 1;
+		return c.json({ ref: c.req.param("ref"), context: true });
+	});
+	app.get("/paragraphs/:ref", (c) => {
+		calls += 1;
+		return c.json({ ref: c.req.param("ref") });
+	});
 	return { app, calls: () => calls };
 }
 
@@ -80,6 +88,17 @@ describe("the edge cache", () => {
 		await get(app, "/paragraphs/random");
 		expect(cache.store.size).toBe(0);
 		expect(calls()).toBe(2);
+	});
+
+	it("answers a paragraph and its context from the cache", async () => {
+		const cache = fakeCache();
+		const { app, calls } = appWith(cache);
+		await get(app, "/paragraphs/196:2.1?include=bibleParallels");
+		await get(app, "/paragraphs/196:2.1?include=bibleParallels");
+		await get(app, "/paragraphs/196:2.1/context");
+		await get(app, "/paragraphs/196:2.1/context");
+		expect(calls()).toBe(2);
+		expect(cache.store.size).toBe(2);
 	});
 
 	it("gives each caller its own rate limit headers on a hit", async () => {

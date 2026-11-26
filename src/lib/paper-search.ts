@@ -78,6 +78,16 @@ function selectPage(
 	page: number,
 	limit: number,
 ) {
+	// The inner query picks the page; the outer one builds the highlight for those rows only.
+	// ts_headline on every match before the sort took 5.6 s on average (2026-11-25).
+	const pageIds = db
+		.select({ id: paragraphs.id })
+		.from(paragraphs)
+		.where(where)
+		.orderBy(...order)
+		.limit(limit)
+		.offset(page * limit)
+		.as("page_ids");
 	return db
 		.select({
 			...columns(highlight),
@@ -88,10 +98,8 @@ function selectPage(
 			tier: sql<number>`${tier}`,
 		})
 		.from(paragraphs)
-		.where(where)
-		.orderBy(...order)
-		.limit(limit)
-		.offset(page * limit);
+		.innerJoin(pageIds, eq(paragraphs.id, pageIds.id))
+		.orderBy(...order);
 }
 
 async function count(db: Db, where: SQL): Promise<number> {
