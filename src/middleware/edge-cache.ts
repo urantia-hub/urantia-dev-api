@@ -8,7 +8,8 @@ type EdgeCache = {
 // A Worker's own answer is not stored by Cloudflare, whatever its Cache-Control says, so each
 // request reached the database. On 2026-10-25 a burst of about 90 paper requests took 5 to 12 s
 // and 7 failed. This keeps the text of the Papers in the cache of each Cloudflare location.
-const CACHED = /^\/(papers(\/|$)|toc$)/;
+// A paragraph and its context are cached too; /paragraphs/random is not.
+const CACHED = /^\/(papers(\/|$)|toc$|paragraphs\/(?!random$)[^/]+(\/context)?$)/;
 // A data update reaches readers within an hour.
 const STORED_FOR = "public, max-age=3600";
 // Headers that belong to one caller, never to the stored copy.
