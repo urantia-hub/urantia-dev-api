@@ -4,6 +4,12 @@ compatibility_date = "2026-03-03"
 compatibility_flags = ["nodejs_compat"]
 workers_dev = false
 
+# Run the Worker next to the database (Supabase, AWS us-east-2), not next to the caller.
+# A request makes several queries, and each one crossed from the edge to Ohio before.
+[placement]
+mode = "targeted"
+region = "aws:us-east-2"
+
 routes = [
   { pattern = "api.urantia.dev", custom_domain = true }
 ]
